@@ -1,0 +1,77 @@
+![Mollie](http://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
+
+# Mollie Universele Betalings-API #
+
+Gebruik [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/) en [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) zonder vaste kosten of procedures. Direct betalingen ontvangen via onze API.
+
+# Wat heeft u nodig? #
+Om de koppeling te testen heeft u de volgende gegevens nodig:
+
++ Uw Mollie partner ID: wanneer u bent ingelogd vindt u deze op de [Accountgegevens](https://www.mollie.nl/beheer/account/) pagina.
++ Een [actief websiteprofiel](https://www.mollie.nl/beheer/account/profielen/) waar de betalingen aan gekoppeld worden.
++ Om daadwerkelijk betalingen te kunnen ontvangen dient de betaalmethode eerst geactiveerd te worden voor uw account. U kunt dit doen door de benodigde informatie aan ons te leveren via de [Diensten](https://www.mollie.nl/beheer/diensten) pagina.
+
+# Installatie #
+
+De API-code installeren gaat het makkelijkst met [Composer](http://getcomposer.org/doc/00-intro.md).
+Een voorbeeld van de composer.json om deze API in uw project op te nemen:
+
+    {
+        "require": {
+            "mollienl/universal-php": "1.0.x-dev"
+        }
+    }
+
+
+U kunt ook handmatig [alle bestanden downloaden](https://github.com/mollienl/universal-php/archive/master.zip) en deze dan zelf aan uw website toevoegen.
+
+# Hoe werkt de API? #
+
+Om een betaling te realiseren moet u een aantal stappen doorlopen. Deze stappen zijn als volgt:
+
++ U vraagt bij onze API een betaling aan met uw API-key en het door u gewenste bedrag, de omschrijving en eventueel de betaalmethode die u wilt gebruiken. U slaat de teruggekregen informatie op en stuurt uw klant naar de URL die ook in het antwoord op de aanvraag van de betaling zit.
++ De API meldt zich na de betaling op de achtergrond bij een door u opgegeven url, waarna u de betaling controleert en dit resultaat bewaart.
++ Wij sturen nu de klant naar een door u opgegeven URL, zodat hij uw winkel weer inkomt. U toont de klant op die URL een melding dat het gelukt is, of dat het niet gelukt is en u verwerkt eventueel de order.
+
+# Ondersteunde betaalmethodes #
+
+### iDEAL ###
+Met iDEAL kunt u vertrouwd, veilig en gemakkelijk uw online aankopen afrekenen. iDEAL is het systeem dat u direct koppelt aan uw internetbankierprogramma bij een online aankoop.
+Via [Mollie](http://www.mollie.nl/) is iDEAL gemakkelijk aan te sluiten zonder de gebruikelijke technische en administratieve rompslomp. Mollie geeft u op ieder moment toegang tot uw transactieoverzichten en andere statistieken. Tevens is het mogelijk per e-mail of SMS een notificatie te ontvangen bij elke gelukte betaling. [Mollie](http://www.mollie.nl/) is hierdoor dus een perfecte partner op het gebied van iDEAL en is het dan ook niet verbazingwekkend dat [Mollie](http://www.mollie.nl/) ondertussen op meer dan 25.000 websites iDEAL-betalingen mag verzorgen.
+
+### Mister Cash ###
+Zeer populaire online betaalmethode in België: direct te gebruiken.
+
+### Creditcard ###
+De bekendste wereldwijde betaalmethode. Slechts € 0,25 + 2,8% (excl. BTW) per transactie. Géén maandelijkse kosten.
+
+### paysafecard ###
+Laat uw klanten betalingen doen via de prepaid paysafecard kaarten.  paysafecard is de populairste prepaidcard voor online betalingen die veel door ouders voor hun kinderen wordt gekocht.
+
+# Veelgestelde vragen #
+
+## Ik heb een probleem met deze module ##
+
+Neemt u alstublieft contact op met info@mollie.nl voor ondersteuning.
+
+## Waarom bevat de module een lijst van rootcertificaten ##
+
+Op sommige servers is de lijst met rootcertificaten niet aanwezig of gedateerd. Hierdoor werkt SSL communicatie met
+Mollie soms niet. De module bevat daarom de rootcertificaten die nodig zijn om veilig met Mollie te communiceren. Deze
+worden alleen gebruikt wanneer het communiceren met de al geïnstalleerde certificaten niet mogelijk is.
+
+# Licentie #
+Wij maken gebruik van de [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
+Copyright (c) 2012-2014, Mollie B.V.
+
+# Support #
+W: www.mollie.nl
+E: info@mollie.nl
+T: +31 20 - 612 88 55
+
++ [Meer informatie over iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
++ [Meer informatie over creditcard via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
++ [Meer informatie over Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
++ [Meer informatie over paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
+
+![Powerd By Mollie](http://www.mollie.nl/images/badge-betaling-medium.png)

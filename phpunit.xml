@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+    <php>
+        <ini name="display_errors" value="stderr" />
+        <ini name="error_log" value="/dev/null" />
+    </php>
+    <testsuite name="Unit tests">
+        <directory>tests/</directory>
+    </testsuite>
+    <logging>
+        <log type="junit" target="build/logs/junit-unittests.xml" logIncompleteSkipped="false"/>
+        <log type="coverage-html" target="build/coverage" charset="UTF-8"
+             yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/clover/clover-unittests.xml"/>
+    </logging>
+</phpunit>
