@@ -47,8 +47,11 @@ class Mollie_Api_Resource_Payment
 	 */
 	public $createdDatetime;
 
-	const STATUS_OPEN = "open";
-	const STATUS_PAID = "paid";
+	const STATUS_OPEN      = "open";
+	const STATUS_CANCELLED = "cancelled";
+	const STATUS_EXPIRED   = "expired";
+	const STATUS_PAID      = "paid";
+	const STATUS_PAIDOUT   = "paidout";
 
 	/**
 	 * The status that was retrieved from the API in this object. You do not need to call this method yourself, this
@@ -59,13 +62,20 @@ class Mollie_Api_Resource_Payment
 	public $status = self::STATUS_OPEN;
 
 	/**
+	 * ISO-8861 formatted date of when the payment was paid.
+	 *
+	 * @var bool
+	 */
+	public $paidDatetime;
+
+	/**
 	 * Is this payment paid for?
 	 *
 	 * @return bool
 	 */
 	public function isPaid ()
 	{
-		return $this->status == self::STATUS_PAID;
+		return !empty($this->paidDatetime);
 	}
 
 	/**
