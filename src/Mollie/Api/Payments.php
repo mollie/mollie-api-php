@@ -20,7 +20,7 @@ class Mollie_Api_Payments extends Mollie_Api_Base
 	 * @param array $data An array containing details on the payment. The following fields are supported:
 	 *  - "amount" float The amount of the payment in EURO's.
 	 *  - "description" string The description. Will be shown to the customer and be put on bank / card statements.
-	 *  - "redirect_uri" string The URL where the customer will be redirected after the payment.
+	 *  - "redirectUrl" string The URL where the customer will be redirected after the payment.
 	 *  - "method" string Optional. The payment method you want the customer to use. If you leave this element out, the
 	 *                    customer will be free to pick his / her favorite payment method.
 	 *

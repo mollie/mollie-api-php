@@ -38,7 +38,7 @@ else
 	$data = array(
 		"amount"       => 100.00, // € 100
 		"description"  => "Order #1225",
-		"redirect_uri" => "http://www.example.org/return.php",
+		"redirectUrl" => "http://www.example.org/return.php",
 		"method"       => Mollie_Api_Resource_Payment::METHOD_IDEAL,
 		"issuer"       => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL,
 	);
