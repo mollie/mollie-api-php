@@ -96,4 +96,12 @@ class Mollie_Api_Resource_Payment
 		}
 		return NULL;
 	}
+
+	/**
+	 * During creation of the payment you can set metadata. This will be stored with the payment and passed back whenever
+	 * you retrieve this object from our API.
+	 *
+	 * @var stdClass|NULL
+	 */
+	public $metadata;
 }

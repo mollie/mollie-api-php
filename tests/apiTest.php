@@ -81,6 +81,7 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Mollie_Api_Resource_Payment::STATUS_OPEN, $payment->status);
 		$this->assertFalse($payment->isPaid());
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
+		$this->assertNull($payment->metadata);
 	}
 
 	public function testGetPaymentWorksCorrectly ()
@@ -100,6 +101,7 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Mollie_Api_Resource_Payment::STATUS_OPEN, $payment->status);
 		$this->assertFalse($payment->isPaid());
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
+		$this->assertNull($payment->metadata);
 	}
 
 	public function testGetPaymentsWorksCorrectly ()
@@ -137,5 +139,6 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Mollie_Api_Resource_Payment::STATUS_OPEN, $payment->status);
 		$this->assertFalse($payment->isPaid());
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
+		$this->assertNull($payment->metadata);
 	}
 }

@@ -20,7 +20,15 @@ $api = new Mollie_Api("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 $data = array(
 	"amount"       => 100.00, // € 100
 	"description"  => "Order #1225",
-	"redirectUrl" => "http://www.example.org/return.php",
+	"redirectUrl"  => "http://www.example.org/return.php",
+	"metadata"     => array(
+		"order_id" => "133",
+		"customer" => array(
+			"email" => "chuck@norris.rhk",
+			"id" => 25,
+		),
+		"order" => array("amount" => 15, "currency" => "€"),
+	),
 );
 
 $payment = $api->payments->create($data);
