@@ -3,9 +3,9 @@
 require_once dirname(__FILE__) . "/../Mollie/Autoloader.php";
 
 /*
- * After your customer has completed the payment, we will call your webhook to inform you of the change in state of the
+ * After your customer has completed the payment, we will call your webhook to inform you of the change in status of the
  * payment. You can configure the webhook in the Mollie Beheer system (https://www.mollie.nl/beheer/). Your webhook
- * should check the state of the payment and update your order accordingly.
+ * should check the status of the payment and update your order accordingly.
  */
 
 /*
@@ -29,8 +29,8 @@ if ($payment->isPaid())
 else
 {
 	/*
-	 * Update your order to a state that matches the payment state.
+	 * Update your order to a status that matches the payment status.
 	 */
-	echo "This payment has not yet been completed, it's current state is {$payment->status}.";
+	echo "This payment has not yet been completed, it's current status is {$payment->status}.";
 }
 

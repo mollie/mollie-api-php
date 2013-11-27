@@ -65,7 +65,7 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
 		$this->api->expects($this->once())
 			->method("performHttpCall")
 			->with(Mollie_Api::HTTP_POST, Mollie_Api_Payments::RESOURCE, '{"amount":100,"description":"Order #1337 24 Roundhousekicks","redirectUrl":"http:\/\/www.chucknorris.rhk\/return.php"}')
-			->will($this->returnValue('{ "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "state":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" } }'));
+			->will($this->returnValue('{ "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" } }'));
 
 		/** @var Mollie_Api_Resource_Payment $payment */
 		$payment = $this->api->payments->create(array(
@@ -89,7 +89,7 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
 		$this->api->expects($this->once())
 			->method("performHttpCall")
 			->with(Mollie_Api::HTTP_GET, Mollie_Api_Payments::RESOURCE . "/tr_d0b0E3EA3v")
-			->will($this->returnValue('{ "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "state":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" } }'));
+			->will($this->returnValue('{ "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" } }'));
 
 		/** @var Mollie_Api_Resource_Payment $payment */
 		$payment = $this->api->payments->get("tr_d0b0E3EA3v");
@@ -115,7 +115,7 @@ class Mollie_ApiTest extends PHPUnit_Framework_TestCase
   "count":1,
   "data":[
     {
-      "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "state":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" }
+      "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" }
     }
   ],
   "links":{

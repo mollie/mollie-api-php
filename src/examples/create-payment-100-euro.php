@@ -35,7 +35,7 @@ $payment = $api->payments->create($data);
 
 /*
  * Now you have to store the id of the payment with your customer's order. You will need this later on update the order
- * state if we inform you through a webhook of a new state of the payment.
+ * status if we inform you through a webhook of a new status of the payment.
  */
 
 /*
