@@ -99,8 +99,6 @@ class Mollie_Api
 		{
 			$request_headers[] = "Content-Type: application/json";
 
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $http_body);
-
 			if ($http_method == self::HTTP_POST)
 			{
 				curl_setopt($ch, CURLOPT_POST, 1);
@@ -109,6 +107,7 @@ class Mollie_Api
 			{
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $http_method);
 			}
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $http_body);
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
