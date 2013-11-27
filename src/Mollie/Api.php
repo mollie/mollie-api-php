@@ -28,6 +28,11 @@ class Mollie_Api
 	public $issuers;
 
 	/**
+	 * @var Mollie_Api_Methods
+	 */
+	public $methods;
+
+	/**
 	 * @var string
 	 */
 	protected $api_key;
@@ -41,6 +46,7 @@ class Mollie_Api
 
 		$this->payments = new Mollie_Api_Payments($this);
 		$this->issuers  = new Mollie_Api_Issuers($this);
+		$this->methods  = new Mollie_Api_Methods($this);
 	}
 
 	/**

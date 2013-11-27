@@ -24,9 +24,4 @@ class Mollie_Api_Resource_List extends ArrayObject
 	 * @var int
 	 */
 	public $count;
-
-	/**
-	 * @var Mollie_Api_Resource[]
-	 */
-	public $data;
 }
