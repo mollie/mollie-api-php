@@ -87,7 +87,7 @@ abstract class Mollie_API_Resource_Base
 	 */
 	private function rest_read ($rest_resource, $id)
 	{
-		$id = urlencode($id) ? : 'undefined';
+		$id = $id ? urlencode($id) : 'undefined';
 		$result = $this->performApiCall(self::REST_READ, "{$rest_resource}/{$id}");
 
 		return $this->copy($result, $this->getResourceObject($rest_resource));
