@@ -1,6 +1,6 @@
 ![Mollie](http://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
 
-# New Mollie API client for PHP #
+# Mollie API client for PHP #
 
 Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website.
 
