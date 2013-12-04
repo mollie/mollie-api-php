@@ -19,11 +19,11 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/mollie-api-php 1.0.0
+	$ composer require mollie/mollie-api-php 1.0.x
 
 	    {
 	        "require": {
-	            "mollie/mollie-api-php": "1.0.0"
+	            "mollie/mollie-api-php": "1.0.x"
 	        }
 	    }
 
@@ -43,30 +43,38 @@ To successfully receive a payment, these steps should be implemented:
 
 Requiring the included autoloader. If you're using Composer, you can skip this step.
 
+```php
 		require "Mollie/API/Autoloader.php";
+```
 	
 Initializing the Mollie API client, and setting your API key.
 
+```php
 		$mollie = new Mollie_API_Client;	
-		$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");	
+		$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+```	
 
 Creating a new payment.
 	
+```php
 		$payment = $mollie->payments->create(array(
 			"amount"      => 10.00,
 			"description" => "My first API payment",
 			"redirectUrl" => "https://webshop.example.org/order/12345/",
 		));
+```
 	
 	
 Retrieving a payment.
 
+```php
 		$payment = $mollie->payments->get($payment->id);
 		
 		if ($payment->isPaid())	
 		{
 			echo "Payment received.";
 		}
+```
 
 
 ## License ##
