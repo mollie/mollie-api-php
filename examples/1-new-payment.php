@@ -23,14 +23,12 @@ try
 	/*
 	 * Payment parameters:
 	 *   amount        Amount in EUROs. This example creates a € 10,- payment.
-	 *   method        Payment method. If empty the customer can select the payment method (recommended).
 	 *   description   Description of the payment.
 	 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
 	 *   metadata      Custom metadata that is stored with the payment.
 	 */
 	$payment = $mollie->payments->create(array(
 		"amount"       => 10.00,
-		"method"       => NULL,
 		"description"  => "My first API payment",
 		"redirectUrl"  => dirname($_SERVER['SCRIPT_URI']) . "/3-return-page.php?order_id={$order_id}",
 		"metadata"     => array(
