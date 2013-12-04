@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="universal-client-php" default="build">
+
+    <target name="build" depends="build-parallel"/>
+    <target name="build-serial" depends="prepare,phpunit"/>
+    <target name="build-parallel" depends="prepare,tools-parallel"/>
+
+    <target name="tools-parallel" description="Run tools in parallel" depends="lint">
+        <parallel threadCount="4">
+            <antcall target="phpunit"/>
+            <antcall target="phploc"/>
+            <antcall target="phpcpd"/>
+        </parallel>
+    </target>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/clover"/>
+        <delete dir="${basedir}/build/code-browser"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+    </target>
+
+    <target name="prepare" depends="clean"
+            description="Prepare for build">
+        <mkdir dir="${basedir}/build/clover"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+    </target>
+
+    <target name="lint">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="nice" failonerror="true">
+            <arg value="phploc" />
+            <arg value="--count-tests"/>
+            <arg value="--log-csv"/>
+            <arg value="build/logs/phploc.csv"/>
+            <arg value="--names"/>
+            <arg value="*.php,*.phtml"/>
+            <arg value="--exclude"/>
+            <arg value="build"/>
+            <arg value="${basedir}" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="nice">
+            <arg value="phpcpd" />
+            <arg value="--quiet" />
+            <arg value="--exclude"/>
+            <arg value="build"/>
+            <arg value="--exclude"/>
+            <arg value="tests"/>
+            <arg value="--log-pmd" />
+            <arg value="${basedir}/build/logs/cpd.xml" />
+            <arg value="." />
+        </exec>
+    </target>
+
+    <target name="phpunit" description="Run unit and integration tests with PHPUnit">
+        <!-- run the unit tests -->
+        <exec executable="phpunit" />
+    </target>
+
+</project>
+

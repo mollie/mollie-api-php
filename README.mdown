@@ -1,0 +1,82 @@
+![Mollie](http://www.mollie.nl/files/Mollie-Logo-Style-Small.png)
+
+# New Mollie API client for PHP #
+
+Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website.
+
+## Requirements ##
+To use the Mollie API client, the following things are required:
+
++ Get yourself a free [Mollie account](https://www.mollie.nl/aanmelden). No sign up costs.
++ Create a new [Website profile](https://www.mollie.nl/beheer/account/profielen/) to generate API keys (live and test mode) and setup your webhook.
++ Now you're ready to use the Mollie API client in test mode.
++ In order to accept payments in live mode, payment methods must be activated in your account. Follow [a few of steps](https://www.mollie.nl/beheer/diensten), and let us handle the rest.
++ Mollie API client requires PHP >= 5.2.
+
+## Installation ##
+
+By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
+
+	$ composer require mollie/mollie-api-php 1.0.x-dev
+
+	    {
+	        "require": {
+	            "mollie/mollie-api-php": "1.0.x-dev"
+	        }
+	    }
+
+You may also git checkout or [download all the files](https://github.com/mollie/mollie-api-php/archive/master.zip), and include the Mollie API client manually.
+
+## How to receive payments ##
+
+To successfully receive a payment, these steps should be implemented:
+
+1. Use the Mollie API client to create a payment with the requested amount, description and optionally, a payment method. It is important to specify a unique redirect URL where the customer is supposed to return to after the payment is completed.
+
+2. Immediately after the payment is completed, our platform will send an asynchronous request to the configured webhook to allow the payment details to be retrieved, so you know when exactly to start processing the customer's order.
+
+3. The customer returns, and should be satisfied to see that the order was paid and is now being processed.
+
+## Getting started ##
+
+Requiring the included autoloader. If you're using Composer, you can skip this step.
+
+		require "Mollie/API/Autoloader.php";
+	
+Initializing the Mollie API client, and setting your API key.
+
+		$mollie = new Mollie_API_Client;	
+		$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");	
+
+Creating a new payment.
+	
+		$payment = $mollie->payments->create(array(
+			"amount"      => 10.00,
+			"description" => "My first API payment",
+			"redirectUrl" => "https://webshop.example.org/order/12345/",
+		));
+	
+	
+Retrieving a payment.
+
+		$payment = $mollie->payments->get($payment->id);
+		
+		if ($payment->isPaid())	
+		{
+			echo "Payment received.";
+		}
+
+
+## License ##
+[BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
+Copyright (c) 2014, Mollie B.V.
+
+## Support ##
+Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
+
++ [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
++ [More information about Creditcard via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
++ [More information about Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
++ [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
+
+![Powerd By Mollie](http://www.mollie.nl/images/badge-betaling-medium.png)

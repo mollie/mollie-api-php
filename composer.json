@@ -1,0 +1,22 @@
+{
+    "name": "mollie/mollie-api-php",
+    "version": "1.0.0",
+    "description": "Mollie API client library for PHP",
+    "homepage": "https://github.com/mollie/mollie-api-php",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Mollie B.V.",
+            "email": "info@mollie.nl"
+        }
+    ],
+    "keywords": ["mollie","payment", "service", "ideal", "creditcard", "mistercash", "paysafecard", "payments", "gateway"],
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}
