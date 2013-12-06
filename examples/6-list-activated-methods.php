@@ -17,7 +17,7 @@ try
 	/*
 	 * Get the all the activated methods for this API key.
 	 */
-	$methods = $api->methods->all();
+	$methods = $mollie->methods->all();
 
 	foreach ($methods as $method)
 	{
