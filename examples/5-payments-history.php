@@ -17,9 +17,9 @@ try
 	/*
 	 * Get the all payments for this API key ordered by newest.
 	 */
-	$payments = $api->payments->all();
+	$payments = $mollie->payments->all();
 
-	foreach ($api->payments->all() as $payment)
+	foreach ($mollie->payments->all() as $payment)
 	{
 		echo "€ " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
 	}
