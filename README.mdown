@@ -79,7 +79,7 @@ Retrieving a payment.
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2014, Mollie B.V.
+Copyright (c) 2013, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
