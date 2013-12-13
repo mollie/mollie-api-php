@@ -36,7 +36,7 @@ class Mollie_API_Autoloader
 	 */
 	public static function autoload ($class_name)
 	{
-		if (strpos($class_name, "Mollie_") === 0)
+		if (strpos($class_name, "Mollie_API_") === 0)
 		{
 			$file_name = str_replace("_", "/", $class_name);
 			$file_name = realpath(dirname(__FILE__) . "/../../{$file_name}.php");
@@ -53,7 +53,7 @@ class Mollie_API_Autoloader
 	 */
 	public static function register ()
 	{
-		return spl_autoload_register(array(__CLASS__, "autoload"));
+		return spl_autoload_register(array(__CLASS__, "autoload"), TRUE, TRUE);
 	}
 
 	/**
