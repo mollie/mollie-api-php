@@ -27,6 +27,16 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
+	 * @expectedExceptionMessage You have not set an api key. Please use setApiKey() to set the API key.
+	 */
+	public function testNotSettingApiKeyGivesException()
+	{
+		$this->api = new Mollie_API_Client;
+		$this->api->payments->all();
+	}
+
+	/**
+	 * @expectedException Mollie_API_Exception
 	 * @expectedExceptionMessage Unable to decode Mollie response: ""
 	 */
 	public function testCreatePaymentFailsEmptyHttpBody ()

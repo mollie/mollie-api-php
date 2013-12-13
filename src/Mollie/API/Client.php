@@ -137,6 +137,11 @@ class Mollie_API_Client
 	 */
 	public function performHttpCall($http_method, $api_method, $http_body = NULL)
 	{
+		if (empty($this->api_key))
+		{
+			throw new Mollie_API_Exception("You have not set an api key. Please use setApiKey() to set the API key.");
+		}
+
 		$url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
 
 		$ch = curl_init($url);
