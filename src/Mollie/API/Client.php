@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.0";
+	const CLIENT_VERSION = "1.0.1";
 
 	/**
 	 * Endpoint of the remote API.
@@ -81,12 +81,24 @@ class Mollie_API_Client
 	 */
 	protected $api_key;
 
+	/**
+	 * @var array
+	 */
+	protected $versionStrings = array();
 
 	public function __construct ()
 	{
 		$this->payments = new Mollie_API_Resource_Payments($this);
 		$this->issuers  = new Mollie_API_Resource_Issuers($this);
 		$this->methods  = new Mollie_API_Resource_Methods($this);
+
+		$curl_version         = curl_version();
+		$this->versionStrings = array(
+			"Mollie/" . self::CLIENT_VERSION,
+			"PHP/" . phpversion(),
+			"cURL/" . $curl_version["version"],
+			$curl_version["ssl_version"],
+		);
 	}
 
 	/**
@@ -120,6 +132,14 @@ class Mollie_API_Client
 	}
 
 	/**
+	 * @param string $version_string
+	 */
+	public function addVersionString ($version_string)
+	{
+		$this->versionStrings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
+	}
+
+	/**
 	 * Perform an http call. This method is used by the resource specific classes. Please use the $payments property to
 	 * perform operations on payments.
 	 *
@@ -135,7 +155,7 @@ class Mollie_API_Client
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function performHttpCall($http_method, $api_method, $http_body = NULL)
+	public function performHttpCall ($http_method, $api_method, $http_body = NULL)
 	{
 		if (empty($this->api_key))
 		{
@@ -150,13 +170,7 @@ class Mollie_API_Client
 		curl_setopt($ch, CURLOPT_ENCODING, "");
 		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
-		$curl_version = curl_version();
-		$user_agent   = join(' ', array(
-			"Mollie/" . self::CLIENT_VERSION,
-			"PHP/" . phpversion(),
-			"cURL/" . $curl_version["version"],
-			$curl_version["ssl_version"],
-		));
+		$user_agent = join(' ', $this->versionStrings);
 
 		$request_headers = array(
 			"Accept: application/json",
