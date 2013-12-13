@@ -12,7 +12,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->api = $this->getMock("Mollie_API_Client", array("performHttpCall"), array(self::API_KEY));
+		$this->api = $this->getMock("Mollie_API_Client", array("performHttpCall"));
 	}
 
 	/**
