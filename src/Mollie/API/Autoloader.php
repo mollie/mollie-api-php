@@ -53,7 +53,7 @@ class Mollie_API_Autoloader
 	 */
 	public static function register ()
 	{
-		return spl_autoload_register(array(__CLASS__, "autoload"), TRUE, TRUE);
+		return spl_autoload_register(array(__CLASS__, "autoload"), TRUE, floatval(PHP_VERSION) >= 5.3);
 	}
 
 	/**
