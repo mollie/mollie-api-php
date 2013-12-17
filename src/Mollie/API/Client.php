@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.0.1";
+	const CLIENT_VERSION = "1.0.2";
 
 	/**
 	 * Endpoint of the remote API.
@@ -195,6 +195,8 @@ class Mollie_API_Client
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
 		$body = curl_exec($ch);
 
@@ -206,8 +208,7 @@ class Mollie_API_Client
 			 */
 			$request_headers[] = "X-Mollie-Debug: used shipped root certificates";
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-
-			curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . DIRECTORY_SEPARATOR . "Api" . DIRECTORY_SEPARATOR . "certdata.txt");
+			curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
 			$body = curl_exec($ch);
 		}
 
@@ -219,8 +220,7 @@ class Mollie_API_Client
 			 */
 			$request_headers[] = "X-Mollie-Debug: old OpenSSL found";
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 			$body = curl_exec($ch);
 		}
 
