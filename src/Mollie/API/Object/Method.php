@@ -58,6 +58,13 @@ class Mollie_API_Object_Method
 	public $amount;
 
 	/**
+	 * The $image->normal and $image->bigger to display the payment method logo.
+	 *
+	 * @var object
+	 */
+	public $image;
+
+	/**
 	 * @return float|null
 	 */
 	public function getMinimumAmount ()
