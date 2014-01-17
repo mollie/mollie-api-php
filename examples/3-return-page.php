@@ -7,10 +7,17 @@
  */
 $status = database_read($_GET["order_id"]);
 
+/*
+ * Determine the url parts to these example files.
+ */
+$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+$hostname = $_SERVER['HTTP_HOST'];
+$path     = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+
 echo "<p>Your payment status is '" . htmlspecialchars($status) . "'.</p>";
 echo "<p>";
-echo '<a href="' . dirname($_SERVER["SCRIPT_URI"]) . '/1-new-payment.php">Retry example 1</a><br>';
-echo '<a href="' . dirname($_SERVER["SCRIPT_URI"]) . '/4-ideal-payment.php">Retry example 4</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/1-new-payment.php">Retry example 1</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/4-ideal-payment.php">Retry example 4</a><br>';
 echo "</p>";
 
 

@@ -43,6 +43,13 @@ try
 	$order_id = time();
 
 	/*
+	 * Determine the url parts to these example files.
+	 */
+	$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+	$hostname = $_SERVER['HTTP_HOST'];
+	$path     = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+
+	/*
 	 * Payment parameters:
 	 *   amount        Amount in EUROs. This example creates a € 27.50 payment.
 	 *   method        Payment method "ideal".
@@ -55,7 +62,7 @@ try
 		"amount"       => 27.50,
 		"method"       => Mollie_API_Object_Method::IDEAL,
 		"description"  => "My first iDEAL payment",
-		"redirectUrl"  => dirname($_SERVER['SCRIPT_URI']) . "/3-return-page.php?order_id={$order_id}",
+		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/3-return-page.php?order_id={$order_id}",
 		"metadata"     => array(
 			"order_id" => $order_id,
 		),
