@@ -21,7 +21,7 @@ try
 
 	foreach ($mollie->payments->all() as $payment)
 	{
-		echo "€ " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
+		echo "&euro; " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
 	}
 }
 catch (Mollie_API_Exception $e)
