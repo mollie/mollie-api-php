@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website.
+Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/),and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 
@@ -87,6 +87,7 @@ Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
 + [More information about Creditcard via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
 + [More information about Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
++ [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)
 + [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
 
 ![Powerd By Mollie](http://www.mollie.nl/images/badge-betaling-medium.png)

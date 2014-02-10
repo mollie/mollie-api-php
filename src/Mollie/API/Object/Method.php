@@ -35,6 +35,7 @@ class Mollie_API_Object_Method
 	const PAYSAFECARD = "paysafecard";
 	const CREDITCARD  = "creditcard";
 	const MISTERCASH  = "mistercash";
+	const PAYPAL      = "paypal";
 
 	/**
 	 * Id of the payment method.
