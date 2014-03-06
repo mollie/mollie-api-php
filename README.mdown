@@ -87,6 +87,7 @@ Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
 + [More information about Creditcard via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
 + [More information about Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
++ [More information about Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
 + [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)
 + [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
 
