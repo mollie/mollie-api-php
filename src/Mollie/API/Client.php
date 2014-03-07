@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.0.3";
+	const CLIENT_VERSION = "1.1.0";
 
 	/**
 	 * Endpoint of the remote API.
@@ -63,6 +63,13 @@ class Mollie_API_Client
 	public $payments;
 
 	/**
+	 * RESTful Payments Refunds resource.
+	 *
+	 * @var Mollie_API_Resource_Payments_Refunds
+	 */
+	public $payments_refunds;
+
+	/**
 	 * RESTful Issuers resource.
 	 *
 	 * @var Mollie_API_Resource_Issuers
@@ -89,6 +96,8 @@ class Mollie_API_Client
 	public function __construct ()
 	{
 		$this->payments = new Mollie_API_Resource_Payments($this);
+		$this->payments_refunds = new Mollie_API_Resource_Payments_Refunds($this);
+
 		$this->issuers  = new Mollie_API_Resource_Issuers($this);
 		$this->methods  = new Mollie_API_Resource_Methods($this);
 

@@ -2,7 +2,6 @@
 /*
  * Example 2 - How to verify Mollie API Payments in a webhook.
  */
-require_once dirname(__FILE__) . "/../src/Mollie/API/Autoloader.php";
 
 try
 {
@@ -11,8 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.nl/beheer/account/profielen/
 	 */
-	$mollie = new Mollie_API_Client;
-	$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+	include "initialize.php";
 
 	/*
 	 * Retrieve the payment's current state.

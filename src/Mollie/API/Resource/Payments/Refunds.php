@@ -29,30 +29,41 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.nl
  *
- * @method Mollie_API_Object_Payment[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
- * @method Mollie_API_Object_Payment create(array $data)
- * @method Mollie_API_Object_Payment get($id)
+ * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
+ * @method Mollie_API_Object_Payment_Refund get($resource_id)
  */
-class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
+class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
 {
 	/**
-	 * @return Mollie_API_Object_Payment
+	 * @var string
+	 */
+	private $payment_id;
+
+	/**
+	 * @return Mollie_API_Object_Method
 	 */
 	protected function getResourceObject ()
 	{
-		return new Mollie_API_Object_Payment;
+		return new Mollie_API_Object_Payment_Refund;
 	}
 
 	/**
-	 * @param Mollie_API_Object_Payment $payment
-	 * @return Mollie_API_Object_Payment_Refund
+	 * @return string
 	 */
-	public function refund (Mollie_API_Object_Payment $payment)
+	protected function getResourceName ()
 	{
-		$resource = "{$this->getResourceName()}/" . urlencode($payment->id) . "/refunds";
+		return "payments/" . urlencode($this->payment_id) . "/refunds";
+	}
 
-		$result = $this->performApiCall(self::REST_CREATE, $resource, new stdClass());
-
-		return $this->copy($result, new Mollie_API_Object_Payment_Refund);
+	/**
+	 * Set the resource to use a certain payment. Use this method before performing a get() or all() call.
+	 *
+	 * @param Mollie_API_Object_Payment $payment
+	 * @return self
+	 */
+	public function with(Mollie_API_Object_Payment $payment)
+	{
+		$this->payment_id = $payment->id;
+		return $this;
 	}
 }

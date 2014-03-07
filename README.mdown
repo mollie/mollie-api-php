@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website.
+Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 
@@ -76,6 +76,16 @@ Retrieving a payment.
 		}
 ```
 
+### Refunding payments ###
+
+The API also supports refunding payments. Note that there is no confirmation and that all refunds are immediate and
+definitive. Refunds are only supported for iDEAL, credit card and Bank Transfer payments. Other types of payments cannot
+be refunded through our API at the moment.
+
+```php
+		$payment = $mollie->payments->get($payment->id);
+		$refund = $mollie->payments->refund($payment);
+```
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
@@ -85,7 +95,7 @@ Copyright (c) 2013, Mollie B.V.
 Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
 
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
-+ [More information about Creditcard via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
++ [More information about credit card via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
 + [More information about Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
 + [More information about Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
 + [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)

@@ -1,8 +1,7 @@
 <?php
-/**
+/*
  * Example 4 - How to prepare an iDEAL payment with the Mollie API.
  */
-require_once dirname(__FILE__) . "/../src/Mollie/API/Autoloader.php";
 
 try
 {
@@ -11,8 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.nl/beheer/account/profielen/
 	 */
-	$mollie = new Mollie_API_Client;
-	$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+	include "initialize.php";
 
 	/*
 	 * First, let the customer pick the bank in a simple HTML form. This step is actually optional.

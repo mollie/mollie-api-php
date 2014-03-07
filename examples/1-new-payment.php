@@ -2,7 +2,6 @@
 /*
  * Example 1 - How to prepare a new payment with the Mollie API.
  */
-require_once dirname(__FILE__) . "/../src/Mollie/API/Autoloader.php";
 
 try
 {
@@ -11,8 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.nl/beheer/account/profielen/
 	 */
-	$mollie = new Mollie_API_Client;
-	$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+	include "initialize.php";
 
 	/*
 	 * Generate a unique order id for this example. It is important to include this unique attribute

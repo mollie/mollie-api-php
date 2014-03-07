@@ -28,31 +28,41 @@
  * @author      Mollie B.V. <info@mollie.nl>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.nl
- *
- * @method Mollie_API_Object_Payment[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
- * @method Mollie_API_Object_Payment create(array $data)
- * @method Mollie_API_Object_Payment get($id)
  */
-class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
+class Mollie_API_Object_Payment_Refund
 {
 	/**
-	 * @return Mollie_API_Object_Payment
+	 * Id of the payment method.
+	 *
+	 * @var string
 	 */
-	protected function getResourceObject ()
-	{
-		return new Mollie_API_Object_Payment;
-	}
+	public $id;
 
 	/**
-	 * @param Mollie_API_Object_Payment $payment
-	 * @return Mollie_API_Object_Payment_Refund
+	 * The $amount that was refunded.
+	 *
+	 * @var float
 	 */
-	public function refund (Mollie_API_Object_Payment $payment)
-	{
-		$resource = "{$this->getResourceName()}/" . urlencode($payment->id) . "/refunds";
+	public $amountRefunded;
 
-		$result = $this->performApiCall(self::REST_CREATE, $resource, new stdClass());
+	/**
+	 * The $amount that is remaining on the payment.
+	 *
+	 * @var float
+	 */
+	public $amountRemaining;
 
-		return $this->copy($result, new Mollie_API_Object_Payment_Refund);
-	}
+	/**
+	 * The payment that was refunded.
+	 *
+	 * @var Mollie_API_Object_Payment
+	 */
+	public $payment;
+
+	/**
+	 * Date and time the payment was cancelled in ISO-8601 format.
+	 *
+	 * @var string|null
+	 */
+	public $refundedDatetime;
 }

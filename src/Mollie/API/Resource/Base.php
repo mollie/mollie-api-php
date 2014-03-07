@@ -127,7 +127,7 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @return object
 	 */
-	private function copy($api_result, $object)
+	protected function copy($api_result, $object)
 	{
 		foreach ($api_result as $property => $value)
 		{
