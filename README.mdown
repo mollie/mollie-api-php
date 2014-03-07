@@ -19,11 +19,11 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/mollie-api-php 1.0.x
+	$ composer require mollie/mollie-api-php 1.1.x
 
 	    {
 	        "require": {
-	            "mollie/mollie-api-php": "1.0.x"
+	            "mollie/mollie-api-php": "1.1.x"
 	        }
 	    }
 
