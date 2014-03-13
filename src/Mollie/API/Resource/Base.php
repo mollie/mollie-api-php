@@ -226,7 +226,14 @@ abstract class Mollie_API_Resource_Base
 
 		if (!empty($object->error))
 		{
-			throw new Mollie_API_Exception("Error executing API call ({$object->error->type}): {$object->error->message}.");
+			$exception = new Mollie_API_Exception("Error executing API call ({$object->error->type}): {$object->error->message}.");
+
+			if (!empty($object->error->field))
+			{
+				$exception->setField($object->error->field);
+			}
+
+			throw $exception;
 		}
 
 		return $object;
