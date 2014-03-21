@@ -31,10 +31,35 @@
  */
 class Mollie_API_Object_Payment
 {
+	/**
+	 * The payment has just been created, no action has happened on it yet.
+	 */
 	const STATUS_OPEN      = "open";
+
+	/**
+	 * The customer has cancelled the payment.
+	 */
 	const STATUS_CANCELLED = "cancelled";
+
+	/**
+	 * The payment has expired due to inaction of the customer.
+	 */
 	const STATUS_EXPIRED   = "expired";
+
+	/**
+	 * The payment has been paid.
+	 */
 	const STATUS_PAID      = "paid";
+
+	/**
+	 * The payment has been paidout and the money has been transferred to the bank account of the merchant.
+	 */
+	const STATUS_PAIDOUT   = "paidout";
+
+	/**
+	 * The payment has been refunded, either through Mollie or through the payment provider (in the case of PayPal).
+	 */
+	const STATUS_REFUNDED  = "refunded";
 
 	/**
 	 * Id of the payment (on the Mollie platform).
