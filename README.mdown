@@ -64,6 +64,7 @@ Creating a new payment.
 		));
 ```
 	
+_After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
 	
 Retrieving a payment.
 
