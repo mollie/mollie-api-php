@@ -44,24 +44,24 @@ To successfully receive a payment, these steps should be implemented:
 Requiring the included autoloader. If you're using Composer, you can skip this step.
 
 ```php
-		require "Mollie/API/Autoloader.php";
+	require "Mollie/API/Autoloader.php";
 ```
 	
 Initializing the Mollie API client, and setting your API key.
 
 ```php
-		$mollie = new Mollie_API_Client;	
-		$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+	$mollie = new Mollie_API_Client;
+	$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 ```	
 
 Creating a new payment.
 	
 ```php
-		$payment = $mollie->payments->create(array(
-			"amount"      => 10.00,
-			"description" => "My first API payment",
-			"redirectUrl" => "https://webshop.example.org/order/12345/",
-		));
+	$payment = $mollie->payments->create(array(
+		"amount"      => 10.00,
+		"description" => "My first API payment",
+		"redirectUrl" => "https://webshop.example.org/order/12345/",
+	));
 ```
 	
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
@@ -69,13 +69,42 @@ _After creation, the payment id is available in the `$payment->id` property. You
 Retrieving a payment.
 
 ```php
-		$payment = $mollie->payments->get($payment->id);
-		
-		if ($payment->isPaid())	
-		{
-			echo "Payment received.";
-		}
+	$payment = $mollie->payments->get($payment->id);
+
+	if ($payment->isPaid())
+	{
+		echo "Payment received.";
+	}
 ```
+
+### Fully integrated iDEAL payments ###
+
+If you want to fully integrate iDEAL payments in your web site, some additional steps are required. First, you need to
+retrieve the list of issuers (banks) that support iDEAL and have your customer pick the issuer he/she wants to use for
+the payment.
+
+Retrieve the list of issuers:
+
+```php
+	$issuers = $mollie->issuers->all();
+```
+
+_`$issuers` will be a list of `Mollie_API_Object_Issuer` objects. Use the property `$id` of this object in the
+ API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/4-ideal-payment.php)._
+
+Create a payment with the selected issuer:
+
+```php
+	$payment = $mollie->payments->create(array(
+		"amount"      => 10.00,
+		"description" => "My first API payment",
+		"redirectUrl" => "https://webshop.example.org/order/12345/",
+		"method" => Mollie_API_Object_Method::IDEAL,
+		"issuer" => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
+	));
+```
+
+_The `$redirectUrl` property of the `$payment` object will point directly to the online banking environment of the selected issuer._
 
 ### Refunding payments ###
 
@@ -84,8 +113,8 @@ definitive. Refunds are only supported for iDEAL, credit card and Bank Transfer 
 be refunded through our API at the moment.
 
 ```php
-		$payment = $mollie->payments->get($payment->id);
-		$refund = $mollie->payments->refund($payment);
+	$payment = $mollie->payments->get($payment->id);
+	$refund = $mollie->payments->refund($payment);
 ```
 
 ## License ##
@@ -98,7 +127,7 @@ Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
 + [More information about credit card via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
 + [More information about Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
-+ [More information about Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
++ [More information about SEPA Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
 + [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)
 + [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
 
