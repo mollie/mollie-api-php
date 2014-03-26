@@ -104,7 +104,7 @@ Create a payment with the selected issuer:
 	));
 ```
 
-_The `$redirectUrl` property of the `$payment` object will point directly to the online banking environment of the selected issuer._
+_The `$paymentUrl` property of the `$payment` object will point directly to the online banking environment of the selected issuer._
 
 ### Refunding payments ###
 
