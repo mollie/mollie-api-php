@@ -53,6 +53,17 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 
 		$result = $this->performApiCall(self::REST_CREATE, $resource, new stdClass());
 
+		/*
+		 * Update the payment with the new properties that we got from the refund.
+		 */
+		if (!empty($result->payment))
+		{
+			foreach ($result->payment as $payment_key => $payment_value)
+			{
+				$payment->{$payment_key} = $payment_value;
+			}
+		}
+
 		return $this->copy($result, new Mollie_API_Object_Payment_Refund);
 	}
 }
