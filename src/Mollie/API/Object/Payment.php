@@ -37,6 +37,11 @@ class Mollie_API_Object_Payment
 	const STATUS_OPEN      = "open";
 
 	/**
+	 * The payment has just been created, no action has happened on it yet.
+	 */
+	const STATUS_PENDING   = "pending";
+
+	/**
 	 * The customer has cancelled the payment.
 	 */
 	const STATUS_CANCELLED = "cancelled";
