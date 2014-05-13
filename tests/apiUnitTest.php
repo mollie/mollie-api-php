@@ -17,7 +17,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Invalid api key: "invalid". An API key must start with "test_" or "live_".
+	 * @expectedExceptionMessage Invalid API key: 'invalid'. An API key must start with 'test_' or 'live_'.
 	 */
 	public function testSettingInvalidApiKeyFails ()
 	{
@@ -27,7 +27,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage You have not set an api key. Please use setApiKey() to set the API key.
+	 * @expectedExceptionMessage You have not set an API key. Please use setApiKey() to set the API key.
 	 */
 	public function testNotSettingApiKeyGivesException()
 	{
@@ -37,7 +37,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Unable to decode Mollie response: ""
+	 * @expectedExceptionMessage Unable to decode Mollie response: ''.
 	 */
 	public function testCreatePaymentFailsEmptyHttpBody ()
 	{
@@ -73,7 +73,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Error encoding parameters into JSON: "5".
+	 * @expectedExceptionMessage Error encoding parameters into JSON: '5'.
 	 * @requires PHP 5.3.0
 	 */
 	public function testCreatePaymentJsonFailsPhp53 ()
@@ -110,6 +110,25 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($payment->isPaid());
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
 		$this->assertNull($payment->metadata);
+	}
+
+	/**
+	 * @dataProvider dpInvalidPaymentId
+	 */
+	public function testGetPaymentFailsWithInvalidPaymentId ($payment_id)
+	{
+		$this->setExpectedException('Mollie_API_Exception', "Invalid payment ID: '{$payment_id}'. A payment ID should start with 'tr_'.");
+
+		$this->api->payments->get($payment_id);
+	}
+
+	public function dpInvalidPaymentId ()
+	{
+		return array(
+			array(NULL),
+			array(''),
+			array('d0b0E3EA3v')
+		);
 	}
 
 	public function testGetPaymentWorksCorrectly ()

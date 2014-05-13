@@ -91,23 +91,21 @@ class Mollie_API_Client
 	/**
 	 * @var array
 	 */
-	protected $versionStrings = array();
+	protected $version_strings = array();
 
 	public function __construct ()
 	{
-		$this->payments = new Mollie_API_Resource_Payments($this);
+		$this->payments         = new Mollie_API_Resource_Payments($this);
 		$this->payments_refunds = new Mollie_API_Resource_Payments_Refunds($this);
+		$this->issuers          = new Mollie_API_Resource_Issuers($this);
+		$this->methods          = new Mollie_API_Resource_Methods($this);
 
-		$this->issuers  = new Mollie_API_Resource_Issuers($this);
-		$this->methods  = new Mollie_API_Resource_Methods($this);
+		$curl_version = curl_version();
 
-		$curl_version         = curl_version();
-		$this->versionStrings = array(
-			"Mollie/" . self::CLIENT_VERSION,
-			"PHP/" . phpversion(),
-			"cURL/" . $curl_version["version"],
-			$curl_version["ssl_version"],
-		);
+		$this->addVersionString("Mollie/" . self::CLIENT_VERSION);
+		$this->addVersionString("PHP/" . phpversion());
+		$this->addVersionString("cURL/" . $curl_version["version"]);
+		$this->addVersionString($curl_version["ssl_version"]);
 	}
 
 	/**
@@ -115,7 +113,7 @@ class Mollie_API_Client
 	 */
 	public function setApiEndpoint ($url)
 	{
-		$this->api_endpoint = rtrim($url, '/');
+		$this->api_endpoint = rtrim(trim($url), '/');
 	}
 
 	/**
@@ -127,14 +125,16 @@ class Mollie_API_Client
 	}
 
 	/**
-	 * @param string $api_key The Mollie API key, starting with "test_" or "live_"
+	 * @param string $api_key The Mollie API key, starting with 'test_' or 'live_'
 	 * @throws Mollie_API_Exception
 	 */
 	public function setApiKey ($api_key)
 	{
-		if (!preg_match("!^(?:live|test)_\\w+\$!", $api_key))
+		$api_key = trim($api_key);
+
+		if (!preg_match('/^(live|test)_\w+$/', $api_key))
 		{
-			throw new Mollie_API_Exception("Invalid api key: \"{$api_key}\". An API key must start with \"test_\" or \"live_\".");
+			throw new Mollie_API_Exception("Invalid API key: '{$api_key}'. An API key must start with 'test_' or 'live_'.");
 		}
 
 		$this->api_key = $api_key;
@@ -145,7 +145,7 @@ class Mollie_API_Client
 	 */
 	public function addVersionString ($version_string)
 	{
-		$this->versionStrings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
+		$this->version_strings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Mollie_API_Client
 	{
 		if (empty($this->api_key))
 		{
-			throw new Mollie_API_Exception("You have not set an api key. Please use setApiKey() to set the API key.");
+			throw new Mollie_API_Exception("You have not set an API key. Please use setApiKey() to set the API key.");
 		}
 
 		$url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
@@ -179,7 +179,7 @@ class Mollie_API_Client
 		curl_setopt($ch, CURLOPT_ENCODING, "");
 		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
-		$user_agent = join(' ', $this->versionStrings);
+		$user_agent = join(' ', $this->version_strings);
 
 		$request_headers = array(
 			"Accept: application/json",
@@ -235,7 +235,7 @@ class Mollie_API_Client
 
 		if (curl_errno($ch))
 		{
-			throw new Mollie_API_Exception("Unable to communicate with Mollie (".curl_errno($ch)."): " . curl_error($ch));
+			throw new Mollie_API_Exception("Unable to communicate with Mollie (".curl_errno($ch)."): " . curl_error($ch) . ".");
 		}
 
 		return $body;

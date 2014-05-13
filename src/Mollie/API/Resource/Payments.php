@@ -36,11 +36,36 @@
 class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 {
 	/**
+	 * @var string
+	 */
+	const RESOURCE_ID_PREFIX = 'tr_';
+
+	/**
 	 * @return Mollie_API_Object_Payment
 	 */
 	protected function getResourceObject ()
 	{
 		return new Mollie_API_Object_Payment;
+	}
+
+	/**
+	 * Retrieve a single payment from Mollie.
+	 *
+	 * Will throw a Mollie_API_Exception if the payment id is invalid or the resource cannot be found.
+	 *
+	 * @param string $payment_id
+	 *
+	 * @throws Mollie_API_Exception
+	 * @return Mollie_API_Object_Payment
+	 */
+	public function get($payment_id)
+	{
+		if (empty($payment_id) || strpos($payment_id, static::RESOURCE_ID_PREFIX) !== 0)
+		{
+			throw new Mollie_API_Exception("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . static::RESOURCE_ID_PREFIX . "'.");
+		}
+
+		return parent::get($payment_id);
 	}
 
 	/**

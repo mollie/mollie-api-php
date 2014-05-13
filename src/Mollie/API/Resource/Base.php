@@ -80,14 +80,19 @@ abstract class Mollie_API_Resource_Base
 	/**
 	 * Retrieves a single object from the REST API.
 	 *
-	 * @param $rest_resource
-	 * @param string $id Id of the object to retrieve.
-	 *
+	 * @param string $rest_resource Resource name.
+	 * @param string $id            Id of the object to retrieve.
+	 * @throws Mollie_API_Exception
 	 * @return object
 	 */
 	private function rest_read ($rest_resource, $id)
 	{
-		$id = $id ? urlencode($id) : 'undefined';
+		if (empty($id))
+		{
+			throw new Mollie_API_Exception("Invalid resource id.");
+		}
+
+		$id     = urlencode($id);
 		$result = $this->performApiCall(self::REST_READ, "{$rest_resource}/{$id}");
 
 		return $this->copy($result, $this->getResourceObject($rest_resource));
@@ -100,7 +105,7 @@ abstract class Mollie_API_Resource_Base
 	 * @param int $offset
 	 * @param int $limit
 	 *
-	 *@return Mollie_API_Object_List
+	 * @return Mollie_API_Object_List
 	 */
 	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT)
 	{
@@ -163,7 +168,7 @@ abstract class Mollie_API_Resource_Base
 		{
 			if (json_last_error() != JSON_ERROR_NONE)
 			{
-				throw new Mollie_API_Exception("Error encoding parameters into JSON: \"" . json_last_error() . "\".");
+				throw new Mollie_API_Exception("Error encoding parameters into JSON: '" . json_last_error() . "'.");
 			}
 		}
 		else
@@ -221,7 +226,7 @@ abstract class Mollie_API_Resource_Base
 
 		if (!($object = @json_decode($body)))
 		{
-			throw new Mollie_API_Exception("Unable to decode Mollie response: \"{$body}\".");
+			throw new Mollie_API_Exception("Unable to decode Mollie response: '{$body}'.");
 		}
 
 		if (!empty($object->error))
