@@ -31,7 +31,6 @@
  *
  * @method Mollie_API_Object_Payment[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
  * @method Mollie_API_Object_Payment create(array $data)
- * @method Mollie_API_Object_Payment get($id)
  */
 class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 {
@@ -60,9 +59,9 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 	 */
 	public function get($payment_id)
 	{
-		if (empty($payment_id) || strpos($payment_id, static::RESOURCE_ID_PREFIX) !== 0)
+		if (empty($payment_id) || strpos($payment_id, self::RESOURCE_ID_PREFIX) !== 0)
 		{
-			throw new Mollie_API_Exception("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . static::RESOURCE_ID_PREFIX . "'.");
+			throw new Mollie_API_Exception("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
 		}
 
 		return parent::get($payment_id);
