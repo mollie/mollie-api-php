@@ -10,7 +10,7 @@
             "email": "info@mollie.nl"
         }
     ],
-    "keywords": ["mollie","payment", "service", "ideal", "creditcard", "mistercash", "paypal", "paysafecard", "payments", "gateway"],
+    "keywords": ["mollie","payment", "service", "ideal", "creditcard", "mistercash", "sepa", "bitcoin", "paypal", "paysafecard", "payments", "gateway"],
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },

@@ -37,6 +37,7 @@ class Mollie_API_Object_Method
 	const MISTERCASH   = "mistercash";
 	const BANKTRANSFER = "banktransfer";
 	const PAYPAL       = "paypal";
+	const BITCOIN      = "bitcoin";
 
 	/**
 	 * Id of the payment method.

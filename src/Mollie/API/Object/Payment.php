@@ -37,7 +37,7 @@ class Mollie_API_Object_Payment
 	const STATUS_OPEN      = "open";
 
 	/**
-	 * The payment has just been created, no action has happened on it yet.
+	 * The payment has just been started, no final confirmation yet.
 	 */
 	const STATUS_PENDING   = "pending";
 
@@ -168,6 +168,16 @@ class Mollie_API_Object_Payment
 	public function isOpen ()
 	{
 		return $this->status == self::STATUS_OPEN;
+	}
+
+	/**
+	 * Is this payment pending?
+	 *
+	 * @return bool
+	 */
+	public function isPending ()
+	{
+		return $this->status == self::STATUS_PENDING;
 	}
 
 	/**
