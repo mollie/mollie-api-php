@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 1 - How to prepare a new payment with the Mollie API.
+ * Example 8 - How to use a custom webhookUrl with the Mollie API. Useful for module developers and resellers.
  */
 
 try
@@ -29,12 +29,14 @@ try
 	 * Payment parameters:
 	 *   amount        Amount in EUROs. This example creates a € 10,- payment.
 	 *   description   Description of the payment.
+	 *   webhookUrl    Custom webhook location, used instead of the default webhook URL in the Website profile.
 	 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
 	 *   metadata      Custom metadata that is stored with the payment.
 	 */
 	$payment = $mollie->payments->create(array(
 		"amount"       => 10.00,
 		"description"  => "My first API payment",
+		"webhookUrl"   => "{$protocol}://{$hostname}{$path}/2-webhook-verification.php",
 		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/3-return-page.php?order_id={$order_id}",
 		"metadata"     => array(
 			"order_id" => $order_id,
