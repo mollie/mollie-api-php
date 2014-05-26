@@ -1,4 +1,4 @@
-![Mollie](http://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
+![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
 
 # Mollie API client for PHP #
 
@@ -122,7 +122,7 @@ be refunded through our API at the moment.
 Copyright (c) 2013, Mollie B.V.
 
 ## Support ##
-Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
+Contact: [www.mollie.nl](https://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
 
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
 + [More information about credit card via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
@@ -132,4 +132,4 @@ Contact: [www.mollie.nl](http://www.mollie.nl) — info@mollie.nl — +31 20-612
 + [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)
 + [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
 
-![Powered By Mollie](http://www.mollie.nl/images/badge-betaling-medium.png)
+![Powered By Mollie](https://www.mollie.nl/images/badge-betaling-medium.png)
