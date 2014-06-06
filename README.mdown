@@ -117,6 +117,9 @@ be refunded through our API at the moment.
 	$refund = $mollie->payments->refund($payment);
 ```
 
+## API documentation ##
+If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.nl/developer/). API Documentation is available in both Dutch and English.
+
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
 Copyright (c) 2013, Mollie B.V.
