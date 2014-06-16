@@ -35,6 +35,7 @@ class Mollie_API_Object_Method
 	const PAYSAFECARD  = "paysafecard";
 	const CREDITCARD   = "creditcard";
 	const MISTERCASH   = "mistercash";
+	const SOFORT       = "sofort";
 	const BANKTRANSFER = "banktransfer";
 	const PAYPAL       = "paypal";
 	const BITCOIN      = "bitcoin";
