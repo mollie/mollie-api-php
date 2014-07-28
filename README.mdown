@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [SOFORT Banking](https://www.mollie.nl/betaaldiensten/sofort/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [SEPA Bank transfer](https://www.mollie.nl/betaaldiensten/overboeking/), [Bitcoin](https://www.mollie.nl/betaaldiensten/bitcoin/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Bancontact/Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [SOFORT Banking](https://www.mollie.nl/betaaldiensten/sofort/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [SEPA Bank transfer](https://www.mollie.nl/betaaldiensten/overboeking/), [Bitcoin](https://www.mollie.nl/betaaldiensten/bitcoin/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 
@@ -129,7 +129,7 @@ Contact: [www.mollie.nl](https://www.mollie.nl) — info@mollie.nl — +31 20-61
 
 + [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
 + [More information about credit card via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
-+ [More information about Mister Cash / Bancontact via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
++ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
 + [More information about SOFORT Banking via Mollie](https://www.mollie.nl/betaaldiensten/sofort/)
 + [More information about SEPA Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
 + [More information about Bitcoin via Mollie](https://www.mollie.nl/betaaldiensten/bitcoin/)
