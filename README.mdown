@@ -109,7 +109,7 @@ _The `links` property of the `$payment` object will contain a string `paymentUrl
 ### Refunding payments ###
 
 The API also supports refunding payments. Note that there is no confirmation and that all refunds are immediate and
-definitive. Refunds are only supported for iDEAL, credit card and Bank Transfer payments. Other types of payments cannot
+definitive. Refunds are only supported for iDEAL, credit card, Bancontact/Mister Cash, SOFORT Banking and bank transfer payments. Other types of payments cannot
 be refunded through our API at the moment.
 
 ```php
