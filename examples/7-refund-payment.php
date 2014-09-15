@@ -18,9 +18,9 @@ try
 	$payment = $mollie->payments->get($payment_id);
 
 	/*
-	 * Refund the payment.
+	 * Refund € 15,00 of the payment.
 	 */
-	$refund = $mollie->payments->refund($payment);
+	$refund = $mollie->payments->refund($payment, 15.00);
 
 	echo "The payment {$payment_id} is now refunded.", PHP_EOL;
 

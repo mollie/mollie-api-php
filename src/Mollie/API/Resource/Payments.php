@@ -69,13 +69,22 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 
 	/**
 	 * @param Mollie_API_Object_Payment $payment
+	 * @param float|NULL $amount Amount to refund, or NULL to refund full amount.
 	 * @return Mollie_API_Object_Payment_Refund
 	 */
-	public function refund (Mollie_API_Object_Payment $payment)
+	public function refund (Mollie_API_Object_Payment $payment, $amount = NULL)
 	{
 		$resource = "{$this->getResourceName()}/" . urlencode($payment->id) . "/refunds";
 
-		$result = $this->performApiCall(self::REST_CREATE, $resource, new stdClass());
+		$body = NULL;
+		if ($amount)
+		{
+			$body = json_encode(
+				array("amount" => $amount)
+			);
+		}
+
+		$result = $this->performApiCall(self::REST_CREATE, $resource, $body);
 
 		/*
 		 * Update the payment with the new properties that we got from the refund.

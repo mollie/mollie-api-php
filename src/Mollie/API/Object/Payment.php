@@ -88,6 +88,14 @@ class Mollie_API_Object_Payment
 	public $amount;
 
 	/**
+	 * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
+	 * NULL if the payment is not refunded.
+	 *
+	 * @var float|NULL
+	 */
+	public $amountRefunded;
+
+	/**
 	 * Description of the payment that is shown to the customer during the payment, and
 	 * possibly on the bank or credit card statement.
 	 *
@@ -188,6 +196,16 @@ class Mollie_API_Object_Payment
 	public function isPaid ()
 	{
 		return !empty($this->paidDatetime);
+	}
+
+	/**
+	 * Is this payment (partially) refunded?
+	 *
+	 * @return bool
+	 */
+	public function isRefunded ()
+	{
+		return $this->status == self::STATUS_REFUNDED;
 	}
 
 	/**

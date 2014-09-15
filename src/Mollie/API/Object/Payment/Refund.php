@@ -43,14 +43,7 @@ class Mollie_API_Object_Payment_Refund
 	 *
 	 * @var float
 	 */
-	public $amountRefunded;
-
-	/**
-	 * The $amount that is remaining on the payment.
-	 *
-	 * @var float
-	 */
-	public $amountRemaining;
+	public $amount;
 
 	/**
 	 * The payment that was refunded.
