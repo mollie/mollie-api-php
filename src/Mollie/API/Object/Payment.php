@@ -168,6 +168,29 @@ class Mollie_API_Object_Payment
 	 */
 	public $links;
 
+
+	/**
+	 * Is this payment cancelled?
+	 *
+	 * @return bool
+	 */
+	public function isCancelled ()
+	{
+		return $this->status == self::STATUS_CANCELLED;
+	}
+
+
+	/**
+	 * Is this payment expired?
+	 *
+	 * @return bool
+	 */
+	public function isExpired ()
+	{
+		return $this->status == self::STATUS_EXPIRED;
+	}
+
+
 	/**
 	 * Is this payment still open / ongoing?
 	 *
