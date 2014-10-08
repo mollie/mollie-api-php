@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.1.5";
+	const CLIENT_VERSION = "1.1.6";
 
 	/**
 	 * Endpoint of the remote API.
@@ -188,18 +188,12 @@ class Mollie_API_Client
 			"X-Mollie-Client-Info: " . php_uname(),
 		);
 
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $http_method);
+		
 		if ($http_body !== NULL)
 		{
 			$request_headers[] = "Content-Type: application/json";
-
-			if ($http_method == self::HTTP_POST)
-			{
-				curl_setopt($ch, CURLOPT_POST, 1);
-			}
-			else
-			{
-				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $http_method);
-			}
+			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $http_body);
 		}
 
