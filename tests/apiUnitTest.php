@@ -106,8 +106,13 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("Order #1225", $payment->description);
 		$this->assertNull($payment->method);
 		$this->assertEquals("2013-11-21T09:57:08.0Z", $payment->createdDatetime);
+
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_OPEN, $payment->status);
+		$this->assertTrue($payment->isOpen());
 		$this->assertFalse($payment->isPaid());
+		$this->assertFalse($payment->isExpired());
+		$this->assertFalse($payment->isCancelled());
+
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
 		$this->assertNull($payment->metadata);
 	}
@@ -137,8 +142,13 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Mollie_API_Object_Method::IDEAL, $payment->method);
 		$this->assertEquals("2014-09-15T09:24:39.0Z", $payment->createdDatetime);
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_REFUNDED, $payment->status);
+
+		$this->assertFalse($payment->isOpen());
+		$this->assertFalse($payment->isExpired());
+		$this->assertFalse($payment->isCancelled());
 		$this->assertTrue($payment->isPaid());
 		$this->assertTrue($payment->isRefunded());
+
 		$this->assertNull($payment->metadata);
 	}
 
@@ -176,7 +186,12 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($payment->method);
 		$this->assertEquals("2013-11-21T09:57:08.0Z", $payment->createdDatetime);
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_OPEN, $payment->status);
+
+		$this->assertTrue($payment->isOpen());
 		$this->assertFalse($payment->isPaid());
+		$this->assertFalse($payment->isExpired());
+		$this->assertFalse($payment->isCancelled());
+
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
 		$this->assertNull($payment->metadata);
 	}
@@ -214,7 +229,10 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($payment->method);
 		$this->assertEquals("2013-11-21T09:57:08.0Z", $payment->createdDatetime);
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_OPEN, $payment->status);
+		$this->assertTrue($payment->isOpen());
 		$this->assertFalse($payment->isPaid());
+		$this->assertFalse($payment->isExpired());
+		$this->assertFalse($payment->isCancelled());
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
 		$this->assertNull($payment->metadata);
 	}
