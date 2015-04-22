@@ -31,14 +31,50 @@
  */
 class Mollie_API_Object_Method
 {
+	/**
+	 * @link https://mollie.com/ideal
+	 */
 	const IDEAL        = "ideal";
+
+	/**
+	 * @link https://mollie.com/paysafecard
+	 */
 	const PAYSAFECARD  = "paysafecard";
+
+	/**
+	 * @link https://mollie.com/creditcard
+	 */
 	const CREDITCARD   = "creditcard";
+
+	/**
+	 * @link https://mollie.com/mistercash
+	 */
 	const MISTERCASH   = "mistercash";
+
+	/**
+	 * @link https://mollie.com/sofort
+	 */
 	const SOFORT       = "sofort";
+
+	/**
+	 * @link https://mollie.com/banktransfer
+	 */
 	const BANKTRANSFER = "banktransfer";
+
+	/**
+	 * @link https://mollie.com/paypal
+	 */
 	const PAYPAL       = "paypal";
+
+	/**
+	 * @link https://mollie.com/bitcoim
+	 */
 	const BITCOIN      = "bitcoin";
+
+	/**
+	 * @link https://mollie.com/belfiusdirectnet
+	 */
+	const BELFIUS      = "belfius";
 
 	/**
 	 * Id of the payment method.
