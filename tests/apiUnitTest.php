@@ -35,13 +35,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSettingInvalidApiKeyFails ()
 	{
-		$this->api = $this->getMock("Mollie_API_Client", NULL, array(), '', FALSE);
-		$this->api->expects($this->any())
-			->method("getCompatibilityChecker")
-			->will($this->returnValue($this->compatibilityChecker));
-
-		$this->api->__construct();
-		$this->api->setApiKey("invalid");
+		$api = $this->getMock("Mollie_API_Client", NULL, array(), '', FALSE);
+		$api->setApiKey("invalid");
 	}
 
 	/**
@@ -50,7 +45,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testNotSettingApiKeyGivesException()
 	{
-		$this->api = $this->getMock("Mollie_API_Client", NULL, array(), '', FALSE);
+		$this->api = $this->getMock("Mollie_API_Client", array('getCompatibilityChecker'), array(), '', FALSE);
 		$this->api->expects($this->any())
 			->method("getCompatibilityChecker")
 			->will($this->returnValue($this->compatibilityChecker));
