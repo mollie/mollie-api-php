@@ -25,9 +25,9 @@
  * DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author      Mollie B.V. <info@mollie.nl>
+ * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
- * @link        https://www.mollie.nl
+ * @link        https://www.mollie.com
  *
  * @method Mollie_API_Object_Method[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
  * @method Mollie_API_Object_Method get($id)

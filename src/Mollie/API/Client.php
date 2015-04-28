@@ -25,16 +25,16 @@
  * DAMAGE.
  *
  * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author      Mollie B.V. <info@mollie.nl>
+ * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
- * @link        https://www.mollie.nl
+ * @link        https://www.mollie.com
  */
 class Mollie_API_Client
 {
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.1.7";
+	const CLIENT_VERSION = "1.2.0";
 
 	/**
 	 * Endpoint of the remote API.
@@ -102,8 +102,14 @@ class Mollie_API_Client
 	 */
 	protected $ch;
 
+	/**
+	 * @throws Mollie_API_Exception_IncompatiblePlatform
+	 */
 	public function __construct ()
 	{
+		$this->getCompatibilityChecker()
+			->checkCompatibility();
+
 		$this->payments         = new Mollie_API_Resource_Payments($this);
 		$this->payments_refunds = new Mollie_API_Resource_Payments_Refunds($this);
 		$this->issuers          = new Mollie_API_Resource_Issuers($this);
@@ -278,5 +284,14 @@ class Mollie_API_Client
 		{
 			curl_close($this->ch);
 		}
+	}
+
+	/**
+	 * @return Mollie_API_CompatibilityChecker
+	 * @codeCoverageIgnore
+	 */
+	protected function getCompatibilityChecker ()
+	{
+		return new Mollie_API_CompatibilityChecker();
 	}
 }

@@ -8,7 +8,7 @@ try
 	/*
 	 * Initialize the Mollie API library with your API key.
 	 *
-	 * See: https://www.mollie.nl/beheer/account/profielen/
+	 * See: https://www.mollie.com/beheer/account/profielen/
 	 */
 	include "initialize.php";
 

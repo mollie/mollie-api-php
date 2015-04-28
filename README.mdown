@@ -2,18 +2,21 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.nl/betaaldiensten/ideal/), [Bancontact/Mister Cash](https://www.mollie.nl/betaaldiensten/mistercash/), [SOFORT Banking](https://www.mollie.nl/betaaldiensten/sofort/), [Creditcard](https://www.mollie.nl/betaaldiensten/creditcard/), [SEPA Bank transfer](https://www.mollie.nl/betaaldiensten/overboeking/), [Bitcoin](https://www.mollie.nl/betaaldiensten/bitcoin/), [PayPal](https://www.mollie.nl/betaaldiensten/paypal/), and [paysafecard](https://www.mollie.nl/betaaldiensten/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/overboeking/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 
 ## Requirements ##
 To use the Mollie API client, the following things are required:
 
-+ Get yourself a free [Mollie account](https://www.mollie.nl/aanmelden). No sign up costs.
-+ Create a new [Website profile](https://www.mollie.nl/beheer/account/profielen/) to generate API keys (live and test mode) and setup your webhook.
++ Get yourself a free [Mollie account](https://www.mollie.com/aanmelden). No sign up costs.
++ Create a new [Website profile](https://www.mollie.com/beheer/account/profielen/) to generate API keys (live and test mode) and setup your webhook.
 + Now you're ready to use the Mollie API client in test mode.
-+ In order to accept payments in live mode, payment methods must be activated in your account. Follow [a few of steps](https://www.mollie.nl/beheer/diensten), and let us handle the rest.
-+ Mollie API client requires PHP >= 5.2.
++ In order to accept payments in live mode, payment methods must be activated in your account. Follow [a few of steps](https://www.mollie.com/beheer/diensten), and let us handle the rest.
++ PHP >= 5.2
++ PHP cURL extension
++ Up-to-date OpenSSL (or other SSL/TLS toolkit)
++ SSL v3 disabled. Mollie does not support SSL v3 anymore.
 
 ## Installation ##
 
@@ -120,22 +123,22 @@ be refunded through our API at the moment.
 ```
 
 ## API documentation ##
-If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.nl/developer/). API Documentation is available in both Dutch and English.
+If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2013, Mollie B.V.
+Copyright (c) 2013-2015, Mollie B.V.
 
 ## Support ##
-Contact: [www.mollie.nl](https://www.mollie.nl) — info@mollie.nl — +31 20-612 88 55
+Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
 
-+ [More information about iDEAL via Mollie](https://www.mollie.nl/betaaldiensten/ideal/)
-+ [More information about credit card via Mollie](https://www.mollie.nl/betaaldiensten/creditcard/)
-+ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.nl/betaaldiensten/mistercash/)
-+ [More information about SOFORT Banking via Mollie](https://www.mollie.nl/betaaldiensten/sofort/)
-+ [More information about SEPA Bank transfer via Mollie](https://www.mollie.nl/betaaldiensten/overboeking/)
-+ [More information about Bitcoin via Mollie](https://www.mollie.nl/betaaldiensten/bitcoin/)
-+ [More information about PayPal via Mollie](https://www.mollie.nl/betaaldiensten/paypal/)
-+ [More information about paysafecard via Mollie](https://www.mollie.nl/betaaldiensten/paysafecard/)
++ [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
++ [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
++ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/mistercash/)
++ [More information about SOFORT Banking via Mollie](https://www.mollie.com/sofort/)
++ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/overboeking/)
++ [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
++ [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
++ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
 
-![Powered By Mollie](https://www.mollie.nl/images/badge-betaling-medium.png)
+![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
