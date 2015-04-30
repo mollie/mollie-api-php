@@ -93,14 +93,6 @@ class Mollie_API_Client
 	 */
 	protected $version_strings = array();
 
-	/**
-	 * This property will contain a cURL handle, which we will keep around to enable the re-use of of the TCP
-	 * connection. This saves re-negotiating the TLS handshake and setting up the new TCP connections when performing
-	 * multiple API calls.
-	 *
-	 * @var resource
-	 */
-	protected $ch;
 
 	/**
 	 * @throws Mollie_API_Exception_IncompatiblePlatform
@@ -186,27 +178,17 @@ class Mollie_API_Client
 			throw new Mollie_API_Exception("You have not set an API key. Please use setApiKey() to set the API key.");
 		}
 
-		if (empty($this->ch))
-		{
-			/*
-			 * Initialize a cURL handle.
-			 */
-			$this->ch = curl_init();
-		}
-		else
-		{
-			/*
-			 * Re-use the same cURL handle.
-			 */
-			curl_reset($this->ch);
-		}
+		/*
+		 * Initialize a cURL handle.
+		 */
+		$ch = curl_init();
 
 		$url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
 
-		curl_setopt($this->ch, CURLOPT_URL, $url);
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($this->ch, CURLOPT_ENCODING, "");
-		curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_ENCODING, "");
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
 		$user_agent = join(' ', $this->version_strings);
 
@@ -217,30 +199,30 @@ class Mollie_API_Client
 			"X-Mollie-Client-Info: " . php_uname(),
 		);
 
-		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $http_method);
 		
 		if ($http_body !== NULL)
 		{
 			$request_headers[] = "Content-Type: application/json";
-			curl_setopt($this->ch, CURLOPT_POST, 1);
-			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $http_body);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $http_body);
 		}
 
-		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $request_headers);
-		curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
 		/*
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-		curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+		curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
 
-		$body = curl_exec($this->ch);
+		$body = curl_exec($ch);
 
-		if (curl_errno($this->ch) == CURLE_SSL_CACERT || curl_errno($this->ch) == CURLE_SSL_PEER_CERTIFICATE || curl_errno($this->ch) == 77 /* CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though) */)
+		if (curl_errno($ch) == CURLE_SSL_CACERT || curl_errno($ch) == CURLE_SSL_PEER_CERTIFICATE || curl_errno($ch) == 77 /* CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though) */)
 		{
-			if (strpos(curl_error($this->ch), "error setting certificate verify locations") !== FALSE)
+			if (strpos(curl_error($ch), "error setting certificate verify locations") !== FALSE)
 			{
 				/*
 				 * Error setting CA-file. Could be missing, or there is a bug in OpenSSL with too long paths.
@@ -250,40 +232,31 @@ class Mollie_API_Client
 				 */
 				array_shift($request_headers);
 				$request_headers[] = "X-Mollie-Debug: unable to use shipped root certificaties, no peer validation.";
-				curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-				$body = curl_exec($this->ch);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+				$body = curl_exec($ch);
 			}
 		}
 
-		if (strpos(curl_error($this->ch), "certificate subject name 'mollie.nl' does not match target host") !== FALSE)
+		if (strpos(curl_error($ch), "certificate subject name 'mollie.nl' does not match target host") !== FALSE)
 		{
 			/*
 			 * On some servers, the wildcard SSL certificate is not processed correctly. This happens with OpenSSL 0.9.7
 			 * from 2003.
 			 */
 			$request_headers[] = "X-Mollie-Debug: old OpenSSL found";
-			curl_setopt($this->ch, CURLOPT_HTTPHEADER, $request_headers);
-			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 0);
-			$body = curl_exec($this->ch);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			$body = curl_exec($ch);
 		}
 
-		if (curl_errno($this->ch))
+		if (curl_errno($ch))
 		{
-			throw new Mollie_API_Exception("Unable to communicate with Mollie (".curl_errno($this->ch)."): " . curl_error($this->ch) . ".");
+			throw new Mollie_API_Exception("Unable to communicate with Mollie (".curl_errno($ch)."): " . curl_error($ch) . ".");
 		}
+
+		curl_close($ch);
 
 		return $body;
-	}
-
-	/**
-	 * Destroy cURL handle if is still exist.
-	 */
-	public function __destruct ()
-	{
-		if (is_resource($this->ch))
-		{
-			curl_close($this->ch);
-		}
 	}
 
 	/**

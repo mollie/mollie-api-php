@@ -43,7 +43,6 @@ class Mollie_API_CompatibilityChecker
 	 */
 	public static $REQUIRED_CURL_FUNCTIONS = array(
 		'curl_init',
-		'curl_reset',
 		'curl_setopt',
 		'curl_exec',
 		'curl_error',
