@@ -209,14 +209,14 @@ class Mollie_API_Client
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
 		/*
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-		curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+//		curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
 
 		$body = curl_exec($ch);
 
@@ -251,7 +251,9 @@ class Mollie_API_Client
 
 		if (curl_errno($ch))
 		{
-			throw new Mollie_API_Exception("Unable to communicate with Mollie (".curl_errno($ch)."): " . curl_error($ch) . ".");
+			$message = "Unable to communicate with Mollie (".curl_errno($ch)."): " . curl_error($ch) . ".";
+			curl_close($ch);
+			throw new Mollie_API_Exception($message);
 		}
 
 		curl_close($ch);
