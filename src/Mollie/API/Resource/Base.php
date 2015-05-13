@@ -40,7 +40,7 @@ abstract class Mollie_API_Resource_Base
 	/**
 	 * Default number of objects to retrieve when listing all objects.
 	 */
-	const DEFAULT_LIMIT = 10;
+	const DEFAULT_LIMIT = 50;
 
 	/**
 	 * @var Mollie_API_Client
@@ -104,12 +104,15 @@ abstract class Mollie_API_Resource_Base
 	 * @param $rest_resource
 	 * @param int $offset
 	 * @param int $limit
+	 * @param array $options
 	 *
 	 * @return Mollie_API_Object_List
 	 */
-	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT)
+	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $options = array())
 	{
-		$api_path = $rest_resource . "?" . http_build_query(array("offset" => $offset, "count" => $limit));
+		$options = array_merge(array("offset" => $offset, "count" => $limit), $options);
+
+		$api_path = $rest_resource . "?" . http_build_query($options);
 
 		$result = $this->performApiCall(self::REST_LIST, $api_path);
 
@@ -202,12 +205,13 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @param int $offset
 	 * @param int $limit
+	 * @param array $options
 	 *
 	 * @return Mollie_API_Object_List
 	 */
-	public function all ($offset = 0, $limit = 0)
+	public function all ($offset = 0, $limit = 0, array $options = array())
 	{
-		return $this->rest_list($this->getResourceName(), $offset, $limit);
+		return $this->rest_list($this->getResourceName(), $offset, $limit, $options);
 	}
 
 	/**
