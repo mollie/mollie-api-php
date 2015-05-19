@@ -255,4 +255,22 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("https://www.mollie.nl/payscreen/pay/d0b0E3EA3v", $payment->getPaymentUrl());
 		$this->assertNull($payment->metadata);
 	}
+
+	public function testMethodsWorksCorrectly ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "methods?offset=0&count=0&locale=de")
+			->will($this->returnValue('{"totalCount":4,"offset":0,"count":4,"data":[{"id":"sofort","description":"SOFORT \u00dcberweisung","amount":{"minimum":"0.31","maximum":"5000.00"},"image":{"normal":"https://www.mollie.com/images/payscreen/methods/sofort.png","bigger":"https://www.mollie.com/images/payscreen/methods/sofort@2x.png"}},{"id":"ideal","description":"iDEAL","amount":{"minimum":"0.55","maximum":"50000.00"},"image":{"normal":"https://www.mollie.com/images/payscreen/methods/ideal.png","bigger":"https://www.mollie.com/images/payscreen/methods/ideal@2x.png"}},{"id":"mistercash","description":"Bancontact/Mister Cash","amount":{"minimum":"0.31","maximum":"10000.00"},"image":{"normal":"https://www.mollie.com/images/payscreen/methods/mistercash.png","bigger":"https://www.mollie.com/images/payscreen/methods/mistercash@2x.png"}},{"id":"belfius","description":"Belfius Direct Net","amount":{"minimum":"0.31","maximum":"50000.00"},"image":{"normal":"https://www.mollie.com/images/payscreen/methods/belfius.png","bigger":"https://www.mollie.com/images/payscreen/methods/belfius@2x.png"}}]}'));
+
+		$methods = $this->api->methods->all(0, 0, array("locale" => "de"));
+
+		$this->assertCount(4, $methods);
+		$this->assertInstanceOf("Mollie_API_Object_List", $methods);
+
+		foreach ($methods as $method)
+		{
+			$this->assertInstanceof("Mollie_API_Object_Method", $method);
+		}
+	}
 }
