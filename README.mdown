@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/overboeking/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/overboeking/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 
@@ -22,11 +22,11 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/mollie-api-php 1.1.x
+	$ composer require mollie/mollie-api-php 1.2.x
 
 	    {
 	        "require": {
-	            "mollie/mollie-api-php": "1.1.x"
+	            "mollie/mollie-api-php": "1.2.x"
 	        }
 	    }
 
@@ -139,6 +139,7 @@ Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20
 + [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/overboeking/)
 + [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
 + [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
++ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
 + [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
 
 ![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
