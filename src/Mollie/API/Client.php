@@ -209,14 +209,14 @@ class Mollie_API_Client
 		}
 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
 		/*
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-//		curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+		curl_setopt($ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
 
 		$body = curl_exec($ch);
 
