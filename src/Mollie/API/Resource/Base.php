@@ -62,7 +62,7 @@ abstract class Mollie_API_Resource_Base
 	{
 		$class_parts = explode("_", get_class($this));
 
-		return mb_strtolower(end($class_parts));
+		return strtolower(end($class_parts));
 	}
 
 	/**
