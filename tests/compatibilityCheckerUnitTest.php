@@ -11,7 +11,7 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->checker = $this->getMock("Mollie_API_CompatibilityChecker", array("satisfiesPhpVersion", "satisfiesCurlExtension", "satisfiesCurlFunctions"));
+		$this->checker = $this->getMock("Mollie_API_CompatibilityChecker", array("satisfiesPhpVersion", "satisfiesJsonExtension", "satisfiesCurlExtension", "satisfiesCurlFunctions"));
 	}
 
 	/**
@@ -22,6 +22,32 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$this->checker->expects($this->once())
 			->method("satisfiesPhpVersion")
+			->will($this->returnValue(FALSE)); // Fail
+
+		$this->checker->expects($this->never())
+			->method("satisfiesJsonExtension");
+
+		$this->checker->expects($this->never())
+			->method("satisfiesCurlExtension");
+
+		$this->checker->expects($this->never())
+			->method("satisfiesCurlFunctions");
+
+		$this->checker->checkCompatibility();
+	}
+
+	/**
+	 * @expectedException Mollie_API_Exception_IncompatiblePlatform
+	 * @expectedExceptionCode Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
+	 */
+	public function testCheckCompatibilityThrowsExceptionOnJsonExtension ()
+	{
+		$this->checker->expects($this->once())
+			->method("satisfiesPhpVersion")
+			->will($this->returnValue(TRUE));
+
+		$this->checker->expects($this->once())
+			->method("satisfiesJsonExtension")
 			->will($this->returnValue(FALSE)); // Fail
 
 		$this->checker->expects($this->never())
@@ -44,6 +70,10 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(TRUE));
 
 		$this->checker->expects($this->once())
+			->method("satisfiesJsonExtension")
+			->will($this->returnValue(TRUE));
+
+		$this->checker->expects($this->once())
 			->method("satisfiesCurlExtension")
 			->will($this->returnValue(FALSE)); // Fail
 
@@ -61,6 +91,10 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$this->checker->expects($this->once())
 			->method("satisfiesPhpVersion")
+			->will($this->returnValue(TRUE));
+
+		$this->checker->expects($this->once())
+			->method("satisfiesJsonExtension")
 			->will($this->returnValue(TRUE));
 
 		$this->checker->expects($this->once())

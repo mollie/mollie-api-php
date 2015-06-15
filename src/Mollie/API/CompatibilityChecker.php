@@ -65,6 +65,14 @@ class Mollie_API_CompatibilityChecker
 			);
 		}
 
+		if (!$this->satisfiesJsonExtension())
+		{
+			throw new Mollie_API_Exception_IncompatiblePlatform(
+				"PHP extension json is not enabled. Please make sure to enable 'json' in your PHP configuration.",
+				Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
+			);
+		}
+
 		if (!$this->satisfiesCurlExtension())
 		{
 			throw new Mollie_API_Exception_IncompatiblePlatform(
@@ -90,6 +98,25 @@ class Mollie_API_CompatibilityChecker
 	public function satisfiesPhpVersion ()
 	{
 		return (bool) version_compare(PHP_VERSION, self::$MIN_PHP_VERSION, ">=");
+	}
+
+	/**
+	 * @return bool
+	 * @codeCoverageIgnore
+	 */
+	public function satisfiesJsonExtension ()
+	{
+		// Check by extension_loaded
+		if (function_exists('extension_loaded') && extension_loaded('json'))
+		{
+			return TRUE;
+		}
+		elseif (function_exists('json_encode'))
+		{
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	/**
