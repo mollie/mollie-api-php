@@ -226,7 +226,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
   "count":1,
   "data":[
     {
-      "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" }
+      "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "expiryPeriod": "P12DT11H30M45S", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" }
     }
   ],
   "links":{
@@ -246,6 +246,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("tr_d0b0E3EA3v", $payment->id);
 		$this->assertEquals("Order #1225", $payment->description);
 		$this->assertNull($payment->method);
+		$this->assertEquals("P12DT11H30M45S", $payment->expiryPeriod);
 		$this->assertEquals("2013-11-21T09:57:08.0Z", $payment->createdDatetime);
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_OPEN, $payment->status);
 		$this->assertTrue($payment->isOpen());

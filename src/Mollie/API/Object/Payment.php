@@ -91,9 +91,17 @@ class Mollie_API_Object_Payment
 	 * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
 	 * NULL if the payment is not refunded.
 	 *
-	 * @var float|NULL
+	 * @var float|null
 	 */
 	public $amountRefunded;
+
+	/**
+	 * The amount of a refunded payment that can still be refunded, in EURO with 2 decimals. This field will be
+	 * NULL if the payment is not refunded.
+	 *
+	 * @var float|null
+	 */
+	public $amountRemaining;
 
 	/**
 	 * Description of the payment that is shown to the customer during the payment, and
@@ -117,6 +125,14 @@ class Mollie_API_Object_Payment
 	 * @var string
 	 */
 	public $status = self::STATUS_OPEN;
+
+	/**
+	 * The period after which the payment will expire in ISO-8601 format.
+	 *
+	 * @example P12DT11H30M45S (12 days, 11 hours, 30 minutes and 45 seconds)
+	 * @var string|null
+	 */
+	public $expiryPeriod;
 
 	/**
 	 * Date and time the payment was created in ISO-8601 format.
@@ -146,6 +162,21 @@ class Mollie_API_Object_Payment
 	 * @var string|null
 	 */
 	public $expiredDatetime;
+
+	/**
+	 * The profile ID this payment belongs to.
+	 *
+	 * @example pfl_xH2kP6Nc6X
+	 * @var string
+	 */
+	public $profileId;
+
+	/**
+	 * The locale used for this payment.
+	 *
+	 * @var string|null
+	 */
+	public $locale;
 
 	/**
 	 * During creation of the payment you can set custom metadata that is stored with
