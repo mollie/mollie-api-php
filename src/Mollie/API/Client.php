@@ -201,7 +201,6 @@ class Mollie_API_Client
 
 		curl_setopt($this->ch, CURLOPT_URL, $url);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($this->ch, CURLOPT_ENCODING, "");
 		curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
 
 		$user_agent = join(' ', $this->version_strings);
