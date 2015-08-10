@@ -41,7 +41,7 @@ class Mollie_API_Autoloader
 			$file_name = str_replace("_", "/", $class_name);
 			$file_name = realpath(dirname(__FILE__) . "/../../{$file_name}.php");
 
-			if (file_exists($file_name))
+			if ($file_name !== false)
 			{
 				require $file_name;
 			}
