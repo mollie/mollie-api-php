@@ -24,10 +24,16 @@ try
 	{
 		/*
 		 * Refund € 15,00 of the payment.
+		 *
+		 * https://www.mollie.com/en/docs/refunds#refund-create
 		 */
 		$refund = $mollie->payments->refund($payment, 15.00);
 
-		echo "The payment {$payment_id} is now refunded.", PHP_EOL;
+		echo "Payment {$payment_id} is now refunded.", PHP_EOL;
+	}
+	else
+	{
+		echo "Payment {$payment_id} can not be refunded.", PHP_EOL;
 	}
 
 	/*

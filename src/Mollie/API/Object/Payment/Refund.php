@@ -32,6 +32,21 @@
 class Mollie_API_Object_Payment_Refund
 {
 	/**
+	 * The refund will be send to the bank on the next business day. You can still cancel the refund.
+	 */
+	const STATUS_PENDING    = 'pending';
+
+	/**
+	 * The refund has been sent to the bank. The refund amount will be transferred to the consumer account as soon as possible.
+	 */
+	const STATUS_PROCESSING = 'processing';
+
+	/**
+	 * The refund amount has been transferred to the consumer.
+	 */
+	const STATUS_REFUNDED   = 'refunded';
+
+	/**
 	 * Id of the payment method.
 	 *
 	 * @var string
@@ -58,4 +73,41 @@ class Mollie_API_Object_Payment_Refund
 	 * @var string|null
 	 */
 	public $refundedDatetime;
+
+	/**
+	 * The refund status
+	 *
+	 * @var string
+	 */
+	public $status;
+
+	/**
+	 * Is this refund pending?
+	 *
+	 * @return bool
+	 */
+	public function isPending ()
+	{
+		return $this->status == self::STATUS_PENDING;
+	}
+
+	/**
+	 * Is this refund processing?
+	 *
+	 * @return bool
+	 */
+	public function isProcessing ()
+	{
+		return $this->status == self::STATUS_PROCESSING;
+	}
+
+	/**
+	 * Is this refund transferred to consumer?
+	 *
+	 * @return bool
+	 */
+	public function isTransferred ()
+	{
+		return $this->status == self::STATUS_REFUNDED;
+	}
 }
