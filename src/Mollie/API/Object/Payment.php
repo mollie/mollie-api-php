@@ -67,6 +67,12 @@ class Mollie_API_Object_Payment
 	const STATUS_REFUNDED  = "refunded";
 
 	/**
+	 * Some payment methods provide your customers with the ability to dispute payments which could
+	 * ultimately lead to a chargeback.
+	 */
+	const STATUS_CHARGED_BACK = "charged_back";
+
+	/**
 	 * Id of the payment (on the Mollie platform).
 	 *
 	 * @var string
@@ -260,6 +266,16 @@ class Mollie_API_Object_Payment
 	public function isRefunded ()
 	{
 		return $this->status == self::STATUS_REFUNDED;
+	}
+
+	/**
+	 * Is this payment charged back?
+	 *
+	 * @return bool
+	 */
+	public function isChargedBack ()
+	{
+		return $this->status == self::STATUS_CHARGED_BACK;
 	}
 
 	/**
