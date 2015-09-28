@@ -17,12 +17,18 @@ try
 	$payment_id = "tr_q2cLW9pxMT";
 	$payment = $mollie->payments->get($payment_id);
 
-	/*
-	 * Refund € 15,00 of the payment.
-	 */
-	$refund = $mollie->payments->refund($payment, 15.00);
+	// Check if this payment can be refunded
+	// You can also check if the payment can be partially refunded
+	// by using $payment->canBePartiallyRefunded() and $payment->getAmountRemaining()
+	if ($payment->canBeRefunded())
+	{
+		/*
+		 * Refund € 15,00 of the payment.
+		 */
+		$refund = $mollie->payments->refund($payment, 15.00);
 
-	echo "The payment {$payment_id} is now refunded.", PHP_EOL;
+		echo "The payment {$payment_id} is now refunded.", PHP_EOL;
+	}
 
 	/*
 	 * Retrieve all refunds on a payment.

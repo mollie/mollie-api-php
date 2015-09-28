@@ -95,7 +95,7 @@ class Mollie_API_Object_Payment
 
 	/**
 	 * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
-	 * NULL if the payment is not refunded.
+	 * NULL if the payment can not be refunded.
 	 *
 	 * @var float|null
 	 */
@@ -103,7 +103,10 @@ class Mollie_API_Object_Payment
 
 	/**
 	 * The amount of a refunded payment that can still be refunded, in EURO with 2 decimals. This field will be
-	 * NULL if the payment is not refunded.
+	 * NULL if the payment can not be refunded.
+	 *
+	 * For some payment methods this amount can be higher than the payment amount. This is possible to reimburse
+	 * the costs for a return shipment to your customer for example.
 	 *
 	 * @var float|null
 	 */
@@ -291,5 +294,52 @@ class Mollie_API_Object_Payment
 		}
 
 		return $this->links->paymentUrl;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canBeRefunded ()
+	{
+		return $this->amountRemaining !== NULL;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canBePartiallyRefunded ()
+	{
+		return $this->canBeRefunded() && $this->method !== Mollie_API_Object_Method::CREDITCARD;
+	}
+
+	/**
+	 * Get the amount that is already refunded
+	 *
+	 * @return float
+	 */
+	public function getAmountRefunded ()
+	{
+		if ($this->amountRefunded)
+		{
+			return floatval($this->amountRefunded);
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Get the remaining amount that can be refunded. For some payment methods this amount can be higher than
+	 * the payment amount. This is possible to reimburse the costs for a return shipment to your customer for example.
+	 *
+	 * @return float
+	 */
+	public function getAmountRemaining ()
+	{
+		if ($this->amountRemaining)
+		{
+			return floatval($this->amountRemaining);
+		}
+
+		return 0;
 	}
 }
