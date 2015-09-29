@@ -29,7 +29,7 @@ try
 		 */
 		$refund = $mollie->payments->refund($payment, 15.00);
 
-		echo "Payment {$payment_id} is now refunded.", PHP_EOL;
+		echo "€ 15,00 of payment {$payment_id} refunded.", PHP_EOL;
 	}
 	else
 	{
