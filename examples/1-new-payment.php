@@ -30,12 +30,14 @@ try
 	 *   amount        Amount in EUROs. This example creates a € 10,- payment.
 	 *   description   Description of the payment.
 	 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
+	 *   webhookUrl    Webhook location, used to report when the payment changes state.
 	 *   metadata      Custom metadata that is stored with the payment.
 	 */
 	$payment = $mollie->payments->create(array(
 		"amount"       => 10.00,
 		"description"  => "My first API payment",
 		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/3-return-page.php?order_id={$order_id}",
+		"webhookUrl"   => "{$protocol}://{$hostname}{$path}/2-webhook-verification.php",
 		"metadata"     => array(
 			"order_id" => $order_id,
 		),

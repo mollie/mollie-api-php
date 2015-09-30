@@ -12,12 +12,16 @@ try
 	 */
 	include "initialize.php";
 
+	// Pagination
+	$offset = 0;
+	$limit  = 25;
+
 	/*
 	 * Get the all payments for this API key ordered by newest.
 	 */
-	$payments = $mollie->payments->all();
+	$payments = $mollie->payments->all($offset,  $limit);
 
-	foreach ($mollie->payments->all() as $payment)
+	foreach ($payments as $payment)
 	{
 		echo "&euro; " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
 	}
