@@ -13,7 +13,7 @@ try
 	include "initialize.php";
 
 	/*
-	 * Get the all the activated methods for this API key.
+	 * Get all the activated methods for this API key.
 	 */
 	$methods = $mollie->methods->all();
 

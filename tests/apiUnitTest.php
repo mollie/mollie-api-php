@@ -62,13 +62,15 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$this->api->expects($this->once())
 			->method("performHttpCall")
-			->with(Mollie_API_Client::HTTP_POST, "payments", '{"amount":100,"description":"Order #1337 24 Roundhousekicks","redirectUrl":"http:\/\/www.chucknorris.rhk\/return.php"}')
+			->with(Mollie_API_Client::HTTP_POST, "payments?profileId=pfl_wdy%21aA6Zy", '{"amount":100,"description":"Order #1337 24 Roundhousekicks","redirectUrl":"http:\/\/www.chucknorris.rhk\/return.php"}')
 			->will($this->returnValue(""));
 
 		$this->api->payments->create(array(
 			"amount"       => 100.00,
 			"description"  => "Order #1337 24 Roundhousekicks",
 			"redirectUrl" => "http://www.chucknorris.rhk/return.php",
+		), array(
+			"profileId" => "pfl_wdy!aA6Zy",
 		));
 	}
 
@@ -194,11 +196,14 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$this->api->expects($this->once())
 			->method("performHttpCall")
-			->with(Mollie_API_Client::HTTP_GET, "payments/tr_d0b0E3EA3v")
+			->with(Mollie_API_Client::HTTP_GET, "payments/tr_d0b0E3EA3v?count=1&profileId=pfl_wdy%21aA6Zy")
 			->will($this->returnValue('{ "id":"tr_d0b0E3EA3v", "mode":"test", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"open", "amount":100, "description":"Order #1225", "method":null, "details":null, "links":{ "paymentUrl":"https://www.mollie.nl/payscreen/pay/d0b0E3EA3v" } }'));
 
 		/** @var Mollie_API_Object_Payment $payment */
-		$payment = $this->api->payments->get("tr_d0b0E3EA3v");
+		$payment = $this->api->payments->get("tr_d0b0E3EA3v", array(
+			"count"     => "1",
+			"profileId" => "pfl_wdy!aA6Zy",
+		));
 
 		$this->assertEquals("tr_d0b0E3EA3v", $payment->id);
 		$this->assertEquals("Order #1225", $payment->description);
@@ -273,5 +278,48 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		{
 			$this->assertInstanceof("Mollie_API_Object_Method", $method);
 		}
+	}
+
+	public function testUndefinedResourceCallsResourceEndpoint ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "foobars/foobar_ID?f=B")
+			->will($this->returnValue("{}"));
+
+		$this->api->FooBars->get("foobar_ID", array("f" => "B"));
+	}
+
+	public function testUndefinedSubresourceRequiresParentId ()
+	{
+		$this->api->expects($this->never())
+			->method("performHttpCall");
+
+		$this->setExpectedException("Mollie_API_Exception", "Subresource 'foos_bars' used without parent 'foos' ID.");
+
+		$this->api->Foos_Bars->get("bar_ID", array("f" => "B"));
+	}
+
+	public function testUndefinedSubesourceCallsSubresourceEndpointWithParentId ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "foos/foo_PARENT/bars/bar_CHILD?f=B")
+			->will($this->returnValue("{}"));
+
+		$this->api->Foos_Bars->withParentId("foo_PARENT")->get("bar_CHILD", array("f" => "B"));
+	}
+
+	public function testUndefinedSubesourceCallsSubresourceEndpointWithParentObject ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "foos/foo_PARENT/bars/bar_CHILD?f=B")
+			->will($this->returnValue("{}"));
+
+		$parent     = new stdClass;
+		$parent->id = "foo_PARENT";
+
+		$this->api->Foos_Bars->with($parent)->get("bar_CHILD", array("f" => "B"));
 	}
 }

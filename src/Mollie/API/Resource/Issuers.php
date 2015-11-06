@@ -29,8 +29,8 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Mollie_API_Object_Issuer[]|Mollie_API_Object_List all($offset = 0, $limit = 0)
- * @method Mollie_API_Object_Issuer get($id)
+ * @method Mollie_API_Object_Issuer[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Issuer get($id, array $filters = array())
  */
 class Mollie_API_Resource_Issuers extends Mollie_API_Resource_Base
 {

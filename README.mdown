@@ -95,7 +95,7 @@ Retrieve the list of issuers:
 ```
 
 _`$issuers` will be a list of `Mollie_API_Object_Issuer` objects. Use the property `$id` of this object in the
- API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/4-ideal-payment.php)._
+ API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/04-ideal-payment.php)._
 
 Create a payment with the selected issuer:
 
@@ -123,6 +123,10 @@ be refunded through our API at the moment.
 	// Refund € 15 of this payment
 	$refund = $mollie->payments->refund($payment, 15.00);
 ```
+
+## How to use OAuth2 to connect Mollie accounts to your application? ##
+
+The resources `permissions`, `organizations`, `profiles` and `settlements` are only available with an OAuth2 access token. This is because an API key is linked to a website profile, and those resources are linked to an Mollie account. Visit our [API documentation](https://www.mollie.com/en/docs/oauthaccess) for more information about how to get an OAuth2 access token. For an example of how to use those resources, see [Example 8](https://github.com/mollie/mollie-api-php/blob/master/examples/08-oauth-list-profiles.php), [Example 9](https://github.com/mollie/mollie-api-php/blob/master/examples/09-oauth-list-settlements.php) and [Example 10](https://github.com/mollie/mollie-api-php/blob/master/examples/10-oauth-new-payment.php).
 
 ## API documentation ##
 If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.

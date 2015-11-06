@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2013, Mollie B.V.
+ * Copyright (c) 2015, Mollie B.V.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,42 +28,82 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Payment_Refund get($resource_id, array $filters = array())
  */
-class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
+class Mollie_API_Object_Profile
 {
+	/**
+	 * Id of the payment profile.
+	 *
+	 * @var string
+	 */
+	public $id;
+
+	/**
+	 * Either "live" or "test". Indicates this being a test or a live (verified) profile.
+	 *
+	 * @var string
+	 */
+	public $mode;
+
 	/**
 	 * @var string
 	 */
-	private $payment_id;
+	public $name;
 
 	/**
-	 * @return Mollie_API_Object_Method
+	 * @var string
 	 */
-	protected function getResourceObject ()
-	{
-		return new Mollie_API_Object_Payment_Refund;
-	}
+	public $website;
 
 	/**
-	 * @return string
+	 * @var string
 	 */
-	protected function getResourceName ()
-	{
-		return "payments/" . urlencode($this->payment_id) . "/refunds";
-	}
+	public $email;
 
 	/**
-	 * Set the resource to use a certain payment. Use this method before performing a get() or all() call.
+	 * @var string
+	 */
+	public $phone;
+
+	/**
+	 * Merchant category code.
 	 *
-	 * @param Mollie_API_Object_Payment $payment
-	 * @return self
+	 * @see https://www.mollie.com/en/docs/profiles#profiles-object
+	 * @var int
 	 */
-	public function with(Mollie_API_Object_Payment $payment)
-	{
-		$this->payment_id = $payment->id;
-		return $this;
-	}
+	public $categoryCode;
+
+	/**
+	 * Profile status. "unverified", "verified" or "blocked".
+	 *
+	 * @var string
+	 */
+	public $status;
+
+	/**
+	 * Review object with "status" property that's either "pending" or "rejected".
+	 *
+	 * @see https://www.mollie.com/en/docs/profiles#profiles-object
+	 *
+	 * @var object|null
+	 */
+	public $review;
+
+	/**
+	 * @var string
+	 */
+	public $createdDatetime;
+
+	/**
+	 * @var string
+	 */
+	public $updatedDatetime;
+
+	/**
+	 * If the App owner is also owner this profile, then links may contain a link
+	 * to the live and test API keys of this profile.
+	 *
+	 * @var object
+	 */
+	public $links;
 }
