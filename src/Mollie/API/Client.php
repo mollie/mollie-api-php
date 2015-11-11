@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.2.11";
+	const CLIENT_VERSION = "1.3.0";
 
 	/**
 	 * Endpoint of the remote API.
@@ -84,9 +84,44 @@ class Mollie_API_Client
 	public $methods;
 
 	/**
+	 * RESTful Permissions resource. NOTE: requires OAuth access token.
+	 *
+	 * @var Mollie_API_Resource_Permissions
+	 */
+	public $permissions;
+
+	/**
+	 * RESTful Organizations resource. NOTE: requires OAuth access token.
+	 *
+	 * @var Mollie_API_Resource_Organizations
+	 */
+	public $organizations;
+
+	/**
+	 * RESTful Profiles resource. NOTE: requires OAuth access token.
+	 *
+	 * @var Mollie_API_Resource_Profiles
+	 */
+	public $profiles;
+
+	/**
+	 * RESTful Settlements resource. NOTE: requires OAuth access token.
+	 *
+	 * @var Mollie_API_Resource_Settlements
+	 */
+	public $settlements;
+
+	/**
 	 * @var string
 	 */
 	protected $api_key;
+
+	/**
+	 * True if an OAuth access token is set as API key.
+	 *
+	 * @var bool
+	 */
+	protected $oauth_access;
 
 	/**
 	 * @var array
@@ -111,12 +146,30 @@ class Mollie_API_Client
 		$this->issuers          = new Mollie_API_Resource_Issuers($this);
 		$this->methods          = new Mollie_API_Resource_Methods($this);
 
+		// OAuth2 endpoints
+		$this->permissions      = new Mollie_API_Resource_Permissions($this);
+		$this->organizations    = new Mollie_API_Resource_Organizations($this);
+		$this->profiles         = new Mollie_API_Resource_Profiles($this);
+		$this->settlements      = new Mollie_API_Resource_Settlements($this);
+
 		$curl_version = curl_version();
 
 		$this->addVersionString("Mollie/" . self::CLIENT_VERSION);
 		$this->addVersionString("PHP/" . phpversion());
 		$this->addVersionString("cURL/" . $curl_version["version"]);
 		$this->addVersionString($curl_version["ssl_version"]);
+	}
+
+	/**
+	 * @param string $resource_name
+	 * @return Mollie_API_Resource_Undefined
+	 */
+	public function __get ($resource_name)
+	{
+		$undefined_resource = new Mollie_API_Resource_Undefined($this);
+		$undefined_resource->setResourceName($resource_name);
+
+		return $undefined_resource;
 	}
 
 	/**
@@ -148,7 +201,33 @@ class Mollie_API_Client
 			throw new Mollie_API_Exception("Invalid API key: '{$api_key}'. An API key must start with 'test_' or 'live_'.");
 		}
 
-		$this->api_key = $api_key;
+		$this->api_key      = $api_key;
+		$this->oauth_access = FALSE;
+	}
+
+	/**
+	 * @param string $access_token OAuth access token, starting with 'access_'
+	 * @throws Mollie_API_Exception
+	 */
+	public function setAccessToken ($access_token)
+	{
+		$access_token = trim($access_token);
+
+		if (!preg_match('/^access_\w+$/', $access_token))
+		{
+			throw new Mollie_API_Exception("Invalid OAuth access token: '{$access_token}'. An access token must start with 'access_'.");
+		}
+
+		$this->api_key      = $access_token;
+		$this->oauth_access = TRUE;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function usesOAuth ()
+	{
+		return $this->oauth_access;
 	}
 
 	/**
@@ -205,6 +284,11 @@ class Mollie_API_Client
 
 		$user_agent = join(' ', $this->version_strings);
 
+		if ($this->usesOAuth())
+		{
+			$user_agent .= " OAuth/2.0";
+		}
+
 		$request_headers = array(
 			"Accept: application/json",
 			"Authorization: Bearer {$this->api_key}",
@@ -213,7 +297,7 @@ class Mollie_API_Client
 		);
 
 		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
-		
+
 		if ($http_body !== NULL)
 		{
 			$request_headers[] = "Content-Type: application/json";
@@ -301,6 +385,13 @@ class Mollie_API_Client
 	 */
 	protected function getCompatibilityChecker ()
 	{
-		return new Mollie_API_CompatibilityChecker();
+		static $checker = NULL;
+
+		if (!$checker)
+		{
+			$checker = new Mollie_API_CompatibilityChecker();
+		}
+
+		return $checker;
 	}
 }

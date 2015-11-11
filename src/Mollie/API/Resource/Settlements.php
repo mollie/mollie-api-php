@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2013, Mollie B.V.
+ * Copyright (c) 2015, Mollie B.V.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,41 +29,16 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Payment_Refund get($resource_id, array $filters = array())
+ * @method Mollie_API_Object_Settlement[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Settlement get($id, array $filters = array())
  */
-class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
+class Mollie_API_Resource_Settlements extends Mollie_API_Resource_Base
 {
 	/**
-	 * @var string
-	 */
-	private $payment_id;
-
-	/**
-	 * @return Mollie_API_Object_Method
+	 * @return Mollie_API_Object_Settlement
 	 */
 	protected function getResourceObject ()
 	{
-		return new Mollie_API_Object_Payment_Refund;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getResourceName ()
-	{
-		return "payments/" . urlencode($this->payment_id) . "/refunds";
-	}
-
-	/**
-	 * Set the resource to use a certain payment. Use this method before performing a get() or all() call.
-	 *
-	 * @param Mollie_API_Object_Payment $payment
-	 * @return self
-	 */
-	public function with(Mollie_API_Object_Payment $payment)
-	{
-		$this->payment_id = $payment->id;
-		return $this;
+		return new Mollie_API_Object_Settlement;
 	}
 }

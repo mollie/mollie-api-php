@@ -66,15 +66,37 @@ abstract class Mollie_API_Resource_Base
 	}
 
 	/**
-	 * @param $rest_resource
-	 * @param $body
-	 *
-	 * @return object
+	 * @param array $filters
+	 * @return string
+	 * @throws Mollie_API_Exception
 	 */
-	private function rest_create($rest_resource, $body)
+	private function buildQueryString (array $filters)
 	{
-		$result = $this->performApiCall(self::REST_CREATE, $rest_resource, $body);
-		return $this->copy($result, $this->getResourceObject($rest_resource));
+		if (empty($filters))
+		{
+			return "";
+		}
+
+		// Force & because of some PHP 5.3 defaults.
+		return "?" . http_build_query($filters, "", "&");
+	}
+
+	/**
+	 * @param string $rest_resource
+	 * @param        $body
+	 * @param array $filters
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	private function rest_create($rest_resource, $body, array $filters)
+	{
+		$result = $this->performApiCall(
+			self::REST_CREATE,
+			$rest_resource . $this->buildQueryString($filters),
+			$body
+		);
+
+		return $this->copy($result, $this->getResourceObject());
 	}
 
 	/**
@@ -82,10 +104,11 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @param string $rest_resource Resource name.
 	 * @param string $id            Id of the object to retrieve.
-	 * @throws Mollie_API_Exception
+	 * @param array  $filters
 	 * @return object
+	 * @throws Mollie_API_Exception
 	 */
-	private function rest_read ($rest_resource, $id)
+	private function rest_read ($rest_resource, $id, array $filters)
 	{
 		if (empty($id))
 		{
@@ -93,9 +116,12 @@ abstract class Mollie_API_Resource_Base
 		}
 
 		$id     = urlencode($id);
-		$result = $this->performApiCall(self::REST_READ, "{$rest_resource}/{$id}");
+		$result = $this->performApiCall(
+			self::REST_READ,
+			"{$rest_resource}/{$id}" . $this->buildQueryString($filters)
+		);
 
-		return $this->copy($result, $this->getResourceObject($rest_resource));
+		return $this->copy($result, $this->getResourceObject());
 	}
 
 	/**
@@ -104,15 +130,15 @@ abstract class Mollie_API_Resource_Base
 	 * @param $rest_resource
 	 * @param int $offset
 	 * @param int $limit
-	 * @param array $options
+	 * @param array $filters
 	 *
 	 * @return Mollie_API_Object_List
 	 */
-	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $options = array())
+	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
 	{
-		$options = array_merge(array("offset" => $offset, "count" => $limit), $options);
+		$filters = array_merge(array("offset" => $offset, "count" => $limit), $filters);
 
-		$api_path = $rest_resource . "?" . http_build_query($options, "", "&"); /* Force & because of some PHP 5.3 defaults */
+		$api_path = $rest_resource . $this->buildQueryString($filters);
 
 		$result = $this->performApiCall(self::REST_LIST, $api_path);
 
@@ -139,10 +165,7 @@ abstract class Mollie_API_Resource_Base
 	{
 		foreach ($api_result as $property => $value)
 		{
-			if (property_exists(get_class($object), $property))
-			{
-				$object->$property = $value;
-			}
+			$object->$property = $value;
 		}
 
 		return $object;
@@ -159,11 +182,11 @@ abstract class Mollie_API_Resource_Base
 	 * Create a resource with the remote API.
 	 *
 	 * @param array $data An array containing details on the resource. Fields supported depend on the resource created.
-	 *
-	 * @throws Mollie_API_Exception
+	 * @param array $filters
 	 * @return object
+	 * @throws Mollie_API_Exception
 	 */
-	public function create(array $data = array())
+	public function create(array $data = array(), array $filters = array())
 	{
 		$encoded = json_encode($data);
 
@@ -182,7 +205,7 @@ abstract class Mollie_API_Resource_Base
 			}
 		}
 
-		return $this->rest_create($this->getResourceName(), $encoded);
+		return $this->rest_create($this->getResourceName(), $encoded, $filters);
 	}
 
 	/**
@@ -191,13 +214,13 @@ abstract class Mollie_API_Resource_Base
 	 * Will throw a Mollie_API_Exception if the resource cannot be found.
 	 *
 	 * @param string $resource_id
-	 *
-	 * @throws Mollie_API_Exception
+	 * @param array  $filters
 	 * @return object
+	 * @throws Mollie_API_Exception
 	 */
-	public function get($resource_id)
+	public function get ($resource_id, array $filters = array())
 	{
-		return $this->rest_read($this->getResourceName(), $resource_id);
+		return $this->rest_read($this->getResourceName(), $resource_id, $filters);
 	}
 
 	/**
@@ -205,13 +228,13 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @param int $offset
 	 * @param int $limit
-	 * @param array $options
+	 * @param array $filters
 	 *
 	 * @return Mollie_API_Object_List
 	 */
-	public function all ($offset = 0, $limit = 0, array $options = array())
+	public function all ($offset = 0, $limit = 0, array $filters = array())
 	{
-		return $this->rest_list($this->getResourceName(), $offset, $limit, $options);
+		return $this->rest_list($this->getResourceName(), $offset, $limit, $filters);
 	}
 
 	/**

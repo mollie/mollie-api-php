@@ -28,42 +28,34 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Payment_Refund get($resource_id, array $filters = array())
  */
-class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
+class Mollie_API_Object_Permission
 {
 	/**
+	 * Id of the permission.
+	 *
 	 * @var string
 	 */
-	private $payment_id;
+	public $id;
 
 	/**
-	 * @return Mollie_API_Object_Method
-	 */
-	protected function getResourceObject ()
-	{
-		return new Mollie_API_Object_Payment_Refund;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function getResourceName ()
-	{
-		return "payments/" . urlencode($this->payment_id) . "/refunds";
-	}
-
-	/**
-	 * Set the resource to use a certain payment. Use this method before performing a get() or all() call.
+	 * Description of the permission.
 	 *
-	 * @param Mollie_API_Object_Payment $payment
-	 * @return self
+	 * @var string
 	 */
-	public function with(Mollie_API_Object_Payment $payment)
-	{
-		$this->payment_id = $payment->id;
-		return $this;
-	}
+	public $description;
+
+	/**
+	 * Warning for the permission.
+	 *
+	 * @var string|NULL
+	 */
+	public $warning;
+
+	/**
+	 * True if this permission is granted.
+	 *
+	 * @var boolean
+	 */
+	public $granted;
 }
