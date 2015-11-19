@@ -13,6 +13,14 @@ try
 	include "initialize.php";
 
 	/*
+	 * Check if this is a test request by Mollie
+	 */
+	if (!empty($_GET['testByMollie']))
+	{
+		die('OK');
+	}
+
+	/*
 	 * Retrieve the payment's current state.
 	 */
 	$payment  = $mollie->payments->get($_POST["id"]);
