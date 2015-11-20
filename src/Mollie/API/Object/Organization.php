@@ -66,6 +66,11 @@ class Mollie_API_Object_Organization
 	/**
 	 * @var string
 	 */
+	public $countryCode;
+
+	/**
+	 * @var string
+	 */
 	public $registrationType;
 
 	/**
