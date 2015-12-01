@@ -309,7 +309,7 @@ class Mollie_API_Object_Payment
 	 */
 	public function canBePartiallyRefunded ()
 	{
-		return $this->canBeRefunded() && $this->method !== Mollie_API_Object_Method::CREDITCARD;
+		return $this->canBeRefunded();
 	}
 
 	/**
