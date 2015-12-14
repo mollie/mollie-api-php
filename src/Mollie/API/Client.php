@@ -317,23 +317,6 @@ class Mollie_API_Client
 
 		$body = curl_exec($this->ch);
 
-		if (curl_errno($this->ch) == CURLE_SSL_CACERT || curl_errno($this->ch) == CURLE_SSL_PEER_CERTIFICATE || curl_errno($this->ch) == 77 /* CURLE_SSL_CACERT_BADFILE (constant not defined in PHP though) */)
-		{
-			if (strpos(curl_error($this->ch), "error setting certificate verify locations") !== FALSE)
-			{
-				/*
-				 * Error setting CA-file. Could be missing, or there is a bug in OpenSSL with too long paths.
-				 * We give up. Don't do any peer validations.
-				 *
-				 * @internal #MOL017891004
-				 */
-				array_shift($request_headers);
-				$request_headers[] = "X-Mollie-Debug: unable to use shipped root certificaties, no peer validation.";
-				curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-				$body = curl_exec($this->ch);
-			}
-		}
-
 		if (strpos(curl_error($this->ch), "certificate subject name 'mollie.nl' does not match target host") !== FALSE)
 		{
 			/*
