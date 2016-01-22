@@ -36,8 +36,8 @@ try
 	$payment = $mollie->payments->create(array(
 		"amount"       => 10.00,
 		"description"  => "My first API payment",
-		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/3-return-page.php?order_id={$order_id}",
-		"webhookUrl"   => "{$protocol}://{$hostname}{$path}/2-webhook-verification.php",
+		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
+		"webhookUrl"   => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
 		"metadata"     => array(
 			"order_id" => $order_id,
 		),

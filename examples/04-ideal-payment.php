@@ -60,7 +60,7 @@ try
 		"amount"       => 27.50,
 		"method"       => Mollie_API_Object_Method::IDEAL,
 		"description"  => "My first iDEAL payment",
-		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/3-return-page.php?order_id={$order_id}",
+		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
 		"metadata"     => array(
 			"order_id" => $order_id,
 		),
