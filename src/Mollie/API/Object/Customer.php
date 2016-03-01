@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2013, Mollie B.V.
+ * Copyright (c) 2015, Mollie B.V.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,22 +28,55 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Payment_Refund get($resource_id, array $filters = array())
  */
-class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
+class Mollie_API_Object_Customer
 {
 	/**
 	 * @var string
 	 */
-	protected $resource_path = "payments_refunds";
+	public $resource;
 
 	/**
-	 * @return Mollie_API_Object_Method
+	 * Id of the customer.
+	 *
+	 * @var string
 	 */
-	protected function getResourceObject ()
-	{
-		return new Mollie_API_Object_Payment_Refund;
-	}
+	public $id;
+
+	/**
+	 * Either "live" or "test". Indicates this being a test or a live (verified) customer.
+	 *
+	 * @var string
+	 */
+	public $mode;
+
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var string
+	 */
+	public $email;
+
+	/**
+	 * @var string|null
+	 */
+	public $locale;
+
+	/**
+	 * @var object|mixed|null
+	 */
+	public $metadata;
+
+	/**
+	 * @var string[]|array
+	 */
+	public $recentlyUsedMethods;
+
+	/**
+	 * @var string
+	 */
+	public $createdDatetime;
 }

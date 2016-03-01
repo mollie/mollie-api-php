@@ -48,21 +48,27 @@ abstract class Mollie_API_Resource_Base
 	protected $api;
 
 	/**
+	 * @var string
+	 */
+	protected $resource_path;
+
+	/**
+	 * @var string|null
+	 */
+	protected $parent_id;
+
+	/**
 	 * @param Mollie_API_Client $api
 	 */
 	public function __construct(Mollie_API_Client $api)
 	{
 		$this->api = $api;
-	}
 
-	/**
-	 * @return string
-	 */
-	protected function getResourceName ()
-	{
-		$class_parts = explode("_", get_class($this));
-
-		return strtolower(end($class_parts));
+		if (empty($this->resource_path))
+		{
+			$class_parts         = explode("_", get_class($this));
+			$this->resource_path = strtolower(end($class_parts));
+		}
 	}
 
 	/**
@@ -205,7 +211,7 @@ abstract class Mollie_API_Resource_Base
 			}
 		}
 
-		return $this->rest_create($this->getResourceName(), $encoded, $filters);
+		return $this->rest_create($this->getResourcePath(), $encoded, $filters);
 	}
 
 	/**
@@ -220,7 +226,7 @@ abstract class Mollie_API_Resource_Base
 	 */
 	public function get ($resource_id, array $filters = array())
 	{
-		return $this->rest_read($this->getResourceName(), $resource_id, $filters);
+		return $this->rest_read($this->getResourcePath(), $resource_id, $filters);
 	}
 
 	/**
@@ -234,7 +240,7 @@ abstract class Mollie_API_Resource_Base
 	 */
 	public function all ($offset = 0, $limit = 0, array $filters = array())
 	{
-		return $this->rest_list($this->getResourceName(), $offset, $limit, $filters);
+		return $this->rest_list($this->getResourcePath(), $offset, $limit, $filters);
 	}
 
 	/**
@@ -269,5 +275,56 @@ abstract class Mollie_API_Resource_Base
 		}
 
 		return $object;
+	}
+
+	/**
+	 * @param string $resource_path
+	 */
+	public function setResourcePath ($resource_path)
+	{
+		$this->resource_path = strtolower($resource_path);
+	}
+
+	/**
+	 * @return string
+	 * @throws Mollie_API_Exception
+	 */
+	public function getResourcePath ()
+	{
+		if (strpos($this->resource_path, "_") !== FALSE)
+		{
+			list($parent_resource, $child_resource) = explode("_", $this->resource_path, 2);
+
+			if (!strlen($this->parent_id))
+			{
+				throw new Mollie_API_Exception("Subresource '{$this->resource_path}' used without parent '$parent_resource' ID.");
+			}
+
+			return "$parent_resource/{$this->parent_id}/$child_resource";
+		}
+
+		return $this->resource_path;
+	}
+
+	/**
+	 * @param string $parent_id
+	 * @return $this
+	 */
+	public function withParentId ($parent_id)
+	{
+		$this->parent_id = $parent_id;
+
+		return $this;
+	}
+
+	/**
+	 * Set the resource to use a certain parent. Use this method before performing a get() or all() call.
+	 *
+	 * @param mixed $parent An object with an 'id' property
+	 * @return $this
+	 */
+	public function with ($parent)
+	{
+		return $this->withParentId($parent->id);
 	}
 }

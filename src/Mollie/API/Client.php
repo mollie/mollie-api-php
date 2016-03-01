@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.3.3";
+	const CLIENT_VERSION = "1.4.0";
 
 	/**
 	 * Endpoint of the remote API.
@@ -112,6 +112,20 @@ class Mollie_API_Client
 	public $settlements;
 
 	/**
+	 * RESTful Customers resource.
+	 *
+	 * @var Mollie_API_Resource_Customers
+	 */
+	public $customers;
+
+	/**
+	 * RESTful Customers Payments resource.
+	 *
+	 * @var Mollie_API_Resource_Customers_Payments
+	 */
+	public $customers_payments;
+
+	/**
 	 * @var string
 	 */
 	protected $api_key;
@@ -141,10 +155,12 @@ class Mollie_API_Client
 		$this->getCompatibilityChecker()
 			->checkCompatibility();
 
-		$this->payments         = new Mollie_API_Resource_Payments($this);
-		$this->payments_refunds = new Mollie_API_Resource_Payments_Refunds($this);
-		$this->issuers          = new Mollie_API_Resource_Issuers($this);
-		$this->methods          = new Mollie_API_Resource_Methods($this);
+		$this->payments           = new Mollie_API_Resource_Payments($this);
+		$this->payments_refunds   = new Mollie_API_Resource_Payments_Refunds($this);
+		$this->issuers            = new Mollie_API_Resource_Issuers($this);
+		$this->methods            = new Mollie_API_Resource_Methods($this);
+		$this->customers          = new Mollie_API_Resource_Customers($this);
+		$this->customers_payments = new Mollie_API_Resource_Customers_Payments($this);
 
 		// OAuth2 endpoints
 		$this->permissions      = new Mollie_API_Resource_Permissions($this);
@@ -161,13 +177,13 @@ class Mollie_API_Client
 	}
 
 	/**
-	 * @param string $resource_name
+	 * @param string $resource_path
 	 * @return Mollie_API_Resource_Undefined
 	 */
-	public function __get ($resource_name)
+	public function __get ($resource_path)
 	{
 		$undefined_resource = new Mollie_API_Resource_Undefined($this);
-		$undefined_resource->setResourceName($resource_name);
+		$undefined_resource->setResourcePath($resource_path);
 
 		return $undefined_resource;
 	}

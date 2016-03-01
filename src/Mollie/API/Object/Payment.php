@@ -73,6 +73,11 @@ class Mollie_API_Object_Payment
 	const STATUS_CHARGED_BACK = "charged_back";
 
 	/**
+	 * @var string
+	 */
+	public $resource;
+
+	/**
 	 * Id of the payment (on the Mollie platform).
 	 *
 	 * @var string
@@ -179,6 +184,14 @@ class Mollie_API_Object_Payment
 	 * @var string
 	 */
 	public $profileId;
+
+	/**
+	 * The customer ID this payment is performed by.
+	 *
+	 * @example cst_51EkUqla3
+	 * @var string
+	 */
+	public $customerId;
 
 	/**
 	 * The locale used for this payment.
