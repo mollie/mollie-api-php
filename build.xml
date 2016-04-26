@@ -28,11 +28,32 @@
         <mkdir dir="${basedir}/build/logs"/>
     </target>
 
+    <target name="composer-install" description="Install dependencies through composer" unless="composer.installed">
+        <property name="composer.installed">true</property>
+
+        <exec executable="composer" failonerror="true">
+            <env key="COMPOSER_DISABLE_XDEBUG_WARN" value="1" />
+			<arg value="validate" />
+			<arg value="--strict" />
+		</exec>
+
+		<exec executable="composer" failonerror="true">
+			<env key="COMPOSER_DISABLE_XDEBUG_WARN" value="1" />
+            <arg value="install" />
+            <arg value="--no-interaction" />
+            <arg value="--no-progress" />
+            <arg value="--no-plugins" />
+            <arg value="--no-scripts" />
+            <arg value="--quiet" />
+        </exec>
+    </target>
+
     <target name="lint">
         <apply executable="php" failonerror="true">
             <arg value="-l" />
             <fileset dir="${basedir}">
                 <include name="**/*.php" />
+                <exclude name="vendor/**" />
                 <modified />
             </fileset>
         </apply>
@@ -48,6 +69,8 @@
             <arg value="*.php,*.phtml"/>
             <arg value="--exclude"/>
             <arg value="build"/>
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
             <arg value="${basedir}" />
         </exec>
     </target>
@@ -66,10 +89,8 @@
         </exec>
     </target>
 
-    <target name="phpunit" description="Run unit and integration tests with PHPUnit">
+    <target name="phpunit" description="Run unit and integration tests with PHPUnit" depends="composer-install">
         <!-- run the unit tests -->
-        <exec executable="phpunit" />
+        <exec executable="vendor/bin/phpunit" />
     </target>
-
 </project>
-
