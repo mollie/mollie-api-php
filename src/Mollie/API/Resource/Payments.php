@@ -91,10 +91,7 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 		 */
 		if (!empty($result->payment))
 		{
-			foreach ($result->payment as $payment_key => $payment_value)
-			{
-				$payment->{$payment_key} = $payment_value;
-			}
+			$this->copy($result->payment, $payment);
 		}
 
 		return $this->copy($result, new Mollie_API_Object_Payment_Refund);

@@ -105,6 +105,16 @@ class Mollie_API_Client
 	public $profiles;
 
 	/**
+	 * RESTful refunds resource. NOTE: requires OAuth access token.
+	 *
+	 * If you wish to create / get / list / cancel refunds with an API key, use the payment_refunds resource
+	 *
+	 * @see $payments_refunds
+	 * @var Mollie_API_Resource_Refunds
+	 */
+	public $refunds;
+
+	/**
 	 * RESTful Settlements resource. NOTE: requires OAuth access token.
 	 *
 	 * @var Mollie_API_Resource_Settlements
@@ -165,6 +175,7 @@ class Mollie_API_Client
 		// OAuth2 endpoints
 		$this->permissions      = new Mollie_API_Resource_Permissions($this);
 		$this->organizations    = new Mollie_API_Resource_Organizations($this);
+		$this->refunds          = new Mollie_API_Resource_Refunds($this);
 		$this->profiles         = new Mollie_API_Resource_Profiles($this);
 		$this->settlements      = new Mollie_API_Resource_Settlements($this);
 
@@ -274,7 +285,7 @@ class Mollie_API_Client
 	{
 		if (empty($this->api_key))
 		{
-			throw new Mollie_API_Exception("You have not set an API key. Please use setApiKey() to set the API key.");
+			throw new Mollie_API_Exception("You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.");
 		}
 
 		if (empty($this->ch) || !function_exists("curl_reset"))

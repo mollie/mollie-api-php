@@ -41,7 +41,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage You have not set an API key. Please use setApiKey() to set the API key.
+	 * @expectedExceptionMessage You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.
 	 */
 	public function testNotSettingApiKeyGivesException()
 	{

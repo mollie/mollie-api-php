@@ -257,7 +257,14 @@ abstract class Mollie_API_Resource_Base
 	{
 		$body = $this->api->performHttpCall($http_method, $api_method, $http_body);
 
-		if (!($object = @json_decode($body)))
+		if (empty($body))
+		{
+			throw new Mollie_API_Exception("Unable to decode Mollie response: '{$body}'.");
+		}
+
+		$object = @json_decode($body);
+
+		if (json_last_error() != JSON_ERROR_NONE)
 		{
 			throw new Mollie_API_Exception("Unable to decode Mollie response: '{$body}'.");
 		}
@@ -320,7 +327,7 @@ abstract class Mollie_API_Resource_Base
 	/**
 	 * Set the resource to use a certain parent. Use this method before performing a get() or all() call.
 	 *
-	 * @param mixed $parent An object with an 'id' property
+	 * @param Mollie_API_Object_Payment|object $parent An object with an 'id' property
 	 * @return $this
 	 */
 	public function with ($parent)
