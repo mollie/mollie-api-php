@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 12 - How to create a new customer in the Mollie API.
+ * Example 14 - How to create a first payment to allow recurring payments later.
  */
 
 try
@@ -35,10 +35,13 @@ try
 	 * See: https://www.mollie.com/en/docs/reference/customers/create-payment
 	 */
 	$payment = $mollie->customers_payments->with($customer)->create(array(
-		"amount"       => 10.00,
-		"description"  => "My first Customer payment",
-		"redirectUrl"  => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
-		"webhookUrl"   => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php"
+		"amount"        => 10.00,
+		"description"   => "A first payment for recurring",
+		"redirectUrl"   => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
+		"webhookUrl"    => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+
+		// Flag this payment as a first payment to allow recurring payments later.
+		"recurringType" => Mollie_API_Object_Payment::RECURRINGTYPE_FIRST,
 	));
 
 	/*
@@ -47,7 +50,10 @@ try
 	database_write($order_id, $payment->status);
 
 	/*
-	 * Send the customer off to complete the payment.
+	 * Send the customer off to complete the first payment.
+	 *
+	 * After completion, the customer will have a pending or valid mandate that can be
+	 * used for recurring payments and subscriptions.
 	 */
 	header("Location: " . $payment->getPaymentUrl());
 }

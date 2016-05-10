@@ -1,7 +1,7 @@
 {
     "name": "mollie/mollie-api-php",
     "description": "Mollie API client library for PHP",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "homepage": "https://github.com/mollie/mollie-api-php",
     "license": "BSD-2-Clause",
     "authors": [

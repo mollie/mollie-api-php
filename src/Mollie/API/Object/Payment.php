@@ -73,6 +73,20 @@ class Mollie_API_Object_Payment
 	const STATUS_CHARGED_BACK = "charged_back";
 
 	/**
+	 * The payment has failed.
+	 */
+	const STATUS_FAILED  = "failed";
+
+	/**
+	 * Recurring types.
+	 *
+	 * @see https://www.mollie.com/en/docs/recurring
+	 */
+	const RECURRINGTYPE_NONE      = NULL;
+	const RECURRINGTYPE_FIRST     = "first";
+	const RECURRINGTYPE_RECURRING = "recurring";
+
+	/**
 	 * @var string
 	 */
 	public $resource;
@@ -192,6 +206,21 @@ class Mollie_API_Object_Payment
 	 * @var string
 	 */
 	public $customerId;
+
+	/**
+	 * Either "first", "recurring", or NULL for regular payments.
+	 *
+	 * @var string|null
+	 */
+	public $recurringType;
+
+	/**
+	 * The mandate ID this payment is performed with.
+	 *
+	 * @example mdt_pXm1g3ND
+	 * @var string
+	 */
+	public $mandateId;
 
 	/**
 	 * The locale used for this payment.

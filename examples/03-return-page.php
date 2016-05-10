@@ -18,6 +18,9 @@ echo "<p>Your payment status is '" . htmlspecialchars($status) . "'.</p>";
 echo "<p>";
 echo '<a href="' . $protocol . '://' . $hostname . $path . '/01-new-payment.php">Retry example 1</a><br>';
 echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Retry example 4</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/10-oauth-new-payment.php">Retry example 10</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/12-new-customer-payment.php">Retry example 12</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/14-recurring-first-payment.php">Retry example 14</a><br>';
 echo "</p>";
 
 

@@ -12,7 +12,7 @@ try
 	 */
 	include "initialize.php";
 
-	/**
+	/*
 	 * Retrieve the last created customer for this example.
 	 * If no customers are created yet, run example 11.
 	 */
