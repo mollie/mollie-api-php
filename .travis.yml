@@ -5,4 +5,5 @@ php:
   - 5.4
   - 5.3
   - hhvm
-script: "phpunit"
+install: composer install --dev
+script: "./vendor/bin/phpunit"
