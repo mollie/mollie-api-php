@@ -29,8 +29,8 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Mollie_API_Object_Mandate[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Mandate get($mandate_id, array $filters = array())
+ * @method Mollie_API_Object_Customer_Mandate[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Customer_Mandate get($mandate_id, array $filters = array())
  */
 class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
 {
@@ -40,10 +40,10 @@ class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
 	protected $resource_path = "customers_mandates";
 
 	/**
-	 * @return Mollie_API_Object_Mandate
+	 * @return Mollie_API_Object_Customer_Mandate
 	 */
 	protected function getResourceObject ()
 	{
-		return new Mollie_API_Object_Mandate;
+		return new Mollie_API_Object_Customer_Mandate;
 	}
 }
