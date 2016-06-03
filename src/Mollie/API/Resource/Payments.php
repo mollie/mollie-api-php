@@ -74,13 +74,13 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 	 */
 	public function refund (Mollie_API_Object_Payment $payment, $amount = NULL)
 	{
-		$resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
+		$resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . '/refunds';
 
 		$body = NULL;
 		if ($amount)
 		{
 			$body = json_encode(
-				array("amount" => $amount)
+				array('amount' => $amount)
 			);
 		}
 

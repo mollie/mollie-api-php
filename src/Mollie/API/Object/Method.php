@@ -34,57 +34,57 @@ class Mollie_API_Object_Method
 	/**
 	 * @link https://mollie.com/ideal
 	 */
-	const IDEAL             = "ideal";
+	const IDEAL             = 'ideal';
 
 	/**
 	 * @link https://mollie.com/paysafecard
 	 */
-	const PAYSAFECARD       = "paysafecard";
+	const PAYSAFECARD       = 'paysafecard';
 
 	/**
 	 * @link https://mollie.com/creditcard
 	 */
-	const CREDITCARD        = "creditcard";
+	const CREDITCARD        = 'creditcard';
 
 	/**
 	 * @link https://mollie.com/mistercash
 	 */
-	const MISTERCASH        = "mistercash";
+	const MISTERCASH        = 'mistercash';
 
 	/**
 	 * @link https://mollie.com/sofort
 	 */
-	const SOFORT            = "sofort";
+	const SOFORT            = 'sofort';
 
 	/**
 	 * @link https://mollie.com/banktransfer
 	 */
-	const BANKTRANSFER      = "banktransfer";
+	const BANKTRANSFER      = 'banktransfer';
 
 	/**
 	 * @link https://mollie.com/directdebit
 	 */
-	const DIRECTDEBIT       = "directdebit";
+	const DIRECTDEBIT       = 'directdebit';
 
 	/**
 	 * @link https://mollie.com/paypal
 	 */
-	const PAYPAL            = "paypal";
+	const PAYPAL            = 'paypal';
 
 	/**
 	 * @link https://mollie.com/bitcoin
 	 */
-	const BITCOIN           = "bitcoin";
+	const BITCOIN           = 'bitcoin';
 
 	/**
 	 * @link https://mollie.com/belfiusdirectnet
 	 */
-	const BELFIUS           = "belfius";
+	const BELFIUS           = 'belfius';
 
 	/**
 	 * @link https://mollie.com/giftcards
 	 */
-	const PODIUMCADEAUKAART = "podiumcadeaukaart";
+	const PODIUMCADEAUKAART = 'podiumcadeaukaart';
 
 	/**
 	 * Id of the payment method.

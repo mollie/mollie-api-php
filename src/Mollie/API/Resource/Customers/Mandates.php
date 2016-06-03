@@ -37,7 +37,7 @@ class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
 	/**
 	 * @var string
 	 */
-	protected $resource_path = "customers_mandates";
+	protected $resource_path = 'customers_mandates';
 
 	/**
 	 * @return Mollie_API_Object_Customer_Mandate

@@ -37,5 +37,5 @@ class Mollie_API_Resource_Customers_Payments extends Mollie_API_Resource_Payment
 	/**
 	 * @var string
 	 */
-	protected $resource_path = "customers_payments";
+	protected $resource_path = 'customers_payments';
 }

@@ -37,7 +37,7 @@ class Mollie_API_Resource_Refunds extends Mollie_API_Resource_Base
 	/**
 	 * @var string
 	 */
-	protected $resource_path = "refunds";
+	protected $resource_path = 'refunds';
 
 	/**
 	 * @return Mollie_API_Object_Method

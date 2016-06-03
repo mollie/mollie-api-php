@@ -34,48 +34,48 @@ class Mollie_API_Object_Payment
 	/**
 	 * The payment has just been created, no action has happened on it yet.
 	 */
-	const STATUS_OPEN      = "open";
+	const STATUS_OPEN      = 'open';
 
 	/**
 	 * The payment has just been started, no final confirmation yet.
 	 */
-	const STATUS_PENDING   = "pending";
+	const STATUS_PENDING   = 'pending';
 
 	/**
 	 * The customer has cancelled the payment.
 	 */
-	const STATUS_CANCELLED = "cancelled";
+	const STATUS_CANCELLED = 'cancelled';
 
 	/**
 	 * The payment has expired due to inaction of the customer.
 	 */
-	const STATUS_EXPIRED   = "expired";
+	const STATUS_EXPIRED   = 'expired';
 
 	/**
 	 * The payment has been paid.
 	 */
-	const STATUS_PAID      = "paid";
+	const STATUS_PAID      = 'paid';
 
 	/**
 	 * The payment has been paidout and the money has been transferred to the bank account of the merchant.
 	 */
-	const STATUS_PAIDOUT   = "paidout";
+	const STATUS_PAIDOUT   = 'paidout';
 
 	/**
 	 * The payment has been refunded, either through Mollie or through the payment provider (in the case of PayPal).
 	 */
-	const STATUS_REFUNDED  = "refunded";
+	const STATUS_REFUNDED  = 'refunded';
 
 	/**
 	 * Some payment methods provide your customers with the ability to dispute payments which could
 	 * ultimately lead to a chargeback.
 	 */
-	const STATUS_CHARGED_BACK = "charged_back";
+	const STATUS_CHARGED_BACK = 'charged_back';
 
 	/**
 	 * The payment has failed.
 	 */
-	const STATUS_FAILED  = "failed";
+	const STATUS_FAILED  = 'failed';
 
 	/**
 	 * Recurring types.
@@ -83,8 +83,8 @@ class Mollie_API_Object_Payment
 	 * @see https://www.mollie.com/en/docs/recurring
 	 */
 	const RECURRINGTYPE_NONE      = NULL;
-	const RECURRINGTYPE_FIRST     = "first";
-	const RECURRINGTYPE_RECURRING = "recurring";
+	const RECURRINGTYPE_FIRST     = 'first';
+	const RECURRINGTYPE_RECURRING = 'recurring';
 
 	/**
 	 * @var string

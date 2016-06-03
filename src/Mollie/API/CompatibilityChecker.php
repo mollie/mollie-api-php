@@ -60,7 +60,7 @@ class Mollie_API_CompatibilityChecker
 		if (!$this->satisfiesPhpVersion())
 		{
 			throw new Mollie_API_Exception_IncompatiblePlatform(
-				"The client requires PHP version >= " . self::$MIN_PHP_VERSION . ", you have " . PHP_VERSION . ".",
+				'The client requires PHP version >= ' . self::$MIN_PHP_VERSION . ', you have ' . PHP_VERSION . '.',
 				Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
 			);
 		}
@@ -68,7 +68,7 @@ class Mollie_API_CompatibilityChecker
 		if (!$this->satisfiesJsonExtension())
 		{
 			throw new Mollie_API_Exception_IncompatiblePlatform(
-				"PHP extension json is not enabled. Please make sure to enable 'json' in your PHP configuration.",
+				'PHP extension json is not enabled. Please make sure to enable "json" in your PHP configuration.',
 				Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
 			);
 		}
@@ -76,7 +76,7 @@ class Mollie_API_CompatibilityChecker
 		if (!$this->satisfiesCurlExtension())
 		{
 			throw new Mollie_API_Exception_IncompatiblePlatform(
-				"PHP extension cURL is not enabled. Please make sure to enable 'curl' in your PHP configuration.",
+				'PHP extension cURL is not enabled. Please make sure to enable "curl" in your PHP configuration.',
 				Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_CURL_EXTENSION
 			);
 		}
@@ -84,8 +84,8 @@ class Mollie_API_CompatibilityChecker
 		if (!$this->satisfiesCurlFunctions())
 		{
 			throw new Mollie_API_Exception_IncompatiblePlatform(
-				"This client requires the following cURL functions to be available: " . implode(', ', self::$REQUIRED_CURL_FUNCTIONS) . ". " .
-				"Please check that none of these functions are disabled in your PHP configuration.",
+				'This client requires the following cURL functions to be available: ' . implode(', ', self::$REQUIRED_CURL_FUNCTIONS) . '. ' .
+				'Please check that none of these functions are disabled in your PHP configuration.',
 				Mollie_API_Exception_IncompatiblePlatform::INCOMPATIBLE_CURL_FUNCTION
 			);
 		}

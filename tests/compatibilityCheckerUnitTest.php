@@ -28,17 +28,17 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     public function testCheckCompatibilityThrowsExceptionOnPhpVersion()
     {
         $this->checker->expects($this->once())
-            ->method("satisfiesPhpVersion")
+            ->method('satisfiesPhpVersion')
             ->will($this->returnValue(FALSE)); // Fail
 
         $this->checker->expects($this->never())
-            ->method("satisfiesJsonExtension");
+            ->method('satisfiesJsonExtension');
 
         $this->checker->expects($this->never())
-            ->method("satisfiesCurlExtension");
+            ->method('satisfiesCurlExtension');
 
         $this->checker->expects($this->never())
-            ->method("satisfiesCurlFunctions");
+            ->method('satisfiesCurlFunctions');
 
         $this->checker->checkCompatibility();
     }
@@ -50,18 +50,18 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     public function testCheckCompatibilityThrowsExceptionOnJsonExtension()
     {
         $this->checker->expects($this->once())
-            ->method("satisfiesPhpVersion")
+            ->method('satisfiesPhpVersion')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesJsonExtension")
+            ->method('satisfiesJsonExtension')
             ->will($this->returnValue(FALSE)); // Fail
 
         $this->checker->expects($this->never())
-            ->method("satisfiesCurlExtension");
+            ->method('satisfiesCurlExtension');
 
         $this->checker->expects($this->never())
-            ->method("satisfiesCurlFunctions");
+            ->method('satisfiesCurlFunctions');
 
         $this->checker->checkCompatibility();
     }
@@ -73,19 +73,19 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     public function testCheckCompatibilityThrowsExceptionOnCurlExtension()
     {
         $this->checker->expects($this->once())
-            ->method("satisfiesPhpVersion")
+            ->method('satisfiesPhpVersion')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesJsonExtension")
+            ->method('satisfiesJsonExtension')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesCurlExtension")
+            ->method('satisfiesCurlExtension')
             ->will($this->returnValue(FALSE)); // Fail
 
         $this->checker->expects($this->never())
-            ->method("satisfiesCurlFunctions");
+            ->method('satisfiesCurlFunctions');
 
         $this->checker->checkCompatibility();
     }
@@ -97,19 +97,19 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     public function testCheckCompatibilityThrowsExceptionOnCurlFunctions()
     {
         $this->checker->expects($this->once())
-            ->method("satisfiesPhpVersion")
+            ->method('satisfiesPhpVersion')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesJsonExtension")
+            ->method('satisfiesJsonExtension')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesCurlExtension")
+            ->method('satisfiesCurlExtension')
             ->will($this->returnValue(TRUE));
 
         $this->checker->expects($this->once())
-            ->method("satisfiesCurlFunctions")
+            ->method('satisfiesCurlFunctions')
             ->will($this->returnValue(FALSE)); // Fail
 
         $this->checker->checkCompatibility();

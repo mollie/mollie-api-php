@@ -66,7 +66,7 @@ abstract class Mollie_API_Resource_Base
 
 		if (empty($this->resource_path))
 		{
-			$class_parts         = explode("_", get_class($this));
+			$class_parts         = explode('_', get_class($this));
 			$this->resource_path = strtolower(end($class_parts));
 		}
 	}
@@ -80,11 +80,11 @@ abstract class Mollie_API_Resource_Base
 	{
 		if (empty($filters))
 		{
-			return "";
+			return '';
 		}
 
 		// Force & because of some PHP 5.3 defaults.
-		return "?" . http_build_query($filters, "", "&");
+		return '?' . http_build_query($filters, '', '&');
 	}
 
 	/**
@@ -118,7 +118,7 @@ abstract class Mollie_API_Resource_Base
 	{
 		if (empty($id))
 		{
-			throw new Mollie_API_Exception("Invalid resource id.");
+			throw new Mollie_API_Exception('Invalid resource id.');
 		}
 
 		$id     = urlencode($id);
@@ -142,7 +142,7 @@ abstract class Mollie_API_Resource_Base
 	 */
 	private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
 	{
-		$filters = array_merge(array("offset" => $offset, "count" => $limit), $filters);
+		$filters = array_merge(array('offset' => $offset, 'count' => $limit), $filters);
 
 		$api_path = $rest_resource . $this->buildQueryString($filters);
 
@@ -196,18 +196,18 @@ abstract class Mollie_API_Resource_Base
 	{
 		$encoded = json_encode($data);
 
-		if (version_compare(phpversion(), "5.3.0", ">="))
+		if (version_compare(phpversion(), '5.3.0', '>='))
 		{
 			if (json_last_error() != JSON_ERROR_NONE)
 			{
-				throw new Mollie_API_Exception("Error encoding parameters into JSON: '" . json_last_error() . "'.");
+				throw new Mollie_API_Exception('Error encoding parameters into JSON: "' . json_last_error() . '".');
 			}
 		}
 		else
 		{
 			if ($encoded === FALSE)
 			{
-				throw new Mollie_API_Exception("Error encoding parameters into JSON.");
+				throw new Mollie_API_Exception('Error encoding parameters into JSON.');
 			}
 		}
 
@@ -298,9 +298,9 @@ abstract class Mollie_API_Resource_Base
 	 */
 	public function getResourcePath ()
 	{
-		if (strpos($this->resource_path, "_") !== FALSE)
+		if (strpos($this->resource_path, '_') !== FALSE)
 		{
-			list($parent_resource, $child_resource) = explode("_", $this->resource_path, 2);
+			list($parent_resource, $child_resource) = explode('_', $this->resource_path, 2);
 
 			if (!strlen($this->parent_id))
 			{

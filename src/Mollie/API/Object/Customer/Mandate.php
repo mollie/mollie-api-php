@@ -31,8 +31,8 @@
  */
 class Mollie_API_Object_Customer_Mandate
 {
-	const STATUS_VALID   = "valid";
-	const STATUS_INVALID = "invalid";
+	const STATUS_VALID   = 'valid';
+	const STATUS_INVALID = 'invalid';
 
 	/**
 	 * @var string

@@ -291,10 +291,10 @@ class Mollie_API_Client
     public function performHttpCall($http_method, $api_method, $http_body = NULL)
     {
         if (empty($this->api_key)) {
-            throw new Mollie_API_Exception("You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.");
+            throw new Mollie_API_Exception('You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.');
         }
 
-        if (empty($this->ch) || ! function_exists("curl_reset")) {
+        if (empty($this->ch) || ! function_exists('curl_reset')) {
             /*
              * Initialize a cURL handle.
              */
@@ -306,7 +306,7 @@ class Mollie_API_Client
             curl_reset($this->ch);
         }
 
-        $url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
+        $url = $this->api_endpoint . '/' . self::API_VERSION . '/' . $api_method;
 
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -315,20 +315,20 @@ class Mollie_API_Client
         $user_agent = join(' ', $this->version_strings);
 
         if ($this->usesOAuth()) {
-            $user_agent .= " OAuth/2.0";
+            $user_agent .= ' OAuth/2.0';
         }
 
         $request_headers = array(
-            "Accept: application/json",
+            'Accept: application/json',
             "Authorization: Bearer {$this->api_key}",
             "User-Agent: {$user_agent}",
-            "X-Mollie-Client-Info: " . php_uname(),
+            'X-Mollie-Client-Info: ' . php_uname(),
         );
 
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
 
         if ($http_body !== NULL) {
-            $request_headers[] = "Content-Type: application/json";
+            $request_headers[] = 'Content-Type: application/json';
             curl_setopt($this->ch, CURLOPT_POST, 1);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $http_body);
         }
@@ -341,23 +341,23 @@ class Mollie_API_Client
          * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
          * is not installed). So we tell cURL which certificates we trust.
          */
-        curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+        curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . '/cacert.pem'));
 
         $body = curl_exec($this->ch);
 
-        if (strpos(curl_error($this->ch), "certificate subject name 'mollie.nl' does not match target host") !== FALSE) {
+        if (strpos(curl_error($this->ch), 'certificate subject name "mollie.nl" does not match target host') !== FALSE) {
             /*
              * On some servers, the wildcard SSL certificate is not processed correctly. This happens with OpenSSL 0.9.7
              * from 2003.
              */
-            $request_headers[] = "X-Mollie-Debug: old OpenSSL found";
+            $request_headers[] = 'X-Mollie-Debug: old OpenSSL found';
             curl_setopt($this->ch, CURLOPT_HTTPHEADER, $request_headers);
             curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 0);
             $body = curl_exec($this->ch);
         }
 
         if (curl_errno($this->ch)) {
-            $message = "Unable to communicate with Mollie (" . curl_errno($this->ch) . "): " . curl_error($this->ch) . ".";
+            $message = 'Unable to communicate with Mollie (' . curl_errno($this->ch) . '): ' . curl_error($this->ch) . '.';
 
             curl_close($this->ch);
             $this->ch = NULL;
@@ -365,7 +365,7 @@ class Mollie_API_Client
             throw new Mollie_API_Exception($message);
         }
 
-        if (! function_exists("curl_reset")) {
+        if (! function_exists('curl_reset')) {
             /*
              * Keep it open if supported by PHP, else close the handle.
              */
