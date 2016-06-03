@@ -190,7 +190,12 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPaymentFailsWithInvalidPaymentId($payment_id)
     {
-         $this->expectExceptionMessage("Invalid payment ID: '{$payment_id}'. A payment ID should start with 'tr_'.");
+        if (
+            ! method_exists('PHPUnit_Runner_Version', 'id')
+            || version_compare(PHPUnit_Runner_Version::id(), '4.8', '<=')
+        ) {
+            $this->expectExceptionMessage("Invalid payment ID: '{$payment_id}'. A payment ID should start with 'tr_'.");
+        }
 
         $this->api->payments->get($payment_id);
     }
