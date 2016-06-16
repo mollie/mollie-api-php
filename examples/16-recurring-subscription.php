@@ -18,7 +18,7 @@ try
 
 	/*
 	 * Generate a unique subscription id for this example. It is important to include this unique attribute
-	 * in the redirectUrl (below) so a proper return page can be shown to the customer.
+	 * in the webhookUrl (below) so new payments can be associated with this subscription.
 	 */
 	$my_subscription = time();
 
