@@ -29,11 +29,13 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class Mollie_API_Object_Customer_Mandate
+class Mollie_API_Object_Customer_Subscription
 {
-	const STATUS_PENDING = "pending";
-	const STATUS_VALID   = "valid";
-	const STATUS_INVALID = "invalid";
+	const STATUS_ACTIVE    = "active";
+	const STATUS_PENDING   = "pending";   // Waiting for a valid mandate.
+	const STATUS_CANCELLED = "cancelled";
+	const STATUS_SUSPENDED = "suspended"; // Active, but mandate became invalid.
+	const STATUS_COMPLETED = "completed";
 
 	/**
 	 * @var string
@@ -48,33 +50,63 @@ class Mollie_API_Object_Customer_Mandate
 	/**
 	 * @var string
 	 */
-	public $status;
-
-	/**
-	 * @var string
-	 */
-	public $method;
-
-	/**
-	 * @var string
-	 */
 	public $customerId;
 
 	/**
-	 * @var object|null
+	 * Either "live" or "test" depending on the customer's mode.
+	 *
+	 * @var string
 	 */
-	public $details;
+	public $mode;
 
 	/**
+	 * ISO 8601 format.
+	 *
 	 * @var string
 	 */
 	public $createdDatetime;
 
 	/**
-	 * @return bool
+	 * @var string
 	 */
-	public function isValid ()
-	{
-		return $this->status === self::STATUS_VALID;
-	}
+	public $status;
+
+	/**
+	 * @var string
+	 */
+	public $amount;
+
+	/**
+	 * @var int|null
+	 */
+	public $times;
+
+	/**
+	 * @var string
+	 */
+	public $interval;
+
+	/**
+	 * @var string
+	 */
+	public $description;
+
+	/**
+	 * @var string|null
+	 */
+	public $method;
+
+	/**
+	 * ISO 8601 format.
+	 *
+	 * @var string|null
+	 */
+	public $cancelledDatetime;
+
+	/**
+	 * Contains an optional 'webhookUrl'.
+	 *
+	 * @var object|null
+	 */
+	public $links;
 }

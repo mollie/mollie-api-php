@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.5.1";
+	const CLIENT_VERSION = "1.6.0";
 
 	/**
 	 * Endpoint of the remote API.
@@ -143,6 +143,13 @@ class Mollie_API_Client
 	public $customers_mandates;
 
 	/**
+	 * RESTful Customers Subscriptions resource.
+	 *
+	 * @var Mollie_API_Resource_Customers_Subscriptions
+	 */
+	public $customers_subscriptions;
+
+	/**
 	 * @var string
 	 */
 	protected $api_key;
@@ -172,13 +179,14 @@ class Mollie_API_Client
 		$this->getCompatibilityChecker()
 			->checkCompatibility();
 
-		$this->payments           = new Mollie_API_Resource_Payments($this);
-		$this->payments_refunds   = new Mollie_API_Resource_Payments_Refunds($this);
-		$this->issuers            = new Mollie_API_Resource_Issuers($this);
-		$this->methods            = new Mollie_API_Resource_Methods($this);
-		$this->customers          = new Mollie_API_Resource_Customers($this);
-		$this->customers_payments = new Mollie_API_Resource_Customers_Payments($this);
-		$this->customers_mandates = new Mollie_API_Resource_Customers_Mandates($this);
+		$this->payments                = new Mollie_API_Resource_Payments($this);
+		$this->payments_refunds        = new Mollie_API_Resource_Payments_Refunds($this);
+		$this->issuers                 = new Mollie_API_Resource_Issuers($this);
+		$this->methods                 = new Mollie_API_Resource_Methods($this);
+		$this->customers               = new Mollie_API_Resource_Customers($this);
+		$this->customers_payments      = new Mollie_API_Resource_Customers_Payments($this);
+		$this->customers_mandates      = new Mollie_API_Resource_Customers_Mandates($this);
+		$this->customers_subscriptions = new Mollie_API_Resource_Customers_Subscriptions($this);
 
 		// OAuth2 endpoints
 		$this->permissions      = new Mollie_API_Resource_Permissions($this);

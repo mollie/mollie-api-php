@@ -30,12 +30,12 @@ try
 	));
 
 	/*
-	 * Send the customer off to complete the first payment.
-	 *
-	 * After completion, the customer will have a pending or valid mandate that can be
-	 * used for recurring payments and subscriptions.
+	 * The payment will be either pending or paid immediately. The customer
+	 * does not have to perform any payment steps.
 	 */
-	echo "<p>Your payment status is '" . htmlspecialchars($payment->status) . "'.</p>";
+
+	echo "<p>Selected mandate is '" . htmlspecialchars($payment->mandateId) . "' (" . htmlspecialchars($payment->method) . ").</p>\n";
+	echo "<p>The payment status is '" . htmlspecialchars($payment->status) . "'.</p>\n";
 }
 catch (Mollie_API_Exception $e)
 {
