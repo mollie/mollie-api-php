@@ -35,21 +35,21 @@ class Mollie_API_Client
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "1.5.1";
+    const CLIENT_VERSION = '1.6.0';
 
     /**
      * Endpoint of the remote API.
      */
-    const API_ENDPOINT = "https://api.mollie.nl";
+    const API_ENDPOINT = 'https://api.mollie.nl';
 
     /**
      * Version of the remote API.
      */
-    const API_VERSION = "v1";
+    const API_VERSION = 'v1';
 
-    const HTTP_GET = "GET";
-    const HTTP_POST = "POST";
-    const HTTP_DELETE = "DELETE";
+    const HTTP_GET = 'GET';
+    const HTTP_POST = 'POST';
+    const HTTP_DELETE = 'DELETE';
 
     /**
      * @var string
@@ -144,6 +144,13 @@ class Mollie_API_Client
     public $customers_mandates;
 
     /**
+     * RESTful Customers Subscriptions resource.
+     *
+     * @var Mollie_API_Resource_Customers_Subscriptions
+     */
+    public $customers_subscriptions;
+
+    /**
      * @var string
      */
     protected $api_key;
@@ -180,6 +187,7 @@ class Mollie_API_Client
         $this->customers = new Mollie_API_Resource_Customers($this);
         $this->customers_payments = new Mollie_API_Resource_Customers_Payments($this);
         $this->customers_mandates = new Mollie_API_Resource_Customers_Mandates($this);
+        $this->customers_subscriptions = new Mollie_API_Resource_Customers_Subscriptions($this);
 
         // OAuth2 endpoints
         $this->permissions = new Mollie_API_Resource_Permissions($this);
@@ -190,10 +198,10 @@ class Mollie_API_Client
 
         $curl_version = curl_version();
 
-        $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
-        $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("cURL/" . $curl_version["version"]);
-        $this->addVersionString($curl_version["ssl_version"]);
+        $this->addVersionString('Mollie/'.self::CLIENT_VERSION);
+        $this->addVersionString('PHP/'.phpversion());
+        $this->addVersionString('cURL/'.$curl_version['version']);
+        $this->addVersionString($curl_version['ssl_version']);
     }
 
     /**
@@ -291,7 +299,7 @@ class Mollie_API_Client
     public function performHttpCall($http_method, $api_method, $http_body = NULL)
     {
         if (empty($this->api_key)) {
-            throw new Mollie_API_Exception('You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.');
+            throw new Mollie_API_Exception('You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.');
         }
 
         if (empty($this->ch) || ! function_exists('curl_reset')) {
@@ -306,7 +314,7 @@ class Mollie_API_Client
             curl_reset($this->ch);
         }
 
-        $url = $this->api_endpoint . '/' . self::API_VERSION . '/' . $api_method;
+        $url = $this->api_endpoint.'/'.self::API_VERSION.'/'.$api_method;
 
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -322,7 +330,7 @@ class Mollie_API_Client
             'Accept: application/json',
             "Authorization: Bearer {$this->api_key}",
             "User-Agent: {$user_agent}",
-            'X-Mollie-Client-Info: ' . php_uname(),
+            'X-Mollie-Client-Info: '.php_uname(),
         );
 
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
@@ -341,11 +349,11 @@ class Mollie_API_Client
          * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
          * is not installed). So we tell cURL which certificates we trust.
          */
-        curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . '/cacert.pem'));
+        curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__).'/cacert.pem'));
 
         $body = curl_exec($this->ch);
 
-        if (strpos(curl_error($this->ch), 'certificate subject name "mollie.nl" does not match target host') !== FALSE) {
+        if (strpos(curl_error($this->ch), 'certificate subject name \'mollie.nl\' does not match target host') !== FALSE) {
             /*
              * On some servers, the wildcard SSL certificate is not processed correctly. This happens with OpenSSL 0.9.7
              * from 2003.
@@ -357,7 +365,7 @@ class Mollie_API_Client
         }
 
         if (curl_errno($this->ch)) {
-            $message = 'Unable to communicate with Mollie (' . curl_errno($this->ch) . '): ' . curl_error($this->ch) . '.';
+            $message = 'Unable to communicate with Mollie ('.curl_errno($this->ch).'): '.curl_error($this->ch).'.';
 
             curl_close($this->ch);
             $this->ch = NULL;

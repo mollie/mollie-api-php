@@ -28,53 +28,22 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
+ *
+ * @method Mollie_API_Object_Customer_Subscription[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Customer_Subscription get($subscription_id, array $filters = array())
  */
-class Mollie_API_Object_Customer_Mandate
+class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Base
 {
-	const STATUS_PENDING = 'pending';
-	const STATUS_VALID   = 'valid';
-	const STATUS_INVALID = 'invalid';
-
 	/**
 	 * @var string
 	 */
-	public $resource;
+	protected $resource_path = "customers_subscriptions";
 
 	/**
-	 * @var string
+	 * @return Mollie_API_Object_Customer_Subscription
 	 */
-	public $id;
-
-	/**
-	 * @var string
-	 */
-	public $status;
-
-	/**
-	 * @var string
-	 */
-	public $method;
-
-	/**
-	 * @var string
-	 */
-	public $customerId;
-
-	/**
-	 * @var object|null
-	 */
-	public $details;
-
-	/**
-	 * @var string
-	 */
-	public $createdDatetime;
-
-	/**
-	 * @return bool
-	 */
-	public function isValid ()
+	protected function getResourceObject ()
 	{
-		return $this->status === self::STATUS_VALID;
+		return new Mollie_API_Object_Customer_Subscription;
 	}
 }

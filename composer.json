@@ -1,7 +1,7 @@
 {
     "name": "mollie/mollie-api-php",
     "description": "Mollie API client library for PHP",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "homepage": "https://github.com/mollie/mollie-api-php",
     "license": "BSD-2-Clause",
     "authors": [
@@ -13,7 +13,7 @@
     "keywords": [
       "mollie", "payment", "service", "ideal", "creditcard", "mistercash", "bancontact", "sofort", "sofortbanking",
       "sepa", "bitcoin", "paypal", "paysafecard", "podiumcadeaukaart", "banktransfer", "direct debit", "belfius",
-      "belfius direct net", "refunds", "api", "payments", "gateway"
+      "belfius direct net", "refunds", "api", "payments", "gateway", "subscriptions", "recurring", "charges"
     ],
     "require": {
         "php": ">=5.3"
