@@ -203,7 +203,7 @@ class Mollie_API_Object_Payment
 	 * The customer ID this payment is performed by.
 	 *
 	 * @example cst_51EkUqla3
-	 * @var string
+	 * @var string|null
 	 */
 	public $customerId;
 
@@ -218,9 +218,17 @@ class Mollie_API_Object_Payment
 	 * The mandate ID this payment is performed with.
 	 *
 	 * @example mdt_pXm1g3ND
-	 * @var string
+	 * @var string|null
 	 */
 	public $mandateId;
+
+	/**
+	 * The subscription ID this payment belongs to.
+	 *
+	 * @example sub_rVKGtNd6s3
+	 * @var string|null
+	 */
+	public $subscriptionId;
 
 	/**
 	 * The locale used for this payment.
