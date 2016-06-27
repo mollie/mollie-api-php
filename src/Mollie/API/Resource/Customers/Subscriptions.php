@@ -46,4 +46,21 @@ class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Ba
 	{
 		return new Mollie_API_Object_Customer_Subscription;
 	}
+
+		/**
+	 * @param Mollie_API_Object_Customer_Subscription $subscription
+	 *
+	 * @return Mollie_API_Object_Customer_Subscription|string
+	 * @throws Mollie_API_Exception
+	 */
+	public function cancel ($subscription)
+	{
+		if($subscription instanceof Mollie_API_Object_Customer_Subscription){
+			$result = $this->delete($subscription->id);
+		} else {
+			$result = $this->delete($subscription);
+		}
+
+		return $this->copy($result, new Mollie_API_Object_Customer_Subscription);
+	}
 }

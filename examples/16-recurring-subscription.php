@@ -10,6 +10,13 @@ try
 	 */
 	include "initialize.php";
 
+	/*
+	 * Determine the url parts to these example files.
+	 */
+	$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+	$hostname = $_SERVER['HTTP_HOST'];
+	$path     = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+
 	/**
 	 * Retrieve the last created customer for this example.
 	 * If no customers are created yet, run example 11.
@@ -36,6 +43,7 @@ try
 		"webhookUrl"  => "https://example.org/subscription-payment-webhook/$my_subscription",
 	));
 
+
 	/*
 	 * The subscription will be either pending or active depending on whether the customer has
 	 * a pending or valid mandate. If the customer has no mandates an error is returned. You
@@ -43,6 +51,9 @@ try
 	 */
 
 	echo "<p>The subscription status is '" . htmlspecialchars($subscription->status) . "'.</p>\n";
+	echo "<p>";
+	echo '<a href="' . $protocol . '://' . $hostname . $path . '/17-cancel-subscription.php?subscription_id='.$subscription->id.'">18-cancel-subscription</a><br>';
+	echo "</p>";
 }
 catch (Mollie_API_Exception $e)
 {

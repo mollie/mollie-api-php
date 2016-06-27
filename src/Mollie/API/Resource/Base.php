@@ -160,6 +160,31 @@ abstract class Mollie_API_Resource_Base
 	}
 
 	/**
+	 * Sends a DELETE request to a single object from the Molle API
+	 *
+	 * @param string $rest_resource
+	 * @param string $id
+	 *
+	 * @return object
+	 * @throws Mollie_API_Exception Throws a Molle_API_Exception if resource cannot be found
+	 */
+	private function rest_delete($rest_resource, $id)
+	{
+		if (empty($id))
+		{
+			throw new Mollie_API_Exception("Invalid resource id.");
+		}
+
+		$id = urlencode($id);
+		$result = $this->performApiCall(
+			self::REST_DELETE,
+			"{$rest_resource}/{$id}"
+		);
+
+		return $this->copy($result, $this->getResourceObject());
+	}
+
+	/**
 	 * Copy the results received from the API into the PHP objects that we use.
 	 *
 	 * @param object $api_result
@@ -227,6 +252,20 @@ abstract class Mollie_API_Resource_Base
 	public function get ($resource_id, array $filters = array())
 	{
 		return $this->rest_read($this->getResourcePath(), $resource_id, $filters);
+	}
+
+	/**
+	 * Delete a single resource from Mollie
+	 *
+	 * Will throw a Mollie_API_Exception if the resource cannot be found
+	 *
+	 * @param string $resource_id
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	public function delete($resource_id)
+	{
+		return $this->rest_delete($this->getResourcePath(), $resource_id);
 	}
 
 	/**
