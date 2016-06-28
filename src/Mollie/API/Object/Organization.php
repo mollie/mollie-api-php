@@ -51,6 +51,11 @@ class Mollie_API_Object_Organization
 	/**
 	 * @var string
 	 */
+	public $address;
+
+	/**
+	 * @var string
+	 */
 	public $postalCode;
 
 	/**
