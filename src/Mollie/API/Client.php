@@ -282,7 +282,7 @@ class Mollie_API_Client
 	}
 
 	public function getPemPath() {
-		return realpath(dirname(__FILE__) . "/cacert.pem";
+		return realpath(dirname(__FILE__) . "/cacert.pem");
 	}
 
 	/**
@@ -360,7 +360,7 @@ class Mollie_API_Client
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-		curl_setopt($this->ch, CURLOPT_CAINFO, $this->getPemPath()));
+		curl_setopt($this->ch, CURLOPT_CAINFO, $this->getPemPath());
 
 		$body = curl_exec($this->ch);
 
