@@ -18,7 +18,6 @@
     "require-dev": {
         "phpunit/phpunit": "^3.7|^4.8|^5.4"
     },
-    "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
             "Mollie": "src/"
