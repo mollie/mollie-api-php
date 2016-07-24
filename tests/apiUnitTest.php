@@ -18,8 +18,14 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->compatibilityChecker = $this->getMock("Mollie_API_CompatibilityChecker", array("checkCompatibility"));
-		$this->api                  = $this->getMock("Mollie_API_Client", array("performHttpCall", "getCompatibilityChecker"), array(), '', FALSE);
+		$this->compatibilityChecker = $this->getMockBuilder("Mollie_API_CompatibilityChecker")
+			->setMethods(array("checkCompatibility"))
+			->getMock();
+
+		$this->api = $this->getMockBuilder("Mollie_API_Client")
+			->setMethods(array("performHttpCall", "getCompatibilityChecker"))
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->api->expects($this->any())
 			->method("getCompatibilityChecker")
@@ -35,17 +41,22 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSettingInvalidApiKeyFails ()
 	{
-		$api = $this->getMock("Mollie_API_Client", NULL, array(), '', FALSE);
+		$api = new Mollie_API_Client;
+
 		$api->setApiKey("invalid");
 	}
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.
+	 * @expectedExceptionMessage You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.
 	 */
 	public function testNotSettingApiKeyGivesException()
 	{
-		$this->api = $this->getMock("Mollie_API_Client", array('getCompatibilityChecker'), array(), '', FALSE);
+		$this->api = $this->getMockBuilder("Mollie_API_Client")
+			->setMethods(array("getCompatibilityChecker"))
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->api->expects($this->any())
 			->method("getCompatibilityChecker")
 			->will($this->returnValue($this->compatibilityChecker));
@@ -66,8 +77,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue(""));
 
 		$this->api->payments->create(array(
-			"amount"       => 100.00,
-			"description"  => "Order #1337 24 Roundhousekicks",
+			"amount"      => 100.00,
+			"description" => "Order #1337 24 Roundhousekicks",
 			"redirectUrl" => "http://www.chucknorris.rhk/return.php",
 		), array(
 			"profileId" => "pfl_wdy!aA6Zy",
@@ -86,8 +97,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue('{ "error":{ "type":"request", "message":"Unauthorized request", "links":{ "documentation":"https://www.mollie.nl/api/docs/" } } }'));
 
 		$this->api->payments->create(array(
-			"amount"       => 100.00,
-			"description"  => "Order #1337 24 Roundhousekicks",
+			"amount"      => 100.00,
+			"description" => "Order #1337 24 Roundhousekicks",
 			"redirectUrl" => "http://www.chucknorris.rhk/return.php",
 		));
 	}
@@ -103,8 +114,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 			->method("performHttpCall");
 
 		$this->api->payments->create(array(
-			"amount"       => 100.00,
-			"description"  => "Order #1337 24 Roundhousekicks \x80 15,-",
+			"amount"      => 100.00,
+			"description" => "Order #1337 24 Roundhousekicks \x80 15,-",
 			"redirectUrl" => "http://www.chucknorris.rhk/return.php",
 		));
 	}
@@ -118,9 +129,9 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 		/** @var Mollie_API_Object_Payment $payment */
 		$payment = $this->api->payments->create(array(
-			"amount"       => 100.00,
-			"description"  => "Order #1337 24 Roundhousekicks",
-			"redirectUrl"  => "http://www.chucknorris.rhk/return.php",
+			"amount"      => 100.00,
+			"description" => "Order #1337 24 Roundhousekicks",
+			"redirectUrl" => "http://www.chucknorris.rhk/return.php",
 		));
 
 		$this->assertEquals("tr_d0b0E3EA3v", $payment->id);
@@ -226,12 +237,13 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @expectedException Mollie_API_Exception
+	 * @expectedExceptionMessageRegExp /Invalid payment ID: '.*?'. A payment ID should start with 'tr_'./
+	 *
 	 * @dataProvider dpInvalidPaymentId
 	 */
 	public function testGetPaymentFailsWithInvalidPaymentId ($payment_id)
 	{
-		$this->setExpectedException('Mollie_API_Exception', "Invalid payment ID: '{$payment_id}'. A payment ID should start with 'tr_'.");
-
 		$this->api->payments->get($payment_id);
 	}
 
@@ -328,7 +340,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 		foreach ($methods as $method)
 		{
-			$this->assertInstanceof("Mollie_API_Object_Method", $method);
+			$this->assertInstanceOf("Mollie_API_Object_Method", $method);
 		}
 	}
 
@@ -342,12 +354,14 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->api->FooBars->get("foobar_ID", array("f" => "B"));
 	}
 
+	/**
+	 * @expectedException Mollie_API_Exception
+	 * @expectedExceptionMessage Subresource 'foos_bars' used without parent 'foos' ID.
+	 */
 	public function testUndefinedSubresourceRequiresParentId ()
 	{
 		$this->api->expects($this->never())
 			->method("performHttpCall");
-
-		$this->setExpectedException("Mollie_API_Exception", "Subresource 'foos_bars' used without parent 'foos' ID.");
 
 		$this->api->Foos_Bars->get("bar_ID", array("f" => "B"));
 	}

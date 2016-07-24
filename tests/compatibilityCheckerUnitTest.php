@@ -11,7 +11,14 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->checker = $this->getMock("Mollie_API_CompatibilityChecker", array("satisfiesPhpVersion", "satisfiesJsonExtension", "satisfiesCurlExtension", "satisfiesCurlFunctions"));
+		$this->checker = $this->getMockBuilder("Mollie_API_CompatibilityChecker")
+			->setMethods(array(
+				"satisfiesPhpVersion",
+				"satisfiesJsonExtension",
+				"satisfiesCurlExtension",
+				"satisfiesCurlFunctions",
+			))
+			->getMock();
 	}
 
 	/**

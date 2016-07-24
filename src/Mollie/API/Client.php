@@ -301,7 +301,7 @@ class Mollie_API_Client
 	{
 		if (empty($this->api_key))
 		{
-			throw new Mollie_API_Exception("You have not set an API key or OAuth acces token. Please use setApiKey() to set the API key.");
+			throw new Mollie_API_Exception("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
 		}
 
 		if (empty($this->ch) || !function_exists("curl_reset"))

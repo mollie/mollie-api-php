@@ -16,10 +16,12 @@ class Mollie_API_Resource_BaseUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertSame("refunds", $resource->getResourcePath());
 	}
 
+	/**
+	 * @expectedException Mollie_API_Exception
+	 * @expectedExceptionMessage Subresource 'payments_refunds' used without parent 'payments' ID.
+	 */
 	public function testGetResourcePathSubresourceFails()
 	{
-		$this->setExpectedException("Mollie_API_Exception", "Subresource 'payments_refunds' used without parent 'payments' ID.");
-
 		$resource = new Mollie_API_Resource_Payments_Refunds(new Mollie_API_Client);
 		$resource->getResourcePath();
 	}
