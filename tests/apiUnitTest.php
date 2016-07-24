@@ -145,14 +145,14 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$this->api->expects($this->once())
 			->method("performHttpCall")
-			->with(Mollie_API_Client::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", '{"amount":60.33}')
-			->will($this->returnValue('{"id":"re_O3UbDhODzG","payment":{"id":"tr_OCrlrHqKsr","mode":"live","createdDatetime":"2014-09-15T09:24:39.0Z","status":"refunded","expiryPeriod":"PT15M","paidDatetime":"2014-09-15T09:28:29.0Z","amount":"100.00","amountRefunded":"60.33","description":"15 Round House Kicks To The Face","method":"ideal","metadata":null,"details":{"consumerName":"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman","consumerAccount":"NL53INGB0654422370","consumerBic":"INGBNL2A"},"links":{"redirectUrl":"http://www.example.org/return.php"}},"amount":"60.33","refundedDatetime":"2014-09-15T09:24:39.0Z"}'));
+			->with(Mollie_API_Client::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", NULL)
+			->will($this->returnValue('{"id":"re_O3UbDhODzG","payment":{"id":"tr_OCrlrHqKsr","mode":"live","createdDatetime":"2014-09-15T09:24:39.0Z","status":"refunded","expiryPeriod":"PT15M","paidDatetime":"2014-09-15T09:28:29.0Z","amount":"60.33","amountRefunded":"60.33","amountRemaining":null,"description":"15 Round House Kicks To The Face","method":"ideal","metadata":null,"details":{"consumerName":"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman","consumerAccount":"NL53INGB0654422370","consumerBic":"INGBNL2A"},"links":{"redirectUrl":"http://www.example.org/return.php"}},"amount":"60.33","refundedDatetime":"2014-09-15T09:24:39.0Z"}'));
 
 		$payment = new Mollie_API_Object_Payment();
 		$payment->id = "tr_OCrlrHqKsr";
 
 		/** @var Mollie_API_Object_Payment $payment */
-		$refund = $this->api->payments->refund($payment, 60.33);
+		$refund = $this->api->payments->refund($payment);
 
 		$this->assertEquals("re_O3UbDhODzG", $refund->id);
 		$this->assertEquals(60.33, $refund->amount);
@@ -164,6 +164,12 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("2014-09-15T09:24:39.0Z", $payment->createdDatetime);
 		$this->assertEquals(Mollie_API_Object_Payment::STATUS_REFUNDED, $payment->status);
 
+		$this->assertEquals(60.33, $payment->getAmountRefunded());
+		$this->assertEquals(0, $payment->getAmountRemaining());
+
+		$this->assertFalse($payment->canBeRefunded());
+		$this->assertFalse($payment->canBePartiallyRefunded());
+
 		$this->assertFalse($payment->isOpen());
 		$this->assertFalse($payment->isExpired());
 		$this->assertFalse($payment->isCancelled());
@@ -171,6 +177,52 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($payment->isRefunded());
 
 		$this->assertNull($payment->metadata);
+	}
+
+	/**
+	 * @group refunds
+	 */
+	public function testCreateRefundSupportsPartialRefunds ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", '{"amount":60.33}')
+			->will($this->returnValue('{"id":"re_O3UbDhODzG","payment":{"id":"tr_OCrlrHqKsr","mode":"live","createdDatetime":"2014-09-15T09:24:39.0Z","status":"refunded","expiryPeriod":"PT15M","paidDatetime":"2014-09-15T09:28:29.0Z","amount":"86.55","amountRefunded":"60.33","amountRemaining":"26.12","description":"15 Round House Kicks To The Face","method":"ideal","metadata":null,"details":{"consumerName":"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman","consumerAccount":"NL53INGB0654422370","consumerBic":"INGBNL2A"},"links":{"redirectUrl":"http://www.example.org/return.php"}},"amount":60.33,"refundedDatetime":"2014-09-15T09:24:39.0Z"}'));
+
+		$payment = new Mollie_API_Object_Payment();
+		$payment->id = "tr_OCrlrHqKsr";
+
+		/** @var Mollie_API_Object_Payment $payment */
+		$refund = $this->api->payments->refund($payment, 60.33);
+
+		$this->assertEquals(60.33, $refund->amount);
+
+		$this->assertEquals(60.33, $payment->getAmountRefunded());
+		$this->assertEquals(26.12, $payment->getAmountRemaining());
+
+		$this->assertTrue($payment->canBeRefunded());
+		$this->assertTrue($payment->canBePartiallyRefunded());
+		$this->assertTrue($payment->isRefunded());
+	}
+
+	/**
+	 * @group refunds
+	 */
+	public function testCreateRefundSupportsDescriptions ()
+	{
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", '{"amount":60.33,"description":"Foo bar"}')
+			->will($this->returnValue('{"id":"re_O3UbDhODzG","payment":{"id":"tr_OCrlrHqKsr","mode":"live","createdDatetime":"2014-09-15T09:24:39.0Z","status":"refunded","expiryPeriod":"PT15M","paidDatetime":"2014-09-15T09:28:29.0Z","amount":"86.55","amountRefunded":"60.33","amountRemaining":"26.12","description":"15 Round House Kicks To The Face","method":"ideal","metadata":null,"details":{"consumerName":"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman","consumerAccount":"NL53INGB0654422370","consumerBic":"INGBNL2A"},"links":{"redirectUrl":"http://www.example.org/return.php"}},"amount":60.33,"description":"Foo bar","refundedDatetime":"2014-09-15T09:24:39.0Z"}'));
+
+		$payment = new Mollie_API_Object_Payment();
+		$payment->id = "tr_OCrlrHqKsr";
+
+		/** @var Mollie_API_Object_Payment $payment */
+		$refund = $this->api->payments->refund($payment, array("amount" => 60.33, "description" => "Foo bar"));
+
+		$this->assertEquals(60.33, $refund->amount);
+		$this->assertEquals("Foo bar", $refund->description);
 	}
 
 	/**

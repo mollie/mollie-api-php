@@ -61,6 +61,13 @@ class Mollie_API_Object_Payment_Refund
 	public $amount;
 
 	/**
+	 * The refund's description, if available.
+	 *
+	 * @var string|null
+	 */
+	public $description;
+
+	/**
 	 * The payment that was refunded.
 	 *
 	 * @var Mollie_API_Object_Payment

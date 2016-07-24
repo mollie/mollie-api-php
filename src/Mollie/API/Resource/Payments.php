@@ -68,20 +68,37 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 	}
 
 	/**
+	 * Issue a refund for the given payment.
+	 *
+	 * The $filters parameter may either be an array of endpoint parameters, a float value to
+	 * initiate a partial refund, or empty to do a full refund.
+	 *
 	 * @param Mollie_API_Object_Payment $payment
-	 * @param float|NULL $amount Amount to refund, or NULL to refund full amount.
+	 * @param array|float|NULL $filters
+	 * 
 	 * @return Mollie_API_Object_Payment_Refund
 	 */
-	public function refund (Mollie_API_Object_Payment $payment, $amount = NULL)
+	public function refund (Mollie_API_Object_Payment $payment, $filters = array())
 	{
 		$resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 
-		$body = NULL;
-		if ($amount)
+		if (!is_array($filters))
 		{
-			$body = json_encode(
-				array("amount" => $amount)
-			);
+			if ((is_numeric($filters))) {
+				// $filters is numeric, so it must be an amount
+				$filters = array('amount' => $filters);
+			}
+			else
+			{
+				// $filters is not an array, but also not an amount, so reset $filters
+				$filters = array();
+			}
+		}
+
+		$body = NULL;
+		if (count($filters) > 0)
+		{
+			$body = json_encode($filters);
 		}
 
 		$result = $this->performApiCall(self::REST_CREATE, $resource, $body);
