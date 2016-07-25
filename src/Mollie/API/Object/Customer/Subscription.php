@@ -109,4 +109,24 @@ class Mollie_API_Object_Customer_Subscription
 	 * @var object|null
 	 */
 	public $links;
+
+	/**
+	 * Returns whether the Subscription is valid or not.
+	 *
+	 * @return bool
+	 */
+	public function isValid ()
+	{
+		return $this->status === self::STATUS_ACTIVE;
+	}
+
+	/**
+	 * Returns whether the Subscription is cancelled or not.
+	 *
+	 * @return bool
+	 */
+	public function isCancelled ()
+	{
+		return $this->status === self::STATUS_CANCELLED;
+	}
 }

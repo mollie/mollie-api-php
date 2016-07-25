@@ -344,6 +344,21 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
+	public function testDeleteSubscriptionWorksCorrectly ()
+	{
+		$this->api->expects($this->once())
+				  ->method("performHttpCall")
+				  ->with(Mollie_API_Client::HTTP_DELETE, "customers/cst_3EA3vd0b0E/subscriptions/sub_d0b0E3EA3v")
+				  ->will($this->returnValue('{"id":"sub_d0b0E3EA3v", "customerId":"cst_EA3vd0b0E3", "mode":"live", "createdDatetime":"2013-11-21T09:57:08.0Z", "status":"cancelled", "amount":100, "description":"Subscription #1225", "method":null, "times":null, "interval":"months", "cancelledDatetime":"2016-07-25T09:57:08.0Z"}'));
+
+		/** @var Mollie_API_Object_Customer_Subscription $deleted_subscription */
+		$deleted_subscription = $this->api->customers_subscriptions->withParentId("cst_3EA3vd0b0E")->cancel("sub_d0b0E3EA3v");
+
+		$this->assertEquals("sub_d0b0E3EA3v", $deleted_subscription->id);
+
+		$this->assertTrue($deleted_subscription->isCancelled());
+	}
+
 	public function testUndefinedResourceCallsResourceEndpoint ()
 	{
 		$this->api->expects($this->once())

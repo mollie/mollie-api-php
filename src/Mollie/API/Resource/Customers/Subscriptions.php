@@ -46,4 +46,17 @@ class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Ba
 	{
 		return new Mollie_API_Object_Customer_Subscription;
 	}
+
+	/**
+	 * Cancel the given Subscription. This is just an alias of the 'delete' method.
+	 *
+	 * @param string $subscription_id
+	 *
+	 * @return Mollie_API_Object_Customer_Subscription
+	 * @throws Mollie_API_Exception
+	 */
+	public function cancel ($subscription_id)
+	{
+		return $this->delete($subscription_id);
+	}
 }
