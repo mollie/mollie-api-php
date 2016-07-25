@@ -281,6 +281,10 @@ class Mollie_API_Client
 		$this->version_strings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
 	}
 
+	public function getPemPath() {
+		return realpath(dirname(__FILE__) . "/cacert.pem");
+	}
+
 	/**
 	 * Perform an http call. This method is used by the resource specific classes. Please use the $payments property to
 	 * perform operations on payments.
@@ -356,7 +360,7 @@ class Mollie_API_Client
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-		curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+		curl_setopt($this->ch, CURLOPT_CAINFO, $this->getPemPath());
 
 		$body = curl_exec($this->ch);
 
