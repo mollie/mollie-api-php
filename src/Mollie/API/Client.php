@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.6.2";
+	const CLIENT_VERSION = "1.6.4";
 
 	/**
 	 * Endpoint of the remote API.
@@ -172,6 +172,11 @@ class Mollie_API_Client
 	protected $ch;
 
 	/**
+	 * @var string
+	 */
+	protected $pem_path;
+
+	/**
 	 * @throws Mollie_API_Exception_IncompatiblePlatform
 	 */
 	public function __construct ()
@@ -201,6 +206,9 @@ class Mollie_API_Client
 		$this->addVersionString("PHP/" . phpversion());
 		$this->addVersionString("cURL/" . $curl_version["version"]);
 		$this->addVersionString($curl_version["ssl_version"]);
+
+		// The PEM path may be overwritten with setPemPath().
+		$this->pem_path = realpath(dirname(__FILE__) . "/cacert.pem");
 	}
 
 	/**
@@ -282,6 +290,16 @@ class Mollie_API_Client
 	}
 
 	/**
+	 * Overwrite the default path to the PEM file. Should only be used by advanced users.
+	 *
+	 * @param string $pem_path
+	 */
+	public function setPemPath ($pem_path)
+	{
+		$this->pem_path = strval($pem_path);
+	}
+
+	/**
 	 * Perform an http call. This method is used by the resource specific classes. Please use the $payments property to
 	 * perform operations on payments.
 	 *
@@ -356,7 +374,7 @@ class Mollie_API_Client
 		 * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
 		 * is not installed). So we tell cURL which certificates we trust.
 		 */
-		curl_setopt($this->ch, CURLOPT_CAINFO, realpath(dirname(__FILE__) . "/cacert.pem"));
+		curl_setopt($this->ch, CURLOPT_CAINFO, $this->pem_path);
 
 		$body = curl_exec($this->ch);
 
