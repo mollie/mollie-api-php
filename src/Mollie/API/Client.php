@@ -355,6 +355,7 @@ class Mollie_API_Client
 			"Authorization: Bearer {$this->api_key}",
 			"User-Agent: {$user_agent}",
 			"X-Mollie-Client-Info: " . php_uname(),
+			"Expect:",
 		);
 
 		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
