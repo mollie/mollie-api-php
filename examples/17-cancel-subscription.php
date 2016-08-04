@@ -29,7 +29,7 @@ try
 	 *
 	 * See: https://www.mollie.com/nl/docs/reference/subscriptions/cancel
 	 */
-	$cancelledSubscription = $mollie->customers_subscriptions->with($customer)->cancel($subscription);
+	$cancelledSubscription = $mollie->customers_subscriptions->with($customer)->cancel($subscription->id);
 
 	/*
 	 * The subscription status should now be cancelled
