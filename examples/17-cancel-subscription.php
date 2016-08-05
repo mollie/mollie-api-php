@@ -20,7 +20,7 @@ try
 	 * Generate a unique subscription id for this example. It is important to include this unique attribute
 	 * in the webhookUrl (below) so new payments can be associated with this subscription.
 	 */
-	$subscriptionId = isset($_GET['subscription_id']) ? $_GET['subscription_id'] : '';
+	$subscriptionId = $_GET['subscription_id'];
 
 	// retrieve subscription
 	$subscription = $mollie->customers_subscriptions->with($customer)->get($subscriptionId);
