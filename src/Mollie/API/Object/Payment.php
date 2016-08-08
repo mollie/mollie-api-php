@@ -322,6 +322,16 @@ class Mollie_API_Object_Payment
 	}
 
 	/**
+	 * Is this payment recurring?
+	 *
+	 * @return bool
+	 */
+	public function isRecurring ()
+	{
+		return $this->recurringType !== self::RECURRINGTYPE_NONE;
+	}
+
+	/**
 	 * Is this payment charged back?
 	 *
 	 * @return bool
