@@ -22,14 +22,12 @@ try
 	 */
 	$subscriptionId = isset($_GET['subscription_id']) ? $_GET['subscription_id'] : '';
 
-	// retrieve subscription
-	$subscription = $mollie->customers_subscriptions->with($customer)->get($subscriptionId);
 	/*
 	 * Customer Subscription deletion parameters.
 	 *
 	 * See: https://www.mollie.com/nl/docs/reference/subscriptions/delete
 	 */
-	$cancelledSubscription = $mollie->customers_subscriptions->with($customer)->cancel($subscription);
+	$cancelledSubscription = $mollie->customers_subscriptions->with($customer)->cancel($subscriptionId);
 
 	/*
 	 * The subscription status should now be cancelled
