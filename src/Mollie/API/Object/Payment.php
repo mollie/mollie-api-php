@@ -332,6 +332,38 @@ class Mollie_API_Object_Payment
 	}
 
 	/**
+	 * Check whether the 'recurringType' parameter has been defined for this payment.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringType ()
+	{
+		return $this->hasRecurringTypeFirst() || $this->hasRecurringTypeRecurring();
+	}
+
+	/**
+	 * Check whether 'recurringType' is set to 'first'. If a 'first' payment has been completed successfully, the
+	 * consumer's account may be charged automatically using recurring payments.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringTypeFirst ()
+	{
+		return $this->recurringType == self::RECURRINGTYPE_FIRST;
+	}
+
+	/**
+	 * Check whether 'recurringType' is set to 'recurring'. This type of payment is processed without involving
+	 * the consumer.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringTypeRecurring ()
+	{
+		return $this->recurringType == self::RECURRINGTYPE_RECURRING;
+	}
+
+	/**
 	 * Get the payment URL where the customer can complete the payment.
 	 *
 	 * @return string|null
