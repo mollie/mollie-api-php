@@ -15,7 +15,7 @@ To use the Mollie API client, the following things are required:
 + Create a new [Website profile](https://www.mollie.com/beheer/account/profielen/) to generate API keys (live and test mode) and setup your webhook.
 + Now you're ready to use the Mollie API client in test mode.
 + In order to accept payments in live mode, payment methods must be activated in your account. Follow [a few of steps](https://www.mollie.com/beheer/diensten), and let us handle the rest.
-+ PHP >= 5.2
++ PHP >= 5.3
 + PHP cURL extension
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 + SSL v3 disabled. Mollie does not support SSL v3 anymore.
