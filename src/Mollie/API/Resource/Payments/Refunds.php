@@ -46,4 +46,27 @@ class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
 	{
 		return new Mollie_API_Object_Payment_Refund;
 	}
+    
+    /**
+     * Cancel a refund.
+     *
+     * @param \Mollie_API_Object_Payment_Refund $refund
+     *
+     * @return bool
+     * @throws \Mollie_API_Exception
+     */
+    public function cancel(Mollie_API_Object_Payment_Refund $refund)
+    {
+        $refundId = urlencode($refund->id);
+        $paymentId = urlencode($refund->payment->id);
+        
+        $body = $this->api->performHttpCall(self::REST_DELETE, "payments/{$paymentId}/refunds/{$refundId}", null);
+        
+        if (!empty( $body ) || $body === false)
+        {
+            throw new Mollie_API_Exception("Unable to cancel refund.");
+        }
+        
+        return true;
+    }
 }
