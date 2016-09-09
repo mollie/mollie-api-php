@@ -46,4 +46,17 @@ class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
 	{
 		return new Mollie_API_Object_Payment_Refund;
 	}
+
+	/**
+	 * Cancel the given Refund. This is just an alias of the 'delete' method.
+	 *
+	 * @param string $refund_id
+	 *
+	 * @return Mollie_API_Object_Payment_Refund
+	 * @throws Mollie_API_Exception
+	 */
+	public function cancel ($refund_id)
+	{
+		return $this->delete($refund_id);
+	}
 }
