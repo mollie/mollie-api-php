@@ -60,7 +60,7 @@ class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
         $refundId = urlencode($refund->id);
         $paymentId = urlencode($refund->payment->id);
         
-        $body = $this->api->performHttpCall(self::REST_DELETE, "payments/{$paymentId}/refunds/{$refundId}", []);
+        $body = $this->api->performHttpCall(self::REST_DELETE, "payments/{$paymentId}/refunds/{$refundId}", null);
         
         if (!empty( $body ) || $body === false)
         {
