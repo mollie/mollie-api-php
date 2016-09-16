@@ -31,9 +31,30 @@
  *
  * @method Mollie_API_Object_Customer[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Customer get($id, array $filters = array())
+ * @method Mollie_API_Object_Customer create(array $data, array $filters = array())
  */
 class Mollie_API_Resource_Customers extends Mollie_API_Resource_Base
 {
+	/**
+	 * @param Mollie_API_Object_Customer $customer
+	 *
+	 * @return Mollie_API_Object_Customer
+	 */
+	public function update (Mollie_API_Object_Customer $customer)
+	{
+		$body = json_encode(array(
+			"name" => $customer->name,
+			"email" => $customer->email,
+			"locale" => $customer->locale,
+			"metadata" => $customer->metadata,
+		));
+
+		/** @var Mollie_API_Object_Customer $updated_customer */
+		$updated_customer = $this->rest_update($this->getResourcePath(), $customer->id, $body);
+
+		return $updated_customer;
+	}
+
 	/**
 	 * @return Mollie_API_Object_Customer
 	 */

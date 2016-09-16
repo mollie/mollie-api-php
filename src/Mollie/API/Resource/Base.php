@@ -156,6 +156,33 @@ abstract class Mollie_API_Resource_Base
 	}
 
 	/**
+	 * Sends a POST request to a single Molle API object to update it.
+	 *
+	 * @param string $rest_resource
+	 * @param string $id
+	 * @param string $body
+	 *
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	protected function rest_update ($rest_resource, $id, $body)
+	{
+		if (empty($id))
+		{
+			throw new Mollie_API_Exception("Invalid resource id.");
+		}
+
+		$id     = urlencode($id);
+		$result = $this->performApiCall(
+			self::REST_UPDATE,
+			"{$rest_resource}/{$id}",
+			$body
+		);
+
+		return $this->copy($result, $this->getResourceObject());
+	}
+
+	/**
 	 * Get a collection of objects from the REST API.
 	 *
 	 * @param $rest_resource
