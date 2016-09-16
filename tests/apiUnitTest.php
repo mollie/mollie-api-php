@@ -60,7 +60,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->api->expects($this->any())
 			->method("getCompatibilityChecker")
 			->will($this->returnValue($this->compatibilityChecker));
-		
+
 		$this->api->__construct();
 		$this->api->payments->all();
 	}
@@ -373,7 +373,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	 * @expectedException Mollie_API_Exception
 	 * @expectedExceptionMessage Subresource 'foos_bars' used without parent 'foos' ID.
 	 */
-	public function testUndefinedSubresourceRequiresParentId ()
+	public function testUndefinedSubResourceRequiresParentId ()
 	{
 		$this->api->expects($this->never())
 			->method("performHttpCall");
@@ -381,7 +381,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->api->Foos_Bars->get("bar_ID", array("f" => "B"));
 	}
 
-	public function testUndefinedSubesourceCallsSubresourceEndpointWithParentId ()
+	public function testUndefinedSubResourceCallsSubresourceEndpointWithParentId ()
 	{
 		$this->api->expects($this->once())
 			->method("performHttpCall")
@@ -391,7 +391,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->api->Foos_Bars->withParentId("foo_PARENT")->get("bar_CHILD", array("f" => "B"));
 	}
 
-	public function testUndefinedSubesourceCallsSubresourceEndpointWithParentObject ()
+	public function testUndefinedSubResourceCallsSubresourceEndpointWithParentObject ()
 	{
 		$this->api->expects($this->once())
 			->method("performHttpCall")
@@ -402,5 +402,45 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$parent->id = "foo_PARENT";
 
 		$this->api->Foos_Bars->with($parent)->get("bar_CHILD", array("f" => "B"));
+	}
+
+	public function testCustomerUpdateWorksCorrectly ()
+	{
+		$customer_id = "cst_8wmqcHMN4U";
+
+		$expected_customer_api_call_data = [
+			"name" => "",
+			"email" => "",
+			"locale" => "",
+			"metadata" => [
+				"my_id" => "1234567"
+			]
+		];
+
+		$return_value = array_merge($expected_customer_api_call_data, [
+			"id" => $customer_id
+		]);
+
+		$customer = new Mollie_API_Object_Customer();
+		$customer->resource = 'customers';
+		$customer->id = $customer_id;
+		$customer->name = $expected_customer_api_call_data['name'];
+		$customer->email = $expected_customer_api_call_data['email'];
+		$customer->locale = $expected_customer_api_call_data['locale'];
+		$customer->metadata = $expected_customer_api_call_data['metadata'];
+
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_POST, "customers/cst_8wmqcHMN4U", json_encode($expected_customer_api_call_data))
+			->will($this->returnValue(json_encode($return_value)));
+
+		/** @var Mollie_API_Object_Customer $updated_customer */
+		$updated_customer = $this->api->customers->update($customer);
+
+		self::assertEquals($updated_customer->id, $customer_id);
+		self::assertEquals($updated_customer->name, $expected_customer_api_call_data['name']);
+		self::assertEquals($updated_customer->email, $expected_customer_api_call_data['email']);
+		self::assertEquals($updated_customer->locale, $expected_customer_api_call_data['locale']);
+		self::assertEquals($updated_customer->metadata->my_id, $expected_customer_api_call_data['metadata']['my_id']);
 	}
 }
