@@ -408,18 +408,18 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 	{
 		$customer_id = "cst_8wmqcHMN4U";
 
-		$expected_customer_api_call_data = [
+		$expected_customer_api_call_data = array(
 			"name" => "",
 			"email" => "",
 			"locale" => "",
-			"metadata" => [
+			"metadata" => array(
 				"my_id" => "1234567"
-			]
-		];
+			)
+		);
 
-		$return_value = array_merge($expected_customer_api_call_data, [
+		$return_value = array_merge($expected_customer_api_call_data, array(
 			"id" => $customer_id
-		]);
+		));
 
 		$customer = new Mollie_API_Object_Customer();
 		$customer->resource = 'customers';

@@ -42,12 +42,12 @@ class Mollie_API_Resource_Customers extends Mollie_API_Resource_Base
 	 */
 	public function update (Mollie_API_Object_Customer $customer)
 	{
-		$body = json_encode([
+		$body = json_encode(array(
 			"name" => $customer->name,
 			"email" => $customer->email,
 			"locale" => $customer->locale,
 			"metadata" => $customer->metadata,
-		]);
+		));
 
 		/** @var Mollie_API_Object_Customer $updated_customer */
 		$updated_customer = $this->rest_update($this->getResourcePath(), $customer->id, $body);
