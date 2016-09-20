@@ -443,4 +443,30 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		self::assertEquals($updated_customer->locale, $expected_customer_api_call_data['locale']);
 		self::assertEquals($updated_customer->metadata->my_id, $expected_customer_api_call_data['metadata']['my_id']);
 	}
+
+	public function testProfileApiKeyGetWorksCorrectly ()
+	{
+		$profile_id = "pfl_v9hTwCvYqw";
+		$api_key_mode = "live";
+
+		$return_value = [
+			"id" => $api_key_mode,
+			"key" => "live_eSf9fQRwpsdfPY8y3tUFFmqjADRKyA",
+			"createdDatetime" => "2016-09-19T12:31:09.0Z"
+		];
+
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "profiles/$profile_id/apikeys/$api_key_mode")
+			->willReturn(json_encode($return_value));
+
+		$api_key = $this->api->profiles_apikeys->withParentId($profile_id)->get($api_key_mode);
+
+		self::assertEquals($api_key_mode, $api_key->id);
+		self::assertEquals($return_value['key'], $api_key->key);
+		self::assertEquals($return_value['createdDatetime'], $api_key->createdDatetime);
+
+		self::assertTrue($api_key->isLiveKey());
+		self::assertFalse($api_key->isTestKey());
+	}
 }

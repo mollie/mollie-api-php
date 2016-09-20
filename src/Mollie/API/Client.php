@@ -198,6 +198,7 @@ class Mollie_API_Client
 		$this->organizations    = new Mollie_API_Resource_Organizations($this);
 		$this->refunds          = new Mollie_API_Resource_Refunds($this);
 		$this->profiles         = new Mollie_API_Resource_Profiles($this);
+		$this->profiles_apikeys = new Mollie_API_Resource_Profiles_APIKeys($this);
 		$this->settlements      = new Mollie_API_Resource_Settlements($this);
 
 		$curl_version = curl_version();
