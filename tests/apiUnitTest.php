@@ -449,11 +449,11 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$profile_id = "pfl_v9hTwCvYqw";
 		$api_key_mode = "live";
 
-		$return_value = [
+		$return_value = array(
 			"id" => $api_key_mode,
 			"key" => "live_eSf9fQRwpsdfPY8y3tUFFmqjADRKyA",
 			"createdDatetime" => "2016-09-19T12:31:09.0Z"
-		];
+		);
 
 		$this->api->expects($this->once())
 			->method("performHttpCall")
