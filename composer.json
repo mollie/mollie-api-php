@@ -15,9 +15,11 @@
       "sepa", "bitcoin", "paypal", "paysafecard", "podiumcadeaukaart", "banktransfer", "direct debit", "belfius",
       "belfius direct net", "refunds", "api", "payments", "gateway", "subscriptions", "recurring", "charges"
     ],
-	"require" : {
-		"php": ">=5.2"
-	},
+    "require" : {
+        "php": ">=5.2",
+        "ext-curl": "*",
+        "ext-openssl": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "^3.7 || ^4.8 || ^5.4"
     },
