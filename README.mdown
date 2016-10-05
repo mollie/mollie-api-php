@@ -24,11 +24,11 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/mollie-api-php:1.6.*
+	$ composer require mollie/mollie-api-php:1.7.*
 
 	    {
 	        "require": {
-	            "mollie/mollie-api-php": "1.6.*"
+	            "mollie/mollie-api-php": "1.7.*"
 	        }
 	    }
 
@@ -137,10 +137,10 @@ Want to help us make our API client even better? We take [pull requests](https:/
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2013-2015, Mollie B.V.
+Copyright (c) 2013-2016, Mollie B.V.
 
 ## Support ##
-Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
+Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
 
 + [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
 + [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
@@ -152,5 +152,4 @@ Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20
 + [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
 + [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
 + [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
-
-![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
++ [More information about KBC/CBC via Mollie](https://www.mollie.com/kbccbc/)
