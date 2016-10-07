@@ -247,7 +247,7 @@ class Mollie_API_Client
 	{
 		$api_key = trim($api_key);
 
-		if (!preg_match('/^(live|test)_\w+$/', $api_key))
+		if (!preg_match('/^(live|test)_\w{30,}$/', $api_key))
 		{
 			throw new Mollie_API_Exception("Invalid API key: '{$api_key}'. An API key must start with 'test_' or 'live_'.");
 		}

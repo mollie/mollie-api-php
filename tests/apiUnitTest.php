@@ -37,13 +37,22 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Invalid API key: 'invalid'. An API key must start with 'test_' or 'live_'.
+	 * @expectedExceptionMessage Invalid API key: 'test_xxx'. An API key must start with 'test_' or 'live_'.
 	 */
 	public function testSettingInvalidApiKeyFails ()
 	{
 		$api = new Mollie_API_Client;
 
-		$api->setApiKey("invalid");
+		$api->setApiKey("test_xxx");
+	}
+
+	public function testSettingValidApiKeyFailsNot ()
+	{
+		$api = new Mollie_API_Client;
+
+		$api->setApiKey("test_QnRGwP5fwWWMNQTCLAH4xDt3rw8dAc"); // Should not throw
+		$api->setApiKey("test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); // Should not throw
+		$this->assertTrue(TRUE);
 	}
 
 	/**
