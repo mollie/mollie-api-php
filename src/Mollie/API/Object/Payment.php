@@ -312,6 +312,16 @@ class Mollie_API_Object_Payment
 	}
 
 	/**
+	 * Is this payment paidout and transferred to the bank account of the merchant ?
+	 *
+	 * @return bool
+	 */
+	public function isPaidOut ()
+	{
+		return $this->status == self::STATUS_PAIDOUT;
+	}
+
+	/**
 	 * Is this payment (partially) refunded?
 	 *
 	 * @return bool
