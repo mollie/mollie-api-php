@@ -258,7 +258,6 @@ class Mollie_API_Object_Payment
 	 */
 	public $links;
 
-
 	/**
 	 * Is this payment cancelled?
 	 *
@@ -269,7 +268,6 @@ class Mollie_API_Object_Payment
 		return $this->status == self::STATUS_CANCELLED;
 	}
 
-
 	/**
 	 * Is this payment expired?
 	 *
@@ -279,7 +277,6 @@ class Mollie_API_Object_Payment
 	{
 		return $this->status == self::STATUS_EXPIRED;
 	}
-
 
 	/**
 	 * Is this payment still open / ongoing?
@@ -309,6 +306,19 @@ class Mollie_API_Object_Payment
 	public function isPaid ()
 	{
 		return !empty($this->paidDatetime);
+	}
+
+	/**
+	 * Has the money been transferred to the bank account of the merchant?
+	 *
+	 * Note: When a payment is refunded or charged back, the status 'refunded'/'charged_back' will
+	 * overwrite the 'paidout' status.
+	 *
+	 * @return bool
+	 */
+	public function isPaidOut ()
+	{
+		return $this->status == self::STATUS_PAIDOUT;
 	}
 
 	/**
@@ -406,7 +416,7 @@ class Mollie_API_Object_Payment
 			return floatval($this->amountRefunded);
 		}
 
-		return 0;
+		return 0.0;
 	}
 
 	/**
@@ -422,6 +432,6 @@ class Mollie_API_Object_Payment
 			return floatval($this->amountRemaining);
 		}
 
-		return 0;
+		return 0.0;
 	}
 }
