@@ -23,7 +23,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 			->getMock();
 
 		$this->api = $this->getMockBuilder("Mollie_API_Client")
-			->setMethods(array("performHttpCall", "getCompatibilityChecker"))
+			->setMethods(array("performHttpCall", "getCompatibilityChecker", "getLastHttpResponseStatusCode"))
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -366,6 +366,20 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("sub_d0b0E3EA3v", $deleted_subscription->id);
 
 		$this->assertTrue($deleted_subscription->isCancelled());
+	}
+
+	public function testDeleteCustomerWorksCorrectly ()
+	{
+		$this->api->expects($this->once())
+			->method('getLastHttpResponseStatusCode')
+			->willReturn(Mollie_API_Client::HTTP_STATUS_NO_CONTENT);
+
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_DELETE, "customers/cst_3EA3vd0b0E")
+			->willReturn(NULL);
+
+		$this->api->customers->delete("cst_3EA3vd0b0E");
 	}
 
 	public function testUndefinedResourceCallsResourceEndpoint ()

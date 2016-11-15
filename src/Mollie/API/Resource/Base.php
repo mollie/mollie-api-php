@@ -152,6 +152,11 @@ abstract class Mollie_API_Resource_Base
 			"{$rest_resource}/{$id}"
 		);
 
+		if ($result === NULL)
+		{
+			return NULL;
+		}
+
 		return $this->copy($result, $this->getResourceObject());
 	}
 
@@ -325,6 +330,11 @@ abstract class Mollie_API_Resource_Base
 	protected function performApiCall($http_method, $api_method, $http_body = NULL)
 	{
 		$body = $this->api->performHttpCall($http_method, $api_method, $http_body);
+
+		if ($this->api->getLastHttpResponseStatusCode() == Mollie_API_Client::HTTP_STATUS_NO_CONTENT)
+		{
+			return NULL;
+		}
 
 		if (empty($body))
 		{

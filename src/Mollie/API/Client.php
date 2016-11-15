@@ -34,7 +34,7 @@ class Mollie_API_Client
 	/**
 	 * Version of our client.
 	 */
-	const CLIENT_VERSION = "1.8.0";
+	const CLIENT_VERSION = "1.8.1";
 
 	/**
 	 * Endpoint of the remote API.
@@ -49,6 +49,8 @@ class Mollie_API_Client
 	const HTTP_GET    = "GET";
 	const HTTP_POST   = "POST";
 	const HTTP_DELETE = "DELETE";
+
+	const HTTP_STATUS_NO_CONTENT = 204;
 
 	/**
 	 * @var string
@@ -175,6 +177,11 @@ class Mollie_API_Client
 	 * @var string
 	 */
 	protected $pem_path;
+
+	/**
+	 * @var int
+	 */
+	protected $last_http_response_status_code;
 
 	/**
 	 * @throws Mollie_API_Exception_IncompatiblePlatform
@@ -392,6 +399,8 @@ class Mollie_API_Client
 			$body = curl_exec($this->ch);
 		}
 
+		$this->last_http_response_status_code = (int) curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+
 		if (curl_errno($this->ch))
 		{
 			$message = "Unable to communicate with Mollie (".curl_errno($this->ch)."): " . curl_error($this->ch) . ".";
@@ -439,5 +448,15 @@ class Mollie_API_Client
 		}
 
 		return $checker;
+	}
+
+	/**
+	 * @deprecated Do not use this method, it should only be used internally
+	 *
+	 * @return int
+	 */
+	public function getLastHttpResponseStatusCode ()
+	{
+		return $this->last_http_response_status_code;
 	}
 }
