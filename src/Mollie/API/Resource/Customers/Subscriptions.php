@@ -31,6 +31,8 @@
  *
  * @method Mollie_API_Object_Customer_Subscription[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Customer_Subscription get($subscription_id, array $filters = array())
+ * @method Mollie_API_Object_Customer_Subscription create(array $data = array(), array $filters = array())
+ * @method Mollie_API_Object_Customer_Subscription delete($subscription_id)
  */
 class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Base
 {

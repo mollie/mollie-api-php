@@ -30,7 +30,7 @@
  * @link        https://www.mollie.com
  *
  * @method Mollie_API_Object_Settlement[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Settlement get($id, array $filters = array())
+ * @method Mollie_API_Object_Settlement get($settlement_id, array $filters = array())
  */
 class Mollie_API_Resource_Settlements extends Mollie_API_Resource_Base
 {

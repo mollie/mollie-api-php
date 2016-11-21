@@ -31,6 +31,8 @@
  *
  * @method Mollie_API_Object_Customer_Mandate[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Customer_Mandate get($mandate_id, array $filters = array())
+ * @method Mollie_API_Object_Customer_Mandate create(array $data, array $filters = array())
+ * @method Mollie_API_Object_Customer_Mandate delete($mandate_id)
  */
 class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
 {

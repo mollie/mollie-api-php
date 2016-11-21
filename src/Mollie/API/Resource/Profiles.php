@@ -30,7 +30,9 @@
  * @link        https://www.mollie.com
  *
  * @method Mollie_API_Object_Profile[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Profile get($id, array $filters = array())
+ * @method Mollie_API_Object_Profile get($profile_id, array $filters = array())
+ * @method Mollie_API_Object_Profile create(array $data = array(), array $filters = array())
+ * @method Mollie_API_Object_Profile delete($profile_id0)
  */
 class Mollie_API_Resource_Profiles extends Mollie_API_Resource_Base
 {
@@ -41,4 +43,26 @@ class Mollie_API_Resource_Profiles extends Mollie_API_Resource_Base
 	{
 		return new Mollie_API_Object_Profile;
 	}
+
+    /**
+     * @param Mollie_API_Object_Profile $profile
+     *
+     * @return Mollie_API_Object_Profile
+     */
+    public function update (Mollie_API_Object_Profile $profile)
+    {
+        $body = json_encode(array(
+            "name" => $profile->name,
+            "website" => $profile->website,
+            "email" => $profile->email,
+            "phone" => $profile->phone,
+            "categoryCode" => $profile->categoryCode,
+            "mode" => $profile->mode
+        ));
+
+        /** @var Mollie_API_Object_Profile $updated_profile */
+        $updated_profile = $this->rest_update($this->getResourcePath(), $profile->id, $body);
+
+        return $updated_profile;
+    }
 }

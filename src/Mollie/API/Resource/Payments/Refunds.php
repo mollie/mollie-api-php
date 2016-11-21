@@ -30,7 +30,9 @@
  * @link        https://www.mollie.com
  *
  * @method Mollie_API_Object_Payment_Refund[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Payment_Refund get($resource_id, array $filters = array())
+ * @method Mollie_API_Object_Payment_Refund get($refund_id, array $filters = array())
+ * @method Mollie_API_Object_Payment_Refund create(array $data = array(), array $filters = array())
+ * @method Mollie_API_Object_Payment_Refund delete($refund_id)
  */
 class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
 {
@@ -40,7 +42,7 @@ class Mollie_API_Resource_Payments_Refunds extends Mollie_API_Resource_Base
 	protected $resource_path = "payments_refunds";
 
 	/**
-	 * @return Mollie_API_Object_Method
+	 * @return Mollie_API_Object_Payment_Refund
 	 */
 	protected function getResourceObject ()
 	{
