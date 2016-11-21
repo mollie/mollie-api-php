@@ -30,7 +30,7 @@
  * @link        https://www.mollie.com
  *
  * @method Mollie_API_Object_Profile_APIKey[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Profile_APIKey get($mandate_id, array $filters = array())
+ * @method Mollie_API_Object_Profile_APIKey get($mode, array $filters = array())
  */
 class Mollie_API_Resource_Profiles_APIKeys extends Mollie_API_Resource_Base
 {
@@ -46,5 +46,18 @@ class Mollie_API_Resource_Profiles_APIKeys extends Mollie_API_Resource_Base
 	{
 		return new Mollie_API_Object_Profile_APIKey;
 	}
+
+    /**
+     * @param Mollie_API_Object_Profile_APIKey $api_key
+     *
+     * @return Mollie_API_Object_Profile_APIKey
+     */
+    public function reset (Mollie_API_Object_Profile_APIKey $api_key)
+    {
+        /** @var Mollie_API_Object_Profile_APIKey $updated_api_key */
+        $updated_api_key = $this->rest_update($this->getResourcePath(), $api_key->id, '');
+
+        return $updated_api_key;
+    }
 
 }
