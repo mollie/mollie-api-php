@@ -13,17 +13,11 @@ try
     /*
      * Retrieve an existing profile by his profileId
      */
-    $profile = $mollie->profiles->get("pfl_eA4NSz7Bvx");
-
-    /*
-     * Get the live API key for this profile.
-     */
-    $live_api_key = $mollie->profiles_apikeys->with($profile)->get('live');
-
+    $profile = $mollie->profiles->get("pfl_eA4MSz7Bvy");
     /*
      * Reset the live API key
      */
-    $new_live_api_key = $mollie->profiles_apikeys->reset($live_api_key);
+    $new_live_api_key = $mollie->profiles_apikeys->with($profile)->reset("live");
 }
 catch (Mollie_API_Exception $e)
 {

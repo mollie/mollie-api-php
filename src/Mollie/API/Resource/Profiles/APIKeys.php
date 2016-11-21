@@ -48,14 +48,14 @@ class Mollie_API_Resource_Profiles_APIKeys extends Mollie_API_Resource_Base
 	}
 
     /**
-     * @param Mollie_API_Object_Profile_APIKey $api_key
+     * @param string $mode
      *
      * @return Mollie_API_Object_Profile_APIKey
      */
-    public function reset (Mollie_API_Object_Profile_APIKey $api_key)
+    public function reset ($mode)
     {
         /** @var Mollie_API_Object_Profile_APIKey $updated_api_key */
-        $updated_api_key = $this->rest_update($this->getResourcePath(), $api_key->id, '');
+        $updated_api_key = $this->rest_update($this->getResourcePath(), $mode, '');
 
         return $updated_api_key;
     }
