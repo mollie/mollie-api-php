@@ -16,7 +16,7 @@ try
     $profile = $mollie->profiles->get("pfl_eA4MSz7Bvy");
 
     /**
-     * Customer fields that can be updated.
+     * Profile fields that can be updated.
      *
      * @See https://www.mollie.com/en/docs/reference/profiles/update
      */
@@ -31,5 +31,5 @@ try
 }
 catch (Mollie_API_Exception $e)
 {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo "<p>API call failed: " . htmlspecialchars($e->getMessage()) . "</p>";
 }

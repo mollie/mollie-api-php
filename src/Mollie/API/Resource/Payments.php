@@ -31,7 +31,6 @@
  *
  * @method Mollie_API_Object_Payment[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Payment create(array $data, array $filters = array())
- *
  */
 class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 {

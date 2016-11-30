@@ -14,6 +14,7 @@ try
      * Retrieve an existing profile by his profileId
      */
     $profile = $mollie->profiles->get("pfl_eA4MSz7Bvy");
+
     /*
      * Reset the live API key
      */
