@@ -87,6 +87,11 @@ class Mollie_API_Object_Method
 	const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
 	/**
+	 * @link https://www.mollie.com/nl/kbccbc
+	 */
+	const KBC               = "kbc";
+
+	/**
 	 * Id of the payment method.
 	 *
 	 * @var string

@@ -50,6 +50,8 @@ class Mollie_API_Client
 	const HTTP_POST   = "POST";
 	const HTTP_DELETE = "DELETE";
 
+	const HTTP_STATUS_NO_CONTENT = 204;
+
 	/**
 	 * @var string
 	 */
@@ -177,6 +179,11 @@ class Mollie_API_Client
 	protected $pem_path;
 
 	/**
+	 * @var int
+	 */
+	protected $last_http_response_status_code;
+
+	/**
 	 * @throws Mollie_API_Exception_IncompatiblePlatform
 	 */
 	public function __construct ()
@@ -248,7 +255,7 @@ class Mollie_API_Client
 	{
 		$api_key = trim($api_key);
 
-		if (!preg_match('/^(live|test)_\w+$/', $api_key))
+		if (!preg_match('/^(live|test)_\w{30,}$/', $api_key))
 		{
 			throw new Mollie_API_Exception("Invalid API key: '{$api_key}'. An API key must start with 'test_' or 'live_'.");
 		}
@@ -343,6 +350,7 @@ class Mollie_API_Client
 		curl_setopt($this->ch, CURLOPT_URL, $url);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($this->ch, CURLOPT_ENCODING, "");
 
 		$user_agent = join(' ', $this->version_strings);
 
@@ -392,6 +400,8 @@ class Mollie_API_Client
 			$body = curl_exec($this->ch);
 		}
 
+		$this->last_http_response_status_code = (int) curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+
 		if (curl_errno($this->ch))
 		{
 			$message = "Unable to communicate with Mollie (".curl_errno($this->ch)."): " . curl_error($this->ch) . ".";
@@ -439,5 +449,15 @@ class Mollie_API_Client
 		}
 
 		return $checker;
+	}
+
+	/**
+	 * @deprecated Do not use this method, it should only be used internally
+	 *
+	 * @return int
+	 */
+	public function getLastHttpResponseStatusCode ()
+	{
+		return $this->last_http_response_status_code;
 	}
 }

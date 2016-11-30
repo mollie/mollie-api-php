@@ -23,7 +23,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 			->getMock();
 
 		$this->api = $this->getMockBuilder("Mollie_API_Client")
-			->setMethods(array("performHttpCall", "getCompatibilityChecker"))
+			->setMethods(array("performHttpCall", "getCompatibilityChecker", "getLastHttpResponseStatusCode"))
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -37,13 +37,22 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Invalid API key: 'invalid'. An API key must start with 'test_' or 'live_'.
+	 * @expectedExceptionMessage Invalid API key: 'test_xxx'. An API key must start with 'test_' or 'live_'.
 	 */
 	public function testSettingInvalidApiKeyFails ()
 	{
 		$api = new Mollie_API_Client;
 
-		$api->setApiKey("invalid");
+		$api->setApiKey("test_xxx");
+	}
+
+	public function testSettingValidApiKeyFailsNot ()
+	{
+		$api = new Mollie_API_Client;
+
+		$api->setApiKey("test_QnRGwP5fwWWMNQTCLAH4xDt3rw8dAc"); // Should not throw
+		$api->setApiKey("test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); // Should not throw
+		$this->assertTrue(TRUE);
 	}
 
 	/**
@@ -357,6 +366,20 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("sub_d0b0E3EA3v", $deleted_subscription->id);
 
 		$this->assertTrue($deleted_subscription->isCancelled());
+	}
+
+	public function testDeleteCustomerWorksCorrectly ()
+	{
+		$this->api->expects($this->once())
+			->method('getLastHttpResponseStatusCode')
+			->willReturn(Mollie_API_Client::HTTP_STATUS_NO_CONTENT);
+
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_DELETE, "customers/cst_3EA3vd0b0E")
+			->willReturn(NULL);
+
+		$this->api->customers->delete("cst_3EA3vd0b0E");
 	}
 
 	public function testUndefinedResourceCallsResourceEndpoint ()

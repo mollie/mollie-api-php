@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 [![Latest Stable Version](https://poser.pugx.org/mollie/mollie-api-php/v/stable)](https://packagist.org/packages/mollie/mollie-api-php)
@@ -126,7 +126,7 @@ be refunded through our API at the moment.
 
 ## How to use OAuth2 to connect Mollie accounts to your application? ##
 
-The resources `permissions`, `organizations`, `refunds`, `profiles` and `settlements` are only available with an OAuth2 access token. This is because an API key is linked to a website profile, and those resources are linked to an Mollie account. Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about how to get an OAuth2 access token. For an example of how to use those resources, see [Example 8](https://github.com/mollie/mollie-api-php/blob/master/examples/08-oauth-list-profiles.php), [Example 9](https://github.com/mollie/mollie-api-php/blob/master/examples/09-oauth-list-settlements.php) and [Example 10](https://github.com/mollie/mollie-api-php/blob/master/examples/10-oauth-new-payment.php).
+The resources `permissions`, `organizations`, `refunds`, `profiles`, `settlements` and `invoices` are only available with an OAuth2 access token. This is because an API key is linked to a website profile, and those resources are linked to an Mollie account. Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about how to get an OAuth2 access token. For an example of how to use those resources, see [Example 8](https://github.com/mollie/mollie-api-php/blob/master/examples/08-oauth-list-profiles.php), [Example 9](https://github.com/mollie/mollie-api-php/blob/master/examples/09-oauth-list-settlements.php) and [Example 10](https://github.com/mollie/mollie-api-php/blob/master/examples/10-oauth-new-payment.php).
 
 ## API documentation ##
 If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.
@@ -137,10 +137,10 @@ Want to help us make our API client even better? We take [pull requests](https:/
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2013-2015, Mollie B.V.
+Copyright (c) 2013-2016, Mollie B.V.
 
 ## Support ##
-Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20-612 88 55
+Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
 
 + [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
 + [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
@@ -152,5 +152,4 @@ Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20
 + [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
 + [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
 + [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
-
-![Powered By Mollie](https://www.mollie.com/images/badge-betaling-medium.png)
++ [More information about KBC/CBC via Mollie](https://www.mollie.com/kbccbc/)
