@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2016, Mollie B.V.
+ * Copyright (c) 2013, Mollie B.V.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,24 +28,46 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Mollie_API_Object_Customer_Mandate[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate get($mandate_id, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate create(array $data, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate delete($mandate_id)
  */
-class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
+class Mollie_API_Object_Profile_APIKey
 {
-	/**
-	 * @var string
-	 */
-	protected $resource_path = "customers_mandates";
+	const TEST_KEY = "test";
+	const LIVE_KEY = "live";
 
 	/**
-	 * @return Mollie_API_Object_Customer_Mandate
+	 * The mode ('live' or 'test') functions as the ID of the API key.
+	 *
+	 * @var string
 	 */
-	protected function getResourceObject ()
+	public $id;
+
+	/**
+	 * The API key (live_... or test_...)
+	 *
+	 * @var string
+	 */
+	public $key;
+
+	/**
+	 * The datetime at which the API key was created in ISO-8601 format.
+	 *
+	 * @var string
+	 */
+	public $createdDatetime;
+
+	/**
+	 * @return bool
+	 */
+	public function isLiveKey ()
 	{
-		return new Mollie_API_Object_Customer_Mandate;
+		return $this->id == self::LIVE_KEY;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isTestKey ()
+	{
+		return $this->id == self::TEST_KEY;
 	}
 }

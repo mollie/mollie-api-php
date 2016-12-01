@@ -29,23 +29,35 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Mollie_API_Object_Customer_Mandate[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate get($mandate_id, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate create(array $data, array $filters = array())
- * @method Mollie_API_Object_Customer_Mandate delete($mandate_id)
+ * @method Mollie_API_Object_Profile_APIKey[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Profile_APIKey get($mode, array $filters = array())
  */
-class Mollie_API_Resource_Customers_Mandates extends Mollie_API_Resource_Base
+class Mollie_API_Resource_Profiles_APIKeys extends Mollie_API_Resource_Base
 {
 	/**
 	 * @var string
 	 */
-	protected $resource_path = "customers_mandates";
+	protected $resource_path = "profiles_apikeys";
 
 	/**
-	 * @return Mollie_API_Object_Customer_Mandate
+	 * @return Mollie_API_Object_Profile_APIKey
 	 */
 	protected function getResourceObject ()
 	{
-		return new Mollie_API_Object_Customer_Mandate;
+		return new Mollie_API_Object_Profile_APIKey;
 	}
+
+    /**
+     * @param string $mode
+     *
+     * @return Mollie_API_Object_Profile_APIKey
+     */
+    public function reset ($mode)
+    {
+        /** @var Mollie_API_Object_Profile_APIKey $updated_api_key */
+        $updated_api_key = $this->rest_update($this->getResourcePath(), $mode, '');
+
+        return $updated_api_key;
+    }
+
 }

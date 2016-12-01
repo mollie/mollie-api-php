@@ -445,7 +445,6 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		));
 
 		$customer = new Mollie_API_Object_Customer();
-		$customer->resource = 'customers';
 		$customer->id = $customer_id;
 		$customer->name = $expected_customer_api_call_data['name'];
 		$customer->email = $expected_customer_api_call_data['email'];
@@ -466,4 +465,100 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 		self::assertEquals($updated_customer->locale, $expected_customer_api_call_data['locale']);
 		self::assertEquals($updated_customer->metadata->my_id, $expected_customer_api_call_data['metadata']['my_id']);
 	}
+
+	public function testProfileApiKeyGetWorksCorrectly ()
+	{
+		$profile_id = "pfl_v9hTwCvYqw";
+		$api_key_mode = "live";
+
+		$return_value = array(
+			"id" => $api_key_mode,
+			"key" => "live_eSf9fQRwpsdfPY8y3tUFFmqjADRKyA",
+			"createdDatetime" => "2016-09-19T12:31:09.0Z"
+		);
+
+		$this->api->expects($this->once())
+			->method("performHttpCall")
+			->with(Mollie_API_Client::HTTP_GET, "profiles/$profile_id/apikeys/$api_key_mode")
+			->willReturn(json_encode($return_value));
+
+		$api_key = $this->api->profiles_apikeys->withParentId($profile_id)->get($api_key_mode);
+
+		self::assertEquals($api_key_mode, $api_key->id);
+		self::assertEquals($return_value['key'], $api_key->key);
+		self::assertEquals($return_value['createdDatetime'], $api_key->createdDatetime);
+
+		self::assertTrue($api_key->isLiveKey());
+		self::assertFalse($api_key->isTestKey());
+	}
+
+	public function testProfileUpdateWorksCorrectly ()
+    {
+        $profile_id = "pfl_v9hTwCvYqw";
+
+        $expected_profile_api_call_data = array(
+            "name" => "Mollie",
+            "website" => "www.mollie.com",
+            "email" => "info@mollie.com",
+            "phone" => "06123827111",
+            "categoryCode" => 5399,
+            "mode" => "live"
+        );
+
+        $return_value = array_merge($expected_profile_api_call_data, array(
+            "id" => $profile_id,
+        ));
+
+        $profile = new Mollie_API_Object_Profile();
+        $profile->id = $profile_id;
+        $profile->name = $expected_profile_api_call_data['name'];
+        $profile->website = $expected_profile_api_call_data['website'];
+        $profile->email = $expected_profile_api_call_data['email'];
+        $profile->phone = $expected_profile_api_call_data['phone'];
+        $profile->categoryCode = $expected_profile_api_call_data['categoryCode'];
+        $profile->mode = $expected_profile_api_call_data['mode'];
+
+        $this->api->expects($this->once())
+            ->method("performHttpCall")
+            ->with(Mollie_API_Client::HTTP_POST, "profiles/pfl_v9hTwCvYqw", json_encode($expected_profile_api_call_data))
+            ->will($this->returnValue(json_encode($return_value)));
+
+        /** @var Mollie_API_Object_Profile $updated_profile */
+        $updated_profile = $this->api->profiles->update($profile);
+
+        self::assertEquals($updated_profile->id, $profile_id);
+        self::assertEquals($updated_profile->name, $expected_profile_api_call_data['name']);
+        self::assertEquals($updated_profile->website, $expected_profile_api_call_data['website']);
+        self::assertEquals($updated_profile->email, $expected_profile_api_call_data['email']);
+        self::assertEquals($updated_profile->phone, $expected_profile_api_call_data['phone']);
+        self::assertEquals($updated_profile->categoryCode, $expected_profile_api_call_data['categoryCode']);
+        self::assertEquals($updated_profile->mode, $expected_profile_api_call_data['mode']);
+    }
+
+    public function testProfileApiKeyResetWorks ()
+    {
+        $profile_id = "pfl_v9hTwCvYqw";
+        $api_key_mode = "live";
+
+        $return_value = array(
+            "id" => $api_key_mode,
+            "key" => "live_eSf9fQRwpsdfPY8y3tUFFmqjADRKyA",
+            "createdDatetime" => "2016-09-19T12:31:09.0Z"
+        );
+
+        $this->api->expects($this->once())
+            ->method("performHttpCall")
+            ->with(Mollie_API_Client::HTTP_POST, "profiles/$profile_id/apikeys/$api_key_mode")
+            ->willReturn(json_encode($return_value));
+
+        /** @var Mollie_API_Object_Profile_APIKey $updated_api_key */
+        $updated_api_key = $this->api->profiles_apikeys->withParentId($profile_id)->reset($api_key_mode);
+
+        self::assertEquals($api_key_mode, $updated_api_key->id);
+        self::assertEquals($return_value['key'], $updated_api_key->key);
+        self::assertEquals($return_value['createdDatetime'], $updated_api_key->createdDatetime);
+
+        self::assertTrue($updated_api_key->isLiveKey());
+        self::assertFalse($updated_api_key->isTestKey());
+    }
 }
