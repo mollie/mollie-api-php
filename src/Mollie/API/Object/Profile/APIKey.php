@@ -60,7 +60,7 @@ class Mollie_API_Object_Profile_APIKey
 	 */
 	public function isLiveKey ()
 	{
-		return $this->id == self::LIVE_KEY;
+		return $this->id === self::LIVE_KEY;
 	}
 
 	/**
@@ -68,6 +68,6 @@ class Mollie_API_Object_Profile_APIKey
 	 */
 	public function isTestKey ()
 	{
-		return $this->id == self::TEST_KEY;
+		return $this->id === self::TEST_KEY;
 	}
 }

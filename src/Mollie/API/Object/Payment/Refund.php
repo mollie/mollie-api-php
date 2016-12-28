@@ -95,7 +95,7 @@ class Mollie_API_Object_Payment_Refund
 	 */
 	public function isPending ()
 	{
-		return $this->status == self::STATUS_PENDING;
+		return $this->status === self::STATUS_PENDING;
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Mollie_API_Object_Payment_Refund
 	 */
 	public function isProcessing ()
 	{
-		return $this->status == self::STATUS_PROCESSING;
+		return $this->status === self::STATUS_PROCESSING;
 	}
 
 	/**
@@ -115,6 +115,6 @@ class Mollie_API_Object_Payment_Refund
 	 */
 	public function isTransferred ()
 	{
-		return $this->status == self::STATUS_REFUNDED;
+		return $this->status === self::STATUS_REFUNDED;
 	}
 }
