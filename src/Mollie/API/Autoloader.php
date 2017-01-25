@@ -39,7 +39,7 @@ class Mollie_API_Autoloader
 		if (strpos($class_name, "Mollie_") === 0)
 		{
 			$file_name = str_replace("_", "/", $class_name);
-			$file_name = realpath(dirname(__FILE__) . "/../../{$file_name}.php");
+			$file_name = realpath(__DIR__. "/../../{$file_name}.php");
 
 			if ($file_name !== false)
 			{

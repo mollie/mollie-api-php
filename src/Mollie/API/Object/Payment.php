@@ -413,7 +413,7 @@ class Mollie_API_Object_Payment
 	{
 		if ($this->amountRefunded)
 		{
-			return floatval($this->amountRefunded);
+			return (float) $this->amountRefunded;
 		}
 
 		return 0.0;
@@ -429,7 +429,7 @@ class Mollie_API_Object_Payment
 	{
 		if ($this->amountRemaining)
 		{
-			return floatval($this->amountRemaining);
+			return (float) $this->amountRemaining;
 		}
 
 		return 0.0;

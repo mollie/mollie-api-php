@@ -183,6 +183,11 @@ class Mollie_API_Client
 	 */
 	protected $last_http_response_status_code;
 
+    /**
+     * @var Mollie_API_Resource_Profiles_APIKeys
+     */
+	public $profiles_apikeys;
+
 	/**
 	 * @throws Mollie_API_Exception_IncompatiblePlatform
 	 */
@@ -216,7 +221,7 @@ class Mollie_API_Client
 		$this->addVersionString($curl_version["ssl_version"]);
 
 		// The PEM path may be overwritten with setPemPath().
-		$this->pem_path = realpath(dirname(__FILE__) . "/cacert.pem");
+		$this->pem_path = realpath(__DIR__. "/cacert.pem");
 	}
 
 	/**
@@ -304,7 +309,7 @@ class Mollie_API_Client
 	 */
 	public function setPemPath ($pem_path)
 	{
-		$this->pem_path = strval($pem_path);
+		$this->pem_path = (string) $pem_path;
 	}
 
 	/**
@@ -352,7 +357,7 @@ class Mollie_API_Client
 		curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
 		curl_setopt($this->ch, CURLOPT_ENCODING, "");
 
-		$user_agent = join(' ', $this->version_strings);
+		$user_agent = implode(' ', $this->version_strings);
 
 		if ($this->usesOAuth())
 		{
@@ -396,7 +401,7 @@ class Mollie_API_Client
 			 */
 			$request_headers[] = "X-Mollie-Debug: old OpenSSL found";
 			curl_setopt($this->ch, CURLOPT_HTTPHEADER, $request_headers);
-			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2);
 			$body = curl_exec($this->ch);
 		}
 
