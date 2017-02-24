@@ -4,7 +4,6 @@ php:
 - 5.3
 - 5.4
 - 5.5
-- 5.5.9
 - 5.6
 - 7.0
 - 7.1
@@ -21,4 +20,5 @@ install:
 
 script:
 - composer validate --strict
+- find src tests -name *.php | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
