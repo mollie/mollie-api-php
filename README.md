@@ -24,13 +24,12 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-	$ composer require mollie/mollie-api-php:1.9.*
-
-	    {
-	        "require": {
-	            "mollie/mollie-api-php": "1.9.*"
-	        }
-	    }
+    $ composer require mollie/mollie-api-php:1.9.*
+    {
+        "require": {
+            "mollie/mollie-api-php": "1.9.*"
+        }
+    }
 
 You may also git checkout or [download all the files](https://github.com/mollie/mollie-api-php/archive/master.zip), and include the Mollie API client manually.
 
@@ -49,24 +48,24 @@ To successfully receive a payment, these steps should be implemented:
 Requiring the included autoloader. If you're using Composer, you can skip this step.
 
 ```php
-	require "Mollie/API/Autoloader.php";
+require "Mollie/API/Autoloader.php";
 ```
 	
 Initializing the Mollie API client, and setting your API key.
 
 ```php
-	$mollie = new Mollie_API_Client;
-	$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+$mollie = new Mollie_API_Client;
+$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 ```	
 
 Creating a new payment.
 	
 ```php
-	$payment = $mollie->payments->create(array(
-		"amount"      => 10.00,
-		"description" => "My first API payment",
-		"redirectUrl" => "https://webshop.example.org/order/12345/",
-	));
+$payment = $mollie->payments->create(array(
+    "amount"      => 10.00,
+    "description" => "My first API payment",
+    "redirectUrl" => "https://webshop.example.org/order/12345/",
+));
 ```
 	
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
@@ -74,12 +73,12 @@ _After creation, the payment id is available in the `$payment->id` property. You
 Retrieving a payment.
 
 ```php
-	$payment = $mollie->payments->get($payment->id);
+$payment = $mollie->payments->get($payment->id);
 
-	if ($payment->isPaid())
-	{
-		echo "Payment received.";
-	}
+if ($payment->isPaid())
+{
+    echo "Payment received.";
+}
 ```
 
 ### Fully integrated iDEAL payments ###
@@ -91,7 +90,7 @@ the payment.
 Retrieve the list of issuers:
 
 ```php
-	$issuers = $mollie->issuers->all();
+$issuers = $mollie->issuers->all();
 ```
 
 _`$issuers` will be a list of `Mollie_API_Object_Issuer` objects. Use the property `$id` of this object in the
@@ -100,13 +99,13 @@ _`$issuers` will be a list of `Mollie_API_Object_Issuer` objects. Use the proper
 Create a payment with the selected issuer:
 
 ```php
-	$payment = $mollie->payments->create(array(
-		"amount"      => 10.00,
-		"description" => "My first API payment",
-		"redirectUrl" => "https://webshop.example.org/order/12345/",
-		"method" => Mollie_API_Object_Method::IDEAL,
-		"issuer" => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
-	));
+$payment = $mollie->payments->create(array(
+    "amount"      => 10.00,
+    "description" => "My first API payment",
+    "redirectUrl" => "https://webshop.example.org/order/12345/",
+    "method" => Mollie_API_Object_Method::IDEAL,
+    "issuer" => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
+));
 ```
 
 _The `links` property of the `$payment` object will contain a string `paymentUrl`, which is a URL that points directly to the online banking environment of the selected issuer._
@@ -118,10 +117,10 @@ definitive. Refunds are only supported for iDEAL, credit card, Bancontact/Mister
 be refunded through our API at the moment.
 
 ```php
-	$payment = $mollie->payments->get($payment->id);
+$payment = $mollie->payments->get($payment->id);
 
-	// Refund € 15 of this payment
-	$refund = $mollie->payments->refund($payment, 15.00);
+// Refund € 15 of this payment
+$refund = $mollie->payments->refund($payment, 15.00);
 ```
 
 ## How to use OAuth2 to connect Mollie accounts to your application? ##
