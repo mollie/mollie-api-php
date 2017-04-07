@@ -25,6 +25,7 @@ To use the Mollie API client, the following things are required:
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
     $ composer require mollie/mollie-api-php:1.9.*
+
     {
         "require": {
             "mollie/mollie-api-php": "1.9.*"
@@ -50,26 +51,27 @@ Requiring the included autoloader. If you're using Composer, you can skip this s
 ```php
 require "Mollie/API/Autoloader.php";
 ```
-	
+
 Initializing the Mollie API client, and setting your API key.
 
 ```php
 $mollie = new Mollie_API_Client;
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-```	
+``` 
 
 Creating a new payment.
-	
+
 ```php
 $payment = $mollie->payments->create(array(
     "amount"      => 10.00,
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
+    "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
 ));
 ```
-	
+
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
-	
+
 Retrieving a payment.
 
 ```php
@@ -103,8 +105,9 @@ $payment = $mollie->payments->create(array(
     "amount"      => 10.00,
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
-    "method" => Mollie_API_Object_Method::IDEAL,
-    "issuer" => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
+    "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
+    "method"      => Mollie_API_Object_Method::IDEAL,
+    "issuer"      => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
 ));
 ```
 
@@ -135,8 +138,8 @@ If you wish to learn more about our API, please visit the [Mollie Developer Port
 Want to help us make our API client even better? We take [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr), sure. But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers. [Check out our vacancies](https://www.mollie.com/nl/jobs) or [get in touch](mailto:personeel@mollie.com).
 
 ## License ##
-[BSD (Berkeley Software Distribution) License](http://www.opensource.org/licenses/bsd-license.php).
-Copyright (c) 2013-2016, Mollie B.V.
+[BSD (Berkeley Software Distribution) License](https://opensource.org/licenses/bsd-license.php).
+Copyright (c) 2013-2017, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70

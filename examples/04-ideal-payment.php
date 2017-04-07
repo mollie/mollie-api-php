@@ -53,6 +53,7 @@ try
 	 *   method        Payment method "ideal".
 	 *   description   Description of the payment.
 	 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
+	 *   webhookUrl    Webhook location, used to report when the payment changes state.
 	 *   metadata      Custom metadata that is stored with the payment.
 	 *   issuer        The customer's bank. If empty the customer can select it later.
 	 */
