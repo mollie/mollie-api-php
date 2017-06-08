@@ -18,6 +18,7 @@
     "require" : {
         "php": ">=5.2",
         "ext-curl": "*",
+        "ext-json": "*",
         "ext-openssl": "*"
     },
     "require-dev": {
