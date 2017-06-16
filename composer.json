@@ -1,6 +1,6 @@
 {
     "name": "mollie/mollie-api-php",
-    "description": "Mollie API client library for PHP",
+    "description": "Mollie API client library for PHP. Mollie is a European Payment Service provider and offers international payment methods such as Mastercard, VISA, American Express and PayPal, and local payment methods such as iDEAL, Bancontact, SOFORT Banking, SEPA direct debit, Belfius Direct Net, KBC Payment Button and various gift cards such as Podiumcadeaukaart and fashioncheque.",
     "homepage": "https://github.com/mollie/mollie-api-php",
     "license": "BSD-2-Clause",
     "authors": [
@@ -13,7 +13,7 @@
       "mollie", "payment", "service", "ideal", "creditcard", "mistercash", "bancontact", "sofort", "sofortbanking",
       "sepa", "bitcoin", "paypal", "paysafecard", "podiumcadeaukaart", "banktransfer", "direct debit", "belfius",
       "belfius direct net", "refunds", "api", "payments", "gateway", "subscriptions", "recurring", "charges", "kbc",
-      "cbc"
+      "cbc", "gift cards", "intersolve", "fashioncheque"
     ],
     "require" : {
         "php": ">=5.2",

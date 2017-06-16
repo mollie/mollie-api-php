@@ -42,11 +42,15 @@ class Mollie_API_Object_Method
 	const PAYSAFECARD       = "paysafecard";
 
 	/**
+	 * Credit card (includes Mastercard, Maestro, Visa and American Express).
+	 *
 	 * @link https://mollie.com/creditcard
 	 */
 	const CREDITCARD        = "creditcard";
 
 	/**
+	 * Bancontact, formerly known as Mister Cash.
+	 *
 	 * @link https://mollie.com/mistercash
 	 */
 	const MISTERCASH        = "mistercash";
@@ -82,6 +86,7 @@ class Mollie_API_Object_Method
 	const BELFIUS           = "belfius";
 
 	/**
+	 * @deprecated
 	 * @link https://mollie.com/giftcards
 	 */
 	const PODIUMCADEAUKAART = "podiumcadeaukaart";
@@ -89,7 +94,23 @@ class Mollie_API_Object_Method
 	/**
 	 * @link https://www.mollie.com/nl/kbccbc
 	 */
-	const KBC               = "kbc";
+	const KBC = "kbc";
+
+	/**
+	 * Gift cards
+	 */
+	const GIFTCARD = "giftcard";
+
+	/**
+	 * This is a special method that indicates in the API that the payment consists of several partial transactions.
+	 *
+	 * The individual transactions (amount, method and details) can be found in the details property of the payment.
+	 *
+	 * Note that you cannot use this method to create payments.
+	 *
+	 * @internal
+	 */
+	const STACKED = "stacked";
 
 	/**
 	 * Id of the payment method.
