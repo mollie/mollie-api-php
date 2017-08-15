@@ -162,6 +162,25 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($payment->isChargedBack());
 	}
 
+	public function testIsFailedReturnsTrueWhenStatusIsFailed ()
+	{
+		$payment = new Mollie_API_Object_Payment();
+
+		$payment->status = Mollie_API_Object_Payment::STATUS_FAILED;
+		$this->assertTrue($payment->isFailed());
+	}
+
+	public function testIsFailedReturnsFalseWhenStatusIsNotFailed ()
+	{
+		$payment = new Mollie_API_Object_Payment();
+
+		$payment->status = NULL;
+		$this->assertFalse($payment->isFailed());
+
+		$payment->status = Mollie_API_Object_Payment::STATUS_OPEN;
+		$this->assertFalse($payment->isFailed());
+	}
+
 	public function testHasRecurringTypeReturnsTrueWhenRecurringTypeIsFirst ()
 	{
 		$payment = new Mollie_API_Object_Payment();
