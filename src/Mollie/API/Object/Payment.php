@@ -342,6 +342,16 @@ class Mollie_API_Object_Payment
 	}
 
 	/**
+	 * Is this payment failing?
+	 *
+	 * @return bool
+	 */
+	public function isFailed ()
+	{
+		return $this->status == self::STATUS_FAILED;
+	}
+
+	/**
 	 * Check whether the 'recurringType' parameter has been defined for this payment.
 	 *
 	 * @return bool
