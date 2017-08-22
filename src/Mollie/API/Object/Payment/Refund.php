@@ -32,7 +32,12 @@
 class Mollie_API_Object_Payment_Refund
 {
 	/**
-	 * The refund will be send to the bank on the next business day. You can still cancel the refund.
+	 * The refund is queued until there is enough balance to process te refund. You can still cancel the refund.
+	 */
+	const STATUS_QUEUED    = 'queued';
+
+	/**
+	 * The refund will be sent to the bank on the next business day. You can still cancel the refund.
 	 */
 	const STATUS_PENDING    = 'pending';
 
@@ -87,6 +92,16 @@ class Mollie_API_Object_Payment_Refund
 	 * @var string
 	 */
 	public $status;
+
+	/**
+	 * Is this refund queued?
+	 *
+	 * @return bool
+	 */
+	public function isQueued ()
+	{
+		return $this->status == self::STATUS_QUEUED;
+	}
 
 	/**
 	 * Is this refund pending?
