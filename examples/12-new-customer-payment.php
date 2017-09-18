@@ -8,7 +8,7 @@ try
 	/*
 	 * Initialize the Mollie API library with your API key or OAuth access token.
 	 */
-	include "initialize.php";
+	require "initialize.php";
 
 	/*
 	 * Retrieve the last created customer for this example.
