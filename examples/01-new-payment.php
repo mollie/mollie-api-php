@@ -10,7 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.com/beheer/account/profielen/
 	 */
-	include "initialize.php";
+	require "initialize.php";
 
 	/*
 	 * Generate a unique order id for this example. It is important to include this unique attribute
