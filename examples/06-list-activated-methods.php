@@ -10,7 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.com/beheer/account/profielen/
 	 */
-	include "initialize.php";
+	require "initialize.php";
 
 	/*
 	 * Get all the activated methods for this API key.
