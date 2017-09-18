@@ -10,7 +10,7 @@ try
 	 *
 	 * See: https://www.mollie.com/beheer/account/profielen/
 	 */
-	include "initialize.php";
+	require "initialize.php";
 
 	/*
 	 * Retrieve the payment's current state.
