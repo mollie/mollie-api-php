@@ -8,7 +8,7 @@ try
 	/*
 	 * Initialize the Mollie API library with your OAuth access token.
 	 */
-	include "initialize_with_oauth.php";
+	require "initialize_with_oauth.php";
 
 	/*
 	 * Generate a unique order id for this example. It is important to include this unique attribute
