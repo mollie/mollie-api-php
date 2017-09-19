@@ -4,7 +4,7 @@ try
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    include "initialize.php";
+    require "initialize.php";
     /*
      * Customer creation parameters.
      *
