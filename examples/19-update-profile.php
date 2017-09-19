@@ -8,7 +8,7 @@ try
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    include "initialize_with_oauth.php";
+    require "initialize_with_oauth.php";
 
     /*
      * Retrieve an existing profile by his profileId
