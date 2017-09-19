@@ -9,7 +9,7 @@ try
 	 *
 	 * See: https://www.mollie.com/beheer/account/profielen/
 	 */
-	include "initialize.php";
+	require "initialize.php";
 
 	/*
 	 * Retrieve the payment you want to refund from the API.
