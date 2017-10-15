@@ -191,22 +191,22 @@ class Mollie_API_Client
 		$this->getCompatibilityChecker()
 			->checkCompatibility();
 
-		$this->payments				= new Mollie_API_Resource_Payments($this);
+		$this->payments			= new Mollie_API_Resource_Payments($this);
 		$this->payments_refunds		= new Mollie_API_Resource_Payments_Refunds($this);
-		$this->issuers				 = new Mollie_API_Resource_Issuers($this);
-		$this->methods				 = new Mollie_API_Resource_Methods($this);
-		$this->customers			   = new Mollie_API_Resource_Customers($this);
-		$this->customers_payments	  = new Mollie_API_Resource_Customers_Payments($this);
-		$this->customers_mandates	  = new Mollie_API_Resource_Customers_Mandates($this);
-		$this->customers_subscriptions = new Mollie_API_Resource_Customers_Subscriptions($this);
+		$this->issuers			= new Mollie_API_Resource_Issuers($this);
+		$this->methods			= new Mollie_API_Resource_Methods($this);
+		$this->customers		= new Mollie_API_Resource_Customers($this);
+		$this->customers_payments	= new Mollie_API_Resource_Customers_Payments($this);
+		$this->customers_mandates	= new Mollie_API_Resource_Customers_Mandates($this);
+		$this->customers_subscriptions	= new Mollie_API_Resource_Customers_Subscriptions($this);
 
 		// OAuth2 endpoints
-		$this->permissions	  = new Mollie_API_Resource_Permissions($this);
-		$this->organizations	= new Mollie_API_Resource_Organizations($this);
-		$this->refunds		  = new Mollie_API_Resource_Refunds($this);
-		$this->profiles		 = new Mollie_API_Resource_Profiles($this);
-		$this->profiles_apikeys = new Mollie_API_Resource_Profiles_APIKeys($this);
-		$this->settlements	  = new Mollie_API_Resource_Settlements($this);
+		$this->permissions		= new Mollie_API_Resource_Permissions($this);
+		$this->organizations		= new Mollie_API_Resource_Organizations($this);
+		$this->refunds			= new Mollie_API_Resource_Refunds($this);
+		$this->profiles			= new Mollie_API_Resource_Profiles($this);
+		$this->profiles_apikeys		= new Mollie_API_Resource_Profiles_APIKeys($this);
+		$this->settlements		= new Mollie_API_Resource_Settlements($this);
 
 		$curl_version = curl_version();
 
