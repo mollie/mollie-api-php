@@ -12,7 +12,7 @@ php:
 
 matrix:
   include:
-    - php: 5.3
+    - php: 5.4
       dist: precise
       sudo: true
 
