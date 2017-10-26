@@ -393,13 +393,13 @@ class Mollie_API_Client
 
 		if (curl_errno($this->ch)) {
 
-			static $connectionErrors = [
+			static $connectionErrors = array(
 				CURLE_OPERATION_TIMEOUTED => true,
 				CURLE_COULDNT_RESOLVE_HOST => true,
 				CURLE_COULDNT_CONNECT => true,
 				CURLE_SSL_CONNECT_ERROR => true,
 				CURLE_GOT_NOTHING => true,
-			];
+			);
 
 			/*
 			 * If there is a connection error, retry (using a fresh connection).
