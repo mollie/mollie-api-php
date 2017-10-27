@@ -31,4 +31,6 @@
  */
 class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
 {
+	public $errorCode;
+	public $errorMessage;
 }
