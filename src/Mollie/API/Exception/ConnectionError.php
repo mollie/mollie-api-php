@@ -64,7 +64,7 @@ class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
     }
 
     /**
-     * @param string $curlErrorCode
+     * @param int $curlErrorCode
      */
     public function setCurlErrorCode($curlErrorCode)
     {
@@ -72,7 +72,7 @@ class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCurlErrorMessage()
     {
@@ -80,7 +80,7 @@ class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
     }
 
     /**
-     * @param mixed $curlErrorMessage
+     * @param string $curlErrorMessage
      */
     public function setCurlErrorMessage($curlErrorMessage)
     {
