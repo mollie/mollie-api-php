@@ -31,6 +31,52 @@
  */
 class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
 {
-	public $errorCode;
-	public $errorMessage;
+	private $curlErrorCode;
+	private $curlErrorMessage;
+
+    /**
+     * @param resource $curl
+     * @return Mollie_API_Exception_ConnectionError
+     */
+    public static function fromCurlFailure($curl)
+    {
+        $e = new static("Unable to communicate with Mollie (".curl_errno($curl)."): " . curl_error($curl) . ")");
+
+        $e->curlErrorCode = curl_errno($curl);
+        $e->curlErrorMessage = curl_error($curl);
+
+        return $e;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurlErrorCode()
+    {
+        return $this->curlErrorCode;
+    }
+
+    /**
+     * @param mixed $curlErrorCode
+     */
+    public function setCurlErrorCode($curlErrorCode)
+    {
+        $this->curlErrorCode = $curlErrorCode;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurlErrorMessage()
+    {
+        return $this->curlErrorMessage;
+    }
+
+    /**
+     * @param mixed $curlErrorMessage
+     */
+    public function setCurlErrorMessage($curlErrorMessage)
+    {
+        $this->curlErrorMessage = $curlErrorMessage;
+    }
 }

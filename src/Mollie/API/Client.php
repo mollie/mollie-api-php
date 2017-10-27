@@ -392,14 +392,10 @@ class Mollie_API_Client
 
 		if (curl_errno($this->ch))
 		{
-			$message = "Unable to communicate with Mollie (".curl_errno($this->ch)."): " . curl_error($this->ch) . ".";
-
 			$this->closeTcpConnection();
 			
-			$exception = new Mollie_API_Exception_ConnectionError($message);
-			$exception->errorCode = curl_errno($this->ch);
-			$exception->errorMessage = curl_error($this->ch);
-			
+			$exception = Mollie_API_Exception_ConnectionError::fromCurlFailure($this->ch);
+
 			throw $exception;
 		}
 
