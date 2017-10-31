@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2013, Mollie B.V.
  * All rights reserved.
@@ -31,59 +32,43 @@
  */
 class Mollie_API_Exception_ConnectionError extends Mollie_API_Exception
 {
-    /**
-     * @var int
-     */
+	/**
+	 * @var int
+	 */
 	private $curlErrorCode;
 
-    /**
-     * @var string
-     */
+	/**
+	 * @var string
+	 */
 	private $curlErrorMessage;
 
-    /**
-     * @param resource $curl
-     * @return Mollie_API_Exception_ConnectionError
-     */
-    public static function fromCurlFailure($curl)
-    {
-        $e = new static("Unable to communicate with Mollie (".curl_errno($curl)."): " . curl_error($curl) . ")");
+	/**
+	 * @param resource $curl
+	 * @return Mollie_API_Exception_ConnectionError
+	 */
+	public static function fromCurlFailure($curl)
+	{
+		$e = new static("Unable to communicate with Mollie (" . curl_errno($curl) . "): " . curl_error($curl) . ".");
 
-        $e->curlErrorCode = curl_errno($curl);
-        $e->curlErrorMessage = curl_error($curl);
+		$e->curlErrorCode = curl_errno($curl);
+		$e->curlErrorMessage = curl_error($curl);
 
-        return $e;
-    }
+		return $e;
+	}
 
-    /**
-     * @return int
-     */
-    public function getCurlErrorCode()
-    {
-        return $this->curlErrorCode;
-    }
+	/**
+	 * @return int
+	 */
+	public function getCurlErrorCode()
+	{
+		return $this->curlErrorCode;
+	}
 
-    /**
-     * @param int $curlErrorCode
-     */
-    public function setCurlErrorCode($curlErrorCode)
-    {
-        $this->curlErrorCode = $curlErrorCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurlErrorMessage()
-    {
-        return $this->curlErrorMessage;
-    }
-
-    /**
-     * @param string $curlErrorMessage
-     */
-    public function setCurlErrorMessage($curlErrorMessage)
-    {
-        $this->curlErrorMessage = $curlErrorMessage;
-    }
+	/**
+	 * @return string
+	 */
+	public function getCurlErrorMessage()
+	{
+		return $this->curlErrorMessage;
+	}
 }
