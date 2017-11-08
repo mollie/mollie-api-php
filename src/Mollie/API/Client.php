@@ -392,9 +392,15 @@ class Mollie_API_Client
 
 		if (curl_errno($this->ch))
 		{
+			$exception = Mollie_API_Exception_ConnectionError::fromCurlFailure($this->ch);
+
 			$this->closeTcpConnection();
 
-			throw Mollie_API_Exception_ConnectionError::fromCurlFailure($this->ch);
+			/*
+			 * We intentionally throw the exception after creating it and closing the connection because closing the
+			 * connection will reset the cull resource to null.
+			 */
+			throw $exception;
 		}
 
 		if (!function_exists("curl_reset"))
