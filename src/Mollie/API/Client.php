@@ -304,7 +304,7 @@ class Mollie_API_Client
 	 */
 	public function setPemPath ($pem_path)
 	{
-		$this->pem_path = strval($pem_path);
+		$this->pem_path = (string) $pem_path;
 	}
 
 	/**
@@ -352,7 +352,7 @@ class Mollie_API_Client
 		curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
 		curl_setopt($this->ch, CURLOPT_ENCODING, "");
 
-		$user_agent = join(' ', $this->version_strings);
+		$user_agent = implode(' ', $this->version_strings);
 
 		if ($this->usesOAuth())
 		{

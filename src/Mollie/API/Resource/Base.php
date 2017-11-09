@@ -256,7 +256,7 @@ abstract class Mollie_API_Resource_Base
 
 		if (version_compare(phpversion(), "5.3.0", ">="))
 		{
-			if (json_last_error() != JSON_ERROR_NONE)
+			if (json_last_error() !== JSON_ERROR_NONE)
 			{
 				throw new Mollie_API_Exception("Error encoding parameters into JSON: '" . json_last_error() . "'.");
 			}
@@ -331,7 +331,7 @@ abstract class Mollie_API_Resource_Base
 	{
 		$body = $this->api->performHttpCall($http_method, $api_method, $http_body);
 
-		if ($this->api->getLastHttpResponseStatusCode() == Mollie_API_Client::HTTP_STATUS_NO_CONTENT)
+		if ($this->api->getLastHttpResponseStatusCode() === Mollie_API_Client::HTTP_STATUS_NO_CONTENT)
 		{
 			return NULL;
 		}
@@ -343,7 +343,7 @@ abstract class Mollie_API_Resource_Base
 
 		$object = @json_decode($body);
 
-		if (json_last_error() != JSON_ERROR_NONE)
+		if (json_last_error() !== JSON_ERROR_NONE)
 		{
 			throw new Mollie_API_Exception("Unable to decode Mollie response: '{$body}'.");
 		}
@@ -381,7 +381,7 @@ abstract class Mollie_API_Resource_Base
 		{
 			list($parent_resource, $child_resource) = explode("_", $this->resource_path, 2);
 
-			if (!strlen($this->parent_id))
+			if (empty($this->parent_id))
 			{
 				throw new Mollie_API_Exception("Subresource '{$this->resource_path}' used without parent '$parent_resource' ID.");
 			}
