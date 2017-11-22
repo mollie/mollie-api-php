@@ -7,7 +7,7 @@ try
 	/*
 	 * Initialize the Mollie API library with your API key.
 	 *
-	 * See: https://www.mollie.com/beheer/account/profielen/
+	 * See: https://www.mollie.com/dashboard/settings/profiles
 	 */
 	require "initialize.php";
 

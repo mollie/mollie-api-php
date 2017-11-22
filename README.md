@@ -11,10 +11,9 @@ Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https
 ## Requirements ##
 To use the Mollie API client, the following things are required:
 
-+ Get yourself a free [Mollie account](https://www.mollie.com/aanmelden). No sign up costs.
-+ Create a new [Website profile](https://www.mollie.com/beheer/account/profielen/) to generate API keys (live and test mode) and setup your webhook.
++ Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
 + Now you're ready to use the Mollie API client in test mode.
-+ In order to accept payments in live mode, payment methods must be activated in your account. Follow [a few of steps](https://www.mollie.com/beheer/diensten), and let us handle the rest.
++ Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 + PHP >= 5.3
 + PHP cURL extension
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
