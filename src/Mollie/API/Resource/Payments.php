@@ -31,6 +31,7 @@
  *
  * @method Mollie_API_Object_Payment[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Payment create(array $data, array $filters = array())
+ * @method Mollie_API_Object_Payment delete($payment_id)
  */
 class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 {
@@ -113,4 +114,17 @@ class Mollie_API_Resource_Payments extends Mollie_API_Resource_Base
 
 		return $this->copy($result, new Mollie_API_Object_Payment_Refund);
 	}
+
+    /**
+     * Cancel the given Payment. This is just an alias of the 'delete' method.
+     *
+     * @param string $payment_id
+     *
+     * @return Mollie_API_Object_Payment
+     * @throws Mollie_API_Exception
+     */
+    public function cancel ($payment_id)
+    {
+        return $this->delete($payment_id);
+    }
 }
