@@ -314,16 +314,17 @@ class Mollie_API_Client
 	 * @see $payments
 	 * @see $isuers
 	 *
-	 * @param $http_method
-	 * @param $api_method
-	 * @param $http_body
+	 * @param string $http_method
+	 * @param string $api_method
+	 * @param string $http_body
+     * @param int $retries Number of times to retry the HTTP call. Will only be retried if there was a connection error.
 	 *
 	 * @return string
 	 * @throws Mollie_API_Exception
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function performHttpCall ($http_method, $api_method, $http_body = NULL)
+	public function performHttpCall ($http_method, $api_method, $http_body = NULL, $retries = 3)
 	{
 		if (empty($this->api_key))
 		{
@@ -388,10 +389,26 @@ class Mollie_API_Client
 
 		$body = curl_exec($this->ch);
 
-		$this->last_http_response_status_code = (int) curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+		$this->last_http_response_status_code = (int)curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
-		if (curl_errno($this->ch))
-		{
+		if (curl_errno($this->ch)) {
+
+			static $connectionErrors = array(
+				CURLE_OPERATION_TIMEOUTED => true,
+				CURLE_COULDNT_RESOLVE_HOST => true,
+				CURLE_COULDNT_CONNECT => true,
+				CURLE_SSL_CONNECT_ERROR => true,
+				CURLE_GOT_NOTHING => true,
+			);
+
+			/*
+			 * If there is a connection error, retry (using a fresh connection).
+			 */
+			if (in_array(curl_errno($this->ch), $connectionErrors) && $retries > 0) {
+				$this->closeTcpConnection();
+				return $this->performHttpCall($http_method, $api_method, $http_body, $retries - 1);
+			}
+
 			$exception = Mollie_API_Exception_ConnectionError::fromCurlFailure($this->ch);
 
 			$this->closeTcpConnection();
