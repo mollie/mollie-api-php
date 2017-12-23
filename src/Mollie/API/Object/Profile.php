@@ -68,7 +68,7 @@ class Mollie_API_Object_Profile
 	/**
 	 * Merchant category code.
 	 *
-	 * @see https://www.mollie.com/en/docs/profiles#profiles-object
+	 * @see https://www.mollie.com/en/docs/reference/profiles/get
 	 * @var int
 	 */
 	public $categoryCode;
@@ -83,7 +83,7 @@ class Mollie_API_Object_Profile
 	/**
 	 * Review object with "status" property that's either "pending" or "rejected".
 	 *
-	 * @see https://www.mollie.com/en/docs/profiles#profiles-object
+	 * @see https://www.mollie.com/en/docs/reference/profiles/get
 	 *
 	 * @var object|null
 	 */
