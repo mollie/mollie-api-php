@@ -55,16 +55,17 @@ try
 	 */
 	database_write($order_id, $payment->status);
 
-	/*
-	 * Send the customer off to complete the payment.
-	 */
+    /*
+     * Send the customer off to complete the payment.
+     * This request should always be a GET, thus we enforce 303 http response code
+     */
 	if (PHP_SAPI === "cli")
 	{
 		echo "Redirect to: " . $payment->getPaymentUrl() . PHP_EOL;
 		return;
 	}
 
-	header("Location: " . $payment->getPaymentUrl());
+	header("Location: " . $payment->getPaymentUrl(), true, 303);
 }
 catch (Mollie_API_Exception $e)
 {
