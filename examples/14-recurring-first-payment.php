@@ -55,7 +55,7 @@ try
 	 * After completion, the customer will have a pending or valid mandate that can be
 	 * used for recurring payments and subscriptions.
 	 */
-	header("Location: " . $payment->getPaymentUrl());
+	header("Location: " . $payment->getPaymentUrl(), true, 303);
 }
 catch (Mollie_API_Exception $e)
 {

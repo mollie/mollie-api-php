@@ -64,7 +64,7 @@ try
 		return;
 	}
 
-	header("Location: " . $payment->getPaymentUrl());
+	header("Location: " . $payment->getPaymentUrl(), true, 303);
 }
 catch (Mollie_API_Exception $e)
 {
