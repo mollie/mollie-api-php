@@ -21,7 +21,7 @@ try
     // create mandate
     $mandate = $mollie->customers_mandates->withParentId($customer->id)->create(array(
         "method" => 'directdebit',
-        "consumerAccount" => 'NL12ABNA654065985',
+        "consumerAccount" => 'NL34ABNA0243341423',
         "consumerName" => 'B. A. Example',
     ));
     echo "<p>Mandate created with id ". $mandate->id."</p>";
