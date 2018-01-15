@@ -11,6 +11,7 @@ try
     require "initialize.php";
     
     $mollie->customers->delete("customer_id");
+    echo "Customer deleted!";
 
 }
 catch (Mollie_API_Exception $e)
