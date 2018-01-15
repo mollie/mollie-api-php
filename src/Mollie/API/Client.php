@@ -403,7 +403,7 @@ class Mollie_API_Client
 			/*
 			 * If there is a connection error, retry (using a fresh connection).
 			 */
-			if (in_array(curl_errno($this->ch), $connectionErrors) && $retries > 0) {
+			if (array_key_exists(curl_errno($this->ch), $connectionErrors) && $retries > 0) {
 				$this->closeTcpConnection();
 				return $this->performHttpCall($http_method, $api_method, $http_body, $retries - 1);
 			}
