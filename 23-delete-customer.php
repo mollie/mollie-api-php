@@ -1,4 +1,8 @@
 <?php
+/*
+Example 23 - Delete a customer from mollie api.
+*/
+
 try
 {
     /*
