@@ -258,11 +258,11 @@ class Mollie_API_Object_Payment
 	 */
 	public $links;
 
-    /**
-     * Whether or not this payment can be cancelled.
-     *
-     * @var bool|null
-     */
+	/**
+	* Whether or not this payment can be cancelled.
+	*
+	* @var bool|null
+	*/
 	public $canBeCancelled;
 
 	/**
