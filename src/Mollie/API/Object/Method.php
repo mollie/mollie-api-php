@@ -97,6 +97,11 @@ class Mollie_API_Object_Method
 	const KBC = "kbc";
 
 	/**
+	 * @link https://www.mollie.com/nl/payments/ing-homepay
+	 */
+	const INGHOMEPAY = "inghomepay";
+	
+	/**
 	 * Gift cards
 	 */
 	const GIFTCARD = "giftcard";
