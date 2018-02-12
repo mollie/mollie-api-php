@@ -27,7 +27,7 @@ By far the easiest way to install the Mollie API client is to require it with [C
 
     {
         "require": {
-            "mollie/mollie-api-php": "1.9.*"
+            "mollie/mollie-api-php": "^1.9"
         }
     }
 
