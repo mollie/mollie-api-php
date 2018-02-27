@@ -192,6 +192,13 @@ class Mollie_API_Object_Payment
 	public $expiredDatetime;
 
 	/**
+	 * Date and time the payment failed in ISO-8601 format.
+	 *
+	 * @var string|null
+	 */
+	public $failedDatetime;
+
+	/**
 	 * The profile ID this payment belongs to.
 	 *
 	 * @example pfl_xH2kP6Nc6X
