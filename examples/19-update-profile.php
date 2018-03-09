@@ -3,8 +3,9 @@
  * Example 19 - Updating an existing profile via the Mollie API.
  */
 
-try
-{
+use Mollie\Api\Exceptions\ApiException;
+
+try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
@@ -20,16 +21,14 @@ try
      *
      * @See https://www.mollie.com/en/docs/reference/profiles/update
      */
-    $profile->name    = "Mollie B.V.";
+    $profile->name = "Mollie B.V.";
     $profile->website = 'www.mollie.com';
-    $profile->email   = 'info@mollie.com';
-    $profile->phone   = '0612345670';
+    $profile->email = 'info@mollie.com';
+    $profile->phone = '0612345670';
     $profile->categoryCode = 5399;
     $profile = $mollie->profiles->update($profile);
 
     echo "<p>Profile updated: " . htmlspecialchars($profile->name) . "</p>";
-}
-catch (Mollie_API_Exception $e)
-{
+} catch (ApiException $e) {
     echo "<p>API call failed: " . htmlspecialchars($e->getMessage()) . "</p>";
 }

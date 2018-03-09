@@ -54,7 +54,7 @@ require "Mollie/API/Autoloader.php";
 Initializing the Mollie API client, and setting your API key.
 
 ```php
-$mollie = new Mollie_API_Client;
+$mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 ``` 
 
@@ -94,7 +94,7 @@ Retrieve the list of issuers:
 $issuers = $mollie->issuers->all();
 ```
 
-_`$issuers` will be a list of `Mollie_API_Object_Issuer` objects. Use the property `$id` of this object in the
+_`$issuers` will be a list of `\Mollie\Api\Resources\Issuer` objects. Use the property `$id` of this object in the
  API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/04-ideal-payment.php)._
 
 Create a payment with the selected issuer:
@@ -105,7 +105,7 @@ $payment = $mollie->payments->create(array(
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
-    "method"      => Mollie_API_Object_Method::IDEAL,
+    "method"      => \Mollie\Api\Resources\Method::IDEAL,
     "issuer"      => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
 ));
 ```

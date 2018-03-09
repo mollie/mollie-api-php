@@ -1,52 +1,58 @@
 <?php
 
+use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\PaymentRefundEndpoint;
+use Mollie\Api\Endpoints\RefundEndpoint;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\Payment;
+
 class Mollie_API_Resource_BaseUnitTest extends PHPUnit_Framework_TestCase
 {
-	public function testGetResourcePathTopLevelWorks()
-	{
-		$resource = new Mollie_API_Resource_Payments(new Mollie_API_Client);
+    public function testGetResourcePathTopLevelWorks()
+    {
+        $resource = new PaymentEndpoint(new MollieApiClient());
 
-		$this->assertSame("payments", $resource->getResourcePath());
-	}
+        $this->assertSame("payments", $resource->getResourcePath());
+    }
 
-	public function testGetResourcePathTopLevelRefundsWorks()
-	{
-		$resource = new Mollie_API_Resource_Refunds(new Mollie_API_Client);
+    public function testGetResourcePathTopLevelRefundsWorks()
+    {
+        $resource = new RefundEndpoint(new MollieApiClient());
 
-		$this->assertSame("refunds", $resource->getResourcePath());
-	}
+        $this->assertSame("refunds", $resource->getResourcePath());
+    }
 
-	/**
-	 * @expectedException Mollie_API_Exception
-	 * @expectedExceptionMessage Subresource 'payments_refunds' used without parent 'payments' ID.
-	 */
-	public function testGetResourcePathSubresourceFails()
-	{
-		$resource = new Mollie_API_Resource_Payments_Refunds(new Mollie_API_Client);
-		$resource->getResourcePath();
-	}
+    /**
+     * @expectedException \Mollie\Api\Exceptions\ApiException
+     * @expectedExceptionMessage Subresource 'payments_refunds' used without parent 'payments' ID.
+     */
+    public function testGetResourcePathSubresourceFails()
+    {
+        $resource = new PaymentRefundEndpoint(new MollieApiClient());
+        $resource->getResourcePath();
+    }
 
-	public function testGetResourcePathSubresourceWorks()
-	{
-		$resource = new Mollie_API_Resource_Payments_Refunds(new Mollie_API_Client);
+    public function testGetResourcePathSubresourceWorks()
+    {
+        $resource = new PaymentRefundEndpoint(new MollieApiClient());
 
-		$this->assertSame("payments/tr_1237191/refunds", $resource->withParentId("tr_1237191")->getResourcePath());
-	}
+        $this->assertSame("payments/tr_1237191/refunds", $resource->withParentId("tr_1237191")->getResourcePath());
+    }
 
-	public function testSetResourcePathWorks()
-	{
-		$resource = new Mollie_API_Resource_Payments_Refunds(new Mollie_API_Client);
-		$resource->setResourcePath("requests_responses");
+    public function testSetResourcePathWorks()
+    {
+        $resource = new PaymentRefundEndpoint(new MollieApiClient());
+        $resource->setResourcePath("requests_responses");
 
-		$this->assertSame("requests/req_8192398/responses", $resource->withParentId("req_8192398")->getResourcePath());
-	}
+        $this->assertSame("requests/req_8192398/responses", $resource->withParentId("req_8192398")->getResourcePath());
+    }
 
-	public function testWithWorks()
-	{
-		$resource    = new Mollie_API_Resource_Payments_Refunds(new Mollie_API_Client);
-		$payment     = new Mollie_API_Object_Payment;
-		$payment->id = "tr_1237191";
+    public function testWithWorks()
+    {
+        $resource = new PaymentRefundEndpoint(new MollieApiClient());
+        $payment = new Payment();
+        $payment->id = "tr_1237191";
 
-		$this->assertSame("payments/tr_1237191/refunds", $resource->with($payment)->getResourcePath());
-	}
+        $this->assertSame("payments/tr_1237191/refunds", $resource->with($payment)->getResourcePath());
+    }
 }

@@ -3,8 +3,9 @@
  * Example 21 - Reset a API key
  */
 
-try
-{
+use Mollie\Api\Exceptions\ApiException;
+
+try {
     /*
      * Initialize the Mollie API library with a OAuth access token.
      */
@@ -18,9 +19,7 @@ try
     /*
      * Reset the live API key
      */
-    $new_live_api_key = $mollie->profiles_apikeys->with($profile)->reset("live");
-}
-catch (Mollie_API_Exception $e)
-{
+    $new_live_api_key = $mollie->apikeys->with($profile)->reset("live");
+} catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

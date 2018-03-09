@@ -3,8 +3,9 @@
  * Example 20 - How to get the API keys for a given profile
  */
 
-try
-{
+use Mollie\Api\Exceptions\ApiException;
+
+try {
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
@@ -18,14 +19,11 @@ try
     /*
      * Get the API keys for this profile.
      */
-    $api_keys = $mollie->profiles_apikeys->with($profile)->all();
+    $api_keys = $mollie->apikeys->with($profile)->all();
 
-    foreach ($api_keys as $api_key)
-    {
+    foreach ($api_keys as $api_key) {
         echo htmlspecialchars($api_key->key) . "<br />";
     }
-}
-catch (Mollie_API_Exception $e)
-{
+} catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

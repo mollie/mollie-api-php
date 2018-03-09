@@ -3,30 +3,28 @@
  * Example 5 - How to retrieve your payments history.
  */
 
-try
-{
-	/*
-	 * Initialize the Mollie API library with your API key.
-	 *
-	 * See: https://www.mollie.com/dashboard/settings/profiles
-	 */
-	require "initialize.php";
+use Mollie\Api\Exceptions\ApiException;
 
-	// Pagination
-	$offset = 0;
-	$limit  = 25;
+try {
+    /*
+     * Initialize the Mollie API library with your API key.
+     *
+     * See: https://www.mollie.com/dashboard/settings/profiles
+     */
+    require "initialize.php";
 
-	/*
-	 * Get the all payments for this API key ordered by newest.
-	 */
-	$payments = $mollie->payments->all($offset,  $limit);
+    // Pagination
+    $offset = 0;
+    $limit = 25;
 
-	foreach ($payments as $payment)
-	{
-		echo "&euro; " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
-	}
-}
-catch (Mollie_API_Exception $e)
-{
-	echo "API call failed: " . htmlspecialchars($e->getMessage());
+    /*
+     * Get the all payments for this API key ordered by newest.
+     */
+    $payments = $mollie->payments->all($offset, $limit);
+
+    foreach ($payments as $payment) {
+        echo "&euro; " . htmlspecialchars($payment->amount) . ", status: " . htmlspecialchars($payment->status) . "<br>";
+    }
+} catch (ApiException $e) {
+    echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
