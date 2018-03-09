@@ -122,23 +122,6 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    /**
-     * @expectedException Mollie\Api\Exceptions\ApiException
-     * @expectedExceptionMessage Error encoding parameters into JSON: '5'.
-     * @requires PHP 5.3.0
-     */
-    public function testCreatePaymentJsonFailsPhp53()
-    {
-        $this->api->expects($this->never())
-            ->method("performHttpCall");
-
-        $this->api->payments->create(array(
-            "amount" => 100.00,
-            "description" => "Order #1337 24 Roundhousekicks \x80 15,-",
-            "redirectUrl" => "http://www.chucknorris.rhk/return.php",
-        ));
-    }
-
     public function testCreatePaymentWorksCorrectly()
     {
         $this->api->expects($this->once())

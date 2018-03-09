@@ -84,8 +84,7 @@ abstract class EndpointAbstract
             return "";
         }
 
-        // Force & because of some PHP 5.3 defaults.
-        return "?" . http_build_query($filters, "", "&");
+        return "?" . http_build_query($filters, "");
     }
 
     /**
@@ -256,14 +255,8 @@ abstract class EndpointAbstract
     {
         $encoded = json_encode($data);
 
-        if (version_compare(phpversion(), "5.3.0", ">=")) {
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new ApiException("Error encoding parameters into JSON: '" . json_last_error() . "'.");
-            }
-        } else {
-            if ($encoded === FALSE) {
-                throw new ApiException("Error encoding parameters into JSON.");
-            }
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ApiException("Error encoding parameters into JSON: '" . json_last_error() . "'.");
         }
 
         return $this->rest_create($this->getResourcePath(), $encoded, $filters);
