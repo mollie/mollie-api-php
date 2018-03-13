@@ -2,6 +2,9 @@
 
 namespace Mollie\Api;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\ApiKeyEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentEndpoint;
@@ -18,8 +21,8 @@ use Mollie\Api\Endpoints\SettlementEndpoint;
 use Mollie\Api\Endpoints\CustomerSubscriptionEndpoint;
 use Mollie\Api\Endpoints\UndefinedEndpoint;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\ConnectionError;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -73,6 +76,11 @@ class MollieApiClient
     const HTTP_DELETE = "DELETE";
 
     const HTTP_STATUS_NO_CONTENT = 204;
+
+    /**
+     * @var ClientInterface
+     */
+    protected $http_client;
 
     /**
      * @var string
@@ -213,10 +221,17 @@ class MollieApiClient
     protected $last_http_response_status_code;
 
     /**
+     * @param ClientInterface $http_client
+     *
      * @throws IncompatiblePlatform
      */
-    public function __construct()
+    public function __construct(ClientInterface $http_client = null)
     {
+        $this->http_client = $http_client;
+        if (!$this->http_client) {
+            $this->http_client = new Client();
+        }
+
         $this->getCompatibilityChecker()
             ->checkCompatibility();
 
@@ -344,110 +359,35 @@ class MollieApiClient
      * @param string $http_method
      * @param string $api_method
      * @param string $http_body
-     * @param int $retries Number of times to retry the HTTP call. Will only be retried if there was a connection error.
      *
-     * @return string
+     * @return ResponseInterface
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCall($http_method, $api_method, $http_body = NULL, $retries = 3)
+    public function performHttpCall($http_method, $api_method, $http_body = NULL)
     {
         if (empty($this->api_key)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }
 
-        if (empty($this->ch) || !function_exists("curl_reset")) {
-            /*
-             * Initialize a cURL handle.
-             */
-            $this->ch = curl_init();
-        } else {
-            /*
-             * Reset the earlier used cURL handle.
-             */
-            curl_reset($this->ch);
-        }
-
         $url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
-
-        curl_setopt($this->ch, CURLOPT_URL, $url);
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($this->ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($this->ch, CURLOPT_ENCODING, "");
-
         $user_agent = implode(' ', $this->version_strings);
 
         if ($this->usesOAuth()) {
             $user_agent .= " OAuth/2.0";
         }
 
-        $request_headers = array(
-            "Accept: application/json",
-            "Authorization: Bearer {$this->api_key}",
-            "User-Agent: {$user_agent}",
-            "X-Mollie-Client-Info: " . php_uname(),
-            "Expect:",
-        );
+        $headers = [
+            'Accept' => "application/json",
+            'Authorization' => "Bearer {$this->api_key}",
+            'User-Agent' => $user_agent,
+            'X-Mollie-Client-Info' => php_uname(),
+        ];
 
-        curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $http_method);
+        $request = new Request($http_method, $url, $headers, $http_body);
 
-        if ($http_body !== NULL) {
-            $request_headers[] = "Content-Type: application/json";
-            curl_setopt($this->ch, CURLOPT_POST, 1);
-            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $http_body);
-        }
-
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $request_headers);
-        curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
-
-        /*
-         * On some servers, the list of installed certificates is outdated or not present at all (the ca-bundle.crt
-         * is not installed). So we tell cURL which certificates we trust.
-         */
-        curl_setopt($this->ch, CURLOPT_CAINFO, $this->pem_path);
-
-        $body = curl_exec($this->ch);
-
-        $this->last_http_response_status_code = (int)curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($this->ch)) {
-
-            static $connectionErrors = array(
-                CURLE_COULDNT_RESOLVE_HOST => true,
-                CURLE_COULDNT_CONNECT => true,
-                CURLE_SSL_CONNECT_ERROR => true,
-                CURLE_GOT_NOTHING => true,
-            );
-
-            /*
-             * If there is a connection error, retry (using a fresh connection).
-             */
-            if (array_key_exists(curl_errno($this->ch), $connectionErrors) && $retries > 0) {
-                $this->closeTcpConnection();
-                return $this->performHttpCall($http_method, $api_method, $http_body, $retries - 1);
-            }
-
-            $exception = ConnectionError::fromCurlFailure($this->ch);
-
-            $this->closeTcpConnection();
-
-            /*
-             * We intentionally throw the exception after creating it and closing the connection because closing the
-             * connection will reset the cull resource to null.
-             */
-            throw $exception;
-        }
-
-        if (!function_exists("curl_reset")) {
-            /*
-             * Keep it open if supported by PHP, else close the handle.
-             */
-            $this->closeTcpConnection();
-        }
-
-        return $body;
+        return $this->http_client->send($request);
     }
 
     /**

@@ -319,12 +319,9 @@ abstract class EndpointAbstract
      */
     protected function performApiCall($http_method, $api_method, $http_body = NULL)
     {
-        $body = $this->api->performHttpCall($http_method, $api_method, $http_body);
+        $response = $this->api->performHttpCall($http_method, $api_method, $http_body);
 
-        if ($this->api->getLastHttpResponseStatusCode() === MollieApiClient::HTTP_STATUS_NO_CONTENT) {
-            return NULL;
-        }
-
+        $body = $response->getBody()->getContents();
         if (empty($body)) {
             throw new ApiException("Unable to decode Mollie response: '{$body}'.");
         }

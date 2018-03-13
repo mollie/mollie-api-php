@@ -2,7 +2,7 @@
 
 use Mollie\Api\MollieApiClient;
 
-require_once dirname(__FILE__) . "/../src/Mollie/API/Autoloader.php";
+require_once dirname(__FILE__) . "/../vendor/autoload.php";
 
 /*
  * Initialize the Mollie API library with your API key.
@@ -10,4 +10,4 @@ require_once dirname(__FILE__) . "/../src/Mollie/API/Autoloader.php";
  * See: https://www.mollie.com/dashboard/settings/profiles
  */
 $mollie = new MollieApiClient();
-$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+$mollie->setApiKey("test_GanRG1ZUHSilMENXnI1pEs2VTznuNb");
