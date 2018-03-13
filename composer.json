@@ -27,7 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Mollie\\Api\\": "src/Mollie/API"
+            "Mollie\\Api\\": "src/Mollie/API",
+            "Tests\\": "tests"
         }
     },
     "suggest": {

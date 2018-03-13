@@ -109,7 +109,7 @@ class PaymentEndpoint extends EndpointAbstract
             $body = json_encode($filters);
         }
 
-        $result = $this->performApiCall(self::REST_CREATE, $resource, $body);
+        $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
 
         /*
          * Update the payment with the new properties that we got from the refund.

@@ -26,6 +26,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped("Skipped until replaced by v2 tests");
+
         parent::setUp();
 
         $this->compatibilityChecker = $this->getMockBuilder(CompatibilityChecker::class)

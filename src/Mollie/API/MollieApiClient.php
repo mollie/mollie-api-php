@@ -360,7 +360,7 @@ class MollieApiClient
      * @param string $api_method
      * @param string $http_body
      *
-     * @return ResponseInterface
+     * @return object
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -386,8 +386,46 @@ class MollieApiClient
         ];
 
         $request = new Request($http_method, $url, $headers, $http_body);
+        
+        $response = $this->http_client->send($request);
+        if(!$response) {
+            throw new ApiException("Did not receive API response.");
+        }
+        
+        return $this->parseResponseBody($response);
+    }
 
-        return $this->http_client->send($request);
+    /**
+     * Parse the PSR-7 Response body
+     *
+     * @param ResponseInterface $response
+     * @return object
+     * @throws ApiException
+     */
+    private function parseResponseBody(ResponseInterface $response)
+    {
+        $body = $response->getBody()->getContents();
+        if (empty($body)) {
+            throw new ApiException("No response body found.");
+        }
+
+        $object = @json_decode($body);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
+        }
+
+        if (!empty($object->error)) {
+            $exception = new ApiException("Error executing API call ({$object->error->type}): {$object->error->message}.");
+
+            if (!empty($object->error->field)) {
+                $exception->setField($object->error->field);
+            }
+
+            throw $exception;
+        }
+
+        return $object;
     }
 
     /**

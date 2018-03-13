@@ -96,7 +96,7 @@ abstract class EndpointAbstract
      */
     private function rest_create($rest_resource, $body, array $filters)
     {
-        $result = $this->performApiCall(
+        $result = $this->api->performHttpCall(
             self::REST_CREATE,
             $rest_resource . $this->buildQueryString($filters),
             $body
@@ -121,7 +121,7 @@ abstract class EndpointAbstract
         }
 
         $id = urlencode($id);
-        $result = $this->performApiCall(
+        $result = $this->api->performHttpCall(
             self::REST_READ,
             "{$rest_resource}/{$id}" . $this->buildQueryString($filters)
         );
@@ -145,7 +145,7 @@ abstract class EndpointAbstract
         }
 
         $id = urlencode($id);
-        $result = $this->performApiCall(
+        $result = $this->api->performHttpCall(
             self::REST_DELETE,
             "{$rest_resource}/{$id}"
         );
@@ -174,7 +174,7 @@ abstract class EndpointAbstract
         }
 
         $id = urlencode($id);
-        $result = $this->performApiCall(
+        $result = $this->api->performHttpCall(
             self::REST_UPDATE,
             "{$rest_resource}/{$id}",
             $body
@@ -199,7 +199,7 @@ abstract class EndpointAbstract
 
         $api_path = $rest_resource . $this->buildQueryString($filters);
 
-        $result = $this->performApiCall(self::REST_LIST, $api_path);
+        $result = $this->api->performHttpCall(self::REST_LIST, $api_path);
 
         /** @var BaseCollection $collection */
         $collection = $this->copy($result, $this->getResourceCollectionObject());
@@ -305,44 +305,6 @@ abstract class EndpointAbstract
     public function all($offset = 0, $limit = 0, array $filters = array())
     {
         return $this->rest_list($this->getResourcePath(), $offset, $limit, $filters);
-    }
-
-    /**
-     * Perform an API call, and interpret the results and convert them to correct objects.
-     *
-     * @param      $http_method
-     * @param      $api_method
-     * @param null $http_body
-     *
-     * @return object
-     * @throws ApiException
-     */
-    protected function performApiCall($http_method, $api_method, $http_body = NULL)
-    {
-        $response = $this->api->performHttpCall($http_method, $api_method, $http_body);
-
-        $body = $response->getBody()->getContents();
-        if (empty($body)) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        $object = @json_decode($body);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        if (!empty($object->error)) {
-            $exception = new ApiException("Error executing API call ({$object->error->type}): {$object->error->message}.");
-
-            if (!empty($object->error->field)) {
-                $exception->setField($object->error->field);
-            }
-
-            throw $exception;
-        }
-
-        return $object;
     }
 
     /**

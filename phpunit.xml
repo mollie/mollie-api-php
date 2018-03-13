@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit colors="true">
+<phpunit colors="true" bootstrap="./vendor/autoload.php">
 	<php>
 		<ini name="display_errors" value="stderr" />
 		<ini name="error_log" value="/dev/null" />
