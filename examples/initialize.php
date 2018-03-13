@@ -10,4 +10,4 @@ require_once dirname(__FILE__) . "/../vendor/autoload.php";
  * See: https://www.mollie.com/dashboard/settings/profiles
  */
 $mollie = new MollieApiClient();
-$mollie->setApiKey("test_GanRG1ZUHSilMENXnI1pEs2VTznuNb");
+$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
