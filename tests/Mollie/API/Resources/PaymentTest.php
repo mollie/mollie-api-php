@@ -1,6 +1,8 @@
 <?php
 
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Types\PaymentStatus;
+use Mollie\Api\Types\SequenceType;
 
 class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
 {
@@ -8,7 +10,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_CANCELLED;
+        $payment->status = PaymentStatus::STATUS_CANCELLED;
         $this->assertTrue($payment->isCancelled());
     }
 
@@ -19,7 +21,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isCancelled());
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertFalse($payment->isCancelled());
     }
 
@@ -27,7 +29,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_EXPIRED;
+        $payment->status = PaymentStatus::STATUS_EXPIRED;
         $this->assertTrue($payment->isExpired());
     }
 
@@ -38,7 +40,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isExpired());
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertFalse($payment->isExpired());
     }
 
@@ -46,7 +48,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_OPEN;
+        $payment->status = PaymentStatus::STATUS_OPEN;
         $this->assertTrue($payment->isOpen());
     }
 
@@ -57,7 +59,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isOpen());
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertFalse($payment->isOpen());
     }
 
@@ -65,7 +67,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_PENDING;
+        $payment->status = PaymentStatus::STATUS_PENDING;
         $this->assertTrue($payment->isPending());
     }
 
@@ -76,7 +78,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isPending());
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertFalse($payment->isPending());
     }
 
@@ -84,7 +86,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->paidDatetime = "2016-10-24";
+        $payment->paidAt = "2016-10-24";
         $this->assertTrue($payment->isPaid());
     }
 
@@ -92,7 +94,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_PAID;
+        $payment->status = PaymentStatus::STATUS_PAID;
         $this->assertFalse($payment->isPaid());
     }
 
@@ -103,7 +105,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isPaid());
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertFalse($payment->isPaid());
     }
 
@@ -111,7 +113,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_PAIDOUT;
+        $payment->status = PaymentStatus::STATUS_PAIDOUT;
         $this->assertTrue($payment->isPaidOut());
     }
 
@@ -122,7 +124,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isPaidOut());
 
-        $payment->status = Payment::STATUS_REFUNDED;
+        $payment->status = PaymentStatus::STATUS_REFUNDED;
         $this->assertFalse($payment->isPaidOut());
     }
 
@@ -130,7 +132,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_REFUNDED;
+        $payment->status = PaymentStatus::STATUS_REFUNDED;
         $this->assertTrue($payment->isRefunded());
     }
 
@@ -141,7 +143,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isRefunded());
 
-        $payment->status = Payment::STATUS_CANCELLED;
+        $payment->status = PaymentStatus::STATUS_CANCELLED;
         $this->assertFalse($payment->isRefunded());
     }
 
@@ -149,7 +151,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_CHARGED_BACK;
+        $payment->status = PaymentStatus::STATUS_CHARGED_BACK;
         $this->assertTrue($payment->isChargedBack());
     }
 
@@ -160,7 +162,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isChargedBack());
 
-        $payment->status = Payment::STATUS_CANCELLED;
+        $payment->status = PaymentStatus::STATUS_CANCELLED;
         $this->assertFalse($payment->isChargedBack());
     }
 
@@ -168,7 +170,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = Payment::STATUS_FAILED;
+        $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertTrue($payment->isFailed());
     }
 
@@ -179,7 +181,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $payment->status = NULL;
         $this->assertFalse($payment->isFailed());
 
-        $payment->status = Payment::STATUS_OPEN;
+        $payment->status = PaymentStatus::STATUS_OPEN;
         $this->assertFalse($payment->isFailed());
     }
 
@@ -187,40 +189,38 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->recurringType = Payment::RECURRINGTYPE_FIRST;
-        $this->assertTrue($payment->hasRecurringType());
-        $this->assertFalse($payment->hasRecurringTypeRecurring());
-        $this->assertTrue($payment->hasRecurringTypeFirst());
+        $payment->sequenceType = SequenceType::SEQUENCETYPE_FIRST;
+        $this->assertFalse($payment->hasSequenceTypeRecurring());
+        $this->assertTrue($payment->hasSequenceTypeFirst());
     }
 
     public function testHasRecurringTypeReturnsTrueWhenRecurringTypeIsRecurring()
     {
         $payment = new Payment();
 
-        $payment->recurringType = Payment::RECURRINGTYPE_RECURRING;
-        $this->assertTrue($payment->hasRecurringType());
-        $this->assertTrue($payment->hasRecurringTypeRecurring());
-        $this->assertFalse($payment->hasRecurringTypeFirst());
+        $payment->sequenceType = SequenceType::SEQUENCETYPE_RECURRING;
+        $this->assertTrue($payment->hasSequenceTypeRecurring());
+        $this->assertFalse($payment->hasSequenceTypeFirst());
     }
 
     public function testHasRecurringTypeReturnsFalseWhenRecurringTypeIsNone()
     {
         $payment = new Payment();
 
-        $payment->recurringType = Payment::RECURRINGTYPE_NONE;
-        $this->assertFalse($payment->hasRecurringType());
-        $this->assertFalse($payment->hasRecurringTypeFirst());
-        $this->assertFalse($payment->hasRecurringTypeRecurring());
+        $payment->sequenceType = SequenceType::SEQUENCETYPE_ONEOFF;
+        $this->assertFalse($payment->hasSequenceTypeFirst());
+        $this->assertFalse($payment->hasSequenceTypeRecurring());
     }
 
     public function testGetPaymentUrlReturnsPaymentUrlFromLinksObject()
     {
         $payment = new Payment();
 
-        $payment->links = new stdClass();
-        $payment->links->paymentUrl = "https://example.com";
+        $payment->_links = new stdClass();
+        $payment->_links->checkout =new stdClass();
+        $payment->_links->checkout->href = "https://example.com";
 
-        $this->assertSame($payment->getPaymentUrl(), "https://example.com");
+        $this->assertSame($payment->getCheckoutUrl(), "https://example.com");
     }
 
     public function testCanBeRefundedReturnsTrueWhenAmountRemainingIsSet()

@@ -61,11 +61,11 @@ try {
      * This request should always be a GET, thus we enforce 303 http response code
      */
     if (PHP_SAPI === "cli") {
-        echo "Redirect to: " . $payment->getPaymentUrl() . PHP_EOL;
+        echo "Redirect to: " . $payment->getCheckoutUrl() . PHP_EOL;
         return;
     }
 
-    header("Location: " . $payment->getPaymentUrl(), true, 303);
+    header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

@@ -5,6 +5,7 @@
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Types\SequenceType;
 
 try {
     /*
@@ -28,7 +29,7 @@ try {
         "description" => "An on-demand recurring payment",
 
         // Flag this payment as a recurring payment.
-        "recurringType" => Payment::RECURRINGTYPE_RECURRING,
+        "recurringType" => SequenceType::SEQUENCETYPE_RECURRING,
     ));
 
     /*

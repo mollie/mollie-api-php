@@ -2,6 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Types\PaymentStatus;
+use Mollie\Api\Types\SequenceType;
+use stdClass;
+
 /**
  * Copyright (c) 2013, Mollie B.V.
  * All rights reserved.
@@ -35,61 +39,6 @@ namespace Mollie\Api\Resources;
 class Payment
 {
     /**
-     * The payment has just been created, no action has happened on it yet.
-     */
-    const STATUS_OPEN = "open";
-
-    /**
-     * The payment has just been started, no final confirmation yet.
-     */
-    const STATUS_PENDING = "pending";
-
-    /**
-     * The customer has cancelled the payment.
-     */
-    const STATUS_CANCELLED = "cancelled";
-
-    /**
-     * The payment has expired due to inaction of the customer.
-     */
-    const STATUS_EXPIRED = "expired";
-
-    /**
-     * The payment has been paid.
-     */
-    const STATUS_PAID = "paid";
-
-    /**
-     * The payment has been paidout and the money has been transferred to the bank account of the merchant.
-     */
-    const STATUS_PAIDOUT = "paidout";
-
-    /**
-     * The payment has been refunded, either through Mollie or through the payment provider (in the case of PayPal).
-     */
-    const STATUS_REFUNDED = "refunded";
-
-    /**
-     * Some payment methods provide your customers with the ability to dispute payments which could
-     * ultimately lead to a chargeback.
-     */
-    const STATUS_CHARGED_BACK = "charged_back";
-
-    /**
-     * The payment has failed.
-     */
-    const STATUS_FAILED = "failed";
-
-    /**
-     * Recurring types.
-     *
-     * @see https://www.mollie.com/en/docs/recurring
-     */
-    const RECURRINGTYPE_NONE = NULL;
-    const RECURRINGTYPE_FIRST = "first";
-    const RECURRINGTYPE_RECURRING = "recurring";
-
-    /**
      * @var string
      */
     public $resource;
@@ -111,7 +60,7 @@ class Payment
     /**
      * The amount of the payment in EURO with 2 decimals.
      *
-     * @var float
+     * @var StdClass
      */
     public $amount;
 
@@ -155,51 +104,45 @@ class Payment
      *
      * @var string
      */
-    public $status = self::STATUS_OPEN;
+    public $status = PaymentStatus::STATUS_OPEN;
 
     /**
-     * The period after which the payment will expire in ISO-8601 format.
+     * UTC datetime the payment was created in ISO-8601 format.
      *
-     * @example P12DT11H30M45S (12 days, 11 hours, 30 minutes and 45 seconds)
+     * @example "2013-12-25T10:30:54+00:00"
      * @var string|null
      */
-    public $expiryPeriod;
+    public $createdAt;
 
     /**
-     * Date and time the payment was created in ISO-8601 format.
+     * UTC datetime the payment was paid in ISO-8601 format.
      *
-     * @example "2013-12-25T10:30:54.0Z"
+     * @example "2013-12-25T10:30:54+00:00"
      * @var string|null
      */
-    public $createdDatetime;
+    public $paidAt;
 
     /**
-     * Date and time the payment was paid in ISO-8601 format.
+     * UTC datetime the payment was cancelled in ISO-8601 format.
      *
+     * @example "2013-12-25T10:30:54+00:00"
      * @var string|null
      */
-    public $paidDatetime;
+    public $cancelledAt;
 
     /**
-     * Date and time the payment was cancelled in ISO-8601 format.
-     *
-     * @var string|null
-     */
-    public $cancelledDatetime;
-
-    /**
-     * Date and time the payment was cancelled in ISO-8601 format.
+     * UTC datetime the payment was cancelled in ISO-8601 format.
      *
      * @var string|null
      */
-    public $expiredDatetime;
+    public $expiredAt;
 
     /**
-     * Date and time the payment failed in ISO-8601 format.
+     * UTC datetime the payment failed in ISO-8601 format.
      *
      * @var string|null
      */
-    public $failedDatetime;
+    public $failedAt;
 
     /**
      * The profile ID this payment belongs to.
@@ -218,11 +161,11 @@ class Payment
     public $customerId;
 
     /**
-     * Either "first", "recurring", or NULL for regular payments.
+     * Either "first", "recurring", or "oneoff" for regular payments.
      *
      * @var string|null
      */
-    public $recurringType;
+    public $sequenceType;
 
     /**
      * The mandate ID this payment is performed with.
@@ -264,9 +207,9 @@ class Payment
     public $details;
 
     /**
-     * @var object
+     * @var object[]
      */
-    public $links;
+    public $_links;
 
     /**
      * Whether or not this payment can be cancelled.
@@ -282,7 +225,7 @@ class Payment
      */
     public function isCancelled()
     {
-        return $this->status === self::STATUS_CANCELLED;
+        return $this->status === PaymentStatus::STATUS_CANCELLED;
     }
 
     /**
@@ -292,7 +235,7 @@ class Payment
      */
     public function isExpired()
     {
-        return $this->status === self::STATUS_EXPIRED;
+        return $this->status === PaymentStatus::STATUS_EXPIRED;
     }
 
     /**
@@ -302,7 +245,7 @@ class Payment
      */
     public function isOpen()
     {
-        return $this->status === self::STATUS_OPEN;
+        return $this->status === PaymentStatus::STATUS_OPEN;
     }
 
     /**
@@ -312,7 +255,7 @@ class Payment
      */
     public function isPending()
     {
-        return $this->status === self::STATUS_PENDING;
+        return $this->status === PaymentStatus::STATUS_PENDING;
     }
 
     /**
@@ -322,7 +265,7 @@ class Payment
      */
     public function isPaid()
     {
-        return !empty($this->paidDatetime);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -335,7 +278,7 @@ class Payment
      */
     public function isPaidOut()
     {
-        return $this->status === self::STATUS_PAIDOUT;
+        return $this->status === PaymentStatus::STATUS_PAIDOUT;
     }
 
     /**
@@ -345,7 +288,7 @@ class Payment
      */
     public function isRefunded()
     {
-        return $this->status === self::STATUS_REFUNDED;
+        return $this->status === PaymentStatus::STATUS_REFUNDED;
     }
 
     /**
@@ -355,7 +298,7 @@ class Payment
      */
     public function isChargedBack()
     {
-        return $this->status === self::STATUS_CHARGED_BACK;
+        return $this->status === PaymentStatus::STATUS_CHARGED_BACK;
     }
 
     /**
@@ -365,39 +308,29 @@ class Payment
      */
     public function isFailed()
     {
-        return $this->status === self::STATUS_FAILED;
+        return $this->status === PaymentStatus::STATUS_FAILED;
     }
 
     /**
-     * Check whether the 'recurringType' parameter has been defined for this payment.
-     *
-     * @return bool
-     */
-    public function hasRecurringType()
-    {
-        return $this->hasRecurringTypeFirst() || $this->hasRecurringTypeRecurring();
-    }
-
-    /**
-     * Check whether 'recurringType' is set to 'first'. If a 'first' payment has been completed successfully, the
+     * Check whether 'sequenceType' is set to 'first'. If a 'first' payment has been completed successfully, the
      * consumer's account may be charged automatically using recurring payments.
      *
      * @return bool
      */
-    public function hasRecurringTypeFirst()
+    public function hasSequenceTypeFirst()
     {
-        return $this->recurringType === self::RECURRINGTYPE_FIRST;
+        return $this->sequenceType === SequenceType::SEQUENCETYPE_FIRST;
     }
 
     /**
-     * Check whether 'recurringType' is set to 'recurring'. This type of payment is processed without involving
+     * Check whether 'sequenceType' is set to 'recurring'. This type of payment is processed without involving
      * the consumer.
      *
      * @return bool
      */
-    public function hasRecurringTypeRecurring()
+    public function hasSequenceTypeRecurring()
     {
-        return $this->recurringType === self::RECURRINGTYPE_RECURRING;
+        return $this->sequenceType === SequenceType::SEQUENCETYPE_RECURRING;
     }
 
     /**
@@ -405,13 +338,13 @@ class Payment
      *
      * @return string|null
      */
-    public function getPaymentUrl()
+    public function getCheckoutUrl()
     {
-        if (empty($this->links->paymentUrl)) {
+        if (empty($this->_links->checkout)) {
             return NULL;
         }
 
-        return $this->links->paymentUrl;
+        return $this->_links->checkout->href;
     }
 
     /**

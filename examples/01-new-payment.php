@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 1 - How to prepare a new payment with the Mollie API.
+ * How to prepare a new payment with the Mollie API.
  */
 
 use Mollie\Api\Exceptions\ApiException;
@@ -11,7 +11,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/settings/profiles
      */
-    require "initialize.php";
+    require "./initialize.php";
 
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
@@ -35,7 +35,10 @@ try {
      *   metadata      Custom metadata that is stored with the payment.
      */
     $payment = $mollie->payments->create(array(
-        "amount" => 10.00,
+        "amount" => [
+            "currency" => "EUR",
+            "value" => "10.00"
+        ],
         "description" => "My first API payment",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
@@ -53,7 +56,7 @@ try {
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header("Location: " . $payment->getPaymentUrl(), true, 303);
+    header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

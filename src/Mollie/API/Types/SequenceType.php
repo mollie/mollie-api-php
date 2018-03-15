@@ -1,9 +1,6 @@
 <?php
 
-namespace Mollie\Api\Endpoints;
-
-use Mollie\Api\Resources\Payment;
-use Mollie\Api\Resources\PaymentCollection;
+namespace Mollie\Api\Types;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -34,14 +31,17 @@ use Mollie\Api\Resources\PaymentCollection;
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Payment[]|PaymentCollection all($offset = 0, $limit = 0, array $filters = array())
- * @method Payment create(array $data, array $filters = array())
  */
-class CustomerPaymentEndpoint extends Payment
+class SequenceType
 {
+
     /**
-     * @var string
+     * Sequence types.
+     *
+     * @see https://www.mollie.com/en/docs/recurring
      */
-    protected $resource_path = "customers_payments";
+    const SEQUENCETYPE_ONEOFF = NULL;
+    const SEQUENCETYPE_FIRST = "first";
+    const SEQUENCETYPE_RECURRING = "recurring";
+
 }

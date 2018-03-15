@@ -5,20 +5,10 @@ namespace Mollie\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
-use Mollie\Api\Endpoints\ApiKeyEndpoint;
-use Mollie\Api\Endpoints\CustomerEndpoint;
-use Mollie\Api\Endpoints\CustomerPaymentEndpoint;
-use Mollie\Api\Endpoints\IssuerEndpoint;
-use Mollie\Api\Endpoints\CustomerMandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
-use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
-use Mollie\Api\Endpoints\PermissionEndpoint;
-use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
-use Mollie\Api\Endpoints\SettlementEndpoint;
-use Mollie\Api\Endpoints\CustomerSubscriptionEndpoint;
 use Mollie\Api\Endpoints\UndefinedEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
@@ -69,7 +59,7 @@ class MollieApiClient
     /**
      * Version of the remote API.
      */
-    const API_VERSION = "v1";
+    const API_VERSION = "v2";
 
     const HTTP_GET = "GET";
     const HTTP_POST = "POST";
@@ -102,46 +92,11 @@ class MollieApiClient
     public $payments_refunds;
 
     /**
-     * RESTful Issuers resource.
-     *
-     * @var IssuerEndpoint
-     */
-    public $issuers;
-
-    /**
      * RESTful Methods resource.
      *
      * @var MethodEndpoint
      */
     public $methods;
-
-    /**
-     * RESTful Permissions resource. NOTE: requires OAuth access token.
-     *
-     * @var PermissionEndpoint
-     */
-    public $permissions;
-
-    /**
-     * RESTful Organizations resource. NOTE: requires OAuth access token.
-     *
-     * @var OrganizationEndpoint
-     */
-    public $organizations;
-
-    /**
-     * RESTful Profiles resource. NOTE: requires OAuth access token.
-     *
-     * @var ProfileEndpoint
-     */
-    public $profiles;
-
-    /**
-     * RESTful ApiKey resource. NOTE: requires OAuth access token.
-     *
-     * @var ProfileEndpoint
-     */
-    public $apikeys;
 
     /**
      * RESTful refunds resource. NOTE: requires OAuth access token.
@@ -152,41 +107,6 @@ class MollieApiClient
      * @var RefundEndpoint
      */
     public $refunds;
-
-    /**
-     * RESTful Settlements resource. NOTE: requires OAuth access token.
-     *
-     * @var SettlementEndpoint
-     */
-    public $settlements;
-
-    /**
-     * RESTful Customers resource.
-     *
-     * @var CustomerEndpoint
-     */
-    public $customers;
-
-    /**
-     * RESTful Customers Payments resource.
-     *
-     * @var CustomerPaymentEndpoint
-     */
-    public $customers_payments;
-
-    /**
-     * RESTful Customers Mandates resource.
-     *
-     * @var CustomerMandateEndpoint
-     */
-    public $customers_mandates;
-
-    /**
-     * RESTful Customers Subscriptions resource.
-     *
-     * @var CustomerSubscriptionEndpoint
-     */
-    public $customers_subscriptions;
 
     /**
      * @var string
@@ -237,20 +157,8 @@ class MollieApiClient
 
         $this->payments = new PaymentEndpoint($this);
         $this->payments_refunds = new PaymentRefundEndpoint($this);
-        $this->issuers = new IssuerEndpoint($this);
         $this->methods = new MethodEndpoint($this);
-        $this->customers = new CustomerEndpoint($this);
-        $this->customers_payments = new CustomerPaymentEndpoint($this);
-        $this->customers_mandates = new CustomerMandateEndpoint($this);
-        $this->customers_subscriptions = new CustomerSubscriptionEndpoint($this);
-
-        // OAuth2 endpoints
-        $this->permissions = new PermissionEndpoint($this);
-        $this->organizations = new OrganizationEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
-        $this->profiles = new ProfileEndpoint($this);
-        $this->apikeys = new ApiKeyEndpoint($this);
-        $this->settlements = new SettlementEndpoint($this);
 
         $curl_version = curl_version();
 

@@ -5,6 +5,7 @@
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Types\SequenceType;
 
 try {
     /*
@@ -43,7 +44,7 @@ try {
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
 
         // Flag this payment as a first payment to allow recurring payments later.
-        "recurringType" => Payment::RECURRINGTYPE_FIRST,
+        "sequenceType" => SequenceType::SEQUENCETYPE_ONEOFF,
     ));
 
     /*
