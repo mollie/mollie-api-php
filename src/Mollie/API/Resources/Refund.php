@@ -1,6 +1,7 @@
 <?php
 
 namespace Mollie\Api\Resources;
+
 use Mollie\Api\Types\RefundStatus;
 
 /**

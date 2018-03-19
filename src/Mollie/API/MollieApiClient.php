@@ -159,7 +159,7 @@ class MollieApiClient
 
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("Guzzle/" . ($this->http_client)::VERSION);
+        $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
 
         // The PEM path may be overwritten with setPemPath().
         $this->pem_path = realpath(dirname(__FILE__) . "/cacert.pem");
