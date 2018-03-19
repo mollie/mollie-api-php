@@ -86,38 +86,20 @@ class PaymentEndpoint extends EndpointAbstract
      * initiate a partial refund, or empty to do a full refund.
      *
      * @param Payment $payment
-     * @param array|float|NULL $filters
+     * @param array|float|NULL $data
      *
      * @return Refund
      */
-    public function refund(Payment $payment, $filters = array())
+    public function refund(Payment $payment, $data = array())
     {
         $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 
-        if (!is_array($filters)) {
-            if ((is_numeric($filters))) {
-                // $filters is numeric, so it must be an amount
-                $filters = array('amount' => $filters);
-            } else {
-                // $filters is not an array, but also not an amount, so reset $filters
-                $filters = array();
-            }
-        }
-
         $body = NULL;
-        if (count($filters) > 0) {
-            $body = json_encode($filters);
+        if (count($data) > 0) {
+            $body = json_encode($data);
         }
 
         $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
-
-        /*
-         * Update the payment with the new properties that we got from the refund.
-         */
-        if (!empty($result->payment)) {
-            $this->copy($result->payment, $payment);
-        }
-
         return $this->copy($result, new Refund());
     }
 

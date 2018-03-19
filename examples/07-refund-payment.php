@@ -28,7 +28,12 @@ try {
          *
          * https://www.mollie.com/en/docs/reference/refunds/create
          */
-        $refund = $mollie->payments->refund($payment, 15.00);
+        $refund = $mollie->payments->refund($payment, [
+            "amount" => [
+                "currency" => "EUR",
+                "value" => "15.00"
+            ]
+        ]);
 
         echo "€ 15,00 of payment {$payment_id} refunded.", PHP_EOL;
     } else {

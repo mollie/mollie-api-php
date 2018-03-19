@@ -20,19 +20,15 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
      */
     protected $api_client;
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->guzzle_client = $this->createMock(Client::class);
-        $this->api_client = new MollieApiClient($this->guzzle_client);
-        $this->api_client->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-    }
-
     protected function mockApiCall(Request $expected_request, Response $response)
     {
+        $this->guzzle_client = $this->createMock(Client::class);
+
+        $this->api_client = new MollieApiClient($this->guzzle_client);
+        $this->api_client->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+
         $this->guzzle_client
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(Request::class))
             ->willReturnCallback(function (Request $request) use ($expected_request, $response) {
@@ -43,10 +39,15 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                     $request->getUri()->getPath()
                 );
 
-                $this->assertJsonStringEqualsJsonString(
-                    $expected_request->getBody()->getContents(),
-                    $request->getBody()->getContents()
-                );
+                $request_body = $request->getBody()->getContents();
+                $expected_body = $expected_request->getBody()->getContents();
+
+                if(strlen($expected_body) > 0 && strlen($request_body) > 0){
+                    $this->assertJsonStringEqualsJsonString(
+                        $expected_body,
+                        $request_body
+                    );
+                }
 
                 return $response;
             });

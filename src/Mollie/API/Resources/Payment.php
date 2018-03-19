@@ -135,7 +135,7 @@ class Payment
      *
      * @var string|null
      */
-    public $expiredAt;
+    public $expiresAt;
 
     /**
      * UTC datetime the payment failed in ISO-8601 format.
@@ -166,6 +166,20 @@ class Payment
      * @var string|null
      */
     public $sequenceType;
+
+    /**
+     * Redirect URL set on this payment
+     *
+     * @var string
+     */
+    public $redirectUrl;
+
+    /**
+     * Webhook URL set on this payment
+     *
+     * @var string
+     */
+    public $webhookUrl;
 
     /**
      * The mandate ID this payment is performed with.

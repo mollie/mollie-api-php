@@ -69,6 +69,14 @@ class Refund
     public $amount;
 
     /**
+     * UTC datetime the payment was created in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $createdAt;
+
+    /**
      * The refund's description, if available.
      *
      * @var string|null
@@ -76,18 +84,18 @@ class Refund
     public $description;
 
     /**
-     * The payment that was refunded.
+     * The payment id that was refunded.
      *
-     * @var Payment
+     * @var string
      */
-    public $payment;
+    public $paymentId;
 
     /**
-     * Date and time the payment was cancelled in ISO-8601 format.
+     * The settlement amount
      *
-     * @var string|null
+     * @var object
      */
-    public $refundedDatetime;
+    public $settlementAmount;
 
     /**
      * The refund status
@@ -95,6 +103,11 @@ class Refund
      * @var string
      */
     public $status;
+
+    /**
+     * @var object[]
+     */
+    public $_links;
 
     /**
      * Is this refund queued?
