@@ -69,11 +69,17 @@ class PaymentRefundEndpoint extends EndpointAbstract
         return $this->delete($refund_id);
     }
 
+
     /**
+     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     *
+     * @param int $count
+     * @param object[] $_links
+     *
      * @return BaseCollection
      */
-    protected function getResourceCollectionObject()
+    protected function getResourceCollectionObject($count, $_links)
     {
-        return new RefundCollection();
+        return new RefundCollection($count, $_links);
     }
 }

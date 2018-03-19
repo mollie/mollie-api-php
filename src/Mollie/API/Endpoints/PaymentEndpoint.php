@@ -117,10 +117,15 @@ class PaymentEndpoint extends EndpointAbstract
     }
 
     /**
+     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     *
+     * @param int $count
+     * @param object[] $_links
+     *
      * @return BaseCollection
      */
-    protected function getResourceCollectionObject()
+    protected function getResourceCollectionObject($count, $_links)
     {
-        return new PaymentCollection();
+        return new PaymentCollection($count, $_links);
     }
 }

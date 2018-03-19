@@ -8,8 +8,6 @@ use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
-use Mollie\Api\Endpoints\RefundEndpoint;
-use Mollie\Api\Endpoints\UndefinedEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
@@ -102,16 +100,6 @@ class MollieApiClient
     public $methods;
 
     /**
-     * RESTful refunds resource. NOTE: requires OAuth access token.
-     *
-     * If you wish to create / get / list / cancel refunds with an API key, use the payment_refunds resource
-     *
-     * @see $payments_refunds
-     * @var RefundEndpoint
-     */
-    public $refunds;
-
-    /**
      * @var string
      */
     protected $api_key;
@@ -170,19 +158,6 @@ class MollieApiClient
         $this->payments         = new PaymentEndpoint($this);
         $this->payments_refunds = new PaymentRefundEndpoint($this);
         $this->methods          = new MethodEndpoint($this);
-        $this->refunds          = new RefundEndpoint($this);
-    }
-
-    /**
-     * @param string $resource_path
-     * @return UndefinedEndpoint
-     */
-    public function __get($resource_path)
-    {
-        $undefined_resource = new UndefinedEndpoint($this);
-        $undefined_resource->setResourcePath($resource_path);
-
-        return $undefined_resource;
     }
 
     /**

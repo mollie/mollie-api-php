@@ -33,27 +33,33 @@ namespace Mollie\Api\Resources;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class BaseCollection extends \ArrayObject
+abstract class BaseCollection extends \ArrayObject
 {
-    /**
-     * Total number of available objects on the Mollie platform.
-     *
-     * @var int
-     */
-    public $totalCount;
-
-    /**
-     * Numeric offset from which this list of object was created.
-     *
-     * @var int
-     */
-    public $offset;
-
     /**
      * Total number of retrieved objects.
      *
      * @var int
      */
     public $count;
+
+    /**
+     * @var object[]
+     */
+    public $_links;
+
+    /**
+     * @param int $count
+     * @param object[] $_links
+     */
+    public function __construct($count, $_links)
+    {
+        $this->count = $count;
+        $this->_links = $_links;
+    }
+
+    /**
+     * @return string
+     */
+    abstract public function getCollectionResourceName();
 
 }

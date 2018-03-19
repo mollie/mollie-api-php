@@ -53,10 +53,15 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
+     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     *
+     * @param int $count
+     * @param object[] $_links
+     *
      * @return BaseCollection
      */
-    protected function getResourceCollectionObject()
+    protected function getResourceCollectionObject($count, $_links)
     {
-        return new MethodCollection();
+        return new MethodCollection($count, $_links);
     }
 }

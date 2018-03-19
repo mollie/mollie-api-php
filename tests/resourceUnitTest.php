@@ -2,7 +2,6 @@
 
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
-use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 
@@ -13,13 +12,6 @@ class Mollie_API_Resource_BaseUnitTest extends PHPUnit_Framework_TestCase
         $resource = new PaymentEndpoint(new MollieApiClient());
 
         $this->assertSame("payments", $resource->getResourcePath());
-    }
-
-    public function testGetResourcePathTopLevelRefundsWorks()
-    {
-        $resource = new RefundEndpoint(new MollieApiClient());
-
-        $this->assertSame("refunds", $resource->getResourcePath());
     }
 
     /**

@@ -195,16 +195,16 @@ abstract class EndpointAbstract
      */
     private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
     {
-        $filters = array_merge(array("offset" => $offset, "count" => $limit), $filters);
+        $filters = array_merge(array("from" => $offset, "limit" => $limit), $filters);
 
         $api_path = $rest_resource . $this->buildQueryString($filters);
 
         $result = $this->api->performHttpCall(self::REST_LIST, $api_path);
 
         /** @var BaseCollection $collection */
-        $collection = $this->copy($result, $this->getResourceCollectionObject());
+        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
 
-        foreach ($result->data as $data_result) {
+        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $data_result) {
             $collection[] = $this->copy($data_result, $this->getResourceObject());
         }
 
@@ -238,9 +238,12 @@ abstract class EndpointAbstract
     /**
      * Get the collection object that is used by this API. Every API uses one type of collection object.
      *
+     * @param int $count
+     * @param object[] $_links
+     *
      * @return BaseCollection
      */
-    abstract protected function getResourceCollectionObject();
+    abstract protected function getResourceCollectionObject($count, $_links);
 
     /**
      * Create a resource with the remote API.
