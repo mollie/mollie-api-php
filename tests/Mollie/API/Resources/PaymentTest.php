@@ -212,7 +212,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }
 
-    public function testGetPaymentUrlReturnsPaymentUrlFromLinksObject()
+    public function testGetCheckoutUrlReturnsPaymentUrlFromLinksObject()
     {
         $payment = new Payment();
 
@@ -245,7 +245,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRefunded = 22;
+        $payment->amountRefunded = (object) ["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRefunded());
     }
 
@@ -261,7 +261,7 @@ class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRemaining = 22;
+        $payment->amountRemaining = (object) ["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRemaining());
     }
 

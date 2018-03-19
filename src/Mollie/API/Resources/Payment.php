@@ -385,7 +385,7 @@ class Payment
     public function getAmountRefunded()
     {
         if ($this->amountRefunded) {
-            return (float)$this->amountRefunded;
+            return (float) $this->amountRefunded->value;
         }
 
         return 0.0;
@@ -400,7 +400,7 @@ class Payment
     public function getAmountRemaining()
     {
         if ($this->amountRemaining) {
-            return (float)$this->amountRemaining;
+            return (float)$this->amountRemaining->value;
         }
 
         return 0.0;

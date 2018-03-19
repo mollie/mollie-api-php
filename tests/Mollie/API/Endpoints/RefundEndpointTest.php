@@ -137,8 +137,8 @@ class RefundEndpointTest extends BaseEndpointTest
                    "countryCode":"NL",
                    "profileId":"pfl_2A1gacu42V",
                    "sequenceType":"oneoff",
-                   "redirectUrl":"http://example.org/var/www/mollie-api-php/examples/03-return-page.php?order_id=1234",
-                   "webhookUrl":"http://example.org/var/www/mollie-api-php/examples/02-webhook-verification.php",
+                   "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
+                   "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
                    "settlementAmount":{  
                       "value":"20.00",
                       "currency":"EUR"
