@@ -54,13 +54,16 @@ class MollieApiClient
     /**
      * Endpoint of the remote API.
      */
-    const API_ENDPOINT = "https://api.mollie.nl";
+    const API_ENDPOINT = "https://api.mollie.com";
 
     /**
      * Version of the remote API.
      */
     const API_VERSION = "v2";
 
+    /**
+     * HTTP Methods
+     */
     const HTTP_GET = "GET";
     const HTTP_POST = "POST";
     const HTTP_DELETE = "DELETE";
@@ -147,28 +150,27 @@ class MollieApiClient
      */
     public function __construct(ClientInterface $http_client = null)
     {
-        $this->http_client = $http_client;
-        if (!$this->http_client) {
-            $this->http_client = new Client();
-        }
+        $this->http_client = $http_client ? $http_client: new Client();
 
-        $this->getCompatibilityChecker()
-            ->checkCompatibility();
+        $compatibility_checker = new CompatibilityChecker();
+        $compatibility_checker->checkCompatibility();
 
-        $this->payments = new PaymentEndpoint($this);
-        $this->payments_refunds = new PaymentRefundEndpoint($this);
-        $this->methods = new MethodEndpoint($this);
-        $this->refunds = new RefundEndpoint($this);
-
-        $curl_version = curl_version();
+        $this->initializeEndpoints();
 
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("cURL/" . $curl_version["version"]);
-        $this->addVersionString($curl_version["ssl_version"]);
+        $this->addVersionString("Guzzle/" . ($this->http_client)::VERSION);
 
         // The PEM path may be overwritten with setPemPath().
         $this->pem_path = realpath(dirname(__FILE__) . "/cacert.pem");
+    }
+
+    public function initializeEndpoints()
+    {
+        $this->payments         = new PaymentEndpoint($this);
+        $this->payments_refunds = new PaymentRefundEndpoint($this);
+        $this->methods          = new MethodEndpoint($this);
+        $this->refunds          = new RefundEndpoint($this);
     }
 
     /**
@@ -334,49 +336,5 @@ class MollieApiClient
         }
 
         return $object;
-    }
-
-    /**
-     * Close the TCP connection to the Mollie API.
-     */
-    private function closeTcpConnection()
-    {
-        if (is_resource($this->ch)) {
-            curl_close($this->ch);
-            $this->ch = null;
-        }
-    }
-
-    /**
-     * Close any cURL handles, if we have them.
-     */
-    public function __destruct()
-    {
-        $this->closeTcpConnection();
-    }
-
-    /**
-     * @return CompatibilityChecker
-     * @codeCoverageIgnore
-     */
-    protected function getCompatibilityChecker()
-    {
-        static $checker = NULL;
-
-        if (!$checker) {
-            $checker = new CompatibilityChecker();
-        }
-
-        return $checker;
-    }
-
-    /**
-     * @deprecated Do not use this method, it should only be used internally
-     *
-     * @return int
-     */
-    public function getLastHttpResponseStatusCode()
-    {
-        return $this->last_http_response_status_code;
     }
 }

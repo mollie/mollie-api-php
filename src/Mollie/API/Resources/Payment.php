@@ -334,7 +334,7 @@ class Payment
     }
 
     /**
-     * Get the payment URL where the customer can complete the payment.
+     * Get the checkout URL where the customer can complete the payment.
      *
      * @return string|null
      */

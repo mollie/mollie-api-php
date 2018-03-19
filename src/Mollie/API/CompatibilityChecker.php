@@ -39,22 +39,7 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    public static $MIN_PHP_VERSION = '5.2.0';
-
-    /**
-     * Used cURL functions
-     *
-     * @var array
-     */
-    public static $REQUIRED_CURL_FUNCTIONS = array(
-        'curl_init',
-        'curl_setopt',
-        'curl_exec',
-        'curl_error',
-        'curl_errno',
-        'curl_close',
-        'curl_version',
-    );
+    public static $MIN_PHP_VERSION = '5.6.0';
 
     /**
      * @throws IncompatiblePlatform
@@ -73,21 +58,6 @@ class CompatibilityChecker
             throw new IncompatiblePlatform(
                 "PHP extension json is not enabled. Please make sure to enable 'json' in your PHP configuration.",
                 IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
-            );
-        }
-
-        if (!$this->satisfiesCurlExtension()) {
-            throw new IncompatiblePlatform(
-                "PHP extension cURL is not enabled. Please make sure to enable 'curl' in your PHP configuration.",
-                IncompatiblePlatform::INCOMPATIBLE_CURL_EXTENSION
-            );
-        }
-
-        if (!$this->satisfiesCurlFunctions()) {
-            throw new IncompatiblePlatform(
-                "This client requires the following cURL functions to be available: " . implode(', ', self::$REQUIRED_CURL_FUNCTIONS) . ". " .
-                "Please check that none of these functions are disabled in your PHP configuration.",
-                IncompatiblePlatform::INCOMPATIBLE_CURL_FUNCTION
             );
         }
     }
@@ -115,37 +85,5 @@ class CompatibilityChecker
         }
 
         return FALSE;
-    }
-
-    /**
-     * @return bool
-     * @codeCoverageIgnore
-     */
-    public function satisfiesCurlExtension()
-    {
-        // Check by extension_loaded
-        if (function_exists('extension_loaded') && extension_loaded('curl')) {
-            return TRUE;
-        } // Check by calling curl_version()
-        elseif (function_exists('curl_version') && curl_version()) {
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * @return bool
-     * @codeCoverageIgnore
-     */
-    public function satisfiesCurlFunctions()
-    {
-        foreach (self::$REQUIRED_CURL_FUNCTIONS as $curl_function) {
-            if (!function_exists($curl_function)) {
-                return FALSE;
-            }
-        }
-
-        return TRUE;
     }
 }
