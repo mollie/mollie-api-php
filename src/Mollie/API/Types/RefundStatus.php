@@ -1,7 +1,6 @@
 <?php
 
-namespace Mollie\Api\Resources;
-use Mollie\Api\Types\RefundStatus;
+namespace Mollie\Api\Types;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -33,100 +32,25 @@ use Mollie\Api\Types\RefundStatus;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class Refund
+class RefundStatus
 {
     /**
-     * Id of the payment method.
-     *
-     * @var string
+     * The refund is queued until there is enough balance to process te refund. You can still cancel the refund.
      */
-    public $id;
+    const STATUS_QUEUED = 'queued';
 
     /**
-     * The $amount that was refunded.
-     *
-     * @var float
+     * The refund will be sent to the bank on the next business day. You can still cancel the refund.
      */
-    public $amount;
+    const STATUS_PENDING = 'pending';
 
     /**
-     * UTC datetime the payment was created in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     * @var string|null
+     * The refund has been sent to the bank. The refund amount will be transferred to the consumer account as soon as possible.
      */
-    public $createdAt;
+    const STATUS_PROCESSING = 'processing';
 
     /**
-     * The refund's description, if available.
-     *
-     * @var string|null
+     * The refund amount has been transferred to the consumer.
      */
-    public $description;
-
-    /**
-     * The payment id that was refunded.
-     *
-     * @var string
-     */
-    public $paymentId;
-
-    /**
-     * The settlement amount
-     *
-     * @var object
-     */
-    public $settlementAmount;
-
-    /**
-     * The refund status
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     * @var object[]
-     */
-    public $_links;
-
-    /**
-     * Is this refund queued?
-     *
-     * @return bool
-     */
-    public function isQueued()
-    {
-        return $this->status === RefundStatus::STATUS_QUEUED;
-    }
-
-    /**
-     * Is this refund pending?
-     *
-     * @return bool
-     */
-    public function isPending()
-    {
-        return $this->status === RefundStatus::STATUS_PENDING;
-    }
-
-    /**
-     * Is this refund processing?
-     *
-     * @return bool
-     */
-    public function isProcessing()
-    {
-        return $this->status === RefundStatus::STATUS_PROCESSING;
-    }
-
-    /**
-     * Is this refund transferred to consumer?
-     *
-     * @return bool
-     */
-    public function isTransferred()
-    {
-        return $this->status === RefundStatus::STATUS_REFUNDED;
-    }
+    const STATUS_REFUNDED = 'refunded';
 }

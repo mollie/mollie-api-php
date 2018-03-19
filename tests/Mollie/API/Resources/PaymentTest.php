@@ -1,10 +1,13 @@
 <?php
 
+namespace Tests\Mollie\Api\Resources;
+
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
+use stdClass;
 
-class Mollie_API_Object_PaymentTest extends PHPUnit_Framework_TestCase
+class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsCancelledReturnsTrueWhenStatusIsCancelled()
     {
