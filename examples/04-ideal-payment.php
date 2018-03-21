@@ -4,7 +4,6 @@
  */
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\Method;
 use Mollie\Api\Types\PaymentMethod;
 
 try {
