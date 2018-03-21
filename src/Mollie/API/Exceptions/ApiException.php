@@ -37,14 +37,14 @@ class ApiException extends \Exception
     /**
      * @var string
      */
-    protected $_field;
+    protected $field;
 
     /**
      * @return string
      */
     public function getField()
     {
-        return $this->_field;
+        return $this->field;
     }
 
     /**
@@ -52,6 +52,6 @@ class ApiException extends \Exception
      */
     public function setField($field)
     {
-        $this->_field = (string)$field;
+        $this->field = (string)$field;
     }
 }
