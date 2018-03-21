@@ -120,11 +120,6 @@ class MollieApiClient
     protected $ch;
 
     /**
-     * @var string
-     */
-    protected $pem_path;
-
-    /**
      * @var int
      */
     protected $last_http_response_status_code;
@@ -146,9 +141,6 @@ class MollieApiClient
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
         $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
-
-        // The PEM path may be overwritten with setPemPath().
-        $this->pem_path = realpath(dirname(__FILE__) . "/cacert.pem");
     }
 
     public function initializeEndpoints()
@@ -220,16 +212,6 @@ class MollieApiClient
     public function addVersionString($version_string)
     {
         $this->version_strings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
-    }
-
-    /**
-     * Overwrite the default path to the PEM file. Should only be used by advanced users.
-     *
-     * @param string $pem_path
-     */
-    public function setPemPath($pem_path)
-    {
-        $this->pem_path = (string)$pem_path;
     }
 
     /**
