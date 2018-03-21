@@ -17,8 +17,6 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
             ->setMethods([
                 "satisfiesPhpVersion",
                 "satisfiesJsonExtension",
-                "satisfiesCurlExtension",
-                "satisfiesCurlFunctions",
             ])
             ->getMock();
     }
@@ -36,12 +34,6 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
         $this->checker->expects($this->never())
             ->method("satisfiesJsonExtension");
 
-        $this->checker->expects($this->never())
-            ->method("satisfiesCurlExtension");
-
-        $this->checker->expects($this->never())
-            ->method("satisfiesCurlFunctions");
-
         $this->checker->checkCompatibility();
     }
 
@@ -58,12 +50,6 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
         $this->checker->expects($this->once())
             ->method("satisfiesJsonExtension")
             ->will($this->returnValue(false)); // Fail
-
-        $this->checker->expects($this->never())
-            ->method("satisfiesCurlExtension");
-
-        $this->checker->expects($this->never())
-            ->method("satisfiesCurlFunctions");
 
         $this->checker->checkCompatibility();
     }
