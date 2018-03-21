@@ -39,7 +39,7 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    public static $MIN_PHP_VERSION = '5.6.0';
+    const MIN_PHP_VERSION = "5.6.0";
 
     /**
      * @throws IncompatiblePlatform
@@ -49,7 +49,7 @@ class CompatibilityChecker
     {
         if (!$this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatform(
-                "The client requires PHP version >= " . self::$MIN_PHP_VERSION . ", you have " . PHP_VERSION . ".",
+                "The client requires PHP version >= " . self::MIN_PHP_VERSION . ", you have " . PHP_VERSION . ".",
                 IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
             );
         }
@@ -68,7 +68,7 @@ class CompatibilityChecker
      */
     public function satisfiesPhpVersion()
     {
-        return (bool)version_compare(PHP_VERSION, self::$MIN_PHP_VERSION, ">=");
+        return (bool)version_compare(PHP_VERSION, self::MIN_PHP_VERSION, ">=");
     }
 
     /**
