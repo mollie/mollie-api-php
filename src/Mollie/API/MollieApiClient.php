@@ -211,7 +211,7 @@ class MollieApiClient
      */
     public function addVersionString($version_string)
     {
-        $this->version_strings[] = str_replace(array(" ", "\t", "\n", "\r"), '-', $version_string);
+        $this->version_strings[] = str_replace([" ", "\t", "\n", "\r"], '-', $version_string);
     }
 
     /**

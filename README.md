@@ -61,12 +61,12 @@ $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 Creating a new payment.
 
 ```php
-$payment = $mollie->payments->create(array(
+$payment = $mollie->payments->create([
     "amount"      => 10.00,
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
-));
+]);
 ```
 
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
@@ -100,14 +100,14 @@ _`$issuers` will be a list of `\Mollie\Api\Resources\Issuer` objects. Use the pr
 Create a payment with the selected issuer:
 
 ```php
-$payment = $mollie->payments->create(array(
+$payment = $mollie->payments->create([
     "amount"      => 10.00,
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
     "method"      => \Mollie\Api\Resources\Method::IDEAL,
     "issuer"      => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
-));
+]);
 ```
 
 _The `links` property of the `$payment` object will contain a string `paymentUrl`, which is a URL that points directly to the online banking environment of the selected issuer._

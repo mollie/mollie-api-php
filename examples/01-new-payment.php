@@ -34,7 +34,7 @@ try {
      *   webhookUrl    Webhook location, used to report when the payment changes state.
      *   metadata      Custom metadata that is stored with the payment.
      */
-    $payment = $mollie->payments->create(array(
+    $payment = $mollie->payments->create([
         "amount" => [
             "currency" => "EUR",
             "value" => "10.00"
@@ -42,10 +42,10 @@ try {
         "description" => "My first API payment",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
-        "metadata" => array(
+        "metadata" => [
             "order_id" => $order_id,
-        ),
-    ));
+        ],
+    ]);
 
     /*
      * In this example we store the order with its payment status in a database.

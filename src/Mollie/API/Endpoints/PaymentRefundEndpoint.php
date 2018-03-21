@@ -36,9 +36,9 @@ use Mollie\Api\Resources\RefundCollection;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Refund[]|RefundCollection all($offset = 0, $limit = 0, array $filters = array())
- * @method Refund get($refund_id, array $filters = array())
- * @method Refund create(array $data = array(), array $filters = array())
+ * @method Refund[]|RefundCollection all($offset = 0, $limit = 0, array $filters = [])
+ * @method Refund get($refund_id, array $filters = [])
+ * @method Refund create(array $data = [], array $filters = [])
  * @method Refund delete($refund_id)
  */
 class PaymentRefundEndpoint extends EndpointAbstract

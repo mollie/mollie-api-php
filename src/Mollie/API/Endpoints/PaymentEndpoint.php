@@ -38,8 +38,8 @@ use Mollie\Api\Resources\Refund;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Payment[]|PaymentCollection all($offset = 0, $limit = 0, array $filters = array())
- * @method Payment create(array $data, array $filters = array())
+ * @method Payment[]|PaymentCollection all($offset = 0, $limit = 0, array $filters = [])
+ * @method Payment create(array $data, array $filters = [])
  * @method Payment delete($payment_id)
  */
 class PaymentEndpoint extends EndpointAbstract
@@ -70,7 +70,7 @@ class PaymentEndpoint extends EndpointAbstract
      * @return Payment
      * @throws ApiException
      */
-    public function get($payment_id, array $filters = array())
+    public function get($payment_id, array $filters = [])
     {
         if (empty($payment_id) || strpos($payment_id, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -90,7 +90,7 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * @return Refund
      */
-    public function refund(Payment $payment, $data = array())
+    public function refund(Payment $payment, $data = [])
     {
         $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 

@@ -57,7 +57,7 @@ try {
      *   metadata      Custom metadata that is stored with the payment.
      *   issuer        The customer's bank. If empty the customer can select it later.
      */
-    $payment = $mollie->payments->create(array(
+    $payment = $mollie->payments->create([
         "amount" => [
             "currency" => "EUR",
             "value" => "27.50"
@@ -66,11 +66,11 @@ try {
         "description" => "My first iDEAL payment",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
-        "metadata" => array(
+        "metadata" => [
             "order_id" => $order_id,
-        ),
+        ],
         "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
-    ));
+    ]);
 
     /*
      * In this example we store the order with its payment status in a database.

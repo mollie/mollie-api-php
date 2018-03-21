@@ -75,7 +75,7 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payment = $this->api_client->payments->create(array(
+        $payment = $this->api_client->payments->create([
             "amount" => [
                 "currency" => "EUR",
                 "value" => "20.00"
@@ -83,10 +83,10 @@ class PaymentEndpointTest extends BaseEndpointTest
             "description" => "My first API payment",
             "redirectUrl" => "https://example.org/redirect",
             "webhookUrl" => "https://example.org/webhook",
-            "metadata" => array(
+            "metadata" => [
                 "order_id" => "1234",
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('tr_44aKxzEbr8', $payment->id);

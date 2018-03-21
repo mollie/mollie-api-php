@@ -195,7 +195,7 @@ abstract class EndpointAbstract
      */
     private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
     {
-        $filters = array_merge(array("from" => $offset, "limit" => $limit), $filters);
+        $filters = array_merge(["from" => $offset, "limit" => $limit], $filters);
 
         $api_path = $rest_resource . $this->buildQueryString($filters);
 
@@ -254,7 +254,7 @@ abstract class EndpointAbstract
      * @return object
      * @throws ApiException
      */
-    public function create(array $data = array(), array $filters = array())
+    public function create(array $data = [], array $filters = [])
     {
         $encoded = json_encode($data);
 
@@ -276,7 +276,7 @@ abstract class EndpointAbstract
      * @return object
      * @throws ApiException
      */
-    public function get($resource_id, array $filters = array())
+    public function get($resource_id, array $filters = [])
     {
         return $this->rest_read($this->getResourcePath(), $resource_id, $filters);
     }
@@ -305,7 +305,7 @@ abstract class EndpointAbstract
      *
      * @return BaseCollection
      */
-    public function all($offset = 0, $limit = 0, array $filters = array())
+    public function all($offset = 0, $limit = 0, array $filters = [])
     {
         return $this->rest_list($this->getResourcePath(), $offset, $limit, $filters);
     }
