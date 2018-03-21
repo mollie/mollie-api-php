@@ -5,6 +5,7 @@
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
+use Mollie\Api\Types\PaymentMethod;
 
 try {
     /*
@@ -23,7 +24,7 @@ try {
         echo '<form method="post">Select your bank: <select name="issuer">';
 
         foreach ($issuers as $issuer) {
-            if ($issuer->method == Method::IDEAL) {
+            if ($issuer->method == PaymentMethod::IDEAL) {
                 echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
             }
         }
@@ -57,8 +58,11 @@ try {
      *   issuer        The customer's bank. If empty the customer can select it later.
      */
     $payment = $mollie->payments->create(array(
-        "amount" => 27.50,
-        "method" => Method::IDEAL,
+        "amount" => [
+            "currency" => "EUR",
+            "value" => "27.50"
+        ],
+        "method" => PaymentMethod::IDEAL,
         "description" => "My first iDEAL payment",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",

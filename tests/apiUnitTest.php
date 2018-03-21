@@ -9,6 +9,7 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\Subscription;
+use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 
 class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
@@ -176,7 +177,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals("tr_OCrlrHqKsr", $payment->id);
         $this->assertEquals("15 Round House Kicks To The Face", $payment->description);
-        $this->assertEquals(Method::IDEAL, $payment->method);
+        $this->assertEquals(PaymentMethod::IDEAL, $payment->method);
         $this->assertEquals("2014-09-15T09:24:39.0Z", $payment->createdDatetime);
         $this->assertEquals(PaymentStatus::STATUS_REFUNDED, $payment->status);
 
