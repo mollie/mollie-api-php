@@ -57,7 +57,7 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refund = $this->api_client->payments->refund($payment, [
+        $refund = $this->apiClient->payments->refund($payment, [
             "amount" => [
                 "currency" => "EUR",
                 "value" => "20.00"
@@ -82,14 +82,14 @@ class RefundEndpointTest extends BaseEndpointTest
         $amount->currency = "EUR";
         $this->assertEquals($amount, $refund->settlementAmount);
 
-        $self_link = (object)["href" => "https://api.mollie.com/v2/payments/tr_Tgxm3amJBT/refunds/re_PmEtpvSsnm", "type" => "application/json"];
-        $this->assertEquals($self_link, $refund->_links->self);
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_Tgxm3amJBT/refunds/re_PmEtpvSsnm", "type" => "application/json"];
+        $this->assertEquals($selfLink, $refund->_links->self);
 
-        $payment_link = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
-        $this->assertEquals($payment_link, $refund->_links->payment);
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $this->assertEquals($paymentLink, $refund->_links->payment);
 
-        $documentation_link = (object)["href" => "https://www.mollie.com/en/docs/reference/refunds/create", "type" => "text/html"];
-        $this->assertEquals($documentation_link, $refund->_links->documentation);
+        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/refunds/create", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $refund->_links->documentation);
     }
 
     private function getPayment()
@@ -157,7 +157,7 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        return $this->api_client->payments->get("tr_44aKxzEbr8");
+        return $this->apiClient->payments->get("tr_44aKxzEbr8");
     }
 
 }

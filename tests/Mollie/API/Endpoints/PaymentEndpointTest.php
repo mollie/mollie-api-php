@@ -75,7 +75,7 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payment = $this->api_client->payments->create([
+        $payment = $this->apiClient->payments->create([
             "amount" => [
                 "currency" => "EUR",
                 "value" => "20.00"
@@ -110,14 +110,14 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals("http://example.org/examples/payment/03-return-page.php?order_id=1234", $payment->redirectUrl);
         $this->assertEquals("http://example.org/examples/payment/02-webhook-verification.php", $payment->webhookUrl);
 
-        $self_link = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
-        $this->assertEquals($self_link, $payment->_links->self);
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $this->assertEquals($selfLink, $payment->_links->self);
 
-        $checkout_link = (object)["href" => "https://www.mollie.com/payscreen/select-method/44aKxzEbr8", "type" => "text/html"];
-        $this->assertEquals($checkout_link, $payment->_links->checkout);
+        $checkoutLink = (object)["href" => "https://www.mollie.com/payscreen/select-method/44aKxzEbr8", "type" => "text/html"];
+        $this->assertEquals($checkoutLink, $payment->_links->checkout);
 
-        $documentation_link = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/create", "type" => "text/html"];
-        $this->assertEquals($documentation_link, $payment->_links->documentation);
+        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/create", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
     public function testGetPayment()
@@ -185,7 +185,7 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payment = $this->api_client->payments->get("tr_44aKxzEbr8");
+        $payment = $this->apiClient->payments->get("tr_44aKxzEbr8");
 
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('tr_44aKxzEbr8', $payment->id);
@@ -203,15 +203,15 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals(PaymentStatus::STATUS_PAID, $payment->status);
 
 
-        $amount_refuncded = new Stdclass();
-        $amount_refuncded->value = '0.00';
-        $amount_refuncded->currency = "EUR";
-        $this->assertEquals($amount_refuncded, $payment->amountRefunded);
+        $amountRefunded = new Stdclass();
+        $amountRefunded->value = '0.00';
+        $amountRefunded->currency = "EUR";
+        $this->assertEquals($amountRefunded, $payment->amountRefunded);
 
-        $amount_remaining = new Stdclass();
-        $amount_remaining->value = '20.00';
-        $amount_remaining->currency = "EUR";
-        $this->assertEquals($amount_remaining, $payment->amountRemaining);
+        $amountRemaining = new Stdclass();
+        $amountRemaining->value = '20.00';
+        $amountRemaining->currency = "EUR";
+        $this->assertEquals($amountRemaining, $payment->amountRemaining);
 
         $details = (object)[
             'consumerName' => 'T. TEST',
@@ -225,11 +225,11 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals("http://example.org/examples/03-return-page.php?order_id=1234", $payment->redirectUrl);
         $this->assertEquals("http://example.org/examples/02-webhook-verification.php", $payment->webhookUrl);
 
-        $self_link = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
-        $this->assertEquals($self_link, $payment->_links->self);
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $this->assertEquals($selfLink, $payment->_links->self);
 
-        $documentation_link = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/get", "type" => "text/html"];
-        $this->assertEquals($documentation_link, $payment->_links->documentation);
+        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/get", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
     public function testListPayment()
@@ -362,23 +362,22 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payments = $this->api_client->payments->all(0, 3);
-
+        $payments = $this->apiClient->payments->all(0, 3);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);
         $this->assertEquals(3, count($payments));
 
-        $documentation_link = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/list", "type" => "text/html"];
-        $this->assertEquals($documentation_link, $payments->_links->documentation);
+        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/list", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $payments->_links->documentation);
 
-        $self_link = (object)["href" => "http://api.mollie.nl/v2/payments?limit=3", "type" => "application/json"];
-        $this->assertEquals($self_link, $payments->_links->self);
+        $selfLink = (object)["href" => "http://api.mollie.nl/v2/payments?limit=3", "type" => "application/json"];
+        $this->assertEquals($selfLink, $payments->_links->self);
 
         $this->assertNull($payments->_links->previous);
 
-        $next_link = (object)["href" => "http://api.mollie.nl/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/json"];
-        $this->assertEquals($next_link, $payments->_links->next);
+        $nextLink = (object)["href" => "http://api.mollie.nl/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/json"];
+        $this->assertEquals($nextLink, $payments->_links->next);
     }
 
 }

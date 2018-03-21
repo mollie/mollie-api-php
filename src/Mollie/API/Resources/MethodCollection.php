@@ -34,7 +34,6 @@ namespace Mollie\Api\Resources;
  */
 class MethodCollection extends BaseCollection
 {
-
     /**
      * @return string
      */

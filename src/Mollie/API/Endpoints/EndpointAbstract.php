@@ -58,12 +58,12 @@ abstract class EndpointAbstract
     /**
      * @var string
      */
-    protected $resource_path;
+    protected $resourcePath;
 
     /**
      * @var string|null
      */
-    protected $parent_id;
+    protected $parentId;
 
     /**
      * @param MollieApiClient $api
@@ -88,17 +88,17 @@ abstract class EndpointAbstract
     }
 
     /**
-     * @param string $rest_resource
+     * @param string $restResource
      * @param        $body
      * @param array $filters
      * @return object
      * @throws ApiException
      */
-    private function rest_create($rest_resource, $body, array $filters)
+    private function rest_create($restResource, $body, array $filters)
     {
         $result = $this->api->performHttpCall(
             self::REST_CREATE,
-            $rest_resource . $this->buildQueryString($filters),
+            $restResource . $this->buildQueryString($filters),
             $body
         );
 
@@ -108,13 +108,13 @@ abstract class EndpointAbstract
     /**
      * Retrieves a single object from the REST API.
      *
-     * @param string $rest_resource Resource name.
+     * @param string $restResource Resource name.
      * @param string $id Id of the object to retrieve.
      * @param array $filters
      * @return object
      * @throws ApiException
      */
-    private function rest_read($rest_resource, $id, array $filters)
+    private function rest_read($restResource, $id, array $filters)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -123,7 +123,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_READ,
-            "{$rest_resource}/{$id}" . $this->buildQueryString($filters)
+            "{$restResource}/{$id}" . $this->buildQueryString($filters)
         );
 
         return $this->copy($result, $this->getResourceObject());
@@ -132,13 +132,13 @@ abstract class EndpointAbstract
     /**
      * Sends a DELETE request to a single Molle API object.
      *
-     * @param string $rest_resource
+     * @param string $restResource
      * @param string $id
      *
      * @return object
      * @throws ApiException
      */
-    private function rest_delete($rest_resource, $id)
+    private function rest_delete($restResource, $id)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -147,7 +147,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_DELETE,
-            "{$rest_resource}/{$id}"
+            "{$restResource}/{$id}"
         );
 
         if ($result === null) {
@@ -160,14 +160,14 @@ abstract class EndpointAbstract
     /**
      * Sends a POST request to a single Molle API object to update it.
      *
-     * @param string $rest_resource
+     * @param string $restResource
      * @param string $id
      * @param string $body
      *
      * @return object
      * @throws ApiException
      */
-    protected function rest_update($rest_resource, $id, $body)
+    protected function rest_update($restResource, $id, $body)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -176,7 +176,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_UPDATE,
-            "{$rest_resource}/{$id}",
+            "{$restResource}/{$id}",
             $body
         );
 
@@ -186,26 +186,26 @@ abstract class EndpointAbstract
     /**
      * Get a collection of objects from the REST API.
      *
-     * @param $rest_resource
+     * @param $restResource
      * @param int $offset
      * @param int $limit
      * @param array $filters
      *
      * @return BaseCollection
      */
-    private function rest_list($rest_resource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
+    private function rest_list($restResource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
     {
         $filters = array_merge(["from" => $offset, "limit" => $limit], $filters);
 
-        $api_path = $rest_resource . $this->buildQueryString($filters);
+        $apiPath = $restResource . $this->buildQueryString($filters);
 
-        $result = $this->api->performHttpCall(self::REST_LIST, $api_path);
+        $result = $this->api->performHttpCall(self::REST_LIST, $apiPath);
 
         /** @var BaseCollection $collection */
         $collection = $this->getResourceCollectionObject($result->count, $result->_links);
 
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $data_result) {
-            $collection[] = $this->copy($data_result, $this->getResourceObject());
+        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
+            $collection[] = $this->copy($dataResult, $this->getResourceObject());
         }
 
         return $collection;
@@ -214,14 +214,14 @@ abstract class EndpointAbstract
     /**
      * Copy the results received from the API into the PHP objects that we use.
      *
-     * @param object $api_result
+     * @param object $apiResult
      * @param object $object
      *
      * @return object
      */
-    protected function copy($api_result, $object)
+    protected function copy($apiResult, $object)
     {
-        foreach ($api_result as $property => $value) {
+        foreach ($apiResult as $property => $value) {
             $object->$property = $value;
         }
 
@@ -270,15 +270,15 @@ abstract class EndpointAbstract
      *
      * Will throw a ApiException if the resource cannot be found.
      *
-     * @param string $resource_id
+     * @param string $resourceId
      * @param array $filters
      *
      * @return object
      * @throws ApiException
      */
-    public function get($resource_id, array $filters = [])
+    public function get($resourceId, array $filters = [])
     {
-        return $this->rest_read($this->getResourcePath(), $resource_id, $filters);
+        return $this->rest_read($this->getResourcePath(), $resourceId, $filters);
     }
 
     /**
@@ -286,14 +286,14 @@ abstract class EndpointAbstract
      *
      * Will throw a ApiException if the resource cannot be found.
      *
-     * @param string $resource_id
+     * @param string $resourceId
      *
      * @return object
      * @throws ApiException
      */
-    public function delete($resource_id)
+    public function delete($resourceId)
     {
-        return $this->rest_delete($this->getResourcePath(), $resource_id);
+        return $this->rest_delete($this->getResourcePath(), $resourceId);
     }
 
     /**
@@ -311,11 +311,11 @@ abstract class EndpointAbstract
     }
 
     /**
-     * @param string $resource_path
+     * @param string $resourcePath
      */
-    public function setResourcePath($resource_path)
+    public function setResourcePath($resourcePath)
     {
-        $this->resource_path = strtolower($resource_path);
+        $this->resourcePath = strtolower($resourcePath);
     }
 
     /**
@@ -324,26 +324,26 @@ abstract class EndpointAbstract
      */
     public function getResourcePath()
     {
-        if (strpos($this->resource_path, "_") !== false) {
-            list($parent_resource, $child_resource) = explode("_", $this->resource_path, 2);
+        if (strpos($this->resourcePath, "_") !== false) {
+            list($parentResource, $childResource) = explode("_", $this->resourcePath, 2);
 
-            if (empty($this->parent_id)) {
-                throw new ApiException("Subresource '{$this->resource_path}' used without parent '$parent_resource' ID.");
+            if (empty($this->parentId)) {
+                throw new ApiException("Subresource '{$this->resourcePath}' used without parent '$parentResource' ID.");
             }
 
-            return "$parent_resource/{$this->parent_id}/$child_resource";
+            return "$parentResource/{$this->parentId}/$childResource";
         }
 
-        return $this->resource_path;
+        return $this->resourcePath;
     }
 
     /**
-     * @param string $parent_id
+     * @param string $parentId
      * @return $this
      */
-    public function withParentId($parent_id)
+    public function withParentId($parentId)
     {
-        $this->parent_id = $parent_id;
+        $this->parentId = $parentId;
 
         return $this;
     }

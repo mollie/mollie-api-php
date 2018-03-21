@@ -106,7 +106,7 @@ $payment = $mollie->payments->create([
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
     "method"      => \Mollie\Api\Resources\Method::IDEAL,
-    "issuer"      => $selected_issuer_id, // e.g. "ideal_INGBNL2A"
+    "issuer"      => $selectedIssuerId, // e.g. "ideal_INGBNL2A"
 ]);
 ```
 

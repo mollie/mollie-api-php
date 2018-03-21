@@ -40,12 +40,11 @@ use Mollie\Api\Resources\Refund;
  *
  * @method Payment[]|PaymentCollection all($offset = 0, $limit = 0, array $filters = [])
  * @method Payment create(array $data, array $filters = [])
- * @method Payment delete($payment_id)
+ * @method Payment delete($paymentId)
  */
 class PaymentEndpoint extends EndpointAbstract
 {
-
-    protected $resource_path = "payments";
+    protected $resourcePath = "payments";
 
     /**
      * @var string
@@ -65,18 +64,18 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     * @param string $payment_id
+     * @param string $paymentId
      * @param array $filters
      * @return Payment
      * @throws ApiException
      */
-    public function get($payment_id, array $filters = [])
+    public function get($paymentId, array $filters = [])
     {
-        if (empty($payment_id) || strpos($payment_id, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$payment_id}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+        if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::get($payment_id, $filters);
+        return parent::get($paymentId, $filters);
     }
 
     /**
@@ -106,14 +105,14 @@ class PaymentEndpoint extends EndpointAbstract
     /**
      * Cancel the given Payment. This is just an alias of the 'delete' method.
      *
-     * @param string $payment_id
+     * @param string $paymentId
      *
      * @return Payment
      * @throws ApiException
      */
-    public function cancel($payment_id)
+    public function cancel($paymentId)
     {
-        return $this->delete($payment_id);
+        return $this->delete($paymentId);
     }
 
     /**

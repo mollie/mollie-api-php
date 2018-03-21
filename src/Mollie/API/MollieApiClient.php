@@ -69,12 +69,12 @@ class MollieApiClient
     /**
      * @var ClientInterface
      */
-    protected $http_client;
+    protected $httpClient;
 
     /**
      * @var string
      */
-    protected $api_endpoint = self::API_ENDPOINT;
+    protected $apiEndpoint = self::API_ENDPOINT;
 
     /**
      * RESTful Payments resource.
@@ -88,7 +88,7 @@ class MollieApiClient
      *
      * @var PaymentRefundEndpoint
      */
-    public $payments_refunds;
+    public $paymentsRefunds;
 
     /**
      * RESTful Methods resource.
@@ -100,19 +100,19 @@ class MollieApiClient
     /**
      * @var string
      */
-    protected $api_key;
+    protected $apiKey;
 
     /**
      * True if an OAuth access token is set as API key.
      *
      * @var bool
      */
-    protected $oauth_access;
+    protected $oauthAccess;
 
     /**
      * @var array
      */
-    protected $version_strings = [];
+    protected $versionStrings = [];
 
     /**
      * @var resource
@@ -122,19 +122,19 @@ class MollieApiClient
     /**
      * @var int
      */
-    protected $last_http_response_status_code;
+    protected $lastHttpResponseStatusCode;
 
     /**
-     * @param ClientInterface $http_client
+     * @param ClientInterface $httpClient
      *
      * @throws IncompatiblePlatform
      */
-    public function __construct(ClientInterface $http_client = null)
+    public function __construct(ClientInterface $httpClient = null)
     {
-        $this->http_client = $http_client ? $http_client : new Client();
+        $this->httpClient = $httpClient ? $httpClient : new Client();
 
-        $compatibility_checker = new CompatibilityChecker();
-        $compatibility_checker->checkCompatibility();
+        $compatibilityChecker = new CompatibilityChecker();
+        $compatibilityChecker->checkCompatibility();
 
         $this->initializeEndpoints();
 
@@ -146,7 +146,7 @@ class MollieApiClient
     public function initializeEndpoints()
     {
         $this->payments = new PaymentEndpoint($this);
-        $this->payments_refunds = new PaymentRefundEndpoint($this);
+        $this->paymentsRefunds = new PaymentRefundEndpoint($this);
         $this->methods = new MethodEndpoint($this);
     }
 
@@ -155,7 +155,7 @@ class MollieApiClient
      */
     public function setApiEndpoint($url)
     {
-        $this->api_endpoint = rtrim(trim($url), '/');
+        $this->apiEndpoint = rtrim(trim($url), '/');
     }
 
     /**
@@ -163,39 +163,39 @@ class MollieApiClient
      */
     public function getApiEndpoint()
     {
-        return $this->api_endpoint;
+        return $this->apiEndpoint;
     }
 
     /**
-     * @param string $api_key The Mollie API key, starting with 'test_' or 'live_'
+     * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
      * @throws ApiException
      */
-    public function setApiKey($api_key)
+    public function setApiKey($apiKey)
     {
-        $api_key = trim($api_key);
+        $apiKey = trim($apiKey);
 
-        if (!preg_match('/^(live|test)_\w{30,}$/', $api_key)) {
-            throw new ApiException("Invalid API key: '{$api_key}'. An API key must start with 'test_' or 'live_'.");
+        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+            throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_'.");
         }
 
-        $this->api_key = $api_key;
-        $this->oauth_access = false;
+        $this->apiKey = $apiKey;
+        $this->oauthAccess = false;
     }
 
     /**
-     * @param string $access_token OAuth access token, starting with 'access_'
+     * @param string $accessToken OAuth access token, starting with 'access_'
      * @throws ApiException
      */
-    public function setAccessToken($access_token)
+    public function setAccessToken($accessToken)
     {
-        $access_token = trim($access_token);
+        $accessToken = trim($accessToken);
 
-        if (!preg_match('/^access_\w+$/', $access_token)) {
-            throw new ApiException("Invalid OAuth access token: '{$access_token}'. An access token must start with 'access_'.");
+        if (!preg_match('/^access_\w+$/', $accessToken)) {
+            throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
-        $this->api_key = $access_token;
-        $this->oauth_access = true;
+        $this->apiKey = $accessToken;
+        $this->oauthAccess = true;
     }
 
     /**
@@ -203,15 +203,15 @@ class MollieApiClient
      */
     public function usesOAuth()
     {
-        return $this->oauth_access;
+        return $this->oauthAccess;
     }
 
     /**
-     * @param string $version_string
+     * @param string $versionString
      */
-    public function addVersionString($version_string)
+    public function addVersionString($versionString)
     {
-        $this->version_strings[] = str_replace([" ", "\t", "\n", "\r"], '-', $version_string);
+        $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
     }
 
     /**
@@ -221,38 +221,38 @@ class MollieApiClient
      * @see $payments
      * @see $isuers
      *
-     * @param string $http_method
-     * @param string $api_method
-     * @param string $http_body
+     * @param string $httpMethod
+     * @param string $apiMethod
+     * @param string $httpBody
      *
      * @return object
      * @throws ApiException
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCall($http_method, $api_method, $http_body = null)
+    public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
-        if (empty($this->api_key)) {
+        if (empty($this->apiKey)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }
 
-        $url = $this->api_endpoint . "/" . self::API_VERSION . "/" . $api_method;
-        $user_agent = implode(' ', $this->version_strings);
+        $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
+        $userAgent = implode(' ', $this->versionStrings);
 
         if ($this->usesOAuth()) {
-            $user_agent .= " OAuth/2.0";
+            $userAgent .= " OAuth/2.0";
         }
 
         $headers = [
             'Accept' => "application/json",
-            'Authorization' => "Bearer {$this->api_key}",
-            'User-Agent' => $user_agent,
+            'Authorization' => "Bearer {$this->apiKey}",
+            'User-Agent' => $userAgent,
             'X-Mollie-Client-Info' => php_uname(),
         ];
 
-        $request = new Request($http_method, $url, $headers, $http_body);
+        $request = new Request($httpMethod, $url, $headers, $httpBody);
 
-        $response = $this->http_client->send($request);
+        $response = $this->httpClient->send($request);
         if (!$response) {
             throw new ApiException("Did not receive API response.");
         }

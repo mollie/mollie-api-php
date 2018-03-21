@@ -13,39 +13,39 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Client|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $guzzle_client;
+    protected $guzzleClient;
 
     /**
      * @var MollieApiClient
      */
-    protected $api_client;
+    protected $apiClient;
 
-    protected function mockApiCall(Request $expected_request, Response $response)
+    protected function mockApiCall(Request $expectedRequest, Response $response)
     {
-        $this->guzzle_client = $this->createMock(Client::class);
+        $this->guzzleClient = $this->createMock(Client::class);
 
-        $this->api_client = new MollieApiClient($this->guzzle_client);
-        $this->api_client->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+        $this->apiClient = new MollieApiClient($this->guzzleClient);
+        $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 
-        $this->guzzle_client
+        $this->guzzleClient
             ->expects($this->once())
             ->method('send')
             ->with($this->isInstanceOf(Request::class))
-            ->willReturnCallback(function (Request $request) use ($expected_request, $response) {
-                $this->assertEquals($expected_request->getMethod(), $request->getMethod());
+            ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
+                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod());
 
                 $this->assertEquals(
-                    $expected_request->getUri()->getPath(),
+                    $expectedRequest->getUri()->getPath(),
                     $request->getUri()->getPath()
                 );
 
-                $request_body = $request->getBody()->getContents();
-                $expected_body = $expected_request->getBody()->getContents();
+                $requestBody = $request->getBody()->getContents();
+                $expectedBody = $expectedRequest->getBody()->getContents();
 
-                if (strlen($expected_body) > 0 && strlen($request_body) > 0) {
+                if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
                     $this->assertJsonStringEqualsJsonString(
-                        $expected_body,
-                        $request_body
+                        $expectedBody,
+                        $requestBody
                     );
                 }
 

@@ -37,16 +37,16 @@ use Mollie\Api\Resources\RefundCollection;
  * @link        https://www.mollie.com
  *
  * @method Refund[]|RefundCollection all($offset = 0, $limit = 0, array $filters = [])
- * @method Refund get($refund_id, array $filters = [])
+ * @method Refund get($refundId, array $filters = [])
  * @method Refund create(array $data = [], array $filters = [])
- * @method Refund delete($refund_id)
+ * @method Refund delete($refundId)
  */
 class PaymentRefundEndpoint extends EndpointAbstract
 {
     /**
      * @var string
      */
-    protected $resource_path = "payments_refunds";
+    protected $resourcePath = "payments_refunds";
 
     /**
      * @return Refund
@@ -59,14 +59,14 @@ class PaymentRefundEndpoint extends EndpointAbstract
     /**
      * Cancel the given Refund. This is just an alias of the 'delete' method.
      *
-     * @param string $refund_id
+     * @param string $refundId
      *
      * @return Refund
      * @throws ApiException
      */
-    public function cancel($refund_id)
+    public function cancel($refundId)
     {
-        return $this->delete($refund_id);
+        return $this->delete($refundId);
     }
 
 

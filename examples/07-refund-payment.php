@@ -16,8 +16,8 @@ try {
     /*
      * Retrieve the payment you want to refund from the API.
      */
-    $payment_id = "tr_q2cLW9pxMT";
-    $payment = $mollie->payments->get($payment_id);
+    $paymentId = "tr_q2cLW9pxMT";
+    $payment = $mollie->payments->get($paymentId);
 
     // Check if this payment can be refunded
     // You can also check if the payment can be partially refunded
@@ -35,15 +35,15 @@ try {
             ]
         ]);
 
-        echo "€ 15,00 of payment {$payment_id} refunded.", PHP_EOL;
+        echo "€ 15,00 of payment {$paymentId} refunded.", PHP_EOL;
     } else {
-        echo "Payment {$payment_id} can not be refunded.", PHP_EOL;
+        echo "Payment {$paymentId} can not be refunded.", PHP_EOL;
     }
 
     /*
      * Retrieve all refunds on a payment.
      */
-    var_dump($mollie->payments_refunds->with($payment)->all());
+    var_dump($mollie->paymentsRefunds->with($payment)->all());
 } catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

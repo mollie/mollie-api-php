@@ -37,7 +37,7 @@ try {
      * Generate a unique order id for this example. It is important to include this unique attribute
      * in the redirectUrl (below) so a proper return page can be shown to the customer.
      */
-    $order_id = time();
+    $orderId = time();
 
     /*
      * Determine the url parts to these example files.
@@ -63,10 +63,10 @@ try {
         ],
         "method" => PaymentMethod::IDEAL,
         "description" => "My first iDEAL payment",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
         "metadata" => [
-            "order_id" => $order_id,
+            "order_id" => $orderId,
         ],
         "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
     ]);
@@ -74,7 +74,7 @@ try {
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($order_id, $payment->status);
+    database_write($orderId, $payment->status);
 
     /*
      * Send the customer off to complete the payment.
@@ -89,10 +89,10 @@ try {
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write($order_id, $status)
+function database_write($orderId, $status)
 {
-    $order_id = intval($order_id);
-    $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";
+    $orderId = intval($orderId);
+    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
 
     file_put_contents($database, $status);
 }
