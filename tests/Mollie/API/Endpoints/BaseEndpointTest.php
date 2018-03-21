@@ -42,7 +42,7 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                 $request_body = $request->getBody()->getContents();
                 $expected_body = $expected_request->getBody()->getContents();
 
-                if(strlen($expected_body) > 0 && strlen($request_body) > 0){
+                if (strlen($expected_body) > 0 && strlen($request_body) > 0) {
                     $this->assertJsonStringEqualsJsonString(
                         $expected_body,
                         $request_body

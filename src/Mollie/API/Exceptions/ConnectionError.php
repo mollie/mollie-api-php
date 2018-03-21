@@ -34,43 +34,43 @@ namespace Mollie\Api\Exceptions;
  */
 class ConnectionError extends ApiException
 {
-	/**
-	 * @var int
-	 */
-	private $curlErrorCode;
+    /**
+     * @var int
+     */
+    private $curlErrorCode;
 
-	/**
-	 * @var string
-	 */
-	private $curlErrorMessage;
+    /**
+     * @var string
+     */
+    private $curlErrorMessage;
 
-	/**
-	 * @param resource $curl
-	 * @return ConnectionError
-	 */
-	public static function fromCurlFailure($curl)
-	{
-		$e = new static("Unable to communicate with Mollie (" . curl_errno($curl) . "): " . curl_error($curl) . ".");
+    /**
+     * @param resource $curl
+     * @return ConnectionError
+     */
+    public static function fromCurlFailure($curl)
+    {
+        $e = new static("Unable to communicate with Mollie (" . curl_errno($curl) . "): " . curl_error($curl) . ".");
 
-		$e->curlErrorCode = curl_errno($curl);
-		$e->curlErrorMessage = curl_error($curl);
+        $e->curlErrorCode = curl_errno($curl);
+        $e->curlErrorMessage = curl_error($curl);
 
-		return $e;
-	}
+        return $e;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getCurlErrorCode()
-	{
-		return $this->curlErrorCode;
-	}
+    /**
+     * @return int
+     */
+    public function getCurlErrorCode()
+    {
+        return $this->curlErrorCode;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getCurlErrorMessage()
-	{
-		return $this->curlErrorMessage;
-	}
+    /**
+     * @return string
+     */
+    public function getCurlErrorMessage()
+    {
+        return $this->curlErrorMessage;
+    }
 }

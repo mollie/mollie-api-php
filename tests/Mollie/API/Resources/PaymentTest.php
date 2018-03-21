@@ -220,7 +220,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment();
 
         $payment->_links = new stdClass();
-        $payment->_links->checkout =new stdClass();
+        $payment->_links->checkout = new stdClass();
         $payment->_links->checkout->href = "https://example.com";
 
         $this->assertSame($payment->getCheckoutUrl(), "https://example.com");
@@ -248,7 +248,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRefunded = (object) ["value" => 22.0, "currency" => "EUR"];
+        $payment->amountRefunded = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRefunded());
     }
 
@@ -264,7 +264,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRemaining = (object) ["value" => 22.0, "currency" => "EUR"];
+        $payment->amountRemaining = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRemaining());
     }
 
