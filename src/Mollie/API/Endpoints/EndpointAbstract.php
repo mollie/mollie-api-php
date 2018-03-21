@@ -6,6 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\Payment;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -76,7 +77,6 @@ abstract class EndpointAbstract
     /**
      * @param array $filters
      * @return string
-     * @throws ApiException
      */
     private function buildQueryString(array $filters)
     {
@@ -89,7 +89,7 @@ abstract class EndpointAbstract
 
     /**
      * @param string $restResource
-     * @param        $body
+     * @param string|null|resource|StreamInterface $body
      * @param array $filters
      * @return object
      * @throws ApiException
@@ -162,7 +162,7 @@ abstract class EndpointAbstract
      *
      * @param string $restResource
      * @param string $id
-     * @param string $body
+     * @param string|null|resource|StreamInterface $body
      *
      * @return object
      * @throws ApiException

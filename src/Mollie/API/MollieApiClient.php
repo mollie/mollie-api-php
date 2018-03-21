@@ -11,6 +11,7 @@ use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -223,7 +224,7 @@ class MollieApiClient
      *
      * @param string $httpMethod
      * @param string $apiMethod
-     * @param string $httpBody
+     * @param string|null|resource|StreamInterface $httpBody
      *
      * @return object
      * @throws ApiException
