@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-
 /**
  * Copyright (c) 2013, Mollie B.V.
  * All rights reserved.
@@ -61,5 +60,4 @@ abstract class BaseCollection extends \ArrayObject
      * @return string
      */
     abstract public function getCollectionResourceName();
-
 }
