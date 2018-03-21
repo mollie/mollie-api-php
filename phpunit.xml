@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit colors="true" bootstrap="./vendor/autoload.php">
-	<php>
-		<ini name="display_errors" value="stderr" />
-		<ini name="error_log" value="/dev/null" />
-	</php>
-	<testsuite name="Unit tests">
-		<directory>tests/</directory>
-	</testsuite>
-	<logging>
-		<log type="junit" target="build/logs/junit-unittests.xml" logIncompleteSkipped="false"/>
-	</logging>
-	<filter>
-		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">src/</directory>
-		</whitelist>
-	</filter>
+    <php>
+        <ini name="display_errors" value="stderr"/>
+        <ini name="error_log" value="/dev/null"/>
+    </php>
+    <testsuite name="Unit tests">
+        <directory>tests/</directory>
+    </testsuite>
+    <logging>
+        <log type="junit" target="build/logs/junit-unittests.xml" logIncompleteSkipped="false"/>
+    </logging>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
