@@ -24,11 +24,11 @@ try {
      */
     database_write($order_id, $payment->status);
 
-    if ($payment->isPaid() == TRUE) {
+    if ($payment->isPaid() == true) {
         /*
          * At this point you'd probably want to start the process of delivering the product to the customer.
          */
-    } elseif ($payment->isOpen() == FALSE) {
+    } elseif ($payment->isOpen() == false) {
         /*
          * The payment isn't paid and isn't open anymore. We can assume it was aborted.
          */

@@ -131,7 +131,7 @@ class MollieApiClient
      */
     public function __construct(ClientInterface $http_client = null)
     {
-        $this->http_client = $http_client ? $http_client: new Client();
+        $this->http_client = $http_client ? $http_client : new Client();
 
         $compatibility_checker = new CompatibilityChecker();
         $compatibility_checker->checkCompatibility();
@@ -145,9 +145,9 @@ class MollieApiClient
 
     public function initializeEndpoints()
     {
-        $this->payments         = new PaymentEndpoint($this);
+        $this->payments = new PaymentEndpoint($this);
         $this->payments_refunds = new PaymentRefundEndpoint($this);
-        $this->methods          = new MethodEndpoint($this);
+        $this->methods = new MethodEndpoint($this);
     }
 
     /**
@@ -179,7 +179,7 @@ class MollieApiClient
         }
 
         $this->api_key = $api_key;
-        $this->oauth_access = FALSE;
+        $this->oauth_access = false;
     }
 
     /**
@@ -195,7 +195,7 @@ class MollieApiClient
         }
 
         $this->api_key = $access_token;
-        $this->oauth_access = TRUE;
+        $this->oauth_access = true;
     }
 
     /**
@@ -230,7 +230,7 @@ class MollieApiClient
      *
      * @codeCoverageIgnore
      */
-    public function performHttpCall($http_method, $api_method, $http_body = NULL)
+    public function performHttpCall($http_method, $api_method, $http_body = null)
     {
         if (empty($this->api_key)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
@@ -251,12 +251,12 @@ class MollieApiClient
         ];
 
         $request = new Request($http_method, $url, $headers, $http_body);
-        
+
         $response = $this->http_client->send($request);
-        if(!$response) {
+        if (!$response) {
             throw new ApiException("Did not receive API response.");
         }
-        
+
         return $this->parseResponseBody($response);
     }
 

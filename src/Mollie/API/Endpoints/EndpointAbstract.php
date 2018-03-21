@@ -150,8 +150,8 @@ abstract class EndpointAbstract
             "{$rest_resource}/{$id}"
         );
 
-        if ($result === NULL) {
-            return NULL;
+        if ($result === null) {
+            return null;
         }
 
         return $this->copy($result, $this->getResourceObject());
@@ -324,7 +324,7 @@ abstract class EndpointAbstract
      */
     public function getResourcePath()
     {
-        if (strpos($this->resource_path, "_") !== FALSE) {
+        if (strpos($this->resource_path, "_") !== false) {
             list($parent_resource, $child_resource) = explode("_", $this->resource_path, 2);
 
             if (empty($this->parent_id)) {

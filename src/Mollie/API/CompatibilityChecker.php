@@ -79,11 +79,11 @@ class CompatibilityChecker
     {
         // Check by extension_loaded
         if (function_exists('extension_loaded') && extension_loaded('json')) {
-            return TRUE;
+            return true;
         } elseif (function_exists('json_encode')) {
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 }

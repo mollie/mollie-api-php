@@ -31,7 +31,7 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     {
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
-            ->will($this->returnValue(FALSE)); // Fail
+            ->will($this->returnValue(false)); // Fail
 
         $this->checker->expects($this->never())
             ->method("satisfiesJsonExtension");
@@ -53,11 +53,11 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     {
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
-            ->will($this->returnValue(TRUE));
+            ->will($this->returnValue(true));
 
         $this->checker->expects($this->once())
             ->method("satisfiesJsonExtension")
-            ->will($this->returnValue(FALSE)); // Fail
+            ->will($this->returnValue(false)); // Fail
 
         $this->checker->expects($this->never())
             ->method("satisfiesCurlExtension");

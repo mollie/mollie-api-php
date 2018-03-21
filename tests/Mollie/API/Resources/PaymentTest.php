@@ -21,7 +21,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isCancelled());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
@@ -40,7 +40,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isExpired());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
@@ -59,7 +59,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isOpen());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
@@ -78,7 +78,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isPending());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
@@ -105,7 +105,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isPaid());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
@@ -124,7 +124,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isPaidOut());
 
         $payment->status = PaymentStatus::STATUS_REFUNDED;
@@ -143,7 +143,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isRefunded());
 
         $payment->status = PaymentStatus::STATUS_CANCELLED;
@@ -162,7 +162,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isChargedBack());
 
         $payment->status = PaymentStatus::STATUS_CANCELLED;
@@ -181,7 +181,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->status = NULL;
+        $payment->status = null;
         $this->assertFalse($payment->isFailed());
 
         $payment->status = PaymentStatus::STATUS_OPEN;
@@ -239,7 +239,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRemaining = NULL;
+        $payment->amountRemaining = null;
         $this->assertFalse($payment->canBeRefunded());
         $this->assertFalse($payment->canBePartiallyRefunded());
     }
@@ -256,7 +256,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRefunded = NULL;
+        $payment->amountRefunded = null;
         self::assertSame(0.0, $payment->getAmountRefunded());
     }
 
@@ -272,7 +272,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $payment = new Payment();
 
-        $payment->amountRefunded = NULL;
+        $payment->amountRefunded = null;
         self::assertSame(0.0, $payment->getAmountRemaining());
     }
 }

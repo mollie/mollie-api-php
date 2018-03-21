@@ -68,7 +68,7 @@ class Method
     public function getMinimumAmount()
     {
         if (empty($this->amount)) {
-            return NULL;
+            return null;
         }
 
         return (float)$this->amount->minimum;
@@ -80,7 +80,7 @@ class Method
     public function getMaximumAmount()
     {
         if (empty($this->amount)) {
-            return NULL;
+            return null;
         }
 
         return (float)$this->amount->maximum;

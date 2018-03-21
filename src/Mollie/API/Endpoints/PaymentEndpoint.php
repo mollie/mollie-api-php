@@ -86,7 +86,7 @@ class PaymentEndpoint extends EndpointAbstract
      * initiate a partial refund, or empty to do a full refund.
      *
      * @param Payment $payment
-     * @param array|float|NULL $data
+     * @param array|float|null $data
      *
      * @return Refund
      */
@@ -94,7 +94,7 @@ class PaymentEndpoint extends EndpointAbstract
     {
         $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 
-        $body = NULL;
+        $body = null;
         if (count($data) > 0) {
             $body = json_encode($data);
         }

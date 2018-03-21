@@ -66,7 +66,7 @@ class Payment
 
     /**
      * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
-     * NULL if the payment can not be refunded.
+     * null if the payment can not be refunded.
      *
      * @var float|null
      */
@@ -74,7 +74,7 @@ class Payment
 
     /**
      * The amount of a refunded payment that can still be refunded, in EURO with 2 decimals. This field will be
-     * NULL if the payment can not be refunded.
+     * null if the payment can not be refunded.
      *
      * For some payment methods this amount can be higher than the payment amount. This is possible to reimburse
      * the costs for a return shipment to your customer for example.
@@ -355,7 +355,7 @@ class Payment
     public function getCheckoutUrl()
     {
         if (empty($this->_links->checkout)) {
-            return NULL;
+            return null;
         }
 
         return $this->_links->checkout->href;
@@ -366,7 +366,7 @@ class Payment
      */
     public function canBeRefunded()
     {
-        return $this->amountRemaining !== NULL;
+        return $this->amountRemaining !== null;
     }
 
     /**

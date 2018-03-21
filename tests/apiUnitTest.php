@@ -68,7 +68,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 
         $api->setApiKey("test_QnRGwP5fwWWMNQTCLAH4xDt3rw8dAc"); // Should not throw
         $api->setApiKey("test_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); // Should not throw
-        $this->assertTrue(TRUE);
+        $this->assertTrue(true);
     }
 
     /**
@@ -164,7 +164,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
     {
         $this->api->expects($this->once())
             ->method("performHttpCall")
-            ->with(MollieApiClient::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", NULL)
+            ->with(MollieApiClient::HTTP_POST, "payments/tr_OCrlrHqKsr/refunds", null)
             ->will($this->returnValue('{"id":"re_O3UbDhODzG","payment":{"id":"tr_OCrlrHqKsr","mode":"live","createdDatetime":"2014-09-15T09:24:39.0Z","status":"refunded","expiryPeriod":"PT15M","paidDatetime":"2014-09-15T09:28:29.0Z","amount":"60.33","amountRefunded":"60.33","amountRemaining":null,"description":"15 Round House Kicks To The Face","method":"ideal","metadata":null,"details":{"consumerName":"Hr E G H K\u00fcppers en/of MW M.J. K\u00fcppers-Veeneman","consumerAccount":"NL53INGB0654422370","consumerBic":"INGBNL2A"},"links":{"redirectUrl":"http://www.example.org/return.php"}},"amount":"60.33","refundedDatetime":"2014-09-15T09:24:39.0Z"}'));
 
         $payment = new Payment();
@@ -258,7 +258,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
     public function dpInvalidPaymentId()
     {
         return array(
-            array(NULL),
+            array(null),
             array(''),
             array('d0b0E3EA3v')
         );
@@ -375,7 +375,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
         $this->api->expects($this->once())
             ->method("performHttpCall")
             ->with(MollieApiClient::HTTP_DELETE, "customers/cst_3EA3vd0b0E")
-            ->willReturn(NULL);
+            ->willReturn(null);
 
         $this->api->customers->delete("cst_3EA3vd0b0E");
     }

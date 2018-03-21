@@ -69,7 +69,7 @@ try {
         "metadata" => array(
             "order_id" => $order_id,
         ),
-        "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
+        "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
     ));
 
     /*
