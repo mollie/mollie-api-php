@@ -16,6 +16,8 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
 {
     const API_KEY = "test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM";
 
+    const HTTP_STATUS_NO_CONTENT = 204;
+
     /**
      * @var MollieApiClient|PHPUnit_Framework_MockObject_MockObject
      */
@@ -368,7 +370,7 @@ class Mollie_ApiUnitTest extends PHPUnit_Framework_TestCase
     {
         $this->api->expects($this->once())
             ->method('getLastHttpResponseStatusCode')
-            ->willReturn(MollieApiClient::HTTP_STATUS_NO_CONTENT);
+            ->willReturn(self::HTTP_STATUS_NO_CONTENT);
 
         $this->api->expects($this->once())
             ->method("performHttpCall")

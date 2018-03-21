@@ -66,8 +66,6 @@ class MollieApiClient
     const HTTP_POST = "POST";
     const HTTP_DELETE = "DELETE";
 
-    const HTTP_STATUS_NO_CONTENT = 204;
-
     /**
      * @var ClientInterface
      */
@@ -114,7 +112,7 @@ class MollieApiClient
     /**
      * @var array
      */
-    protected $version_strings = array();
+    protected $version_strings = [];
 
     /**
      * @var resource
