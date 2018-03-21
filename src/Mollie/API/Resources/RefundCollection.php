@@ -34,7 +34,6 @@ namespace Mollie\Api\Resources;
  */
 class RefundCollection extends BaseCollection
 {
-
     /**
      * @return string
      */

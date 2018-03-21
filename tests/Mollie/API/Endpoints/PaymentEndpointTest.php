@@ -202,7 +202,6 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals((object)["order_id" => "1234"], $payment->metadata);
         $this->assertEquals(PaymentStatus::STATUS_PAID, $payment->status);
 
-
         $amountRefunded = new Stdclass();
         $amountRefunded->value = '0.00';
         $amountRefunded->currency = "EUR";
@@ -379,5 +378,4 @@ class PaymentEndpointTest extends BaseEndpointTest
         $nextLink = (object)["href" => "http://api.mollie.nl/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/json"];
         $this->assertEquals($nextLink, $payments->_links->next);
     }
-
 }

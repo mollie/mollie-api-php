@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
@@ -68,7 +69,6 @@ class PaymentRefundEndpoint extends EndpointAbstract
     {
         return $this->delete($refundId);
     }
-
 
     /**
      * Get the collection object that is used by this API. Every API uses one type of collection object.

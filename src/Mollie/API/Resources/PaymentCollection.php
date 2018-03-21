@@ -34,7 +34,6 @@ namespace Mollie\Api\Resources;
  */
 class PaymentCollection extends BaseCollection
 {
-
     /**
      * @return string
      */

@@ -9,7 +9,6 @@ use stdClass;
 
 class RefundEndpointTest extends BaseEndpointTest
 {
-
     public function testCreateRefund()
     {
         $payment = $this->getPayment();
@@ -159,5 +158,4 @@ class RefundEndpointTest extends BaseEndpointTest
 
         return $this->apiClient->payments->get("tr_44aKxzEbr8");
     }
-
 }

@@ -41,7 +41,6 @@ use Mollie\Api\Resources\MethodCollection;
  */
 class MethodEndpoint extends EndpointAbstract
 {
-
     protected $resourcePath = "methods";
 
     /**

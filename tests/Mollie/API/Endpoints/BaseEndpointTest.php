@@ -9,7 +9,6 @@ use Mollie\Api\MollieApiClient;
 
 abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Client|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -52,5 +51,4 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                 return $response;
             });
     }
-
 }

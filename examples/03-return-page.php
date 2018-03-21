@@ -20,7 +20,6 @@ echo '<a href="' . $protocol . '://' . $hostname . $path . '/01-new-payment.php"
 echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Retry example 4</a><br>';
 echo "</p>";
 
-
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
