@@ -4,6 +4,7 @@ namespace Mollie\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
@@ -253,7 +254,12 @@ class MollieApiClient
 
         $request = new Request($httpMethod, $url, $headers, $httpBody);
 
-        $response = $this->httpClient->send($request);
+        try {
+            $response = $this->httpClient->send($request);
+        } catch (GuzzleException $e) {
+            throw new ApiException($e->getMessage(), $e->getCode(), $e);
+        }
+
         if (!$response) {
             throw new ApiException("Did not receive API response.");
         }
