@@ -16,8 +16,9 @@ $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SER
 
 echo "<p>Your payment status is '" . htmlspecialchars($status) . "'.</p>";
 echo "<p>";
-echo '<a href="' . $protocol . '://' . $hostname . $path . '/01-new-payment.php">Retry example 1</a><br>';
-echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Retry example 4</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/01-new-payment.php">Create payment with example 1</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Create iDEAL payment with example 4</a><br>';
+echo '<a href="' . $protocol . '://' . $hostname . $path . '/05-payments-history.php">List payments with example 5</a><br>';
 echo "</p>";
 
 /*
