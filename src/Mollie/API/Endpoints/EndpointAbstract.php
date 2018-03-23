@@ -187,15 +187,16 @@ abstract class EndpointAbstract
      * Get a collection of objects from the REST API.
      *
      * @param $restResource
-     * @param int $offset
+     * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $filters
      *
      * @return BaseCollection
+     * @throws ApiException
      */
-    private function rest_list($restResource, $offset = 0, $limit = self::DEFAULT_LIMIT, array $filters)
+    private function rest_list($restResource, $from = null, $limit = self::DEFAULT_LIMIT, array $filters)
     {
-        $filters = array_merge(["from" => $offset, "limit" => $limit], $filters);
+        $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
         $apiPath = $restResource . $this->buildQueryString($filters);
 
@@ -299,15 +300,16 @@ abstract class EndpointAbstract
     /**
      * Retrieve all objects of a certain resource.
      *
-     * @param int $offset
+     * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $filters
      *
      * @return BaseCollection
+     * @throws ApiException
      */
-    public function all($offset = 0, $limit = 0, array $filters = [])
+    public function all($from = null, $limit = self::DEFAULT_LIMIT, array $filters = [])
     {
-        return $this->rest_list($this->getResourcePath(), $offset, $limit, $filters);
+        return $this->rest_list($this->getResourcePath(), $from, $limit, $filters);
     }
 
     /**

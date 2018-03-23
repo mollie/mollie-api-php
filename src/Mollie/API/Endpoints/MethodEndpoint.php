@@ -36,7 +36,7 @@ use Mollie\Api\Resources\MethodCollection;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Method[]|MethodCollection all($offset = 0, $limit = 0, array $filters = [])
+ * @method Method[]|MethodCollection all($from = null, $limit = 50, array $filters = [])
  * @method Method get($id, array $filters = [])
  */
 class MethodEndpoint extends EndpointAbstract

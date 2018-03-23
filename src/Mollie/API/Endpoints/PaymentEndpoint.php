@@ -38,7 +38,7 @@ use Mollie\Api\Resources\Refund;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  *
- * @method Payment[]|PaymentCollection all($offset = 0, $limit = 0, array $filters = [])
+ * @method Payment[]|PaymentCollection all($from = null, $limit = 50, array $filters = [])
  * @method Payment create(array $data, array $filters = [])
  * @method Payment delete($paymentId)
  */
