@@ -34,10 +34,6 @@ try {
 
         echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if($payment->hasSettlement()) {
-            echo "Payment has been settled on your account.<br />";
-        }
-
         if($payment->hasRefunds()) {
             echo "Payment has been (partially) refunded.<br />";
         }

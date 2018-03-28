@@ -290,16 +290,6 @@ class Payment
     }
 
     /**
-     * Has the money been transferred to the bank account of the merchant?
-     *
-     * @return bool
-     */
-    public function hasSettlement()
-    {
-        return !empty($this->settlementAmount);
-    }
-
-    /**
      * Does the payment have refunds
      *
      * @return bool

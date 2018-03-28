@@ -112,22 +112,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($payment->isPaid());
     }
 
-    public function testHasSettlementReturnsTrueWhenThereIsASettlementAmount()
-    {
-        $payment = new Payment();
-
-        $payment->settlementAmount = (object) ["value" => "10.00", "currecy" => "EUR"];
-        $this->assertTrue($payment->hasSettlement());
-    }
-
-    public function testHasSettlementReturnsFalseWhenThereIsNoSettlementAmount()
-    {
-        $payment = new Payment();
-
-        $payment->settlementAmount = null;
-        $this->assertFalse($payment->hasSettlement());
-    }
-
     public function testHasRefundsReturnsTrueWhenPaymentHasRefunds()
     {
         $payment = new Payment();
