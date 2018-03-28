@@ -49,7 +49,7 @@ try {
          * Retrieve all refunds on a payment.
          */
         echo "<ul>";
-        foreach($mollie->payments->getRefunds($payment) as $refund) {
+        foreach($payment->refunds() as $refund) {
             echo "<li>";
             echo "<strong style='font-family: monospace'>" . htmlspecialchars($refund->id) . "</strong><br />";
             echo htmlspecialchars($refund->description) . "<br />";

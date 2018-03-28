@@ -194,7 +194,7 @@ abstract class EndpointAbstract
      * @return BaseCollection
      * @throws ApiException
      */
-    protected function rest_list($restResource, $from = null, $limit = self::DEFAULT_LIMIT, array $filters)
+    private function rest_list($restResource, $from = null, $limit = self::DEFAULT_LIMIT, array $filters)
     {
         $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
