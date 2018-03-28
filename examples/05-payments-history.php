@@ -34,6 +34,8 @@ try {
 
         echo "Status: " . htmlspecialchars($payment->status);
 
+        // todo add examples for hasRefunds etc
+
         if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
             echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
         }

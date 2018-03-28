@@ -112,61 +112,56 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($payment->isPaid());
     }
 
-    public function testIsPaidOutReturnsTrueWhenStatusIsPaidOut()
+    public function testHasSettlementReturnsTrueWhenThereIsASettlementAmount()
     {
         $payment = new Payment();
 
-        $payment->status = PaymentStatus::STATUS_PAIDOUT;
-        $this->assertTrue($payment->isPaidOut());
+        $payment->settlementAmount = (object) ["value" => "10.00", "currecy" => "EUR"];
+        $this->assertTrue($payment->hasSettlement());
     }
 
-    public function testIsPaidOutReturnsFalseWhenStatusIsNotPaidOut()
+    public function testHasSettlementReturnsFalseWhenThereIsNoSettlementAmount()
     {
         $payment = new Payment();
 
-        $payment->status = null;
-        $this->assertFalse($payment->isPaidOut());
-
-        $payment->status = PaymentStatus::STATUS_REFUNDED;
-        $this->assertFalse($payment->isPaidOut());
+        $payment->settlementAmount = null;
+        $this->assertFalse($payment->hasSettlement());
     }
 
-    public function testIsRefundedReturnsTrueWhenStatusIsRefunded()
+    public function testHasRefundsReturnsTrueWhenPaymentHasRefunds()
     {
         $payment = new Payment();
 
-        $payment->status = PaymentStatus::STATUS_REFUNDED;
-        $this->assertTrue($payment->isRefunded());
+        $payment->_links = new stdClass();
+        $payment->_links->refunds = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds", "type" => "application/json"];
+
+        $this->assertTrue($payment->hasRefunds());
     }
 
-    public function testIsRefundedReturnsFalseWhenStatusIsNotRefunded()
+    public function testHasRefundsReturnsFalseWhenPaymentHasNoRefunds()
     {
         $payment = new Payment();
 
-        $payment->status = null;
-        $this->assertFalse($payment->isRefunded());
-
-        $payment->status = PaymentStatus::STATUS_CANCELLED;
-        $this->assertFalse($payment->isRefunded());
+        $payment->_links = new stdClass();
+        $this->assertFalse($payment->hasRefunds());
     }
 
-    public function testIsChargedBackReturnsTrueWhenStatusIsChargedBack()
+    public function testHasChargedbacksReturnsTrueWhenPaymentHasChargebacks()
     {
         $payment = new Payment();
 
-        $payment->status = PaymentStatus::STATUS_CHARGED_BACK;
-        $this->assertTrue($payment->isChargedBack());
+        $payment->_links = new stdClass();
+        $payment->_links->chargebacks = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks", "type" => "application/json"];
+
+        $this->assertTrue($payment->hasChargebacks());
     }
 
-    public function testIsChargedBackReturnsFalseWhenStatusIsNotChargedBack()
+    public function testHasChargedbacksReturnsFalseWhenPaymentHasNoChargebacks()
     {
         $payment = new Payment();
 
-        $payment->status = null;
-        $this->assertFalse($payment->isChargedBack());
-
-        $payment->status = PaymentStatus::STATUS_CANCELLED;
-        $this->assertFalse($payment->isChargedBack());
+        $payment->_links = new stdClass();
+        $this->assertFalse($payment->hasChargebacks());
     }
 
     public function testIsFailedReturnsTrueWhenStatusIsFailed()
