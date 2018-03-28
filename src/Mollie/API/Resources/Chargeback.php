@@ -34,7 +34,7 @@ use Mollie\Api\Types\RefundStatus;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class Refund
+class Chargeback
 {
     /**
      * Id of the payment method.
@@ -59,13 +59,6 @@ class Refund
     public $createdAt;
 
     /**
-     * The refund's description, if available.
-     *
-     * @var string|null
-     */
-    public $description;
-
-    /**
      * The payment id that was refunded.
      *
      * @var string
@@ -80,54 +73,8 @@ class Refund
     public $settlementAmount;
 
     /**
-     * The refund status
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
      * @var object[]
      */
     public $_links;
 
-    /**
-     * Is this refund queued?
-     *
-     * @return bool
-     */
-    public function isQueued()
-    {
-        return $this->status === RefundStatus::STATUS_QUEUED;
-    }
-
-    /**
-     * Is this refund pending?
-     *
-     * @return bool
-     */
-    public function isPending()
-    {
-        return $this->status === RefundStatus::STATUS_PENDING;
-    }
-
-    /**
-     * Is this refund processing?
-     *
-     * @return bool
-     */
-    public function isProcessing()
-    {
-        return $this->status === RefundStatus::STATUS_PROCESSING;
-    }
-
-    /**
-     * Is this refund transferred to consumer?
-     *
-     * @return bool
-     */
-    public function isTransferred()
-    {
-        return $this->status === RefundStatus::STATUS_REFUNDED;
-    }
 }

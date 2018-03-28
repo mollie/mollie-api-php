@@ -7,6 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -86,13 +87,6 @@ class MollieApiClient
     public $payments;
 
     /**
-     * RESTful Payments Refunds resource.
-     *
-     * @var PaymentRefundEndpoint
-     */
-    public $paymentsRefunds;
-
-    /**
      * RESTful Methods resource.
      *
      * @var MethodEndpoint
@@ -148,7 +142,6 @@ class MollieApiClient
     public function initializeEndpoints()
     {
         $this->payments = new PaymentEndpoint($this);
-        $this->paymentsRefunds = new PaymentRefundEndpoint($this);
         $this->methods = new MethodEndpoint($this);
     }
 

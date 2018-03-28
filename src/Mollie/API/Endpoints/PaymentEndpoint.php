@@ -4,9 +4,12 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
+use Mollie\Api\Resources\Chargeback;
+use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Resources\RefundCollection;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -87,7 +90,7 @@ class PaymentEndpoint extends EndpointAbstract
      * @param Payment $payment
      * @param array|float|null $data
      *
-     * @return Refund
+     * @return object
      */
     public function refund(Payment $payment, $data = [])
     {
@@ -100,6 +103,43 @@ class PaymentEndpoint extends EndpointAbstract
 
         $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
         return $this->copy($result, new Refund());
+    }
+
+    /**
+     * @param Payment $payment
+     * @return RefundCollection
+     */
+    public function getRefunds(Payment $payment)
+    {
+        $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
+
+        $result = $this->api->performHttpCall(self::REST_LIST, $resource);
+        $resourceCollection = new RefundCollection($result->count, $result->_links);
+
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = $this->copy($dataResult, new Refund());
+        }
+
+        return $resourceCollection;
+    }
+
+    /**
+     * @param Payment $payment
+     * @return ChargebackCollection
+     */
+    public function getChargebacks(Payment $payment)
+    {
+        $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/chargebacks";
+
+        $result = $this->api->performHttpCall(self::REST_LIST, $resource);
+
+        $resourceCollection = new ChargebackCollection($result->count, $result->_links);
+
+        foreach ($result->_embedded->chargebacks as $dataResult) {
+            $resourceCollection[] = $this->copy($dataResult, new Chargeback());
+        }
+
+        return $resourceCollection;
     }
 
     /**

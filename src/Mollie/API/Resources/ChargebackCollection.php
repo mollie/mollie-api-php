@@ -1,11 +1,6 @@
 <?php
 
-namespace Mollie\Api\Endpoints;
-
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\Refund;
-use Mollie\Api\Resources\RefundCollection;
+namespace Mollie\Api\Resources;
 
 /**
  * Copyright (c) 2013, Mollie B.V.
@@ -36,50 +31,15 @@ use Mollie\Api\Resources\RefundCollection;
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
- *
- * @method Refund[]|RefundCollection all($from = null, $limit = 50, array $filters = [])
- * @method Refund get($refundId, array $filters = [])
- * @method Refund create(array $data = [], array $filters = [])
- * @method Refund delete($refundId)
  */
-class PaymentRefundEndpoint extends EndpointAbstract
+class ChargebackCollection extends BaseCollection
 {
-    /**
-     * @var string
-     */
-    protected $resourcePath = "payments_refunds";
 
     /**
-     * @return Refund
+     * @return string
      */
-    protected function getResourceObject()
+    public function getCollectionResourceName()
     {
-        return new Refund();
-    }
-
-    /**
-     * Cancel the given Refund. This is just an alias of the 'delete' method.
-     *
-     * @param string $refundId
-     *
-     * @return Refund
-     * @throws ApiException
-     */
-    public function cancel($refundId)
-    {
-        return $this->delete($refundId);
-    }
-
-    /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
-     * @param int $count
-     * @param object[] $_links
-     *
-     * @return BaseCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new RefundCollection($count, $_links);
+        return "chargebacks";
     }
 }
