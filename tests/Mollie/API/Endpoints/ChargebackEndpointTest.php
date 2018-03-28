@@ -5,14 +5,13 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\ChargebackCollection;
+use Mollie\Api\Resources\Payment;
 
 class ChargebackEndpointTest extends BaseEndpointTest
 {
 
     public function testGetChargebacksOnPaymentResource()
     {
-        $payment = $this->getPayment();
-
         $this->mockApiCall(
             new Request(
                 "GET",
@@ -91,7 +90,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
             )
         );
 
-        $chargebacks = $this->apiClient->payments->getChargebacks($payment);
+        $chargebacks = $this->getPayment()->chargebacks();
 
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
         $this->assertEquals(2, $chargebacks->count);
@@ -104,19 +103,12 @@ class ChargebackEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $chargebacks->_links->self);
     }
 
+    /**
+     * @return Payment
+     */
     private function getPayment()
     {
-        $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8",
-                [],
-                ''
-            ),
-            new Response(
-                201,
-                [],
-                '{  
+        $paymentJson = '{  
                    "resource":"payment",
                    "id":"tr_44aKxzEbr8",
                    "mode":"test",
@@ -163,13 +155,15 @@ class ChargebackEndpointTest extends BaseEndpointTest
                       "documentation":{  
                          "href":"https://www.mollie.com/en/docs/reference/payments/get",
                          "type":"text/html"
+                      },
+                      "chargebacks":{  
+                         "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+                         "type":"application/json"
                       }
                    }
-                }'
-            )
-        );
+                }';
 
-        return $this->apiClient->payments->get("tr_44aKxzEbr8");
+        return $this->copy(json_decode($paymentJson), new Payment($this->apiClient));
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
@@ -11,7 +12,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsCancelledReturnsTrueWhenStatusIsCancelled()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_CANCELLED;
         $this->assertTrue($payment->isCancelled());
@@ -19,7 +20,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCancelledReturnsFalseWhenStatusIsNotCancelled()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isCancelled());
@@ -30,7 +31,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsExpiredReturnsTrueWhenStatusIsExpired()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_EXPIRED;
         $this->assertTrue($payment->isExpired());
@@ -38,7 +39,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsExpiredReturnsFalseWhenStatusIsNotExpired()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isExpired());
@@ -49,7 +50,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOpenReturnsTrueWhenStatusIsOpen()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_OPEN;
         $this->assertTrue($payment->isOpen());
@@ -57,7 +58,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOpenReturnsFalseWhenStatusIsNotOpen()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isOpen());
@@ -68,7 +69,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPendingReturnsTrueWhenStatusIsPending()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_PENDING;
         $this->assertTrue($payment->isPending());
@@ -76,7 +77,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPendingReturnsFalseWhenStatusIsNotPending()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isPending());
@@ -87,7 +88,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPaidReturnsTrueWhenPaidDatetimeIsSet()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->paidAt = "2016-10-24";
         $this->assertTrue($payment->isPaid());
@@ -95,7 +96,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPaidReturnsFalseWhenStatusIsPaid()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_PAID;
         $this->assertFalse($payment->isPaid());
@@ -103,7 +104,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPaidReturnsFalseWhenStatusIsNotPaid()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isPaid());
@@ -114,7 +115,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPaidOutReturnsTrueWhenStatusIsPaidOut()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_PAIDOUT;
         $this->assertTrue($payment->isPaidOut());
@@ -122,7 +123,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsPaidOutReturnsFalseWhenStatusIsNotPaidOut()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isPaidOut());
@@ -133,7 +134,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRefundedReturnsTrueWhenStatusIsRefunded()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_REFUNDED;
         $this->assertTrue($payment->isRefunded());
@@ -141,7 +142,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRefundedReturnsFalseWhenStatusIsNotRefunded()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isRefunded());
@@ -152,7 +153,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsChargedBackReturnsTrueWhenStatusIsChargedBack()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_CHARGED_BACK;
         $this->assertTrue($payment->isChargedBack());
@@ -160,7 +161,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsChargedBackReturnsFalseWhenStatusIsNotChargedBack()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isChargedBack());
@@ -171,7 +172,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsFailedReturnsTrueWhenStatusIsFailed()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_FAILED;
         $this->assertTrue($payment->isFailed());
@@ -179,7 +180,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsFailedReturnsFalseWhenStatusIsNotFailed()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
         $this->assertFalse($payment->isFailed());
@@ -190,7 +191,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testHasRecurringTypeReturnsTrueWhenRecurringTypeIsFirst()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->sequenceType = SequenceType::SEQUENCETYPE_FIRST;
         $this->assertFalse($payment->hasSequenceTypeRecurring());
@@ -199,7 +200,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testHasRecurringTypeReturnsTrueWhenRecurringTypeIsRecurring()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->sequenceType = SequenceType::SEQUENCETYPE_RECURRING;
         $this->assertTrue($payment->hasSequenceTypeRecurring());
@@ -208,7 +209,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testHasRecurringTypeReturnsFalseWhenRecurringTypeIsNone()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->sequenceType = SequenceType::SEQUENCETYPE_ONEOFF;
         $this->assertFalse($payment->hasSequenceTypeFirst());
@@ -217,7 +218,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCheckoutUrlReturnsPaymentUrlFromLinksObject()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->_links = new stdClass();
         $payment->_links->checkout = new stdClass();
@@ -228,7 +229,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testCanBeRefundedReturnsTrueWhenAmountRemainingIsSet()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRemaining = 15;
         $this->assertTrue($payment->canBeRefunded());
@@ -237,7 +238,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testCanBeRefundedReturnsFalseWhenAmountRemainingIsNull()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRemaining = null;
         $this->assertFalse($payment->canBeRefunded());
@@ -246,7 +247,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmountRefundedReturnsAmountRefundedAsFloat()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRefunded = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRefunded());
@@ -254,7 +255,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmountRefundedReturns0WhenAmountRefundedIsSetToNull()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRefunded = null;
         self::assertSame(0.0, $payment->getAmountRefunded());
@@ -262,7 +263,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmountRemainingReturnsAmountRemainingAsFloat()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRemaining = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getAmountRemaining());
@@ -270,7 +271,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmountRemainingReturns0WhenAmountRemainingIsSetToNull()
     {
-        $payment = new Payment();
+        $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->amountRefunded = null;
         self::assertSame(0.0, $payment->getAmountRemaining());

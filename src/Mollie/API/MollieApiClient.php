@@ -227,11 +227,32 @@ class MollieApiClient
      */
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
+       $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
+
+       return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
+    }
+
+    /**
+     * Perform an http call to a full url. This method is used by the resource specific classes.
+     *
+     * @see $payments
+     * @see $isuers
+     *
+     * @param string $httpMethod
+     * @param string $url
+     * @param string|null|resource|StreamInterface $httpBody
+     *
+     * @return object
+     * @throws ApiException
+     *
+     * @codeCoverageIgnore
+     */
+    public function performHttpCallToFullUrl($httpMethod, $url, $httpBody = null)
+    {
         if (empty($this->apiKey)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }
 
-        $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
         $userAgent = implode(' ', $this->versionStrings);
 
         if ($this->usesOAuth()) {

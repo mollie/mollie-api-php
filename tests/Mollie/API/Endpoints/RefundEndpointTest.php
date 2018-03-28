@@ -4,6 +4,7 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use stdClass;
@@ -12,8 +13,6 @@ class RefundEndpointTest extends BaseEndpointTest
 {
     public function testCreateRefund()
     {
-        $payment = $this->getPayment();
-
         $this->mockApiCall(
             new Request(
                 "POST",
@@ -57,7 +56,7 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refund = $this->apiClient->payments->refund($payment, [
+        $refund = $this->apiClient->payments->refund($this->getPayment(), [
             "amount" => [
                 "currency" => "EUR",
                 "value" => "20.00"
@@ -94,8 +93,6 @@ class RefundEndpointTest extends BaseEndpointTest
 
     public function testGetRefundsOnPaymentResource()
     {
-        $payment = $this->getPayment();
-
         $this->mockApiCall(
             new Request(
                 "GET",
@@ -154,26 +151,19 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refunds = $this->apiClient->payments->getRefunds($payment);
+        $refunds = $this->getPayment()->refunds();
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
         $this->assertEquals(1, $refunds->count);
         $this->assertEquals(1, count($refunds));
     }
 
+    /**
+     * @return Payment
+     */
     private function getPayment()
     {
-        $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8",
-                [],
-                ''
-            ),
-            new Response(
-                201,
-                [],
-                '{  
+        $paymentJson = '{  
                    "resource":"payment",
                    "id":"tr_44aKxzEbr8",
                    "mode":"test",
@@ -220,12 +210,14 @@ class RefundEndpointTest extends BaseEndpointTest
                       "documentation":{  
                          "href":"https://www.mollie.com/en/docs/reference/payments/get",
                          "type":"text/html"
+                      },
+                      "refunds":{  
+                         "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds",
+                         "type":"application/json"
                       }
                    }
-                }'
-            )
-        );
+                }';
 
-        return $this->apiClient->payments->get("tr_44aKxzEbr8");
+        return $this->copy(json_decode($paymentJson), new Payment($this->apiClient));
     }
 }
