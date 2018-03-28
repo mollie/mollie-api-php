@@ -59,17 +59,24 @@ class Payment extends BaseResource
     public $mode;
 
     /**
-     * The amount of the payment in EURO with 2 decimals.
+     * Amount object containing the value and currency
      *
-     * @var StdClass
+     * @var object
      */
     public $amount;
+
+    /**
+     * The amount that has been settled containing the value and currency
+     *
+     * @var object
+     */
+    public $settlementAmount;
 
     /**
      * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
      * null if the payment can not be refunded.
      *
-     * @var float|null
+     * @var object|null
      */
     public $amountRefunded;
 
@@ -80,7 +87,7 @@ class Payment extends BaseResource
      * For some payment methods this amount can be higher than the payment amount. This is possible to reimburse
      * the costs for a return shipment to your customer for example.
      *
-     * @var float|null
+     * @var object|null
      */
     public $amountRemaining;
 
@@ -284,36 +291,23 @@ class Payment extends BaseResource
     }
 
     /**
-     * Has the money been transferred to the bank account of the merchant?
-     *
-     * Note: When a payment is refunded or charged back, the status 'refunded'/'charged_back' will
-     * overwrite the 'paidout' status.
+     * Does the payment have refunds
      *
      * @return bool
      */
-    public function isPaidOut()
+    public function hasRefunds()
     {
-        return $this->status === PaymentStatus::STATUS_PAIDOUT;
+        return !empty($this->_links->refunds);
     }
 
     /**
-     * Is this payment (partially) refunded?
+     * Does this payment has chargebacks
      *
      * @return bool
      */
-    public function isRefunded()
+    public function hasChargebacks()
     {
-        return $this->status === PaymentStatus::STATUS_REFUNDED;
-    }
-
-    /**
-     * Is this payment charged back?
-     *
-     * @return bool
-     */
-    public function isChargedBack()
-    {
-        return $this->status === PaymentStatus::STATUS_CHARGED_BACK;
+        return !empty($this->_links->chargebacks);
     }
 
     /**
