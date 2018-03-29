@@ -5,9 +5,8 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use stdClass;
 
-class Payment
+class Payment extends BaseResource
 {
     /**
      * @var string
