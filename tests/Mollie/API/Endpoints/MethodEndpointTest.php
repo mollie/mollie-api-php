@@ -1,0 +1,240 @@
+<?php
+
+namespace Tests\Mollie\Api\Endpoints;
+
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Resources\Method;
+use Mollie\Api\Resources\MethodCollection;
+use stdClass;
+
+class MethodEndpointTest extends BaseEndpointTest
+{
+    public function testGetMethod()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods/ideal'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "method",
+                    "id": "ideal",
+                    "description": "iDEAL",
+                    "image": {
+                        "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
+                        "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/methods/ideal",
+                            "type": "application/json"
+                        },
+                        "documentation": {
+                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $idealMethod = $this->apiClient->methods->get('ideal');
+
+        $this->assertInstanceOf(Method::class, $idealMethod);
+        $this->assertEquals('ideal', $idealMethod->id);
+        $this->assertEquals('iDEAL', $idealMethod->description);
+
+        $amount = new Stdclass();
+        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/ideal.png';
+        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/ideal%402x.png';
+
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/ideal',
+            'type' => 'application/json'
+        ];
+        $this->assertEquals($selfLink, $idealMethod->_links->self);
+
+        $documentationLink = (object)[
+            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'type' => 'text/html'
+        ];
+
+        $this->assertEquals($documentationLink, $idealMethod->_links->documentation);
+    }
+
+    public function testGetTranslatedMethod()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods/sofort?locale=de_DE'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "method",
+                    "id": "sofort",
+                    "description": "SOFORT \u00dcberweisung",
+                    "image": {
+                        "size1x": "https://www.mollie.com/images/payscreen/methods/sofort.png",
+                        "size2x": "https://www.mollie.com/images/payscreen/methods/sofort%402x.png"
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/methods/sofort",
+                            "type": "application/json"
+                        },
+                        "documentation": {
+                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $method = $this->apiClient->methods->get('sofort', ['locale' => 'de_DE']);
+
+        $this->assertInstanceOf(Method::class, $method);
+        $this->assertEquals('sofort', $method->id);
+        $this->assertEquals('SOFORT Überweisung', $method->description);
+
+        $amount = new Stdclass();
+        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/sofort.png';
+        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/sofort%402x.png';
+
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/sofort',
+            'type' => 'application/json'
+        ];
+        $this->assertEquals($selfLink, $method->_links->self);
+
+        $documentationLink = (object)[
+            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'type' => 'text/html'
+        ];
+
+        $this->assertEquals($documentationLink, $method->_links->documentation);
+    }
+
+    public function testListMethods()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods'),
+            new Response(
+                200,
+                [],
+                '{
+                    "_embedded": {
+                        "methods": [
+                            {
+                                "resource": "method",
+                                "id": "ideal",
+                                "description": "iDEAL",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/ideal",
+                                        "type": "application/json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "creditcard",
+                                "description": "Credit card",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/creditcard",
+                                        "type": "application/json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "mistercash",
+                                "description": "Bancontact",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/mistercash",
+                                        "type": "application/json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "giftcard",
+                                "description": "Gift cards",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/giftcard",
+                                        "type": "application/json"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "count": 4,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://www.mollie.com/en/docs/reference/methods/list",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "http://api.mollie.com/v2/methods",
+                            "type": "application/json"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $methods = $this->apiClient->methods->all();
+
+        $this->assertInstanceOf(MethodCollection::class, $methods);
+        $this->assertEquals(4, $methods->count);
+        $this->assertCount(4, $methods);
+
+        $documentationLink = (object)[
+            'href' => 'https://www.mollie.com/en/docs/reference/methods/list',
+            'type' => 'text/html'
+        ];
+        $this->assertEquals($documentationLink, $methods->_links->documentation);
+
+        $selfLink = (object)[
+            'href' => 'http://api.mollie.com/v2/methods',
+            'type' => 'application/json'
+        ];
+        $this->assertEquals($selfLink, $methods->_links->self);
+
+        $creditcardMethod = $methods[1];
+
+        $this->assertInstanceOf(Method::class, $creditcardMethod);
+        $this->assertEquals('creditcard', $creditcardMethod->id);
+        $this->assertEquals('Credit card', $creditcardMethod->description);
+
+        $amount = new Stdclass();
+        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/creditcard.png';
+        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/creditcard%402x.png';
+
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/creditcard',
+            'type' => 'application/json'
+        ];
+        $this->assertEquals($selfLink, $creditcardMethod->_links->self);
+    }
+}
