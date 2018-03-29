@@ -32,7 +32,7 @@ namespace Mollie\Api\Resources;
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class PaymentCollection extends BaseCollection
+class PaymentCollection extends CursorCollection
 {
     /**
      * @return string

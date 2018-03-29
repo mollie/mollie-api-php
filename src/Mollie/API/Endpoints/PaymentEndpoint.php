@@ -125,6 +125,6 @@ class PaymentEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PaymentCollection($count, $_links);
+        return new PaymentCollection($this->api, $count, $_links);
     }
 }
