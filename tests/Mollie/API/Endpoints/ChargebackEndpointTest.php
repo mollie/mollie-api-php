@@ -4,12 +4,12 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Payment;
 
 class ChargebackEndpointTest extends BaseEndpointTest
 {
-
     public function testGetChargebacksOnPaymentResource()
     {
         $this->mockApiCall(
@@ -40,11 +40,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                             },
                             "_links":{  
                                "self":{  
-                                  "href":"http://api.mollie.test/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
+                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
                                   "type":"application/json"
                                },
                                "payment":{  
-                                  "href":"http://api.mollie.test/v2/payments/tr_44aKxzEbr8",
+                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
                                   "type":"application/json"
                                }
                             }
@@ -64,11 +64,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                             },
                             "_links":{  
                                "self":{  
-                                  "href":"http://api.mollie.test/v2/payments/tr_44aKxzEbr8/chargebacks/chb_6cqlwf",
+                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_6cqlwf",
                                   "type":"application/json"
                                },
                                "payment":{  
-                                  "href":"http://api.mollie.test/v2/payments/tr_44aKxzEbr8",
+                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
                                   "type":"application/json"
                                }
                             }
@@ -77,11 +77,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                    },
                    "_links":{  
                       "documentation":{  
-                         "href":"https://www.mollie.test/en/docs/reference/chargebacks/list",
+                         "href":"https://www.mollie.com/en/docs/reference/chargebacks/list",
                          "type":"text/html"
                       },
                       "self":{  
-                         "href":"http://api.mollie.test/v2/payments/tr_44aKxzEbr8/chargebacks",
+                         "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
                          "type":"application/json"
                       }
                    },
@@ -94,13 +94,43 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
         $this->assertEquals(2, $chargebacks->count);
-        $this->assertEquals(2, count($chargebacks));
+        $this->assertCount(2, $chargebacks);
 
-        $documentationLink = (object)["href" => "https://www.mollie.test/en/docs/reference/chargebacks/list", "type" => "text/html"];
+        $documentationLink = (object)[
+            "href" => "https://www.mollie.com/en/docs/reference/chargebacks/list",
+            "type" => "text/html"
+        ];
         $this->assertEquals($documentationLink, $chargebacks->_links->documentation);
 
-        $selfLink = (object)["href" => "http://api.mollie.test/v2/payments/tr_44aKxzEbr8/chargebacks", "type" => "application/json"];
+        $selfLink = (object)[
+            "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+            "type" => "application/json"
+        ];
         $this->assertEquals($selfLink, $chargebacks->_links->self);
+
+        /** @var Chargeback $chargeback */
+        $chargeback = $chargebacks[0];
+
+        $this->assertInstanceOf(Chargeback::class, $chargeback);
+        $this->assertEquals("chb_n9z0tp", $chargeback->id);
+        $this->assertEquals("-13.00", $chargeback->amount->value);
+        $this->assertEquals("EUR", $chargeback->amount->currency);
+        $this->assertEquals("2018-03-28T11:44:32+00:00", $chargeback->createdAt);
+        $this->assertEquals("tr_44aKxzEbr8", $chargeback->paymentId);
+        $this->assertEquals("-13.00", $chargeback->settlementAmount->value);
+        $this->assertEquals("EUR", $chargeback->settlementAmount->currency);
+
+        $selfLink = (object)[
+            "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
+            "type" => "application/json"
+        ];
+        $this->assertEquals($selfLink, $chargeback->_links->self);
+
+        $paymentLink = (object)[
+            "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
+            "type" => "application/json"
+        ];
+        $this->assertEquals($paymentLink, $chargeback->_links->payment);
     }
 
     /**
@@ -165,5 +195,4 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         return $this->copy(json_decode($paymentJson), new Payment($this->apiClient));
     }
-
 }
