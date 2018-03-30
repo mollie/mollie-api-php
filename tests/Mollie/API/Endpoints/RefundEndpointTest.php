@@ -155,7 +155,26 @@ class RefundEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
         $this->assertEquals(1, $refunds->count);
-        $this->assertEquals(1, count($refunds));
+        $this->assertCount(1, $refunds);
+
+        $refund = $refunds[0];
+
+        $this->assertInstanceOf(Refund::class, $refund);
+        $this->assertEquals("re_haCsig5aru", $refund->id);
+        $this->assertEquals("2.0", $refund->amount->value);
+        $this->assertEquals("EUR", $refund->amount->currency);
+        $this->assertEquals("pending", $refund->status);
+        $this->assertEquals("2018-03-28T10:56:10+00:00", $refund->createdAt);
+        $this->assertEquals("My first API payment", $refund->description);
+        $this->assertEquals("tr_44aKxzEbr8", $refund->paymentId);
+        $this->assertEquals("-2.00", $refund->settlementAmount->value);
+        $this->assertEquals("EUR", $refund->settlementAmount->currency);
+
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds/re_haCsig5aru", "type" => "application/json"];
+        $this->assertEquals($selfLink, $refund->_links->self);
+
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $this->assertEquals($paymentLink, $refund->_links->payment);
     }
 
     /**
