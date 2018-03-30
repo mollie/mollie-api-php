@@ -4,6 +4,7 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Resources\Issuer;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use stdClass;
@@ -49,6 +50,89 @@ class MethodEndpointTest extends BaseEndpointTest
         $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/ideal.png';
         $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/ideal%402x.png';
 
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/ideal',
+            'type' => 'application/json'
+        ];
+        $this->assertEquals($selfLink, $idealMethod->_links->self);
+
+        $documentationLink = (object)[
+            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'type' => 'text/html'
+        ];
+
+        $this->assertEquals($documentationLink, $idealMethod->_links->documentation);
+    }
+
+    public function testGetMethodWithIncludeIssuers()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods/ideal?include=issuers'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "method",
+                    "id": "ideal",
+                    "description": "iDEAL",
+                    "image": {
+                        "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
+                        "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
+                    },
+                    "issuers": [
+                        {
+                            "resource": "issuer",
+                            "id": "ideal_TESTNL99",
+                            "name": "TBM Bank",
+                            "method": "ideal",
+                            "image": {
+                                "size1x": "https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png",
+                                "size2x": "https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png"
+                            }
+                        }
+                    ],
+
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/methods/ideal",
+                            "type": "application/json"
+                        },
+                        "documentation": {
+                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $idealMethod = $this->apiClient->methods->get('ideal', ['include' => 'issuers']);
+
+        $this->assertInstanceOf(Method::class, $idealMethod);
+        $this->assertEquals('ideal', $idealMethod->id);
+        $this->assertEquals('iDEAL', $idealMethod->description);
+
+        $amount = new Stdclass();
+        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/ideal.png';
+        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/ideal%402x.png';
+
+        $issuers = $idealMethod->issuers;
+
+        $this->assertCount(1, $issuers);
+
+        $testIssuer = $issuers[0];
+
+        $this->assertEquals('ideal_TESTNL99', $testIssuer->id);
+        $this->assertEquals('TBM Bank', $testIssuer->name);
+        $this->assertEquals('ideal', $testIssuer->method);
+
+        $expectedSize1xImageLink = 'https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png';
+        $this->assertEquals($expectedSize1xImageLink, $testIssuer->image->size1x);
+
+        $expectedSize2xImageLink = 'https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png';
+        $this->assertEquals($expectedSize2xImageLink, $testIssuer->image->size2x);
+
+        // TODO: self link should include query parameters.
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/ideal',
             'type' => 'application/json'

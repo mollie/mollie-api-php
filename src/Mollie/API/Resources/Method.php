@@ -26,6 +26,14 @@ class Method
     public $image;
 
     /**
+     * The issuers available for this payment method. Only for the methods iDEAL, KBC/CBC and gift cards.
+     * Will only be filled when explicitly requested using the query string `include` parameter.
+     *
+     * @var array|Issuer[]
+     */
+    public $issuers;
+
+    /**
      * @var object[]
      */
     public $_links;
