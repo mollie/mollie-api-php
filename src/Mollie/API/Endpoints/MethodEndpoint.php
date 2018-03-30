@@ -2,14 +2,11 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 
-/**
- * @method Method[]|MethodCollection all($from = null, $limit = 50, array $filters = [])
- * @method Method get($id, array $filters = [])
- */
 class MethodEndpoint extends EndpointAbstract
 {
     protected $resourcePath = "methods";
@@ -33,5 +30,37 @@ class MethodEndpoint extends EndpointAbstract
     protected function getResourceCollectionObject($count, $_links)
     {
         return new MethodCollection($count, $_links);
+    }
+
+    /**
+     * Retrieve a payment method from Mollie.
+     *
+     * Will throw a ApiException if the method id is invalid or the resource cannot be found.
+     *
+     * @param string $methodId
+     * @param array $parameters
+     * @return Method
+     * @throws ApiException
+     */
+    public function get($methodId, array $parameters = [])
+    {
+        if (empty($methodId)) {
+            throw new ApiException("Method ID is empty.");
+        }
+
+        return parent::get($methodId, $parameters);
+    }
+
+    /**
+     * Retrieve all methods.
+     *
+     * @param array $parameters
+     *
+     * @return MethodCollection
+     * @throws ApiException
+     */
+    public function all(array $parameters = [])
+    {
+        return parent::page(null, null, $parameters);
     }
 }

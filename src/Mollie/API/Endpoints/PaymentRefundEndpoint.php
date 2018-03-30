@@ -8,8 +8,8 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
 /**
- * @method Refund[]|RefundCollection all($from = null, $limit = 50, array $filters = [])
- * @method Refund get($refundId, array $filters = [])
+ * @method Refund[]|RefundCollection page($from = null, $limit = 50, array $filters = [])
+ * @method Refund get($refundId, array $parameters = [])
  * @method Refund create(array $data = [], array $filters = [])
  * @method Refund delete($refundId)
  */
