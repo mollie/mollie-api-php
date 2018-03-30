@@ -61,7 +61,8 @@ class PaymentEndpoint extends EndpointAbstract
      * @param Payment $payment
      * @param array|float|null $data
      *
-     * @return object
+     * @return Refund
+     * @throws ApiException
      */
     public function refund(Payment $payment, $data = [])
     {
@@ -73,6 +74,7 @@ class PaymentEndpoint extends EndpointAbstract
         }
 
         $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
+
         return $this->copy($result, new Refund());
     }
 

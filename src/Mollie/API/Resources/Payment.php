@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
@@ -374,6 +375,7 @@ class Payment extends BaseResource
      * Retrieves all refunds associated with this payment
      *
      * @return RefundCollection
+     * @throws ApiException
      */
     public function refunds()
     {
@@ -395,6 +397,7 @@ class Payment extends BaseResource
      * Retrieves all chargebacks associated with this payment
      *
      * @return ChargebackCollection
+     * @throws ApiException
      */
     public function chargebacks()
     {
