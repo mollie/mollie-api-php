@@ -2,12 +2,13 @@
 
 namespace Mollie\Api\Resources;
 
-
 use Mollie\Api\MollieApiClient;
 
 abstract class BaseResource
 {
-
+    /**
+     * @var MollieApiClient
+     */
     protected $client;
 
     /**
@@ -29,7 +30,7 @@ abstract class BaseResource
     protected function copy($apiResult, $object)
     {
         foreach ($apiResult as $property => $value) {
-            $object->$property = $value;
+            $object->{$property} = $value;
         }
 
         return $object;
