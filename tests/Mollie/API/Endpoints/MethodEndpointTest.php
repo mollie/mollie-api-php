@@ -45,10 +45,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
         $this->assertEquals('iDEAL', $idealMethod->description);
-
-        $amount = new Stdclass();
-        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/ideal.png';
-        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/ideal%402x.png';
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/ideal',
@@ -111,10 +109,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
         $this->assertEquals('iDEAL', $idealMethod->description);
-
-        $amount = new Stdclass();
-        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/ideal.png';
-        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/ideal%402x.png';
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
         $issuers = $idealMethod->issuers;
 
@@ -310,10 +306,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $creditcardMethod);
         $this->assertEquals('creditcard', $creditcardMethod->id);
         $this->assertEquals('Credit card', $creditcardMethod->description);
-
-        $amount = new Stdclass();
-        $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/creditcard.png';
-        $amount->size2x = 'https://www.mollie.com/images/payscreen/methods/creditcard%402x.png';
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
 
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/creditcard',
