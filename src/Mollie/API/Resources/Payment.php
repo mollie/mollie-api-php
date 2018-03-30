@@ -377,11 +377,11 @@ class Payment extends BaseResource
      */
     public function refunds()
     {
-        if(!isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection(0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl( MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
         $resourceCollection = new RefundCollection($result->count, $result->_links);
         foreach ($result->_embedded->refunds as $dataResult) {
@@ -398,11 +398,11 @@ class Payment extends BaseResource
      */
     public function chargebacks()
     {
-        if(!isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection(0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl( MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
 
         $resourceCollection = new ChargebackCollection($result->count, $result->_links);
         foreach ($result->_embedded->chargebacks as $dataResult) {
