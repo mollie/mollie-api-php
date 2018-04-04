@@ -242,14 +242,14 @@ abstract class EndpointAbstract
      * Will throw a ApiException if the resource cannot be found.
      *
      * @param string $resourceId
-     * @param array $filters
+     * @param array $parameters
      *
      * @return object
      * @throws ApiException
      */
-    public function get($resourceId, array $filters = [])
+    public function get($resourceId, array $parameters = [])
     {
-        return $this->rest_read($this->getResourcePath(), $resourceId, $filters);
+        return $this->rest_read($this->getResourcePath(), $resourceId, $parameters);
     }
 
     /**
@@ -272,14 +272,14 @@ abstract class EndpointAbstract
      *
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
-     * @param array $filters
+     * @param array $parameters
      *
      * @return BaseCollection
      * @throws ApiException
      */
-    public function all($from = null, $limit = self::DEFAULT_LIMIT, array $filters = [])
+    public function page($from = null, $limit = self::DEFAULT_LIMIT, array $parameters = [])
     {
-        return $this->rest_list($this->getResourcePath(), $from, $limit, $filters);
+        return $this->rest_list($this->getResourcePath(), $from, $limit, $parameters);
     }
 
     /**

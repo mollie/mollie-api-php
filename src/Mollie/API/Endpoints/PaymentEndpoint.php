@@ -12,7 +12,7 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
 /**
- * @method Payment[]|PaymentCollection all($from = null, $limit = 50, array $filters = [])
+ * @method Payment[]|PaymentCollection page($from = null, $limit = 50, array $filters = [])
  * @method Payment create(array $data, array $filters = [])
  * @method Payment delete($paymentId)
  */
@@ -39,17 +39,17 @@ class PaymentEndpoint extends EndpointAbstract
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
      * @param string $paymentId
-     * @param array $filters
+     * @param array $parameters
      * @return Payment
      * @throws ApiException
      */
-    public function get($paymentId, array $filters = [])
+    public function get($paymentId, array $parameters = [])
     {
         if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::get($paymentId, $filters);
+        return parent::get($paymentId, $parameters);
     }
 
     /**

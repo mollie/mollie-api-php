@@ -19,40 +19,22 @@ class Method
     public $description;
 
     /**
-     * The $amount->minimum and $amount->maximum supported by this method and the used API key.
-     *
-     * @var object
-     */
-    public $amount;
-
-    /**
-     * The $image->normal and $image->bigger to display the payment method logo.
+     * The $image->size1x and $image->size2x to display the payment method logo.
      *
      * @var object
      */
     public $image;
 
     /**
-     * @return float|null
+     * The issuers available for this payment method. Only for the methods iDEAL, KBC/CBC and gift cards.
+     * Will only be filled when explicitly requested using the query string `include` parameter.
+     *
+     * @var array|Issuer[]
      */
-    public function getMinimumAmount()
-    {
-        if (empty($this->amount)) {
-            return null;
-        }
-
-        return (float)$this->amount->minimum;
-    }
+    public $issuers;
 
     /**
-     * @return float|null
+     * @var object[]
      */
-    public function getMaximumAmount()
-    {
-        if (empty($this->amount)) {
-            return null;
-        }
-
-        return (float)$this->amount->maximum;
-    }
+    public $_links;
 }

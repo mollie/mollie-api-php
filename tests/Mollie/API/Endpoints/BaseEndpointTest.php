@@ -38,6 +38,11 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                     $request->getUri()->getPath()
                 );
 
+                $this->assertEquals(
+                    $expectedRequest->getUri()->getQuery(),
+                    $request->getUri()->getQuery()
+                );
+
                 $requestBody = $request->getBody()->getContents();
                 $expectedBody = $expectedRequest->getBody()->getContents();
 
