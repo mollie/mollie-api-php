@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\RefundStatus;
 
-class Refund
+class Refund extends ClientAwareResource
 {
     /**
      * Id of the payment method.
@@ -99,5 +100,24 @@ class Refund
     public function isTransferred()
     {
         return $this->status === RefundStatus::STATUS_REFUNDED;
+    }
+
+    /**
+     * Cancel the refund
+     *
+     * @return object
+     */
+    public function cancel()
+    {
+        $result = $this->client->performHttpCall(
+            MollieApiClient::HTTP_DELETE,
+            $this->_links->self->href
+        );
+
+        if ($result === null) {
+            return null;
+        }
+
+        return $this->copy($result, new self($this->client));
     }
 }

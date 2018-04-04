@@ -75,7 +75,7 @@ class PaymentEndpoint extends EndpointAbstract
 
         $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
 
-        return $this->copy($result, new Refund());
+        return $this->copy($result, new Refund($this->api));
     }
 
     /**

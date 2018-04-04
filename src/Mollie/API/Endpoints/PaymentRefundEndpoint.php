@@ -25,7 +25,7 @@ class PaymentRefundEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Refund();
+        return new Refund($this->api);
     }
 
     /**
