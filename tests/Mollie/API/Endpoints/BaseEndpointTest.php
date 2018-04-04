@@ -56,4 +56,13 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                 return $response;
             });
     }
+
+    protected function copy($array, $object)
+    {
+        foreach ($array as $property => $value) {
+            $object->$property = $value;
+        }
+
+        return $object;
+    }
 }

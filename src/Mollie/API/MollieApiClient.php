@@ -7,6 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -54,13 +55,6 @@ class MollieApiClient
      * @var PaymentEndpoint
      */
     public $payments;
-
-    /**
-     * RESTful Payments Refunds resource.
-     *
-     * @var PaymentRefundEndpoint
-     */
-    public $paymentsRefunds;
 
     /**
      * RESTful Methods resource.
@@ -118,7 +112,6 @@ class MollieApiClient
     public function initializeEndpoints()
     {
         $this->payments = new PaymentEndpoint($this);
-        $this->paymentsRefunds = new PaymentRefundEndpoint($this);
         $this->methods = new MethodEndpoint($this);
     }
 
@@ -204,11 +197,32 @@ class MollieApiClient
      */
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
+       $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
+
+       return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
+    }
+
+    /**
+     * Perform an http call to a full url. This method is used by the resource specific classes.
+     *
+     * @see $payments
+     * @see $isuers
+     *
+     * @param string $httpMethod
+     * @param string $url
+     * @param string|null|resource|StreamInterface $httpBody
+     *
+     * @return object
+     * @throws ApiException
+     *
+     * @codeCoverageIgnore
+     */
+    public function performHttpCallToFullUrl($httpMethod, $url, $httpBody = null)
+    {
         if (empty($this->apiKey)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }
 
-        $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
         $userAgent = implode(' ', $this->versionStrings);
 
         if ($this->usesOAuth()) {

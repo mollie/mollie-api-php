@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\RefundStatus;
 
-class Refund
+class Refund extends ClientAwareResource
 {
     /**
      * Id of the payment method.
@@ -16,7 +17,7 @@ class Refund
     /**
      * The $amount that was refunded.
      *
-     * @var float
+     * @var object
      */
     public $amount;
 
@@ -24,7 +25,7 @@ class Refund
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
-     * @var string|null
+     * @var string
      */
     public $createdAt;
 
@@ -99,5 +100,20 @@ class Refund
     public function isTransferred()
     {
         return $this->status === RefundStatus::STATUS_REFUNDED;
+    }
+
+    /**
+     * Cancel the refund
+     *
+     * @return object
+     */
+    public function cancel()
+    {
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_DELETE,
+            $this->_links->self->href
+        );
+
+        return $this->copy($result, new self($this->client));
     }
 }

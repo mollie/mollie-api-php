@@ -2,11 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use stdClass;
 
-class Payment
+class Payment extends ClientAwareResource
 {
     /**
      * @var string
@@ -368,5 +369,49 @@ class Payment
         }
 
         return 0.0;
+    }
+
+    /**
+     * Retrieves all refunds associated with this payment
+     *
+     * @return RefundCollection
+     * @throws ApiException
+     */
+    public function refunds()
+    {
+        if (!isset($this->_links->refunds->href)) {
+            return new RefundCollection(0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+
+        $resourceCollection = new RefundCollection($result->count, $result->_links);
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = $this->copy($dataResult, new Refund($this->client));
+        }
+
+        return $resourceCollection;
+    }
+
+    /**
+     * Retrieves all chargebacks associated with this payment
+     *
+     * @return ChargebackCollection
+     * @throws ApiException
+     */
+    public function chargebacks()
+    {
+        if (!isset($this->_links->chargebacks->href)) {
+            return new ChargebackCollection(0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+
+        $resourceCollection = new ChargebackCollection($result->count, $result->_links);
+        foreach ($result->_embedded->chargebacks as $dataResult) {
+            $resourceCollection[] = $this->copy($dataResult, new Chargeback());
+        }
+
+        return $resourceCollection;
     }
 }
