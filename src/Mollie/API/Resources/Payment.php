@@ -7,7 +7,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
-class Payment extends ClientAwareResource
+class Payment extends BaseResource
 {
     /**
      * @var string
@@ -387,7 +387,7 @@ class Payment extends ClientAwareResource
 
         $resourceCollection = new RefundCollection($result->count, $result->_links);
         foreach ($result->_embedded->refunds as $dataResult) {
-            $resourceCollection[] = $this->copy($dataResult, new Refund($this->client));
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
         }
 
         return $resourceCollection;
@@ -409,7 +409,7 @@ class Payment extends ClientAwareResource
 
         $resourceCollection = new ChargebackCollection($result->count, $result->_links);
         foreach ($result->_embedded->chargebacks as $dataResult) {
-            $resourceCollection[] = $this->copy($dataResult, new Chargeback());
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
         }
 
         return $resourceCollection;

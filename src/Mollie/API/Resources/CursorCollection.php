@@ -14,22 +14,16 @@ abstract class CursorCollection extends BaseCollection
     /**
      * @param MollieApiClient $client
      * @param int $count
-     * @param array $_links
+     * @param object $_links
      */
-    public function __construct(MollieApiClient $client, $count, array $_links)
+    public function __construct(MollieApiClient $client, $count, $_links)
     {
         parent::__construct($count, $_links);
 
         $this->client = $client;
     }
 
-    public function next()
-    {
-        // todo implement
-    }
+    abstract public function next();
 
-    public function previous()
-    {
-        // todo implement
-    }
+    abstract public function previous();
 }

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class Method
+class Method extends BaseResource
 {
     /**
      * Id of the payment method.
