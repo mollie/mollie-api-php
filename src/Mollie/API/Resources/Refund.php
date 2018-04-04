@@ -109,14 +109,10 @@ class Refund extends ClientAwareResource
      */
     public function cancel()
     {
-        $result = $this->client->performHttpCall(
+        $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_DELETE,
             $this->_links->self->href
         );
-
-        if ($result === null) {
-            return null;
-        }
 
         return $this->copy($result, new self($this->client));
     }
