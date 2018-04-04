@@ -7,6 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -14,36 +15,6 @@ use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
-/**
- * Copyright (c) 2013, Mollie B.V.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * - Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
- * DAMAGE.
- *
- * @license     Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author      Mollie B.V. <info@mollie.com>
- * @copyright   Mollie B.V.
- * @link        https://www.mollie.com
- */
 class MollieApiClient
 {
     /**
@@ -84,13 +55,6 @@ class MollieApiClient
      * @var PaymentEndpoint
      */
     public $payments;
-
-    /**
-     * RESTful Payments Refunds resource.
-     *
-     * @var PaymentRefundEndpoint
-     */
-    public $paymentsRefunds;
 
     /**
      * RESTful Methods resource.
@@ -148,7 +112,6 @@ class MollieApiClient
     public function initializeEndpoints()
     {
         $this->payments = new PaymentEndpoint($this);
-        $this->paymentsRefunds = new PaymentRefundEndpoint($this);
         $this->methods = new MethodEndpoint($this);
     }
 
@@ -234,11 +197,32 @@ class MollieApiClient
      */
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
+       $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
+
+       return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
+    }
+
+    /**
+     * Perform an http call to a full url. This method is used by the resource specific classes.
+     *
+     * @see $payments
+     * @see $isuers
+     *
+     * @param string $httpMethod
+     * @param string $url
+     * @param string|null|resource|StreamInterface $httpBody
+     *
+     * @return object
+     * @throws ApiException
+     *
+     * @codeCoverageIgnore
+     */
+    public function performHttpCallToFullUrl($httpMethod, $url, $httpBody = null)
+    {
         if (empty($this->apiKey)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }
 
-        $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
         $userAgent = implode(' ', $this->versionStrings);
 
         if ($this->usesOAuth()) {

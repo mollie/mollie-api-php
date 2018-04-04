@@ -38,6 +38,11 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
                     $request->getUri()->getPath()
                 );
 
+                $this->assertEquals(
+                    $expectedRequest->getUri()->getQuery(),
+                    $request->getUri()->getQuery()
+                );
+
                 $requestBody = $request->getBody()->getContents();
                 $expectedBody = $expectedRequest->getBody()->getContents();
 
@@ -50,5 +55,14 @@ abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
 
                 return $response;
             });
+    }
+
+    protected function copy($array, $object)
+    {
+        foreach ($array as $property => $value) {
+            $object->$property = $value;
+        }
+
+        return $object;
     }
 }

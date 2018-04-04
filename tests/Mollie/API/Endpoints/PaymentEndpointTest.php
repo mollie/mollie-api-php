@@ -130,7 +130,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                 ''
             ),
             new Response(
-                201,
+                200,
                 [],
                 '{  
                    "resource":"payment",
@@ -241,7 +241,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                 ''
             ),
             new Response(
-                201,
+                200,
                 [],
                 '{
                   "_embedded": {
@@ -347,12 +347,12 @@ class PaymentEndpointTest extends BaseEndpointTest
                       "type": "text/html"
                     },
                     "self": {
-                      "href": "http://api.mollie.nl/v2/payments?limit=3",
+                      "href": "http://api.mollie.com/v2/payments?limit=3",
                       "type": "application/json"
                     },
                     "previous": null,
                     "next": {
-                      "href": "http://api.mollie.nl/v2/payments?from=tr_eW8f5kzUkF&limit=3",
+                      "href": "http://api.mollie.com/v2/payments?from=tr_eW8f5kzUkF&limit=3",
                       "type": "application/json"
                     }
                   },
@@ -361,7 +361,7 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payments = $this->apiClient->payments->all(null, 3);
+        $payments = $this->apiClient->payments->page(null, 3);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);
@@ -370,12 +370,12 @@ class PaymentEndpointTest extends BaseEndpointTest
         $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/list", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payments->_links->documentation);
 
-        $selfLink = (object)["href" => "http://api.mollie.nl/v2/payments?limit=3", "type" => "application/json"];
+        $selfLink = (object)["href" => "http://api.mollie.com/v2/payments?limit=3", "type" => "application/json"];
         $this->assertEquals($selfLink, $payments->_links->self);
 
         $this->assertNull($payments->_links->previous);
 
-        $nextLink = (object)["href" => "http://api.mollie.nl/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/json"];
+        $nextLink = (object)["href" => "http://api.mollie.com/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/json"];
         $this->assertEquals($nextLink, $payments->_links->next);
     }
 }

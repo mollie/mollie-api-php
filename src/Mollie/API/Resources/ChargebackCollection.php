@@ -2,13 +2,13 @@
 
 namespace Mollie\Api\Resources;
 
-class PaymentCollection extends CursorCollection
+class ChargebackCollection extends BaseCollection
 {
     /**
      * @return string
      */
     public function getCollectionResourceName()
     {
-        return "payments";
+        return "chargebacks";
     }
 }
