@@ -15,7 +15,6 @@ To use the Mollie API client, the following things are required:
 + Now you're ready to use the Mollie API client in test mode.
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 + PHP >= 5.6
-+ PHP cURL extension
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 + SSL v3 disabled. Mollie does not support SSL v3 anymore.
 
@@ -23,11 +22,11 @@ To use the Mollie API client, the following things are required:
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-    $ composer require mollie/mollie-api-php:1.9.*
+    $ composer require mollie/mollie-api-php:2.0.*
 
     {
         "require": {
-            "mollie/mollie-api-php": "^1.9"
+            "mollie/mollie-api-php": "^2.0"
         }
     }
 
@@ -37,19 +36,13 @@ You may also git checkout or [download all the files](https://github.com/mollie/
 
 To successfully receive a payment, these steps should be implemented:
 
-1. Use the Mollie API client to create a payment with the requested amount, description and optionally, a payment method. It is important to specify a unique redirect URL where the customer is supposed to return to after the payment is completed.
+1. Use the Mollie API client to create a payment with the requested amount, currency, description and optionally, a payment method. It is important to specify a unique redirect URL where the customer is supposed to return to after the payment is completed.
 
 2. Immediately after the payment is completed, our platform will send an asynchronous request to the configured webhook to allow the payment details to be retrieved, so you know when exactly to start processing the customer's order.
 
 3. The customer returns, and should be satisfied to see that the order was paid and is now being processed.
 
 ## Getting started ##
-
-Requiring the included autoloader. If you're using Composer, you can skip this step.
-
-```php
-require "Mollie/API/Autoloader.php";
-```
 
 Initializing the Mollie API client, and setting your API key.
 
@@ -62,7 +55,10 @@ Creating a new payment.
 
 ```php
 $payment = $mollie->payments->create([
-    "amount"      => 10.00,
+    "amount" => [
+        "currency" => "EUR",
+        "value" => "10.00"
+    ],
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
@@ -101,16 +97,20 @@ Create a payment with the selected issuer:
 
 ```php
 $payment = $mollie->payments->create([
-    "amount"      => 10.00,
+    "amount" => [
+        "currency" => "EUR",
+        "value" => "10.00"
+    ],
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
-    "method"      => \Mollie\Api\Resources\Method::IDEAL,
+    "method"      => \Mollie\Api\Types\PaymentMethod::IDEAL,
     "issuer"      => $selectedIssuerId, // e.g. "ideal_INGBNL2A"
 ]);
 ```
 
-_The `links` property of the `$payment` object will contain a string `paymentUrl`, which is a URL that points directly to the online banking environment of the selected issuer._
+_The `_links` property of the `$payment` object will contain an object `checkout` with a `href` property, which is a URL that points directly to the online banking environment of the selected issuer.
+A short way of retrieving this URL can be achieved by using the `$payment->getCheckoutUrl()`._
 
 ### Refunding payments ###
 
@@ -124,10 +124,6 @@ $payment = $mollie->payments->get($payment->id);
 // Refund € 15 of this payment
 $refund = $mollie->payments->refund($payment, 15.00);
 ```
-
-## How to use OAuth2 to connect Mollie accounts to your application? ##
-
-The resources `permissions`, `organizations`, `refunds`, `profiles`, `settlements` and `invoices` are only available with an OAuth2 access token. This is because an API key is linked to a website profile, and those resources are linked to an Mollie account. Visit our [API documentation](https://www.mollie.com/en/docs/oauth/overview) for more information about how to get an OAuth2 access token. For an example of how to use those resources, see [Example 8](https://github.com/mollie/mollie-api-php/blob/master/examples/08-oauth-list-profiles.php), [Example 9](https://github.com/mollie/mollie-api-php/blob/master/examples/09-oauth-list-settlements.php) and [Example 10](https://github.com/mollie/mollie-api-php/blob/master/examples/10-oauth-new-payment.php).
 
 ## API documentation ##
 If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.
