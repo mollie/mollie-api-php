@@ -5,7 +5,7 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\RefundStatus;
 
-class Refund extends ClientAwareResource
+class Refund extends BaseResource
 {
     /**
      * Id of the payment method.
@@ -109,11 +109,11 @@ class Refund extends ClientAwareResource
      */
     public function cancel()
     {
-        $result = $this->client->performHttpCallToFullUrl(
+        $dataResult = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_DELETE,
             $this->_links->self->href
         );
 
-        return $this->copy($result, new self($this->client));
+        return ResourceFactory::createFromApiResult($dataResult, new self($this->client));
     }
 }

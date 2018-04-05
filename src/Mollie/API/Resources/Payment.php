@@ -7,7 +7,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
-class Payment extends ClientAwareResource
+class Payment extends BaseResource
 {
     /**
      * @var string
@@ -380,14 +380,14 @@ class Payment extends ClientAwareResource
     public function refunds()
     {
         if (!isset($this->_links->refunds->href)) {
-            return new RefundCollection(0, null);
+            return new RefundCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        $resourceCollection = new RefundCollection($result->count, $result->_links);
+        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
         foreach ($result->_embedded->refunds as $dataResult) {
-            $resourceCollection[] = $this->copy($dataResult, new Refund($this->client));
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
         }
 
         return $resourceCollection;
@@ -409,7 +409,7 @@ class Payment extends ClientAwareResource
 
         $resourceCollection = new ChargebackCollection($result->count, $result->_links);
         foreach ($result->_embedded->chargebacks as $dataResult) {
-            $resourceCollection[] = $this->copy($dataResult, new Chargeback());
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
         }
 
         return $resourceCollection;

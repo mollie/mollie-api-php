@@ -8,7 +8,7 @@ namespace Mollie\Api\Resources;
  * @method Refund create(array $data = [], array $filters = [])
  * @method Refund delete($refundId)
  */
-class Chargeback
+class Chargeback extends BaseResource
 {
     /**
      * Id of the payment method.

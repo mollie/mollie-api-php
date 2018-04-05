@@ -4,12 +4,10 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\Chargeback;
-use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
-use Mollie\Api\Resources\RefundCollection;
+use Mollie\Api\Resources\ResourceFactory;
 
 /**
  * @method Payment[]|PaymentCollection page($from = null, $limit = 50, array $filters = [])
@@ -61,7 +59,7 @@ class PaymentEndpoint extends EndpointAbstract
      * @param Payment $payment
      * @param array|float|null $data
      *
-     * @return Refund
+     * @return object
      * @throws ApiException
      */
     public function refund(Payment $payment, $data = [])
@@ -75,7 +73,7 @@ class PaymentEndpoint extends EndpointAbstract
 
         $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
 
-        return $this->copy($result, new Refund($this->api));
+        return ResourceFactory::createFromApiResult($result, new Refund($this->api));
     }
 
     /**
@@ -101,6 +99,6 @@ class PaymentEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PaymentCollection($count, $_links);
+        return new PaymentCollection($this->api, $count, $_links);
     }
 }
