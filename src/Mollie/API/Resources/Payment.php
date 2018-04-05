@@ -422,7 +422,7 @@ class Payment extends BaseResource
      *
      * @param array|null $data
      *
-     * @return Refund
+     * @return BaseResource
      * @throws ApiException
      */
     public function refund($data = [])
@@ -436,6 +436,6 @@ class Payment extends BaseResource
 
         $result = $this->client->performHttpCall(MollieApiClient::HTTP_POST, $resource, $body);
 
-        return $this->copy($result, new Refund($this->api));
+        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
     }
 }

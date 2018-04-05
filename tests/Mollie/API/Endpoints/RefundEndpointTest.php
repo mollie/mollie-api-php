@@ -56,7 +56,7 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refund = $this->apiClient->payments->refund($this->getPayment(), [
+        $refund = $this->getPayment()->refund([
             "amount" => [
                 "currency" => "EUR",
                 "value" => "20.00"
