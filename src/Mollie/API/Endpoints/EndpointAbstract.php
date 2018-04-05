@@ -5,7 +5,9 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
+use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Resources\ResourceFactory;
 use Psr\Http\Message\StreamInterface;
 
 abstract class EndpointAbstract
@@ -72,7 +74,7 @@ abstract class EndpointAbstract
             $body
         );
 
-        return $this->copy($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
     /**
@@ -96,7 +98,7 @@ abstract class EndpointAbstract
             "{$restResource}/{$id}" . $this->buildQueryString($filters)
         );
 
-        return $this->copy($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
     /**
@@ -124,7 +126,7 @@ abstract class EndpointAbstract
             return null;
         }
 
-        return $this->copy($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
     /**
@@ -150,7 +152,7 @@ abstract class EndpointAbstract
             $body
         );
 
-        return $this->copy($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
     /**
@@ -176,7 +178,7 @@ abstract class EndpointAbstract
         $collection = $this->getResourceCollectionObject($result->count, $result->_links);
 
         foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = $this->copy($dataResult, $this->getResourceObject());
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
         }
 
         return $collection;
@@ -202,7 +204,7 @@ abstract class EndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return object
+     * @return BaseResource
      */
     abstract protected function getResourceObject();
 
