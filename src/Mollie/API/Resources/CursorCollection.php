@@ -23,7 +23,17 @@ abstract class CursorCollection extends BaseCollection
         $this->client = $client;
     }
 
+    /**
+     * Return the next set of resources when available
+     *
+     * @return CursorCollection|null
+     */
     abstract public function next();
 
+    /**
+     * Return the previous set of resources when available
+     *
+     * @return CursorCollection|null
+     */
     abstract public function previous();
 }

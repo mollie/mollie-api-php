@@ -16,14 +16,14 @@ class PaymentCollection extends CursorCollection
     }
 
     /**
-     * @throws ApiException
+     * Return the next set of resources when available
      *
-     * @return PaymentCollection
+     * @return CursorCollection|null
      */
     public function next()
     {
         if(!isset($this->_links->next->href)) {
-            throw new ApiException("There are no next payments.");
+            return null;
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
@@ -38,14 +38,14 @@ class PaymentCollection extends CursorCollection
     }
 
     /**
-     * @throws ApiException
+     * Return the previous set of resources when available
      *
-     * @return PaymentCollection
+     * @return CursorCollection|null
      */
     public function previous()
     {
         if(!isset($this->_links->previous->href)) {
-            throw new ApiException("There are no next payments.");
+            return null;
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
