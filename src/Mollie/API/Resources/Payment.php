@@ -380,12 +380,12 @@ class Payment extends BaseResource
     public function refunds()
     {
         if (!isset($this->_links->refunds->href)) {
-            return new RefundCollection(0, null);
+            return new RefundCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        $resourceCollection = new RefundCollection($result->count, $result->_links);
+        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
         foreach ($result->_embedded->refunds as $dataResult) {
             $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
         }

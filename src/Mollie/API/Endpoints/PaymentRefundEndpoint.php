@@ -51,6 +51,6 @@ class PaymentRefundEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new RefundCollection($count, $_links);
+        return new RefundCollection($this->api, $count, $_links);
     }
 }
