@@ -53,8 +53,10 @@ try {
     /**
      * Get the next set of Payments
      */
+    $nextPayments = $payments->next();
+
     echo "<ul>";
-    foreach ($payments->next() as $payment) {
+    foreach ($nextPayments as $payment) {
         echo "<li>";
         echo "<strong style='font-family: monospace'>" . htmlspecialchars($payment->id) . "</strong><br />";
         echo htmlspecialchars($payment->description) . "<br />";
