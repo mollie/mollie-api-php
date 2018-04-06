@@ -380,12 +380,12 @@ class Payment extends BaseResource
     public function refunds()
     {
         if (!isset($this->_links->refunds->href)) {
-            return new RefundCollection(0, null);
+            return new RefundCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        $resourceCollection = new RefundCollection($result->count, $result->_links);
+        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
         foreach ($result->_embedded->refunds as $dataResult) {
             $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
         }
@@ -413,5 +413,29 @@ class Payment extends BaseResource
         }
 
         return $resourceCollection;
+    }
+
+    /**
+     * Issue a refund for this payment.
+     *
+     * The $data parameter may either be an array of endpoint parameters or empty to do a full refund.
+     *
+     * @param array|null $data
+     *
+     * @return BaseResource
+     * @throws ApiException
+     */
+    public function refund($data = [])
+    {
+        $resource = "payments/" . urlencode($this->id) . "/refunds";
+
+        $body = null;
+        if (count($data) > 0) {
+            $body = json_encode($data);
+        }
+
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_POST, $resource, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
     }
 }

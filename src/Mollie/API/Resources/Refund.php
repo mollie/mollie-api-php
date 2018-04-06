@@ -105,7 +105,7 @@ class Refund extends BaseResource
     /**
      * Cancel the refund
      *
-     * @return object
+     * @return BaseResource
      */
     public function cancel()
     {

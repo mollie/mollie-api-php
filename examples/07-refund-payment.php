@@ -33,7 +33,7 @@ try {
              *
              * https://www.mollie.com/en/docs/reference/refunds/create
              */
-            $refund = $mollie->payments->refund($payment, [
+            $refund = $payment->refund([
                 "amount" => [
                     "currency" => "EUR",
                     "value" => "2.00"
