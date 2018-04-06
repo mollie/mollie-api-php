@@ -84,13 +84,13 @@ If you want to fully integrate iDEAL payments in your web site, some additional 
 retrieve the list of issuers (banks) that support iDEAL and have your customer pick the issuer he/she wants to use for
 the payment.
 
-Retrieve the list of issuers:
+Retrieve the IDEAL method and include the issuers
 
 ```php
-$issuers = $mollie->issuers->all();
+$method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["include" => "issuers"]);
 ```
 
-_`$issuers` will be a list of `\Mollie\Api\Resources\Issuer` objects. Use the property `$id` of this object in the
+_`$method->issuers` will be a list of objects. Use the property `$id` of this object in the
  API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/04-ideal-payment.php)._
 
 Create a payment with the selected issuer:
