@@ -28,9 +28,25 @@ try {
         /*
          * At this point you'd probably want to start the process of delivering the product to the customer.
          */
-    } elseif ($payment->isOpen() == false) {
+    } elseif ($payment->isOpen() == true) {
         /*
-         * The payment isn't paid and isn't open anymore. We can assume it was aborted.
+         * The payment is open.
+         */
+    } elseif ($payment->isPending() == false) {
+        /*
+         * The payment is pending.
+         */
+    } elseif ($payment->isFailed() == false) {
+        /*
+         * The payment has failed.
+         */
+    } elseif ($payment->isExpired() == false) {
+        /*
+         * The payment is expired.
+         */
+    } elseif ($payment->isCancelled() == false) {
+        /*
+         * The payment has been cancelled.
          */
     }
 } catch (ApiException $e) {

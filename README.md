@@ -119,10 +119,15 @@ definitive. Refunds are only supported for iDEAL, credit card, Bancontact/Mister
 be refunded through our API at the moment.
 
 ```php
-$payment = $mollie->payments->get($payment->id);
+$payment = $mollie->payments->get($payment->id);  
 
 // Refund € 15 of this payment
-$refund = $mollie->payments->refund($payment, 15.00);
+$refund = $payment->refund([
+    "amount" => [
+        "currency" => "EUR",
+        "value" => "2.00"
+    ]
+]);
 ```
 
 ## API documentation ##
