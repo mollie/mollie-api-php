@@ -9,7 +9,6 @@ use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
-use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
