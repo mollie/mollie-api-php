@@ -24,27 +24,27 @@ try {
      */
     database_write($orderId, $payment->status);
 
-    if ($payment->isPaid() == true) {
+    if ($payment->isPaid()) {
         /*
          * At this point you'd probably want to start the process of delivering the product to the customer.
          */
-    } elseif ($payment->isOpen() == true) {
+    } elseif ($payment->isOpen()) {
         /*
          * The payment is open.
          */
-    } elseif ($payment->isPending() == false) {
+    } elseif ($payment->isPending()) {
         /*
          * The payment is pending.
          */
-    } elseif ($payment->isFailed() == false) {
+    } elseif ($payment->isFailed()) {
         /*
          * The payment has failed.
          */
-    } elseif ($payment->isExpired() == false) {
+    } elseif ($payment->isExpired()) {
         /*
          * The payment is expired.
          */
-    } elseif ($payment->isCancelled() == false) {
+    } elseif ($payment->isCancelled()) {
         /*
          * The payment has been cancelled.
          */
