@@ -24,13 +24,29 @@ try {
      */
     database_write($orderId, $payment->status);
 
-    if ($payment->isPaid() == true) {
+    if ($payment->isPaid()) {
         /*
          * At this point you'd probably want to start the process of delivering the product to the customer.
          */
-    } elseif ($payment->isOpen() == false) {
+    } elseif ($payment->isOpen()) {
         /*
-         * The payment isn't paid and isn't open anymore. We can assume it was aborted.
+         * The payment is open.
+         */
+    } elseif ($payment->isPending()) {
+        /*
+         * The payment is pending.
+         */
+    } elseif ($payment->isFailed()) {
+        /*
+         * The payment has failed.
+         */
+    } elseif ($payment->isExpired()) {
+        /*
+         * The payment is expired.
+         */
+    } elseif ($payment->isCancelled()) {
+        /*
+         * The payment has been cancelled.
          */
     }
 } catch (ApiException $e) {

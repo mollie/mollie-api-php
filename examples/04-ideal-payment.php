@@ -18,14 +18,12 @@ try {
      * First, let the customer pick the bank in a simple HTML form. This step is actually optional.
      */
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        $issuers = $mollie->issuers->all();
+        $method = $mollie->methods->get(PaymentMethod::IDEAL, ["include" => "issuers"]);
 
         echo '<form method="post">Select your bank: <select name="issuer">';
 
-        foreach ($issuers as $issuer) {
-            if ($issuer->method == PaymentMethod::IDEAL) {
-                echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
-            }
+        foreach ($method->issuers as $issuer) {
+            echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
         }
 
         echo '<option value="">or select later</option>';
