@@ -17,7 +17,7 @@ try
     foreach ($methods as $method)
     {
         echo '<div style="line-height:40px; vertical-align:top">';
-        echo '<img src="' . htmlspecialchars($method->image->size1x) . '"> ';
+        echo '<img src="' . htmlspecialchars($method->image->size1x) . '" srcset="' . htmlspecialchars($method->image->size2x) .' 2x"> ';
         echo htmlspecialchars($method->description) . ' (' .  htmlspecialchars($method->id) . ')';
         echo '</div>';
     }
