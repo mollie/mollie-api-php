@@ -23,9 +23,7 @@ try {
         echo '<form method="post">Select your bank: <select name="issuer">';
 
         foreach ($method->issuers as $issuer) {
-            if ($issuer->method == PaymentMethod::IDEAL) {
-                echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
-            }
+            echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
         }
 
         echo '<option value="">or select later</option>';
