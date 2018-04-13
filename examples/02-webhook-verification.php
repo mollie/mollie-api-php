@@ -44,7 +44,7 @@ try {
         /*
          * The payment is expired.
          */
-    } elseif ($payment->isCancelable()) {
+    } elseif ($payment->isCanceled()) {
         /*
          * The payment has been canceled.
          */

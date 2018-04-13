@@ -15,7 +15,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = PaymentStatus::STATUS_CANCELED;
-        $this->assertTrue($payment->isCancelable());
+        $this->assertTrue($payment->isCanceled());
     }
 
     public function testIsCancelableReturnsFalseWhenStatusIsNotCanceled()
@@ -23,10 +23,10 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
-        $this->assertFalse($payment->isCancelable());
+        $this->assertFalse($payment->isCanceled());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isCancelable());
+        $this->assertFalse($payment->isCanceled());
     }
 
     public function testIsExpiredReturnsTrueWhenStatusIsExpired()
