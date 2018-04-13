@@ -208,14 +208,14 @@ class Payment extends BaseResource
      *
      * @var bool|null
      */
-    public $canBeCanceled;
+    public $isCancelable;
 
     /**
      * Is this payment canceled?
      *
      * @return bool
      */
-    public function isCancelable()
+    public function isCanceled()
     {
         return $this->status === PaymentStatus::STATUS_CANCELED;
     }
