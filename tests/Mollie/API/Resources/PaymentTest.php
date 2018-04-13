@@ -10,23 +10,23 @@ use stdClass;
 
 class PaymentTest extends \PHPUnit_Framework_TestCase
 {
-    public function testIsCancelledReturnsTrueWhenStatusIsCancelled()
+    public function testIsCancelableReturnsTrueWhenStatusIsCanceled()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->status = PaymentStatus::STATUS_CANCELLED;
-        $this->assertTrue($payment->isCancelled());
+        $payment->status = PaymentStatus::STATUS_CANCELED;
+        $this->assertTrue($payment->isCancelable());
     }
 
-    public function testIsCancelledReturnsFalseWhenStatusIsNotCancelled()
+    public function testIsCancelableReturnsFalseWhenStatusIsNotCanceled()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->status = null;
-        $this->assertFalse($payment->isCancelled());
+        $this->assertFalse($payment->isCancelable());
 
         $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isCancelled());
+        $this->assertFalse($payment->isCancelable());
     }
 
     public function testIsExpiredReturnsTrueWhenStatusIsExpired()

@@ -101,15 +101,15 @@ class Payment extends BaseResource
     public $paidAt;
 
     /**
-     * UTC datetime the payment was cancelled in ISO-8601 format.
+     * UTC datetime the payment was canceled in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
      * @var string|null
      */
-    public $cancelledAt;
+    public $canceledAt;
 
     /**
-     * UTC datetime the payment was cancelled in ISO-8601 format.
+     * UTC datetime the payment expired in ISO-8601 format.
      *
      * @var string|null
      */
@@ -204,20 +204,20 @@ class Payment extends BaseResource
     public $_links;
 
     /**
-     * Whether or not this payment can be cancelled.
+     * Whether or not this payment can be canceled.
      *
      * @var bool|null
      */
-    public $canBeCancelled;
+    public $canBeCanceled;
 
     /**
-     * Is this payment cancelled?
+     * Is this payment canceled?
      *
      * @return bool
      */
-    public function isCancelled()
+    public function isCancelable()
     {
-        return $this->status === PaymentStatus::STATUS_CANCELLED;
+        return $this->status === PaymentStatus::STATUS_CANCELED;
     }
 
     /**

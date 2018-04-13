@@ -44,9 +44,9 @@ try {
         /*
          * The payment is expired.
          */
-    } elseif ($payment->isCancelled()) {
+    } elseif ($payment->isCancelable()) {
         /*
-         * The payment has been cancelled.
+         * The payment has been canceled.
          */
     }
 } catch (ApiException $e) {

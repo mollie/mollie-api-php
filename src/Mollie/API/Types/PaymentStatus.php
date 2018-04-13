@@ -15,9 +15,9 @@ class PaymentStatus
     const STATUS_PENDING = "pending";
 
     /**
-     * The customer has cancelled the payment.
+     * The customer has canceled the payment.
      */
-    const STATUS_CANCELLED = "cancelled";
+    const STATUS_CANCELED = "canceled";
 
     /**
      * The payment has expired due to inaction of the customer.

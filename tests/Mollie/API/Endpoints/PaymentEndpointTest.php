@@ -50,7 +50,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                       "order_id":1234
                    },
                    "status":"open",
-                   "canBeCancelled":false,
+                   "canBeCanceled":false,
                    "expiresAt":"2018-03-13T14:17:29+00:00",
                    "details":null,
                    "profileId":"pfl_2A1gacu42V",
@@ -102,7 +102,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertNull($payment->method);
         $this->assertEquals((object)["order_id" => "1234"], $payment->metadata);
         $this->assertEquals(PaymentStatus::STATUS_OPEN, $payment->status);
-        $this->assertFalse($payment->canBeCancelled);
+        $this->assertFalse($payment->canBeCanceled);
         $this->assertEquals("2018-03-13T14:17:29+00:00", $payment->expiresAt);
         $this->assertNull($payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
@@ -259,7 +259,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                         "method": null,
                         "metadata": null,
                         "status": "open",
-                        "canBeCancelled": false,
+                        "canBeCanceled": false,
                         "expiresAt": "2018-03-19T15:15:50+00:00",
                         "details": null,
                         "locale": "nl_NL",
@@ -290,7 +290,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                         "method": null,
                         "metadata": null,
                         "status": "open",
-                        "canBeCancelled": false,
+                        "canBeCanceled": false,
                         "expiresAt": "2018-03-19T15:15:50+00:00",
                         "details": null,
                         "locale": "nl_NL",
@@ -321,7 +321,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                         "method": null,
                         "metadata": null,
                         "status": "open",
-                        "canBeCancelled": false,
+                        "canBeCanceled": false,
                         "expiresAt": "2018-03-19T15:15:50+00:00",
                         "details": null,
                         "locale": "nl_NL",
