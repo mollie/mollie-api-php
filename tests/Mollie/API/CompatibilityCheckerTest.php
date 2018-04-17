@@ -1,11 +1,12 @@
 <?php
+namespace Tests\Mollie\Api;
 
 use Mollie\Api\CompatibilityChecker;
 
-class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
+class CompatibilityCheckerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var CompatibilityChecker|PHPUnit_Framework_MockObject_MockObject
+     * @var CompatibilityChecker|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $checker;
 
@@ -22,7 +23,7 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mollie\Api\Exceptions\IncompatiblePlatform
+     * @expectedException \Mollie\Api\Exceptions\IncompatiblePlatform
      * @expectedExceptionCode Mollie\Api\Exceptions\IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
      */
     public function testCheckCompatibilityThrowsExceptionOnPhpVersion()
@@ -38,7 +39,7 @@ class Mollie_API_CompatibilityCheckerUnitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mollie\Api\Exceptions\IncompatiblePlatform
+     * @expectedException \Mollie\Api\Exceptions\IncompatiblePlatform
      * @expectedExceptionCode Mollie\Api\Exceptions\IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
      */
     public function testCheckCompatibilityThrowsExceptionOnJsonExtension()

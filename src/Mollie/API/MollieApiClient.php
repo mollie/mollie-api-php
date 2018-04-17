@@ -138,7 +138,7 @@ class MollieApiClient
         $apiKey = trim($apiKey);
 
         if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
-            throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_'.");
+            throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
         $this->apiKey = $apiKey;
@@ -237,7 +237,7 @@ class MollieApiClient
         $request = new Request($httpMethod, $url, $headers, $httpBody);
 
         try {
-            $response = $this->httpClient->send($request);
+            $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             throw new ApiException($e->getMessage(), $e->getCode(), $e);
         }
@@ -269,14 +269,23 @@ class MollieApiClient
             throw new ApiException("Unable to decode Mollie response: '{$body}'.");
         }
 
-        if (!empty($object->error)) {
-            $exception = new ApiException("Error executing API call ({$object->error->type}): {$object->error->message}.");
-
-            if (!empty($object->error->field)) {
-                $exception->setField($object->error->field);
+        if ($response->getStatusCode() >= 400) {
+            $field = null;
+            if (!empty($object->field)) {
+                $field = $object->field;
             }
 
-            throw $exception;
+            $documentationUrl = null;
+            if (!empty($object->_links) && !empty($object->_links->documentation)) {
+                $documentationUrl = $object->_links->documentation->href;
+            }
+
+            throw new ApiException(
+                "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
+                $response->getStatusCode(),
+                $field,
+                $documentationUrl
+            );
         }
 
         return $object;
