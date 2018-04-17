@@ -2,6 +2,9 @@
 /*
  * Example 6 - How to get the currently activated payment methods.
  */
+
+use Mollie\Api\Exceptions\ApiException;
+
 try
 {
     /*
@@ -22,7 +25,7 @@ try
         echo '</div>';
     }
 }
-catch (Mollie_API_Exception $e)
+catch (ApiException $e)
 {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
