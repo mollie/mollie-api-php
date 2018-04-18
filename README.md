@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/), [paysafecard](https://www.mollie.com/paysafecard/), [ING Home'Pay](https://www.mollie.com/ing-homepay/) and [Giftcards](https://www.mollie.com/gift-cards/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact](https://www.mollie.com/bancontact/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/), [paysafecard](https://www.mollie.com/paysafecard/), [ING Home'Pay](https://www.mollie.com/ing-homepay/) and [Giftcards](https://www.mollie.com/gift-cards/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 [![Latest Stable Version](https://poser.pugx.org/mollie/mollie-api-php/v/stable)](https://packagist.org/packages/mollie/mollie-api-php)
@@ -97,8 +97,8 @@ For an extensive example of listing payments with the details and status, see [E
 
 ## Payment webhook ##
 
-When the status of a payment changes the `redirectUrl` we specified in the creation of the payment will be called.  
-There we can use the `id` from our GET parameters to check te status and act upon that, see [Example 2 - Webhook verification](https://github.com/mollie/mollie-api-php/blob/master/examples/02-webhook-verification.php).
+When the status of a payment changes the `webhookUrl` we specified in the creation of the payment will be called.  
+There we can use the `id` from our POST parameters to check te status and act upon that, see [Example 2 - Webhook verification](https://github.com/mollie/mollie-api-php/blob/master/examples/02-webhook-verification.php).
 
 
 ## Multi-currency ##
@@ -111,7 +111,7 @@ $payment = $mollie->payments->create([
         "currency" => "USD",
         "value" => "10.00"
     ],
-    "description" => "My first dollar payment",
+    "description" => "Order #12345",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
 ]);
