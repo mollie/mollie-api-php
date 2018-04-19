@@ -19,11 +19,6 @@ abstract class EndpointAbstract
     const REST_DELETE = MollieApiClient::HTTP_DELETE;
 
     /**
-     * Default number of objects to retrieve when listing all objects.
-     */
-    const DEFAULT_LIMIT = 50;
-
-    /**
      * @var MollieApiClient
      */
     protected $api;
@@ -166,7 +161,7 @@ abstract class EndpointAbstract
      * @return BaseCollection
      * @throws ApiException
      */
-    private function rest_list($restResource, $from = null, $limit = self::DEFAULT_LIMIT, array $filters)
+    private function rest_list($restResource, $from = null, $limit = null, array $filters)
     {
         $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
@@ -279,7 +274,7 @@ abstract class EndpointAbstract
      * @return BaseCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = self::DEFAULT_LIMIT, array $parameters = [])
+    public function page($from = null, $limit = null, array $parameters = [])
     {
         return $this->rest_list($this->getResourcePath(), $from, $limit, $parameters);
     }
