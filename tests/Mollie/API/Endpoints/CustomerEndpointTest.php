@@ -105,7 +105,7 @@ class CustomerEndpointTest extends BaseEndpointTest
     public function testListWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers?limit=50'),
+            new Request('GET', '/v2/customers'),
             new Response(
                 200,
                 [],
