@@ -9,11 +9,6 @@ use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\ResourceFactory;
 
-/**
- * @method Payment[]|PaymentCollection page($from = null, $limit = 50, array $filters = [])
- * @method Payment create(array $data, array $filters = [])
- * @method Payment delete($paymentId)
- */
 class PaymentEndpoint extends EndpointAbstract
 {
     protected $resourcePath = "payments";

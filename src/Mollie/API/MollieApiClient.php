@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -62,6 +63,13 @@ class MollieApiClient
     public $methods;
 
     /**
+     * RESTful Customers resource.
+     *
+     * @var CustomerEndpoint
+     */
+    public $customers;
+
+    /**
      * @var string
      */
     protected $apiKey;
@@ -111,6 +119,7 @@ class MollieApiClient
     {
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
+        $this->customers = new CustomerEndpoint($this);
     }
 
     /**
