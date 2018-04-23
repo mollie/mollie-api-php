@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact](https://www.mollie.com/bancontact/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/), [paysafecard](https://www.mollie.com/paysafecard/), [ING Home'Pay](https://www.mollie.com/ing-homepay/) and [Giftcards](https://www.mollie.com/gift-cards/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 [![Latest Stable Version](https://poser.pugx.org/mollie/mollie-api-php/v/stable)](https://packagist.org/packages/mollie/mollie-api-php)
@@ -64,10 +64,19 @@ $payment = $mollie->payments->create([
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
 ]);
 ```
-
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
 
-Retrieving a payment.
+After storing the payment id you can send the customer to the checkout using the `$payment->getCheckouUrl()`.  
+
+```php
+header("Location: " . $payment->getCheckoutUrl(), true, 303);
+```
+_This header location should always be a GET, thus we enforce 303 http response code_
+
+For a payment create example, see [Example 1 - New Payment](https://github.com/mollie/mollie-api-php/blob/master/examples/01-new-payment.php).
+
+## Retrieving payments ##
+We can use the `$payment->id` to retrieve a payment and check if the payment `isPaid`.
 
 ```php
 $payment = $mollie->payments->get($payment->id);
@@ -77,6 +86,38 @@ if ($payment->isPaid())
     echo "Payment received.";
 }
 ```
+
+Or retrieve a collection of payments.
+
+```php
+$payments = $mollie->payments->page(); 
+```
+
+For an extensive example of listing payments with the details and status, see [Example 5 - Payments History](https://github.com/mollie/mollie-api-php/blob/master/examples/05-payments-history.php).
+
+## Payment webhook ##
+
+When the status of a payment changes the `webhookUrl` we specified in the creation of the payment will be called.  
+There we can use the `id` from our POST parameters to check te status and act upon that, see [Example 2 - Webhook verification](https://github.com/mollie/mollie-api-php/blob/master/examples/02-webhook-verification.php).
+
+
+## Multi-currency ##
+Since 2.0 it is now possible to create non-EUR payments for your customers.
+A full list of available currencies can be found here.
+
+```php
+$payment = $mollie->payments->create([
+    "amount" => [
+        "currency" => "USD",
+        "value" => "10.00"
+    ],
+    "description" => "Order #12345",
+    "redirectUrl" => "https://webshop.example.org/order/12345/",
+    "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
+]);
+```
+_After creation, the `settlementAmount` will contain the EUR amount that will be settled on your account._
+
 
 ### Fully integrated iDEAL payments ###
 
@@ -91,7 +132,7 @@ $method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["includ
 ```
 
 _`$method->issuers` will be a list of objects. Use the property `$id` of this object in the
- API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4](https://github.com/mollie/mollie-api-php/blob/master/examples/04-ideal-payment.php)._
+ API call, and the property `$name` for displaying the issuer to your customer. For a more in-depth example, see [Example 4 - iDEAL payment](https://github.com/mollie/mollie-api-php/blob/master/examples/04-ideal-payment.php)._
 
 Create a payment with the selected issuer:
 
@@ -121,7 +162,7 @@ be refunded through our API at the moment.
 ```php
 $payment = $mollie->payments->get($payment->id);
 
-// Refund € 15 of this payment
+// Refund € 2 of this payment
 $refund = $payment->refund([
     "amount" => [
         "currency" => "EUR",
@@ -130,8 +171,10 @@ $refund = $payment->refund([
 ]);
 ```
 
+For a working example, see [Example 7 - Refund payment](https://github.com/mollie/mollie-api-php/blob/master/examples/07-refund-payment.php).
+
 ## API documentation ##
-If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.
+If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in English.
 
 ## Want to help us make our API client even better? ##
 

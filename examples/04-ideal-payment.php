@@ -60,7 +60,7 @@ try {
             "value" => "27.50"
         ],
         "method" => PaymentMethod::IDEAL,
-        "description" => "My first iDEAL payment",
+        "description" => "Order #{$orderId}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
         "metadata" => [
