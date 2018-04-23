@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
@@ -70,6 +71,11 @@ class MollieApiClient
     public $customers;
 
     /**
+     * @var SettlementsEndpoint
+     */
+    public $settlements;
+
+    /**
      * @var string
      */
     protected $apiKey;
@@ -120,6 +126,7 @@ class MollieApiClient
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
         $this->customers = new CustomerEndpoint($this);
+        $this->settlements = new SettlementsEndpoint($this);
     }
 
     /**
