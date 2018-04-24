@@ -31,7 +31,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new SubscriptionCollection($count, $_links);
+        return new SubscriptionCollection($this->api, $count, $_links);
     }
 
     /**
