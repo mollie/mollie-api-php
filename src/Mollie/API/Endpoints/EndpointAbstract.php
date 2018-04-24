@@ -305,26 +305,4 @@ abstract class EndpointAbstract
 
         return $this->resourcePath;
     }
-
-    /**
-     * @param string $parentId
-     * @return $this
-     */
-    public function withParentId($parentId)
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
-
-    /**
-     * Set the resource to use a certain parent. Use this method before performing a get() or all() call.
-     *
-     * @param Payment|object $parent An object with an 'id' property
-     * @return $this
-     */
-    public function with($parent)
-    {
-        return $this->withParentId($parent->id);
-    }
 }

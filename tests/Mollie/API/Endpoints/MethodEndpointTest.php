@@ -29,7 +29,7 @@ class MethodEndpointTest extends BaseEndpointTest
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/ideal",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                         },
                         "documentation": {
                             "href": "https://www.mollie.com/en/docs/reference/methods/get",
@@ -50,7 +50,7 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/ideal',
-            'type' => 'application/json'
+            'type' => 'application/hal+json'
         ];
         $this->assertEquals($selfLink, $idealMethod->_links->self);
 
@@ -93,7 +93,7 @@ class MethodEndpointTest extends BaseEndpointTest
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/ideal",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                         },
                         "documentation": {
                             "href": "https://www.mollie.com/en/docs/reference/methods/get",
@@ -131,7 +131,7 @@ class MethodEndpointTest extends BaseEndpointTest
         // TODO: self link should include query parameters.
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/ideal',
-            'type' => 'application/json'
+            'type' => 'application/hal+json'
         ];
         $this->assertEquals($selfLink, $idealMethod->_links->self);
 
@@ -161,7 +161,7 @@ class MethodEndpointTest extends BaseEndpointTest
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/sofort",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                         },
                         "documentation": {
                             "href": "https://www.mollie.com/en/docs/reference/methods/get",
@@ -184,7 +184,7 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/sofort',
-            'type' => 'application/json'
+            'type' => 'application/hal+json'
         ];
         $this->assertEquals($selfLink, $method->_links->self);
 
@@ -217,7 +217,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/ideal",
-                                        "type": "application/json"
+                                        "type": "application/hal+json"
                                     }
                                 }
                             },
@@ -232,7 +232,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/creditcard",
-                                        "type": "application/json"
+                                        "type": "application/hal+json"
                                     }
                                 }
                             },
@@ -247,7 +247,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/mistercash",
-                                        "type": "application/json"
+                                        "type": "application/hal+json"
                                     }
                                 }
                             },
@@ -262,7 +262,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/giftcard",
-                                        "type": "application/json"
+                                        "type": "application/hal+json"
                                     }
                                 }
                             }
@@ -276,7 +276,7 @@ class MethodEndpointTest extends BaseEndpointTest
                         },
                         "self": {
                             "href": "http://api.mollie.com/v2/methods",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                         }
                     }
                 }'
@@ -297,7 +297,7 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             'href' => 'http://api.mollie.com/v2/methods',
-            'type' => 'application/json'
+            'type' => 'application/hal+json'
         ];
         $this->assertEquals($selfLink, $methods->_links->self);
 
@@ -311,7 +311,7 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/creditcard',
-            'type' => 'application/json'
+            'type' => 'application/hal+json'
         ];
         $this->assertEquals($selfLink, $creditcardMethod->_links->self);
     }

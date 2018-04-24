@@ -5,62 +5,62 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
-     * @link https://mollie.com/ideal
+     * @link https://www.mollie.com/ideal
      */
     const IDEAL = "ideal";
 
     /**
-     * @link https://mollie.com/paysafecard
+     * @link https://www.mollie.com/paysafecard
      */
     const PAYSAFECARD = "paysafecard";
 
     /**
      * Credit card (includes Mastercard, Maestro, Visa and American Express).
      *
-     * @link https://mollie.com/creditcard
+     * @link https://www.mollie.com/creditcard
      */
     const CREDITCARD = "creditcard";
 
     /**
      * Bancontact, formerly known as Mister Cash.
      *
-     * @link https://mollie.com/mistercash
+     * @link https://www.mollie.com/mistercash
      */
     const MISTERCASH = "mistercash";
 
     /**
-     * @link https://mollie.com/sofort
+     * @link https://www.mollie.com/sofort
      */
     const SOFORT = "sofort";
 
     /**
-     * @link https://mollie.com/banktransfer
+     * @link https://www.mollie.com/banktransfer
      */
     const BANKTRANSFER = "banktransfer";
 
     /**
-     * @link https://mollie.com/directdebit
+     * @link https://www.mollie.com/directdebit
      */
     const DIRECTDEBIT = "directdebit";
 
     /**
-     * @link https://mollie.com/paypal
+     * @link https://www.mollie.com/paypal
      */
     const PAYPAL = "paypal";
 
     /**
-     * @link https://mollie.com/bitcoin
+     * @link https://www.mollie.com/bitcoin
      */
     const BITCOIN = "bitcoin";
 
     /**
-     * @link https://mollie.com/belfiusdirectnet
+     * @link https://www.mollie.com/belfiusdirectnet
      */
     const BELFIUS = "belfius";
 
     /**
      * @deprecated
-     * @link https://mollie.com/giftcards
+     * @link https://www.mollie.com/giftcards
      */
     const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
