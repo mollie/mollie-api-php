@@ -37,4 +37,19 @@ class Method extends BaseResource
      * @var object[]
      */
     public $_links;
+
+    /**
+     * Get the issuer value objects
+     *
+     * @return IssuerCollection
+     */
+    public function issuers()
+    {
+        $issuers  = new IssuerCollection(count($this->issuers), null);
+        foreach ($this->issuers as $issuer) {
+            $issuers->append(ResourceFactory::createFromApiResult($issuer, new Issuer($this->client)));
+        }
+
+        return $issuers;
+    }
 }
