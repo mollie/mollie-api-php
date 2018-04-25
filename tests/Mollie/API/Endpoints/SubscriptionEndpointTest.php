@@ -223,6 +223,8 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
 
+        $this->assertEquals(count($subscriptions), $subscriptions->count);
+
         $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/subscriptions/list", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscriptions->_links->documentation);
 
@@ -310,7 +312,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
      */
     private function getCustomer()
     {
-        $paymentJson = '{
+        $customerJson = '{
                   "resource": "customer",
                   "id": "cst_FhQJRw4s2n",
                   "mode": "test",
@@ -328,7 +330,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                   }
                 }';
 
-        return $this->copy(json_decode($paymentJson), new Customer($this->apiClient));
+        return $this->copy(json_decode($customerJson), new Customer($this->apiClient));
     }
 
 }

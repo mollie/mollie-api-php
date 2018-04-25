@@ -23,7 +23,7 @@ class SubscriptionCollection extends CursorCollection
      */
     public function next()
     {
-        if(!isset($this->_links->next->href)) {
+        if (!isset($this->_links->next->href)) {
             return null;
         }
 
@@ -45,7 +45,7 @@ class SubscriptionCollection extends CursorCollection
      */
     public function previous()
     {
-        if(!isset($this->_links->previous->href)) {
+        if (!isset($this->_links->previous->href)) {
             return null;
         }
 

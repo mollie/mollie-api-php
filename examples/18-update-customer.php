@@ -19,7 +19,7 @@ try
      */
     $customer->name = "Luke Sky";
     $customer->email = "luke@example.org";
-    $customer->locale = "en";
+    $customer->locale = "en_US";
     $customer->metadata->isJedi = TRUE;
     $customer->update();
 

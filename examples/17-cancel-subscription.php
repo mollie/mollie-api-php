@@ -23,11 +23,11 @@ try
      *
      * See: https://www.mollie.com/nl/docs/reference/subscriptions/delete
      */
-    $cancelledSubscription = $customer->cancelSubscription($subscriptionId);
+    $canceledSubscription = $customer->cancelSubscription($subscriptionId);
     /*
-     * The subscription status should now be cancelled
+     * The subscription status should now be canceled
      */
-    echo "<p>The subscription status is now: '" . htmlspecialchars($cancelledSubscription->status) . "'.</p>\n";
+    echo "<p>The subscription status is now: '" . htmlspecialchars($canceledSubscription->status) . "'.</p>\n";
 }
 catch (\Mollie\Api\Exceptions\ApiException $e)
 {

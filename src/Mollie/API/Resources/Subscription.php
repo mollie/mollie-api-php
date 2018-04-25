@@ -79,6 +79,11 @@ class Subscription extends BaseResource
      *
      * @var object|null
      */
+    public $webhookUrl;
+
+    /**
+     * @var object[]
+     */
     public $_links;
 
     /**
