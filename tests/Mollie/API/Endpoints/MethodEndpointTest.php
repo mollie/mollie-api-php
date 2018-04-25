@@ -5,6 +5,7 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Issuer;
+use Mollie\Api\Resources\IssuerCollection;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use stdClass;
@@ -112,12 +113,13 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
-        $issuers = $idealMethod->issuers;
-
+        $issuers = $idealMethod->issuers();
+        $this->assertInstanceOf(IssuerCollection::class, $issuers);
         $this->assertCount(1, $issuers);
 
         $testIssuer = $issuers[0];
 
+        $this->assertInstanceOf(Issuer::class, $testIssuer);
         $this->assertEquals('ideal_TESTNL99', $testIssuer->id);
         $this->assertEquals('TBM Bank', $testIssuer->name);
         $this->assertEquals('ideal', $testIssuer->method);

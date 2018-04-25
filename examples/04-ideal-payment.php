@@ -22,7 +22,7 @@ try {
 
         echo '<form method="post">Select your bank: <select name="issuer">';
 
-        foreach ($method->issuers as $issuer) {
+        foreach ($method->issuers() as $issuer) {
             echo '<option value=' . htmlspecialchars($issuer->id) . '>' . htmlspecialchars($issuer->name) . '</option>';
         }
 
