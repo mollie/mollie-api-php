@@ -13,7 +13,7 @@ class SubscriptionEndpoint extends EndpointAbstract
     protected $resourcePath = "customers_subscriptions";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
+     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
      * @return BaseResource
      */
