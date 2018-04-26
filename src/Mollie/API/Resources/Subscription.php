@@ -36,7 +36,7 @@ class Subscription extends BaseResource
     public $status;
 
     /**
-     * @var string
+     * @var object
      */
     public $amount;
 
@@ -68,7 +68,7 @@ class Subscription extends BaseResource
     public $canceledAt;
 
     /**
-     * Date the subscription started
+     * Date the subscription started. For example: 2018-04-24
      *
      * @var string|null
      */

@@ -3,6 +3,7 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\BaseCollection;
+use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
@@ -14,7 +15,7 @@ class SubscriptionEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API. Every API uses one type of object.
      *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @return BaseResource
      */
     protected function getResourceObject()
     {
@@ -22,7 +23,7 @@ class SubscriptionEndpoint extends EndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links
@@ -43,7 +44,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      *
      * @return object
      */
-    public function createFor(Customer $customer, $options = [], $filters = [])
+    public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
         $this->parentId = $customer->id;
 
@@ -57,7 +58,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      *
      * @return object
      */
-    public function getFor(Customer $customer, $subscriptionId, $parameters = [])
+    public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
@@ -72,7 +73,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      *
      * @return BaseCollection
      */
-    public function listFor(Customer $customer, $from = null, $limit = null, $parameters = [])
+    public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
