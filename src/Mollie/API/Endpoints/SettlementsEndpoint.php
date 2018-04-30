@@ -7,6 +7,7 @@ use Mollie\Api\Resources\SettlementCollection;
 
 class SettlementsEndpoint extends EndpointAbstract
 {
+    protected $resourcePath = "settlements";
 
     /**
      * Get the object that is used by this API. Every API uses one type of object.

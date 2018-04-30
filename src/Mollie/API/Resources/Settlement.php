@@ -2,8 +2,14 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Types\SettlementStatus;
+
 class Settlement extends BaseResource
 {
+    /**
+     * @var string
+     */
+    public $resource;
 
     /**
      * Id of the settlement.
@@ -11,22 +17,36 @@ class Settlement extends BaseResource
      * @var string
      */
     public $id;
+
     /**
      * The settlement reference. This corresponds to an invoice that's in your Dashboard.
      *
      * @var string
      */
     public $reference;
+
+    /**
+     * UTC datetime the payment was created in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string
+     */
+    public $createdAt;
+
+    /**
+     * Status of the settlement.
+     *
+     * @var string
+     */
+    public $status;
+
     /**
      * Total settlement amount in euros.
      *
-     * @var double
+     * @var object
      */
     public $amount;
-    /**
-     * @var string
-     */
-    public $settledDatetime;
+
     /**
      * Revenues and costs nested per year, per month, and per payment method.
      *
@@ -34,11 +54,49 @@ class Settlement extends BaseResource
      * @var object
      */
     public $periods;
-    /**
-     * Payment IDs that were settled (either paid out or reversed).
-     *
-     * @var string[]
-     */
-    public $paymentIds;
 
+    /**
+     * @var object[]
+     */
+    public $_links;
+
+    /**
+     * Is this settlement still open?
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return $this->status === SettlementStatus::STATUS_OPEN;
+    }
+
+    /**
+     * Is this settlement closed and processing?
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return $this->status === SettlementStatus::STATUS_PENDING;
+    }
+
+    /**
+     * Is this settlement paidout?
+     *
+     * @return bool
+     */
+    public function isPaidout()
+    {
+        return $this->status === SettlementStatus::STATUS_PAIDOUT;
+    }
+
+    /**
+     * Is this settlement failed?
+     *
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return $this->status === SettlementStatus::STATUS_FAILED;
+    }
 }
