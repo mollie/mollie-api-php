@@ -81,4 +81,44 @@ class Customer extends BaseResource
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }
 
+    /**
+     * @param array $options
+     * @param array $filters
+     *
+     * @return object
+     */
+    public function createSubscription($options = [], $filters = [])
+    {
+        return $this->client->subscriptions->createFor($this, $options, $filters);
+    }
+
+    /**
+     * @param string $subscriptionId
+     * @param array $parameters
+     *
+     * @return object
+     */
+    public function getSubscription($subscriptionId, $parameters = [])
+    {
+        return $this->client->subscriptions->getFor($this, $subscriptionId, $parameters);
+    }
+
+    /**
+     * @param string $subscriptionId
+     *
+     * @return object
+     */
+    public function cancelSubscription($subscriptionId)
+    {
+        return $this->client->subscriptions->cancelFor($this, $subscriptionId);
+    }
+
+    /**
+     * Get all subscriptions for this customer
+     */
+    public function subscriptions()
+    {
+        return $this->client->subscriptions->listFor($this);
+    }
+
 }

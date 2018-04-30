@@ -20,7 +20,7 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links

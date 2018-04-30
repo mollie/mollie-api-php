@@ -118,7 +118,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->_links = new stdClass();
-        $payment->_links->refunds = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds", "type" => "application/json"];
+        $payment->_links->refunds = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds", "type" => "application/hal+json"];
 
         $this->assertTrue($payment->hasRefunds());
     }
@@ -136,7 +136,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
         $payment->_links = new stdClass();
-        $payment->_links->chargebacks = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks", "type" => "application/json"];
+        $payment->_links->chargebacks = (object) ["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks", "type" => "application/hal+json"];
 
         $this->assertTrue($payment->hasChargebacks());
     }

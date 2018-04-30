@@ -197,14 +197,14 @@ abstract class EndpointAbstract
     }
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
+     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
      * @return BaseResource
      */
     abstract protected function getResourceObject();
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links
@@ -304,27 +304,5 @@ abstract class EndpointAbstract
         }
 
         return $this->resourcePath;
-    }
-
-    /**
-     * @param string $parentId
-     * @return $this
-     */
-    public function withParentId($parentId)
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
-
-    /**
-     * Set the resource to use a certain parent. Use this method before performing a get() or all() call.
-     *
-     * @param Payment|object $parent An object with an 'id' property
-     * @return $this
-     */
-    public function with($parent)
-    {
-        return $this->withParentId($parent->id);
     }
 }
