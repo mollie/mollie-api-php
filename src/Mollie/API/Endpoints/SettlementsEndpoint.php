@@ -29,6 +29,6 @@ class SettlementsEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new SettlementCollection($count, $_links);
+        return new SettlementCollection($this->api, $count, $_links);
     }
 }
