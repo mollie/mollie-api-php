@@ -41,11 +41,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                             "_links":{  
                                "self":{  
                                   "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
-                                  "type":"application/json"
+                                  "type":"application/hal+json"
                                },
                                "payment":{  
                                   "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                                  "type":"application/json"
+                                  "type":"application/hal+json"
                                }
                             }
                          },
@@ -65,11 +65,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                             "_links":{  
                                "self":{  
                                   "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_6cqlwf",
-                                  "type":"application/json"
+                                  "type":"application/hal+json"
                                },
                                "payment":{  
                                   "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                                  "type":"application/json"
+                                  "type":"application/hal+json"
                                }
                             }
                          }
@@ -82,7 +82,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                       },
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       }
                    },
                    "count": 2
@@ -104,7 +104,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-            "type" => "application/json"
+            "type" => "application/hal+json"
         ];
         $this->assertEquals($selfLink, $chargebacks->_links->self);
 
@@ -122,13 +122,13 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         $selfLink = (object)[
             "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
-            "type" => "application/json"
+            "type" => "application/hal+json"
         ];
         $this->assertEquals($selfLink, $chargeback->_links->self);
 
         $paymentLink = (object)[
             "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-            "type" => "application/json"
+            "type" => "application/hal+json"
         ];
         $this->assertEquals($paymentLink, $chargeback->_links->payment);
     }
@@ -180,7 +180,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                    "_links":{  
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       },
                       "documentation":{  
                          "href":"https://www.mollie.com/en/docs/reference/payments/get",
@@ -188,7 +188,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                       },
                       "chargebacks":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       }
                    }
                 }';

@@ -41,11 +41,11 @@ class RefundEndpointTest extends BaseEndpointTest
                    "_links":{  
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_Tgxm3amJBT/refunds/re_PmEtpvSsnm",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       },
                       "payment":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       },
                       "documentation":{  
                          "href":"https://www.mollie.com/en/docs/reference/refunds/create",
@@ -81,10 +81,10 @@ class RefundEndpointTest extends BaseEndpointTest
         $amount->currency = "EUR";
         $this->assertEquals($amount, $refund->settlementAmount);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_Tgxm3amJBT/refunds/re_PmEtpvSsnm", "type" => "application/json"];
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_Tgxm3amJBT/refunds/re_PmEtpvSsnm", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $refund->_links->self);
 
-        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($paymentLink, $refund->_links->payment);
 
         $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/refunds/create", "type" => "text/html"];
@@ -124,11 +124,11 @@ class RefundEndpointTest extends BaseEndpointTest
                         "_links": {
                           "self": {
                             "href": "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds/re_haCsig5aru",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                           },
                           "payment": {
                             "href": "https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                            "type": "application/json"
+                            "type": "application/hal+json"
                           }
                         }
                       }
@@ -141,7 +141,7 @@ class RefundEndpointTest extends BaseEndpointTest
                     },
                     "self": {
                       "href": "http://api.mollie.nl/v2/payments/tr_44aKxzEbr8/refunds?limit=10",
-                      "type": "application/json"
+                      "type": "application/hal+json"
                     },
                     "previous": null,
                     "next": null
@@ -170,10 +170,10 @@ class RefundEndpointTest extends BaseEndpointTest
         $this->assertEquals("-2.00", $refund->settlementAmount->value);
         $this->assertEquals("EUR", $refund->settlementAmount->currency);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds/re_haCsig5aru", "type" => "application/json"];
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds/re_haCsig5aru", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $refund->_links->self);
 
-        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/json"];
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($paymentLink, $refund->_links->payment);
     }
 
@@ -224,7 +224,7 @@ class RefundEndpointTest extends BaseEndpointTest
                    "_links":{  
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       },
                       "documentation":{  
                          "href":"https://www.mollie.com/en/docs/reference/payments/get",
@@ -232,7 +232,7 @@ class RefundEndpointTest extends BaseEndpointTest
                       },
                       "refunds":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds",
-                         "type":"application/json"
+                         "type":"application/hal+json"
                       }
                    }
                 }';
