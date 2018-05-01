@@ -71,7 +71,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Is this settlement closed and processing?
+     * Is this settlement pending?
      *
      * @return bool
      */

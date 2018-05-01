@@ -7,7 +7,7 @@ try
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
-    require "initialize_with_oauth.php";
+    require "./initialize_with_oauth.php";
     /*
      * Get the all the settlements for this account.
      */

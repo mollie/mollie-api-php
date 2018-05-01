@@ -12,7 +12,7 @@ try
      *
      * See: https://www.mollie.com/dashboard/settings/profiles
      */
-    require "initialize.php";
+    require "./initialize.php";
     /*
      * Get all the activated methods for this API key.
      */

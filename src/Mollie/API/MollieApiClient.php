@@ -101,11 +101,6 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * @var resource
-     */
-    protected $ch;
-
-    /**
      * @var int
      */
     protected $lastHttpResponseStatusCode;
