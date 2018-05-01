@@ -19,10 +19,26 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+env:
+- COMPOSER_NO_INTERACTION=1
+
 install:
-- travis_retry composer install --no-interaction
+- travis_retry composer install --no-scripts --no-suggest
 
 script:
 - composer validate --strict
 - find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
+
+before_deploy:
+- composer install --no-dev --no-scripts --no-suggest --classmap-authoritative
+- zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
+
+deploy:
+  provider: releases
+  api_key:
+    secure: YOUR_API_KEY_ENCRYPTED
+  file: mollie-api-php.zip
+  skip_cleanup: true
+  on:
+    tags: true
