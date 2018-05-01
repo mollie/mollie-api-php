@@ -11,7 +11,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/settings/profiles
      */
-    require "initialize.php";
+    require "./initialize.php";
 
     /*
      * Retrieve the payment's current state.

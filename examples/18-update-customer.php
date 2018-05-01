@@ -7,7 +7,7 @@ try
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "initialize.php";
+    require "./initialize.php";
     /*
      * Retrieve an existing customer by his customerId
      */

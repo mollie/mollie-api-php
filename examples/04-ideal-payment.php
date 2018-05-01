@@ -12,7 +12,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/settings/profiles
      */
-    require "initialize.php";
+    require "./initialize.php";
 
     /*
      * First, let the customer pick the bank in a simple HTML form. This step is actually optional.

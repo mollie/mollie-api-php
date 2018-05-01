@@ -11,7 +11,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/settings/profiles
      */
-    require "initialize.php";
+    require "./initialize.php";
 
     /*
      * Determine the url parts to these example files.
