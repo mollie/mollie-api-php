@@ -41,12 +41,12 @@ class SettlementEndpointTest extends BaseEndpointTest
                               "method": "creditcard",
                               "count": 2,
                               "amountNet": {
-                                "value": "790",
+                                "value": "790.00",
                                 "currency": "EUR"
                               },
                               "amountVat": null,
                               "amountGross": {
-                                "value": "1000",
+                                "value": "1000.00",
                                 "currency": "EUR"
                               }
                             },
@@ -55,12 +55,12 @@ class SettlementEndpointTest extends BaseEndpointTest
                               "method": "ideal",
                               "count": 2,
                               "amountNet": {
-                                "value": "790",
+                                "value": "790.00",
                                 "currency": "EUR"
                               },
                               "amountVat": null,
                               "amountGross": {
-                                "value": "1000",
+                                "value": "1000.00",
                                 "currency": "EUR"
                               }
                             }
@@ -254,12 +254,12 @@ class SettlementEndpointTest extends BaseEndpointTest
                                   "method": "creditcard",
                                   "count": 2,
                                   "amountNet": {
-                                    "value": "790",
+                                    "value": "790.00",
                                     "currency": "EUR"
                                   },
                                   "amountVat": null,
                                   "amountGross": {
-                                    "value": "1000",
+                                    "value": "1000.00",
                                     "currency": "EUR"
                                   }
                                 },
@@ -268,12 +268,12 @@ class SettlementEndpointTest extends BaseEndpointTest
                                   "method": "ideal",
                                   "count": 2,
                                   "amountNet": {
-                                    "value": "790",
+                                    "value": "790.00",
                                     "currency": "EUR"
                                   },
                                   "amountVat": null,
                                   "amountGross": {
-                                    "value": "1000",
+                                    "value": "1000.00",
                                     "currency": "EUR"
                                   }
                                 }
