@@ -1,43 +1,34 @@
 language: php
 dist: trusty
-
 php:
 - 5.6
 - 7.0
 - 7.1
 - 7.2
 - nightly
-
 matrix:
   fast_finish: true
   allow_failures:
-    - php: nightly
-
+  - php: nightly
 sudo: false
-
 cache:
   directories:
-    - $HOME/.composer/cache
-
+  - "$HOME/.composer/cache"
 env:
 - COMPOSER_NO_INTERACTION=1
-
 install:
 - travis_retry composer install --no-scripts --no-suggest
-
 script:
 - composer validate --strict
 - find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
-
 before_deploy:
 - composer install --no-dev --no-scripts --no-suggest --classmap-authoritative
 - zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
-
 deploy:
   provider: releases
   api_key:
-    secure: YOUR_API_KEY_ENCRYPTED
+    secure: oXVzXjLkVfr7+5leMbIHQnLDg1o9/ldG6qdJ/GtwumZJYiit9h7VBYpxRvQGgXUESzhDlBf2jCLKxqxW+P2/PwG738/rSJVjLvbtbyFRz+pvk4o8rm3U7IKRv87BFhIvhaO9HcgvmyHbPMzGKRdAsWYWGQf/dg9N77xeDZ9++80=
   file: mollie-api-php.zip
   skip_cleanup: true
   on:
