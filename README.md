@@ -16,13 +16,12 @@ To use the Mollie API client, the following things are required:
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 + PHP >= 5.6
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
-+ SSL v3 disabled. Mollie does not support SSL v3 anymore.
 
 ## Installation ##
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
-    $ composer require mollie/mollie-api-php:2.0.*
+    $ composer require mollie/mollie-api-php:^2.0
 
     {
         "require": {
@@ -30,7 +29,8 @@ By far the easiest way to install the Mollie API client is to require it with [C
         }
     }
 
-You may also git checkout or [download all the files](https://github.com/mollie/mollie-api-php/archive/master.zip), and include the Mollie API client manually.
+You can download the source from the [releases page](https://github.com/mollie/mollie-api-php/releases), we also provide
+a zip file with all dependencies included. 
 
 ## How to receive payments ##
 
@@ -41,6 +41,8 @@ To successfully receive a payment, these steps should be implemented:
 2. Immediately after the payment is completed, our platform will send an asynchronous request to the configured webhook to allow the payment details to be retrieved, so you know when exactly to start processing the customer's order.
 
 3. The customer returns, and should be satisfied to see that the order was paid and is now being processed.
+
+Find our full documentation online on [docs.mollie.com](https://docs.mollie.com).
 
 ## Getting started ##
 
