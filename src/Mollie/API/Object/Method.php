@@ -107,17 +107,6 @@ class Mollie_API_Object_Method
 	const GIFTCARD = "giftcard";
 
 	/**
-	 * This is a special method that indicates in the API that the payment consists of several partial transactions.
-	 *
-	 * The individual transactions (amount, method and details) can be found in the details property of the payment.
-	 *
-	 * Note that you cannot use this method to create payments.
-	 *
-	 * @internal
-	 */
-	const STACKED = "stacked";
-
-	/**
 	 * Id of the payment method.
 	 *
 	 * @var string
