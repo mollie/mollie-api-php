@@ -6,7 +6,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
 
-class RefundTest extends \PHPUnit_Framework_TestCase
+class RefundTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsQueuedReturnsTrueWhenStatusIsQueued()
     {

@@ -7,7 +7,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\ResourceFactory;
 
-class ResourceFactoryTest extends \PHPUnit_Framework_TestCase
+class ResourceFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreateFromApiResponseWorks()
     {

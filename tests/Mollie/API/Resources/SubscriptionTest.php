@@ -6,7 +6,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\SubscriptionStatus;
 
-class SubscriptionTest extends \PHPUnit_Framework_TestCase
+class SubscriptionTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsActiveIsTrueWhenStatusIsActive ()
     {

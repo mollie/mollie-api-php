@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\MollieApiClient;
 
-abstract class BaseEndpointTest extends \PHPUnit_Framework_TestCase
+abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Client|\PHPUnit_Framework_MockObject_MockObject

@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 
-class MollieApiClientTest extends \PHPUnit_Framework_TestCase
+class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject

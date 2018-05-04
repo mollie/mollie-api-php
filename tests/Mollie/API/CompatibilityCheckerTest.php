@@ -3,7 +3,7 @@ namespace Tests\Mollie\Api;
 
 use Mollie\Api\CompatibilityChecker;
 
-class CompatibilityCheckerTest extends \PHPUnit_Framework_TestCase
+class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var CompatibilityChecker|\PHPUnit_Framework_MockObject_MockObject

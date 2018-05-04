@@ -6,7 +6,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Types\SettlementStatus;
 
-class SettlementTest extends \PHPUnit_Framework_TestCase
+class SettlementTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsOpenReturnsTrueWhenStatusIsOpen()
     {
