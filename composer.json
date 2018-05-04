@@ -54,7 +54,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Mollie\\Api\\": "src/Mollie/API",
+      "Mollie\\Api\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Tests\\": "tests"
     }
   },
