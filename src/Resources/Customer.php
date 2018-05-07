@@ -121,4 +121,43 @@ class Customer extends BaseResource
         return $this->client->subscriptions->listFor($this);
     }
 
+    /**
+     * @param array $options
+     * @param array $filters
+     *
+     * @return object
+     */
+    public function createMandate($options = [], $filters = [])
+    {
+        return $this->client->mandates->createFor($this, $options, $filters);
+    }
+
+    /**
+     * @param string $mandateId
+     * @param array $parameters
+     *
+     * @return object
+     */
+    public function getMandate($mandateId, $parameters = [])
+    {
+        return $this->client->mandates->getFor($this, $mandateId, $parameters);
+    }
+
+    /**
+     * @param string $mandateId
+     *
+     * @return object
+     */
+    public function revokeMandate($mandateId)
+    {
+        return $this->client->mandates->revokeFor($this, $mandateId);
+    }
+
+    /**
+     * Get all subscriptions for this customer
+     */
+    public function mandates()
+    {
+        return $this->client->mandates->listFor($this);
+    }
 }
