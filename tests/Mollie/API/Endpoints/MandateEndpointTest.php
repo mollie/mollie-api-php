@@ -35,15 +35,15 @@ class MandateEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-05-07T10:49:08+00:00",
                   "_links": {
                     "self": {
-                      "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
+                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
                       "type": "application/hal+json"
                     },
                     "customer": {
-                      "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n",
+                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://mollie.dev/en/docs/reference/customers/create-mandate",
+                      "href": "https://mollie.com/en/docs/reference/customers/create-mandate",
                       "type": "text/html"
                     }
                   }
@@ -71,13 +71,13 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertEquals("2018-05-07", $mandate->signatureDate);
         $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
 
-        $selfLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $mandate->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
         $this->assertEquals($customerLink, $mandate->_links->customer);
 
-        $documentationLink = (object)["href" => "https://mollie.dev/en/docs/reference/customers/create-mandate", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/create-mandate", "type" => "text/html"];
         $this->assertEquals($documentationLink, $mandate->_links->documentation);
     }
 
@@ -104,15 +104,15 @@ class MandateEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-05-07T10:49:08+00:00",
                   "_links": {
                     "self": {
-                      "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
+                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
                       "type": "application/hal+json"
                     },
                     "customer": {
-                      "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n",
+                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://mollie.dev/en/docs/reference/customers/create-mandate",
+                      "href": "https://mollie.com/en/docs/reference/customers/create-mandate",
                       "type": "text/html"
                     }
                   }
@@ -135,13 +135,13 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertEquals("2018-05-07", $mandate->signatureDate);
         $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
 
-        $selfLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $mandate->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
         $this->assertEquals($customerLink, $mandate->_links->customer);
 
-        $documentationLink = (object)["href" => "https://mollie.dev/en/docs/reference/customers/create-mandate", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/create-mandate", "type" => "text/html"];
         $this->assertEquals($documentationLink, $mandate->_links->documentation);
     }
 
@@ -171,11 +171,11 @@ class MandateEndpointTest extends BaseEndpointTest
                         "createdAt": "2018-05-07T10:49:08+00:00",
                         "_links": {
                           "self": {
-                            "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
                             "type": "application/hal+json"
                           },
                           "customer": {
-                            "href": "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n",
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
                             "type": "application/hal+json"
                           }
                         }
@@ -185,11 +185,11 @@ class MandateEndpointTest extends BaseEndpointTest
                   "count": 1,
                   "_links": {
                     "documentation": {
-                      "href": "https://mollie.dev/en/docs/reference/customers/list-mandates",
+                      "href": "https://mollie.com/en/docs/reference/customers/list-mandates",
                       "type": "text/html"
                     },
                     "self": {
-                      "href": "https://api.mollie.dev/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
+                      "href": "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
                       "type": "application/hal+json"
                     },
                     "previous": null,
@@ -210,14 +210,14 @@ class MandateEndpointTest extends BaseEndpointTest
             $this->assertEquals("mandate", $mandate->resource);
             $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
 
-            $customerLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+            $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
             $this->assertEquals($customerLink, $mandate->_links->customer);
         }
 
-        $selfLink = (object)["href" => "https://api.mollie.dev/v2/customers/cst_vzEExMcxj7/mandates?limit=50", "type" => "application/hal+json"];
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $mandates->_links->self);
 
-        $documentationLink = (object)["href" => "https://mollie.dev/en/docs/reference/customers/list-mandates", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/list-mandates", "type" => "text/html"];
         $this->assertEquals($documentationLink, $mandates->_links->documentation);
     }
 
