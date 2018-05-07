@@ -154,7 +154,7 @@ class Customer extends BaseResource
     }
 
     /**
-     * Get all subscriptions for this customer
+     * Get all mandates for this customer
      */
     public function mandates()
     {
