@@ -50,7 +50,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     public function testPerformHttpCallCreatesApiExceptionCorrectly()
     {
         $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"? Field: recurringType. Documentation: https://www.mollie.com/en/docs/errors.');
+        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
         $response = new Response(422, [], '{
@@ -60,7 +60,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             "field": "recurringType",
             "_links": {
                 "documentation": {
-                    "href": "https://www.mollie.com/en/docs/errors",
+                    "href": "https://docs.mollie.com/guides/handling-errors",
                     "type": "text/html"
                 }
             }
@@ -75,7 +75,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertEquals('recurringType', $e->getField());
-            $this->assertEquals('https://www.mollie.com/en/docs/errors', $e->getDocumentationUrl());
+            $this->assertEquals('https://docs.mollie.com/guides/handling-errors', $e->getDocumentationUrl());
 
             throw $e;
         }

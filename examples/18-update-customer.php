@@ -14,7 +14,7 @@ try {
     /**
      * Customer fields that can be updated.
      *
-     * @See https://www.mollie.com/en/docs/reference/customers/update
+     * @See https://docs.mollie.com/reference/v2/customers-api/update-customer
      */
     $customer->name = "Luke Sky";
     $customer->email = "luke@example.org";

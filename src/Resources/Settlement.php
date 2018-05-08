@@ -50,7 +50,6 @@ class Settlement extends BaseResource
     /**
      * Revenues and costs nested per year, per month, and per payment method.
      *
-     * @see https://www.mollie.com/en/docs/reference/settlements/get#period-object
      * @var object
      */
     public $periods;

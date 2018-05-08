@@ -77,7 +77,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                    },
                    "_links":{  
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/chargebacks/list",
+                         "href":"https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks",
                          "type":"text/html"
                       },
                       "self":{  
@@ -97,7 +97,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
         $this->assertCount(2, $chargebacks);
 
         $documentationLink = (object)[
-            "href" => "https://www.mollie.com/en/docs/reference/chargebacks/list",
+            "href" => "https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks",
             "type" => "text/html"
         ];
         $this->assertEquals($documentationLink, $chargebacks->_links->documentation);
@@ -183,7 +183,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                          "type":"application/hal+json"
                       },
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/payments/get",
+                         "href":"https://docs.mollie.com/reference/v2/payments-api/get-payment",
                          "type":"text/html"
                       },
                       "chargebacks":{  

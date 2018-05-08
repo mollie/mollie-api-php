@@ -63,6 +63,6 @@
     }
   },
   "suggest": {
-    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://www.mollie.com/en/docs for more information."
+    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
   }
 }
