@@ -31,7 +31,7 @@ try {
      * Customer Payment creation parameters.
      *
      * Linking customers to payments has a few benefits, see:
-     * https://www.mollie.com/en/docs/reference/customers/create-payment
+     * https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
     $payment = $customer->createPayment(array(
         "amount" => [
