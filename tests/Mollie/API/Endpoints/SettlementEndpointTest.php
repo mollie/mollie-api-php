@@ -184,7 +184,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/settlements/get",
+                      "href": "https://docs.mollie.com/reference/v2/settlements-api/get-settlement",
                       "type": "text/html"
                     }
                   }
@@ -216,7 +216,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         $chargebackLink = (object)['href' => 'https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt/chargebacks', 'type' => 'application/hal+json'];
         $this->assertEquals($chargebackLink, $settlement->_links->chargebacks);
 
-        $documentationLink = (object)['href' => 'https://www.mollie.com/en/docs/reference/settlements/get', 'type' => 'text/html'];
+        $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/settlements-api/get-settlement', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $settlement->_links->documentation);
     }
 
@@ -403,7 +403,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                   "count": 1,
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/settlements/list",
+                      "href": "https://docs.mollie.com/reference/v2/settlements-api/list-settlements",
                       "type": "text/html"
                     },
                     "self": {
@@ -424,7 +424,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         $settlements = $this->apiClient->settlements->page();
         $this->assertInstanceOf(SettlementCollection::class, $settlements);
 
-        $documentationLink = (object)['href' => 'https://www.mollie.com/en/docs/reference/settlements/list', 'type' => 'text/html'];
+        $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/settlements-api/list-settlements', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $settlements->_links->documentation);
 
         $selfLink = (object)['href' => 'https://api.mollie.nl/v2/settlements', 'type' => 'application/hal+json'];

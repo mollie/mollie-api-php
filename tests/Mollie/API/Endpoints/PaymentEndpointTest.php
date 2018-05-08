@@ -67,7 +67,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                          "type":"text/html"
                       },
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/payments/create",
+                         "href":"https://docs.mollie.com/reference/v2/payments-api/create-payment",
                          "type":"text/html"
                       }
                    }
@@ -116,7 +116,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $checkoutLink = (object)["href" => "https://www.mollie.com/payscreen/select-method/44aKxzEbr8", "type" => "text/html"];
         $this->assertEquals($checkoutLink, $payment->_links->checkout);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/create", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/payments-api/create-payment", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
@@ -177,7 +177,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                          "type":"application/hal+json"
                       },
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/payments/get",
+                         "href":"https://docs.mollie.com/reference/v2/payments-api/get-payment",
                          "type":"text/html"
                       }
                    }
@@ -227,7 +227,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $payment->_links->self);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/get", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/payments-api/get-payment", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
@@ -343,7 +343,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                   },
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/payments/list",
+                      "href": "https://docs.mollie.com/reference/v2/payments-api/list-payments",
                       "type": "text/html"
                     },
                     "self": {
@@ -367,7 +367,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals(3, $payments->count);
         $this->assertEquals(3, count($payments));
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/payments/list", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/payments-api/list-payments", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payments->_links->documentation);
 
         $selfLink = (object)["href" => "http://api.mollie.com/v2/payments?limit=3", "type" => "application/hal+json"];

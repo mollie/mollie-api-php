@@ -8,7 +8,7 @@ try {
     /*
      * Customer creation parameters.
      *
-     * See: https://www.mollie.com/en/docs/reference/customers/create
+     * See: https://docs.mollie.com/reference/v2/customers-api/create-customer
      */
     $customer = $mollie->customers->create(array(
         "name" => 'Example name',

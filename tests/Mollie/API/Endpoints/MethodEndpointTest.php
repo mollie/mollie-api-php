@@ -33,7 +33,7 @@ class MethodEndpointTest extends BaseEndpointTest
                             "type": "application/hal+json"
                         },
                         "documentation": {
-                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/get-method",
                             "type": "text/html"
                         }
                     }
@@ -56,7 +56,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $idealMethod->_links->self);
 
         $documentationLink = (object)[
-            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'href' => 'https://docs.mollie.com/reference/v2/methods-api/get-method',
             'type' => 'text/html'
         ];
 
@@ -97,7 +97,7 @@ class MethodEndpointTest extends BaseEndpointTest
                             "type": "application/hal+json"
                         },
                         "documentation": {
-                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/get-method",
                             "type": "text/html"
                         }
                     }
@@ -138,7 +138,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $idealMethod->_links->self);
 
         $documentationLink = (object)[
-            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'href' => 'https://docs.mollie.com/reference/v2/methods-api/get-method',
             'type' => 'text/html'
         ];
 
@@ -166,7 +166,7 @@ class MethodEndpointTest extends BaseEndpointTest
                             "type": "application/hal+json"
                         },
                         "documentation": {
-                            "href": "https://www.mollie.com/en/docs/reference/methods/get",
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/get-method",
                             "type": "text/html"
                         }
                     }
@@ -191,7 +191,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $method->_links->self);
 
         $documentationLink = (object)[
-            'href' => 'https://www.mollie.com/en/docs/reference/methods/get',
+            'href' => 'https://docs.mollie.com/reference/v2/methods-api/get-method',
             'type' => 'text/html'
         ];
 
@@ -273,7 +273,7 @@ class MethodEndpointTest extends BaseEndpointTest
                     "count": 4,
                     "_links": {
                         "documentation": {
-                            "href": "https://www.mollie.com/en/docs/reference/methods/list",
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/list-methods",
                             "type": "text/html"
                         },
                         "self": {
@@ -292,7 +292,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertCount(4, $methods);
 
         $documentationLink = (object)[
-            'href' => 'https://www.mollie.com/en/docs/reference/methods/list',
+            'href' => 'https://docs.mollie.com/reference/v2/methods-api/list-methods',
             'type' => 'text/html'
         ];
         $this->assertEquals($documentationLink, $methods->_links->documentation);

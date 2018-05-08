@@ -31,7 +31,7 @@ try {
             /*
              * Refund € 2,00 of the payment.
              *
-             * https://www.mollie.com/en/docs/reference/refunds/create
+             * https://docs.mollie.com/reference/v2/refunds-api/create-refund
              */
             $refund = $payment->refund([
                 "amount" => [

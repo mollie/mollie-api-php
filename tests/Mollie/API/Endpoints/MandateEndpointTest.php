@@ -234,7 +234,7 @@ class MandateEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-04-19T08:49:01+00:00",
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/customers/get",
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
                       "type": "text/html"
                     }
                   }

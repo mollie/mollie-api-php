@@ -28,7 +28,7 @@ class CustomerEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-04-19T08:49:01+00:00",
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/customers/create",
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/create-customer",
                       "type": "text/html"
                     }
                   }
@@ -52,7 +52,7 @@ class CustomerEndpointTest extends BaseEndpointTest
         $this->assertEquals([], $customer->recentlyUsedMethods);
         $this->assertEquals("2018-04-19T08:49:01+00:00", $customer->createdAt);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/customers/create", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/create-customer", "type" => "text/html"];
         $this->assertEquals($documentationLink, $customer->_links->documentation);
 
     }
@@ -76,7 +76,7 @@ class CustomerEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-04-19T08:49:01+00:00",
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/customers/get",
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
                       "type": "text/html"
                     }
                   }
@@ -97,7 +97,7 @@ class CustomerEndpointTest extends BaseEndpointTest
         $this->assertEquals([], $customer->recentlyUsedMethods);
         $this->assertEquals("2018-04-19T08:49:01+00:00", $customer->createdAt);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/customers/get", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/get-customer", "type" => "text/html"];
         $this->assertEquals($documentationLink, $customer->_links->documentation);
 
     }
@@ -128,7 +128,7 @@ class CustomerEndpointTest extends BaseEndpointTest
                   "count": 1,
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/customers/list",
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/list-customers",
                       "type": "text/html"
                     },
                     "self": {
@@ -147,7 +147,7 @@ class CustomerEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(CustomerCollection::class, $customers);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/customers/list", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/list-customers", "type" => "text/html"];
         $this->assertEquals($documentationLink, $customers->_links->documentation);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/customers?limit=50", "type" => "application/hal+json"];

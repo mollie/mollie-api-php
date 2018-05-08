@@ -44,7 +44,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/subscriptions/create",
+                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription",
                       "type": "text/html"
                     }
                   }
@@ -83,7 +83,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/subscriptions/create", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
 
     }
@@ -121,7 +121,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/subscriptions/get",
+                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription",
                       "type": "text/html"
                     }
                   }
@@ -153,7 +153,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/subscriptions/get", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
 
     }
@@ -200,7 +200,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                   "count": 1,
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/subscriptions/list",
+                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions",
                       "type": "text/html"
                     },
                     "self": {
@@ -222,7 +222,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $this->assertEquals(count($subscriptions), $subscriptions->count);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/subscriptions/list", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscriptions->_links->documentation);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions?limit=50", "type" => "application/hal+json"];
@@ -270,7 +270,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                       "type": "application/hal+json"
                     },
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/subscriptions/cancel",
+                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription",
                       "type": "text/html"
                     }
                   }
@@ -298,7 +298,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/subscriptions/cancel", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
 
     }
@@ -320,7 +320,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                   "createdAt": "2018-04-19T08:49:01+00:00",
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/customers/get",
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
                       "type": "text/html"
                     }
                   }

@@ -12,7 +12,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 /*
  * Initialize the Mollie API library with OAuth.
  *
- * See: https://www.mollie.com/en/docs/oauth/overview
+ * See: https://docs.mollie.com/oauth/overview
  */
 $mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");

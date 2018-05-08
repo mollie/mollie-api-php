@@ -48,7 +48,7 @@ class RefundEndpointTest extends BaseEndpointTest
                          "type":"application/hal+json"
                       },
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/refunds/create",
+                         "href":"https://docs.mollie.com/reference/v2/refunds-api/create-refund",
                          "type":"text/html"
                       }
                    }
@@ -87,7 +87,7 @@ class RefundEndpointTest extends BaseEndpointTest
         $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($paymentLink, $refund->_links->payment);
 
-        $documentationLink = (object)["href" => "https://www.mollie.com/en/docs/reference/refunds/create", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/refunds-api/create-refund", "type" => "text/html"];
         $this->assertEquals($documentationLink, $refund->_links->documentation);
     }
 
@@ -136,7 +136,7 @@ class RefundEndpointTest extends BaseEndpointTest
                   },
                   "_links": {
                     "documentation": {
-                      "href": "https://www.mollie.com/en/docs/reference/refunds/list",
+                      "href": "https://docs.mollie.com/reference/v2/refunds-api/list-refunds",
                       "type": "text/html"
                     },
                     "self": {
@@ -227,7 +227,7 @@ class RefundEndpointTest extends BaseEndpointTest
                          "type":"application/hal+json"
                       },
                       "documentation":{  
-                         "href":"https://www.mollie.com/en/docs/reference/payments/get",
+                         "href":"https://docs.mollie.com/reference/v2/payments-api/get-payment",
                          "type":"text/html"
                       },
                       "refunds":{  
