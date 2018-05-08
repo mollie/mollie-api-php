@@ -25,12 +25,12 @@ class ApiException extends \Exception
     {
         if (!empty($field)) {
             $this->field = (string)$field;
-            $message .= " Field: {$this->field}.";
+            $message .= ". Field: {$this->field}";
         }
 
         if (!empty($documentationUrl)) {
             $this->documentationUrl = (string)$documentationUrl;
-            $message .= " Documentation: {$this->documentationUrl}.";
+            $message .= ". Documentation: {$this->documentationUrl}";
         }
 
         parent::__construct($message, $code, $previous);
