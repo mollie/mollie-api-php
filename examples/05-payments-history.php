@@ -34,11 +34,11 @@ try {
 
         echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if($payment->hasRefunds()) {
+        if ($payment->hasRefunds()) {
             echo "Payment has been (partially) refunded.<br />";
         }
 
-        if($payment->hasChargebacks()) {
+        if ($payment->hasChargebacks()) {
             echo "Payment has been charged back.<br />";
         }
 
@@ -55,7 +55,7 @@ try {
      */
     $nextPayments = $payments->next();
 
-    if(!empty($nextPayments)) {
+    if (!empty($nextPayments)) {
         echo "<ul>";
         foreach ($nextPayments as $payment) {
             echo "<li>";
@@ -65,11 +65,11 @@ try {
 
             echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-            if($payment->hasRefunds()) {
+            if ($payment->hasRefunds()) {
                 echo "Payment has been (partially) refunded.<br />";
             }
 
-            if($payment->hasChargebacks()) {
+            if ($payment->hasChargebacks()) {
                 echo "Payment has been charged back.<br />";
             }
 

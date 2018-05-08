@@ -5,8 +5,7 @@
 
 use Mollie\Api\Exceptions\ApiException;
 
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key.
      *
@@ -17,15 +16,12 @@ try
      * Get all the activated methods for this API key.
      */
     $methods = $mollie->methods->all();
-    foreach ($methods as $method)
-    {
+    foreach ($methods as $method) {
         echo '<div style="line-height:40px; vertical-align:top">';
-        echo '<img src="' . htmlspecialchars($method->image->size1x) . '" srcset="' . htmlspecialchars($method->image->size2x) .' 2x"> ';
-        echo htmlspecialchars($method->description) . ' (' .  htmlspecialchars($method->id) . ')';
+        echo '<img src="' . htmlspecialchars($method->image->size1x) . '" srcset="' . htmlspecialchars($method->image->size2x) . ' 2x"> ';
+        echo htmlspecialchars($method->description) . ' (' . htmlspecialchars($method->id) . ')';
         echo '</div>';
     }
-}
-catch (ApiException $e)
-{
+} catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
