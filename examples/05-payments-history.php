@@ -51,34 +51,36 @@ try {
     echo "</ul>";
 
     /**
-     * Get the next set of Payments
+     * Get the next set of Payments if applicable
      */
     $nextPayments = $payments->next();
 
-    echo "<ul>";
-    foreach ($nextPayments as $payment) {
-        echo "<li>";
-        echo "<strong style='font-family: monospace'>" . htmlspecialchars($payment->id) . "</strong><br />";
-        echo htmlspecialchars($payment->description) . "<br />";
-        echo htmlspecialchars($payment->amount->currency) . " " . htmlspecialchars($payment->amount->value) . "<br />";
+    if (!empty($nextPayments)) {
+        echo "<ul>";
+        foreach ($nextPayments as $payment) {
+            echo "<li>";
+            echo "<strong style='font-family: monospace'>" . htmlspecialchars($payment->id) . "</strong><br />";
+            echo htmlspecialchars($payment->description) . "<br />";
+            echo htmlspecialchars($payment->amount->currency) . " " . htmlspecialchars($payment->amount->value) . "<br />";
 
-        echo "Status: " . htmlspecialchars($payment->status) . "<br />";
+            echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if ($payment->hasRefunds()) {
-            echo "Payment has been (partially) refunded.<br />";
+            if ($payment->hasRefunds()) {
+                echo "Payment has been (partially) refunded.<br />";
+            }
+
+            if ($payment->hasChargebacks()) {
+                echo "Payment has been charged back.<br />";
+            }
+
+            if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
+                echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+            }
+
+            echo "</li>";
         }
-
-        if ($payment->hasChargebacks()) {
-            echo "Payment has been charged back.<br />";
-        }
-
-        if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-            echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
-        }
-
-        echo "</li>";
+        echo "</ul>";
     }
-    echo "</ul>";
 
 } catch (ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
