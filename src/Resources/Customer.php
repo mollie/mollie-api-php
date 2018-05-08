@@ -87,7 +87,7 @@ class Customer extends BaseResource
      *
      * @return object
      */
-    public function createPayment($options = [], $filters = [])
+    public function createPayment(array $options = [], array $filters = [])
     {
         return $this->client->customerPayments->createFor($this, $options, $filters);
     }
