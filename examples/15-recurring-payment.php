@@ -2,8 +2,7 @@
 /*
  * Example 15 - How to create an on-demand recurring payment.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
@@ -21,11 +20,11 @@ try
      * See: https://www.mollie.com/en/docs/reference/customers/create-payment
      */
     $payment = $customer->createPayment(array(
-        "amount"        => [
+        "amount" => [
             "value" => "10.00",
             "currency" => "EUR"
         ],
-        "description"   => "An on-demand recurring payment",
+        "description" => "An on-demand recurring payment",
 
         // Flag this payment as a recurring payment.
         "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_RECURRING,
@@ -37,7 +36,6 @@ try
      */
     echo "<p>Selected mandate is '" . htmlspecialchars($payment->mandateId) . "' (" . htmlspecialchars($payment->method) . ").</p>\n";
     echo "<p>The payment status is '" . htmlspecialchars($payment->status) . "'.</p>\n";
-}
-catch (\Mollie\Api\Exceptions\ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

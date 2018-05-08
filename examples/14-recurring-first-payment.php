@@ -2,8 +2,7 @@
 /*
  * Example 14 - How to create a first payment to allow recurring payments later.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
@@ -26,7 +25,7 @@ try
      */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
-    $path     = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
     /*
      * Customer Payment creation parameters.
@@ -34,13 +33,13 @@ try
      * See: https://www.mollie.com/en/docs/reference/customers/create-payment
      */
     $payment = $customer->createPayment(array(
-        "amount"        => [
+        "amount" => [
             "value" => "10.00",
             "currency" => "EUR"
         ],
-        "description"   => "A first payment for recurring",
-        "redirectUrl"   => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
-        "webhookUrl"    => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "description" => "A first payment for recurring",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
 
         // Flag this payment as a first payment to allow recurring payments later.
         "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_FIRST,
@@ -59,15 +58,13 @@ try
 	 * used for recurring payments and subscriptions.
 	 */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
-}
-catch (\Mollie\Api\Exceptions\ApiException $e)
-{
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write ($order_id, $status)
+function database_write($order_id, $status)
 {
     $order_id = intval($order_id);
     $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";

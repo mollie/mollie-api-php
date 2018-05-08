@@ -67,6 +67,10 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                          "href":"https://www.mollie.com/payscreen/select-method/44aKxzEbr8",
                          "type":"text/html"
                       },
+                      "customer": {
+                         "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                         "type": "application/hal+json"
+                      },
                       "documentation":{  
                          "href":"https://mollie.com/en/docs/reference/customers/create-payment",
                          "type":"text/html"
@@ -119,6 +123,9 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $checkoutLink = (object)["href" => "https://www.mollie.com/payscreen/select-method/44aKxzEbr8", "type" => "text/html"];
         $this->assertEquals($checkoutLink, $payment->_links->checkout);
 
+        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $this->assertEquals($customerLink, $payment->_links->customer);
+
         $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/create-payment", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
@@ -166,6 +173,10 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                           "checkout": {
                             "href": "https://www.mollie.com/payscreen/select-method/admNa2tFfa",
                             "type": "text/html"
+                          },
+                          "customer": {
+                             "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                             "type": "application/hal+json"
                           }
                         }
                       },
@@ -197,6 +208,10 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                           "checkout": {
                             "href": "https://www.mollie.com/payscreen/select-method/bcaLc7hFfa",
                             "type": "text/html"
+                          },
+                          "customer": {
+                             "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                             "type": "application/hal+json"
                           }
                         }
                       },
@@ -228,6 +243,10 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                           "checkout": {
                             "href": "https://www.mollie.com/payscreen/select-method/pslHy1tFfa",
                             "type": "text/html"
+                          },
+                          "customer": {
+                             "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                             "type": "application/hal+json"
                           }
                         }
                       }

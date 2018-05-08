@@ -2,8 +2,7 @@
 /*
  * Example 12 - How to create a new customer in the Mollie API.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
@@ -26,21 +25,22 @@ try
      */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
-    $path     = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
     /*
      * Customer Payment creation parameters.
      *
-     * See: https://www.mollie.com/en/docs/reference/customers/create-payment
+     * Linking customers to payments has a few benefits, see:
+     * https://www.mollie.com/en/docs/reference/customers/create-payment
      */
     $payment = $customer->createPayment(array(
-        "amount"       => [
+        "amount" => [
             "value" => "10.00",
             "currency" => "EUR"
         ],
-        "description"  => "My first Customer payment",
-        "redirectUrl"  => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
-        "webhookUrl"   => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php"
+        "description" => "My first Customer payment",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php"
     ));
 
     /*
@@ -53,15 +53,13 @@ try
      * This request should always be a GET, thus we enforce 303 http response code
      */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
-}
-catch (\Mollie\Api\Exceptions\ApiException $e)
-{
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write ($order_id, $status)
+function database_write($order_id, $status)
 {
     $order_id = intval($order_id);
     $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";

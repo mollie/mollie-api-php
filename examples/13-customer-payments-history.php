@@ -2,8 +2,7 @@
 /*
  * Example 13 - How to retrieve your customers' payments history.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key.
      *
@@ -38,11 +37,11 @@ try
 
         echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if($payment->hasRefunds()) {
+        if ($payment->hasRefunds()) {
             echo "Payment has been (partially) refunded.<br />";
         }
 
-        if($payment->hasChargebacks()) {
+        if ($payment->hasChargebacks()) {
             echo "Payment has been charged back.<br />";
         }
 
@@ -53,8 +52,6 @@ try
         echo "</li>";
     }
     echo "</ul>";
-}
-catch (\Mollie\Api\Exceptions\ApiException $e)
-{
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
