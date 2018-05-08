@@ -79,14 +79,14 @@ class MandateEndpoint extends EndpointAbstract
 
     /**
      * @param Customer $customer
-     * @param string $subscriptionId
+     * @param string $mandateId
      *
      * @return object
      */
-    public function revokeFor(Customer $customer, $subscriptionId)
+    public function revokeFor(Customer $customer, $mandateId)
     {
         $this->parentId = $customer->id;
 
-        return parent::delete($subscriptionId);
+        return parent::delete($mandateId);
     }
 }

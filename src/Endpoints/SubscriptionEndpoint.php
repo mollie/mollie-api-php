@@ -82,14 +82,14 @@ class SubscriptionEndpoint extends EndpointAbstract
 
     /**
      * @param Customer $customer
-     * @param string $mandateId
+     * @param string $subscriptionId
      *
      * @return object
      */
-    public function cancelFor(Customer $customer, $mandateId)
+    public function cancelFor(Customer $customer, $subscriptionId)
     {
         $this->parentId = $customer->id;
 
-        return parent::delete($mandateId);
+        return parent::delete($subscriptionId);
     }
 }

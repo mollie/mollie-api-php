@@ -5,13 +5,12 @@ try
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
     require "initialize.php";
+
     /*
      * Customer creation parameters.
      *
      * See: https://www.mollie.com/en/docs/reference/customers/create
      */
-    $membership_id = 1;
-
     $customer = $mollie->customers->create(array(
         "name"     => 'Example name',
         "email"    => 'info@example.com',
@@ -19,24 +18,22 @@ try
 
     echo "<p>Customer created with id ". $customer->id."</p>";
 
-    // create mandate
     $mandate = $customer->createMandate(array(
-        "method" => 'directdebit',
+        "method" => \Mollie\Api\Types\MandateMethod::DIRECTDEBIT,
         "consumerAccount" => 'NL34ABNA0243341423',
         "consumerName" => 'B. A. Example',
     ));
 
     echo "<p>Mandate created with id ". $mandate->id."</p>";
 
-    // set recurring
     $subscription = $customer->createSubscription(array(
         "amount"      => 10.00,
         "times"       => 12, // recurring membership for 1 year
         "interval"    => "1 months", // every month
-        "description" => "Subscription ".$membership_id,
+        "description" => "Subscription 12345",
         "webhookUrl"  => "https://example.com/webhook.php",
         "metadata" => array(
-            "order_id" => $membership_id,
+            "order_id" => "12345",
         ),
     ));
 

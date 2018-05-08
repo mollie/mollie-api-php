@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Types\MandateMethod;
 use Mollie\Api\Types\MandateStatus;
 
 class MandateEndpointTest extends BaseEndpointTest
@@ -128,7 +129,7 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals("mandate", $mandate->resource);
         $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
-        $this->assertEquals("directdebit", $mandate->method);
+        $this->assertEquals(MandateMethod::DIRECTDEBIT, $mandate->method);
         $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
         $this->assertEquals("cst_FhQJRw4s2n", $mandate->customerId);
         $this->assertNull($mandate->mandateReference);
