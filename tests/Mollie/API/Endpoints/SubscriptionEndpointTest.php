@@ -21,7 +21,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 '{
                   "resource": "subscription",
                   "id": "sub_wByQa6efm6",
-                  "customerId": "cst_FhQJRw4s2n",
                   "mode": "test",
                   "createdAt": "2018-04-24T11:41:55+00:00",
                   "status": "active",
@@ -99,7 +98,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 '{
                   "resource": "subscription",
                   "id": "sub_wByQa6efm6",
-                  "customerId": "cst_FhQJRw4s2n",
                   "mode": "test",
                   "createdAt": "2018-04-24T11:41:55+00:00",
                   "status": "active",
@@ -173,7 +171,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                       {
                         "resource": "subscription",
                         "id": "sub_wByQa6efm6",
-                        "customerId": "cst_FhQJRw4s2n",
                         "mode": "test",
                         "createdAt": "2018-04-24T11:41:55+00:00",
                         "status": "active",
@@ -249,7 +246,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 '{
                   "resource": "subscription",
                   "id": "sub_wByQa6efm6",
-                  "customerId": "cst_FhQJRw4s2n",
                   "mode": "test",
                   "createdAt": "2018-04-24T11:41:55+00:00",
                   "status": "canceled",

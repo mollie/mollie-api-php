@@ -131,14 +131,6 @@ class Payment extends BaseResource
     public $profileId;
 
     /**
-     * The customer ID this payment is performed by.
-     *
-     * @example cst_51EkUqla3
-     * @var string|null
-     */
-    public $customerId;
-
-    /**
      * Either "first", "recurring", or "oneoff" for regular payments.
      *
      * @var string|null

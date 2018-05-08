@@ -30,7 +30,6 @@ class MandateEndpointTest extends BaseEndpointTest
                     "consumerAccount": "NL55INGB0000000000",
                     "consumerBic": "INGBNL2A"
                   },
-                  "customerId": "cst_FhQJRw4s2n",
                   "mandateReference": null,
                   "signatureDate": "2018-05-07",
                   "createdAt": "2018-05-07T10:49:08+00:00",
@@ -67,7 +66,6 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
         $this->assertEquals("directdebit", $mandate->method);
         $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
-        $this->assertEquals("cst_FhQJRw4s2n", $mandate->customerId);
         $this->assertNull($mandate->mandateReference);
         $this->assertEquals("2018-05-07", $mandate->signatureDate);
         $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
@@ -99,7 +97,6 @@ class MandateEndpointTest extends BaseEndpointTest
                     "consumerAccount": "NL55INGB0000000000",
                     "consumerBic": "INGBNL2A"
                   },
-                  "customerId": "cst_FhQJRw4s2n",
                   "mandateReference": null,
                   "signatureDate": "2018-05-07",
                   "createdAt": "2018-05-07T10:49:08+00:00",
@@ -131,7 +128,6 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
         $this->assertEquals(MandateMethod::DIRECTDEBIT, $mandate->method);
         $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
-        $this->assertEquals("cst_FhQJRw4s2n", $mandate->customerId);
         $this->assertNull($mandate->mandateReference);
         $this->assertEquals("2018-05-07", $mandate->signatureDate);
         $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
@@ -166,7 +162,6 @@ class MandateEndpointTest extends BaseEndpointTest
                           "consumerAccount": "NL55INGB0000000000",
                           "consumerBic": "INGBNL2A"
                         },
-                        "customerId": "cst_FhQJRw4s2n",
                         "mandateReference": null,
                         "signatureDate": "2018-05-07",
                         "createdAt": "2018-05-07T10:49:08+00:00",
