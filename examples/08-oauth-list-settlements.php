@@ -2,8 +2,7 @@
 /*
  * Example 9 - Using OAuth access token to list settlements of an account.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
@@ -13,18 +12,14 @@ try
      */
     $settlements = $mollie->settlements->page();
     echo '<ul>';
-    foreach ($settlements as $settlement)
-    {
+    foreach ($settlements as $settlement) {
         echo '<li><b>Settlement ' . htmlspecialchars($settlement->reference) . ':</b> (' . htmlspecialchars($settlement->createdAt) . ')';
         echo '<table border="1"><tr><th>Month</th><th>Description</th><th>Count</th><th>Net</th><th>VAT</th><th>Gross</th></tr>';
         // Convert from stdClass to array
         $settlement_periods = json_decode(json_encode($settlement->periods), TRUE);
-        foreach ($settlement_periods as $year => $months)
-        {
-            foreach ($months as $month => $monthly_settlement)
-            {
-                foreach ($monthly_settlement['revenue'] as $revenue)
-                {
+        foreach ($settlement_periods as $year => $months) {
+            foreach ($months as $month => $monthly_settlement) {
+                foreach ($monthly_settlement['revenue'] as $revenue) {
                     echo '<tr>';
                     echo '<td>' . htmlspecialchars($year . '-' . $month) . '</td>';
                     echo '<td>' . htmlspecialchars($revenue['description']) . '</td>';
@@ -34,8 +29,7 @@ try
                     echo '<td align="right">' . htmlspecialchars($revenue['amountGross']['value'] ? $revenue['amountGross']['value'] . " " . $revenue['amountGross']['currency'] : '-') . '</td>';
                     echo '</tr>';
                 }
-                foreach ($monthly_settlement['costs'] as $revenue)
-                {
+                foreach ($monthly_settlement['costs'] as $revenue) {
                     echo '<tr>';
                     echo '<td>' . htmlspecialchars($year . '-' . $month) . '</td>';
                     echo '<td>' . htmlspecialchars($revenue['description']) . '</td>';
@@ -52,8 +46,6 @@ try
         echo '</li>';
     }
     echo '</ul>';
-}
-catch (\Mollie\Api\Exceptions\ApiException $e)
-{
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

@@ -34,11 +34,11 @@ try {
 
         echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if($payment->hasRefunds()) {
+        if ($payment->hasRefunds()) {
             echo "Payment has been (partially) refunded.<br />";
         }
 
-        if($payment->hasChargebacks()) {
+        if ($payment->hasChargebacks()) {
             echo "Payment has been charged back.<br />";
         }
 
@@ -64,11 +64,11 @@ try {
 
         echo "Status: " . htmlspecialchars($payment->status) . "<br />";
 
-        if($payment->hasRefunds()) {
+        if ($payment->hasRefunds()) {
             echo "Payment has been (partially) refunded.<br />";
         }
 
-        if($payment->hasChargebacks()) {
+        if ($payment->hasChargebacks()) {
             echo "Payment has been charged back.<br />";
         }
 

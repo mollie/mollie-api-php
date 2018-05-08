@@ -87,7 +87,7 @@ class Customer extends BaseResource
      *
      * @return object
      */
-    public function createSubscription($options = [], $filters = [])
+    public function createSubscription(array $options = [], array $filters = [])
     {
         return $this->client->subscriptions->createFor($this, $options, $filters);
     }
@@ -98,7 +98,7 @@ class Customer extends BaseResource
      *
      * @return object
      */
-    public function getSubscription($subscriptionId, $parameters = [])
+    public function getSubscription($subscriptionId, array $parameters = [])
     {
         return $this->client->subscriptions->getFor($this, $subscriptionId, $parameters);
     }
@@ -127,7 +127,7 @@ class Customer extends BaseResource
      *
      * @return object
      */
-    public function createMandate($options = [], $filters = [])
+    public function createMandate(array $options = [], array $filters = [])
     {
         return $this->client->mandates->createFor($this, $options, $filters);
     }
@@ -138,7 +138,7 @@ class Customer extends BaseResource
      *
      * @return object
      */
-    public function getMandate($mandateId, $parameters = [])
+    public function getMandate($mandateId, array $parameters = [])
     {
         return $this->client->mandates->getFor($this, $mandateId, $parameters);
     }
