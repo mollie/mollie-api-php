@@ -14,9 +14,9 @@ abstract class CursorCollection extends BaseCollection
     /**
      * @param MollieApiClient $client
      * @param int $count
-     * @param object $_links
+     * @param object[] $_links
      */
-    public function __construct(MollieApiClient $client, $count, $_links)
+    final public function __construct(MollieApiClient $client, $count, $_links)
     {
         parent::__construct($count, $_links);
 
@@ -24,16 +24,53 @@ abstract class CursorCollection extends BaseCollection
     }
 
     /**
+     * Return the resource object
+     *
+     * @return BaseResource
+     */
+    abstract protected function getResourceObject();
+
+    /**
      * Return the next set of resources when available
      *
      * @return CursorCollection|null
      */
-    abstract public function next();
+    final public function next()
+    {
+        if (!isset($this->_links->next->href)) {
+            return null;
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
+
+        $collection = new static($this->client, $this->count, $this->_links);
+
+        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+        }
+
+        return $collection;
+    }
 
     /**
      * Return the previous set of resources when available
      *
      * @return CursorCollection|null
      */
-    abstract public function previous();
+    final public function previous()
+    {
+        if (!isset($this->_links->previous->href)) {
+            return null;
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
+
+        $collection = new static($this->client, $this->count, $this->_links);
+
+        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+        }
+
+        return $collection;
+    }
 }
