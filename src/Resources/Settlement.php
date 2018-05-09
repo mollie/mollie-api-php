@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SettlementStatus;
 
 class Settlement extends BaseResource
@@ -97,5 +99,71 @@ class Settlement extends BaseResource
     public function isFailed()
     {
         return $this->status === SettlementStatus::STATUS_FAILED;
+    }
+
+    /**
+     * Retrieves all payments associated with this settlement
+     *
+     * @return PaymentCollection
+     * @throws ApiException
+     */
+    public function payments()
+    {
+        if (!isset($this->_links->payments->href)) {
+            return new PaymentCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
+
+        $resourceCollection = new PaymentCollection($this->client, $result->count, $result->_links);
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Payment($this->client));
+        }
+
+        return $resourceCollection;
+    }
+
+    /**
+     * Retrieves all refunds associated with this settlement
+     *
+     * @return RefundCollection
+     * @throws ApiException
+     */
+    public function refunds()
+    {
+        if (!isset($this->_links->refunds->href)) {
+            return new RefundCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+
+        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
+        }
+
+        return $resourceCollection;
+    }
+
+    /**
+     * Retrieves all chargebacks associated with this settlement
+     *
+     * @return ChargebackCollection
+     * @throws ApiException
+     */
+    public function chargebacks()
+    {
+        if (!isset($this->_links->chargebacks->href)) {
+            return new ChargebackCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+
+        $resourceCollection = new ChargebackCollection($this->client, $result->count, $result->_links);
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
+        }
+
+        return $resourceCollection;
     }
 }

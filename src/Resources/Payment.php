@@ -394,12 +394,12 @@ class Payment extends BaseResource
     public function chargebacks()
     {
         if (!isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection(0, null);
+            return new ChargebackCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
 
-        $resourceCollection = new ChargebackCollection($result->count, $result->_links);
+        $resourceCollection = new ChargebackCollection($this->client, $result->count, $result->_links);
         foreach ($result->_embedded->chargebacks as $dataResult) {
             $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
         }
