@@ -13,11 +13,9 @@ class MandateCollection extends CursorCollection
     }
 
     /**
-     * Return the resource object
-     *
      * @return BaseResource
      */
-    protected function getResourceObject()
+    protected function createResourceObject()
     {
         return new Mandate($this->client);
     }

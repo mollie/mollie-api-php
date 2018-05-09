@@ -13,11 +13,9 @@ class ChargebackCollection extends CursorCollection
     }
 
     /**
-     * Return the resource object
-     *
      * @return BaseResource
      */
-    protected function getResourceObject()
+    protected function createResourceObject()
     {
         return new Chargeback($this->client);
     }

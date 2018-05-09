@@ -14,11 +14,9 @@ class SubscriptionCollection extends CursorCollection
     }
 
     /**
-     * Return the resource object
-     *
      * @return BaseResource
      */
-    protected function getResourceObject()
+    protected function createResourceObject()
     {
         return new Subscription($this->client);
     }

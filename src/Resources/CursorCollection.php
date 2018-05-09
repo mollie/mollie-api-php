@@ -24,11 +24,9 @@ abstract class CursorCollection extends BaseCollection
     }
 
     /**
-     * Return the resource object
-     *
      * @return BaseResource
      */
-    abstract protected function getResourceObject();
+    abstract protected function createResourceObject();
 
     /**
      * Return the next set of resources when available
@@ -46,7 +44,7 @@ abstract class CursorCollection extends BaseCollection
         $collection = new static($this->client, $this->count, $this->_links);
 
         foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
         }
 
         return $collection;
@@ -68,7 +66,7 @@ abstract class CursorCollection extends BaseCollection
         $collection = new static($this->client, $this->count, $this->_links);
 
         foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
         }
 
         return $collection;
