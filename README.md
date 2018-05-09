@@ -32,6 +32,8 @@ By far the easiest way to install the Mollie API client is to require it with [C
 You can download the source from the [releases page](https://github.com/mollie/mollie-api-php/releases), we also provide
 a zip file with all dependencies included. 
 
+The version of the API client corresponds to the version of the API it implements. Check the [notes on migration](https://docs.mollie.com/migrating-v1-to-v2) to see what changes you need to make if you want to start using a newer API version.
+
 ## How to receive payments ##
 
 To successfully receive a payment, these steps should be implemented:
