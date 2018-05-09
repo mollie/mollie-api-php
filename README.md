@@ -103,9 +103,9 @@ When the status of a payment changes the `webhookUrl` we specified in the creati
 There we can use the `id` from our POST parameters to check te status and act upon that, see [Example 2 - Webhook verification](https://github.com/mollie/mollie-api-php/blob/master/examples/02-webhook-verification.php).
 
 
-## Multi-currency ##
+## Multicurrency ##
 Since 2.0 it is now possible to create non-EUR payments for your customers.
-A full list of available currencies can be found here.
+A full list of available currencies can be found [in our documentation](https://docs.mollie.com/guides/multicurrency).
 
 ```php
 $payment = $mollie->payments->create([
@@ -127,7 +127,7 @@ If you want to fully integrate iDEAL payments in your web site, some additional 
 retrieve the list of issuers (banks) that support iDEAL and have your customer pick the issuer he/she wants to use for
 the payment.
 
-Retrieve the IDEAL method and include the issuers
+Retrieve the iDEAL method and include the issuers
 
 ```php
 $method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["include" => "issuers"]);
@@ -158,8 +158,8 @@ A short way of retrieving this URL can be achieved by using the `$payment->getCh
 ### Refunding payments ###
 
 The API also supports refunding payments. Note that there is no confirmation and that all refunds are immediate and
-definitive. Refunds are only supported for iDEAL, credit card, Bancontact/Mister Cash, SOFORT Banking, PayPal, Belfius Direct Net and bank transfer payments. Other types of payments cannot
-be refunded through our API at the moment.
+definitive. Refunds are only supported for iDEAL, credit card, Bancontact, SOFORT Banking, PayPal, Belfius Direct Net, KBC/CBC, 
+ING Home'Pay and bank transfer payments. Other types of payments cannot be refunded through our API at the moment.
 
 ```php
 $payment = $mollie->payments->get($payment->id);
@@ -198,5 +198,6 @@ Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20
 + [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
 + [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
 + [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
-+ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
 + [More information about KBC/CBC via Mollie](https://www.mollie.com/kbccbc/)
++ [More information about ING Home'Pay via Mollie](https://www.mollie.com/payments/ing-homepay)
++ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
