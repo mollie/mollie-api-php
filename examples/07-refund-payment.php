@@ -36,7 +36,7 @@ try {
             $refund = $payment->refund([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "2.00"
+                    "value" => "2.00" // You must send the correct number of decimals, thus we enforce the use of strings
                 ]
             ]);
 

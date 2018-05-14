@@ -31,7 +31,7 @@ try {
      */
     $subscription = $customer->createSubscription(array(
         "amount" => [
-            "value" => "10.00",
+            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
             "currency" => "EUR"
         ],
         "times" => 12,

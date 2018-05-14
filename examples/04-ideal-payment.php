@@ -57,7 +57,7 @@ try {
     $payment = $mollie->payments->create([
         "amount" => [
             "currency" => "EUR",
-            "value" => "27.50"
+            "value" => "27.50" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "method" => PaymentMethod::IDEAL,
         "description" => "Order #{$orderId}",
