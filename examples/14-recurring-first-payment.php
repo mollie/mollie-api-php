@@ -32,18 +32,21 @@ try {
      *
      * See: https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
-    $payment = $customer->createPayment(array(
+    $payment = $customer->createPayment([
         "amount" => [
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
             "currency" => "EUR"
         ],
-        "description" => "A first payment for recurring",
+        "description" => "First payment - Order #{$order_id}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "metadata" => [
+            "order_id" => $order_id,
+        ],
 
         // Flag this payment as a first payment to allow recurring payments later.
         "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_FIRST,
-    ));
+    ]);
 
     /*
      * In this example we store the order with its payment status in a database.
@@ -53,10 +56,10 @@ try {
     /*
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
-	 *
-	 * After completion, the customer will have a pending or valid mandate that can be
-	 * used for recurring payments and subscriptions.
-	 */
+     *
+     * After completion, the customer will have a pending or valid mandate that can be
+     * used for recurring payments and subscriptions.
+     */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
