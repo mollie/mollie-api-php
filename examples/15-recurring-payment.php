@@ -36,7 +36,7 @@ try {
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
             "currency" => "EUR"
         ],
-        "description" => "On-demand payment - Order #{$orderId}",
+        "description" => "On-demand payment - Order #{$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
         "metadata" => [
             "order_id" => $order_id,

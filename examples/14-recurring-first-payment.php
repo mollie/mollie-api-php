@@ -40,7 +40,7 @@ try {
         "description" => "First payment - Order #{$order_id}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
-	"metadata" => [
+        "metadata" => [
             "order_id" => $order_id,
         ],
 
@@ -56,10 +56,10 @@ try {
     /*
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
-	 *
-	 * After completion, the customer will have a pending or valid mandate that can be
-	 * used for recurring payments and subscriptions.
-	 */
+     *
+     * After completion, the customer will have a pending or valid mandate that can be
+     * used for recurring payments and subscriptions.
+     */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
