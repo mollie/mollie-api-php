@@ -40,7 +40,10 @@ try {
         ],
         "description" => "My first Customer payment",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php"
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "metadata" => [
+            "order_id" => $order_id,
+        ]
     ));
 
     /*
