@@ -5,8 +5,8 @@ Example 23 - Delete a customer from mollie api.
 
 try {
     /*
- * Initialize the Mollie API library with your API key or OAuth access token.
- */
+     * Initialize the Mollie API library with your API key or OAuth access token.
+     */
     require "initialize.php";
 
     $mollie->customers->delete("customer_id");
