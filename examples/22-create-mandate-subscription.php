@@ -33,7 +33,7 @@ try {
      * Generate a unique subscription id for this example. It is important to include this unique attribute
      * in the webhookUrl (below) so new payments can be associated with this subscription.
      */
-    $subscription_id = time();
+    $subscriptionId = time();
 
     $subscription = $customer->createSubscription([
         "amount" => [
@@ -42,10 +42,10 @@ try {
         ],
         "times" => 12, // recurring membership for 1 year
         "interval" => "1 months", // every month
-        "description" => "Subscription #{$subscription_id}",
-        "webhookUrl" => "https://example.com/webhook.php?subscription_id={$subscription_id}",
+        "description" => "Subscription #{$subscriptionId}",
+        "webhookUrl" => "https://example.com/webhook.php?subscription_id={$subscriptionId}",
         "metadata" => [
-            "subscription_id" => $subscription_id,
+            "subscription_id" => $subscriptionId,
         ],
     ]);
 

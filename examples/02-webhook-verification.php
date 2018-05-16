@@ -17,12 +17,12 @@ try {
      * Retrieve the payment's current state.
      */
     $payment = $mollie->payments->get($_POST["id"]);
-    $order_id = $payment->metadata->order_id;
+    $orderId = $payment->metadata->order_id;
 
     /*
      * Update the order in the database.
      */
-    database_write($order_id, $payment->status);
+    database_write($orderId, $payment->status);
 
     if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
         /*
@@ -67,10 +67,10 @@ try {
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write($order_id, $status)
+function database_write($orderId, $status)
 {
-    $order_id = intval($order_id);
-    $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";
+    $orderId = intval($orderId);
+    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
 
     file_put_contents($database, $status);
 }
