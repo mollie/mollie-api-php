@@ -3,9 +3,6 @@
  * Example 4 - How to prepare an iDEAL payment with the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Types\PaymentMethod;
-
 try {
     /*
      * Initialize the Mollie API library with your API key.
@@ -18,7 +15,7 @@ try {
      * First, let the customer pick the bank in a simple HTML form. This step is actually optional.
      */
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        $method = $mollie->methods->get(PaymentMethod::IDEAL, ["include" => "issuers"]);
+        $method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["include" => "issuers"]);
 
         echo '<form method="post">Select your bank: <select name="issuer">';
 
@@ -59,7 +56,7 @@ try {
             "currency" => "EUR",
             "value" => "27.50" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
-        "method" => PaymentMethod::IDEAL,
+        "method" => \Mollie\Api\Types\PaymentMethod::IDEAL,
         "description" => "Order #{$orderId}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
@@ -72,14 +69,14 @@ try {
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($orderId, $payment->status);
+    database_write($order_id, $payment->status);
 
     /*
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
-} catch (ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 

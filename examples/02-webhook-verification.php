@@ -1,9 +1,9 @@
 <?php
 /*
  * Example 2 - How to verify Mollie API Payments in a webhook.
+ *
+ * See: https://docs.mollie.com/guides/webhooks
  */
-
-use Mollie\Api\Exceptions\ApiException;
 
 try {
     /*
@@ -24,8 +24,9 @@ try {
      */
     database_write($orderId, $payment->status);
 
-    if ($payment->isPaid()) {
+    if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
         /*
+         * The payment is paid and isn't refunded or charged back.
          * At this point you'd probably want to start the process of delivering the product to the customer.
          */
     } elseif ($payment->isOpen()) {
@@ -48,8 +49,18 @@ try {
         /*
          * The payment has been canceled.
          */
+    } elseif ($payment->hasRefunds()) {
+        /*
+         * The payment has been (partially) refunded.
+         * The status of the payment is still "paid"
+         */
+    } elseif ($payment->hasChargebacks()) {
+        /*
+         * The payment has been (partially) charged back.
+         * The status of the payment is still "paid"
+         */
     }
-} catch (ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 

@@ -22,11 +22,11 @@ class PaymentMethod
     const CREDITCARD = "creditcard";
 
     /**
-     * Bancontact, formerly known as Mister Cash.
+     * Bancontact
      *
-     * @link https://www.mollie.com/mistercash
+     * @link https://www.mollie.com/bancontact
      */
-    const MISTERCASH = "mistercash";
+    const BANCONTACT = "bancontact";
 
     /**
      * @link https://www.mollie.com/sofort

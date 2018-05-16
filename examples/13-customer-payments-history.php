@@ -2,6 +2,7 @@
 /*
  * Example 13 - How to retrieve your customers' payments history.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key.

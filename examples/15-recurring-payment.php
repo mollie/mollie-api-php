@@ -2,6 +2,7 @@
 /*
  * Example 15 - How to create an on-demand recurring payment.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -17,7 +18,7 @@ try {
     /*
      * Generate a unique order id for this example.
      */
-    $order_id = time();
+    $orderId = time();
 
     /*
      * Determine the url parts to these example files.
@@ -36,10 +37,10 @@ try {
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
             "currency" => "EUR"
         ],
-        "description" => "On-demand payment - Order #{$order_id}",
+        "description" => "On-demand payment - Order #{$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
         "metadata" => [
-            "order_id" => $order_id,
+            "order_id" => $orderId,
         ],
 
         // Flag this payment as a recurring payment.
@@ -49,7 +50,7 @@ try {
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($order_id, $payment->status);
+    database_write($orderId, $payment->status);
 
     /*
      * The payment will be either pending or paid immediately. The customer
@@ -64,9 +65,9 @@ try {
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write($order_id, $status)
+function database_write($orderId, $status)
 {
-    $order_id = intval($order_id);
-    $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";
+    $orderId = intval($orderId);
+    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
     file_put_contents($database, $status);
 }

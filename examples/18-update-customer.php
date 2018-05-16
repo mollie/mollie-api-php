@@ -2,6 +2,7 @@
 /*
  * Example 18 - Updating an existing customer via the Mollie API.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.

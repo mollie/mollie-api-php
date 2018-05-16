@@ -3,8 +3,6 @@
  * How to prepare a new payment with the Mollie API.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key.
@@ -57,7 +55,7 @@ try {
      * This request should always be a GET, thus we enforce 303 http response code
      */
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
-} catch (ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 

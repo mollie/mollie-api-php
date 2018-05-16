@@ -2,6 +2,7 @@
 /*
  * Example 16 - How to create a regular subscription.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -23,23 +24,23 @@ try {
      * Generate a unique subscription id for this example. It is important to include this unique attribute
      * in the webhookUrl (below) so new payments can be associated with this subscription.
      */
-    $my_subscription = time();
+    $subscriptionId = time();
     /*
      * Customer Subscription creation parameters.
      *
      * See: https://www.mollie.com/nl/docs/reference/subscriptions/create
      */
-    $subscription = $customer->createSubscription(array(
+    $subscription = $customer->createSubscription([
         "amount" => [
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
             "currency" => "EUR"
         ],
         "times" => 12,
         "interval" => "1 month",
-        "description" => "My subscription",
+        "description" => "Subscription #{$subscriptionId}",
         "method" => NULL,
-        "webhookUrl" => "https://example.org/subscription-payment-webhook/$my_subscription",
-    ));
+        "webhookUrl" => "https://example.com/webhook.php?subscription_id={$subscriptionId}",
+    ]);
     /*
      * The subscription will be either pending or active depending on whether the customer has
      * a pending or valid mandate. If the customer has no mandates an error is returned. You

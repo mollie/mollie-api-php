@@ -1,7 +1,4 @@
 <?php
-
-use Mollie\Api\MollieApiClient;
-
 /*
  * Make sure to disable the display of errors in production code!
  */
@@ -16,5 +13,5 @@ require_once __DIR__ . "/../vendor/autoload.php";
  *
  * See: https://www.mollie.com/dashboard/settings/profiles
  */
-$mollie = new MollieApiClient();
+$mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
