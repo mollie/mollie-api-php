@@ -2,6 +2,7 @@
 /*
  * Example 16 - How to create a regular subscription.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.

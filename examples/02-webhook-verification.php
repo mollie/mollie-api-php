@@ -3,8 +3,6 @@
  * Example 2 - How to verify Mollie API Payments in a webhook.
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key.
@@ -49,7 +47,7 @@ try {
          * The payment has been canceled.
          */
     }
-} catch (ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 

@@ -3,8 +3,6 @@
  * Example 7 - How to refund a payment programmatically
  */
 
-use Mollie\Api\Exceptions\ApiException;
-
 try {
     /*
      * Initialize the Mollie API library with your API key.
@@ -68,6 +66,6 @@ try {
     echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Create iDEAL payment with example 4</a><br>';
     echo '<a href="' . $protocol . '://' . $hostname . $path . '/05-payments-history.php">List payments with example 5</a><br>';
     echo "</p>";
-} catch (ApiException $e) {
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

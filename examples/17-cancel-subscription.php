@@ -2,6 +2,7 @@
 /*
  * Example 17 - How to cancel a subscription.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.

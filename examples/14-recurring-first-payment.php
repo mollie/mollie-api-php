@@ -2,6 +2,7 @@
 /*
  * Example 14 - How to create a first payment to allow recurring payments later.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -64,6 +65,7 @@ try {
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
+
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */

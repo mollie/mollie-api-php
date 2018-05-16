@@ -1,4 +1,8 @@
 <?php
+/*
+ * Example 22 - Create a customer, mandate and subscription via the Mollie API.
+ */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.

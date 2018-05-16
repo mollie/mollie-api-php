@@ -2,6 +2,7 @@
 /*
  * Example 15 - How to create an on-demand recurring payment.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.

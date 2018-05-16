@@ -2,6 +2,7 @@
 /*
  * Example 11 - How to create a new customer in the Mollie API.
  */
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
