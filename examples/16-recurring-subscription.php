@@ -24,7 +24,7 @@ try {
      * Generate a unique subscription id for this example. It is important to include this unique attribute
      * in the webhookUrl (below) so new payments can be associated with this subscription.
      */
-    $my_subscription = time();
+    $subscription_id = time();
     /*
      * Customer Subscription creation parameters.
      *
@@ -39,7 +39,7 @@ try {
         "interval" => "1 month",
         "description" => "My subscription",
         "method" => NULL,
-        "webhookUrl" => "https://example.org/subscription-payment-webhook/$my_subscription",
+        "webhookUrl" => "https://example.org/subscription-payment-webhook/{$subscription_id}",
     ));
     /*
      * The subscription will be either pending or active depending on whether the customer has
