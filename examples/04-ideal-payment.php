@@ -15,7 +15,7 @@ try {
      * First, let the customer pick the bank in a simple HTML form. This step is actually optional.
      */
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        $method = $mollie->methods->get(PaymentMethod::IDEAL, ["include" => "issuers"]);
+        $method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["include" => "issuers"]);
 
         echo '<form method="post">Select your bank: <select name="issuer">';
 
