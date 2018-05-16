@@ -51,12 +51,12 @@ try {
          */
     } elseif ($payment->hasRefunds()) {
         /*
-         * The payment is (partial) refunded.
+         * The payment has been (partially) refunded.
          * The status of the payment is still "paid"
          */
     } elseif ($payment->hasChargebacks()) {
         /*
-         * The payment is (partial) charged back.
+         * The payment has been (partially) charged back.
          * The status of the payment is still "paid"
          */
     }
