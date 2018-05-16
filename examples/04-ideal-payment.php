@@ -32,7 +32,7 @@ try {
      * Generate a unique order id for this example. It is important to include this unique attribute
      * in the redirectUrl (below) so a proper return page can be shown to the customer.
      */
-    $orderId = time();
+    $order_id = time();
 
     /*
      * Determine the url parts to these example files.
@@ -57,11 +57,11 @@ try {
             "value" => "27.50" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "method" => \Mollie\Api\Types\PaymentMethod::IDEAL,
-        "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
+        "description" => "Order #{$order_id}",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$order_id}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
         "metadata" => [
-            "order_id" => $orderId,
+            "order_id" => $order_id,
         ],
         "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
     ]);
@@ -69,7 +69,7 @@ try {
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($orderId, $payment->status);
+    database_write($order_id, $payment->status);
 
     /*
      * Send the customer off to complete the payment.
@@ -83,10 +83,10 @@ try {
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_write($orderId, $status)
+function database_write($order_id, $status)
 {
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
+    $order_id = intval($order_id);
+    $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";
 
     file_put_contents($database, $status);
 }

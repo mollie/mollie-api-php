@@ -24,10 +24,10 @@ echo "</p>";
 /*
  * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
  */
-function database_read($orderId)
+function database_read($order_id)
 {
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
+    $order_id = intval($order_id);
+    $database = dirname(__FILE__) . "/orders/order-{$order_id}.txt";
 
     $status = @file_get_contents($database);
 
