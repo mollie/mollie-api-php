@@ -37,9 +37,9 @@ try {
         ],
         "times" => 12,
         "interval" => "1 month",
-        "description" => "My subscription",
+        "description" => "Subscription #{$subscription_id}",
         "method" => NULL,
-        "webhookUrl" => "https://example.org/subscription-payment-webhook/{$subscription_id}",
+        "webhookUrl" => "https://example.com/webhook.php?subscription_id={$subscription_id}",
     ));
     /*
      * The subscription will be either pending or active depending on whether the customer has
