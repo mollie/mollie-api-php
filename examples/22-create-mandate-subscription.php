@@ -45,5 +45,5 @@ try {
 
     echo "<p>Subscription created with id " . $subscription->id . "</p>";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    error_log("API call failed: " . htmlspecialchars($e->getMessage()));
+    echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
