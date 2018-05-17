@@ -17,6 +17,11 @@ class Subscription extends BaseResource
     public $id;
 
     /**
+     * @var string
+     */
+    public $customerId;
+
+    /**
      * Either "live" or "test" depending on the customer's mode.
      *
      * @var string

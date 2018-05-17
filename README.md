@@ -17,7 +17,7 @@ To use the Mollie API client, the following things are required:
 + PHP >= 5.6
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 
-## Installation ##
+## Composer Installation ##
 
 By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
 
@@ -29,10 +29,14 @@ By far the easiest way to install the Mollie API client is to require it with [C
         }
     }
 
-You can download the source from the [releases page](https://github.com/mollie/mollie-api-php/releases), we also provide
-a zip file with all dependencies included. 
-
 The version of the API client corresponds to the version of the API it implements. Check the [notes on migration](https://docs.mollie.com/migrating-v1-to-v2) to see what changes you need to make if you want to start using a newer API version.
+
+
+## Manual Installation ##
+If you're not familiar with using composer we've added a ZIP file to the releases containing the API client and all the packages normally installed by composer.
+Download the ``mollie-api-php.zip`` from the [releases page](https://github.com/mollie/mollie-api-php/releases).
+
+Include the ``vendor/autoload.php`` as shown in [Initialize example](https://github.com/mollie/mollie-api-php/blob/master/examples/initialize.php).
 
 ## How to receive payments ##
 

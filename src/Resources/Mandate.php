@@ -34,6 +34,11 @@ class Mandate extends BaseResource
     /**
      * @var string
      */
+    public $customerId;
+
+    /**
+     * @var string
+     */
     public $createdAt;
 
     /**
