@@ -1,4 +1,4 @@
-![Mollie](https://www.mollie.nl/files/Mollie-Logo-Style-Small.png) 
+[<img src="https://www.mollie.com/assets/images/mollie/logo-black.svg" width="110">](https://www.mollie.com/)
 
 # Mollie API client for PHP #
 
@@ -194,16 +194,3 @@ Copyright (c) 2013-2017, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
-
-+ [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
-+ [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
-+ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/mistercash/)
-+ [More information about SOFORT Banking via Mollie](https://www.mollie.com/sofort/)
-+ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/banktransfer/)
-+ [More information about SEPA Direct debit via Mollie](https://www.mollie.com/directdebit/)
-+ [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
-+ [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
-+ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
-+ [More information about KBC/CBC via Mollie](https://www.mollie.com/kbccbc/)
-+ [More information about ING Home'Pay via Mollie](https://www.mollie.com/payments/ing-homepay)
-+ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
