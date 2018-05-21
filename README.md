@@ -74,7 +74,7 @@ $payment = $mollie->payments->create([
 ```
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
 
-After storing the payment id you can send the customer to the checkout using the `$payment->getCheckouUrl()`.  
+After storing the payment id you can send the customer to the checkout using the `$payment->getCheckoutUrl()`.  
 
 ```php
 header("Location: " . $payment->getCheckoutUrl(), true, 303);
