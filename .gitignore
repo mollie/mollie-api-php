@@ -1,5 +1,7 @@
 /.idea
-/vendor
+/certdata.txt
 /composer.lock
+/composer.phar
+/mk-ca-bundle.pl
+/vendor
 .DS_Store
-composer.phar
