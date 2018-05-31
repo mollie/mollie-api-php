@@ -8,84 +8,54 @@ use Mollie\Api\Types\SubscriptionStatus;
 
 class SubscriptionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsActiveIsTrueWhenStatusIsActive ()
+    /**
+     * @param string $status
+     * @param string $function
+     * @param boolean $expected_boolean
+     *
+     * @dataProvider dpTestSubscriptionStatusses
+     */
+    public function testSubscriptionStatusses($status, $function, $expected_boolean)
     {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_ACTIVE;
+        $refund = new Subscription($this->createMock(MollieApiClient::class));
+        $refund->status = $status;
 
-        $this->assertTrue($subscription->isActive());
+        $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function testIsActiveIsFalseWhenStatusIsNotActive ()
+    public function dpTestSubscriptionStatusses()
     {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_PENDING;
+        return [
+            [SubscriptionStatus::STATUS_PENDING, "isPending", true],
+            [SubscriptionStatus::STATUS_PENDING, "isCanceled", false],
+            [SubscriptionStatus::STATUS_PENDING, "isCompleted", false],
+            [SubscriptionStatus::STATUS_PENDING, "isSuspended", false],
+            [SubscriptionStatus::STATUS_PENDING, "isActive", false],
 
-        $this->assertFalse($subscription->isActive());
-    }
+            [SubscriptionStatus::STATUS_CANCELED, "isPending", false],
+            [SubscriptionStatus::STATUS_CANCELED, "isCanceled", true],
+            [SubscriptionStatus::STATUS_CANCELED, "isCompleted", false],
+            [SubscriptionStatus::STATUS_CANCELED, "isSuspended", false],
+            [SubscriptionStatus::STATUS_CANCELED, "isActive", false],
 
-    public function testIsPendingIsTrueWhenStatusIsPending()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_PENDING;
+            [SubscriptionStatus::STATUS_COMPLETED, "isPending", false],
+            [SubscriptionStatus::STATUS_COMPLETED, "isCanceled", false],
+            [SubscriptionStatus::STATUS_COMPLETED, "isCompleted", true],
+            [SubscriptionStatus::STATUS_COMPLETED, "isSuspended", false],
+            [SubscriptionStatus::STATUS_COMPLETED, "isActive", false],
 
-        $this->assertTrue($subscription->isPending());
-    }
+            [SubscriptionStatus::STATUS_SUSPENDED, "isPending", false],
+            [SubscriptionStatus::STATUS_SUSPENDED, "isCanceled", false],
+            [SubscriptionStatus::STATUS_SUSPENDED, "isCompleted", false],
+            [SubscriptionStatus::STATUS_SUSPENDED, "isSuspended", true],
+            [SubscriptionStatus::STATUS_SUSPENDED, "isActive", false],
 
-    public function testIsPendingIsTrueWhenStatusIsNotPending ()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_ACTIVE;
-
-        $this->assertFalse($subscription->isPending());
-    }
-
-    public function testIsCanceledIsTrueWhenStatusIsCanceled()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_CANCELED;
-
-        $this->assertTrue($subscription->isCanceled());
-    }
-
-    public function testIsCanceledIsTrueWhenStatusIsNotCanceled ()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_PENDING;
-
-        $this->assertFalse($subscription->isCanceled());
-    }
-
-    public function testIsSuspendedIsTrueWhenStatusIsSuspended()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_SUSPENDED;
-
-        $this->assertTrue($subscription->isSuspended());
-    }
-
-    public function testIsSuspendedIsTrueWhenStatusIsNotSuspended ()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_PENDING;
-
-        $this->assertFalse($subscription->isSuspended());
-    }
-
-    public function testIsCompletedIsTrueWhenStatusIsCompleted()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_COMPLETED;
-
-        $this->assertTrue($subscription->isCompleted());
-    }
-
-    public function testIsCompletedIsTrueWhenStatusIsNotCompleted ()
-    {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
-        $subscription->status = SubscriptionStatus::STATUS_PENDING;
-
-        $this->assertFalse($subscription->isCompleted());
+            [SubscriptionStatus::STATUS_ACTIVE, "isPending", false],
+            [SubscriptionStatus::STATUS_ACTIVE, "isCanceled", false],
+            [SubscriptionStatus::STATUS_ACTIVE, "isCompleted", false],
+            [SubscriptionStatus::STATUS_ACTIVE, "isSuspended", false],
+            [SubscriptionStatus::STATUS_ACTIVE, "isActive", true],
+        ];
     }
 
 }

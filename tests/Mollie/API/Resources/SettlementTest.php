@@ -8,67 +8,43 @@ use Mollie\Api\Types\SettlementStatus;
 
 class SettlementTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsOpenReturnsTrueWhenStatusIsOpen()
+    /**
+     * @param string $status
+     * @param string $function
+     * @param boolean $expected_boolean
+     *
+     * @dataProvider dpTestSettlementStatusses
+     */
+    public function testSettlementStatusses($status, $function, $expected_boolean)
     {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
+        $refund = new Settlement($this->createMock(MollieApiClient::class));
+        $refund->status = $status;
 
-        $settlement->status = SettlementStatus::STATUS_OPEN;
-        $this->assertTrue($settlement->isOpen());
+        $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function testIsOpenReturnsFalseWhenStatusIsNotOpen()
+    public function dpTestSettlementStatusses()
     {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
+        return [
+            [SettlementStatus::STATUS_PENDING, "isPending", true],
+            [SettlementStatus::STATUS_PENDING, "isOpen", false],
+            [SettlementStatus::STATUS_PENDING, "isPaidout", false],
+            [SettlementStatus::STATUS_PENDING, "isFailed", false],
 
-        $settlement->status = SettlementStatus::STATUS_PENDING;
-        $this->assertFalse($settlement->isOpen());
-    }
+            [SettlementStatus::STATUS_OPEN, "isPending", false],
+            [SettlementStatus::STATUS_OPEN, "isOpen", true],
+            [SettlementStatus::STATUS_OPEN, "isPaidout", false],
+            [SettlementStatus::STATUS_OPEN, "isFailed", false],
 
-    public function testIsPendingReturnsTrueWhenStatusIsPending()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
+            [SettlementStatus::STATUS_PAIDOUT, "isPending", false],
+            [SettlementStatus::STATUS_PAIDOUT, "isOpen", false],
+            [SettlementStatus::STATUS_PAIDOUT, "isPaidout", true],
+            [SettlementStatus::STATUS_PAIDOUT, "isFailed", false],
 
-        $settlement->status = SettlementStatus::STATUS_PENDING;
-        $this->assertTrue($settlement->isPending());
-    }
-
-    public function testIsPendingReturnsFalseWhenStatusIsNotPending()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
-
-        $settlement->status = SettlementStatus::STATUS_OPEN;
-        $this->assertFalse($settlement->isPending());
-    }
-
-    public function testIsPaidoutReturnsTrueWhenStatusIsPaidout()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
-
-        $settlement->status = SettlementStatus::STATUS_PAIDOUT;
-        $this->assertTrue($settlement->isPaidout());
-    }
-
-    public function testIsPaidoutReturnsFalseWhenStatusIsNotPaidout()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
-
-        $settlement->status = SettlementStatus::STATUS_OPEN;
-        $this->assertFalse($settlement->isPaidout());
-    }
-
-    public function testIsFailedReturnsTrueWhenStatusIsFailed()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
-
-        $settlement->status = SettlementStatus::STATUS_FAILED;
-        $this->assertTrue($settlement->isFailed());
-    }
-
-    public function testIsFailedReturnsFalseWhenStatusIsNotFailed()
-    {
-        $settlement = new Settlement($this->createMock(MollieApiClient::class));
-
-        $settlement->status = SettlementStatus::STATUS_OPEN;
-        $this->assertFalse($settlement->isFailed());
+            [SettlementStatus::STATUS_FAILED, "isPending", false],
+            [SettlementStatus::STATUS_FAILED, "isOpen", false],
+            [SettlementStatus::STATUS_FAILED, "isPaidout", false],
+            [SettlementStatus::STATUS_FAILED, "isFailed", true],
+        ];
     }
 }
