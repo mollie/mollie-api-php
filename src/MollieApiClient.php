@@ -11,6 +11,7 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -100,6 +101,11 @@ class MollieApiClient
     public $mandates;
 
     /**
+     * @var ProfileEndpoint
+     */
+    public $profiles;
+
+    /**
      * @var string
      */
     protected $apiKey;
@@ -149,6 +155,7 @@ class MollieApiClient
         $this->subscriptions = new SubscriptionEndpoint($this);
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
+        $this->profiles = new ProfileEndpoint($this);
     }
 
     /**
