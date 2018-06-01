@@ -14,15 +14,15 @@ class InvoiceTest extends TestCase
      * @param string $function
      * @param boolean $expected_boolean
      *
-     * @dataProvider dpTestInvoiceStatusses
+     * @dataProvider dpTestInvoiceStatuses
      */
-    public function testInvoiceStatusses($status, $function, $expected_boolean)
+    public function testInvoiceStatuses($status, $function, $expected_boolean)
     {
         $refund = new Invoice($this->createMock(MollieApiClient::class));
         $refund->status = $status;
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
-    public function dpTestInvoiceStatusses()
+    public function dpTestInvoiceStatuses()
     {
         return [
             [InvoiceStatus::STATUS_PAID, "isPaid", true],
