@@ -21,9 +21,9 @@ try {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($line->period) . '</td>';
             echo '<td>' . htmlspecialchars($line->description) . '</td>';
-            echo '<td align="right">' . htmlspecialchars($line->count) . ' x</td>';
-            echo '<td align="right">' . htmlspecialchars($line->vatPercentage) . ' x</td>';
-            echo '<td align="right">' . htmlspecialchars($line->amount->value . " " . $line->amount->currency) . ' x</td>';
+            echo '<td align="right">' . htmlspecialchars($line->count) . '</td>';
+            echo '<td align="right">' . htmlspecialchars($line->vatPercentage) . '</td>';
+            echo '<td align="right">' . htmlspecialchars($line->amount->currency . " " . $line->amount->value) . '</td>';
             echo '</tr>';
         }
         echo '<tr><th colspan="5" align="right">Gross Total</th><th align="right">' . htmlspecialchars($invoice->grossAmount->value . " " . $invoice->grossAmount->currency) . '</th></tr>';

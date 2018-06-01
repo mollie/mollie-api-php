@@ -210,7 +210,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $invoices->_links->self);
 
         $this->assertEmpty($invoices->_links->previous);
-        $this->assertEmpty($invoices->_links->previous);
+        $this->assertEmpty($invoices->_links->next);
 
         foreach($invoices as $invoice) {
             $this->assertInstanceOf(Invoice::class, $invoice);
