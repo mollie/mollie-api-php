@@ -46,6 +46,13 @@ class Invoice extends BaseResource
     public $paidAt;
 
     /**
+     * Date the invoice is due, e.g. 2018-01-01
+     *
+     * @var string|null
+     */
+    public $dueAt;
+
+    /**
      * Amount object containing the total amount of the invoice excluding VAT.
      *
      * @var object
