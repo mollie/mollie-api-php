@@ -12,6 +12,7 @@ use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -101,6 +102,11 @@ class MollieApiClient
     public $mandates;
 
     /**
+     * @var ProfileEndpoint
+     */
+    public $profiles;
+
+    /**
      * RESTful Invoice resource.
      *
      * @var InvoiceEndpoint
@@ -158,6 +164,7 @@ class MollieApiClient
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
         $this->invoices = new InvoiceEndpoint($this);
+        $this->profiles = new ProfileEndpoint($this);
     }
 
     /**

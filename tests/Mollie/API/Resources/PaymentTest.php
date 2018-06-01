@@ -10,80 +10,59 @@ use stdClass;
 
 class PaymentTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsCancelableReturnsTrueWhenStatusIsCanceled()
+    /**
+     * @param string $status
+     * @param string $function
+     * @param boolean $expected_boolean
+     *
+     * @dataProvider dpTestPaymentStatuses
+     */
+    public function testPaymentStatuses($status, $function, $expected_boolean)
     {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
+        $refund = new Payment($this->createMock(MollieApiClient::class));
+        $refund->status = $status;
 
-        $payment->status = PaymentStatus::STATUS_CANCELED;
-        $this->assertTrue($payment->isCanceled());
+        $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function testIsCancelableReturnsFalseWhenStatusIsNotCanceled()
+    public function dpTestPaymentStatuses()
     {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
+        return [
+            [PaymentStatus::STATUS_PENDING, "isPending", true],
+            [PaymentStatus::STATUS_PENDING, "isFailed", false],
+            [PaymentStatus::STATUS_PENDING, "isOpen", false],
+            [PaymentStatus::STATUS_PENDING, "isCanceled", false],
+            [PaymentStatus::STATUS_PENDING, "isPaid", false],
+            [PaymentStatus::STATUS_PENDING, "isExpired", false],
 
-        $payment->status = null;
-        $this->assertFalse($payment->isCanceled());
+            [PaymentStatus::STATUS_FAILED, "isPending", false],
+            [PaymentStatus::STATUS_FAILED, "isFailed", true],
+            [PaymentStatus::STATUS_FAILED, "isOpen", false],
+            [PaymentStatus::STATUS_FAILED, "isCanceled", false],
+            [PaymentStatus::STATUS_FAILED, "isPaid", false],
+            [PaymentStatus::STATUS_FAILED, "isExpired", false],
 
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isCanceled());
-    }
+            [PaymentStatus::STATUS_OPEN, "isPending", false],
+            [PaymentStatus::STATUS_OPEN, "isFailed", false],
+            [PaymentStatus::STATUS_OPEN, "isOpen", true],
+            [PaymentStatus::STATUS_OPEN, "isCanceled", false],
+            [PaymentStatus::STATUS_OPEN, "isPaid", false],
+            [PaymentStatus::STATUS_OPEN, "isExpired", false],
 
-    public function testIsExpiredReturnsTrueWhenStatusIsExpired()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
+            [PaymentStatus::STATUS_CANCELED, "isPending", false],
+            [PaymentStatus::STATUS_CANCELED, "isFailed", false],
+            [PaymentStatus::STATUS_CANCELED, "isOpen", false],
+            [PaymentStatus::STATUS_CANCELED, "isCanceled", true],
+            [PaymentStatus::STATUS_CANCELED, "isPaid", false],
+            [PaymentStatus::STATUS_CANCELED, "isExpired", false],
 
-        $payment->status = PaymentStatus::STATUS_EXPIRED;
-        $this->assertTrue($payment->isExpired());
-    }
-
-    public function testIsExpiredReturnsFalseWhenStatusIsNotExpired()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = null;
-        $this->assertFalse($payment->isExpired());
-
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isExpired());
-    }
-
-    public function testIsOpenReturnsTrueWhenStatusIsOpen()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = PaymentStatus::STATUS_OPEN;
-        $this->assertTrue($payment->isOpen());
-    }
-
-    public function testIsOpenReturnsFalseWhenStatusIsNotOpen()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = null;
-        $this->assertFalse($payment->isOpen());
-
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isOpen());
-    }
-
-    public function testIsPendingReturnsTrueWhenStatusIsPending()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = PaymentStatus::STATUS_PENDING;
-        $this->assertTrue($payment->isPending());
-    }
-
-    public function testIsPendingReturnsFalseWhenStatusIsNotPending()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = null;
-        $this->assertFalse($payment->isPending());
-
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isPending());
+            [PaymentStatus::STATUS_EXPIRED, "isPending", false],
+            [PaymentStatus::STATUS_EXPIRED, "isFailed", false],
+            [PaymentStatus::STATUS_EXPIRED, "isOpen", false],
+            [PaymentStatus::STATUS_EXPIRED, "isCanceled", false],
+            [PaymentStatus::STATUS_EXPIRED, "isPaid", false],
+            [PaymentStatus::STATUS_EXPIRED, "isExpired", true],
+        ];
     }
 
     public function testIsPaidReturnsTrueWhenPaidDatetimeIsSet()
@@ -92,25 +71,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
         $payment->paidAt = "2016-10-24";
         $this->assertTrue($payment->isPaid());
-    }
-
-    public function testIsPaidReturnsFalseWhenStatusIsPaid()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = PaymentStatus::STATUS_PAID;
-        $this->assertFalse($payment->isPaid());
-    }
-
-    public function testIsPaidReturnsFalseWhenStatusIsNotPaid()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = null;
-        $this->assertFalse($payment->isPaid());
-
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertFalse($payment->isPaid());
     }
 
     public function testHasRefundsReturnsTrueWhenPaymentHasRefunds()
@@ -147,25 +107,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
         $payment->_links = new stdClass();
         $this->assertFalse($payment->hasChargebacks());
-    }
-
-    public function testIsFailedReturnsTrueWhenStatusIsFailed()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = PaymentStatus::STATUS_FAILED;
-        $this->assertTrue($payment->isFailed());
-    }
-
-    public function testIsFailedReturnsFalseWhenStatusIsNotFailed()
-    {
-        $payment = new Payment($this->createMock(MollieApiClient::class));
-
-        $payment->status = null;
-        $this->assertFalse($payment->isFailed());
-
-        $payment->status = PaymentStatus::STATUS_OPEN;
-        $this->assertFalse($payment->isFailed());
     }
 
     public function testHasRecurringTypeReturnsTrueWhenRecurringTypeIsFirst()

@@ -8,35 +8,43 @@ use Mollie\Api\Types\RefundStatus;
 
 class RefundTest extends \PHPUnit\Framework\TestCase
 {
-    public function testIsQueuedReturnsTrueWhenStatusIsQueued()
+    /**
+     * @param string $status
+     * @param string $function
+     * @param boolean $expected_boolean
+     *
+     * @dataProvider dpTestRefundStatuses
+     */
+    public function testRefundStatuses($status, $function, $expected_boolean)
     {
         $refund = new Refund($this->createMock(MollieApiClient::class));
+        $refund->status = $status;
 
-        $refund->status = RefundStatus::STATUS_QUEUED;
-        $this->assertTrue($refund->isQueued());
+        $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function testIsPendingReturnsTrueWhenStatusIsPending()
+    public function dpTestRefundStatuses()
     {
-        $refund = new Refund($this->createMock(MollieApiClient::class));
+        return [
+            [RefundStatus::STATUS_PENDING, "isPending", true],
+            [RefundStatus::STATUS_PENDING, "isProcessing", false],
+            [RefundStatus::STATUS_PENDING, "isQueued", false],
+            [RefundStatus::STATUS_PENDING, "isTransferred", false],
 
-        $refund->status = RefundStatus::STATUS_PENDING;
-        $this->assertTrue($refund->isPending());
-    }
+            [RefundStatus::STATUS_PROCESSING, "isPending", false],
+            [RefundStatus::STATUS_PROCESSING, "isProcessing", true],
+            [RefundStatus::STATUS_PROCESSING, "isQueued", false],
+            [RefundStatus::STATUS_PROCESSING, "isTransferred", false],
 
-    public function testIsProcessingReturnsTrueWhenStatusIsProcessing()
-    {
-        $refund = new Refund($this->createMock(MollieApiClient::class));
+            [RefundStatus::STATUS_QUEUED, "isPending", false],
+            [RefundStatus::STATUS_QUEUED, "isProcessing", false],
+            [RefundStatus::STATUS_QUEUED, "isQueued", true],
+            [RefundStatus::STATUS_QUEUED, "isTransferred", false],
 
-        $refund->status = RefundStatus::STATUS_PROCESSING;
-        $this->assertTrue($refund->isProcessing());
-    }
-
-    public function testIsTransferredReturnsTrueWhenStatusIsRefunded()
-    {
-        $refund = new Refund($this->createMock(MollieApiClient::class));
-
-        $refund->status = RefundStatus::STATUS_REFUNDED;
-        $this->assertTrue($refund->isTransferred());
+            [RefundStatus::STATUS_REFUNDED, "isPending", false],
+            [RefundStatus::STATUS_REFUNDED, "isProcessing", false],
+            [RefundStatus::STATUS_REFUNDED, "isQueued", false],
+            [RefundStatus::STATUS_REFUNDED, "isTransferred", true],
+        ];
     }
 }
