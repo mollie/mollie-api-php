@@ -15,9 +15,9 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
      * @param string $function
      * @param boolean $expected_boolean
      *
-     * @dataProvider dpTestPaymentStatusses
+     * @dataProvider dpTestPaymentStatuses
      */
-    public function testPaymentStatusses($status, $function, $expected_boolean)
+    public function testPaymentStatuses($status, $function, $expected_boolean)
     {
         $refund = new Payment($this->createMock(MollieApiClient::class));
         $refund->status = $status;
@@ -25,7 +25,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function dpTestPaymentStatusses()
+    public function dpTestPaymentStatuses()
     {
         return [
             [PaymentStatus::STATUS_PENDING, "isPending", true],

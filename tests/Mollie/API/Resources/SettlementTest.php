@@ -13,9 +13,9 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
      * @param string $function
      * @param boolean $expected_boolean
      *
-     * @dataProvider dpTestSettlementStatusses
+     * @dataProvider dpTestSettlementStatuses
      */
-    public function testSettlementStatusses($status, $function, $expected_boolean)
+    public function testSettlementStatuses($status, $function, $expected_boolean)
     {
         $refund = new Settlement($this->createMock(MollieApiClient::class));
         $refund->status = $status;
@@ -23,7 +23,7 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function dpTestSettlementStatusses()
+    public function dpTestSettlementStatuses()
     {
         return [
             [SettlementStatus::STATUS_PENDING, "isPending", true],

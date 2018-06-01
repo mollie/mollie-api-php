@@ -13,9 +13,9 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      * @param string $function
      * @param boolean $expected_boolean
      *
-     * @dataProvider dpTestRefundStatusses
+     * @dataProvider dpTestRefundStatuses
      */
-    public function testRefundStatusses($status, $function, $expected_boolean)
+    public function testRefundStatuses($status, $function, $expected_boolean)
     {
         $refund = new Refund($this->createMock(MollieApiClient::class));
         $refund->status = $status;
@@ -23,7 +23,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function dpTestRefundStatusses()
+    public function dpTestRefundStatuses()
     {
         return [
             [RefundStatus::STATUS_PENDING, "isPending", true],

@@ -13,9 +13,9 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
      * @param string $function
      * @param boolean $expected_boolean
      *
-     * @dataProvider dpTestSubscriptionStatusses
+     * @dataProvider dpTestSubscriptionStatuses
      */
-    public function testSubscriptionStatusses($status, $function, $expected_boolean)
+    public function testSubscriptionStatuses($status, $function, $expected_boolean)
     {
         $refund = new Subscription($this->createMock(MollieApiClient::class));
         $refund->status = $status;
@@ -23,7 +23,7 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
-    public function dpTestSubscriptionStatusses()
+    public function dpTestSubscriptionStatuses()
     {
         return [
             [SubscriptionStatus::STATUS_PENDING, "isPending", true],
