@@ -160,7 +160,7 @@ class Settlement extends BaseResource
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
 
         $resourceCollection = new ChargebackCollection($this->client, $result->count, $result->_links);
-        foreach ($result->_embedded->refunds as $dataResult) {
+        foreach ($result->_embedded->chargebacks as $dataResult) {
             $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
         }
 
