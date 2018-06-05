@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\MandateStatus;
 
 class Mandate extends BaseResource
@@ -80,6 +81,22 @@ class Mandate extends BaseResource
     public function isInvalid()
     {
         return $this->status === MandateStatus::STATUS_INVALID;
+    }
+
+    /**
+     * Revoke the mandate
+     *
+     * @return object|null
+     */
+    public function revoke()
+    {
+        if (!isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_DELETE, $this->_links->self->href);
+
+        return $result;
     }
 
 }

@@ -45,6 +45,11 @@ class MollieApiClient
     const HTTP_DELETE = "DELETE";
 
     /**
+     * HTTP status codes
+     */
+    const HTTP_NO_CONTENT = 204;
+
+    /**
      * @var ClientInterface
      */
     protected $httpClient;
@@ -264,7 +269,7 @@ class MollieApiClient
      * @param string $url
      * @param string|null|resource|StreamInterface $httpBody
      *
-     * @return object
+     * @return object|null
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -310,13 +315,18 @@ class MollieApiClient
      * Parse the PSR-7 Response body
      *
      * @param ResponseInterface $response
-     * @return object
+     * @return object|null
      * @throws ApiException
      */
     private function parseResponseBody(ResponseInterface $response)
     {
         $body = $response->getBody()->getContents();
         if (empty($body)) {
+
+            if($response->getStatusCode() === self::HTTP_NO_CONTENT) {
+                return null;
+            }
+
             throw new ApiException("No response body found.");
         }
 
