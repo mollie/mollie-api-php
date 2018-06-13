@@ -86,7 +86,7 @@ class Mandate extends BaseResource
     /**
      * Revoke the mandate
      *
-     * @return object|null
+     * @return null
      */
     public function revoke()
     {

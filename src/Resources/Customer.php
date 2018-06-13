@@ -61,7 +61,7 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return BaseResource
+     * @return Customer
      */
     public function update()
     {
@@ -85,7 +85,7 @@ class Customer extends BaseResource
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Payment
      */
     public function createPayment(array $options = [], array $filters = [])
     {
@@ -94,6 +94,8 @@ class Customer extends BaseResource
 
     /**
      * Get all payments for this customer
+     *
+     * @return PaymentCollection
      */
     public function payments()
     {
@@ -104,7 +106,7 @@ class Customer extends BaseResource
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Subscription
      */
     public function createSubscription(array $options = [], array $filters = [])
     {
@@ -115,7 +117,7 @@ class Customer extends BaseResource
      * @param string $subscriptionId
      * @param array $parameters
      *
-     * @return object
+     * @return Subscription
      */
     public function getSubscription($subscriptionId, array $parameters = [])
     {
@@ -125,7 +127,7 @@ class Customer extends BaseResource
     /**
      * @param string $subscriptionId
      *
-     * @return object
+     * @return null
      */
     public function cancelSubscription($subscriptionId)
     {
@@ -134,6 +136,8 @@ class Customer extends BaseResource
 
     /**
      * Get all subscriptions for this customer
+     *
+     * @return SubscriptionCollection
      */
     public function subscriptions()
     {
@@ -144,7 +148,7 @@ class Customer extends BaseResource
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Mandate
      */
     public function createMandate(array $options = [], array $filters = [])
     {
@@ -155,7 +159,7 @@ class Customer extends BaseResource
      * @param string $mandateId
      * @param array $parameters
      *
-     * @return object
+     * @return Mandate
      */
     public function getMandate($mandateId, array $parameters = [])
     {
@@ -165,7 +169,7 @@ class Customer extends BaseResource
     /**
      * @param string $mandateId
      *
-     * @return object
+     * @return null
      */
     public function revokeMandate($mandateId)
     {
@@ -174,6 +178,8 @@ class Customer extends BaseResource
 
     /**
      * Get all mandates for this customer
+     *
+     * @return MandateCollection
      */
     public function mandates()
     {

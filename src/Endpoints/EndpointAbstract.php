@@ -55,18 +55,23 @@ abstract class EndpointAbstract
     }
 
     /**
-     * @param string $restResource
      * @param string|null|resource|StreamInterface $body
      * @param array $filters
-     * @return object
+     * @return BaseResource
      * @throws ApiException
      */
-    private function rest_create($restResource, $body, array $filters)
+    protected function rest_create($body, array $filters)
     {
+        $encoded = json_encode($body);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ApiException("Error encoding parameters into JSON: '" . json_last_error() . "'.");
+        }
+
         $result = $this->api->performHttpCall(
             self::REST_CREATE,
-            $restResource . $this->buildQueryString($filters),
-            $body
+            $this->getResourcePath() . $this->buildQueryString($filters),
+            $encoded
         );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
@@ -75,13 +80,12 @@ abstract class EndpointAbstract
     /**
      * Retrieves a single object from the REST API.
      *
-     * @param string $restResource Resource name.
      * @param string $id Id of the object to retrieve.
      * @param array $filters
-     * @return object
+     * @return BaseResource
      * @throws ApiException
      */
-    private function rest_read($restResource, $id, array $filters)
+    protected function rest_read($id, array $filters)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -90,7 +94,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_READ,
-            "{$restResource}/{$id}" . $this->buildQueryString($filters)
+            "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filters)
         );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
@@ -99,13 +103,12 @@ abstract class EndpointAbstract
     /**
      * Sends a DELETE request to a single Molle API object.
      *
-     * @param string $restResource
      * @param string $id
      *
-     * @return object
+     * @return BaseResource
      * @throws ApiException
      */
-    private function rest_delete($restResource, $id)
+    protected function rest_delete($id)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -114,7 +117,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_DELETE,
-            "{$restResource}/{$id}"
+            "{$this->getResourcePath()}/{$id}"
         );
 
         if ($result === null) {
@@ -127,14 +130,13 @@ abstract class EndpointAbstract
     /**
      * Sends a POST request to a single Molle API object to update it.
      *
-     * @param string $restResource
      * @param string $id
      * @param string|null|resource|StreamInterface $body
      *
-     * @return object
+     * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_update($restResource, $id, $body)
+    protected function rest_update($id, $body)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -143,7 +145,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_UPDATE,
-            "{$restResource}/{$id}",
+            "{$this->getResourcePath()}/{$id}",
             $body
         );
 
@@ -153,7 +155,6 @@ abstract class EndpointAbstract
     /**
      * Get a collection of objects from the REST API.
      *
-     * @param $restResource
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $filters
@@ -161,11 +162,11 @@ abstract class EndpointAbstract
      * @return BaseCollection
      * @throws ApiException
      */
-    private function rest_list($restResource, $from = null, $limit = null, array $filters)
+    protected function rest_list($from = null, $limit = null, array $filters)
     {
         $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
-        $apiPath = $restResource . $this->buildQueryString($filters);
+        $apiPath = $this->getResourcePath() . $this->buildQueryString($filters);
 
         $result = $this->api->performHttpCall(self::REST_LIST, $apiPath);
 
@@ -177,23 +178,6 @@ abstract class EndpointAbstract
         }
 
         return $collection;
-    }
-
-    /**
-     * Copy the results received from the API into the PHP objects that we use.
-     *
-     * @param object $apiResult
-     * @param object $object
-     *
-     * @return object
-     */
-    protected function copy($apiResult, $object)
-    {
-        foreach ($apiResult as $property => $value) {
-            $object->$property = $value;
-        }
-
-        return $object;
     }
 
     /**
@@ -212,72 +196,6 @@ abstract class EndpointAbstract
      * @return BaseCollection
      */
     abstract protected function getResourceCollectionObject($count, $_links);
-
-    /**
-     * Create a resource with the remote API.
-     *
-     * @param array $data An array containing details on the resource. Fields supported depend on the resource created.
-     * @param array $filters
-     *
-     * @return object
-     * @throws ApiException
-     */
-    public function create(array $data = [], array $filters = [])
-    {
-        $encoded = json_encode($data);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Error encoding parameters into JSON: '" . json_last_error() . "'.");
-        }
-
-        return $this->rest_create($this->getResourcePath(), $encoded, $filters);
-    }
-
-    /**
-     * Retrieve information on a single resource from Mollie.
-     *
-     * Will throw a ApiException if the resource cannot be found.
-     *
-     * @param string $resourceId
-     * @param array $parameters
-     *
-     * @return object
-     * @throws ApiException
-     */
-    public function get($resourceId, array $parameters = [])
-    {
-        return $this->rest_read($this->getResourcePath(), $resourceId, $parameters);
-    }
-
-    /**
-     * Delete a single resource from Mollie.
-     *
-     * Will throw a ApiException if the resource cannot be found.
-     *
-     * @param string $resourceId
-     *
-     * @return object
-     * @throws ApiException
-     */
-    public function delete($resourceId)
-    {
-        return $this->rest_delete($this->getResourcePath(), $resourceId);
-    }
-
-    /**
-     * Retrieve all objects of a certain resource.
-     *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     *
-     * @return BaseCollection
-     * @throws ApiException
-     */
-    public function page($from = null, $limit = null, array $parameters = [])
-    {
-        return $this->rest_list($this->getResourcePath(), $from, $limit, $parameters);
-    }
 
     /**
      * @param string $resourcePath

@@ -15,7 +15,7 @@ class SubscriptionEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return BaseResource
+     * @return Subscription
      */
     protected function getResourceObject()
     {
@@ -28,7 +28,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      * @param int $count
      * @param object[] $_links
      *
-     * @return BaseCollection
+     * @return SubscriptionCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -42,13 +42,13 @@ class SubscriptionEndpoint extends EndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Subscription
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::create($options, $filters);
+        return parent::rest_create($options, $filters);
     }
 
     /**
@@ -56,13 +56,13 @@ class SubscriptionEndpoint extends EndpointAbstract
      * @param string $subscriptionId
      * @param array $parameters
      *
-     * @return object
+     * @return Subscription
      */
     public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::get($subscriptionId, $parameters);
+        return parent::rest_read($subscriptionId, $parameters);
     }
 
     /**
@@ -71,25 +71,25 @@ class SubscriptionEndpoint extends EndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection
+     * @return SubscriptionCollection
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::page($from, $limit, $parameters);
+        return parent::rest_list($from, $limit, $parameters);
     }
 
     /**
      * @param Customer $customer
      * @param string $subscriptionId
      *
-     * @return object
+     * @return null
      */
     public function cancelFor(Customer $customer, $subscriptionId)
     {
         $this->parentId = $customer->id;
 
-        return parent::delete($subscriptionId);
+        return parent::rest_delete($subscriptionId);
     }
 }

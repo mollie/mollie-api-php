@@ -14,7 +14,7 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @return Payment
      */
     protected function getResourceObject()
     {
@@ -27,7 +27,7 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
      * @param int $count
      * @param object[] $_links
      *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @return PaymentCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -41,13 +41,13 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Payment
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::create($options, $filters);
+        return parent::rest_create($options, $filters);
     }
 
     /**
@@ -56,12 +56,12 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection
+     * @return PaymentCollection
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::page($from, $limit, $parameters);
+        return parent::rest_list($from, $limit, $parameters);
     }
 }

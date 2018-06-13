@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 
@@ -33,14 +34,45 @@ class InvoiceEndpoint extends EndpointAbstract
     }
 
     /**
-     * @param null $from
-     * @param null $limit
+     * Retrieve an Invoice from Mollie.
+     *
+     * Will throw a ApiException if the invoice id is invalid or the resource cannot be found.
+     *
+     * @param string $invoiceId
+     * @param array $parameters
+     *
+     * @return Invoice
+     * @throws ApiException
+     */
+    public function get($invoiceId, array $parameters = [])
+    {
+        return $this->rest_read($invoiceId, $parameters);
+    }
+
+    /**
+     * Retrieves a collection of Invoices from Mollie.
+     *
+     * @param string $from The first invoice ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     *
+     * @return InvoiceCollection
+     * @throws ApiException
+     */
+    public function page($from = null, $limit = null, array $parameters = [])
+    {
+        return $this->rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * This is a wrapper method for page
+     *
      * @param array|null $parameters
      *
      * @return \Mollie\Api\Resources\BaseCollection
      */
-    public function all($from = null, $limit = null, array $parameters = [])
+    public function all(array $parameters = [])
     {
-        return $this->page($from, $limit, $parameters);
+        return $this->page( null, null, $parameters);
     }
 }
