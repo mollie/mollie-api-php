@@ -62,7 +62,7 @@ abstract class EndpointAbstract
      */
     protected function rest_create($body, array $filters)
     {
-        $encoded = json_encode($body);
+        $encoded = \GuzzleHttp\json_encode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ApiException("Error encoding parameters into JSON: '" . json_last_error() . "'.");
