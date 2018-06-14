@@ -14,7 +14,7 @@ class MandateEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @return Mandate
      */
     protected function getResourceObject()
     {
@@ -27,7 +27,7 @@ class MandateEndpoint extends EndpointAbstract
      * @param int $count
      * @param object[] $_links
      *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @return MandateCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -39,13 +39,13 @@ class MandateEndpoint extends EndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return object
+     * @return Mandate
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::create($options, $filters);
+        return parent::rest_create($options, $filters);
     }
 
     /**
@@ -53,13 +53,13 @@ class MandateEndpoint extends EndpointAbstract
      * @param string $mandateId
      * @param array $parameters
      *
-     * @return object
+     * @return Mandate
      */
     public function getFor(Customer $customer, $mandateId, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::get($mandateId, $parameters);
+        return parent::rest_read($mandateId, $parameters);
     }
 
     /**
@@ -68,25 +68,25 @@ class MandateEndpoint extends EndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection
+     * @return MandateCollection
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::page($from, $limit, $parameters);
+        return parent::rest_list($from, $limit, $parameters);
     }
 
     /**
      * @param Customer $customer
      * @param string $mandateId
      *
-     * @return object
+     * @return null
      */
     public function revokeFor(Customer $customer, $mandateId)
     {
         $this->parentId = $customer->id;
 
-        return parent::delete($mandateId);
+        return parent::rest_delete($mandateId);
     }
 }

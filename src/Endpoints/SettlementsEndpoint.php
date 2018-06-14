@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 
@@ -30,5 +31,57 @@ class SettlementsEndpoint extends EndpointAbstract
     protected function getResourceCollectionObject($count, $_links)
     {
         return new SettlementCollection($this->api, $count, $_links);
+    }
+
+    /**
+     * Retrieve a single settlement from Mollie.
+     *
+     * Will throw a ApiException if the settlement id is invalid or the resource cannot be found.
+     *
+     * @param string $settlementId
+     * @param array $parameters
+     * @return Settlement
+     * @throws ApiException
+     */
+    public function get($settlementId, array $parameters = [])
+    {
+         return parent::rest_read($settlementId, $parameters);
+    }
+
+    /**
+     * Retrieve the details of the current settlement that has not yet been paid out.
+     *
+     * @return Settlement
+     * @throws ApiException
+     */
+    public function next()
+    {
+        return parent::rest_read("next", []);
+    }
+
+    /**
+     * Retrieve the details of the open balance of the organization.
+     *
+     * @return Settlement
+     * @throws ApiException
+     */
+    public function open()
+    {
+        return parent::rest_read("open", []);
+    }
+
+    /**
+     * Retrieves a collection of Settlements from Mollie.
+     *
+     * @param string $from The first settlement ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     *
+     * @return SettlementCollection
+     * @throws ApiException
+     */
+    public function page($from = null, $limit = null, array $parameters = [])
+    {
+        return $this->rest_list($from, $limit, $parameters);
     }
 }
