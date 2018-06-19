@@ -32,6 +32,26 @@
 class Mollie_API_Object_Settlement
 {
 	/**
+	 * The settlement has not been closed yet.
+	 */
+	const STATUS_OPEN	  = "open";
+
+	/**
+	 * The settlement has been closed and is being processed.
+	 */
+	const STATUS_PENDING   = "pending";
+
+	/**
+	 * The settlement has been paid out.
+	 */
+	const STATUS_PAIDOUT = "paidout";
+
+	/**
+	 * The settlement could not be paid out.
+	 */
+	const STATUS_FAILED   = "failed";
+
+	/**
 	 * Id of the settlement.
 	 *
 	 * @var string
@@ -55,7 +75,17 @@ class Mollie_API_Object_Settlement
 	/**
 	 * @var string
 	 */
+	public $createdDatetime;
+
+	/**
+	 * @var string
+	 */
 	public $settledDatetime;
+
+	/**
+	 * @var string
+	 */
+	public $status;
 
 	/**
 	 * Revenues and costs nested per year, per month, and per payment method.
