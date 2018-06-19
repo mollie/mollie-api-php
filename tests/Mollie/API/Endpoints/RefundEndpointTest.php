@@ -161,7 +161,7 @@ class RefundEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals("re_haCsig5aru", $refund->id);
-        $this->assertEquals("2.0", $refund->amount->value);
+        $this->assertEquals("2.00", $refund->amount->value);
         $this->assertEquals("EUR", $refund->amount->currency);
         $this->assertEquals("pending", $refund->status);
         $this->assertEquals("2018-03-28T10:56:10+00:00", $refund->createdAt);
@@ -247,7 +247,7 @@ class RefundEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals("re_haCsig5aru", $refund->id);
-        $this->assertEquals("2.0", $refund->amount->value);
+        $this->assertEquals("2.00", $refund->amount->value);
         $this->assertEquals("EUR", $refund->amount->currency);
         $this->assertEquals("pending", $refund->status);
         $this->assertEquals("2018-03-28T10:56:10+00:00", $refund->createdAt);
