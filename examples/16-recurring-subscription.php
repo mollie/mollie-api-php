@@ -32,7 +32,7 @@ try
 	/*
 	 * Customer Subscription creation parameters.
 	 *
-	 * See: https://www.mollie.com/nl/docs/reference/subscriptions/create
+	 * See: https://docs.mollie.com/reference/v1/subscriptions-api/create-subscription
 	 */
 	$subscription = $mollie->customers_subscriptions->with($customer)->create(array(
 		"amount"      => 10.00,

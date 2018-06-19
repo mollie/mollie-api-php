@@ -18,7 +18,7 @@ try
     /**
      * Profile fields that can be updated.
      *
-     * @See https://www.mollie.com/en/docs/reference/profiles/update
+     * @See https://docs.mollie.com/reference/v1/profiles-api/update-profile
      */
     $profile->name    = "Mollie B.V.";
     $profile->website = 'www.mollie.com';

@@ -19,7 +19,7 @@ try
 	/*
 	 * Customer Payment creation parameters.
 	 *
-	 * See: https://www.mollie.com/en/docs/reference/customers/create-payment
+	 * See: https://docs.mollie.com/reference/v1/customers-api/create-customer-payment
 	 */
 	$payment = $mollie->customers_payments->with($customer)->create(array(
 		"amount"        => 10.00,

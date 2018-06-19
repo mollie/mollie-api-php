@@ -80,7 +80,7 @@ class Mollie_API_Object_Payment
 	/**
 	 * Recurring types.
 	 *
-	 * @see https://www.mollie.com/en/docs/recurring
+	 * @see https://docs.mollie.com/guides/recurring
 	 */
 	const RECURRINGTYPE_NONE      = NULL;
 	const RECURRINGTYPE_FIRST     = "first";

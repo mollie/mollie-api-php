@@ -90,7 +90,7 @@ class Mollie_API_Object_Settlement
 	/**
 	 * Revenues and costs nested per year, per month, and per payment method.
 	 *
-	 * @see https://www.mollie.com/en/docs/reference/settlements/get#period-object
+	 * @see https://docs.mollie.com/reference/v1/settlements-api/get-settlement#response
 	 * @var object
 	 */
 	public $periods;

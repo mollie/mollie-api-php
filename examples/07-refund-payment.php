@@ -25,7 +25,7 @@ try
 		/*
 		 * Refund € 15,00 of the payment.
 		 *
-		 * https://www.mollie.com/en/docs/reference/refunds/create
+		 * https://docs.mollie.com/reference/v1/refunds-api/create-refund
 		 */
 		$refund = $mollie->payments->refund($payment, 15.00);
 

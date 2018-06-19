@@ -25,7 +25,7 @@ try
 	/*
 	 * Customer Subscription deletion parameters.
 	 *
-	 * See: https://www.mollie.com/nl/docs/reference/subscriptions/delete
+	 * See: https://docs.mollie.com/reference/v1/subscriptions-api/cancel-subscription
 	 */
 	$cancelledSubscription = $mollie->customers_subscriptions->with($customer)->cancel($subscriptionId);
 
