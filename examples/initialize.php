@@ -11,7 +11,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 /*
  * Initialize the Mollie API library with your API key.
  *
- * See: https://www.mollie.com/dashboard/settings/profiles
+ * See: https://www.mollie.com/dashboard/developers/api-keys
  */
 $mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
