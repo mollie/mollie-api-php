@@ -7,7 +7,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key.
      *
-     * See: https://www.mollie.com/dashboard/settings/profiles
+     * See: https://www.mollie.com/dashboard/developers/api-keys
      */
     require "initialize.php";
 
