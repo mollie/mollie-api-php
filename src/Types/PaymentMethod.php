@@ -7,34 +7,34 @@ class PaymentMethod
     /**
      * Bancontact
      *
-     * @link https://www.mollie.com/bancontact
+     * @link https://www.mollie.com/en/payments/bancontact
      */
     const BANCONTACT = "bancontact";
 
     /**
-     * @link https://www.mollie.com/banktransfer
+     * @link https://www.mollie.com/en/payments/bank-transfer
      */
     const BANKTRANSFER = "banktransfer";
 
     /**
-     * @link https://www.mollie.com/belfiusdirectnet
+     * @link https://www.mollie.com/en/payments/belfius
      */
     const BELFIUS = "belfius";
 
     /**
-     * @link https://www.mollie.com/bitcoin
+     * @link https://www.mollie.com/en/payments/bitcoin
      */
     const BITCOIN = "bitcoin";
 
     /**
      * Credit card (includes Mastercard, Maestro, Visa and American Express).
      *
-     * @link https://www.mollie.com/creditcard
+     * @link https://www.mollie.com/en/payments/credit-card
      */
     const CREDITCARD = "creditcard";
 
     /**
-     * @link https://www.mollie.com/directdebit
+     * @link https://www.mollie.com/en/payments/direct-debit
      */
     const DIRECTDEBIT = "directdebit";
 
@@ -44,7 +44,7 @@ class PaymentMethod
     const EPS = "eps";
 
     /**
-     * @link https://www.mollie.com/gift-cards
+     * @link https://www.mollie.com/en/payments/gift-cards
      */
     const GIFTCARD = "giftcard";
 
@@ -54,38 +54,38 @@ class PaymentMethod
     const GIROPAY = "giropay";
 
     /**
-     * @link https://www.mollie.com/ideal
+     * @link https://www.mollie.com/en/payments/ideal
      */
     const IDEAL = "ideal";
 
     /**
-     * @link https://www.mollie.com/ing-homepay
+     * @link https://www.mollie.com/en/payments/ing-homepay
      */
     const INGHOMEPAY = "inghomepay";
 
     /**
-     * @link https://www.mollie.com/kbccbc
+     * @link https://www.mollie.com/en/payments/kbc-cbc
      */
     const KBC = "kbc";
 
     /**
-     * @link https://www.mollie.com/paypal
+     * @link https://www.mollie.com/en/payments/paypal
      */
     const PAYPAL = "paypal";
 
     /**
-     * @link https://www.mollie.com/paysafecard
+     * @link https://www.mollie.com/en/payments/paysafecard
      */
     const PAYSAFECARD = "paysafecard";
 
     /**
      * @deprecated
-     * @link https://www.mollie.com/gift-cards
+     * @link https://www.mollie.com/en/payments/gift-cards
      */
     const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
     /**
-     * @link https://www.mollie.com/sofort
+     * @link https://www.mollie.com/en/payments/sofort
      */
     const SOFORT = "sofort";
 }
