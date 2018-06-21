@@ -35,7 +35,7 @@ class PaymentMethod
     const DIRECTDEBIT = "directdebit";
 
     /**
-     * TODO: Add link?
+     * @link https://www.mollie.com/en/payments/eps
      */
     const EPS = "eps";
 
@@ -45,7 +45,7 @@ class PaymentMethod
     const GIFTCARD = "giftcard";
 
     /**
-     * TODO: Add link?
+     * @link https://www.mollie.com/en/payments/giropay
      */
     const GIROPAY = "giropay";
 
