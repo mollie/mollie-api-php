@@ -44,7 +44,7 @@ class PaymentMethod
     const EPS = "eps";
 
     /**
-     * Gift cards
+     * @link https://www.mollie.com/gift-cards
      */
     const GIFTCARD = "giftcard";
 
@@ -80,7 +80,7 @@ class PaymentMethod
 
     /**
      * @deprecated
-     * @link https://www.mollie.com/giftcards
+     * @link https://www.mollie.com/gift-cards
      */
     const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
