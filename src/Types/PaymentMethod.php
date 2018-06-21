@@ -5,14 +5,26 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
-     * @link https://www.mollie.com/ideal
+     * Bancontact
+     *
+     * @link https://www.mollie.com/bancontact
      */
-    const IDEAL = "ideal";
+    const BANCONTACT = "bancontact";
 
     /**
-     * @link https://www.mollie.com/paysafecard
+     * @link https://www.mollie.com/banktransfer
      */
-    const PAYSAFECARD = "paysafecard";
+    const BANKTRANSFER = "banktransfer";
+
+    /**
+     * @link https://www.mollie.com/belfiusdirectnet
+     */
+    const BELFIUS = "belfius";
+
+    /**
+     * @link https://www.mollie.com/bitcoin
+     */
+    const BITCOIN = "bitcoin";
 
     /**
      * Credit card (includes Mastercard, Maestro, Visa and American Express).
@@ -22,26 +34,39 @@ class PaymentMethod
     const CREDITCARD = "creditcard";
 
     /**
-     * Bancontact
-     *
-     * @link https://www.mollie.com/bancontact
-     */
-    const BANCONTACT = "bancontact";
-
-    /**
-     * @link https://www.mollie.com/sofort
-     */
-    const SOFORT = "sofort";
-
-    /**
-     * @link https://www.mollie.com/banktransfer
-     */
-    const BANKTRANSFER = "banktransfer";
-
-    /**
      * @link https://www.mollie.com/directdebit
      */
     const DIRECTDEBIT = "directdebit";
+
+    /**
+     * TODO: Add link?
+     */
+    const EPS = "eps";
+
+    /**
+     * Gift cards
+     */
+    const GIFTCARD = "giftcard";
+
+    /**
+     * TODO: Add link?
+     */
+    const GIROPAY = "giropay";
+
+    /**
+     * @link https://www.mollie.com/ideal
+     */
+    const IDEAL = "ideal";
+
+    /**
+     * @link https://www.mollie.com/ing-homepay
+     */
+    const INGHOMEPAY = "inghomepay";
+
+    /**
+     * @link https://www.mollie.com/kbccbc
+     */
+    const KBC = "kbc";
 
     /**
      * @link https://www.mollie.com/paypal
@@ -49,14 +74,9 @@ class PaymentMethod
     const PAYPAL = "paypal";
 
     /**
-     * @link https://www.mollie.com/bitcoin
+     * @link https://www.mollie.com/paysafecard
      */
-    const BITCOIN = "bitcoin";
-
-    /**
-     * @link https://www.mollie.com/belfiusdirectnet
-     */
-    const BELFIUS = "belfius";
+    const PAYSAFECARD = "paysafecard";
 
     /**
      * @deprecated
@@ -65,17 +85,7 @@ class PaymentMethod
     const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
     /**
-     * @link https://www.mollie.com/nl/kbccbc
+     * @link https://www.mollie.com/sofort
      */
-    const KBC = "kbc";
-
-    /**
-     * @link https://www.mollie.com/nl/payments/ing-homepay
-     */
-    const INGHOMEPAY = "inghomepay";
-
-    /**
-     * Gift cards
-     */
-    const GIFTCARD = "giftcard";
+    const SOFORT = "sofort";
 }
