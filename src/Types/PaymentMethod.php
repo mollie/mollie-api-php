@@ -5,8 +5,6 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
-     * Bancontact
-     *
      * @link https://www.mollie.com/en/payments/bancontact
      */
     const BANCONTACT = "bancontact";
@@ -27,8 +25,6 @@ class PaymentMethod
     const BITCOIN = "bitcoin";
 
     /**
-     * Credit card (includes Mastercard, Maestro, Visa and American Express).
-     *
      * @link https://www.mollie.com/en/payments/credit-card
      */
     const CREDITCARD = "creditcard";
