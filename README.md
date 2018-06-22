@@ -2,7 +2,7 @@
 
 # Mollie API client for PHP #
 
-Accepting [iDEAL](https://www.mollie.com/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/mistercash/), [SOFORT Banking](https://www.mollie.com/sofort/), [Creditcard](https://www.mollie.com/creditcard/), [SEPA Bank transfer](https://www.mollie.com/banktransfer), [SEPA Direct debit](https://www.mollie.com/directdebit/), [Bitcoin](https://www.mollie.com/bitcoin/), [PayPal](https://www.mollie.com/paypal/), [Belfius Direct Net](https://www.mollie.com/belfiusdirectnet/), [KBC/CBC](https://www.mollie.com/kbccbc/) and [paysafecard](https://www.mollie.com/paysafecard/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
+Accepting [iDEAL](https://www.mollie.com/en/payments/ideal/), [Bancontact/Mister Cash](https://www.mollie.com/en/payments/bancontact/), [SOFORT Banking](https://www.mollie.com/en/payments/sofort/), [Creditcard](https://www.mollie.com/en/payments/credit-card/), [SEPA Bank transfer](https://www.mollie.com/en/payments/bank-transfer/), [SEPA Direct debit](https://www.mollie.com/en/payments/direct-debit/), [Bitcoin](https://www.mollie.com/en/payments/bitcoin/), [PayPal](https://www.mollie.com/en/payments/paypal/), [Belfius Direct Net](https://www.mollie.com/en/payments/belfius/), [KBC/CBC](https://www.mollie.com/en/payments/kbc-cbc/), [paysafecard](https://www.mollie.com/en/payments/paysafecard/), [ING Home'Pay](https://www.mollie.com/en/payments/ing-homepay/), [Giftcards](https://www.mollie.com/en/payments/gift-cards/), [Giropay](https://www.mollie.com/en/payments/giropay/) and [EPS](https://www.mollie.com/en/payments/eps/) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 [![Build Status](https://travis-ci.org/mollie/mollie-api-php.png)](https://travis-ci.org/mollie/mollie-api-php)
 [![Latest Stable Version](https://poser.pugx.org/mollie/mollie-api-php/v/stable)](https://packagist.org/packages/mollie/mollie-api-php)
@@ -130,11 +130,11 @@ $refund = $mollie->payments->refund($payment, 15.00);
 The resources `permissions`, `organizations`, `refunds`, `profiles`, `settlements` and `invoices` are only available with an OAuth2 access token. This is because an API key is linked to a website profile, and those resources are linked to an Mollie account. Visit our [API documentation](https://docs.mollie.com/oauth/overview) for more information about how to get an OAuth2 access token. For an example of how to use those resources, see [Example 8](https://github.com/mollie/mollie-api-php/blob/master/examples/08-oauth-list-profiles.php), [Example 9](https://github.com/mollie/mollie-api-php/blob/master/examples/09-oauth-list-settlements.php) and [Example 10](https://github.com/mollie/mollie-api-php/blob/master/examples/10-oauth-new-payment.php).
 
 ## API documentation ##
-If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developer/). API Documentation is available in both Dutch and English.
+If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/en/developers/). API Documentation is available in both Dutch and English.
 
 ## Want to help us make our API client even better? ##
 
-Want to help us make our API client even better? We take [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr), sure. But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers. [Check out our vacancies](https://www.mollie.com/nl/jobs) or [get in touch](mailto:personeel@mollie.com).
+Want to help us make our API client even better? We take [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr), sure. But how would you like to contribute to a [technology oriented organization](https://www.mollie.com/nl/blog/post/werken-bij-mollie-als-developer/)? Mollie is hiring developers and system engineers. [Check out our vacancies](https://jobs.mollie.com/) or [get in touch](mailto:personeel@mollie.com).
 
 ## License ##
 [BSD (Berkeley Software Distribution) License](https://opensource.org/licenses/bsd-license.php).
@@ -143,14 +143,18 @@ Copyright (c) 2013-2017, Mollie B.V.
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
 
-+ [More information about iDEAL via Mollie](https://www.mollie.com/ideal/)
-+ [More information about credit card via Mollie](https://www.mollie.com/creditcard/)
-+ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/mistercash/)
-+ [More information about SOFORT Banking via Mollie](https://www.mollie.com/sofort/)
-+ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/banktransfer/)
-+ [More information about SEPA Direct debit via Mollie](https://www.mollie.com/directdebit/)
-+ [More information about Bitcoin via Mollie](https://www.mollie.com/bitcoin/)
-+ [More information about PayPal via Mollie](https://www.mollie.com/paypal/)
-+ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/belfiusdirectnet/)
-+ [More information about paysafecard via Mollie](https://www.mollie.com/paysafecard/)
-+ [More information about KBC/CBC via Mollie](https://www.mollie.com/kbccbc/)
++ [More information about iDEAL via Mollie](https://www.mollie.com/en/payments/ideal/)
++ [More information about Credit card via Mollie](https://www.mollie.com/en/payments/credit-card/)
++ [More information about Bancontact/Mister Cash via Mollie](https://www.mollie.com/en/payments/bancontact/)
++ [More information about SOFORT Banking via Mollie](https://www.mollie.com/en/payments/sofort/)
++ [More information about SEPA Bank transfer via Mollie](https://www.mollie.com/en/payments/bank-transfer/)
++ [More information about SEPA Direct debit via Mollie](https://www.mollie.com/en/payments/direct-debit/)
++ [More information about Bitcoin via Mollie](https://www.mollie.com/en/payments/bitcoin/)
++ [More information about PayPal via Mollie](https://www.mollie.com/en/payments/paypal/)
++ [More information about Belfius Direct Net via Mollie](https://www.mollie.com/en/payments/belfius/)
++ [More information about KBC/CBC via Mollie](https://www.mollie.com/en/payments/kbc-cbc/)
++ [More information about paysafecard via Mollie](https://www.mollie.com/en/payments/paysafecard/)
++ [More information about ING Home’Pay via Mollie](https://www.mollie.com/en/payments/ing-homepay/)
++ [More information about Giftcards via Mollie](https://www.mollie.com/en/payments/gift-cards/)
++ [More information about Giropay via Mollie](https://www.mollie.com/en/payments/giropay/)
++ [More information about EPS via Mollie](https://www.mollie.com/en/payments/eps/)
