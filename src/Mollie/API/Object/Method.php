@@ -31,88 +31,88 @@
  */
 class Mollie_API_Object_Method
 {
-    /**
-     * @link https://www.mollie.com/en/payments/bank-transfer
-     */
-    const BANKTRANSFER = "banktransfer";
+	/**
+	 * @link https://www.mollie.com/en/payments/bank-transfer
+	 */
+	const BANKTRANSFER = "banktransfer";
 
-    /**
-     * @link https://www.mollie.com/en/payments/belfius
-     */
-    const BELFIUS = "belfius";
+	/**
+	 * @link https://www.mollie.com/en/payments/belfius
+	 */
+	const BELFIUS = "belfius";
 
-    /**
-     * @link https://www.mollie.com/en/payments/bitcoin
-     */
-    const BITCOIN = "bitcoin";
+	/**
+	 * @link https://www.mollie.com/en/payments/bitcoin
+	 */
+	const BITCOIN = "bitcoin";
 
-    /**
-     * @link https://www.mollie.com/en/payments/credit-card
-     */
-    const CREDITCARD = "creditcard";
+	/**
+	 * @link https://www.mollie.com/en/payments/credit-card
+	 */
+	const CREDITCARD = "creditcard";
 
-    /**
-     * @link https://www.mollie.com/en/payments/direct-debit
-     */
-    const DIRECTDEBIT = "directdebit";
+	/**
+	 * @link https://www.mollie.com/en/payments/direct-debit
+	 */
+	const DIRECTDEBIT = "directdebit";
 
-    /**
-     * @link https://www.mollie.com/en/payments/eps
-     */
-    const EPS = "eps";
+	/**
+	 * @link https://www.mollie.com/en/payments/eps
+	 */
+	const EPS = "eps";
 
-    /**
-     * @link https://www.mollie.com/en/payments/gift-cards
-     */
-    const GIFTCARD = "giftcard";
+	/**
+	 * @link https://www.mollie.com/en/payments/gift-cards
+	 */
+	const GIFTCARD = "giftcard";
 
-    /**
-     * @link https://www.mollie.com/en/payments/giropay
-     */
-    const GIROPAY = "giropay";
+	/**
+	 * @link https://www.mollie.com/en/payments/giropay
+	 */
+	const GIROPAY = "giropay";
 
-    /**
-     * @link https://www.mollie.com/en/payments/ideal
-     */
-    const IDEAL = "ideal";
+	/**
+	 * @link https://www.mollie.com/en/payments/ideal
+	 */
+	const IDEAL = "ideal";
 
-    /**
-     * @link https://www.mollie.com/en/payments/ing-homepay
-     */
-    const INGHOMEPAY = "inghomepay";
+	/**
+	 * @link https://www.mollie.com/en/payments/ing-homepay
+	 */
+	const INGHOMEPAY = "inghomepay";
 
-    /**
-     * @link https://www.mollie.com/en/payments/kbc-cbc
-     */
-    const KBC = "kbc";
+	/**
+	 * @link https://www.mollie.com/en/payments/kbc-cbc
+	 */
+	const KBC = "kbc";
 
-    /**
-     * Bancontact, formerly known as Mister Cash.
-     *
-     * @link https://mollie.com/mistercash
-     */
-    const MISTERCASH = "mistercash";
+	/**
+	 * Bancontact, formerly known as Mister Cash.
+	 *
+	 * @link https://mollie.com/mistercash
+	 */
+	const MISTERCASH = "mistercash";
 
-    /**
-     * @link https://www.mollie.com/en/payments/paypal
-     */
-    const PAYPAL = "paypal";
+	/**
+	 * @link https://www.mollie.com/en/payments/paypal
+	 */
+	const PAYPAL = "paypal";
 
-    /**
-     * @link https://www.mollie.com/en/payments/paysafecard
-     */
-    const PAYSAFECARD = "paysafecard";
+	/**
+	 * @link https://www.mollie.com/en/payments/paysafecard
+	 */
+	const PAYSAFECARD = "paysafecard";
 
-    /**
-     * @deprecated
-     * @link https://www.mollie.com/en/payments/gift-cards
-     */
-    const PODIUMCADEAUKAART = "podiumcadeaukaart";
+	/**
+	 * @deprecated
+	 * @link https://www.mollie.com/en/payments/gift-cards
+	 */
+	const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
-    /**
-     * @link https://www.mollie.com/en/payments/sofort
-     */
-    const SOFORT = "sofort";
+	/**
+	 * @link https://www.mollie.com/en/payments/sofort
+	 */
+	const SOFORT = "sofort";
 
 	/**
 	 * This is a special method that indicates in the API that the payment consists of several partial transactions.
