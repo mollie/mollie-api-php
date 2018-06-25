@@ -23,6 +23,7 @@ script:
 - find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
 before_deploy:
+- sed -i "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" src/MollieApiClient.php
 - composer install --no-dev --no-scripts --no-suggest --classmap-authoritative
 - zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
 deploy:
