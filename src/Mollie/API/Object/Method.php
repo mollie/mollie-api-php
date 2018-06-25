@@ -32,79 +32,87 @@
 class Mollie_API_Object_Method
 {
 	/**
-	 * @link https://mollie.com/ideal
+	 * @link https://www.mollie.com/en/payments/bank-transfer
 	 */
-	const IDEAL             = "ideal";
+	const BANKTRANSFER = "banktransfer";
 
 	/**
-	 * @link https://mollie.com/paysafecard
+	 * @link https://www.mollie.com/en/payments/belfius
 	 */
-	const PAYSAFECARD       = "paysafecard";
+	const BELFIUS = "belfius";
 
 	/**
-	 * Credit card (includes Mastercard, Maestro, Visa and American Express).
-	 *
-	 * @link https://mollie.com/creditcard
+	 * @link https://www.mollie.com/en/payments/bitcoin
 	 */
-	const CREDITCARD        = "creditcard";
+	const BITCOIN = "bitcoin";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/credit-card
+	 */
+	const CREDITCARD = "creditcard";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/direct-debit
+	 */
+	const DIRECTDEBIT = "directdebit";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/eps
+	 */
+	const EPS = "eps";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/gift-cards
+	 */
+	const GIFTCARD = "giftcard";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/giropay
+	 */
+	const GIROPAY = "giropay";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/ideal
+	 */
+	const IDEAL = "ideal";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/ing-homepay
+	 */
+	const INGHOMEPAY = "inghomepay";
+
+	/**
+	 * @link https://www.mollie.com/en/payments/kbc-cbc
+	 */
+	const KBC = "kbc";
 
 	/**
 	 * Bancontact, formerly known as Mister Cash.
 	 *
 	 * @link https://mollie.com/mistercash
 	 */
-	const MISTERCASH        = "mistercash";
+	const MISTERCASH = "mistercash";
 
 	/**
-	 * @link https://mollie.com/sofort
+	 * @link https://www.mollie.com/en/payments/paypal
 	 */
-	const SOFORT            = "sofort";
+	const PAYPAL = "paypal";
 
 	/**
-	 * @link https://mollie.com/banktransfer
+	 * @link https://www.mollie.com/en/payments/paysafecard
 	 */
-	const BANKTRANSFER      = "banktransfer";
-
-	/**
-	 * @link https://mollie.com/directdebit
-	 */
-	const DIRECTDEBIT       = "directdebit";
-
-	/**
-	 * @link https://mollie.com/paypal
-	 */
-	const PAYPAL            = "paypal";
-
-	/**
-	 * @link https://mollie.com/bitcoin
-	 */
-	const BITCOIN           = "bitcoin";
-
-	/**
-	 * @link https://mollie.com/belfiusdirectnet
-	 */
-	const BELFIUS           = "belfius";
+	const PAYSAFECARD = "paysafecard";
 
 	/**
 	 * @deprecated
-	 * @link https://mollie.com/giftcards
+	 * @link https://www.mollie.com/en/payments/gift-cards
 	 */
 	const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
 	/**
-	 * @link https://www.mollie.com/nl/kbccbc
+	 * @link https://www.mollie.com/en/payments/sofort
 	 */
-	const KBC = "kbc";
-
-	/**
-	 * @link https://www.mollie.com/nl/payments/ing-homepay
-	 */
-	const INGHOMEPAY = "inghomepay";
-	
-	/**
-	 * Gift cards
-	 */
-	const GIFTCARD = "giftcard";
+	const SOFORT = "sofort";
 
 	/**
 	 * This is a special method that indicates in the API that the payment consists of several partial transactions.
