@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Mollie\Api;
 
+use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
@@ -106,5 +107,24 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
             throw $e;
         }
+    }
+
+    public function testCanBeSerializedAndUnserialized()
+    {
+        $this->mollieApiClient->setApiEndpoint("https://mymollieproxy.local");
+        $serialized = \serialize($this->mollieApiClient);
+
+        /** @var MollieApiClient $client_copy */
+        $client_copy = Liberator::liberate(unserialize($serialized));
+
+        $this->assertEquals('test_foobarfoobarfoobarfoobarfoobar', $client_copy->apiKey, "API key should have been remembered");
+        $this->assertInstanceOf(ClientInterface::class, $client_copy->httpClient, "");
+        $this->assertFalse($client_copy->usesOAuth());
+        $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint());
+
+        $this->assertNotEmpty($client_copy->customerPayments);
+        $this->assertNotEmpty($client_copy->payments);
+        $this->assertNotEmpty($client_copy->methods);
+        // no need to assert them all.
     }
 }

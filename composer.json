@@ -50,7 +50,8 @@
     "guzzlehttp/guzzle": "^6.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7|^6.5|^7.1"
+    "phpunit/phpunit": "^5.7|^6.5|^7.1",
+    "eloquent/liberator": "^2.0"
   },
   "autoload": {
     "psr-4": {
