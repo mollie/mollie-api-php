@@ -309,7 +309,7 @@ class MollieApiClient
 
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
-        } catch (GuzzleException $e) {
+        } catch (\InvalidArgumentException $e) {
             throw new ApiException($e->getMessage(), $e->getCode(), $e);
         }
 
