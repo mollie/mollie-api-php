@@ -114,13 +114,15 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $this->mollieApiClient->setApiEndpoint("https://mymollieproxy.local");
         $serialized = \serialize($this->mollieApiClient);
 
+        $this->assertNotContains('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
+
         /** @var MollieApiClient $client_copy */
         $client_copy = Liberator::liberate(unserialize($serialized));
 
-        $this->assertEquals('test_foobarfoobarfoobarfoobarfoobar', $client_copy->apiKey, "API key should have been remembered");
-        $this->assertInstanceOf(ClientInterface::class, $client_copy->httpClient, "");
-        $this->assertFalse($client_copy->usesOAuth());
-        $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint());
+        $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
+        $this->assertInstanceOf(ClientInterface::class, $client_copy->httpClient, "A Guzzle client should have been set.");
+        $this->assertNull($client_copy->usesOAuth());
+        $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 
         $this->assertNotEmpty($client_copy->customerPayments);
         $this->assertNotEmpty($client_copy->payments);

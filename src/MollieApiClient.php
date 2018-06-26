@@ -230,7 +230,9 @@ class MollieApiClient
     }
 
     /**
-     * @return bool
+     * Returns null if no API key has been set yet.
+     *
+     * @return bool|null
      */
     public function usesOAuth()
     {
@@ -374,14 +376,15 @@ class MollieApiClient
      *
      * We don't need any property that can be set by the constructor, only properties that are set by setters.
      *
-     * Note that serializing will cause the API key to end up in your caches / insecure places.
+     * Note that the API key is not serialized, so you need to set the key again after unserializing if you want to do
+     * more API calls.
      *
      * @deprecated
      * @return string[]
      */
     public function __sleep()
     {
-        return ["apiEndpoint", "apiKey", "oauthAccess"];
+        return ["apiEndpoint"];
     }
 
     /**
