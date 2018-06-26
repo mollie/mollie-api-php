@@ -366,4 +366,20 @@ class MollieApiClient
 
         return $object;
     }
+    
+    
+	/**
+	 * Serialization can be used for caching. Of course doing so can be dangerous but some like to live dangerously.
+	 *
+	 * \serialize() should be called on the collections or object you want to cache.
+	 *
+	 * We don't need any property that can be set by the constructor, only properties that are set by setters.
+	 *
+	 * @return string[]
+	 */
+	public function __sleep()
+	{
+		return ["apiEndpoint", "apiKey", "oauthAccess"];
+	}
+    
 }
