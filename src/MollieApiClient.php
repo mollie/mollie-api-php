@@ -230,7 +230,9 @@ class MollieApiClient
     }
 
     /**
-     * @return bool
+     * Returns null if no API key has been set yet.
+     *
+     * @return bool|null
      */
     public function usesOAuth()
     {
@@ -365,5 +367,36 @@ class MollieApiClient
         }
 
         return $object;
+    }
+    
+    /**
+     * Serialization can be used for caching. Of course doing so can be dangerous but some like to live dangerously.
+     *
+     * \serialize() should be called on the collections or object you want to cache.
+     *
+     * We don't need any property that can be set by the constructor, only properties that are set by setters.
+     *
+     * Note that the API key is not serialized, so you need to set the key again after unserializing if you want to do
+     * more API calls.
+     *
+     * @deprecated
+     * @return string[]
+     */
+    public function __sleep()
+    {
+        return ["apiEndpoint"];
+    }
+
+    /**
+     * When unserializing a collection or a resource, this class should restore itself.
+     *
+     * Note that if you use a custom GuzzleClient, this client is lost. You can't re set the Client, so you should
+     * probably not use this feature.
+     *
+     * @throws IncompatiblePlatform If suddenly unserialized on an incompatible platform.
+     */
+    public function __wakeup()
+    {
+        $this->__construct();
     }
 }
