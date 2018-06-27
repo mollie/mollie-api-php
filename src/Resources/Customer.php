@@ -185,4 +185,21 @@ class Customer extends BaseResource
     {
         return $this->client->mandates->listFor($this);
     }
+
+    /**
+     * Helper function to check for mandate with status valid
+     *
+     * @return bool
+     */
+    public function hasActiveMandate()
+    {
+        $mandates = $this->client->mandates->listFor($this);
+        foreach ($mandates as $mandate) {
+            if ($mandate->isValid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
