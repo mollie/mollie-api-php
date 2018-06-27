@@ -191,7 +191,7 @@ class Customer extends BaseResource
      *
      * @return bool
      */
-    public function hasActiveMandate()
+    public function hasValidMandate()
     {
         $mandates = $this->client->mandates->listFor($this);
         foreach ($mandates as $mandate) {
