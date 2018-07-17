@@ -57,9 +57,9 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         /** @var Subscription $subscription */
         $subscription = $customer->createSubscription([
             "amount" => [
-                    "value" => "10.00",
-                    "currency" => "EUR"
-                ],
+                "value" => "10.00",
+                "currency" => "EUR"
+            ],
             "interval" => "1 month",
             "description" => "Order 1234"
         ]);
@@ -70,7 +70,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
-        $this->assertEquals((object) ["value" => "10.00", "currency" => "EUR"], $subscription->amount);
+        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
@@ -140,7 +140,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
-        $this->assertEquals((object) ["value" => "10.00", "currency" => "EUR"], $subscription->amount);
+        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
@@ -301,6 +301,103 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
 
+    }
+
+    public function testThatUpdateSubscriptionWorks()
+    {
+        $expectedAmountValue = '12.00';
+        $expectedAmountCurrency = 'EUR';
+        $expectedStartDate = '2018-12-12';
+
+        $this->mockApiCall(
+            new Request('PATCH', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "subscription",
+                    "id": "sub_DRjwaT5qHx",
+                    "customerId": "cst_VhjQebNW5j",
+                    "mode": "live",
+                    "createdAt": "2018-07-17T07:45:52+00:00",
+                    "status": "active",
+                    "amount": {
+                        "value": "' . $expectedAmountValue . '",
+                        "currency": "' . $expectedAmountCurrency . '"
+                    },
+                    "description": "Mollie Recurring subscription #1",
+                    "method": null,
+                    "times": 42,
+                    "interval": "15 days",
+                    "startDate": "' . $expectedStartDate . '",
+                    "webhookUrl": "https://example.org/webhook",
+                    "_links": {
+                        "self": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $subscription = $this->getSubscription();
+        $subscription->amount = (object)[
+            'value' => $expectedAmountValue,
+            'currency' => $expectedAmountCurrency,
+        ];
+        $subscription->startDate = $expectedStartDate;
+
+        $subscription->update();
+    }
+
+    /**
+     * @return Subscription
+     */
+    private function getSubscription()
+    {
+        $subscriptionJson = '{
+                    "resource": "subscription",
+                    "id": "sub_DRjwaT5qHx",
+                    "customerId": "cst_VhjQebNW5j",
+                    "mode": "live",
+                    "createdAt": "2018-07-17T07:45:52+00:00",
+                    "status": "active",
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
+                    },
+                    "description": "Mollie Recurring subscription #1",
+                    "method": null,
+                    "times": 42,
+                    "interval": "15 days",
+                    "startDate": "2018-12-12",
+                    "webhookUrl": "https://example.org/webhook",
+                    "_links": {
+                        "self": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription",
+                            "type": "text/html"
+                        }
+                    }
+                }';
+
+        return $this->copy(json_decode($subscriptionJson), new Subscription($this->apiClient));
     }
 
     /**
