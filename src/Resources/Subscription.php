@@ -93,7 +93,8 @@ class Subscription extends BaseResource
     public $_links;
 
     /**
-     * @return Subscription
+     * @return BaseResource|Subscription
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {
