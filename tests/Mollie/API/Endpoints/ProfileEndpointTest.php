@@ -230,4 +230,117 @@ class ProfileEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $profiles->_links->documentation);
 
     }
+
+    public function testUpdateProfile()
+    {
+        $expectedWebsiteName = 'Mollie';
+        $expectedEmail = 'mollie@mollie.com';
+        $expectedPhone = '31123456766';
+
+        $this->mockApiCall(
+            new Request('PATCH', '/v2/profiles/pfl_ahe8z8OPut'),
+            new Response(
+                200,
+                [],
+                '{
+                "resource": "profile",
+                "id": "pfl_ahe8z8OPut",
+                "mode": "live",
+                "name": "' . $expectedWebsiteName . '",
+                "website": "http://www.mywebsite.com",
+                "email": "' . $expectedEmail . '",
+                "phone": "' . $expectedPhone . '",
+                "categoryCode": 5399,
+                "status": "verified",
+                "review": {
+                    "status": "pending"
+                },
+                "createdAt": "2016-01-11T13:03:55+00:00",
+                "_links": {
+                  "self": {
+                    "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                  },
+                  "chargebacks": {
+                    "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                  },
+                  "methods": {
+                    "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                  },
+                  "payments": {
+                    "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                  },
+                  "refunds": {
+                    "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                  },
+                  "checkoutPreviewUrl": {
+                    "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                    "type": "text/html"
+                  }
+                }
+              }'
+            )
+        );
+
+        $profile = $this->getProfile();
+        $profile->name = $expectedWebsiteName;
+        $profile->email = $expectedEmail;
+        $profile->phone = $expectedPhone;
+
+        $profile->update();
+    }
+
+    /**
+     * @return Profile
+     */
+    private function getProfile()
+    {
+        $json = '{
+            "resource": "profile",
+            "id": "pfl_ahe8z8OPut",
+            "mode": "live",
+            "name": "My website name",
+            "website": "http://www.mywebsite.com",
+            "email": "info@mywebsite.com",
+            "phone": "31123456789",
+            "categoryCode": 5399,
+            "status": "verified",
+            "review": {
+                "status": "pending"
+            },
+            "createdAt": "2016-01-11T13:03:55+00:00",
+            "_links": {
+              "self": {
+                "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                "type": "application/hal+json"
+              },
+              "chargebacks": {
+                "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                "type": "application/hal+json"
+              },
+              "methods": {
+                "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                "type": "application/hal+json"
+              },
+              "payments": {
+                "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                "type": "application/hal+json"
+              },
+              "refunds": {
+                "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                "type": "application/hal+json"
+              },
+              "checkoutPreviewUrl": {
+                "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                "type": "text/html"
+              }
+            }
+          }';
+
+        return $this->copy(json_decode($json), new Profile($this->apiClient));
+    }
 }
