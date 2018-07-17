@@ -16,7 +16,7 @@ try {
      * Retrieve an existing subscription by its ID and the customer
      */
     $customer = $mollie->customers->get("cst_cUe8HjeBuz");
-    $subscription = $mollie->subscriptions->getFor($customer,"sub_DRjwaT5qHx");
+    $subscription = $customer->getSubscription("sub_DRjwaT5qHx");
 
     /**
      * Subscription fields that can be updated are described by the link:
