@@ -31,16 +31,18 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
             ->method('send')
             ->with($this->isInstanceOf(Request::class))
             ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
-                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod());
+                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod(), "HTTP method must be identical");
 
                 $this->assertEquals(
                     $expectedRequest->getUri()->getPath(),
-                    $request->getUri()->getPath()
+                    $request->getUri()->getPath(),
+                    "URI path must be identical"
                 );
 
                 $this->assertEquals(
                     $expectedRequest->getUri()->getQuery(),
-                    $request->getUri()->getQuery()
+                    $request->getUri()->getQuery(),
+                    'Query string parameters must be identical'
                 );
 
                 $requestBody = $request->getBody()->getContents();
@@ -49,7 +51,8 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
                 if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
                     $this->assertJsonStringEqualsJsonString(
                         $expectedBody,
-                        $requestBody
+                        $requestBody,
+                        "HTTP body must be identical"
                     );
                 }
 

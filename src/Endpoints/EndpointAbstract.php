@@ -51,7 +51,17 @@ abstract class EndpointAbstract
             return "";
         }
 
-        return "?" . http_build_query($filters, "");
+        foreach ($filters as $key => $value) {
+            if ($value === true) {
+                $filters[$key] = "true";
+            }
+
+            if ($value === false) {
+                $filters[$key] = "false";
+            }
+        }
+
+        return "?" . http_build_query($filters, "", "&");
     }
 
     /**
