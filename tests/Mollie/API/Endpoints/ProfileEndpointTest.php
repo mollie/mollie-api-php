@@ -37,32 +37,32 @@ class ProfileEndpointTest extends BaseEndpointTest
                     },
                     "createdAt": "2016-01-11T13:03:55+00:00",
                     "_links": {
-                      "self": {
-                        "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
-                        "type": "application/hal+json"
-                      },
-                      "chargebacks": {
-                        "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
-                        "type": "application/hal+json"
-                      },
-                      "methods": {
-                        "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
-                        "type": "application/hal+json"
-                      },
-                      "payments": {
-                        "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
-                        "type": "application/hal+json"
-                      },
-                      "refunds": {
-                        "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
-                        "type": "application/hal+json"
-                      },
-                      "checkoutPreviewUrl": {
-                        "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
-                        "type": "text/html"
-                      }
+                        "self": {
+                            "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "chargebacks": {
+                            "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "methods": {
+                            "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "payments": {
+                            "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "refunds": {
+                            "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "checkoutPreviewUrl": {
+                            "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                            "type": "text/html"
+                        }
                     }
-                  }'
+                }'
             )
         );
 
@@ -112,105 +112,104 @@ class ProfileEndpointTest extends BaseEndpointTest
                 201,
                 [],
                 '{
-                  "_embedded": {
-                    "profiles": [
-                      {
-                        "resource": "profile",
-                        "id": "pfl_ahe8z8OPut",
-                        "mode": "live",
-                        "name": "My website name",
-                        "website": "http://www.mywebsite.com",
-                        "email": "info@mywebsite.com",
-                        "phone": "31123456789",
-                        "categoryCode": 5399,
-                        "status": "verified",
-                        "review": {
-                            "status": "pending"
-                        },
-                        "createdAt": "2016-01-11T13:03:55+00:00",
-                        "_links": {
-                          "self": {
-                            "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
-                            "type": "application/hal+json"
-                          },
-                          "chargebacks": {
-                            "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
-                            "type": "application/hal+json"
-                          },
-                          "methods": {
-                            "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
-                            "type": "application/hal+json"
-                          },
-                          "payments": {
-                            "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
-                            "type": "application/hal+json"
-                          },
-                          "refunds": {
-                            "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
-                            "type": "application/hal+json"
-                          },
-                          "checkoutPreviewUrl": {
-                            "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
-                            "type": "text/html"
-                          }
-                        }
-                      },
-                      {
-                        "resource": "profile",
-                        "id": "pfl_znNaTRkJs5",
-                        "mode": "live",
-                        "name": "My website name 2",
-                        "website": "http://www.mywebsite2.com",
-                        "email": "info@mywebsite2.com",
-                        "phone": "31123456789",
-                        "categoryCode": 5399,
-                        "status": "verified",
-                        "review": {
-                            "status": "pending"
-                        },
-                        "createdAt": "2016-01-11T13:03:55+00:00",
-                        "_links": {
-                          "self": {
-                            "href": "https://api.mollie.com/v2/profiles/pfl_znNaTRkJs5",
-                            "type": "application/hal+json"
-                          },
-                          "chargebacks": {
-                            "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_znNaTRkJs5",
-                            "type": "application/hal+json"
-                          },
-                          "methods": {
-                            "href": "https://api.mollie.com/v2/methods?profileId=pfl_znNaTRkJs5",
-                            "type": "application/hal+json"
-                          },
-                          "payments": {
-                            "href": "https://api.mollie.com/v2/payments?profileId=pfl_znNaTRkJs5",
-                            "type": "application/hal+json"
-                          },
-                          "refunds": {
-                            "href": "https://api.mollie.com/v2/refunds?profileId=pfl_znNaTRkJs5",
-                            "type": "application/hal+json"
-                          },
-                          "checkoutPreviewUrl": {
-                            "href": "https://www.mollie.com/payscreen/preview/pfl_znNaTRkJs5",
-                            "type": "text/html"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "count": 2,
-                  "_links": {
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/profiles-api/list-profiles",
-                      "type": "text/html"
+                    "_embedded": {
+                        "profiles": [{
+                                "resource": "profile",
+                                "id": "pfl_ahe8z8OPut",
+                                "mode": "live",
+                                "name": "My website name",
+                                "website": "http://www.mywebsite.com",
+                                "email": "info@mywebsite.com",
+                                "phone": "31123456789",
+                                "categoryCode": 5399,
+                                "status": "verified",
+                                "review": {
+                                    "status": "pending"
+                                },
+                                "createdAt": "2016-01-11T13:03:55+00:00",
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                                        "type": "application/hal+json"
+                                    },
+                                    "chargebacks": {
+                                        "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                                        "type": "application/hal+json"
+                                    },
+                                    "methods": {
+                                        "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                                        "type": "application/hal+json"
+                                    },
+                                    "payments": {
+                                        "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                                        "type": "application/hal+json"
+                                    },
+                                    "refunds": {
+                                        "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                                        "type": "application/hal+json"
+                                    },
+                                    "checkoutPreviewUrl": {
+                                        "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                                        "type": "text/html"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "profile",
+                                "id": "pfl_znNaTRkJs5",
+                                "mode": "live",
+                                "name": "My website name 2",
+                                "website": "http://www.mywebsite2.com",
+                                "email": "info@mywebsite2.com",
+                                "phone": "31123456789",
+                                "categoryCode": 5399,
+                                "status": "verified",
+                                "review": {
+                                    "status": "pending"
+                                },
+                                "createdAt": "2016-01-11T13:03:55+00:00",
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/profiles/pfl_znNaTRkJs5",
+                                        "type": "application/hal+json"
+                                    },
+                                    "chargebacks": {
+                                        "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_znNaTRkJs5",
+                                        "type": "application/hal+json"
+                                    },
+                                    "methods": {
+                                        "href": "https://api.mollie.com/v2/methods?profileId=pfl_znNaTRkJs5",
+                                        "type": "application/hal+json"
+                                    },
+                                    "payments": {
+                                        "href": "https://api.mollie.com/v2/payments?profileId=pfl_znNaTRkJs5",
+                                        "type": "application/hal+json"
+                                    },
+                                    "refunds": {
+                                        "href": "https://api.mollie.com/v2/refunds?profileId=pfl_znNaTRkJs5",
+                                        "type": "application/hal+json"
+                                    },
+                                    "checkoutPreviewUrl": {
+                                        "href": "https://www.mollie.com/payscreen/preview/pfl_znNaTRkJs5",
+                                        "type": "text/html"
+                                    }
+                                }
+                            }
+                        ]
                     },
-                    "self": {
-                      "href": "https://api.mollie.nl/v2/profiles?limit=50",
-                      "type": "application/hal+json"
-                    },
-                    "previous": null,
-                    "next": null
-                  }
+                    "count": 2,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/profiles-api/list-profiles",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "https://api.mollie.nl/v2/profiles?limit=50",
+                            "type": "application/hal+json"
+                        },
+                        "previous": null,
+                        "next": null
+                    }
                 }'
             )
         );
@@ -243,46 +242,46 @@ class ProfileEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 '{
-                "resource": "profile",
-                "id": "pfl_ahe8z8OPut",
-                "mode": "live",
-                "name": "' . $expectedWebsiteName . '",
-                "website": "http://www.mywebsite.com",
-                "email": "' . $expectedEmail . '",
-                "phone": "' . $expectedPhone . '",
-                "categoryCode": 5399,
-                "status": "verified",
-                "review": {
-                    "status": "pending"
-                },
-                "createdAt": "2016-01-11T13:03:55+00:00",
-                "_links": {
-                  "self": {
-                    "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
-                    "type": "application/hal+json"
-                  },
-                  "chargebacks": {
-                    "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
-                    "type": "application/hal+json"
-                  },
-                  "methods": {
-                    "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
-                    "type": "application/hal+json"
-                  },
-                  "payments": {
-                    "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
-                    "type": "application/hal+json"
-                  },
-                  "refunds": {
-                    "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
-                    "type": "application/hal+json"
-                  },
-                  "checkoutPreviewUrl": {
-                    "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
-                    "type": "text/html"
-                  }
-                }
-              }'
+                    "resource": "profile",
+                    "id": "pfl_ahe8z8OPut",
+                    "mode": "live",
+                    "name": "' . $expectedWebsiteName . '",
+                    "website": "http://www.mywebsite.com",
+                    "email": "' . $expectedEmail . '",
+                    "phone": "' . $expectedPhone . '",
+                    "categoryCode": 5399,
+                    "status": "verified",
+                    "review": {
+                        "status": "pending"
+                    },
+                    "createdAt": "2016-01-11T13:03:55+00:00",
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "chargebacks": {
+                            "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "methods": {
+                            "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "payments": {
+                            "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "refunds": {
+                            "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "checkoutPreviewUrl": {
+                            "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                            "type": "text/html"
+                        }
+                    }
+                }'
             )
         );
 
@@ -291,7 +290,11 @@ class ProfileEndpointTest extends BaseEndpointTest
         $profile->email = $expectedEmail;
         $profile->phone = $expectedPhone;
 
-        $profile->update();
+        $updatedProfile = $profile->update();
+
+        $this->assertEquals($expectedWebsiteName, $updatedProfile->name);
+        $this->assertEquals($expectedEmail, $updatedProfile->email);
+        $this->assertEquals($expectedPhone, $updatedProfile->phone);
     }
 
     /**
@@ -314,32 +317,32 @@ class ProfileEndpointTest extends BaseEndpointTest
             },
             "createdAt": "2016-01-11T13:03:55+00:00",
             "_links": {
-              "self": {
-                "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
-                "type": "application/hal+json"
-              },
-              "chargebacks": {
-                "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
-                "type": "application/hal+json"
-              },
-              "methods": {
-                "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
-                "type": "application/hal+json"
-              },
-              "payments": {
-                "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
-                "type": "application/hal+json"
-              },
-              "refunds": {
-                "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
-                "type": "application/hal+json"
-              },
-              "checkoutPreviewUrl": {
-                "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
-                "type": "text/html"
-              }
+                "self": {
+                    "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                },
+                "chargebacks": {
+                    "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                },
+                "methods": {
+                    "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                },
+                "payments": {
+                    "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                },
+                "refunds": {
+                    "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                    "type": "application/hal+json"
+                },
+                "checkoutPreviewUrl": {
+                    "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                    "type": "text/html"
+                }
             }
-          }';
+        }';
 
         return $this->copy(json_decode($json), new Profile($this->apiClient));
     }

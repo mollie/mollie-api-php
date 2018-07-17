@@ -116,7 +116,7 @@ class Subscription extends BaseResource
             $body
         );
 
-        return ResourceFactory::createFromApiResult($result, new self($this->client));
+        return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }
 
 

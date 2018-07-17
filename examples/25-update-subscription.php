@@ -20,7 +20,7 @@ try {
 
     /**
      * Subscription fields that can be updated are described by the link:
-     * @See https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription
+     * See https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription
      */
     $subscription->times = 10;
     $subscription->startDate = '2018-12-02'; // Year-month-day

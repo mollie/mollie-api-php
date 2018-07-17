@@ -100,7 +100,7 @@ class Profile extends BaseResource
     }
 
     /**
-     * @return BaseResource
+     * @return Profile
      */
     public function update()
     {
