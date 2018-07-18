@@ -13,12 +13,6 @@ class ProfileEndpointTest extends BaseEndpointTest
     public function testGetProfile()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/profiles/pfl_ahe8z8OPut",
-                [],
-                ''
-            ),
             new Response(
                 201,
                 [],
@@ -68,6 +62,11 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $profile = $this->apiClient->profiles->get('pfl_ahe8z8OPut');
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut'
+        ));
+
         $this->assertInstanceOf(Profile::class, $profile);
         $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
         $this->assertEquals("live", $profile->mode);
@@ -102,12 +101,6 @@ class ProfileEndpointTest extends BaseEndpointTest
     public function testListProfiles()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/profiles",
-                [],
-                ''
-            ),
             new Response(
                 201,
                 [],
@@ -216,6 +209,13 @@ class ProfileEndpointTest extends BaseEndpointTest
         );
 
         $profiles = $this->apiClient->profiles->page();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/profiles'
+        ));
+
+
         $this->assertInstanceOf(ProfileCollection::class, $profiles);
         $this->assertEquals(2, $profiles->count);
 

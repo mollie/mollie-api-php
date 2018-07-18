@@ -13,12 +13,6 @@ class SettlementEndpointTest extends BaseEndpointTest
     public function testGetSettlement()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/settlements/stl_xcaSGAHuRt",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -195,6 +189,11 @@ class SettlementEndpointTest extends BaseEndpointTest
         /** @var Settlement $settlement */
         $settlement = $this->apiClient->settlements->get("stl_xcaSGAHuRt");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt'
+        ));
+
         $this->assertInstanceOf(Settlement::class, $settlement);
         $this->assertEquals("settlement", $settlement->resource);
         $this->assertEquals("stl_xcaSGAHuRt", $settlement->id);
@@ -223,12 +222,6 @@ class SettlementEndpointTest extends BaseEndpointTest
     public function testListSettlement()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/settlements",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -422,6 +415,12 @@ class SettlementEndpointTest extends BaseEndpointTest
 
         /** @var Settlement $settlement */
         $settlements = $this->apiClient->settlements->page();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/settlements'
+        ));
+
         $this->assertInstanceOf(SettlementCollection::class, $settlements);
 
         $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/settlements-api/list-settlements', 'type' => 'text/html'];

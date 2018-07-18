@@ -2,59 +2,46 @@
 
 namespace Tests\Mollie\Api\Endpoints;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Http\Mock\Client;
 use Mollie\Api\MollieApiClient;
 
 abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Client|\PHPUnit_Framework_MockObject_MockObject
+     * @var Client
      */
-    protected $guzzleClient;
+    protected $httpClient;
+
+    /**
+     * @var
+     */
+    protected $messageFactory;
 
     /**
      * @var MollieApiClient
      */
     protected $apiClient;
 
-    protected function mockApiCall(Request $expectedRequest, Response $response)
+    protected function setUp()
     {
-        $this->guzzleClient = $this->createMock(Client::class);
+        parent::setUp();
+    }
 
-        $this->apiClient = new MollieApiClient($this->guzzleClient);
+    protected function mockApiCall(Response $response)
+    {
+        $this->httpClient = new Client();
+        $this->httpClient->addResponse($response);
+
+        $this->apiClient = new MollieApiClient($this->httpClient);
         $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+    }
 
-        $this->guzzleClient
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->isInstanceOf(Request::class))
-            ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
-                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod());
-
-                $this->assertEquals(
-                    $expectedRequest->getUri()->getPath(),
-                    $request->getUri()->getPath()
-                );
-
-                $this->assertEquals(
-                    $expectedRequest->getUri()->getQuery(),
-                    $request->getUri()->getQuery()
-                );
-
-                $requestBody = $request->getBody()->getContents();
-                $expectedBody = $expectedRequest->getBody()->getContents();
-
-                if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
-                    $this->assertJsonStringEqualsJsonString(
-                        $expectedBody,
-                        $requestBody
-                    );
-                }
-
-                return $response;
-            });
+    protected function assertRequest(Request $expected_request)
+    {
+        $this->assertEquals($expected_request->getMethod(), $this->httpClient->getLastRequest()->getMethod());
+        $this->assertEquals($expected_request->getUri(), $this->httpClient->getLastRequest()->getUri());
     }
 
     protected function copy($array, $object)

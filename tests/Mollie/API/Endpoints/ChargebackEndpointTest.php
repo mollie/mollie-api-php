@@ -13,12 +13,6 @@ class ChargebackEndpointTest extends BaseEndpointTest
     public function testGetChargebacksOnPaymentResource()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks",
-                [],
-                ''
-            ),
             new Response(
                 201,
                 [],
@@ -91,6 +85,13 @@ class ChargebackEndpointTest extends BaseEndpointTest
         );
 
         $chargebacks = $this->getPayment()->chargebacks();
+
+        $this->assertRequest(new Request(
+            "GET",
+            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+            [],
+            ''
+        ));
 
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
         $this->assertEquals(2, $chargebacks->count);

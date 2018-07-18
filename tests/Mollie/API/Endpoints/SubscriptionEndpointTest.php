@@ -14,7 +14,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testCreateWorks()
     {
         $this->mockApiCall(
-            new Request('POST', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
             new Response(
                 200,
                 [],
@@ -64,6 +63,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             "description" => "Order 1234"
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions'
+        ));
+
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
@@ -91,7 +95,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testGetWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
             new Response(
                 200,
                 [],
@@ -134,6 +137,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         /** @var Subscription $subscription */
         $subscription = $customer->getSubscription("sub_wByQa6efm6");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'
+        ));
+
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
@@ -161,7 +169,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testListWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
             new Response(
                 200,
                 [],
@@ -218,6 +225,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $subscriptions = $customer->subscriptions();
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions'
+        ));
+
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
 
         $this->assertEquals(count($subscriptions), $subscriptions->count);
@@ -239,7 +251,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testCancelWorks()
     {
         $this->mockApiCall(
-            new Request('DELETE', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
             new Response(
                 200,
                 [],
@@ -282,6 +293,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         /** @var Subscription $subscription */
         $subscription = $customer->cancelSubscription("sub_wByQa6efm6");
+
+        $this->assertRequest(new Request(
+            'DELETE',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'
+        ));
 
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);

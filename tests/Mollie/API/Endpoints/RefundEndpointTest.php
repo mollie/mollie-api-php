@@ -14,12 +14,6 @@ class RefundEndpointTest extends BaseEndpointTest
     public function testCreateRefund()
     {
         $this->mockApiCall(
-            new Request(
-                "POST",
-                "/v2/payments/tr_44aKxzEbr8/refunds",
-                [],
-                '{"amount":{"currency":"EUR","value":"20.00"}}'
-            ),
             new Response(
                 201,
                 [],
@@ -63,6 +57,13 @@ class RefundEndpointTest extends BaseEndpointTest
             ]
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds',
+            [],
+            '{"amount":{"currency":"EUR","value":"20.00"}}'
+        ));
+
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals("re_PsAvxvLsnm", $refund->id);
 
@@ -94,12 +95,6 @@ class RefundEndpointTest extends BaseEndpointTest
     public function testGetRefundsOnPaymentResource()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/refunds",
-                [],
-                ''
-            ),
             new Response(
                 201,
                 [],
@@ -153,6 +148,11 @@ class RefundEndpointTest extends BaseEndpointTest
 
         $refunds = $this->getPayment()->refunds();
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8/refunds'
+        ));
+
         $this->assertInstanceOf(RefundCollection::class, $refunds);
         $this->assertEquals(1, $refunds->count);
         $this->assertCount(1, $refunds);
@@ -180,12 +180,6 @@ class RefundEndpointTest extends BaseEndpointTest
     public function testListRefunds()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/refunds",
-                [],
-                ''
-            ),
             new Response(
                 201,
                 [],
@@ -238,6 +232,11 @@ class RefundEndpointTest extends BaseEndpointTest
         );
 
         $refunds = $this->apiClient->refunds->page();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/refunds'
+        ));
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
         $this->assertEquals(1, $refunds->count);

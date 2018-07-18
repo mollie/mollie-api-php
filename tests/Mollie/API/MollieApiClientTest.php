@@ -2,18 +2,18 @@
 namespace Tests\Mollie\Api;
 
 use Eloquent\Liberator\Liberator;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Http\Client\HttpClient;
+use Http\Mock\Client;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var Client
      */
-    private $guzzleClient;
+    private $httpClient;
 
     /**
      * @var MollieApiClient
@@ -24,8 +24,9 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->guzzleClient    = $this->createMock(Client::class);
-        $this->mollieApiClient = new MollieApiClient($this->guzzleClient);
+        $this->httpClient    = new Client();
+
+        $this->mollieApiClient = new MollieApiClient($this->httpClient);
 
         $this->mollieApiClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
     }
@@ -34,11 +35,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     {
         $response = new Response(200, [], '{"resource": "payment"}');
 
-        $this->guzzleClient
-            ->expects($this->once())
-            ->method('send')
-            ->willReturn($response);
-
+        $this->httpClient->addResponse($response);
 
         $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
 
@@ -67,10 +64,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             }
         }');
 
-        $this->guzzleClient
-            ->expects($this->once())
-            ->method('send')
-            ->willReturn($response);
+        $this->httpClient->addResponse($response);
 
         try {
             $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
@@ -94,10 +88,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?"
         }');
 
-        $this->guzzleClient
-            ->expects($this->once())
-            ->method('send')
-            ->willReturn($response);
+        $this->httpClient->addResponse($response);
 
         try {
             $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
@@ -120,7 +111,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $client_copy = Liberator::liberate(unserialize($serialized));
 
         $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(ClientInterface::class, $client_copy->httpClient, "A Guzzle client should have been set.");
+        $this->assertInstanceOf(HttpClient::class, $client_copy->httpClient, "A Guzzle client should have been set.");
         $this->assertNull($client_copy->usesOAuth());
         $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 

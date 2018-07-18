@@ -19,13 +19,17 @@ To use the Mollie API client, the following things are required:
 
 ## Composer Installation ##
 
-By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
+By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).  
 
-    $ composer require mollie/mollie-api-php:^2.0
+The Mollie client depends on a ``php-http/client-implementation`` so make sure to install a package providing that.
+We suggest using ``php-http/guzzle6-adapter``.
+
+    $ composer require mollie/mollie-api-php:^2.0 php-http/guzzle6-adapter:^1.0
 
     {
         "require": {
-            "mollie/mollie-api-php": "^2.0"
+            "mollie/mollie-api-php": "^2.0",
+            "php-http/guzzle6-adapter": "^1.0"
         }
     }
 
