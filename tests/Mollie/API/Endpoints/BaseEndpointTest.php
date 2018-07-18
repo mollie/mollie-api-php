@@ -24,11 +24,6 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
      */
     protected $apiClient;
 
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
     protected function mockApiCall(Response $response)
     {
         $this->httpClient = new Client();
