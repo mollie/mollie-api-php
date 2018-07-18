@@ -51,7 +51,6 @@
     "php-http/client-implementation": "^1.0",
     "php-http/discovery": "^1.0",
     "php-http/message-factory": "^1.0"
-
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",

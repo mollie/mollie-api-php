@@ -111,7 +111,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $client_copy = Liberator::liberate(unserialize($serialized));
 
         $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(HttpClient::class, $client_copy->httpClient, "A Guzzle client should have been set.");
+        $this->assertInstanceOf(HttpClient::class, $client_copy->httpClient, "A Http client implementation should have been set.");
         $this->assertNull($client_copy->usesOAuth());
         $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 

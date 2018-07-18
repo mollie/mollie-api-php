@@ -4,6 +4,7 @@ namespace Mollie\Api;
 
 use Http\Client\Exception\RequestException;
 use Http\Client\HttpClient;
+use Http\Discovery\Exception;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\RequestFactory;
@@ -162,8 +163,13 @@ class MollieApiClient
      */
     public function __construct(HttpClient $httpClient = null, RequestFactory $requestFactory = null)
     {
-        $this->httpClient = $httpClient ? $httpClient : HttpClientDiscovery::find();
-        $this->requestFactory = $requestFactory ? $requestFactory : MessageFactoryDiscovery::find();
+
+        try {
+            $this->httpClient = $httpClient ? $httpClient : HttpClientDiscovery::find();
+            $this->requestFactory = $requestFactory ? $requestFactory : MessageFactoryDiscovery::find();
+        } catch (Exception $e) {
+            throw new IncompatiblePlatform('We could not find any http-client-implementation. Install a package providing "php-http/client-implementation". Example: "php-http/guzzle6-adapter".');
+        }
 
         $compatibilityChecker = new CompatibilityChecker();
         $compatibilityChecker->checkCompatibility();

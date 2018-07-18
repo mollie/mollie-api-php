@@ -40,8 +40,8 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 
     protected function assertRequest(Request $expected_request)
     {
-        $this->assertEquals($expected_request->getMethod(), $this->httpClient->getLastRequest()->getMethod());
-        $this->assertEquals($expected_request->getUri(), $this->httpClient->getLastRequest()->getUri());
+        $this->assertEquals($expected_request->getMethod(), $this->httpClient->getLastRequest()->getMethod(), "Expected request method should be equal to actual Request method.");
+        $this->assertEquals($expected_request->getUri(), $this->httpClient->getLastRequest()->getUri(), "Expected request Uri should be equal to actual Request Uri.");
     }
 
     protected function copy($array, $object)

@@ -51,7 +51,17 @@ abstract class EndpointAbstract
             return "";
         }
 
-        return "?" . http_build_query($filters, "");
+        foreach ($filters as $key => $value) {
+            if ($value === true) {
+                $filters[$key] = "true";
+            }
+
+            if ($value === false) {
+                $filters[$key] = "false";
+            }
+        }
+
+        return "?" . http_build_query($filters, "", "&");
     }
 
     /**
@@ -62,10 +72,9 @@ abstract class EndpointAbstract
      */
     protected function rest_create($body, array $filters)
     {
-        try {
-            $encoded = json_encode($body);
-        } catch (\InvalidArgumentException $e) {
-            throw new ApiException("Error encoding parameters into JSON: '" . $e->getMessage() . "'.");
+        $encoded = json_encode($body);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new ApiException("Error encoding parameters into JSON: '" . json_last_error_msg() . "'.");
         }
 
         $result = $this->api->performHttpCall(
