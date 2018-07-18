@@ -25,7 +25,7 @@ The Mollie client depends on a ``php-http/client-implementation`` so make sure t
 We suggest using ``php-http/guzzle6-adapter``.
 
 ```console
-$ composer require mollie/mollie-api-php:^2.0 php-http/guzzle6-adapter:^1.0
+$ composer require mollie/mollie-api-php:^2.1 php-http/guzzle6-adapter:^1.0
 ```
 
 The version of the API client corresponds to the version of the API it implements. Check the [notes on migration](https://docs.mollie.com/migrating-v1-to-v2) to see what changes you need to make if you want to start using a newer API version.

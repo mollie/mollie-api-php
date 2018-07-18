@@ -4,6 +4,8 @@ namespace Tests\Mollie\Api;
 use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Psr7\Response;
 use Http\Client\HttpClient;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Strategy\MockClientStrategy;
 use Http\Mock\Client;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
@@ -25,6 +27,8 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->httpClient    = new Client();
+
+        HttpClientDiscovery::prependStrategy(MockClientStrategy::class);
 
         $this->mollieApiClient = new MollieApiClient($this->httpClient);
 

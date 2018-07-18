@@ -402,7 +402,7 @@ class MollieApiClient
      */
     public function __sleep()
     {
-        return ["apiEndpoint", "httpClient"];
+        return ["apiEndpoint"];
     }
 
     /**
@@ -415,6 +415,6 @@ class MollieApiClient
      */
     public function __wakeup()
     {
-        $this->__construct($this->httpClient);
+        $this->__construct();
     }
 }
