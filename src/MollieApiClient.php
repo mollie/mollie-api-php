@@ -163,12 +163,17 @@ class MollieApiClient
      */
     public function __construct(HttpClient $httpClient = null, RequestFactory $requestFactory = null)
     {
-
         try {
             $this->httpClient = $httpClient ? $httpClient : HttpClientDiscovery::find();
             $this->requestFactory = $requestFactory ? $requestFactory : MessageFactoryDiscovery::find();
-        } catch (Exception $e) {
-            throw new IncompatiblePlatform('We could not find any http-client-implementation. Install a package providing "php-http/client-implementation". Example: "php-http/guzzle6-adapter".');
+        } catch (Exception\NotFoundException $e) {
+            throw new IncompatiblePlatform(
+                'We could not find any http-client-implementation. Install a package providing "php-http/client-implementation". Example: "composer install php-http/guzzle6-adapter".'
+            );
+        } catch (Exception\DiscoveryFailedException $e) {
+            throw new IncompatiblePlatform(
+                'We could not find any http client or message factory. Install a package providing "php-http/client-implementation" and a PSR7 message implementation. Example: "composer install php-http/guzzle6-adapter".'
+            );
         }
 
         $compatibilityChecker = new CompatibilityChecker();
@@ -381,7 +386,7 @@ class MollieApiClient
 
         return $object;
     }
-    
+
     /**
      * Serialization can be used for caching. Of course doing so can be dangerous but some like to live dangerously.
      *

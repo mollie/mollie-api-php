@@ -180,11 +180,11 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payment = $this->apiClient->payments->get("tr_44aKxzEbr8");
+        $payment = $this->apiClient->payments->get("tr_44aKxzEbr8", ["testmode" => true]);
 
         $this->assertRequest(new Request(
             'GET',
-            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8'
+            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8?testmode=true'
         ));
 
         $this->assertInstanceOf(Payment::class, $payment);
