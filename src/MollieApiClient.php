@@ -46,6 +46,7 @@ class MollieApiClient
     const HTTP_GET = "GET";
     const HTTP_POST = "POST";
     const HTTP_DELETE = "DELETE";
+    const HTTP_PATCH = "PATCH";
 
     /**
      * HTTP status codes

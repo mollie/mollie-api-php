@@ -6,14 +6,13 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\ResourceFactory;
 use Psr\Http\Message\StreamInterface;
 
 abstract class EndpointAbstract
 {
     const REST_CREATE = MollieApiClient::HTTP_POST;
-    const REST_UPDATE = MollieApiClient::HTTP_POST;
+    const REST_UPDATE = MollieApiClient::HTTP_PATCH;
     const REST_READ = MollieApiClient::HTTP_GET;
     const REST_LIST = MollieApiClient::HTTP_GET;
     const REST_DELETE = MollieApiClient::HTTP_DELETE;

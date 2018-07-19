@@ -100,7 +100,7 @@ class Profile extends BaseResource
     }
 
     /**
-     * @return BaseResource
+     * @return Profile
      */
     public function update()
     {
@@ -117,7 +117,7 @@ class Profile extends BaseResource
             "mode" => $this->mode,
         ));
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_POST, $this->_links->self->href, $body);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Profile($this->client));
     }

@@ -76,7 +76,7 @@ class Customer extends BaseResource
             "metadata" => $this->metadata,
         ));
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_POST, $this->_links->self->href, $body);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }
