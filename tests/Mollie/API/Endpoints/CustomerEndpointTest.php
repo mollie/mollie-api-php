@@ -12,7 +12,6 @@ class CustomerEndpointTest extends BaseEndpointTest
     public function testCreateWorks()
     {
         $this->mockApiCall(
-            new Request('POST', '/v2/customers'),
             new Response(
                 200,
                 [],
@@ -42,6 +41,11 @@ class CustomerEndpointTest extends BaseEndpointTest
             "email" => "johndoe@example.org"
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/customers'
+        ));
+
         $this->assertInstanceOf(Customer::class, $customer);
         $this->assertEquals("customer", $customer->resource);
         $this->assertEquals("cst_FhQJRw4s2n", $customer->id);
@@ -60,7 +64,6 @@ class CustomerEndpointTest extends BaseEndpointTest
     public function testGetWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n'),
             new Response(
                 200,
                 [],
@@ -87,6 +90,11 @@ class CustomerEndpointTest extends BaseEndpointTest
         /** @var Customer $customer */
         $customer = $this->apiClient->customers->get("cst_FhQJRw4s2n");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n'
+        ));
+
         $this->assertInstanceOf(Customer::class, $customer);
         $this->assertEquals("customer", $customer->resource);
         $this->assertEquals("cst_FhQJRw4s2n", $customer->id);
@@ -105,7 +113,6 @@ class CustomerEndpointTest extends BaseEndpointTest
     public function testListWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers'),
             new Response(
                 200,
                 [],
@@ -145,6 +152,11 @@ class CustomerEndpointTest extends BaseEndpointTest
         /** @var Customer $customer */
         $customers = $this->apiClient->customers->page();
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers'
+        ));
+
         $this->assertInstanceOf(CustomerCollection::class, $customers);
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/list-customers", "type" => "text/html"];
@@ -167,7 +179,6 @@ class CustomerEndpointTest extends BaseEndpointTest
         $expectedEmail = 'kaas.broodje@gmail.com';
 
         $this->mockApiCall(
-            new Request('PATCH', '/v2/customers/cst_FhQJRw4s2n'),
             new Response(
                 200,
                 [],
@@ -197,6 +208,8 @@ class CustomerEndpointTest extends BaseEndpointTest
 
         $updatedCustomer = $customer->update();
 
+        $this->assertRequest(new Request('PATCH', 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n'));
+
         $this->assertEquals($expectedName, $updatedCustomer->name);
         $this->assertEquals($expectedEmail, $updatedCustomer->email);
     }
@@ -218,7 +231,7 @@ class CustomerEndpointTest extends BaseEndpointTest
             "createdAt": "2018-04-19T08:49:01+00:00",
             "_links": {
                 "self": {
-                    "href": "http://api.mollie.test/v2/customers/cst_FhQJRw4s2n",
+                    "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
                     "type": "application/hal+json"
                 },
                 "documentation": {

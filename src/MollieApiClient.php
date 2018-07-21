@@ -2,10 +2,12 @@
 
 namespace Mollie\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request;
+use Http\Client\Exception\RequestException;
+use Http\Client\HttpClient;
+use Http\Discovery\Exception;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+use Http\Message\RequestFactory;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -52,9 +54,14 @@ class MollieApiClient
     const HTTP_NO_CONTENT = 204;
 
     /**
-     * @var ClientInterface
+     * @var HttpClient
      */
     protected $httpClient;
+
+    /**
+     * @var RequestFactory
+     */
+    private $requestFactory;
 
     /**
      * @var string
@@ -150,13 +157,25 @@ class MollieApiClient
     protected $lastHttpResponseStatusCode;
 
     /**
-     * @param ClientInterface $httpClient
+     * @param HttpClient $httpClient
+     * @param RequestFactory $requestFactory
      *
      * @throws IncompatiblePlatform
      */
-    public function __construct(ClientInterface $httpClient = null)
+    public function __construct(HttpClient $httpClient = null, RequestFactory $requestFactory = null)
     {
-        $this->httpClient = $httpClient ? $httpClient : new Client();
+        try {
+            $this->httpClient = $httpClient ? $httpClient : HttpClientDiscovery::find();
+            $this->requestFactory = $requestFactory ? $requestFactory : MessageFactoryDiscovery::find();
+        } catch (Exception\NotFoundException $e) {
+            throw new IncompatiblePlatform(
+                'We could not find any http-client-implementation. Install a package providing "php-http/client-implementation". Example: "composer install php-http/guzzle6-adapter".'
+            );
+        } catch (Exception\DiscoveryFailedException $e) {
+            throw new IncompatiblePlatform(
+                'We could not find any http client or message factory. Install a package providing "php-http/client-implementation" and a PSR7 message implementation. Example: "composer install php-http/guzzle6-adapter".'
+            );
+        }
 
         $compatibilityChecker = new CompatibilityChecker();
         $compatibilityChecker->checkCompatibility();
@@ -165,10 +184,9 @@ class MollieApiClient
 
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
     }
 
-    public function initializeEndpoints()
+    private function initializeEndpoints()
     {
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
@@ -308,11 +326,11 @@ class MollieApiClient
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        $request = new Request($httpMethod, $url, $headers, $httpBody);
+        $request = $this->requestFactory->createRequest($httpMethod, $url, $headers, $httpBody);
 
         try {
-            $response = $this->httpClient->send($request, ['http_errors' => false]);
-        } catch (GuzzleException $e) {
+            $response = $this->httpClient->sendRequest($request);
+        } catch (RequestException $e) {
             throw new ApiException($e->getMessage(), $e->getCode(), $e);
         }
 
@@ -369,7 +387,7 @@ class MollieApiClient
 
         return $object;
     }
-    
+
     /**
      * Serialization can be used for caching. Of course doing so can be dangerous but some like to live dangerously.
      *

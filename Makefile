@@ -7,6 +7,7 @@ mollie-api-php.zip:
 	# First, install all dependencies. Then prefix everything with humbug/php-scoper. Finally, we should dump the
 	# autoloader again to update the autoloader with the new classnames.
 	#
+	composer require php-http/guzzle6-adapter
 	composer install --no-dev --no-scripts --no-suggest
 	$(shell composer global config bin-dir --absolute)/php-scoper add-prefix --force
 	composer dump-autoload --working-dir build --classmap-authoritative

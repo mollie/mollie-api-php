@@ -13,12 +13,6 @@ class InvoiceEndpointTest extends BaseEndpointTest
     public function testGetInvoice()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/invoices/inv_bsa6PvAwaK",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -84,6 +78,11 @@ class InvoiceEndpointTest extends BaseEndpointTest
 
         $invoice = $this->apiClient->invoices->get("inv_bsa6PvAwaK");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/invoices/inv_bsa6PvAwaK'
+        ));
+
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals("invoice", $invoice->resource);
         $this->assertEquals("inv_bsa6PvAwaK", $invoice->id);
@@ -112,12 +111,6 @@ class InvoiceEndpointTest extends BaseEndpointTest
     public function testListInvoices()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/invoices",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -201,6 +194,13 @@ class InvoiceEndpointTest extends BaseEndpointTest
         );
 
         $invoices = $this->apiClient->invoices->page();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/invoices'
+        ));
+
+
         $this->assertInstanceOf(InvoiceCollection::class, $invoices);
 
         $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/invoices-api/list-invoices', 'type' => 'text/html'];

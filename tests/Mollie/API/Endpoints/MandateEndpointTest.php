@@ -16,7 +16,6 @@ class MandateEndpointTest extends BaseEndpointTest
     public function testCreateWorks()
     {
         $this->mockApiCall(
-            new Request('POST', '/v2/customers/cst_FhQJRw4s2n/mandates'),
             new Response(
                 200,
                 [],
@@ -61,6 +60,11 @@ class MandateEndpointTest extends BaseEndpointTest
             "consumerAccount" => "NL55INGB0000000000"
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates'
+        ));
+
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals("mandate", $mandate->resource);
         $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
@@ -83,7 +87,6 @@ class MandateEndpointTest extends BaseEndpointTest
     public function testGetWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h'),
             new Response(
                 200,
                 [],
@@ -123,6 +126,11 @@ class MandateEndpointTest extends BaseEndpointTest
         /** @var Mandate $mandate */
         $mandate = $customer->getMandate("mdt_AcQl5fdL4h");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h'
+        ));
+
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals("mandate", $mandate->resource);
         $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
@@ -145,7 +153,6 @@ class MandateEndpointTest extends BaseEndpointTest
     public function testListWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
             new Response(
                 200,
                 [],
@@ -199,6 +206,12 @@ class MandateEndpointTest extends BaseEndpointTest
 
         /** @var Mandate $mandate */
         $mandates = $customer->mandates();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates'
+        ));
+
         $this->assertInstanceOf(MandateCollection::class, $mandates);
 
         foreach ($mandates as $mandate) {

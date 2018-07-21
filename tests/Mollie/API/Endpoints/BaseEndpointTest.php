@@ -2,62 +2,41 @@
 
 namespace Tests\Mollie\Api\Endpoints;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Http\Mock\Client;
 use Mollie\Api\MollieApiClient;
 
 abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Client|\PHPUnit_Framework_MockObject_MockObject
+     * @var Client
      */
-    protected $guzzleClient;
+    protected $httpClient;
+
+    /**
+     * @var
+     */
+    protected $messageFactory;
 
     /**
      * @var MollieApiClient
      */
     protected $apiClient;
 
-    protected function mockApiCall(Request $expectedRequest, Response $response)
+    protected function mockApiCall(Response $response)
     {
-        $this->guzzleClient = $this->createMock(Client::class);
+        $this->httpClient = new Client();
+        $this->httpClient->addResponse($response);
 
-        $this->apiClient = new MollieApiClient($this->guzzleClient);
+        $this->apiClient = new MollieApiClient($this->httpClient);
         $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+    }
 
-        $this->guzzleClient
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->isInstanceOf(Request::class))
-            ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
-                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod(), "HTTP method must be identical");
-
-                $this->assertEquals(
-                    $expectedRequest->getUri()->getPath(),
-                    $request->getUri()->getPath(),
-                    "URI path must be identical"
-                );
-
-                $this->assertEquals(
-                    $expectedRequest->getUri()->getQuery(),
-                    $request->getUri()->getQuery(),
-                    'Query string parameters must be identical'
-                );
-
-                $requestBody = $request->getBody()->getContents();
-                $expectedBody = $expectedRequest->getBody()->getContents();
-
-                if (strlen($expectedBody) > 0 && strlen($requestBody) > 0) {
-                    $this->assertJsonStringEqualsJsonString(
-                        $expectedBody,
-                        $requestBody,
-                        "HTTP body must be identical"
-                    );
-                }
-
-                return $response;
-            });
+    protected function assertRequest(Request $expected_request)
+    {
+        $this->assertEquals($expected_request->getMethod(), $this->httpClient->getLastRequest()->getMethod(), "Expected request method should be equal to actual Request method.");
+        $this->assertEquals($expected_request->getUri(), $this->httpClient->getLastRequest()->getUri(), "Expected request Uri should be equal to actual Request Uri.");
     }
 
     protected function copy($array, $object)

@@ -15,7 +15,6 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testGetMethod()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods/ideal'),
             new Response(
                 200,
                 [],
@@ -43,6 +42,11 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $idealMethod = $this->apiClient->methods->get('ideal');
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/methods/ideal'
+        ));
+
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
         $this->assertEquals('iDEAL', $idealMethod->description);
@@ -66,7 +70,6 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testGetMethodWithIncludeIssuers()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods/ideal?include=issuers'),
             new Response(
                 200,
                 [],
@@ -106,6 +109,11 @@ class MethodEndpointTest extends BaseEndpointTest
         );
 
         $idealMethod = $this->apiClient->methods->get('ideal', ['include' => 'issuers']);
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/methods/ideal?include=issuers'
+        ));
 
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
@@ -148,7 +156,6 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testGetTranslatedMethod()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods/sofort?locale=de_DE'),
             new Response(
                 200,
                 [],
@@ -176,6 +183,11 @@ class MethodEndpointTest extends BaseEndpointTest
 
         $method = $this->apiClient->methods->get('sofort', ['locale' => 'de_DE']);
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/methods/sofort?locale=de_DE'
+        ));
+
         $this->assertInstanceOf(Method::class, $method);
         $this->assertEquals('sofort', $method->id);
         $this->assertEquals('SOFORT Überweisung', $method->description);
@@ -201,7 +213,6 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testListMethods()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods'),
             new Response(
                 200,
                 [],
@@ -286,6 +297,11 @@ class MethodEndpointTest extends BaseEndpointTest
         );
 
         $methods = $this->apiClient->methods->all();
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/methods'
+        ));
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(4, $methods->count);

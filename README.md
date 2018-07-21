@@ -16,18 +16,18 @@ To use the Mollie API client, the following things are required:
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
 + PHP >= 5.6
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
++ An HTTP client which implements the ``php-http/client-implementation``. You can find the available implementations [here](https://packagist.org/providers/php-http/client-implementation). We recommend ``php-http/guzzle6-adapter``.
 
 ## Composer Installation ##
 
-By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).
+By far the easiest way to install the Mollie API client is to require it with [Composer](http://getcomposer.org/doc/00-intro.md).  
 
-    $ composer require mollie/mollie-api-php:^2.0
+The Mollie client depends on a ``php-http/client-implementation`` so make sure to install a package providing that.
+We suggest using ``php-http/guzzle6-adapter``.
 
-    {
-        "require": {
-            "mollie/mollie-api-php": "^2.0"
-        }
-    }
+```console
+$ composer require mollie/mollie-api-php:^2.1 php-http/guzzle6-adapter:^1.0
+```
 
 The version of the API client corresponds to the version of the API it implements. Check the [notes on migration](https://docs.mollie.com/migrating-v1-to-v2) to see what changes you need to make if you want to start using a newer API version.
 

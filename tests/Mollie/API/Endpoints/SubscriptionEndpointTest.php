@@ -14,7 +14,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testCreateWorks()
     {
         $this->mockApiCall(
-            new Request('POST', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
             new Response(
                 200,
                 [],
@@ -64,6 +63,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             "description" => "Order 1234"
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions'
+        ));
+
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
@@ -91,7 +95,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testGetWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
             new Response(
                 200,
                 [],
@@ -134,6 +137,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         /** @var Subscription $subscription */
         $subscription = $customer->getSubscription("sub_wByQa6efm6");
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'
+        ));
+
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
@@ -161,7 +169,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testListWorks()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
             new Response(
                 200,
                 [],
@@ -216,6 +223,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $subscriptions = $customer->subscriptions();
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions'
+        ));
+
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
 
         $this->assertEquals(count($subscriptions), $subscriptions->count);
@@ -237,7 +249,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     public function testCancelWorks()
     {
         $this->mockApiCall(
-            new Request('DELETE', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
             new Response(
                 200,
                 [],
@@ -281,6 +292,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         /** @var Subscription $subscription */
         $subscription = $customer->cancelSubscription("sub_wByQa6efm6");
 
+        $this->assertRequest(new Request(
+            'DELETE',
+            'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'
+        ));
+
         $this->assertInstanceOf(Subscription::class, $subscription);
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
@@ -308,7 +324,6 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $expectedStartDate = '2018-12-12';
 
         $this->mockApiCall(
-            new Request('PATCH', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),
             new Response(
                 200,
                 [],
@@ -331,11 +346,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                     "webhookUrl": "https://example.org/webhook",
                     "_links": {
                         "self": {
-                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
                             "type": "application/hal+json"
                         },
                         "customer": {
-                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j",
                             "type": "application/hal+json"
                         },
                         "documentation": {
@@ -356,6 +371,8 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $subscription->startDate = $expectedStartDate;
 
         $updatedSubscription = $subscription->update();
+
+        $this->assertRequest(new Request('PATCH', 'https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'));
 
         $this->assertEquals($expectedStartDate, $updatedSubscription->startDate);
         $this->assertEquals($expectedAmountObject, $updatedSubscription->amount);
@@ -385,11 +402,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             "webhookUrl": "https://example.org/webhook",
             "_links": {
                 "self": {
-                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                    "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
                     "type": "application/hal+json"
                 },
                 "customer": {
-                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                    "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j",
                     "type": "application/hal+json"
                 },
                 "documentation": {

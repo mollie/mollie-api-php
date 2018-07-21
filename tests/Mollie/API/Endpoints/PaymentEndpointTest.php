@@ -15,23 +15,6 @@ class PaymentEndpointTest extends BaseEndpointTest
     public function testCreatePayment()
     {
         $this->mockApiCall(
-            new Request(
-                "POST",
-                "/v2/payments",
-                [],
-                '{
-                    "amount":{  
-                      "value":"20.00",
-                      "currency":"EUR"
-                    },
-                    "description": "My first API payment",
-                    "redirectUrl": "https://example.org/redirect",
-                    "webhookUrl": "https://example.org/webhook",
-                    "metadata": {
-                        "order_id": "1234"
-                    }
-                }'
-            ),
             new Response(
                 201,
                 [],
@@ -88,6 +71,24 @@ class PaymentEndpointTest extends BaseEndpointTest
             ],
         ]);
 
+        $this->assertRequest(new Request(
+            'POST',
+            'https://api.mollie.com/v2/payments',
+            [],
+            '{
+                    "amount":{  
+                      "value":"20.00",
+                      "currency":"EUR"
+                    },
+                    "description": "My first API payment",
+                    "redirectUrl": "https://example.org/redirect",
+                    "webhookUrl": "https://example.org/webhook",
+                    "metadata": {
+                        "order_id": "1234"
+                    }
+                }'
+        ));
+
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('tr_44aKxzEbr8', $payment->id);
         $this->assertEquals('test', $payment->mode);
@@ -123,12 +124,6 @@ class PaymentEndpointTest extends BaseEndpointTest
     public function testGetPayment()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8?testmode=true",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -187,6 +182,11 @@ class PaymentEndpointTest extends BaseEndpointTest
 
         $payment = $this->apiClient->payments->get("tr_44aKxzEbr8", ["testmode" => true]);
 
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8?testmode=true'
+        ));
+
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('tr_44aKxzEbr8', $payment->id);
         $this->assertEquals('test', $payment->mode);
@@ -234,12 +234,6 @@ class PaymentEndpointTest extends BaseEndpointTest
     public function testListPayment()
     {
         $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments?limit=3",
-                [],
-                ''
-            ),
             new Response(
                 200,
                 [],
@@ -362,6 +356,11 @@ class PaymentEndpointTest extends BaseEndpointTest
         );
 
         $payments = $this->apiClient->payments->page(null, 3);
+
+        $this->assertRequest(new Request(
+            'GET',
+            'https://api.mollie.com/v2/payments?limit=3'
+        ));
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);
