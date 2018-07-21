@@ -59,7 +59,7 @@ class CustomerEndpoint extends EndpointAbstract
      */
     public function get($customerId, array $parameters = [])
     {
-        return parent::rest_read($customerId, $parameters);
+        return $this->rest_read($customerId, $parameters);
     }
 
     /**
