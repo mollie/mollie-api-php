@@ -99,7 +99,7 @@ class Customer extends BaseResource
      */
     public function payments()
     {
-        return $this->client->customerPayments->listFor($this);
+        return $this->client->customerPayments->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -141,7 +141,7 @@ class Customer extends BaseResource
      */
     public function subscriptions()
     {
-        return $this->client->subscriptions->listFor($this);
+        return $this->client->subscriptions->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -183,7 +183,7 @@ class Customer extends BaseResource
      */
     public function mandates()
     {
-        return $this->client->mandates->listFor($this);
+        return $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -193,7 +193,7 @@ class Customer extends BaseResource
      */
     public function hasValidMandate()
     {
-        $mandates = $this->client->mandates->listFor($this);
+        $mandates = $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
         foreach ($mandates as $mandate) {
             if ($mandate->isValid()) {
                 return true;
@@ -201,5 +201,20 @@ class Customer extends BaseResource
         }
 
         return false;
+    }
+
+    /**
+     * When accessed by oAuth we want to pass the testmode by default
+     *
+     * @return array
+     */
+    private function getPresetOptions()
+    {
+        $options = [];
+        if($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode === "test" ? true : false;
+        }
+
+        return $options;
     }
 }
