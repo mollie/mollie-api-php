@@ -266,13 +266,14 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                   },
                   "count": 3
                 }'
-            )
+            ),
+            true
         );
 
         /** @var Customer $customer */
         $customer = $this->getCustomer();
 
-        $payments = $customer->payments(["testmode" => true]);
+        $payments = $customer->payments();
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);

@@ -95,13 +95,11 @@ class Customer extends BaseResource
     /**
      * Get all payments for this customer
      *
-     * @param array $options
-     *
      * @return PaymentCollection
      */
-    public function payments(array $options = [])
+    public function payments()
     {
-        return $this->client->customerPayments->listFor($this, null, null, $options);
+        return $this->client->customerPayments->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -139,13 +137,11 @@ class Customer extends BaseResource
     /**
      * Get all subscriptions for this customer
      *
-     * @param array $options
-     *
      * @return SubscriptionCollection
      */
-    public function subscriptions(array $options = [])
+    public function subscriptions()
     {
-        return $this->client->subscriptions->listFor($this, null, null, $options);
+        return $this->client->subscriptions->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -183,25 +179,21 @@ class Customer extends BaseResource
     /**
      * Get all mandates for this customer
      *
-     * @param array $options
-     *
      * @return MandateCollection
      */
-    public function mandates(array $options = [])
+    public function mandates()
     {
-        return $this->client->mandates->listFor($this, null, null, $options);
+        return $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
      * Helper function to check for mandate with status valid
      *
-     * @param array $options
-     *
      * @return bool
      */
-    public function hasValidMandate(array $options = [])
+    public function hasValidMandate()
     {
-        $mandates = $this->client->mandates->listFor($this, null, null, $options);
+        $mandates = $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
         foreach ($mandates as $mandate) {
             if ($mandate->isValid()) {
                 return true;
@@ -209,5 +201,20 @@ class Customer extends BaseResource
         }
 
         return false;
+    }
+
+    /**
+     * When accessed by oAuth we want to pass the testmode by default
+     *
+     * @return array
+     */
+    private function getPresetOptions()
+    {
+        $options = [];
+        if($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode = "test" ? true : false;
+        }
+
+        return $options;
     }
 }
