@@ -135,7 +135,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $this->mockApiCall(
             new Request(
                 "GET",
-                "/v2/customers/cst_FhQJRw4s2n/payments",
+                "/v2/customers/cst_FhQJRw4s2n/payments?testmode=true",
                 [],
                 ''
             ),
@@ -272,7 +272,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         /** @var Customer $customer */
         $customer = $this->getCustomer();
 
-        $payments = $customer->payments();
+        $payments = $customer->payments(["testmode" => true]);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);

@@ -95,11 +95,13 @@ class Customer extends BaseResource
     /**
      * Get all payments for this customer
      *
+     * @param array $options
+     *
      * @return PaymentCollection
      */
-    public function payments()
+    public function payments(array $options = [])
     {
-        return $this->client->customerPayments->listFor($this);
+        return $this->client->customerPayments->listFor($this, null, null, $options);
     }
 
     /**
@@ -137,11 +139,13 @@ class Customer extends BaseResource
     /**
      * Get all subscriptions for this customer
      *
+     * @param array $options
+     *
      * @return SubscriptionCollection
      */
-    public function subscriptions()
+    public function subscriptions(array $options = [])
     {
-        return $this->client->subscriptions->listFor($this);
+        return $this->client->subscriptions->listFor($this, null, null, $options);
     }
 
     /**
@@ -179,21 +183,25 @@ class Customer extends BaseResource
     /**
      * Get all mandates for this customer
      *
+     * @param array $options
+     *
      * @return MandateCollection
      */
-    public function mandates()
+    public function mandates(array $options = [])
     {
-        return $this->client->mandates->listFor($this);
+        return $this->client->mandates->listFor($this, null, null, $options);
     }
 
     /**
      * Helper function to check for mandate with status valid
      *
+     * @param array $options
+     *
      * @return bool
      */
-    public function hasValidMandate()
+    public function hasValidMandate(array $options = [])
     {
-        $mandates = $this->client->mandates->listFor($this);
+        $mandates = $this->client->mandates->listFor($this, null, null, $options);
         foreach ($mandates as $mandate) {
             if ($mandate->isValid()) {
                 return true;
