@@ -212,7 +212,7 @@ class Customer extends BaseResource
     {
         $options = [];
         if($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode = "test" ? true : false;
+            $options["testmode"] = $this->mode === "test" ? true : false;
         }
 
         return $options;
