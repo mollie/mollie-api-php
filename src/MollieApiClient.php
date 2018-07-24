@@ -156,7 +156,11 @@ class MollieApiClient
      */
     public function __construct(ClientInterface $httpClient = null)
     {
-        $this->httpClient = $httpClient ? $httpClient : new Client();
+        $this->httpClient = $httpClient ?
+            $httpClient :
+            new Client([
+                \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath()
+            ]);
 
         $compatibilityChecker = new CompatibilityChecker();
         $compatibilityChecker->checkCompatibility();
@@ -369,7 +373,7 @@ class MollieApiClient
 
         return $object;
     }
-    
+
     /**
      * Serialization can be used for caching. Of course doing so can be dangerous but some like to live dangerously.
      *
