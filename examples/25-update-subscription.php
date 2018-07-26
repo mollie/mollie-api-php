@@ -22,9 +22,10 @@ try {
      * Subscription fields that can be updated are described by the link:
      * See https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription
      */
+    $subscription->interval = '2 months';
     $subscription->times = 10;
     $subscription->startDate = '2018-12-02'; // Year-month-day
-    $subscription->amount = (object)['amount' => '12.12', 'currency' => 'EUR'];
+    $subscription->amount = (object)['value' => '12.12', 'currency' => 'EUR'];
     $subscription->webhookUrl = 'https://some-webhook-url.com/with/path';
     $subscription->description = 'Monthly subscription';
     $subscription->update();
