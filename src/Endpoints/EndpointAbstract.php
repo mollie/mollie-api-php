@@ -64,23 +64,17 @@ abstract class EndpointAbstract
     }
 
     /**
-     * @param string|null|resource|StreamInterface $body
+     * @param array $body
      * @param array $filters
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_create($body, array $filters)
+    protected function rest_create(array $body, array $filters)
     {
-        try {
-            $encoded = \GuzzleHttp\json_encode($body);
-        } catch (\InvalidArgumentException $e) {
-            throw new ApiException("Error encoding parameters into JSON: '" . $e->getMessage() . "'.");
-        }
-
         $result = $this->api->performHttpCall(
             self::REST_CREATE,
             $this->getResourcePath() . $this->buildQueryString($filters),
-            $encoded
+            $this->parseRequestBody($body)
         );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
@@ -132,31 +126,6 @@ abstract class EndpointAbstract
         if ($result === null) {
             return null;
         }
-
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
-    }
-
-    /**
-     * Sends a POST request to a single Molle API object to update it.
-     *
-     * @param string $id
-     * @param string|null|resource|StreamInterface $body
-     *
-     * @return BaseResource
-     * @throws ApiException
-     */
-    protected function rest_update($id, $body)
-    {
-        if (empty($id)) {
-            throw new ApiException("Invalid resource id.");
-        }
-
-        $id = urlencode($id);
-        $result = $this->api->performHttpCall(
-            self::REST_UPDATE,
-            "{$this->getResourcePath()}/{$id}",
-            $body
-        );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
@@ -231,5 +200,25 @@ abstract class EndpointAbstract
         }
 
         return $this->resourcePath;
+    }
+
+    /**
+     * @param array $body
+     * @return null|string
+     * @throws ApiException
+     */
+    private function parseRequestBody(array $body)
+    {
+        if (empty($body)) {
+            return null;
+        }
+
+        try {
+            $encoded = \GuzzleHttp\json_encode($body);
+        } catch (\InvalidArgumentException $e) {
+            throw new ApiException("Error encoding parameters into JSON: '" . $e->getMessage() . "'.");
+        }
+
+        return $encoded;
     }
 }
