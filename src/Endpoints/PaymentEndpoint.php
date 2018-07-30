@@ -3,7 +3,6 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
@@ -122,7 +121,7 @@ class PaymentEndpoint extends EndpointAbstract
     /**
      * Issue a refund for the given payment.
      *
-     * The $filters parameter may either be an array of endpoint parameters, a float value to
+     * The $data parameter may either be an array of endpoint parameters, a float value to
      * initiate a partial refund, or empty to do a full refund.
      *
      * @param Payment $payment
