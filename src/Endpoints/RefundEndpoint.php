@@ -3,6 +3,7 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
@@ -31,6 +32,20 @@ class RefundEndpoint extends EndpointAbstract
     protected function getResourceCollectionObject($count, $_links)
     {
         return new RefundCollection($this->api, $count, $_links);
+    }
+
+    /**
+     * @param Payment $payment
+     * @param string $refundId
+     * @param array $parameters
+     *
+     * @return Refund
+     */
+    public function getFor(Payment $payment, $refundId, array $parameters = [])
+    {
+        $this->parentId = $payment->id;
+
+        return parent::rest_read($refundId, $parameters);
     }
 
     /**
