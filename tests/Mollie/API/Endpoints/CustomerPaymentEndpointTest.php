@@ -135,7 +135,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $this->mockApiCall(
             new Request(
                 "GET",
-                "/v2/customers/cst_FhQJRw4s2n/payments",
+                "/v2/customers/cst_FhQJRw4s2n/payments?testmode=true",
                 [],
                 ''
             ),
@@ -266,7 +266,8 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                   },
                   "count": 3
                 }'
-            )
+            ),
+            true
         );
 
         /** @var Customer $customer */

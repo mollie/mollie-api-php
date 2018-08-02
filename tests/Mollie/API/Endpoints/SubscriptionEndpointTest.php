@@ -19,35 +19,35 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 '{
-                  "resource": "subscription",
-                  "id": "sub_wByQa6efm6",
-                  "mode": "test",
-                  "createdAt": "2018-04-24T11:41:55+00:00",
-                  "status": "active",
-                  "amount": {
-                    "value": "10.00",
-                    "currency": "EUR"
-                  },
-                  "description": "Order 1234",
-                  "method": null,
-                  "times": null,
-                  "interval": "1 month",
-                  "startDate": "2018-04-24",
-                  "webhookUrl": null,
-                  "_links": {
-                    "self": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
-                      "type": "application/hal+json"
+                    "resource": "subscription",
+                    "id": "sub_wByQa6efm6",
+                    "mode": "test",
+                    "createdAt": "2018-04-24T11:41:55+00:00",
+                    "status": "active",
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
                     },
-                    "customer": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
-                      "type": "application/hal+json"
-                    },
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription",
-                      "type": "text/html"
+                    "description": "Order 1234",
+                    "method": null,
+                    "times": null,
+                    "interval": "1 month",
+                    "startDate": "2018-04-24",
+                    "webhookUrl": null,
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription",
+                            "type": "text/html"
+                        }
                     }
-                  }
                 }'
             )
         );
@@ -57,9 +57,9 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         /** @var Subscription $subscription */
         $subscription = $customer->createSubscription([
             "amount" => [
-                    "value" => "10.00",
-                    "currency" => "EUR"
-                ],
+                "value" => "10.00",
+                "currency" => "EUR"
+            ],
             "interval" => "1 month",
             "description" => "Order 1234"
         ]);
@@ -70,7 +70,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
-        $this->assertEquals((object) ["value" => "10.00", "currency" => "EUR"], $subscription->amount);
+        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
@@ -96,35 +96,35 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 '{
-                  "resource": "subscription",
-                  "id": "sub_wByQa6efm6",
-                  "mode": "test",
-                  "createdAt": "2018-04-24T11:41:55+00:00",
-                  "status": "active",
-                  "amount": {
-                    "value": "10.00",
-                    "currency": "EUR"
-                  },
-                  "description": "Order 1234",
-                  "method": null,
-                  "times": null,
-                  "interval": "1 month",
-                  "startDate": "2018-04-24",
-                  "webhookUrl": null,
-                  "_links": {
-                    "self": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
-                      "type": "application/hal+json"
+                    "resource": "subscription",
+                    "id": "sub_wByQa6efm6",
+                    "mode": "test",
+                    "createdAt": "2018-04-24T11:41:55+00:00",
+                    "status": "active",
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
                     },
-                    "customer": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
-                      "type": "application/hal+json"
-                    },
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription",
-                      "type": "text/html"
+                    "description": "Order 1234",
+                    "method": null,
+                    "times": null,
+                    "interval": "1 month",
+                    "startDate": "2018-04-24",
+                    "webhookUrl": null,
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription",
+                            "type": "text/html"
+                        }
                     }
-                  }
                 }'
             )
         );
@@ -140,7 +140,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
-        $this->assertEquals((object) ["value" => "10.00", "currency" => "EUR"], $subscription->amount);
+        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
@@ -166,50 +166,48 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 '{
-                  "_embedded": {
-                    "subscriptions": [
-                      {
-                        "resource": "subscription",
-                        "id": "sub_wByQa6efm6",
-                        "mode": "test",
-                        "createdAt": "2018-04-24T11:41:55+00:00",
-                        "status": "active",
-                        "amount": {
-                          "value": "10.00",
-                          "currency": "EUR"
+                    "_embedded": {
+                        "subscriptions": [{
+                            "resource": "subscription",
+                            "id": "sub_wByQa6efm6",
+                            "mode": "test",
+                            "createdAt": "2018-04-24T11:41:55+00:00",
+                            "status": "active",
+                            "amount": {
+                                "value": "10.00",
+                                "currency": "EUR"
+                            },
+                            "description": "Order 1234",
+                            "method": null,
+                            "times": null,
+                            "interval": "1 month",
+                            "startDate": "2018-04-24",
+                            "webhookUrl": null,
+                            "_links": {
+                                "self": {
+                                    "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                                    "type": "application/hal+json"
+                                },
+                                "customer": {
+                                    "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                                    "type": "application/hal+json"
+                                }
+                            }
+                        }]
+                    },
+                    "count": 1,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions",
+                            "type": "text/html"
                         },
-                        "description": "Order 1234",
-                        "method": null,
-                        "times": null,
-                        "interval": "1 month",
-                        "startDate": "2018-04-24",
-                        "webhookUrl": null,
-                        "_links": {
-                          "self": {
-                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                        "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions?limit=50",
                             "type": "application/hal+json"
-                          },
-                          "customer": {
-                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
-                            "type": "application/hal+json"
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "count": 1,
-                  "_links": {
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions",
-                      "type": "text/html"
-                    },
-                    "self": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions?limit=50",
-                      "type": "application/hal+json"
-                    },
-                    "previous": null,
-                    "next": null
-                  }
+                        },
+                        "previous": null,
+                        "next": null
+                    }
                 }'
             )
         );
@@ -244,36 +242,36 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 '{
-                  "resource": "subscription",
-                  "id": "sub_wByQa6efm6",
-                  "mode": "test",
-                  "createdAt": "2018-04-24T11:41:55+00:00",
-                  "status": "canceled",
-                  "amount": {
-                    "value": "10.00",
-                    "currency": "EUR"
-                  },
-                  "description": "Order 1234",
-                  "method": null,
-                  "times": null,
-                  "interval": "1 month",
-                  "startDate": "2018-04-24",
-                  "webhookUrl": null,
-                  "canceledAt": "2018-04-24T12:31:32+00:00",
-                  "_links": {
-                    "self": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
-                      "type": "application/hal+json"
+                    "resource": "subscription",
+                    "id": "sub_wByQa6efm6",
+                    "mode": "test",
+                    "createdAt": "2018-04-24T11:41:55+00:00",
+                    "status": "canceled",
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
                     },
-                    "customer": {
-                      "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
-                      "type": "application/hal+json"
-                    },
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription",
-                      "type": "text/html"
+                    "description": "Order 1234",
+                    "method": null,
+                    "times": null,
+                    "interval": "1 month",
+                    "startDate": "2018-04-24",
+                    "webhookUrl": null,
+                    "canceledAt": "2018-04-24T12:31:32+00:00",
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription",
+                            "type": "text/html"
+                        }
                     }
-                  }
                 }'
             )
         );
@@ -303,28 +301,129 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
     }
 
+    public function testThatUpdateSubscriptionWorks()
+    {
+        $expectedAmountValue = '12.00';
+        $expectedAmountCurrency = 'EUR';
+        $expectedStartDate = '2018-12-12';
+
+        $this->mockApiCall(
+            new Request('PATCH', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "subscription",
+                    "id": "sub_DRjwaT5qHx",
+                    "customerId": "cst_VhjQebNW5j",
+                    "mode": "live",
+                    "createdAt": "2018-07-17T07:45:52+00:00",
+                    "status": "active",
+                    "amount": {
+                        "value": "' . $expectedAmountValue . '",
+                        "currency": "' . $expectedAmountCurrency . '"
+                    },
+                    "description": "Mollie Recurring subscription #1",
+                    "method": null,
+                    "times": 42,
+                    "interval": "15 days",
+                    "startDate": "' . $expectedStartDate . '",
+                    "webhookUrl": "https://example.org/webhook",
+                    "_links": {
+                        "self": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $subscription = $this->getSubscription();
+        $expectedAmountObject = (object)[
+            'value' => $expectedAmountValue,
+            'currency' => $expectedAmountCurrency,
+        ];
+        $subscription->amount = $expectedAmountObject;
+        $subscription->startDate = $expectedStartDate;
+
+        $updatedSubscription = $subscription->update();
+
+        $this->assertEquals($expectedStartDate, $updatedSubscription->startDate);
+        $this->assertEquals($expectedAmountObject, $updatedSubscription->amount);
+    }
+
+    /**
+     * @return Subscription
+     */
+    private function getSubscription()
+    {
+        $subscriptionJson = '{
+            "resource": "subscription",
+            "id": "sub_DRjwaT5qHx",
+            "customerId": "cst_VhjQebNW5j",
+            "mode": "live",
+            "createdAt": "2018-07-17T07:45:52+00:00",
+            "status": "active",
+            "amount": {
+                "value": "10.00",
+                "currency": "EUR"
+            },
+            "description": "Mollie Recurring subscription #1",
+            "method": null,
+            "times": 42,
+            "interval": "15 days",
+            "startDate": "2018-12-12",
+            "webhookUrl": "https://example.org/webhook",
+            "_links": {
+                "self": {
+                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                    "type": "application/hal+json"
+                },
+                "customer": {
+                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                    "type": "application/hal+json"
+                },
+                "documentation": {
+                    "href": "https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription",
+                    "type": "text/html"
+                }
+            }
+        }';
+
+        return $this->copy(json_decode($subscriptionJson), new Subscription($this->apiClient));
+    }
+
     /**
      * @return Customer
      */
     private function getCustomer()
     {
         $customerJson = '{
-                  "resource": "customer",
-                  "id": "cst_FhQJRw4s2n",
-                  "mode": "test",
-                  "name": "John Doe",
-                  "email": "johndoe@example.org",
-                  "locale": null,
-                  "metadata": null,
-                  "recentlyUsedMethods": [],
-                  "createdAt": "2018-04-19T08:49:01+00:00",
-                  "_links": {
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
-                      "type": "text/html"
-                    }
-                  }
-                }';
+            "resource": "customer",
+            "id": "cst_FhQJRw4s2n",
+            "mode": "test",
+            "name": "John Doe",
+            "email": "johndoe@example.org",
+            "locale": null,
+            "metadata": null,
+            "recentlyUsedMethods": [],
+            "createdAt": "2018-04-19T08:49:01+00:00",
+            "_links": {
+                "documentation": {
+                    "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
+                    "type": "text/html"
+                }
+            }
+        }';
 
         return $this->copy(json_decode($customerJson), new Customer($this->apiClient));
     }

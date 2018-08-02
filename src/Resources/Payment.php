@@ -168,6 +168,14 @@ class Payment extends BaseResource
     public $subscriptionId;
 
     /**
+     * The settlement ID this payment belongs to.
+     *
+     * @example stl_jDk30akdN
+     * @var string|null
+     */
+    public $settlementId;
+
+    /**
      * The locale used for this payment.
      *
      * @var string|null

@@ -76,7 +76,7 @@ class Customer extends BaseResource
             "metadata" => $this->metadata,
         ));
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_POST, $this->_links->self->href, $body);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }
@@ -99,7 +99,7 @@ class Customer extends BaseResource
      */
     public function payments()
     {
-        return $this->client->customerPayments->listFor($this);
+        return $this->client->customerPayments->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -141,7 +141,7 @@ class Customer extends BaseResource
      */
     public function subscriptions()
     {
-        return $this->client->subscriptions->listFor($this);
+        return $this->client->subscriptions->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -183,6 +183,38 @@ class Customer extends BaseResource
      */
     public function mandates()
     {
-        return $this->client->mandates->listFor($this);
+        return $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
+    }
+
+    /**
+     * Helper function to check for mandate with status valid
+     *
+     * @return bool
+     */
+    public function hasValidMandate()
+    {
+        $mandates = $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
+        foreach ($mandates as $mandate) {
+            if ($mandate->isValid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * When accessed by oAuth we want to pass the testmode by default
+     *
+     * @return array
+     */
+    private function getPresetOptions()
+    {
+        $options = [];
+        if($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode === "test" ? true : false;
+        }
+
+        return $options;
     }
 }
