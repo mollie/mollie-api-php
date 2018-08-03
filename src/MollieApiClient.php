@@ -197,10 +197,13 @@ class MollieApiClient
 
     /**
      * @param string $url
+     *
+     * @return MollieApiClient
      */
     public function setApiEndpoint($url)
     {
         $this->apiEndpoint = rtrim(trim($url), '/');
+        return $this;
     }
 
     /**
@@ -213,6 +216,8 @@ class MollieApiClient
 
     /**
      * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
+     *
+     * @return MollieApiClient
      * @throws ApiException
      */
     public function setApiKey($apiKey)
@@ -225,10 +230,13 @@ class MollieApiClient
 
         $this->apiKey = $apiKey;
         $this->oauthAccess = false;
+        return $this;
     }
 
     /**
      * @param string $accessToken OAuth access token, starting with 'access_'
+     *
+     * @return MollieApiClient
      * @throws ApiException
      */
     public function setAccessToken($accessToken)
@@ -241,6 +249,7 @@ class MollieApiClient
 
         $this->apiKey = $accessToken;
         $this->oauthAccess = true;
+        return $this;
     }
 
     /**
@@ -255,10 +264,13 @@ class MollieApiClient
 
     /**
      * @param string $versionString
+     *
+     * @return MollieApiClient
      */
     public function addVersionString($versionString)
     {
         $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
+        return $this;
     }
 
     /**
