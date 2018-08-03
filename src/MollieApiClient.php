@@ -197,6 +197,8 @@ class MollieApiClient
 
     /**
      * @param string $url
+     *
+     * @return MollieApiClient
      */
     public function setApiEndpoint($url)
     {
@@ -214,6 +216,8 @@ class MollieApiClient
 
     /**
      * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
+     *
+     * @return MollieApiClient
      * @throws ApiException
      */
     public function setApiKey($apiKey)
@@ -231,6 +235,8 @@ class MollieApiClient
 
     /**
      * @param string $accessToken OAuth access token, starting with 'access_'
+     *
+     * @return MollieApiClient
      * @throws ApiException
      */
     public function setAccessToken($accessToken)
@@ -258,6 +264,8 @@ class MollieApiClient
 
     /**
      * @param string $versionString
+     *
+     * @return MollieApiClient
      */
     public function addVersionString($versionString)
     {
