@@ -12,6 +12,7 @@ use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
@@ -128,6 +129,13 @@ class MollieApiClient
     public $refunds;
 
     /**
+     * RESTful Refunds resource.
+     *
+     * @var PaymentRefundEndpoint
+     */
+    public $paymentRefunds;
+
+    /**
      * @var string
      */
     protected $apiKey;
@@ -184,6 +192,7 @@ class MollieApiClient
         $this->invoices = new InvoiceEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
+        $this->paymentRefunds = new PaymentRefundEndpoint($this);
     }
 
     /**
@@ -270,9 +279,9 @@ class MollieApiClient
      */
     public function performHttpCall($httpMethod, $apiMethod, $httpBody = null)
     {
-       $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
+        $url = $this->apiEndpoint . "/" . self::API_VERSION . "/" . $apiMethod;
 
-       return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
+        return $this->performHttpCallToFullUrl($httpMethod, $url, $httpBody);
     }
 
     /**
@@ -308,7 +317,7 @@ class MollieApiClient
             'User-Agent' => $userAgent,
         ];
 
-        if(function_exists("php_uname")) {
+        if (function_exists("php_uname")) {
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
@@ -338,8 +347,7 @@ class MollieApiClient
     {
         $body = $response->getBody()->getContents();
         if (empty($body)) {
-
-            if($response->getStatusCode() === self::HTTP_NO_CONTENT) {
+            if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
                 return null;
             }
 

@@ -401,7 +401,7 @@ class Payment extends BaseResource
      */
     public function getRefund($refundId, array $parameters = [])
     {
-        return $this->client->refunds->getFor($this, $refundId, $parameters);
+        return $this->client->paymentRefunds->getFor($this, $refundId, $parameters);
     }
 
     /**
