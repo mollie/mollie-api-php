@@ -394,6 +394,17 @@ class Payment extends BaseResource
     }
 
     /**
+     * @param string $refundId
+     * @param array $parameters
+     *
+     * @return Refund
+     */
+    public function getRefund($refundId, array $parameters = [])
+    {
+        return $this->client->paymentRefunds->getFor($this, $refundId, $parameters);
+    }
+
+    /**
      * Retrieves all chargebacks associated with this payment
      *
      * @return ChargebackCollection
