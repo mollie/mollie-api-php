@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
@@ -46,20 +45,5 @@ class PaymentRefundEndpoint extends EndpointAbstract
         $this->parentId = $payment->id;
 
         return parent::rest_read($refundId, $parameters);
-    }
-
-    /**
-     * Retrieves a collection of Refunds from Mollie.
-     *
-     * @param string $from The first refund ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     *
-     * @return RefundCollection
-     * @throws ApiException
-     */
-    public function page($from = null, $limit = null, array $parameters = [])
-    {
-        return $this->rest_list($from, $limit, $parameters);
     }
 }
