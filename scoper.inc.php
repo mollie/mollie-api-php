@@ -5,7 +5,7 @@
 use Isolated\Symfony\Component\Finder\Finder;
 
 return [
-    'prefix' => null,                       // string|null
+    'prefix' => "_MollieApiPhp",                       // string|null
     'finders' => [],                        // Finder[]
     'patchers' => [],                       // callable[]
     'whitelist' => [
