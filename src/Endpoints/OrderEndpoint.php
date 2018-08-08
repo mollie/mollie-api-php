@@ -4,6 +4,7 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
+use Mollie\Api\Resources\OrderCollection;
 
 class OrderEndpoint extends EndpointAbstract
 {
@@ -68,5 +69,20 @@ class OrderEndpoint extends EndpointAbstract
         }
 
         return parent::rest_read($orderId, $parameters);
+    }
+
+    /**
+     * Retrieves a collection of Orders from Mollie.
+     *
+     * @param string $from The first order ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     *
+     * @return OrderCollection
+     * @throws ApiException
+     */
+    public function page($from = null, $limit = null, array $parameters = [])
+    {
+        return $this->rest_list($from, $limit, $parameters);
     }
 }
