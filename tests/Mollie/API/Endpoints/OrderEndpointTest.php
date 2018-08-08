@@ -279,7 +279,37 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($orders[2], 'ord_pbjz3z');
     }
 
-    protected function assertOrder($order, $order_id)
+    /** @test */
+    public function testDeleteOrder()
+    {
+        $this->mockApiCall(
+            new Request("DELETE", "/v2/orders/ord_pbjz1x"),
+            new Response(
+                200,
+                [],
+                $this->getOrderResponseFixture('ord_pbjz1x', 'canceled')
+            )
+        );
+        $order = $this->apiClient->orders->delete('ord_pbjz1x');
+        $this->assertOrder($order, 'ord_pbjz1x', 'canceled');
+    }
+
+    /** @test */
+    public function testCancelOrder()
+    {
+        $this->mockApiCall(
+            new Request("DELETE", "/v2/orders/ord_pbjz1x"),
+            new Response(
+                200,
+                [],
+                $this->getOrderResponseFixture('ord_pbjz1x', 'canceled')
+            )
+        );
+        $order = $this->apiClient->orders->cancel('ord_pbjz1x');
+        $this->assertOrder($order, 'ord_pbjz1x', 'canceled');
+    }
+
+    protected function assertOrder($order, $order_id, $order_status = "created")
     {
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals('order', $order->resource);
@@ -300,7 +330,7 @@ class OrderEndpointTest extends BaseEndpointTest
           'description' => 'Lego cars',
         ], $order->metadata);
 
-        $this->assertEquals('created', $order->status);
+        $this->assertEquals($order_status, $order->status);
 
         $billingAddress = new Stdclass();
         $billingAddress->streetAndNumber = "Keizersgracht 313";
@@ -415,7 +445,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return $linkContainer;
     }
 
-    protected function getOrderResponseFixture($order_id)
+    protected function getOrderResponseFixture($order_id, $order_status = 'created')
     {
         return str_replace(
             "<<order_id>>",
@@ -436,7 +466,7 @@ class OrderEndpointTest extends BaseEndpointTest
                  "value": "0.00",
                  "currency": "EUR"
              },
-             "status": "created",
+             "status": "' . $order_status . '",
              "metadata": {
                  "order_id": "1337",
                  "description": "Lego cars"

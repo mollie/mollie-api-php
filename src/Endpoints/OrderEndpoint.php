@@ -72,6 +72,38 @@ class OrderEndpoint extends EndpointAbstract
     }
 
     /**
+     * Deletes the given Order.
+     *
+     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     * Returns with HTTP status No Content (204) if successful.
+     *
+     * @param string $orderId
+     *
+     * @return null
+     * @throws ApiException
+     */
+    public function delete($orderId)
+    {
+        return $this->rest_delete($orderId);
+    }
+
+    /**
+     * Cancel the given Order. This is just an alias of the 'delete' method.
+     *
+     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     * Returns with HTTP status No Content (204) if successful.
+     *
+     * @param string $orderId
+     *
+     * @return null
+     * @throws ApiException
+     */
+    public function cancel($orderId)
+    {
+        return $this->rest_delete($orderId);
+    }
+
+    /**
      * Retrieves a collection of Orders from Mollie.
      *
      * @param string $from The first order ID you want to include in your list.
