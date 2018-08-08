@@ -79,7 +79,7 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * @param string $paymentId
      *
-     * @return null
+     * @return Payment
      * @throws ApiException
      */
     public function delete($paymentId)
@@ -95,7 +95,7 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * @param string $paymentId
      *
-     * @return null
+     * @return Payment
      * @throws ApiException
      */
     public function cancel($paymentId)
