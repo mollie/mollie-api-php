@@ -2,11 +2,17 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 
 class OrderEndpoint extends EndpointAbstract
 {
     protected $resourcePath = "orders";
+
+    /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'ord_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -43,5 +49,24 @@ class OrderEndpoint extends EndpointAbstract
     public function create(array $data = [], array $filters = [])
     {
         return $this->rest_create($data, $filters);
+    }
+
+    /**
+     * Retrieve a single order from Mollie.
+     *
+     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     *
+     * @param string $paymentId
+     * @param array $parameters
+     * @return Order
+     * @throws ApiException
+     */
+    public function get($orderId, array $parameters = [])
+    {
+        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+        }
+
+        return parent::rest_read($orderId, $parameters);
     }
 }
