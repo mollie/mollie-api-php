@@ -255,6 +255,25 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals(3, $orders->count);
         $this->assertEquals(3, count($orders));
 
+        $this->assertNull($orders->_links->previous);
+        $selfLink = $this->createLinkObject(
+          "https://api.mollie.com/v2/orders",
+          "application/hal+json"
+        );
+        $this->assertEquals($selfLink, $orders->_links->self);
+
+        $nextLink = $this->createLinkObject(
+          "https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS",
+          "application/hal+json"
+        );
+        $this->assertEquals($nextLink, $orders->_links->next);
+
+        $documentationLink = $this->createLinkObject(
+          "https://docs.mollie.com/reference/v2/orders-api/list-orders",
+          "text/html"
+        );
+        $this->assertEquals($documentationLink, $orders->_links->documentation);
+
         $this->assertOrder($orders[0], 'ord_pbjz1x');
         $this->assertOrder($orders[1], 'ord_pbjz2y');
         $this->assertOrder($orders[2], 'ord_pbjz3z');
