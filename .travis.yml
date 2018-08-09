@@ -24,7 +24,6 @@ script:
 - vendor/bin/phpunit
 before_deploy:
 - sed -i "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" src/MollieApiClient.php
-- composer global require humbug/php-scoper
 - make mollie-api-php.zip
 deploy:
   provider: releases
