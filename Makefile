@@ -2,13 +2,15 @@
 # This automatically creates a fresh build for distribution with other modules or for getting started with Mollie
 # without composer.
 #
-mollie-api-php.zip:
+mollie-api-php.zip: php-scoper.phar
+	rm -rf build/*
+
 	#
 	# First, install all dependencies. Then prefix everything with humbug/php-scoper. Finally, we should dump the
 	# autoloader again to update the autoloader with the new classnames.
 	#
 	composer install --no-dev --no-scripts --no-suggest
-	$(shell composer global config bin-dir --absolute)/php-scoper add-prefix --force
+	php php-scoper.phar add-prefix --force
 	composer dump-autoload --working-dir build --classmap-authoritative
 
 	#
@@ -20,11 +22,10 @@ mollie-api-php.zip:
 	mv build/vendor/scoper-autoload.php build/vendor/autoload.php
 
 	#
-	# Replace paths that PhpScoper failed to replace.
-	#
-	sed -i -e "s|GuzzleHttp\\\\\\\\Psr7\\\\\\\\str|_MollieApiPhp\\\\\\\\GuzzleHttp\\\\\\\\Psr7\\\\\\\\str|g" build/vendor/guzzlehttp/psr7/src/functions_include.php
-
-	#
 	# Finally, create a zip file with all built files.
 	#
 	cd build; zip -r ../mollie-api-php.zip examples src vendor composer.json LICENSE README.md
+
+php-scoper.phar:
+	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar
+	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar.pubkey
