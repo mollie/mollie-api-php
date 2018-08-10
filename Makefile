@@ -22,15 +22,10 @@ mollie-api-php.zip: php-scoper.phar
 	mv build/vendor/scoper-autoload.php build/vendor/autoload.php
 
 	#
-	# Replace paths that PhpScoper failed to replace.
-	#
-	sed -i -e "s|GuzzleHttp\\\\\\\\Psr7\\\\\\\\str|_MollieApiPhp\\\\\\\\GuzzleHttp\\\\\\\\Psr7\\\\\\\\str|g" build/vendor/guzzlehttp/psr7/src/functions_include.php
-
-	#
 	# Finally, create a zip file with all built files.
 	#
 	cd build; zip -r ../mollie-api-php.zip examples src vendor composer.json LICENSE README.md
 
 php-scoper.phar:
-	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.1/php-scoper.phar
-	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.1/php-scoper.phar.pubkey
+	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar
+	wget -q https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar.pubkey
