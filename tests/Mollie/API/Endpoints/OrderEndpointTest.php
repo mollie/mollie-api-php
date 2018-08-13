@@ -332,7 +332,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $this->assertEquals($order_status, $order->status);
 
-        $billingAddress = new Stdclass();
+        $billingAddress = new stdClass();
         $billingAddress->streetAndNumber = "Keizersgracht 313";
         $billingAddress->postalCode = "1016 EE";
         $billingAddress->city = "Amsterdam";
@@ -342,7 +342,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $billingAddress->email = "luke@skywalker.com";
         $this->assertEquals($billingAddress, $order->billingAddress);
 
-        $shippingAddress = new Stdclass();
+        $shippingAddress = new stdClass();
         $shippingAddress->streetAndNumber = "Keizersgracht 313";
         $shippingAddress->postalCode = "1016 EE";
         $shippingAddress->city = "Amsterdam";
@@ -374,7 +374,7 @@ class OrderEndpointTest extends BaseEndpointTest
         ];
         $this->assertEquals($links, $order->_links);
 
-        $line1 = new Stdclass();
+        $line1 = new stdClass();
         $line1->resource = "orderline";
         $line1->id = "odl_dgtxyl";
         $line1->orderId = $order_id;
@@ -398,7 +398,7 @@ class OrderEndpointTest extends BaseEndpointTest
         );
         $this->assertEquals($line1, $order->lines[0]);
 
-        $line2 = new Stdclass();
+        $line2 = new stdClass();
         $line2->resource = "orderline";
         $line2->id = "odl_jp31jz";
         $line2->orderId = $order_id;
@@ -424,7 +424,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
     protected function createAmountObject($value, $currency)
     {
-        $amount = new Stdclass();
+        $amount = new stdClass();
         $amount->value = $value;
         $amount->currency = $currency;
         return $amount;
@@ -432,7 +432,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
     protected function createLinkObject($href, $type)
     {
-        $link = new Stdclass();
+        $link = new stdClass();
         $link->href = $href;
         $link->type = $type;
         return $link;
@@ -440,7 +440,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
     protected function createNamedLinkObject($name, $href, $type)
     {
-        $linkContainer = new Stdclass();
+        $linkContainer = new stdClass();
         $linkContainer->{$name} = $this->createLinkObject($href, $type);
         return $linkContainer;
     }
