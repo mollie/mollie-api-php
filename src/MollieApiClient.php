@@ -12,6 +12,7 @@ use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
+use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -130,6 +131,13 @@ class MollieApiClient
     public $orders;
 
     /**
+     * RESTful OrderLine resource.
+     *
+     * @var OrderLineEndpoint
+     */
+    public $orderLines;
+
+    /**
      * RESTful Refunds resource.
      *
      * @var RefundEndpoint
@@ -200,6 +208,7 @@ class MollieApiClient
         $this->invoices = new InvoiceEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
         $this->orders = new OrderEndpoint($this);
+        $this->orderLines = new OrderLineEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
     }

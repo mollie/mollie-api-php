@@ -205,16 +205,9 @@ class Order extends BaseResource
         return $this->status === OrderStatus::STATUS_VOID;
     }
 
-    public function cancelLine($lineId, $data = [])
+    public function cancelLine($lineId)
     {
-        $resource = "orders/" . urlencode($this->id) . "/lines/" . urlencode($lineId);
-
-        $body = null;
-        if (count($data) > 0) {
-            $body = json_encode($data);
-        }
-
-        $result = $this->client->performHttpCall(MollieApiClient::HTTP_DELETE, $resource, $body);
+        return $this->client->orderLines->cancelFor($this, $lineId);
     }
 
 }
