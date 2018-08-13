@@ -6,6 +6,8 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
+use Mollie\Api\Types\OrderLineStatus;
+use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
 use stdClass;
 
@@ -401,8 +403,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $line1->productUrl = "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083";
         $line1->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$';
         $line1->sku = "5702016116977";
-        $line1->type = "physical";
-        $line1->status = OrderStatus::STATUS_CREATED;
+        $line1->type = OrderLineType::TYPE_PHYSICAL;
+        $line1->status = OrderLineStatus::STATUS_CREATED;
         $line1->quantity = 2;
         $line1->unitPrice = $this->createAmountObject("399.00", "EUR");
         $line1->vatRate = "21.00";
@@ -425,8 +427,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->productUrl = "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056";
         $line2->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$';
         $line2->sku = "5702015594028";
-        $line2->type = "digital";
-        $line2->status = OrderStatus::STATUS_CREATED;
+        $line2->type = OrderLineType::TYPE_DIGITAL;
+        $line2->status = OrderLineStatus::STATUS_CREATED;
         $line2->quantity = 1;
         $line2->unitPrice = $this->createAmountObject("329.99", "EUR");
         $line2->vatRate = "21.00";

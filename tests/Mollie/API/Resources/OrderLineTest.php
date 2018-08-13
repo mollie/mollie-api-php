@@ -5,6 +5,7 @@ namespace Tests\Mollie\Api\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Types\OrderLineStatus;
+use Mollie\Api\Types\OrderLineType;
 
 class OrderLineTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,6 +22,82 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
         $orderLine->status = $status;
 
         $this->assertEquals($expected_boolean, $orderLine->{$function}());
+    }
+
+    /**
+     * @param string $type
+     * @param string $function
+     * @param boolean $expected_boolean
+     *
+     * @dataProvider dpTestOrderLineTypes
+     */
+    public function testOrderLineTypes($type, $function, $expected_boolean)
+    {
+        $orderLine = new OrderLine($this->createMock(MollieApiClient::class));
+        $orderLine->type = $type;
+
+        $this->assertEquals($expected_boolean, $orderLine->{$function}());
+    }
+
+    public function dpTestOrderLineTypes()
+    {
+        return [
+            [OrderLineType::TYPE_PHYSICAL, "isPhysical", true],
+            [OrderLineType::TYPE_PHYSICAL, "isDiscount", false],
+            [OrderLineType::TYPE_PHYSICAL, "isDigital", false],
+            [OrderLineType::TYPE_PHYSICAL, "isShippingFee", false],
+            [OrderLineType::TYPE_PHYSICAL, "isStoreCredit", false],
+            [OrderLineType::TYPE_PHYSICAL, "isGiftCard", false],
+            [OrderLineType::TYPE_PHYSICAL, "isSurcharge", false],
+
+            [OrderLineType::TYPE_DISCOUNT, "isPhysical", false],
+            [OrderLineType::TYPE_DISCOUNT, "isDiscount", true],
+            [OrderLineType::TYPE_DISCOUNT, "isDigital", false],
+            [OrderLineType::TYPE_DISCOUNT, "isShippingFee", false],
+            [OrderLineType::TYPE_DISCOUNT, "isStoreCredit", false],
+            [OrderLineType::TYPE_DISCOUNT, "isGiftCard", false],
+            [OrderLineType::TYPE_DISCOUNT, "isSurcharge", false],
+
+            [OrderLineType::TYPE_DIGITAL, "isPhysical", false],
+            [OrderLineType::TYPE_DIGITAL, "isDiscount", false],
+            [OrderLineType::TYPE_DIGITAL, "isDigital", true],
+            [OrderLineType::TYPE_DIGITAL, "isShippingFee", false],
+            [OrderLineType::TYPE_DIGITAL, "isStoreCredit", false],
+            [OrderLineType::TYPE_DIGITAL, "isGiftCard", false],
+            [OrderLineType::TYPE_DIGITAL, "isSurcharge", false],
+
+            [OrderLineType::TYPE_SHIPPING_FEE, "isPhysical", false],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isDiscount", false],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isDigital", false],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isShippingFee", true],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isStoreCredit", false],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isGiftCard", false],
+            [OrderLineType::TYPE_SHIPPING_FEE, "isSurcharge", false],
+
+            [OrderLineType::TYPE_STORE_CREDIT, "isPhysical", false],
+            [OrderLineType::TYPE_STORE_CREDIT, "isDiscount", false],
+            [OrderLineType::TYPE_STORE_CREDIT, "isDigital", false],
+            [OrderLineType::TYPE_STORE_CREDIT, "isShippingFee", false],
+            [OrderLineType::TYPE_STORE_CREDIT, "isStoreCredit", true],
+            [OrderLineType::TYPE_STORE_CREDIT, "isGiftCard", false],
+            [OrderLineType::TYPE_STORE_CREDIT, "isSurcharge", false],
+
+            [OrderLineType::TYPE_GIFT_CARD, "isPhysical", false],
+            [OrderLineType::TYPE_GIFT_CARD, "isDiscount", false],
+            [OrderLineType::TYPE_GIFT_CARD, "isDigital", false],
+            [OrderLineType::TYPE_GIFT_CARD, "isShippingFee", false],
+            [OrderLineType::TYPE_GIFT_CARD, "isStoreCredit", false],
+            [OrderLineType::TYPE_GIFT_CARD, "isGiftCard", true],
+            [OrderLineType::TYPE_GIFT_CARD, "isSurcharge", false],
+
+            [OrderLineType::TYPE_SURCHARGE, "isPhysical", false],
+            [OrderLineType::TYPE_SURCHARGE, "isDiscount", false],
+            [OrderLineType::TYPE_SURCHARGE, "isDigital", false],
+            [OrderLineType::TYPE_SURCHARGE, "isShippingFee", false],
+            [OrderLineType::TYPE_SURCHARGE, "isStoreCredit", false],
+            [OrderLineType::TYPE_SURCHARGE, "isGiftCard", false],
+            [OrderLineType::TYPE_SURCHARGE, "isSurcharge", true],
+        ];
     }
 
     public function dpTestOrderLineStatuses()

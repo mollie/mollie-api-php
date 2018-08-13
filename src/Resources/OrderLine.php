@@ -3,7 +3,8 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Types\OrderStatus;
+use Mollie\Api\Types\OrderLineType;
+use Mollie\Api\Types\OrderLineStatus;
 
 class OrderLine extends BaseResource
 {
@@ -127,72 +128,142 @@ class OrderLine extends BaseResource
     public $createdAt;
 
     /**
-     * Is this order created?
+     * Is this order line created?
      *
      * @return bool
      */
     public function isCreated()
     {
-        return $this->status === OrderStatus::STATUS_CREATED;
+        return $this->status === OrderLineStatus::STATUS_CREATED;
     }
 
     /**
-     * Is this order paid for?
+     * Is this order line paid for?
      *
      * @return bool
      */
     public function isPaid()
     {
-        return $this->status === OrderStatus::STATUS_PAID;
+        return $this->status === OrderLineStatus::STATUS_PAID;
     }
 
     /**
-     * Is this order authorized?
+     * Is this order line authorized?
      *
      * @return bool
      */
     public function isAuthorized()
     {
-        return $this->status === OrderStatus::STATUS_AUTHORIZED;
+        return $this->status === OrderLineStatus::STATUS_AUTHORIZED;
     }
 
     /**
-     * Is this order canceled?
+     * Is this order line canceled?
      *
      * @return bool
      */
     public function isCanceled()
     {
-        return $this->status === OrderStatus::STATUS_CANCELED;
+        return $this->status === OrderLineStatus::STATUS_CANCELED;
     }
 
     /**
-     * Is this order refunded?
+     * Is this order line refunded?
      *
      * @return bool
      */
     public function isRefunded()
     {
-        return $this->status === OrderStatus::STATUS_REFUNDED;
+        return $this->status === OrderLineStatus::STATUS_REFUNDED;
     }
 
     /**
-     * Is this order shipping?
+     * Is this order line shipping?
      *
      * @return bool
      */
     public function isShipping()
     {
-        return $this->status === OrderStatus::STATUS_SHIPPING;
+        return $this->status === OrderLineStatus::STATUS_SHIPPING;
     }
 
     /**
-     * Is this order void?
+     * Is this order line void?
      *
      * @return bool
      */
     public function isVoid()
     {
-        return $this->status === OrderStatus::STATUS_VOID;
+        return $this->status === OrderLineStatus::STATUS_VOID;
+    }
+
+    /**
+     * Is this order line for a physical product?
+     *
+     * @return bool
+     */
+    public function isPhysical()
+    {
+        return $this->type === OrderLineType::TYPE_PHYSICAL;
+    }
+
+    /**
+     * Is this order line for applying a discount?
+     *
+     * @return bool
+     */
+    public function isDiscount()
+    {
+        return $this->type === OrderLineType::TYPE_DISCOUNT;
+    }
+
+    /**
+     * Is this order line for a digital product?
+     *
+     * @return bool
+     */
+    public function isDigital()
+    {
+        return $this->type === OrderLineType::TYPE_DIGITAL;
+    }
+
+    /**
+     * Is this order line for applying a shipping fee?
+     *
+     * @return bool
+     */
+    public function isShippingFee()
+    {
+        return $this->type === OrderLineType::TYPE_SHIPPING_FEE;
+    }
+
+    /**
+     * Is this order line for store credit?
+     *
+     * @return bool
+     */
+    public function isStoreCredit()
+    {
+        return $this->type === OrderLineType::TYPE_STORE_CREDIT;
+    }
+
+    /**
+     * Is this order line for a gift card?
+     *
+     * @return bool
+     */
+    public function isGiftCard()
+    {
+        return $this->type === OrderLineType::TYPE_GIFT_CARD;
+    }
+
+    /**
+     * Is this order line for a surcharge?
+     *
+     * @return bool
+     */
+    public function isSurcharge()
+    {
+        return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 }
