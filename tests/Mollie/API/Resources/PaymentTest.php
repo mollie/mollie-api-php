@@ -19,10 +19,10 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
      */
     public function testPaymentStatuses($status, $function, $expected_boolean)
     {
-        $refund = new Payment($this->createMock(MollieApiClient::class));
-        $refund->status = $status;
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+        $payment->status = $status;
 
-        $this->assertEquals($expected_boolean, $refund->{$function}());
+        $this->assertEquals($expected_boolean, $payment->{$function}());
     }
 
     public function dpTestPaymentStatuses()
