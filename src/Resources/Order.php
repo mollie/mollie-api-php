@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderStatus;
 
 class Order extends BaseResource
@@ -202,6 +203,18 @@ class Order extends BaseResource
     public function isVoid()
     {
         return $this->status === OrderStatus::STATUS_VOID;
+    }
+
+    public function cancelLine($lineId, $data = [])
+    {
+        $resource = "orders/" . urlencode($this->id) . "/lines/" . urlencode($lineId);
+
+        $body = null;
+        if (count($data) > 0) {
+            $body = json_encode($data);
+        }
+
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_DELETE, $resource, $body);
     }
 
 }

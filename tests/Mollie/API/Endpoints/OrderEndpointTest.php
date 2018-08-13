@@ -316,6 +316,20 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
+    public function testCancelOrderLine()
+    {
+        $this->mockApiCall(
+            new Request(
+                "DELETE",
+                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl"
+            ),
+            new Response(204)
+        );
+
+        $order = $this->getOrder('ord_8wmqcHMN4U');
+        $this->assertNull($order->cancelLine('odl_dgtxyl'));
+    }
+
     protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED)
     {
         $this->assertInstanceOf(Order::class, $order);
@@ -450,6 +464,12 @@ class OrderEndpointTest extends BaseEndpointTest
         $linkContainer = new stdClass();
         $linkContainer->{$name} = $this->createLinkObject($href, $type);
         return $linkContainer;
+    }
+
+    protected function getOrder($id)
+    {
+        $orderJson = $this->getOrderResponseFixture($id);
+        return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
     protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
