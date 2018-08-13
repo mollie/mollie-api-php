@@ -125,4 +125,74 @@ class OrderLine extends BaseResource
      * @var string
      */
     public $createdAt;
+
+    /**
+     * Is this order created?
+     *
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->status === OrderStatus::STATUS_CREATED;
+    }
+
+    /**
+     * Is this order paid for?
+     *
+     * @return bool
+     */
+    public function isPaid()
+    {
+        return $this->status === OrderStatus::STATUS_PAID;
+    }
+
+    /**
+     * Is this order authorized?
+     *
+     * @return bool
+     */
+    public function isAuthorized()
+    {
+        return $this->status === OrderStatus::STATUS_AUTHORIZED;
+    }
+
+    /**
+     * Is this order canceled?
+     *
+     * @return bool
+     */
+    public function isCanceled()
+    {
+        return $this->status === OrderStatus::STATUS_CANCELED;
+    }
+
+    /**
+     * Is this order refunded?
+     *
+     * @return bool
+     */
+    public function isRefunded()
+    {
+        return $this->status === OrderStatus::STATUS_REFUNDED;
+    }
+
+    /**
+     * Is this order shipping?
+     *
+     * @return bool
+     */
+    public function isShipping()
+    {
+        return $this->status === OrderStatus::STATUS_SHIPPING;
+    }
+
+    /**
+     * Is this order void?
+     *
+     * @return bool
+     */
+    public function isVoid()
+    {
+        return $this->status === OrderStatus::STATUS_VOID;
+    }
 }
