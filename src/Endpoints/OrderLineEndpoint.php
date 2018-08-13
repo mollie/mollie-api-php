@@ -37,16 +37,16 @@ class OrderLineEndpoint extends EndpointAbstract
         return new OrderLineCollection($this->api, $count, $_links);
     }
 
-        /**
+    /**
      * @param Order $order
-     * @param string $subscriptionId
+     * @param string $lineId
      *
      * @return null
      */
-    public function cancelFor(Order $order, $orderId)
+    public function cancelFor(Order $order, $lineId)
     {
         $this->parentId = $order->id;
 
-        return parent::rest_delete($orderId);
+        return parent::rest_delete($lineId);
     }
 }
