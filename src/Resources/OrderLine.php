@@ -7,117 +7,122 @@ use Mollie\Api\Types\OrderStatus;
 
 class OrderLine extends BaseResource
 {
+    /**
+     * Always 'orderline'
+     *
+     * @var string
+     */
+    public $resource;
 
-    // /**
-    //  * @var string
-    //  */
-    // public $resource;
+    /**
+     * Id of the order line.
+     *
+     * @var string
+     */
+    public $id;
 
-    // /**
-    //  * Id of the order.
-    //  *
-    //  * @var string
-    //  */
-    // public $id;
+    /**
+     * The ID of the order this line belongs to.
+     *
+     * @example ord_kEn1PlbGa
+     * @var string
+     */
+    public $orderId;
 
-    // /**
-    //  * The profile ID this order belongs to.
-    //  *
-    //  * @example pfl_xH2kP6Nc6X
-    //  * @var string
-    //  */
-    // public $profileId;
+    /**
+     * The type of product bought.
+     *
+     * @example physical
+     * @var string
+     */
+    public $type;
 
-    // /**
-    //  * Either "live" or "test". Indicates this being a test or a live (verified) order.
-    //  *
-    //  * @var string
-    //  */
-    // public $mode;
+    /**
+     * A description of the order line.
+     *
+     * @example LEGO 4440 Forest Police Station
+     * @var string
+     */
+    public $name;
 
-    // /**
-    //  * Amount object containing the value and currency
-    //  *
-    //  * @var object
-    //  */
-    // public $amount;
+    /**
+     * The status of the order line.
+     *
+     * @var string
+     */
+    public $status;
 
-    // /**
-    //  * The total amount captured, thus far.
-    //  *
-    //  * @var object
-    //  */
-    // public $amountCaptured;
+    /**
+     * The number of items in the order line.
+     *
+     * @var int
+     */
+    public $quantity;
 
-    // /**
-    //  * The total amount refunded, thus far.
-    //  *
-    //  * @var object
-    //  */
-    // public $amountRefunded;
+    /**
+     * The price of a single item in the order line.
+     *
+     * @var object
+     */
+    public $unitPrice;
 
-    // /**
-    //  * The status of the order.
-    //  *
-    //  * @var string
-    //  */
-    // public $status;
+    /**
+     * Any discounts applied to the order line.
+     *
+     * @var object|null
+     */
+    public $discountAmount;
 
-    // /**
-    //  * The person and the address the order is billed to.
-    //  *
-    //  * @var object
-    //  */
-    // public $billingAddress;
+    /**
+     * The total amount of the line, including VAT and discounts.
+     *
+     * @var object
+     */
+    public $totalAmount;
 
-    // *
-    //  * The date of birth of your customer, if available.
-    //  * @example 1976-08-21
-    //  * @var string|null
+    /**
+     * The VAT rate applied to the order line. It is defined as a string
+     * and not as a float to ensure the correct number of decimals are
+     * passed.
+     *
+     * @example "21.00"
+     * @var string
+     */
+    public $vatRate;
 
-    // public $consumerDateOfBirth;
+    /**
+     * The amount of value-added tax on the line.
+     *
+     * @var object
+     */
+    public $vatAmount;
 
-    // /**
-    //  * The order number that was used when creating the order.
-    //  *
-    //  * @var string
-    //  */
-    // public $orderNumber;
+    /**
+     * The SKU, EAN, ISBN or UPC of the product sold.
+     *
+     * @var string|null
+     */
+    public $sku;
 
-    // /**
-    //  * The person and the address the order is billed to.
-    //  *
-    //  * @var object
-    //  */
-    // public $shippingAddress;
+    /**
+     * A link pointing to an image of the product sold.
+     *
+     * @var string|null
+     */
+    public $imageUrl;
 
-    // /**
-    //  * The locale used for this order.
-    //  *
-    //  * @var string
-    //  */
-    // public $locale;
+    /**
+     * A link pointing to the product page in your web shop of the product sold.
+     *
+     * @var string|null
+     */
+    public $productUrl;
 
-    // /**
-    //  * During creation of the order you can set custom metadata that is stored with
-    //  * the order, and given back whenever you retrieve that order.
-    //  *
-    //  * @var object|mixed|null
-    //  */
-    // public $metadata;
-
-    // /**
-    //  * UTC datetime the order was created in ISO-8601 format.
-    //  *
-    //  * @example "2013-12-25T10:30:54+00:00"
-    //  * @var string|null
-    //  */
-    // public $createdAt;
-
-    // /**
-    //  * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
-    //  * @var object[]
-    //  */
-    // public $_links;
-
+    /**
+     * The order line's date and time of creation, in ISO 8601 format.
+     *
+     * @example 2018-08-02T09:29:56+00:00
+     * @var string
+     */
+    public $createdAt;
 }

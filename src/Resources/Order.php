@@ -205,9 +205,13 @@ class Order extends BaseResource
         return $this->status === OrderStatus::STATUS_VOID;
     }
 
+    /**
+     * Cancels the line for this order.
+     * @param  string $lineId
+     * @return null
+     */
     public function cancelLine($lineId)
     {
         return $this->client->orderLines->cancelFor($this, $lineId);
     }
-
 }
