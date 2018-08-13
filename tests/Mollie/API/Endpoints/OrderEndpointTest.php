@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
+use Mollie\Api\Types\OrderStatus;
 use stdClass;
 
 class OrderEndpointTest extends BaseEndpointTest
@@ -287,11 +288,14 @@ class OrderEndpointTest extends BaseEndpointTest
             new Response(
                 200,
                 [],
-                $this->getOrderResponseFixture('ord_pbjz1x', 'canceled')
+                $this->getOrderResponseFixture(
+                    'ord_pbjz1x',
+                    OrderStatus::STATUS_CANCELED
+                )
             )
         );
         $order = $this->apiClient->orders->delete('ord_pbjz1x');
-        $this->assertOrder($order, 'ord_pbjz1x', 'canceled');
+        $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
     /** @test */
@@ -302,14 +306,17 @@ class OrderEndpointTest extends BaseEndpointTest
             new Response(
                 200,
                 [],
-                $this->getOrderResponseFixture('ord_pbjz1x', 'canceled')
+                $this->getOrderResponseFixture(
+                    'ord_pbjz1x',
+                    OrderStatus::STATUS_CANCELED
+                )
             )
         );
         $order = $this->apiClient->orders->cancel('ord_pbjz1x');
-        $this->assertOrder($order, 'ord_pbjz1x', 'canceled');
+        $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
-    protected function assertOrder($order, $order_id, $order_status = "created")
+    protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED)
     {
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals('order', $order->resource);
@@ -383,7 +390,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $line1->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$';
         $line1->sku = "5702016116977";
         $line1->type = "physical";
-        $line1->status = "created";
+        $line1->status = OrderStatus::STATUS_CREATED;
         $line1->quantity = 2;
         $line1->unitPrice = $this->createAmountObject("399.00", "EUR");
         $line1->vatRate = "21.00";
@@ -407,7 +414,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$';
         $line2->sku = "5702015594028";
         $line2->type = "physical";
-        $line2->status = "created";
+        $line2->status = OrderStatus::STATUS_CREATED;
         $line2->quantity = 1;
         $line2->unitPrice = $this->createAmountObject("329.99", "EUR");
         $line2->vatRate = "21.00";
@@ -445,7 +452,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return $linkContainer;
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = 'created')
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
     {
         return str_replace(
             "<<order_id>>",

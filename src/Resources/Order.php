@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Types\OrderStatus;
+
 class Order extends BaseResource
 {
     /**
@@ -17,7 +19,7 @@ class Order extends BaseResource
     public $id;
 
     /**
-     * The profile ID this payment belongs to.
+     * The profile ID this order belongs to.
      *
      * @example pfl_xH2kP6Nc6X
      * @var string
@@ -121,4 +123,85 @@ class Order extends BaseResource
      * @var array|object[]
      */
     public $lines;
+
+    /**
+     * Is this order created?
+     *
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->status === OrderStatus::STATUS_CREATED;
+    }
+
+    /**
+     * Is this order paid for?
+     *
+     * @return bool
+     */
+    public function isPaid()
+    {
+        return $this->status === OrderStatus::STATUS_PAID;
+    }
+
+    /**
+     * Is this order authorized?
+     *
+     * @return bool
+     */
+    public function isAuthorized()
+    {
+        return $this->status === OrderStatus::STATUS_AUTHORIZED;
+    }
+
+    /**
+     * Is this order canceled?
+     *
+     * @return bool
+     */
+    public function isCanceled()
+    {
+        return $this->status === OrderStatus::STATUS_CANCELED;
+    }
+
+    /**
+     * Is this order refunded?
+     *
+     * @return bool
+     */
+    public function isRefunded()
+    {
+        return $this->status === OrderStatus::STATUS_REFUNDED;
+    }
+
+    /**
+     * Is this order shipping?
+     *
+     * @return bool
+     */
+    public function isShipping()
+    {
+        return $this->status === OrderStatus::STATUS_SHIPPING;
+    }
+
+    /**
+     * Is this order completed?
+     *
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->status === OrderStatus::STATUS_COMPLETED;
+    }
+
+    /**
+     * Is this order void?
+     *
+     * @return bool
+     */
+    public function isVoid()
+    {
+        return $this->status === OrderStatus::STATUS_VOID;
+    }
+
 }

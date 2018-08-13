@@ -3,10 +3,8 @@
 namespace Tests\Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\Payment;
+use Mollie\Api\Resources\Order;
 use Mollie\Api\Types\OrderStatus;
-use Mollie\Api\Types\SequenceType;
-use stdClass;
 
 class OrderTest extends \PHPUnit\Framework\TestCase
 {
@@ -73,9 +71,9 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_REFUNDED, "isCompleted", false],
             [OrderStatus::STATUS_REFUNDED, "isVoid", false],
 
-            [OrderStatus::STATUS_SHIPPING, "isCreated", true],
-            [OrderStatus::STATUS_SHIPPING, "isPaid", true],
-            [OrderStatus::STATUS_SHIPPING, "isAuthorized", true],
+            [OrderStatus::STATUS_SHIPPING, "isCreated", false],
+            [OrderStatus::STATUS_SHIPPING, "isPaid", false],
+            [OrderStatus::STATUS_SHIPPING, "isAuthorized", false],
             [OrderStatus::STATUS_SHIPPING, "isCanceled", false],
             [OrderStatus::STATUS_SHIPPING, "isRefunded", false],
             [OrderStatus::STATUS_SHIPPING, "isShipping", true],
