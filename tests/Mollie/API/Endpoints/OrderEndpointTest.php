@@ -53,7 +53,6 @@ class OrderEndpointTest extends BaseEndpointTest
                  "webhookUrl": "https://example.org/webhook",
                  "lines": [
                      {
-                         "type": "physical",
                          "sku": "5702016116977",
                          "name": "LEGO 42083 Bugatti Chiron",
                          "productUrl": "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
@@ -78,7 +77,7 @@ class OrderEndpointTest extends BaseEndpointTest
                          }
                      },
                      {
-                         "type": "physical",
+                         "type": "digital",
                          "sku": "5702015594028",
                          "name": "LEGO 42056 Porsche 911 GT3 RS",
                          "productUrl": "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056",
@@ -143,7 +142,6 @@ class OrderEndpointTest extends BaseEndpointTest
             "method" => "klarnapaylater",
             "lines" => [
                 [
-                    "type" => "physical",
                     "sku" => "5702016116977",
                     "name" => "LEGO 42083 Bugatti Chiron",
                     "productUrl" => "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
@@ -168,7 +166,7 @@ class OrderEndpointTest extends BaseEndpointTest
                     ]
                 ],
                 [
-                    "type" => "physical",
+                    "type" => "digital",
                     "sku" => "5702015594028",
                     "name" => "LEGO 42056 Porsche 911 GT3 RS",
                     "productUrl" => "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056",
@@ -427,7 +425,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->productUrl = "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056";
         $line2->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$';
         $line2->sku = "5702015594028";
-        $line2->type = "physical";
+        $line2->type = "digital";
         $line2->status = OrderStatus::STATUS_CREATED;
         $line2->quantity = 1;
         $line2->unitPrice = $this->createAmountObject("329.99", "EUR");
@@ -569,7 +567,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "productUrl": "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056",
                      "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$",
                      "sku": "5702015594028",
-                     "type": "physical",
+                     "type": "digital",
                      "status": "created",
                      "quantity": 1,
                      "unitPrice": {
