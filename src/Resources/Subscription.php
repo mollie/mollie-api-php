@@ -102,13 +102,13 @@ class Subscription extends BaseResource
             return $this;
         }
 
-        $body = json_encode(array(
+        $body = json_encode([
             "amount" => $this->amount,
             "times" => $this->times,
             "startDate" => $this->startDate,
             "webhookUrl" => $this->webhookUrl,
             "description" => $this->description,
-        ));
+        ]);
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_PATCH,
@@ -125,7 +125,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isActive ()
+    public function isActive()
     {
         return $this->status === SubscriptionStatus::STATUS_ACTIVE;
     }
@@ -135,7 +135,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isPending ()
+    public function isPending()
     {
         return $this->status === SubscriptionStatus::STATUS_PENDING;
     }
@@ -145,7 +145,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled ()
+    public function isCanceled()
     {
         return $this->status === SubscriptionStatus::STATUS_CANCELED;
     }
@@ -155,7 +155,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isSuspended ()
+    public function isSuspended()
     {
         return $this->status === SubscriptionStatus::STATUS_SUSPENDED;
     }
@@ -165,8 +165,23 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isCompleted ()
+    public function isCompleted()
     {
         return $this->status === SubscriptionStatus::STATUS_COMPLETED;
+    }
+
+    /**
+     * Cancels this description
+     *
+     * @return Subscription
+     */
+    public function cancel()
+    {
+        if (!isset($this->_links->self->href)) {
+            return $this;
+        }
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_DELETE, $this->_links->self->href);
+
+        return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }
 }
