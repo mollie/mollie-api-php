@@ -428,11 +428,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $line1->discountAmount = $this->createAmountObject("100.00", "EUR");
         $line1->totalAmount = $this->createAmountObject("698.00", "EUR");
         $line1->createdAt = "2018-08-02T09:29:56+00:00";
-        $line1->_links = $this->createNamedLinkObject(
-            "self",
-            "https://api.mollie.com/v2/orders/$order_id/orderlines/odl_dgtxyl",
-            "application/hal+json"
-        );
         $this->assertEquals($line1, $order->lines[0]);
 
         $line2 = new stdClass();
@@ -451,11 +446,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->vatAmount = $this->createAmountObject("57.27", "EUR");
         $line2->totalAmount = $this->createAmountObject("329.99", "EUR");
         $line2->createdAt = "2018-08-02T09:29:56+00:00";
-        $line2->_links = $this->createNamedLinkObject(
-            "self",
-            "https://api.mollie.com/v2/orders/$order_id/orderlines/odl_jp31jz",
-            "application/hal+json"
-        );
         $this->assertEquals($line2, $order->lines[1]);
     }
 
@@ -546,13 +536,7 @@ class OrderEndpointTest extends BaseEndpointTest
                          "value": "698.00",
                          "currency": "EUR"
                      },
-                     "createdAt": "2018-08-02T09:29:56+00:00",
-                     "_links": {
-                         "self": {
-                             "href": "https://api.mollie.com/v2/orders/<<order_id>>/orderlines/odl_dgtxyl",
-                             "type": "application/hal+json"
-                         }
-                     }
+                     "createdAt": "2018-08-02T09:29:56+00:00"
                  },
                  {
                      "resource": "orderline",
@@ -578,13 +562,7 @@ class OrderEndpointTest extends BaseEndpointTest
                          "value": "329.99",
                          "currency": "EUR"
                      },
-                     "createdAt": "2018-08-02T09:29:56+00:00",
-                     "_links": {
-                         "self": {
-                             "href": "https://api.mollie.com/v2/orders/<<order_id>>/orderlines/odl_jp31jz",
-                             "type": "application/hal+json"
-                         }
-                     }
+                     "createdAt": "2018-08-02T09:29:56+00:00"
                  }
              ],
              "_links": {

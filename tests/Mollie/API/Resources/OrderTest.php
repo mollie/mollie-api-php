@@ -145,12 +145,6 @@ class OrderTest extends \PHPUnit\Framework\TestCase
                 'currency' => 'EUR',
             ],
             'createdAt' => '2018-08-02T09:29:56+00:00',
-            '_links' => (object) [
-                'self' => (object) [
-                    'href' => 'https://api.mollie.com/v2/orders/ord_pbjz8x/orderlines/odl_dgtxyl',
-                    'type' => 'application/hal+json',
-                ],
-            ],
         ];
 
         foreach ($lineArray as $key => $value) {
@@ -184,11 +178,5 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertAmountObject("100.00", "EUR", $line->discountAmount);
         $this->assertAmountObject("698.00", "EUR", $line->totalAmount);
         $this->assertEquals("2018-08-02T09:29:56+00:00", $line->createdAt);
-
-        $this->assertLinkObject(
-            "https://api.mollie.com/v2/orders/ord_pbjz8x/orderlines/odl_dgtxyl",
-            "application/hal+json",
-            $line->_links->self
-        );
     }
 }
