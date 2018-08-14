@@ -14,6 +14,7 @@ class Order extends BaseResource
     /**
      * Id of the order.
      *
+     * @example ord_8wmqcHMN4U
      * @var string
      */
     public $id;
@@ -113,16 +114,16 @@ class Order extends BaseResource
     public $createdAt;
 
     /**
-     * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
-     * @var object[]
-     */
-    public $_links;
-
-    /**
      * The order lines contain the actual things the customer bought.
      * @var array|object[]
      */
     public $lines;
+
+    /**
+     * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
+     * @var object[]
+     */
+    public $_links;
 
     /**
      * Is this order created?
@@ -213,7 +214,6 @@ class Order extends BaseResource
     {
         return $this->client->orderLines->cancelFor($this, $lineId);
     }
-
 
     /**
      * Get the line value objects
