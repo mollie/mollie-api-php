@@ -9,10 +9,15 @@ use Mollie\Api\Resources\OrderCollection;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
+use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
+use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 use stdClass;
 
 class OrderEndpointTest extends BaseEndpointTest
 {
+    use LinkObjectTestHelpers;
+    use AmountObjectTestHelpers;
+
     public function testCreateOrder()
     {
         $this->mockApiCall(
@@ -335,12 +340,9 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals('live', $order->mode);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $order->createdAt);
 
-        $amount = $this->createAmountObject('1027.99', 'EUR');
-        $this->assertEquals($amount, $order->amount);
-
-        $zeroAmount = $this->createAmountObject('0.00', 'EUR');
-        $this->assertEquals($zeroAmount, $order->amountCaptured);
-        $this->assertEquals($zeroAmount, $order->amountRefunded);
+        $this->assertAmountObject('1027.99', 'EUR', $order->amount);
+        $this->assertAmountObject('0.00', 'EUR', $order->amountCaptured);
+        $this->assertAmountObject('0.00', 'EUR', $order->amountRefunded);
 
         $this->assertEquals((object) [
           'order_id' => '1337',
@@ -437,29 +439,6 @@ class OrderEndpointTest extends BaseEndpointTest
             "application/hal+json"
         );
         $this->assertEquals($line2, $order->lines[1]);
-    }
-
-    protected function createAmountObject($value, $currency)
-    {
-        $amount = new stdClass();
-        $amount->value = $value;
-        $amount->currency = $currency;
-        return $amount;
-    }
-
-    protected function createLinkObject($href, $type)
-    {
-        $link = new stdClass();
-        $link->href = $href;
-        $link->type = $type;
-        return $link;
-    }
-
-    protected function createNamedLinkObject($name, $href, $type)
-    {
-        $linkContainer = new stdClass();
-        $linkContainer->{$name} = $this->createLinkObject($href, $type);
-        return $linkContainer;
     }
 
     protected function getOrder($id)

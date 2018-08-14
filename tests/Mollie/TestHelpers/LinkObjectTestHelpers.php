@@ -12,6 +12,13 @@ trait LinkObjectTestHelpers
         );
     }
 
+    protected function createNamedLinkObject($name, $href, $type)
+    {
+        return (object) [
+            $name => $this->createLinkObject($href, $type),
+        ];
+    }
+
     protected function createLinkObject($href, $type)
     {
         return (object) [

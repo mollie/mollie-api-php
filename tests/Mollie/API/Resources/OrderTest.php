@@ -145,7 +145,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
                 'currency' => 'EUR',
             ],
             'createdAt' => '2018-08-02T09:29:56+00:00',
-            '_links' => [
+            '_links' => (object) [
                 'self' => (object) [
                     'href' => 'https://api.mollie.com/v2/orders/ord_pbjz8x/orderlines/odl_dgtxyl',
                     'type' => 'application/hal+json',
@@ -188,7 +188,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertLinkObject(
             "https://api.mollie.com/v2/orders/ord_pbjz8x/orderlines/odl_dgtxyl",
             "application/hal+json",
-            $line->_links['self']
+            $line->_links->self
         );
     }
 }
