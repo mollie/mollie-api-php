@@ -3,8 +3,8 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderLineStatus;
+use Mollie\Api\Types\OrderLineType;
 
 class OrderLine extends BaseResource
 {
@@ -265,5 +265,13 @@ class OrderLine extends BaseResource
     public function isSurcharge()
     {
         return $this->type === OrderLineType::TYPE_SURCHARGE;
+    }
+
+    public function cancel()
+    {
+        return $this->client->performHttpCall(
+            MollieApiClient::HTTP_DELETE,
+            "orders/" . urlencode($this->orderId) . "/lines/" . urlencode($this->id)
+        );
     }
 }

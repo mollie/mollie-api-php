@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
+use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
@@ -328,7 +329,24 @@ class OrderEndpointTest extends BaseEndpointTest
         );
 
         $order = $this->getOrder('ord_8wmqcHMN4U');
-        $this->assertNull($order->cancelLine('odl_dgtxyl'));
+        $result = $order->cancelLine('odl_dgtxyl');
+        $this->assertNull($result);
+    }
+
+    public function testCancelOrderLineOnResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                "DELETE",
+                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl"
+            ),
+            new Response(204)
+        );
+        $line = $this->getOrder('ord_8wmqcHMN4U')->lines()[0];
+
+        $result = $line->cancel();
+
+        $this->assertNull($result);
     }
 
     protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED)
