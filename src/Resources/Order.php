@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderStatus;
 
 class Order extends BaseResource
@@ -213,5 +212,21 @@ class Order extends BaseResource
     public function cancelLine($lineId)
     {
         return $this->client->orderLines->cancelFor($this, $lineId);
+    }
+
+
+    /**
+     * Get the line value objects
+     *
+     * @return OrderLineCollection
+     */
+    public function lines()
+    {
+        $lines  = new OrderLineCollection(count($this->lines), null);
+        foreach ($this->lines as $line) {
+            $lines->append(ResourceFactory::createFromApiResult($line, new OrderLine($this->client)));
+        }
+
+        return $lines;
     }
 }
