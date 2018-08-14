@@ -18,6 +18,7 @@ use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
+use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
@@ -138,6 +139,13 @@ class MollieApiClient
     public $orderLines;
 
     /**
+     * RESTful Shipment resource.
+     *
+     * @var ShipmentEndpoint
+     */
+    public $shipments;
+
+    /**
      * RESTful Refunds resource.
      *
      * @var RefundEndpoint
@@ -209,6 +217,7 @@ class MollieApiClient
         $this->profiles = new ProfileEndpoint($this);
         $this->orders = new OrderEndpoint($this);
         $this->orderLines = new OrderLineEndpoint($this);
+        $this->shipments = new ShipmentEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
     }

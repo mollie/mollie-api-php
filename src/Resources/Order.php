@@ -229,4 +229,14 @@ class Order extends BaseResource
 
         return $lines;
     }
+
+    /**
+     * @param array $options
+     *
+     * @return Shipment
+     */
+    public function createShipment(array $options = [])
+    {
+        return $this->client->shipments->createFor($this, $options);
+    }
 }
