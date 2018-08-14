@@ -194,7 +194,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($order, 'ord_pbjz8x');
     }
 
-    /** @test */
     public function testGetOrder()
     {
         $this->mockApiCall(
@@ -214,7 +213,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($order, 'ord_pbjz8x');
     }
 
-    /** @test */
     public function testListOrders()
     {
         $this->mockApiCall(
@@ -280,7 +278,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($orders[2], 'ord_pbjz3z');
     }
 
-    /** @test */
     public function testDeleteOrder()
     {
         $this->mockApiCall(
@@ -298,7 +295,6 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
-    /** @test */
     public function testCancelOrder()
     {
         $this->mockApiCall(
