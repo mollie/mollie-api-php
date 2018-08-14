@@ -49,4 +49,18 @@ class ShipmentEndpoint extends EndpointAbstract
         $this->parentId = $order->id;
         return parent::rest_create($options, $filters);
     }
+
+    /**
+    * @param Order $order
+    * @param string $shipmentId
+    * @param array $parameters
+    *
+    * @return Shipment
+    */
+    public function getFor(Order $order, $shipmentId, array $parameters = [])
+    {
+        $this->parentId = $order->id;
+
+        return parent::rest_read($shipmentId, $parameters);
+    }
 }

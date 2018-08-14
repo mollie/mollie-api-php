@@ -6,8 +6,8 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
+use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderStatus;
-use Mollie\Api\Types\ShipmentStatus;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
@@ -55,6 +55,46 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
     }
 
+    public function testGetShipment()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U"
+            ),
+            new Response(
+                200,
+                [],
+                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+            )
+        );
+
+        $order = $this->getOrder('ord_pbjz8x');
+        $shipment = $this->apiClient->shipments->getFor($order, "shp_3wmsgCJN4U");
+
+        $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+    }
+
+    public function testGetShipmentOnOrderResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U"
+            ),
+            new Response(
+                200,
+                [],
+                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+            )
+        );
+
+        $order = $this->getOrder('ord_pbjz8x');
+        $shipment = $order->getShipment('shp_3wmsgCJN4U');
+
+        $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+    }
+
     protected function assertShipment($shipment, $shipment_id, $order_id)
     {
         $this->assertEquals("shipment", $shipment->resource);
@@ -86,7 +126,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$', $line1->imageUrl);
         $this->assertEquals('5702016116977', $line1->sku);
         $this->assertEquals('physical', $line1->type);
-        $this->assertEquals(ShipmentStatus::STATUS_SHIPPED, $line1->status);
+        $this->assertEquals(OrderLineStatus::STATUS_SHIPPED, $line1->status);
         $this->assertEquals(2, $line1->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line1->createdAt);
         $this->assertEquals('21.00', $line1->vatRate);
@@ -104,7 +144,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$', $line2->imageUrl);
         $this->assertEquals('5702015594028', $line2->sku);
         $this->assertEquals('digital', $line2->type);
-        $this->assertEquals(ShipmentStatus::STATUS_SHIPPED, $line2->status);
+        $this->assertEquals(OrderLineStatus::STATUS_SHIPPED, $line2->status);
         $this->assertEquals(1, $line2->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line2->createdAt);
         $this->assertEquals('21.00', $line2->vatRate);
@@ -259,18 +299,18 @@ class ShipmentEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipmentResponseFixture($shipment_id, $order_id, $shipment_status = ShipmentStatus::STATUS_SHIPPED)
+    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPED)
     {
         return str_replace(
             [
                 "<<order_id>>",
                 "<<shipment_id>>",
-                "<<shipment_status>>",
+                "<<orderline_status>>",
             ],
             [
                 $order_id,
                 $shipment_id,
-                $shipment_status
+                $orderline_status
             ],
             '{
              "resource": "shipment",
@@ -288,7 +328,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
                      "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$",
                      "sku": "5702016116977",
                      "type": "physical",
-                     "status": "<<shipment_status>>",
+                     "status": "<<orderline_status>>",
                      "quantity": 2,
                      "unitPrice": {
                          "value": "399.00",
@@ -318,7 +358,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
                      "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$",
                      "sku": "5702015594028",
                      "type": "digital",
-                     "status": "<<shipment_status>>",
+                     "status": "<<orderline_status>>",
                      "quantity": 1,
                      "unitPrice": {
                          "value": "329.99",

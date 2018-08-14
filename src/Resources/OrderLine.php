@@ -178,13 +178,13 @@ class OrderLine extends BaseResource
     }
 
     /**
-     * Is this order line shipping?
+     * Is this order line shipped?
      *
      * @return bool
      */
-    public function isShipping()
+    public function isShipped()
     {
-        return $this->status === OrderLineStatus::STATUS_SHIPPING;
+        return $this->status === OrderLineStatus::STATUS_SHIPPED;
     }
 
     /**

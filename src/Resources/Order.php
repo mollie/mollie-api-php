@@ -239,4 +239,14 @@ class Order extends BaseResource
     {
         return $this->client->shipments->createFor($this, $options);
     }
+
+    /**
+     * @param array $parameters
+     *
+     * @return Shipment
+     */
+    public function getShipment($shipmentId, array $parameters = [])
+    {
+        return $this->client->shipments->getFor($this, $shipmentId, $parameters);
+    }
 }
