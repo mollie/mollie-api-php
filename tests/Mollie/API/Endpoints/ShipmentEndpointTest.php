@@ -97,7 +97,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
     }
 
-    public function testListShipments()
+    public function testListShipmentsViaShipmentEndpoint()
     {
         $this->mockApiCall(
             new Request(
@@ -131,6 +131,47 @@ class ShipmentEndpointTest extends BaseEndpointTest
 
         $order = $this->getOrder('ord_pbjz8x');
         $shipments = $this->apiClient->shipments->listFor($order);
+
+        $this->assertInstanceOf(ShipmentCollection::class, $shipments);
+        $this->assertShipment($shipments[0], 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+        $this->assertShipment($shipments[1], 'shp_kjh234CASX', 'ord_pbjz8x');
+    }
+
+    public function testListShipmentsOnOrderResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/orders/ord_pbjz8x/shipments"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "count": 2,
+                    "_embedded": {
+                        "shipments": [
+                            ' . $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x") . ',
+                            ' . $this->getShipmentResponseFixture("shp_kjh234CASX", "ord_pbjz8x") . '
+                        ]
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/order/ord_pbjz8x/shipments",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/shipments-api/list-shipments",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $order = $this->getOrder('ord_pbjz8x');
+
+        $shipments = $order->shipments();
 
         $this->assertInstanceOf(ShipmentCollection::class, $shipments);
         $this->assertShipment($shipments[0], 'shp_3wmsgCJN4U', 'ord_pbjz8x');

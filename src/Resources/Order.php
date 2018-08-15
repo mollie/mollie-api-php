@@ -249,4 +249,14 @@ class Order extends BaseResource
     {
         return $this->client->shipments->getFor($this, $shipmentId, $parameters);
     }
+
+    /**
+     * @param array $parameters
+     *
+     * @return ShipmentCollection
+     */
+    public function shipments(array $parameters = [])
+    {
+        return $this->client->shipments->listFor($this, $parameters);
+    }
 }
