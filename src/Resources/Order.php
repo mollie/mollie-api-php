@@ -241,6 +241,25 @@ class Order extends BaseResource
     }
 
     /**
+     * @param array $lineIds
+     *
+     * @return Shipment
+     */
+    public function ship(array $lineIds)
+    {
+        $lines = [];
+        foreach ($lineIds as $lineId) {
+            $lines[] = [
+                'id' => $lineId,
+            ];
+        }
+
+        return $this->client->shipments->createFor($this, [
+            'lines' => $lines,
+        ]);
+    }
+
+    /**
      * @param array $parameters
      *
      * @return Shipment
