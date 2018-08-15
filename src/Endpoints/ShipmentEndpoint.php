@@ -4,6 +4,7 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
+use Mollie\Api\Resources\ShipmentCollection;
 
 class ShipmentEndpoint extends EndpointAbstract
 {
@@ -62,5 +63,20 @@ class ShipmentEndpoint extends EndpointAbstract
         $this->parentId = $order->id;
 
         return parent::rest_read($shipmentId, $parameters);
+    }
+
+    /**
+     * Return all shipments for the Order provided.
+     *
+     * @param Order $order
+     * @param array $parameters
+     *
+     * @return ShipmentCollection
+     */
+    public function listFor(Order $order, array $parameters = [])
+    {
+        $this->parentId = $order->id;
+
+        return parent::rest_list(null, null, $parameters);
     }
 }

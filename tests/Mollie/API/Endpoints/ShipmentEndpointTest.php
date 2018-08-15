@@ -6,6 +6,8 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
+use Mollie\Api\Resources\Shipment;
+use Mollie\Api\Resources\ShipmentCollection;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderStatus;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
@@ -95,14 +97,55 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
     }
 
+    public function testListShipments()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/orders/ord_pbjz8x/shipments"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "count": 2,
+                    "_embedded": {
+                        "shipments": [
+                            ' . $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x") . ',
+                            ' . $this->getShipmentResponseFixture("shp_kjh234CASX", "ord_pbjz8x") . '
+                        ]
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/order/ord_pbjz8x/shipments",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/shipments-api/list-shipments",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $order = $this->getOrder('ord_pbjz8x');
+        $shipments = $this->apiClient->shipments->listFor($order);
+
+        $this->assertInstanceOf(ShipmentCollection::class, $shipments);
+        $this->assertShipment($shipments[0], 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+        $this->assertShipment($shipments[1], 'shp_kjh234CASX', 'ord_pbjz8x');
+    }
+
     protected function assertShipment($shipment, $shipment_id, $order_id)
     {
+        $this->assertInstanceOf(Shipment::class, $shipment);
         $this->assertEquals("shipment", $shipment->resource);
         $this->assertEquals($shipment_id, $shipment->id);
         $this->assertEquals($order_id, $shipment->orderId);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $shipment->createdAt);
         $this->assertLinkObject(
-            'https://api.mollie.com/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U',
+            "https://api.mollie.com/v2/orders/ord_pbjz8x/shipments/{$shipment_id}",
             'application/hal+json',
             $shipment->_links->self
         );
