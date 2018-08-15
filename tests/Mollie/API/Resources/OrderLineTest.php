@@ -110,6 +110,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_CREATED, "isRefunded", false],
             [OrderLineStatus::STATUS_CREATED, "isShipped", false],
             [OrderLineStatus::STATUS_CREATED, "isVoid", false],
+            [OrderLineStatus::STATUS_CREATED, "isCancelable", true],
 
             [OrderLineStatus::STATUS_PAID, "isCreated", false],
             [OrderLineStatus::STATUS_PAID, "isPaid", true],
@@ -118,6 +119,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_PAID, "isRefunded", false],
             [OrderLineStatus::STATUS_PAID, "isShipped", false],
             [OrderLineStatus::STATUS_PAID, "isVoid", false],
+            [OrderLineStatus::STATUS_PAID, "isCancelable", false],
 
             [OrderLineStatus::STATUS_AUTHORIZED, "isCreated", false],
             [OrderLineStatus::STATUS_AUTHORIZED, "isPaid", false],
@@ -126,6 +128,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_AUTHORIZED, "isRefunded", false],
             [OrderLineStatus::STATUS_AUTHORIZED, "isShipped", false],
             [OrderLineStatus::STATUS_AUTHORIZED, "isVoid", false],
+            [OrderLineStatus::STATUS_AUTHORIZED, "isCancelable", true],
 
             [OrderLineStatus::STATUS_CANCELED, "isCreated", false],
             [OrderLineStatus::STATUS_CANCELED, "isPaid", false],
@@ -134,6 +137,8 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_CANCELED, "isRefunded", false],
             [OrderLineStatus::STATUS_CANCELED, "isShipped", false],
             [OrderLineStatus::STATUS_CANCELED, "isVoid", false],
+            [OrderLineStatus::STATUS_CANCELED, "isCancelable", false],
+
 
             [OrderLineStatus::STATUS_REFUNDED, "isCreated", false],
             [OrderLineStatus::STATUS_REFUNDED, "isPaid", false],
@@ -142,6 +147,8 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_REFUNDED, "isRefunded", true],
             [OrderLineStatus::STATUS_REFUNDED, "isShipped", false],
             [OrderLineStatus::STATUS_REFUNDED, "isVoid", false],
+            [OrderLineStatus::STATUS_REFUNDED, "isCancelable", false],
+
 
             [OrderLineStatus::STATUS_SHIPPED, "isCreated", false],
             [OrderLineStatus::STATUS_SHIPPED, "isPaid", false],
@@ -150,6 +157,8 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_SHIPPED, "isRefunded", false],
             [OrderLineStatus::STATUS_SHIPPED, "isShipped", true],
             [OrderLineStatus::STATUS_SHIPPED, "isVoid", false],
+            [OrderLineStatus::STATUS_SHIPPED, "isCancelable", false],
+
 
             [OrderLineStatus::STATUS_VOID, "isCreated", false],
             [OrderLineStatus::STATUS_VOID, "isPaid", false],
@@ -158,6 +167,8 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_VOID, "isRefunded", false],
             [OrderLineStatus::STATUS_VOID, "isShipped", false],
             [OrderLineStatus::STATUS_VOID, "isVoid", true],
+            [OrderLineStatus::STATUS_VOID, "isCancelable", false],
+
         ];
     }
 }
