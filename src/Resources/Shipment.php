@@ -59,4 +59,14 @@ class Shipment extends BaseResource
 
         return $lines;
     }
+
+    /**
+     * Get the Order object for this shipment
+     *
+     * @return Order
+     */
+    public function order()
+    {
+        return $this->client->orders->get($this->orderId);
+    }
 }
