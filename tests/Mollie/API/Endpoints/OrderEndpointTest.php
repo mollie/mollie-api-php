@@ -360,6 +360,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals($order_id, $order->id);
         $this->assertEquals('pfl_URR55HPMGx', $order->profileId);
         $this->assertEquals('live', $order->mode);
+        $this->assertEquals('klarnapaylater', $order->method);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $order->createdAt);
 
         $this->assertAmountObject('1027.99', 'EUR', $order->amount);

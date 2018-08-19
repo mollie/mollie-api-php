@@ -90,6 +90,15 @@ class Order extends BaseResource
      */
     public $shippingAddress;
 
+
+    /**
+     * The payment method last used when paying for the order.
+     *
+     * @see Method
+     * @var string
+     */
+    public $method;
+
     /**
      * The locale used for this order.
      *
