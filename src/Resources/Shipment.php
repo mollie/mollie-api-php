@@ -63,6 +63,29 @@ class Shipment extends BaseResource
     }
 
     /**
+     * Does this shipment offer a track and trace code?
+     *
+     * @return bool
+     */
+    public function hasTrackingUrl()
+    {
+        return $this->hasTracking() && !empty($this->tracking->url);
+    }
+
+    /**
+     * Retrieve the track and trace url. Returns null if there is no url available.
+     *
+     * @return string|null
+     */
+    public function getTrackingUrl()
+    {
+        if (!$this->hasTrackingUrl()) {
+            return null;
+        }
+        return $this->tracking->url;
+    }
+
+    /**
      * Get the line value objects
      *
      * @return OrderLineCollection
