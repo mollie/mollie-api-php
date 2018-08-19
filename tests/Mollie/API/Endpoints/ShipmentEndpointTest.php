@@ -28,7 +28,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
                 '{
                     "lines": [
                     {
-                        "id": "odl_dgtxyl"
+                        "id": "odl_dgtxyl",
+                        "quantity": 1
                     },
                     {
                         "id": "odl_jp31jz"
@@ -47,7 +48,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $shipment = $order->createShipment([
             'lines' => [
                 [
-                    'id' => 'odl_dgtxyl'
+                    'id' => 'odl_dgtxyl',
+                    'quantity' => 1,
                 ],
                 [
                     'id' => 'odl_jp31jz'
