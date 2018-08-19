@@ -17,10 +17,10 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettlementStatuses($status, $function, $expected_boolean)
     {
-        $refund = new Settlement($this->createMock(MollieApiClient::class));
-        $refund->status = $status;
+        $settlement = new Settlement($this->createMock(MollieApiClient::class));
+        $settlement->status = $status;
 
-        $this->assertEquals($expected_boolean, $refund->{$function}());
+        $this->assertEquals($expected_boolean, $settlement->{$function}());
     }
 
     public function dpTestSettlementStatuses()
