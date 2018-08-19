@@ -20,6 +20,7 @@ class InvoiceTest extends TestCase
     {
         $invoice = new Invoice($this->createMock(MollieApiClient::class));
         $invoice->status = $status;
+
         $this->assertEquals($expected_boolean, $invoice->{$function}());
     }
     public function dpTestInvoiceStatuses()
