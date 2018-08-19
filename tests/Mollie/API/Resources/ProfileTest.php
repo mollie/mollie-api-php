@@ -17,10 +17,10 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
      */
     public function testProfileStatusses($status, $function, $expected_boolean)
     {
-        $refund = new Profile($this->createMock(MollieApiClient::class));
-        $refund->status = $status;
+        $profile = new Profile($this->createMock(MollieApiClient::class));
+        $profile->status = $status;
 
-        $this->assertEquals($expected_boolean, $refund->{$function}());
+        $this->assertEquals($expected_boolean, $profile->{$function}());
     }
 
     public function dpTestProfileStatusses()

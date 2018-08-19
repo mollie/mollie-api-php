@@ -18,9 +18,9 @@ class InvoiceTest extends TestCase
      */
     public function testInvoiceStatuses($status, $function, $expected_boolean)
     {
-        $refund = new Invoice($this->createMock(MollieApiClient::class));
-        $refund->status = $status;
-        $this->assertEquals($expected_boolean, $refund->{$function}());
+        $invoice = new Invoice($this->createMock(MollieApiClient::class));
+        $invoice->status = $status;
+        $this->assertEquals($expected_boolean, $invoice->{$function}());
     }
     public function dpTestInvoiceStatuses()
     {
@@ -38,5 +38,4 @@ class InvoiceTest extends TestCase
             [InvoiceStatus::STATUS_OVERDUE, "isOverdue", true],
         ];
     }
-
 }
