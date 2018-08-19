@@ -72,23 +72,7 @@ class OrderEndpoint extends EndpointAbstract
     }
 
     /**
-     * Deletes the given Order.
-     *
-     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
-     * Returns with HTTP status No Content (204) if successful.
-     *
-     * @param string $orderId
-     *
-     * @return null
-     * @throws ApiException
-     */
-    public function delete($orderId)
-    {
-        return $this->rest_delete($orderId);
-    }
-
-    /**
-     * Cancel the given Order. This is just an alias of the 'delete' method.
+     * Cancel the given Order.
      *
      * Will throw a ApiException if the order id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
