@@ -628,7 +628,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "sku": "5702016116977",
                      "type": "physical",
                      "status": "<<orderline_status>>",
-                     "quantity": 2,
+                     "quantity": 1,
                      "unitPrice": {
                          "value": "399.00",
                          "currency": "EUR"
