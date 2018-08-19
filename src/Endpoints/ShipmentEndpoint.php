@@ -26,7 +26,8 @@ class ShipmentEndpoint extends EndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API
+     * endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links
@@ -39,6 +40,9 @@ class ShipmentEndpoint extends EndpointAbstract
     }
 
     /**
+     * Create a shipment for some order lines. You can provide an empty array for the
+     * "lines" option to include all unshipped lines for this order.
+     *
      * @param Order $order
      * @param array $options
      * @param array $filters
@@ -52,12 +56,14 @@ class ShipmentEndpoint extends EndpointAbstract
     }
 
     /**
-    * @param Order $order
-    * @param string $shipmentId
-    * @param array $parameters
-    *
-    * @return Shipment
-    */
+     * Retrieve a single shipment and the order lines shipped by a shipment’s ID.
+     *
+     * @param Order $order
+     * @param string $shipmentId
+     * @param array $parameters
+     *
+     * @return Shipment
+     */
     public function getFor(Order $order, $shipmentId, array $parameters = [])
     {
         $this->parentId = $order->id;

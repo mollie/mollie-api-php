@@ -223,7 +223,9 @@ class Order extends BaseResource
     }
 
     /**
-     * Cancels the line for this order.
+     * Cancel a line for this order.
+     * Returns HTTP status 204 (no content) if succesful.
+     *
      * @param  string $lineId
      * @return null
      */
@@ -248,6 +250,9 @@ class Order extends BaseResource
     }
 
     /**
+     * Create a shipment for some order lines. You can provide an empty array for the
+     * "lines" option to include all unshipped lines for this order.
+     *
      * @param array $options
      *
      * @return Shipment
@@ -258,25 +263,9 @@ class Order extends BaseResource
     }
 
     /**
-     * @param array $lineIds
+     * Retrieve a specific shipment for this order.
      *
-     * @return Shipment
-     */
-    public function ship(array $lineIds)
-    {
-        $lines = [];
-        foreach ($lineIds as $lineId) {
-            $lines[] = [
-                'id' => $lineId,
-            ];
-        }
-
-        return $this->client->shipments->createFor($this, [
-            'lines' => $lines,
-        ]);
-    }
-
-    /**
+     * @param string $shipmentId
      * @param array $parameters
      *
      * @return Shipment
@@ -287,6 +276,8 @@ class Order extends BaseResource
     }
 
     /**
+     * Get all shipments for this order.
+     *
      * @param array $parameters
      *
      * @return ShipmentCollection

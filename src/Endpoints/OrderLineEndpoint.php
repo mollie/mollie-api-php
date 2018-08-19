@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 
 class OrderLineEndpoint extends EndpointAbstract
@@ -15,7 +14,8 @@ class OrderLineEndpoint extends EndpointAbstract
     const RESOURCE_ID_PREFIX = 'odl_';
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Get the object that is used by this API endpoint. Every API endpoint uses one
+     * type of object.
      *
      * @return OrderLine
      */
@@ -25,7 +25,8 @@ class OrderLineEndpoint extends EndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API
+     * endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links
@@ -38,6 +39,9 @@ class OrderLineEndpoint extends EndpointAbstract
     }
 
     /**
+     * Cancel a line for the provided order.
+     * Returns HTTP status 204 (no content) if succesful.
+     *
      * @param Order $order
      * @param string $lineId
      *

@@ -16,7 +16,8 @@ class OrderEndpoint extends EndpointAbstract
     const RESOURCE_ID_PREFIX = 'ord_';
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Get the object that is used by this API endpoint. Every API endpoint uses one
+     * type of object.
      *
      * @return Order
      */
@@ -26,7 +27,8 @@ class OrderEndpoint extends EndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Get the collection object that is used by this API endpoint. Every API
+     * endpoint uses one type of collection object.
      *
      * @param int $count
      * @param object[] $_links
@@ -55,7 +57,8 @@ class OrderEndpoint extends EndpointAbstract
     /**
      * Retrieve a single order from Mollie.
      *
-     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     * Will throw a ApiException if the order id is invalid or the resource cannot
+     * be found.
      *
      * @param string $paymentId
      * @param array $parameters
@@ -74,12 +77,13 @@ class OrderEndpoint extends EndpointAbstract
     /**
      * Cancel the given Order.
      *
-     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
-     * Returns with HTTP status No Content (204) if successful.
+     * Will throw a ApiException if the order id is invalid or the resource cannot
+     * be found.
+     * Returns the canceled order with HTTP status 200.
      *
      * @param string $orderId
      *
-     * @return null
+     * @return Order
      * @throws ApiException
      */
     public function cancel($orderId)
