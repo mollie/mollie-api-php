@@ -272,6 +272,19 @@ class Order extends BaseResource
     }
 
     /**
+     * Create a shipment for all unshipped order lines.
+     *
+     * @param array $options
+     *
+     * @return Shipment
+     */
+    public function shipAll(array $options = [])
+    {
+        $options['lines'] = [];
+        return $this->createShipment($options);
+    }
+
+    /**
      * Retrieve a specific shipment for this order.
      *
      * @param string $shipmentId

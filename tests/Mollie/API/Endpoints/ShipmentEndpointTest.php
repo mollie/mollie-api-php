@@ -60,6 +60,30 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
     }
 
+    public function testCreateShipmentUsingShorthand()
+    {
+        $this->mockApiCall(
+            new Request(
+                "POST",
+                "/v2/orders/ord_pbjz8x/shipments",
+                [],
+                '{
+                    "lines": []
+                }'
+            ),
+            new Response(
+                201,
+                [],
+                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+            )
+        );
+
+        $order = $this->getOrder('ord_pbjz8x');
+        $shipment = $order->shipAll();
+
+        $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+    }
+
     public function testGetShipment()
     {
         $this->mockApiCall(
