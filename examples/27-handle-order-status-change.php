@@ -19,7 +19,7 @@ try {
 
     if ($order->isPaid() || $order->isAuthorized()) {
         echo "The payment for your order " . $order->id . " has been processed.";
-        echo "\nYour order is now being prepared for shipment."
+        echo "\nYour order is now being prepared for shipment.";
     } elseif ($order->isCanceled()) {
         echo "Your order " . $order->id . " has been canceled.";
     } elseif ($order->isRefunded()) {

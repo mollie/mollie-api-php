@@ -33,10 +33,10 @@ function printOrders(array $orders)
 
     foreach ($orders as $order) {
         echo '<li><b>Order ' . htmlspecialchars($order->id) . ':</b> (' . htmlspecialchars($order->createdAt) . ')';
-        echo '<br>Status: <b>' . htmlspecialchars$order->status);
+        echo '<br>Status: <b>' . htmlspecialchars($order->status);
         echo '<table border="1"><tr><th>Billed to</th><th>Shipped to</th><th>Total amount</th></tr>';
         echo '<tr>';
-        echo '<td>' . htmlspecialchars($order->shippingAddress->givenName) . ' ' . htmlspecialchars$order->shippingAddress->familyName) . '</td>';
+        echo '<td>' . htmlspecialchars($order->shippingAddress->givenName) . ' ' . htmlspecialchars($order->shippingAddress->familyName) . '</td>';
         echo '<td>' . htmlspecialchars($order->billingAddress->givenName) . ' ' . htmlspecialchars($order->billingAddress->familyName) . '</td>';
         echo '<td>' . htmlspecialchars($order->amount->currency) . str_replace('.', ',', htmlspecialchars($order->amount->value)) . '</td>';
         echo '</tr>';
