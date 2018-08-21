@@ -187,4 +187,36 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertAmountObject("698.00", "EUR", $line->totalAmount);
         $this->assertEquals("2018-08-02T09:29:56+00:00", $line->createdAt);
     }
+
+    public function testGetCheckoutUrlWorks()
+    {
+        $order = new Order($this->createMock(MollieApiClient::class));
+        $order->_links = $this->getOrderLinksDummy([
+            'checkout' => (object) [
+                'href' => 'https://www.some-mollie-checkout-url.com/123',
+                'type' => 'text/html',
+            ]
+        ]);
+
+        $this->assertEquals(
+            'https://www.some-mollie-checkout-url.com/123',
+            $order->getCheckoutUrl()
+        );
+    }
+
+    public function testGetCheckoutUrlReturnsNullIfNoCheckoutUrlAvailable()
+    {
+        $order = new Order($this->createMock(MollieApiClient::class));
+        $order->_links = $this->getOrderLinksDummy(['checkout' => null]);
+
+        $this->assertNull($order->getCheckoutUrl());
+    }
+
+    protected function getOrderLinksDummy($overrides = [])
+    {
+        return (object) array_merge(
+            [],
+            $overrides
+        );
+    }
 }

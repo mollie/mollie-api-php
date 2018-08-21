@@ -308,4 +308,18 @@ class Order extends BaseResource
     {
         return $this->client->shipments->listFor($this, $parameters);
     }
+
+    /**
+     * Get the checkout URL where the customer can complete the payment.
+     *
+     * @return string|null
+     */
+    public function getCheckoutUrl()
+    {
+        if (empty($this->_links->checkout)) {
+            return null;
+        }
+
+        return $this->_links->checkout->href;
+    }
 }
