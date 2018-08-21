@@ -16,7 +16,7 @@ try {
      */
 
     $order = $this->getOrder('ord_8wmqcHMN4U');
-    $result = $order->cancelLine('odl_dgtxyl');
+    $order->cancelLine('odl_dgtxyl');
     $updatedOrder = $this->getOrder('ord_8wmqcHMN4U');
 
     echo 'Your order ' . $order->id . ' was updated:';
