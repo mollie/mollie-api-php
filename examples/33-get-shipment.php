@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 30 - Cancel an order line using the Mollie API.
+ * Example 33 - Retrieve a shipment using the Mollie API.
  */
 
 try {
@@ -10,17 +10,16 @@ try {
     require "./initialize.php";
 
     /*
-     * Cancel an order line with ID "odl_dgtxyl" for order ID "ord_8wmqcHMN4U"
+     * Retrieve a shipment with ID "shp_3wmsgCJN4U" for the order with ID "ord_8wmqcHMN4U".
      *
-     * See: https://docs.mollie.com/reference/v2/orders-api/cancel-order-line
+     * See: https://docs.mollie.com/reference/v2/shipments-api/get-shipment
      */
 
     $order = $mollie->orders->get('ord_8wmqcHMN4U');
-    $order->cancelLine('odl_dgtxyl');
-    $updatedOrder = $mollie->orders->get('ord_8wmqcHMN4U');
+    $shipment = $order->getShipment("shp_3wmsgCJN4U");
 
-    echo 'Your order ' . $order->id . ' was updated:';
-    foreach ($order->lines as $line) {
+    echo 'Shipment with ID ' . $shipment->id. ' for order with ID ' . $order->id . '.';
+    foreach ($shipment->lines as $line) {
         echo $line->description . '. Status: <b>' . $line->status . '</b>.';
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
