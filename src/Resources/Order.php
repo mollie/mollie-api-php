@@ -221,6 +221,17 @@ class Order extends BaseResource
         return $this->status === OrderStatus::STATUS_EXPIRED;
     }
 
+
+    /**
+     * Cancels this order
+     *
+     * @return Order
+     */
+    public function cancel()
+    {
+        return $this->client->orders->cancel($this->id);
+    }
+
     /**
      * Cancel a line for this order.
      * Returns HTTP status 204 (no content) if succesful.

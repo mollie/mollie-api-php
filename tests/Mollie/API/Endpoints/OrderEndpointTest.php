@@ -305,7 +305,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($orders[2], 'ord_pbjz3z');
     }
 
-    public function testCancelOrder()
+    public function testCancelOrderDirectly()
     {
         $this->mockApiCall(
             new Request("DELETE", "/v2/orders/ord_pbjz1x"),
@@ -320,6 +320,24 @@ class OrderEndpointTest extends BaseEndpointTest
         );
         $order = $this->apiClient->orders->cancel('ord_pbjz1x');
         $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
+    }
+
+    public function testCancelOrderOnResource()
+    {
+        $this->mockApiCall(
+            new Request("DELETE", "/v2/orders/ord_pbjz1x"),
+            new Response(
+                200,
+                [],
+                $this->getOrderResponseFixture(
+                    'ord_pbjz1x',
+                    OrderStatus::STATUS_CANCELED
+                )
+            )
+        );
+        $order = $this->getOrder('ord_pbjz1x');
+        $canceledOrder = $order->cancel();
+        $this->assertOrder($canceledOrder, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
     public function testCancelOrderLine()
