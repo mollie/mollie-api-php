@@ -54,6 +54,13 @@ class OrderLine extends BaseResource
     public $status;
 
     /**
+     * Can this order line be canceled?
+     *
+     * @var bool
+     */
+    public $isCancelable;
+
+    /**
      * The number of items in the order line.
      *
      * @var int

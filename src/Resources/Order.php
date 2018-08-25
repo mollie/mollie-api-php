@@ -115,6 +115,13 @@ class Order extends BaseResource
     public $metadata;
 
     /**
+     * Can this order be canceled?
+     *
+     * @var bool
+     */
+    public $isCancelable;
+
+    /**
      * UTC datetime the order was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
