@@ -46,7 +46,7 @@ try {
         "orderNumber" => "1337",
         "redirectUrl" => "https://example.org/redirect",
         "webhookUrl" => "https://example.org/webhook",
-        "method" => "klarnapaylater",
+        "method" => "ideal",
         "lines" => [
             [
                 "sku" => "5702016116977",
