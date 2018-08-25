@@ -108,7 +108,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_CREATED, "isAuthorized", false],
             [OrderLineStatus::STATUS_CREATED, "isCanceled", false],
             [OrderLineStatus::STATUS_CREATED, "isRefunded", false],
-            [OrderLineStatus::STATUS_CREATED, "isShipped", false],
+            [OrderLineStatus::STATUS_CREATED, "isShipping", false],
             [OrderLineStatus::STATUS_CREATED, "isVoid", false],
 
             [OrderLineStatus::STATUS_PAID, "isCreated", false],
@@ -116,7 +116,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_PAID, "isAuthorized", false],
             [OrderLineStatus::STATUS_PAID, "isCanceled", false],
             [OrderLineStatus::STATUS_PAID, "isRefunded", false],
-            [OrderLineStatus::STATUS_PAID, "isShipped", false],
+            [OrderLineStatus::STATUS_PAID, "isShipping", false],
             [OrderLineStatus::STATUS_PAID, "isVoid", false],
 
             [OrderLineStatus::STATUS_AUTHORIZED, "isCreated", false],
@@ -124,7 +124,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_AUTHORIZED, "isAuthorized", true],
             [OrderLineStatus::STATUS_AUTHORIZED, "isCanceled", false],
             [OrderLineStatus::STATUS_AUTHORIZED, "isRefunded", false],
-            [OrderLineStatus::STATUS_AUTHORIZED, "isShipped", false],
+            [OrderLineStatus::STATUS_AUTHORIZED, "isShipping", false],
             [OrderLineStatus::STATUS_AUTHORIZED, "isVoid", false],
 
             [OrderLineStatus::STATUS_CANCELED, "isCreated", false],
@@ -132,7 +132,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_CANCELED, "isAuthorized", false],
             [OrderLineStatus::STATUS_CANCELED, "isCanceled", true],
             [OrderLineStatus::STATUS_CANCELED, "isRefunded", false],
-            [OrderLineStatus::STATUS_CANCELED, "isShipped", false],
+            [OrderLineStatus::STATUS_CANCELED, "isShipping", false],
             [OrderLineStatus::STATUS_CANCELED, "isVoid", false],
 
             [OrderLineStatus::STATUS_REFUNDED, "isCreated", false],
@@ -140,23 +140,23 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
             [OrderLineStatus::STATUS_REFUNDED, "isAuthorized", false],
             [OrderLineStatus::STATUS_REFUNDED, "isCanceled", false],
             [OrderLineStatus::STATUS_REFUNDED, "isRefunded", true],
-            [OrderLineStatus::STATUS_REFUNDED, "isShipped", false],
+            [OrderLineStatus::STATUS_REFUNDED, "isShipping", false],
             [OrderLineStatus::STATUS_REFUNDED, "isVoid", false],
 
-            [OrderLineStatus::STATUS_SHIPPED, "isCreated", false],
-            [OrderLineStatus::STATUS_SHIPPED, "isPaid", false],
-            [OrderLineStatus::STATUS_SHIPPED, "isAuthorized", false],
-            [OrderLineStatus::STATUS_SHIPPED, "isCanceled", false],
-            [OrderLineStatus::STATUS_SHIPPED, "isRefunded", false],
-            [OrderLineStatus::STATUS_SHIPPED, "isShipped", true],
-            [OrderLineStatus::STATUS_SHIPPED, "isVoid", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isCreated", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isPaid", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isAuthorized", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isCanceled", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isRefunded", false],
+            [OrderLineStatus::STATUS_SHIPPING, "isShipping", true],
+            [OrderLineStatus::STATUS_SHIPPING, "isVoid", false],
 
             [OrderLineStatus::STATUS_VOID, "isCreated", false],
             [OrderLineStatus::STATUS_VOID, "isPaid", false],
             [OrderLineStatus::STATUS_VOID, "isAuthorized", false],
             [OrderLineStatus::STATUS_VOID, "isCanceled", false],
             [OrderLineStatus::STATUS_VOID, "isRefunded", false],
-            [OrderLineStatus::STATUS_VOID, "isShipped", false],
+            [OrderLineStatus::STATUS_VOID, "isShipping", false],
             [OrderLineStatus::STATUS_VOID, "isVoid", true],
         ];
     }

@@ -32,7 +32,7 @@ class OrderLineStatus
     /**
      * The order line is shipping.
      */
-    const STATUS_SHIPPED = "shipped";
+    const STATUS_SHIPPING = "shipping";
 
     /**
      * The order line is void.
