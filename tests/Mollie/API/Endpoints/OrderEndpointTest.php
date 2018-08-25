@@ -426,6 +426,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $line1->sku = "5702016116977";
         $line1->type = OrderLineType::TYPE_PHYSICAL;
         $line1->status = OrderLineStatus::STATUS_CREATED;
+        $line1->isCancelable = true;
         $line1->quantity = 2;
         $line1->unitPrice = $this->createAmountObject("399.00", "EUR");
         $line1->vatRate = "21.00";
@@ -445,6 +446,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->sku = "5702015594028";
         $line2->type = OrderLineType::TYPE_DIGITAL;
         $line2->status = OrderLineStatus::STATUS_CREATED;
+        $line2->isCancelable = true;
         $line2->quantity = 1;
         $line2->unitPrice = $this->createAmountObject("329.99", "EUR");
         $line2->vatRate = "21.00";
@@ -510,6 +512,7 @@ class OrderEndpointTest extends BaseEndpointTest
              "orderNumber": "1337",
              "locale": "nl_NL",
              "method" : "klarnapaylater",
+             "isCancelable": true,
              "redirectUrl": "https://example.org/redirect",
              "webhookUrl": "https://example.org/webhook",
              "lines": [
@@ -523,6 +526,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "sku": "5702016116977",
                      "type": "physical",
                      "status": "created",
+                     "isCancelable": true,
                      "quantity": 2,
                      "unitPrice": {
                          "value": "399.00",
@@ -553,6 +557,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "sku": "5702015594028",
                      "type": "digital",
                      "status": "created",
+                     "isCancelable": true,
                      "quantity": 1,
                      "unitPrice": {
                          "value": "329.99",

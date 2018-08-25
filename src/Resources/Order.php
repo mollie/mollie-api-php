@@ -215,23 +215,6 @@ class Order extends BaseResource
     }
 
     /**
-     * Can this order be canceled?
-     *
-     * @return bool
-     */
-    public function isCancelable()
-    {
-        return in_array(
-            $this->status,
-            [
-                OrderStatus::STATUS_CREATED,
-                OrderStatus::STATUS_AUTHORIZED,
-                OrderStatus::STATUS_SHIPPING,
-            ]
-        );
-    }
-
-    /**
      * Cancel a line for this order.
      * Returns HTTP status 204 (no content) if succesful.
      *

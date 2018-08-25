@@ -15,13 +15,21 @@ try {
      * See: https://docs.mollie.com/reference/v2/orders-api/cancel-order-line
      */
 
-    $order = $mollie->orders->get('ord_8wmqcHMN4U');
-    $order->cancelLine('odl_dgtxyl');
-    $updatedOrder = $mollie->orders->get('ord_8wmqcHMN4U');
+    $orderId = 'ord_8wmqcHMN4U';
+    $lineId = 'odl_dgtxyl';
 
-    echo 'Your order ' . $order->id . ' was updated:';
-    foreach ($order->lines as $line) {
-        echo $line->description . '. Status: <b>' . $line->status . '</b>.';
+    $order = $mollie->orders->get($orderId);
+    if ($order->lines()->isCancelable($lineId)) {
+        $order->cancelLine($lineId);
+
+        $updatedOrder = $mollie->orders->get($orderId);
+
+        echo 'Your order ' . $order->id . ' was updated:';
+        foreach ($order->lines as $line) {
+            echo $line->description . '. Status: <b>' . $line->status . '</b>.';
+        }
+    } else {
+        echo "Unable to cancel line " . $lineId . " for your order " . $orderId . ".";
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());

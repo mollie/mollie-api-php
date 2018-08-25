@@ -15,7 +15,7 @@ try {
      * See: https://docs.mollie.com/reference/v2/orders-api/cancel-order
      */
     $order = $mollie->orders->get("ord_pbjz8x");
-    if ($order->isCancelable()) {
+    if ($order->isCancelable) {
         $canceledOrder = $order->cancel();
         echo "Your order " . $order->id . " has been canceled.";
     } else {

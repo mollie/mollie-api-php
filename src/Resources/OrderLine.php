@@ -198,22 +198,6 @@ class OrderLine extends BaseResource
     }
 
     /**
-     * Can this order line be canceled?
-     *
-     * @return bool
-     */
-    public function isCancelable()
-    {
-        return in_array(
-            $this->status,
-            [
-                OrderLineStatus::STATUS_CREATED,
-                OrderLineStatus::STATUS_AUTHORIZED,
-            ]
-        );
-    }
-
-    /**
      * Is this order line for a physical product?
      *
      * @return bool
