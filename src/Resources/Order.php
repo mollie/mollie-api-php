@@ -323,4 +323,28 @@ class Order extends BaseResource
 
         return $this->_links->checkout->href;
     }
+
+    /**
+     * Refund some order lines. You can provide an empty array for the
+     * "lines" data to refund all eligable lines for this order.
+     *
+     * @param  array  $data
+     * @return Refund
+     */
+    public function refund(array $data)
+    {
+        return $this->client->orderRefunds->createFor($this, $data = []);
+    }
+
+    /**
+     * Refund all eligible order lines.
+     *
+     * @param  array  $data
+     * @return Refund
+     */
+    public function refundAll(array $data = [])
+    {
+        $data['lines'] = [];
+        return $this->refund($data);
+    }
 }
