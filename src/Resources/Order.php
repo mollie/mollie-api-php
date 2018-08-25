@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderStatus;
 
 class Order extends BaseResource
@@ -346,5 +347,28 @@ class Order extends BaseResource
     {
         $data['lines'] = [];
         return $this->refund($data);
+    }
+
+
+    /**
+     * Retrieves all refunds associated with this order
+     *
+     * @return RefundCollection
+     * @throws ApiException
+     */
+    public function refunds()
+    {
+        if (!isset($this->_links->refunds->href)) {
+            return new RefundCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+
+        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
+        foreach ($result->_embedded->refunds as $dataResult) {
+            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
+        }
+
+        return $resourceCollection;
     }
 }

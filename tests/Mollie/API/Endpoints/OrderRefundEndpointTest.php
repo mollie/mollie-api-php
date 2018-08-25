@@ -7,7 +7,9 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Types\OrderStatus;
+use Mollie\Api\Types\RefundStatus;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
@@ -33,20 +35,20 @@ class OrderRefundEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getOrderRefundResponseFixture('re_4qqhO89gsT')
+                $this->getOrderRefundResponseFixture('re_4qqhO89gsT', 'ord_stTC2WHAuS')
             )
         );
 
         $order = $this->getOrder('ord_stTC2WHAuS');
 
-        $result = $order->refund([
+        $refund = $order->refund([
             'lines' => [
                 'id' => 'odl_dgtxyl',
                 'quantity' => 1,
             ],
         ]);
 
-        $this->assertInstanceOf(Refund::class, $result);
+        $this->assertOrderRefund($refund, 're_4qqhO89gsT');
     }
 
     public function testCreateCompleteOrderRefund()
@@ -63,36 +65,172 @@ class OrderRefundEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getOrderRefundResponseFixture('re_4qqhO89gsT')
+                $this->getOrderRefundResponseFixture('re_4qqhO89gsT', 'ord_stTC2WHAuS')
             )
         );
 
         $order = $this->getOrder('ord_stTC2WHAuS');
 
-        $result = $order->refundAll();
+        $refund = $order->refundAll();
 
-        $this->assertInstanceOf(Refund::class, $result);
+        $this->assertOrderRefund($refund, 're_4qqhO89gsT');
     }
 
-    protected function getOrderRefundResponseFixture($id)
+    public function testListOrderRefunds()
     {
-        return '{
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/orders/ord_stTC2WHAuS/refunds"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "count": 1,
+                    "_embedded": {
+                        "refunds": [
+                            {
+                                "resource": "refund",
+                                "id": "re_4qqhO89gsT",
+                                "amount": {
+                                    "currency": "EUR",
+                                    "value": "698.00"
+                                },
+                                "status": "pending",
+                                "createdAt": "2018-03-19T12:33:37+00:00",
+                                "description": "Item not in stock, refunding",
+                                "paymentId": "tr_WDqYK6vllg",
+                                "orderId": "ord_pbjz8x",
+                                "lines": [
+                                    {
+                                        "resource": "orderline",
+                                        "id": "odl_dgtxyl",
+                                        "orderId": "ord_pbjz8x",
+                                        "name": "LEGO 42083 Bugatti Chiron",
+                                        "productUrl": "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
+                                        "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$",
+                                        "sku": "5702016116977",
+                                        "type": "physical",
+                                        "status": "refunded",
+                                        "quantity": 2,
+                                        "unitPrice": {
+                                            "value": "399.00",
+                                            "currency": "EUR"
+                                        },
+                                        "vatRate": "21.00",
+                                        "vatAmount": {
+                                            "value": "121.14",
+                                            "currency": "EUR"
+                                        },
+                                        "discountAmount": {
+                                            "value": "100.00",
+                                            "currency": "EUR"
+                                        },
+                                        "totalAmount": {
+                                            "value": "698.00",
+                                            "currency": "EUR"
+                                        },
+                                        "createdAt": "2018-08-02T09:29:56+00:00"
+                                    }
+                                ],
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/re_4qqhO89gsT",
+                                        "type": "application/hal+json"
+                                    },
+                                    "payment": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg",
+                                        "type": "application/hal+json"
+                                    },
+                                    "order": {
+                                        "href": "https://api.mollie.com/v2/orders/ord_pbjz8x",
+                                        "type": "application/hal+json"
+                                    },
+                                    "documentation": {
+                                        "href": "https://docs.mollie.com/reference/v2/refunds-api/get-refund",
+                                        "type": "text/html"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS/refunds?limit=5",
+                            "type": "application/hal+json"
+                        },
+                        "previous": null,
+                        "next": {
+                            "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS/refunds?from=re_APBiGPH2vV&limit=5",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/orders-api/list-order-refunds",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $order = $this->getOrder('ord_stTC2WHAuS');
+
+        $refunds = $order->refunds();
+
+        $this->assertInstanceOf(RefundCollection::class, $refunds);
+        $this->assertEquals(1, $refunds->count);
+        $this->assertCount(1, $refunds);
+
+        $this->assertOrderRefund($refunds[0], 're_4qqhO89gsT');
+    }
+
+    protected function assertOrderRefund($refund, $refund_id, $refund_status = RefundStatus::STATUS_PENDING)
+    {
+        $this->assertInstanceOf(Refund::class, $refund);
+        $this->assertEquals($refund_id, $refund->id);
+        $this->assertAmountObject('698.00', 'EUR', $refund->amount);
+
+        $this->assertEquals($refund_status, $refund->status);
+        $this->assertEquals("2018-03-19T12:33:37+00:00", $refund->createdAt);
+        $this->assertEquals("Item not in stock, refunding", $refund->description);
+        $this->assertEquals("tr_WDqYK6vllg", $refund->paymentId);
+
+        $this->assertLinkObject(
+            "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/{$refund_id}",
+            'application/hal+json',
+            $refund->_links->self
+        );
+
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/refunds-api/get-refund',
+            'text/html',
+            $refund->_links->documentation
+        );
+    }
+
+    protected function getOrderRefundResponseFixture($refund_id, $order_id)
+    {
+        return str_replace(
+            ["<<refund_id>>", "<<order_id>>"],
+            [$refund_id, $order_id],
+            '{
                     "resource": "refund",
-                    "id": "re_4qqhO89gsT",
+                    "id": "<<refund_id>>",
                     "amount": {
                         "currency": "EUR",
                         "value": "698.00"
                     },
-                    "status": "processing",
-                    "createdAt": "2018-03-14T17:09:02.0Z",
+                    "status": "pending",
+                    "createdAt": "2018-03-19T12:33:37+00:00",
                     "description": "Item not in stock, refunding",
                     "paymentId": "tr_WDqYK6vllg",
-                    "orderId": "ord_stTC2WHAuS",
+                    "orderId": "<<order_id>>",
                     "lines": [
                         {
                             "resource": "orderline",
                             "id": "odl_dgtxyl",
-                            "orderId": "ord_stTC2WHAuS",
+                            "orderId": "<<order_id>>",
                             "name": "LEGO 42083 Bugatti Chiron",
                             "productUrl": "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
                             "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$",
@@ -122,7 +260,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                     ],
                     "_links": {
                         "self": {
-                            "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/re_4qqhO89gsT",
+                            "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/<<refund_id>>",
                             "type": "application/hal+json"
                         },
                         "payment": {
@@ -130,7 +268,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                             "type": "application/hal+json"
                         },
                         "order": {
-                            "href": "https://api.mollie.com/v2/orders/ord_stTC2WHAuS",
+                            "href": "https://api.mollie.com/v2/orders/<<order_id>>",
                             "type": "application/hal+json"
                         },
                         "documentation": {
@@ -138,7 +276,8 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                             "type": "text/html"
                         }
                     }
-                }';
+                }'
+        );
     }
 
     protected function getOrder($id)
@@ -261,6 +400,10 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                  }
              ],
              "_links": {
+                 "refunds": {
+                     "href": "https://api.mollie.com/v2/orders/<<order_id>>/refunds",
+                     "type": "application/hal+json"
+                      },
                  "self": {
                      "href": "https://api.mollie.com/v2/orders/<<order_id>>",
                      "type": "application/hal+json"
