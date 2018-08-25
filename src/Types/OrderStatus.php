@@ -40,7 +40,7 @@ class OrderStatus
     const STATUS_COMPLETED = "completed";
 
     /**
-     * The order is void.
+     * The order is expired.
      */
-    const STATUS_VOID = "void";
+    const STATUS_EXPIRED = "expired";
 }

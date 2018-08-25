@@ -43,7 +43,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_CREATED, "isRefunded", false],
             [OrderStatus::STATUS_CREATED, "isShipping", false],
             [OrderStatus::STATUS_CREATED, "isCompleted", false],
-            [OrderStatus::STATUS_CREATED, "isVoid", false],
+            [OrderStatus::STATUS_CREATED, "isExpired", false],
 
             [OrderStatus::STATUS_PAID, "isCreated", false],
             [OrderStatus::STATUS_PAID, "isPaid", true],
@@ -52,7 +52,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_PAID, "isRefunded", false],
             [OrderStatus::STATUS_PAID, "isShipping", false],
             [OrderStatus::STATUS_PAID, "isCompleted", false],
-            [OrderStatus::STATUS_PAID, "isVoid", false],
+            [OrderStatus::STATUS_PAID, "isExpired", false],
 
             [OrderStatus::STATUS_AUTHORIZED, "isCreated", false],
             [OrderStatus::STATUS_AUTHORIZED, "isPaid", false],
@@ -61,7 +61,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_AUTHORIZED, "isRefunded", false],
             [OrderStatus::STATUS_AUTHORIZED, "isShipping", false],
             [OrderStatus::STATUS_AUTHORIZED, "isCompleted", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isVoid", false],
+            [OrderStatus::STATUS_AUTHORIZED, "isExpired", false],
 
             [OrderStatus::STATUS_CANCELED, "isCreated", false],
             [OrderStatus::STATUS_CANCELED, "isPaid", false],
@@ -70,7 +70,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_CANCELED, "isRefunded", false],
             [OrderStatus::STATUS_CANCELED, "isShipping", false],
             [OrderStatus::STATUS_CANCELED, "isCompleted", false],
-            [OrderStatus::STATUS_CANCELED, "isVoid", false],
+            [OrderStatus::STATUS_CANCELED, "isExpired", false],
 
             [OrderStatus::STATUS_REFUNDED, "isCreated", false],
             [OrderStatus::STATUS_REFUNDED, "isPaid", false],
@@ -79,7 +79,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_REFUNDED, "isRefunded", true],
             [OrderStatus::STATUS_REFUNDED, "isShipping", false],
             [OrderStatus::STATUS_REFUNDED, "isCompleted", false],
-            [OrderStatus::STATUS_REFUNDED, "isVoid", false],
+            [OrderStatus::STATUS_REFUNDED, "isExpired", false],
 
             [OrderStatus::STATUS_SHIPPING, "isCreated", false],
             [OrderStatus::STATUS_SHIPPING, "isPaid", false],
@@ -88,7 +88,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_SHIPPING, "isRefunded", false],
             [OrderStatus::STATUS_SHIPPING, "isShipping", true],
             [OrderStatus::STATUS_SHIPPING, "isCompleted", false],
-            [OrderStatus::STATUS_SHIPPING, "isVoid", false],
+            [OrderStatus::STATUS_SHIPPING, "isExpired", false],
 
             [OrderStatus::STATUS_COMPLETED, "isCreated", false],
             [OrderStatus::STATUS_COMPLETED, "isPaid", false],
@@ -97,16 +97,16 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_COMPLETED, "isRefunded", false],
             [OrderStatus::STATUS_COMPLETED, "isShipping", false],
             [OrderStatus::STATUS_COMPLETED, "isCompleted", true],
-            [OrderStatus::STATUS_COMPLETED, "isVoid", false],
+            [OrderStatus::STATUS_COMPLETED, "isExpired", false],
 
-            [OrderStatus::STATUS_VOID, "isCreated", false],
-            [OrderStatus::STATUS_VOID, "isPaid", false],
-            [OrderStatus::STATUS_VOID, "isAuthorized", false],
-            [OrderStatus::STATUS_VOID, "isCanceled", false],
-            [OrderStatus::STATUS_VOID, "isRefunded", false],
-            [OrderStatus::STATUS_VOID, "isShipping", false],
-            [OrderStatus::STATUS_VOID, "isCompleted", false],
-            [OrderStatus::STATUS_VOID, "isVoid", true],
+            [OrderStatus::STATUS_EXPIRED, "isCreated", false],
+            [OrderStatus::STATUS_EXPIRED, "isPaid", false],
+            [OrderStatus::STATUS_EXPIRED, "isAuthorized", false],
+            [OrderStatus::STATUS_EXPIRED, "isCanceled", false],
+            [OrderStatus::STATUS_EXPIRED, "isRefunded", false],
+            [OrderStatus::STATUS_EXPIRED, "isShipping", false],
+            [OrderStatus::STATUS_EXPIRED, "isCompleted", false],
+            [OrderStatus::STATUS_EXPIRED, "isExpired", true],
         ];
     }
 

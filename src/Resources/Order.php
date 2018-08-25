@@ -212,13 +212,13 @@ class Order extends BaseResource
     }
 
     /**
-     * Is this order void?
+     * Is this order expired?
      *
      * @return bool
      */
-    public function isVoid()
+    public function isExpired()
     {
-        return $this->status === OrderStatus::STATUS_VOID;
+        return $this->status === OrderStatus::STATUS_EXPIRED;
     }
 
     /**
