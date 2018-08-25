@@ -16,7 +16,6 @@ try {
      */
     $order = $mollie->orders->get("ord_pbjz8x");
     if ($order->isCancelable) {
-        $order = $mollie->orders->cancel("ord_pbjz8x");
         $canceledOrder = $order->cancel();
         echo "Your order " . $order->id . " has been canceled.";
     } else {
