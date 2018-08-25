@@ -593,7 +593,7 @@ class OrderEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipment($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPED)
+    protected function getShipment($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPING)
     {
         $shipmentJson = $this->getShipmentResponseFixture(
             $shipmentId,
@@ -603,7 +603,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 
-    protected function getShipmentResponseFixture($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPED)
+    protected function getShipmentResponseFixture($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPING)
     {
         return str_replace(
             [

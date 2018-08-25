@@ -237,7 +237,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$', $line1->imageUrl);
         $this->assertEquals('5702016116977', $line1->sku);
         $this->assertEquals('physical', $line1->type);
-        $this->assertEquals(OrderLineStatus::STATUS_SHIPPED, $line1->status);
+        $this->assertEquals(OrderLineStatus::STATUS_SHIPPING, $line1->status);
         $this->assertEquals(2, $line1->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line1->createdAt);
         $this->assertEquals('21.00', $line1->vatRate);
@@ -255,7 +255,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$', $line2->imageUrl);
         $this->assertEquals('5702015594028', $line2->sku);
         $this->assertEquals('digital', $line2->type);
-        $this->assertEquals(OrderLineStatus::STATUS_SHIPPED, $line2->status);
+        $this->assertEquals(OrderLineStatus::STATUS_SHIPPING, $line2->status);
         $this->assertEquals(1, $line2->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line2->createdAt);
         $this->assertEquals('21.00', $line2->vatRate);
@@ -410,7 +410,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPED)
+    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPING)
     {
         return str_replace(
             [
