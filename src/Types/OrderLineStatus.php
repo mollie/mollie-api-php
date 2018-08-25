@@ -35,7 +35,7 @@ class OrderLineStatus
     const STATUS_SHIPPING = "shipping";
 
     /**
-     * The order line is void.
+     * The order line is completed.
      */
-    const STATUS_VOID = "void";
+    const STATUS_COMPLETED = "completed";
 }

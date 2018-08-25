@@ -195,13 +195,13 @@ class OrderLine extends BaseResource
     }
 
     /**
-     * Is this order line void?
+     * Is this order line completed?
      *
      * @return bool
      */
-    public function isVoid()
+    public function isCompleted()
     {
-        return $this->status === OrderLineStatus::STATUS_VOID;
+        return $this->status === OrderLineStatus::STATUS_COMPLETED;
     }
 
     /**
