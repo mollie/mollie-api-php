@@ -171,7 +171,7 @@ class Subscription extends BaseResource
     }
 
     /**
-     * Cancels this description
+     * Cancels this subscription
      *
      * @return Subscription
      */
