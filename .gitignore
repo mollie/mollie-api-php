@@ -4,3 +4,5 @@
 /composer.lock
 .DS_Store
 composer.phar
+php-scoper.phar
+php-scoper.phar.pubkey
