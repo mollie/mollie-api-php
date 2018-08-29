@@ -123,6 +123,20 @@ class Order extends BaseResource
     public $isCancelable;
 
     /**
+     * Webhook URL set on this payment
+     *
+     * @var string|null
+     */
+    public $webhookUrl;
+
+    /**
+     * Redirect URL set on this payment
+     *
+     * @var string
+     */
+    public $redirectUrl;
+
+    /**
      * UTC datetime the order was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
