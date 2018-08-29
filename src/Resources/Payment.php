@@ -147,7 +147,7 @@ class Payment extends BaseResource
     /**
      * Webhook URL set on this payment
      *
-     * @var string
+     * @var string|null
      */
     public $webhookUrl;
 
