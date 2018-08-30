@@ -27,7 +27,7 @@ abstract class BaseCollection extends \ArrayObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     abstract public function getCollectionResourceName();
 }

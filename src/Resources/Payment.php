@@ -168,6 +168,14 @@ class Payment extends BaseResource
     public $subscriptionId;
 
     /**
+     * The order ID this payment belongs to.
+     *
+     * @example ord_pbjz8x
+     * @var string|null
+     */
+    public $orderId;
+
+    /**
      * The settlement ID this payment belongs to.
      *
      * @example stl_jDk30akdN
