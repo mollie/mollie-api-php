@@ -166,6 +166,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                       }
                     }
                   },
+                  "invoiceId": "inv_VseyTUhJSy",
                   "_links": {
                     "self": {
                       "href": "https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt",
@@ -203,6 +204,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         $this->assertEquals(SettlementStatus::STATUS_PENDING, $settlement->status);
         $this->assertEquals((object) ["value" => "1980.98", "currency" => "EUR"], $settlement->amount);
         $this->assertNotEmpty($settlement->periods);
+        $this->assertEquals("inv_VseyTUhJSy", $settlement->invoiceId);
 
         $selfLink = (object)['href' => 'https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $settlement->_links->self);
@@ -379,6 +381,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                             }
                           }
                         },
+                        "invoiceId": "",
                         "_links": {
                           "self": {
                             "href": "https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt",
