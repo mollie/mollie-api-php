@@ -40,7 +40,10 @@
     "gift cards",
     "intersolve",
     "fashioncheque",
-    "inghomepay"
+    "inghomepay",
+    "klarna",
+    "paylater",
+    "sliceit"
   ],
   "require": {
     "php": ">=5.6",
