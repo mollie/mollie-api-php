@@ -381,7 +381,6 @@ class SettlementEndpointTest extends BaseEndpointTest
                             }
                           }
                         },
-                        "invoiceId": "",
                         "_links": {
                           "self": {
                             "href": "https://api.mollie.com/v2/settlements/stl_xcaSGAHuRt",

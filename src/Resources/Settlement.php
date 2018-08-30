@@ -59,7 +59,7 @@ class Settlement extends BaseResource
     /**
      * The ID of the invoice on which this settlement is invoiced, if it has been invoiced.
      *
-     * @var string
+     * @var string|null
      */
     public $invoiceId;
 
