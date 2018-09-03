@@ -44,13 +44,14 @@ class OrderLineEndpoint extends EndpointAbstract
      *
      * @param Order $order
      * @param string $lineId
+     * @param array $data
      *
      * @return null
      */
-    public function cancelFor(Order $order, $lineId)
+    public function cancelFor(Order $order, $lineId, $data = [])
     {
         $this->parentId = $order->id;
 
-        return parent::rest_delete($lineId);
+        return parent::rest_delete($lineId, $data);
     }
 }

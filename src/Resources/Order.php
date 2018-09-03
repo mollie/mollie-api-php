@@ -257,11 +257,12 @@ class Order extends BaseResource
      * Returns HTTP status 204 (no content) if succesful.
      *
      * @param  string $lineId
+     * @param  array|null $data
      * @return null
      */
-    public function cancelLine($lineId)
+    public function cancelLine($lineId, $data = [])
     {
-        return $this->client->orderLines->cancelFor($this, $lineId);
+        return $this->client->orderLines->cancelFor($this, $lineId, $data);
     }
 
     /**

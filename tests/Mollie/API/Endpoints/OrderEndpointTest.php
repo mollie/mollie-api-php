@@ -340,7 +340,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($canceledOrder, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
-    public function testCancelOrderLine()
+    public function testCancelOrderLineCompletely()
     {
         $this->mockApiCall(
             new Request(
@@ -355,7 +355,28 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertNull($result);
     }
 
-    public function testCancelOrderLineOnResource()
+    public function testCancelOrderLinePartially()
+    {
+        $this->mockApiCall(
+            new Request(
+                "DELETE",
+                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl",
+                [],
+                '{
+                   "quantity": 1
+                 }'
+            ),
+            new Response(204)
+        );
+
+        $order = $this->getOrder('ord_8wmqcHMN4U');
+        $result = $order->cancelLine('odl_dgtxyl', [
+            'quantity' => 1,
+        ]);
+        $this->assertNull($result);
+    }
+
+    public function testCancelOrderLineOnResourceCompletely()
     {
         $this->mockApiCall(
             new Request(
@@ -367,6 +388,26 @@ class OrderEndpointTest extends BaseEndpointTest
         $line = $this->getOrder('ord_8wmqcHMN4U')->lines()[0];
 
         $result = $line->cancel();
+
+        $this->assertNull($result);
+    }
+
+    public function testCancelOrderLineOnResourcePartially()
+    {
+        $this->mockApiCall(
+            new Request(
+                "DELETE",
+                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl",
+                [],
+                '{
+                   "quantity": 1
+                 }'
+            ),
+            new Response(204)
+        );
+        $line = $this->getOrder('ord_8wmqcHMN4U')->lines()[0];
+
+        $result = $line->cancel(['quantity' => 1]);
 
         $this->assertNull($result);
     }
