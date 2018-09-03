@@ -7,7 +7,6 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceFactory;
-use Psr\Http\Message\StreamInterface;
 
 abstract class EndpointAbstract
 {
@@ -107,11 +106,12 @@ abstract class EndpointAbstract
      * Sends a DELETE request to a single Molle API object.
      *
      * @param string $id
+     * @param array $body
      *
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_delete($id)
+    protected function rest_delete($id, array $body = [])
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -120,7 +120,8 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_DELETE,
-            "{$this->getResourcePath()}/{$id}"
+            "{$this->getResourcePath()}/{$id}",
+            $this->parseRequestBody($body)
         );
 
         if ($result === null) {

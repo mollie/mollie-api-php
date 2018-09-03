@@ -33,25 +33,4 @@ class OrderLineCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(OrderLine::class, $line);
         $this->assertEquals($line2, $line);
     }
-
-    public function testIsCancelable()
-    {
-        $mockApi = $this->createMock(MollieApiClient::class);
-        $lines = new OrderLineCollection($mockApi, 2, []);
-
-        $line1 = new OrderLine($mockApi);
-        $line1->id = 'odl_aaaaaaaaaaa1';
-        $line1->isCancelable = true;
-
-        $line2 = new OrderLine($mockApi);
-        $line2->id = 'odl_aaaaaaaaaaa2';
-        $line2->isCancelable = false;
-
-        $lines[] = $line1;
-        $lines[] = $line2;
-
-        $this->assertTrue($lines->isCancelable('odl_aaaaaaaaaaa1'));
-        $this->assertFalse($lines->isCancelable('odl_aaaaaaaaaaa2'));
-        $this->assertFalse($lines->isCancelable('odl_not_existent'));
-    }
 }

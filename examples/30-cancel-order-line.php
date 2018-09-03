@@ -19,8 +19,12 @@ try {
     $lineId = 'odl_dgtxyl';
 
     $order = $mollie->orders->get($orderId);
-    if ($order->lines()->isCancelable($lineId)) {
+    $line = $order->lines()->get($lineId);
+    if ($line && $line->isCancelable) {
         $order->cancelLine($lineId);
+
+        // If you want to set a quantity on the items canceled:
+        // $order->cancelLine($lineId, ['quantity' => 1]);
 
         $updatedOrder = $mollie->orders->get($orderId);
 

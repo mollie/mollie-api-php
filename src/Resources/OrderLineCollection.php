@@ -28,20 +28,4 @@ class OrderLineCollection extends BaseCollection
         }
         return null;
     }
-
-    /**
-     * Check if the order line can be canceled.
-     * Returns false if the order cannot be found.
-     *
-     * @param  string  $lineId
-     * @return boolean
-     */
-    public function isCancelable($lineId)
-    {
-        $line = $this->get($lineId);
-        if (empty($line)) {
-            return false;
-        }
-        return $line->isCancelable;
-    }
 }
