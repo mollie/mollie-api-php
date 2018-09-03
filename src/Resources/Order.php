@@ -238,9 +238,14 @@ class Order extends BaseResource
 
 
     /**
-     * Cancels this order
+     * Cancels this order.
+     * If the order was partially shipped, the status will be "completed" instead of
+     * "canceled".
+     * Will throw a ApiException if the order id is invalid or the resource cannot
+     * be found.
      *
      * @return Order
+     * @throws ApiException
      */
     public function cancel()
     {

@@ -77,6 +77,8 @@ class OrderEndpoint extends EndpointAbstract
     /**
      * Cancel the given Order.
      *
+     * If the order was partially shipped, the status will be "completed" instead of
+     * "canceled".
      * Will throw a ApiException if the order id is invalid or the resource cannot
      * be found.
      * Returns the canceled order with HTTP status 200.
