@@ -19,7 +19,8 @@ try {
     $lineId = 'odl_dgtxyl';
 
     $order = $mollie->orders->get($orderId);
-    if ($order->lines()->isCancelable($lineId)) {
+    $line = $order->lines()->get($lineId);
+    if ($line && $line->isCancelable) {
         $order->cancelLine($lineId);
 
         $updatedOrder = $mollie->orders->get($orderId);
