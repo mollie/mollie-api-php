@@ -205,6 +205,55 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertShipment($shipments[1], 'shp_kjh234CASX', 'ord_pbjz8x');
     }
 
+    public function testUpdateShipmentTrackingInfo()
+    {
+        $this->mockApiCall(
+            new Request(
+                "PATCH",
+                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U",
+                [],
+                '{
+                     "tracking": {
+                         "carrier": "PostNL",
+                         "code": "3SKABA000000000",
+                         "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1016EE&D=NL&T=C"
+                     }
+                 }'
+            ),
+            new Response(
+                200,
+                [],
+                $this->getShipmentResponseFixture(
+                    "shp_3wmsgCJN4U",
+                    "ord_pbjz8x",
+                    OrderLineStatus::STATUS_SHIPPING,
+                    '"tracking": {
+                         "carrier": "PostNL",
+                         "code": "3SKABA000000000",
+                         "url": "http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1016EE&D=NL&T=C"
+                     },'
+                )
+            )
+        );
+
+        $shipment = $this->getShipment('shp_3wmsgCJN4U', 'ord_pbjz8x', OrderLineStatus::STATUS_SHIPPING);
+
+        $shipment->tracking = [
+            'carrier' => 'PostNL',
+            'code' => '3SKABA000000000',
+            'url' => 'http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1016EE&D=NL&T=C',
+        ];
+        $shipment = $shipment->update();
+
+        $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
+
+        $this->assertEquals((object) [
+            'carrier' => 'PostNL',
+            'code' => '3SKABA000000000',
+            'url' => 'http://postnl.nl/tracktrace/?B=3SKABA000000000&P=1016EE&D=NL&T=C',
+        ], $shipment->tracking);
+    }
+
     protected function assertShipment($shipment, $shipment_id, $order_id)
     {
         $this->assertInstanceOf(Shipment::class, $shipment);
@@ -268,6 +317,12 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $orderJson = $this->getOrderResponseFixture($id);
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
+    }
+
+    protected function getShipment($shipment_id, $order_id, $orderLineStatus = OrderLineStatus::STATUS_SHIPPING)
+    {
+        $shipmentJson = $this->getShipmentResponseFixture($shipment_id, $order_id, $orderLineStatus);
+        return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 
     protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
@@ -410,18 +465,20 @@ class ShipmentEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPING)
+    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPING, $tracking_info = '')
     {
         return str_replace(
             [
                 "<<order_id>>",
                 "<<shipment_id>>",
                 "<<orderline_status>>",
+                "<<tracking_info>>",
             ],
             [
                 $order_id,
                 $shipment_id,
-                $orderline_status
+                $orderline_status,
+                $tracking_info,
             ],
             '{
              "resource": "shipment",
@@ -429,6 +486,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
              "orderId": "<<order_id>>",
              "createdAt": "2018-08-02T09:29:56+00:00",
              "profileId": "pfl_URR55HPMGx",
+             <<tracking_info>>
              "lines": [
                  {
                      "resource": "orderline",

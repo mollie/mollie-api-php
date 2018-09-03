@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
+
 class Shipment extends BaseResource
 {
     /**
@@ -108,5 +110,30 @@ class Shipment extends BaseResource
     public function order()
     {
         return $this->client->orders->get($this->orderId);
+    }
+
+    /**
+     * Save changes made to this shipment.
+     *
+     * @return BaseResource|Shipment
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function update()
+    {
+        if (!isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $body = json_encode([
+            "tracking" => $this->tracking,
+        ]);
+
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_PATCH,
+            $this->_links->self->href,
+            $body
+        );
+
+        return ResourceFactory::createFromApiResult($result, new Shipment($this->client));
     }
 }
