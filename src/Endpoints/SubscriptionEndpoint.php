@@ -84,12 +84,14 @@ class SubscriptionEndpoint extends EndpointAbstract
      * @param Customer $customer
      * @param string $subscriptionId
      *
+     * @param array $data
      * @return null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelFor(Customer $customer, $subscriptionId)
+    public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::rest_delete($subscriptionId);
+        return parent::rest_delete($subscriptionId, $data);
     }
 }
