@@ -70,12 +70,13 @@ class CustomerEndpoint extends EndpointAbstract
      *
      * @param string $customerId
      *
+     * @param array $data
      * @return null
      * @throws ApiException
      */
-    public function delete($customerId)
+    public function delete($customerId, array $data = [])
     {
-        return $this->rest_delete($customerId);
+        return $this->rest_delete($customerId, $data);
     }
 
     /**
