@@ -81,12 +81,14 @@ class MandateEndpoint extends EndpointAbstract
      * @param Customer $customer
      * @param string $mandateId
      *
+     * @param array $data
      * @return null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function revokeFor(Customer $customer, $mandateId)
+    public function revokeFor(Customer $customer, $mandateId, $data = [])
     {
         $this->parentId = $customer->id;
 
-        return parent::rest_delete($mandateId);
+        return parent::rest_delete($mandateId, $data);
     }
 }
