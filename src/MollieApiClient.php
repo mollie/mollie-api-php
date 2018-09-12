@@ -14,6 +14,7 @@ use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
+use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -161,6 +162,13 @@ class MollieApiClient
     public $paymentRefunds;
 
     /**
+     * RESTful Payment Captures resource.
+     *
+     * @var PaymentCaptureEndpoint
+     */
+    public $paymentCaptures;
+
+    /**
      * RESTful Order Refunds resource.
      *
      * @var OrderRefundEndpoint
@@ -229,6 +237,7 @@ class MollieApiClient
         $this->shipments = new ShipmentEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
+        $this->paymentCaptures = new PaymentCaptureEndpoint($this);
     }
 
     /**

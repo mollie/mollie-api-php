@@ -413,6 +413,17 @@ class Payment extends BaseResource
     }
 
     /**
+     * @param string $captureId
+     * @param array $parameters
+     *
+     * @return Capture
+     */
+    public function getCapture($captureId, array $parameters = [])
+    {
+        return $this->client->paymentCaptures->getFor($this, $captureId, $parameters);
+    }
+
+    /**
      * Retrieves all chargebacks associated with this payment
      *
      * @return ChargebackCollection
