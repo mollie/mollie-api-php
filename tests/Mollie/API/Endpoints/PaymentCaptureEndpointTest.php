@@ -55,6 +55,61 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
         $this->assertCapture($capture);
     }
 
+    public function testListCapturesOnPaymentResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                'GET',
+                '/v2/payments/tr_WDqYK6vllg/captures'
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "_embedded": {
+                        "captures": [
+                            ' . $this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT') . '
+                        ]
+                    },
+                    "count": 1,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/captures-api/list-captures",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "https://api.mollie.dev/v2/payments/tr_WDqYK6vllg/captures?limit=50",
+                            "type": "application/hal+json"
+                        },
+                        "previous": null,
+                        "next": null
+                    }
+                }'
+            )
+        );
+
+        $captures = $this->getPayment('tr_WDqYK6vllg')->captures();
+
+        $this->assertEquals(1, $captures->count);
+
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/captures-api/list-captures',
+            'text/html',
+            $captures->_links->documentation
+        );
+
+        $this->assertLinkObject(
+            'https://api.mollie.dev/v2/payments/tr_WDqYK6vllg/captures?limit=50',
+            'application/hal+json',
+            $captures->_links->self
+        );
+
+        $this->assertNull($captures->_links->previous);
+        $this->assertNull($captures->_links->next);
+
+        $this->assertCapture($captures[0]);
+    }
+
     protected function assertCapture($capture)
     {
         $this->assertInstanceOf(Capture::class, $capture);
@@ -213,6 +268,10 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
               "refunds":{
                  "href":"https://api.mollie.com/v2/payments/<<payment_id>>/refunds",
                  "type":"application/hal+json"
+              },
+              "captures":{
+                "href":"https://api.mollie.com/v2/payments/<<payment_id>>/captures",
+                "type":"application/hal+json"
               }
            }
         }';
