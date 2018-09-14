@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Organization;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
-class PaymentEndpointTest extends BaseEndpointTest
+class OrganizationEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
