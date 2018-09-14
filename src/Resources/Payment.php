@@ -416,14 +416,42 @@ class Payment extends BaseResource
             return new ChargebackCollection($this->client, 0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_GET,
+            $this->_links->chargebacks->href
+        );
 
-        $resourceCollection = new ChargebackCollection($this->client, $result->count, $result->_links);
+        $resourceCollection = new ChargebackCollection(
+            $this->client,
+            $result->count,
+            $result->_links
+        );
+
         foreach ($result->_embedded->chargebacks as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
+            $resourceCollection[] = ResourceFactory::createFromApiResult(
+                $dataResult,
+                new Chargeback($this->client)
+            );
         }
 
         return $resourceCollection;
+    }
+
+    /**
+     * Retrieves a specific chargeback for this payment.
+     *
+     * @param string $chargebackId
+     * @param array $parameters
+     *
+     * @return Chargeback
+     */
+    public function getChargeback($chargebackId, array $parameters = [])
+    {
+        return $this->client->paymentChargebacks->getFor(
+            $this,
+            $chargebackId,
+            $parameters
+        );
     }
 
     /**
