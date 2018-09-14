@@ -11,8 +11,9 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
-use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
+use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
@@ -116,6 +117,13 @@ class MollieApiClient
     public $profiles;
 
     /**
+     * RESTful Organization resource.
+     *
+     * @var OrganizationEndpoint
+     */
+    public $organizations;
+
+    /**
      * RESTful Invoice resource.
      *
      * @var InvoiceEndpoint
@@ -199,6 +207,7 @@ class MollieApiClient
         $this->mandates = new MandateEndpoint($this);
         $this->invoices = new InvoiceEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
+        $this->organizations = new OrganizationEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
