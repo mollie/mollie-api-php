@@ -5,6 +5,7 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Organization;
+use Mollie\Api\Resources\OrganizationCollection;
 
 class OrganizationEndpoint extends EndpointAbstract
 {
@@ -28,7 +29,7 @@ class OrganizationEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new OrganizationCollection($count, $_links);
+        return new OrganizationCollection($this->api, $count, $_links);
     }
 
     /**
@@ -63,15 +64,17 @@ class OrganizationEndpoint extends EndpointAbstract
     }
 
     /**
-     * Retrieve all organizations.
+     * Retrieves a collection of Organizations from Mollie.
      *
+     * @param string $from The first organization ID you want to include in your list.
+     * @param int $limit
      * @param array $parameters
      *
      * @return OrganizationCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function page($from = null, $limit = null, array $parameters = [])
     {
-        return parent::rest_list(null, null, $parameters);
+        return $this->rest_list($from, $limit, $parameters);
     }
 }
