@@ -71,12 +71,13 @@ class ProfileEndpoint extends EndpointAbstract
      *
      * @param string $profileId
      *
+     * @param array $data
      * @return Profile
      * @throws ApiException
      */
-    public function delete($profileId)
+    public function delete($profileId, array $data = [])
     {
-        return $this->rest_delete($profileId);
+        return $this->rest_delete($profileId, $data);
     }
 
     /**

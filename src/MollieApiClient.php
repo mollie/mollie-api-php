@@ -15,6 +15,7 @@ use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
+use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
@@ -29,7 +30,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.0.10";
+    const CLIENT_VERSION = "2.0.11";
 
     /**
      * Endpoint of the remote API.
@@ -122,6 +123,13 @@ class MollieApiClient
      * @var OrganizationEndpoint
      */
     public $organizations;
+    
+    /**
+     * RESTful Permissions resource.
+     *
+     * @var PermissionEndpoint
+     */
+    public $permissions;
 
     /**
      * RESTful Invoice resource.
@@ -206,6 +214,7 @@ class MollieApiClient
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
         $this->invoices = new InvoiceEndpoint($this);
+        $this->permissions = new PermissionEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
         $this->organizations = new OrganizationEndpoint($this);
         $this->refunds = new RefundEndpoint($this);

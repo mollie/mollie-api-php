@@ -180,7 +180,19 @@ class Subscription extends BaseResource
         if (!isset($this->_links->self->href)) {
             return $this;
         }
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_DELETE, $this->_links->self->href);
+
+        $body = null;
+        if($this->client->usesOAuth()) {
+            $body = json_encode([
+                "testmode" => $this->mode === "test" ? true : false
+            ]);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_DELETE,
+            $this->_links->self->href,
+            $body
+        );
 
         return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }

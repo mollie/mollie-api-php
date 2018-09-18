@@ -108,10 +108,11 @@ abstract class EndpointAbstract
      *
      * @param string $id
      *
+     * @param array $body
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_delete($id)
+    protected function rest_delete($id, array $body)
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -120,7 +121,8 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->api->performHttpCall(
             self::REST_DELETE,
-            "{$this->getResourcePath()}/{$id}"
+            "{$this->getResourcePath()}/{$id}",
+            $this->parseRequestBody($body)
         );
 
         if ($result === null) {

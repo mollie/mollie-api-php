@@ -79,12 +79,13 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * @param string $paymentId
      *
+     * @param array $data
      * @return Payment
      * @throws ApiException
      */
-    public function delete($paymentId)
+    public function delete($paymentId, array $data = [])
     {
-        return $this->rest_delete($paymentId);
+        return $this->rest_delete($paymentId, $data);
     }
 
     /**
@@ -95,12 +96,13 @@ class PaymentEndpoint extends EndpointAbstract
      *
      * @param string $paymentId
      *
+     * @param array $data
      * @return Payment
      * @throws ApiException
      */
-    public function cancel($paymentId)
+    public function cancel($paymentId, array $data = [])
     {
-        return $this->rest_delete($paymentId);
+        return $this->rest_delete($paymentId, $data);
     }
 
     /**

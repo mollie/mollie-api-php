@@ -66,7 +66,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
                   ],
                   "_links": {
                     "self": {
-                      "href": "https://api.mollie.com/v2/invoice/inv_bsa6PvAwaK",
+                      "href": "https://api.mollie.com/v2/invoices/inv_bsa6PvAwaK",
                       "type": "application/hal+json"
                     },
                     "pdf": {
@@ -99,7 +99,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
 
         $this->assertCount(2, $invoice->lines);
 
-        $selfLink = (object)['href' => 'https://api.mollie.com/v2/invoice/inv_bsa6PvAwaK', 'type' => 'application/hal+json'];
+        $selfLink = (object)['href' => 'https://api.mollie.com/v2/invoices/inv_bsa6PvAwaK', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $invoice->_links->self);
 
         $pdfLink = (object)['href' => 'https://www.mollie.com/merchant/download/invoice/bsa6PvAwaK/79aa10f49132b7844c0243648ade6985', 'type' => 'application/pdf'];
@@ -168,7 +168,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
                           ],
                           "_links": {
                             "self": {
-                              "href": "https://api.mollie.com/v2/invoice/inv_bsa6PvAwaK",
+                              "href": "https://api.mollie.com/v2/invoices/inv_bsa6PvAwaK",
                               "type": "application/hal+json"
                             },
                             "pdf": {
