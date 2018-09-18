@@ -125,7 +125,7 @@ class MollieApiClient
     public $organizations;
     
     /**
-     * RESTful Permissions resource.
+     * RESTful Permission resource.
      *
      * @var PermissionEndpoint
      */
