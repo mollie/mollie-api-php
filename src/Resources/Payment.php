@@ -511,6 +511,23 @@ class Payment extends BaseResource
     }
 
     /**
+     * Retrieves a specific chargeback for this payment.
+     *
+     * @param string $chargebackId
+     * @param array $parameters
+     *
+     * @return Chargeback
+     */
+    public function getChargeback($chargebackId, array $parameters = [])
+    {
+        return $this->client->paymentChargebacks->getFor(
+            $this,
+            $chargebackId,
+            $parameters
+        );
+    }
+
+    /**
      * Issue a refund for this payment.
      *
      * The $data parameter may either be an array of endpoint parameters or empty to

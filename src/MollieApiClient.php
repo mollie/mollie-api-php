@@ -15,8 +15,11 @@ use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
+use Mollie\Api\Endpoints\OrganizationEndpoint;
+use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
+use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
@@ -32,7 +35,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.0.11";
+    const CLIENT_VERSION = "2.0.14";
 
     /**
      * Endpoint of the remote API.
@@ -120,6 +123,20 @@ class MollieApiClient
     public $profiles;
 
     /**
+     * RESTful Organization resource.
+     *
+     * @var OrganizationEndpoint
+     */
+    public $organizations;
+
+    /**
+     * RESTful Permission resource.
+     *
+     * @var PermissionEndpoint
+     */
+    public $permissions;
+
+    /**
      * RESTful Invoice resource.
      *
      * @var InvoiceEndpoint
@@ -167,6 +184,13 @@ class MollieApiClient
      * @var PaymentCaptureEndpoint
      */
     public $paymentCaptures;
+  
+    /**
+     * RESTful Payment Chargebacks resource.
+     *
+     * @var PaymentChargebacksEndpoint
+     */
+    public $paymentChargebacks;
 
     /**
      * RESTful Order Refunds resource.
@@ -230,7 +254,9 @@ class MollieApiClient
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
         $this->invoices = new InvoiceEndpoint($this);
+        $this->permissions = new PermissionEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
+        $this->organizations = new OrganizationEndpoint($this);
         $this->orders = new OrderEndpoint($this);
         $this->orderLines = new OrderLineEndpoint($this);
         $this->orderRefunds = new OrderRefundEndpoint($this);
@@ -238,6 +264,7 @@ class MollieApiClient
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
         $this->paymentCaptures = new PaymentCaptureEndpoint($this);
+        $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
     }
 
     /**
