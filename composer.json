@@ -1,14 +1,6 @@
 {
   "name": "mollie/mollie-api-php",
   "description": "Mollie API client library for PHP. Mollie is a European Payment Service provider and offers international payment methods such as Mastercard, VISA, American Express and PayPal, and local payment methods such as iDEAL, Bancontact, SOFORT Banking, SEPA direct debit, Belfius Direct Net, KBC Payment Button and various gift cards such as Podiumcadeaukaart and fashioncheque.",
-  "homepage": "https://www.mollie.com/en/developers",
-  "license": "BSD-2-Clause",
-  "authors": [
-    {
-      "name": "Mollie B.V.",
-      "email": "info@mollie.com"
-    }
-  ],
   "keywords": [
     "mollie",
     "payment",
@@ -45,17 +37,31 @@
     "paylater",
     "sliceit"
   ],
+  "homepage": "https://www.mollie.com/en/developers",
+  "license": "BSD-2-Clause",
+  "authors": [
+    {
+      "name": "Mollie B.V.",
+      "email": "info@mollie.com"
+    }
+  ],
   "require": {
     "php": ">=5.6",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
-    "guzzlehttp/guzzle": "^6.3",
-    "composer/ca-bundle": "^1.1"
+    "composer/ca-bundle": "^1.1",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7|^6.5|^7.1",
-    "eloquent/liberator": "^2.0"
+    "eloquent/liberator": "^2.0",
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1"
+  },
+  "suggest": {
+    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
+  },
+  "config": {
+    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
@@ -66,8 +72,5 @@
     "psr-4": {
       "Tests\\": "tests"
     }
-  },
-  "suggest": {
-    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
   }
 }

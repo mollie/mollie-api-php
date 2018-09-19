@@ -131,7 +131,7 @@ class Customer extends BaseResource
      */
     public function cancelSubscription($subscriptionId)
     {
-        return $this->client->subscriptions->cancelFor($this, $subscriptionId);
+        return $this->client->subscriptions->cancelFor($this, $subscriptionId, $this->getPresetOptions());
     }
 
     /**
@@ -173,7 +173,7 @@ class Customer extends BaseResource
      */
     public function revokeMandate($mandateId)
     {
-        return $this->client->mandates->revokeFor($this, $mandateId);
+        return $this->client->mandates->revokeFor($this, $mandateId, $this->getPresetOptions());
     }
 
     /**

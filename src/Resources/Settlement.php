@@ -57,6 +57,13 @@ class Settlement extends BaseResource
     public $periods;
 
     /**
+     * The ID of the invoice on which this settlement is invoiced, if it has been invoiced.
+     *
+     * @var string|null
+     */
+    public $invoiceId;
+
+    /**
      * @var object[]
      */
     public $_links;
