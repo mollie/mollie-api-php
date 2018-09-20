@@ -22,7 +22,8 @@ class Payment extends BaseResource
     public $id;
 
     /**
-     * Mode of the payment, either "live" or "test" depending on the API Key that was used.
+     * Mode of the payment, either "live" or "test" depending on the API Key that was
+     * used.
      *
      * @var string
      */
@@ -43,34 +44,36 @@ class Payment extends BaseResource
     public $settlementAmount;
 
     /**
-     * The amount of the payment that has been refunded to the consumer, in EURO with 2 decimals. This field will be
-     * null if the payment can not be refunded.
+     * The amount of the payment that has been refunded to the consumer, in EURO with
+     * 2 decimals. This field will be null if the payment can not be refunded.
      *
      * @var object|null
      */
     public $amountRefunded;
 
     /**
-     * The amount of a refunded payment that can still be refunded, in EURO with 2 decimals. This field will be
-     * null if the payment can not be refunded.
+     * The amount of a refunded payment that can still be refunded, in EURO with 2
+     * decimals. This field will be null if the payment can not be refunded.
      *
-     * For some payment methods this amount can be higher than the payment amount. This is possible to reimburse
-     * the costs for a return shipment to your customer for example.
+     * For some payment methods this amount can be higher than the payment amount.
+     * This is possible to reimburse the costs for a return shipment to your customer
+     * for example.
      *
      * @var object|null
      */
     public $amountRemaining;
 
     /**
-     * Description of the payment that is shown to the customer during the payment, and
-     * possibly on the bank or credit card statement.
+     * Description of the payment that is shown to the customer during the payment,
+     * and possibly on the bank or credit card statement.
      *
      * @var string
      */
     public $description;
 
     /**
-     * If method is empty/null, the customer can pick his/her preferred payment method.
+     * If method is empty/null, the customer can pick his/her preferred payment
+     * method.
      *
      * @see Method
      * @var string|null
@@ -299,8 +302,9 @@ class Payment extends BaseResource
     }
 
     /**
-     * Check whether 'sequenceType' is set to 'first'. If a 'first' payment has been completed successfully, the
-     * consumer's account may be charged automatically using recurring payments.
+     * Check whether 'sequenceType' is set to 'first'. If a 'first' payment has been
+     * completed successfully, the consumer's account may be charged automatically
+     * using recurring payments.
      *
      * @return bool
      */
@@ -310,7 +314,8 @@ class Payment extends BaseResource
     }
 
     /**
-     * Check whether 'sequenceType' is set to 'recurring'. This type of payment is processed without involving
+     * Check whether 'sequenceType' is set to 'recurring'. This type of payment is
+     * processed without involving
      * the consumer.
      *
      * @return bool
@@ -365,8 +370,9 @@ class Payment extends BaseResource
     }
 
     /**
-     * Get the remaining amount that can be refunded. For some payment methods this amount can be higher than
-     * the payment amount. This is possible to reimburse the costs for a return shipment to your customer for example.
+     * Get the remaining amount that can be refunded. For some payment methods this
+     * amount can be higher than the payment amount. This is possible to reimburse
+     * the costs for a return shipment to your customer for example.
      *
      * @return float
      */
@@ -391,11 +397,22 @@ class Payment extends BaseResource
             return new RefundCollection($this->client, 0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_GET,
+            $this->_links->refunds->href
+        );
 
-        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
+        $resourceCollection = new RefundCollection(
+            $this->client,
+            $result->count,
+            $result->_links
+        );
+
         foreach ($result->_embedded->refunds as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
+            $resourceCollection[] = ResourceFactory::createFromApiResult(
+                $dataResult,
+                new Refund($this->client)
+            );
         }
 
         return $resourceCollection;
@@ -410,6 +427,54 @@ class Payment extends BaseResource
     public function getRefund($refundId, array $parameters = [])
     {
         return $this->client->paymentRefunds->getFor($this, $refundId, $parameters);
+    }
+
+    /**
+     * Retrieves all captures associated with this payment
+     *
+     * @return CaptureCollection
+     * @throws ApiException
+     */
+    public function captures()
+    {
+        if (!isset($this->_links->captures->href)) {
+            return new CaptureCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_GET,
+            $this->_links->captures->href
+        );
+
+        $resourceCollection = new CaptureCollection(
+            $this->client,
+            $result->count,
+            $result->_links
+        );
+
+        foreach ($result->_embedded->captures as $dataResult) {
+            $resourceCollection[] = ResourceFactory::createFromApiResult(
+                $dataResult,
+                new Capture($this->client)
+            );
+        }
+
+        return $resourceCollection;
+    }
+
+    /**
+     * @param string $captureId
+     * @param array $parameters
+     *
+     * @return Capture
+     */
+    public function getCapture($captureId, array $parameters = [])
+    {
+        return $this->client->paymentCaptures->getFor(
+            $this,
+            $captureId,
+            $parameters
+        );
     }
 
     /**
@@ -465,7 +530,8 @@ class Payment extends BaseResource
     /**
      * Issue a refund for this payment.
      *
-     * The $data parameter may either be an array of endpoint parameters or empty to do a full refund.
+     * The $data parameter may either be an array of endpoint parameters or empty to
+     * do a full refund.
      *
      * @param array|null $data
      *
@@ -481,8 +547,15 @@ class Payment extends BaseResource
             $body = json_encode($data);
         }
 
-        $result = $this->client->performHttpCall(MollieApiClient::HTTP_POST, $resource, $body);
+        $result = $this->client->performHttpCall(
+            MollieApiClient::HTTP_POST,
+            $resource,
+            $body
+        );
 
-        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
+        return ResourceFactory::createFromApiResult(
+            $result,
+            new Refund($this->client)
+        );
     }
 }
