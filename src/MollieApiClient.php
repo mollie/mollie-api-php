@@ -384,7 +384,7 @@ class MollieApiClient
      */
     private function parseResponseBody(ResponseInterface $response)
     {
-        $body = $response->getBody()->getContents();
+        $body = (string) $response->getBody();
         if (empty($body)) {
             if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
                 return null;
