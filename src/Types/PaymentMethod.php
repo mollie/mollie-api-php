@@ -84,4 +84,14 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/sofort
      */
     const SOFORT = "sofort";
+
+    /**
+     * @link https://www.mollie.com/en/payments/klarna
+     */
+    const KLARNA_PAY_LATER = "klarnapaylater";
+
+    /**
+     * @link https://www.mollie.com/en/payments/klarna
+     */
+    const KLARNA_SLICE_IT = "klarnasliceit";
 }

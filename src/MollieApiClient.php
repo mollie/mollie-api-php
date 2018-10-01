@@ -11,6 +11,10 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\OrderEndpoint;
+use Mollie\Api\Endpoints\OrderLineEndpoint;
+use Mollie\Api\Endpoints\OrderRefundEndpoint;
+use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
@@ -19,6 +23,7 @@ use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
+use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
@@ -123,7 +128,7 @@ class MollieApiClient
      * @var OrganizationEndpoint
      */
     public $organizations;
-    
+
     /**
      * RESTful Permission resource.
      *
@@ -139,6 +144,27 @@ class MollieApiClient
     public $invoices;
 
     /**
+     * RESTful Order resource.
+     *
+     * @var OrderEndpoint
+     */
+    public $orders;
+
+    /**
+     * RESTful OrderLine resource.
+     *
+     * @var OrderLineEndpoint
+     */
+    public $orderLines;
+
+    /**
+     * RESTful Shipment resource.
+     *
+     * @var ShipmentEndpoint
+     */
+    public $shipments;
+
+    /**
      * RESTful Refunds resource.
      *
      * @var RefundEndpoint
@@ -146,18 +172,32 @@ class MollieApiClient
     public $refunds;
 
     /**
-     * RESTful Refunds resource.
+     * RESTful Payment Refunds resource.
      *
      * @var PaymentRefundEndpoint
      */
     public $paymentRefunds;
 
     /**
+     * RESTful Payment Captures resource.
+     *
+     * @var PaymentCaptureEndpoint
+     */
+    public $paymentCaptures;
+  
+    /**
      * RESTful Payment Chargebacks resource.
      *
      * @var PaymentChargebacksEndpoint
      */
     public $paymentChargebacks;
+
+    /**
+     * RESTful Order Refunds resource.
+     *
+     * @var OrderRefundEndpoint
+     */
+    public $orderRefunds;
 
     /**
      * @var string
@@ -217,8 +257,13 @@ class MollieApiClient
         $this->permissions = new PermissionEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
         $this->organizations = new OrganizationEndpoint($this);
+        $this->orders = new OrderEndpoint($this);
+        $this->orderLines = new OrderLineEndpoint($this);
+        $this->orderRefunds = new OrderRefundEndpoint($this);
+        $this->shipments = new ShipmentEndpoint($this);
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
+        $this->paymentCaptures = new PaymentCaptureEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
     }
 
