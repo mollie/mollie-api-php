@@ -129,4 +129,29 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($client_copy->methods);
         // no need to assert them all.
     }
+
+    public function testResponseBodyCanBeReadMultipleTimesIfMiddlewareReadsItFirst()
+    {
+        $response = new Response(200, [], '{"resource": "payment"}');
+
+        // Before the MollieApiClient gets the response, some middleware reads the body first.
+        $bodyAsReadFromMiddleware = (string) $response->getBody();
+
+        $this->guzzleClient
+            ->expects($this->once())
+            ->method('send')
+            ->willReturn($response);
+
+        $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
+
+        $this->assertEquals(
+            '{"resource": "payment"}',
+            $bodyAsReadFromMiddleware
+        );
+
+        $this->assertEquals(
+            (object)['resource' => 'payment'],
+            $parsedResponse
+        );
+    }
 }
