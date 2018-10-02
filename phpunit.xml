@@ -8,7 +8,7 @@
         <directory>tests/</directory>
     </testsuite>
     <logging>
-        <log type="junit" target="build/logs/junit-unittests.xml" logIncompleteSkipped="false"/>
+        <log type="junit" target="build/logs/junit-unittests.xml" />
     </logging>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
