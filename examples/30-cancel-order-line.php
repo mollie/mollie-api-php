@@ -21,10 +21,13 @@ try {
     $order = $mollie->orders->get($orderId);
     $line = $order->lines()->get($lineId);
     if ($line && $line->isCancelable) {
-        $order->cancelLine($lineId);
-
-        // If you want to set a quantity on the items canceled:
-        // $order->cancelLine($lineId, ['quantity' => 1]);
+        $order->cancelLines([
+            'lines' => [
+                'id' => $lineId,
+//               # You can set a quantity if you like:
+//               'quantity' => 1,
+            ],
+        ]);
 
         $updatedOrder = $mollie->orders->get($orderId);
 
