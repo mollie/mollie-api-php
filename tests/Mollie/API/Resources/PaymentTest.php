@@ -29,13 +29,23 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [PaymentStatus::STATUS_PENDING, "isPending", true],
+            [PaymentStatus::STATUS_PENDING, "isAuthorized", false],
             [PaymentStatus::STATUS_PENDING, "isFailed", false],
             [PaymentStatus::STATUS_PENDING, "isOpen", false],
             [PaymentStatus::STATUS_PENDING, "isCanceled", false],
             [PaymentStatus::STATUS_PENDING, "isPaid", false],
             [PaymentStatus::STATUS_PENDING, "isExpired", false],
 
+            [PaymentStatus::STATUS_AUTHORIZED, "isPending", false],
+            [PaymentStatus::STATUS_AUTHORIZED, "isAuthorized", true],
+            [PaymentStatus::STATUS_AUTHORIZED, "isFailed", false],
+            [PaymentStatus::STATUS_AUTHORIZED, "isOpen", false],
+            [PaymentStatus::STATUS_AUTHORIZED, "isCanceled", false],
+            [PaymentStatus::STATUS_AUTHORIZED, "isPaid", false],
+            [PaymentStatus::STATUS_AUTHORIZED, "isExpired", false],
+
             [PaymentStatus::STATUS_FAILED, "isPending", false],
+            [PaymentStatus::STATUS_FAILED, "isAuthorized", false],
             [PaymentStatus::STATUS_FAILED, "isFailed", true],
             [PaymentStatus::STATUS_FAILED, "isOpen", false],
             [PaymentStatus::STATUS_FAILED, "isCanceled", false],
@@ -43,6 +53,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             [PaymentStatus::STATUS_FAILED, "isExpired", false],
 
             [PaymentStatus::STATUS_OPEN, "isPending", false],
+            [PaymentStatus::STATUS_OPEN, "isAuthorized", false],
             [PaymentStatus::STATUS_OPEN, "isFailed", false],
             [PaymentStatus::STATUS_OPEN, "isOpen", true],
             [PaymentStatus::STATUS_OPEN, "isCanceled", false],
@@ -50,6 +61,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             [PaymentStatus::STATUS_OPEN, "isExpired", false],
 
             [PaymentStatus::STATUS_CANCELED, "isPending", false],
+            [PaymentStatus::STATUS_CANCELED, "isAuthorized", false],
             [PaymentStatus::STATUS_CANCELED, "isFailed", false],
             [PaymentStatus::STATUS_CANCELED, "isOpen", false],
             [PaymentStatus::STATUS_CANCELED, "isCanceled", true],
@@ -57,6 +69,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             [PaymentStatus::STATUS_CANCELED, "isExpired", false],
 
             [PaymentStatus::STATUS_EXPIRED, "isPending", false],
+            [PaymentStatus::STATUS_EXPIRED, "isAuthorized", false],
             [PaymentStatus::STATUS_EXPIRED, "isFailed", false],
             [PaymentStatus::STATUS_EXPIRED, "isOpen", false],
             [PaymentStatus::STATUS_EXPIRED, "isCanceled", false],

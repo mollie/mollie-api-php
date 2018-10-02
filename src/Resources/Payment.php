@@ -262,6 +262,16 @@ class Payment extends BaseResource
     }
 
     /**
+     * Is this payment authorized?
+     *
+     * @return bool
+     */
+    public function isAuthorized()
+    {
+        return $this->status === PaymentStatus::STATUS_AUTHORIZED;
+    }
+
+    /**
      * Is this payment paid for?
      *
      * @return bool
