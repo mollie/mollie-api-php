@@ -19,7 +19,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Subscription($this->api);
+        return new Subscription($this->client);
     }
 
     /**
@@ -32,7 +32,7 @@ class SubscriptionEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new SubscriptionCollection($this->api, $count, $_links);
+        return new SubscriptionCollection($this->client, $count, $_links);
     }
 
     /**

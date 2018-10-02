@@ -21,7 +21,7 @@ class OrderLineEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new OrderLine($this->api);
+        return new OrderLine($this->client);
     }
 
     /**
@@ -35,7 +35,7 @@ class OrderLineEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new OrderLineCollection($this->api, $count, $_links);
+        return new OrderLineCollection($this->client, $count, $_links);
     }
 
     /**

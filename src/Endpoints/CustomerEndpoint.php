@@ -17,7 +17,7 @@ class CustomerEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Customer($this->api);
+        return new Customer($this->client);
     }
 
     /**
@@ -30,7 +30,7 @@ class CustomerEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new CustomerCollection($this->api, $count, $_links);
+        return new CustomerCollection($this->client, $count, $_links);
     }
 
     /**

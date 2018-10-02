@@ -18,7 +18,7 @@ class PermissionEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Permission($this->api);
+        return new Permission($this->client);
     }
 
     /**
@@ -32,7 +32,7 @@ class PermissionEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PermissionCollection($this->api, $count, $_links);
+        return new PermissionCollection($this->client, $count, $_links);
     }
 
     /**

@@ -23,7 +23,7 @@ class OrderEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Order($this->api);
+        return new Order($this->client);
     }
 
     /**
@@ -37,7 +37,7 @@ class OrderEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new OrderCollection($this->api, $count, $_links);
+        return new OrderCollection($this->client, $count, $_links);
     }
 
     /**

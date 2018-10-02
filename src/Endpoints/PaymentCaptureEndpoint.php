@@ -16,7 +16,7 @@ class PaymentCaptureEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Capture($this->api);
+        return new Capture($this->client);
     }
 
     /**
@@ -29,7 +29,7 @@ class PaymentCaptureEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new CaptureCollection($this->api, $count, $_links);
+        return new CaptureCollection($this->client, $count, $_links);
     }
 
     /**

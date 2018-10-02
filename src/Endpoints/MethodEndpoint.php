@@ -15,7 +15,7 @@ class MethodEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Method($this->api);
+        return new Method($this->client);
     }
 
     /**

@@ -18,7 +18,7 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Payment($this->api);
+        return new Payment($this->client);
     }
 
     /**
@@ -31,7 +31,7 @@ class CustomerPaymentsEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PaymentCollection($this->api, $count, $_links);
+        return new PaymentCollection($this->client, $count, $_links);
     }
 
     /**

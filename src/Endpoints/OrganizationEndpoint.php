@@ -16,7 +16,7 @@ class OrganizationEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Organization($this->api);
+        return new Organization($this->client);
     }
 
     /**
@@ -29,7 +29,7 @@ class OrganizationEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new OrganizationCollection($this->api, $count, $_links);
+        return new OrganizationCollection($this->client, $count, $_links);
     }
 
     /**

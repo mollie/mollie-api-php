@@ -17,7 +17,7 @@ class InvoiceEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Invoice($this->api);
+        return new Invoice($this->client);
     }
 
     /**
@@ -30,7 +30,7 @@ class InvoiceEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new InvoiceCollection($this->api, $count, $_links);
+        return new InvoiceCollection($this->client, $count, $_links);
     }
 
     /**
