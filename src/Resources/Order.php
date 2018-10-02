@@ -254,15 +254,29 @@ class Order extends BaseResource
 
     /**
      * Cancel a line for this order.
-     * Returns HTTP status 204 (no content) if succesful.
+     * The data array must contain a lines array.
+     * You can pass an empty lines array if you want to cancel all eligible lines.
+     * Returns null if successful.
      *
-     * @param  string $lineId
      * @param  array|null $data
      * @return null
      */
-    public function cancelLine($lineId, $data = [])
+    public function cancelLines(array $data)
     {
-        return $this->client->orderLines->cancelFor($this, $lineId, $data);
+        return $this->client->orderLines->cancelFor($this, $data);
+    }
+
+    /**
+     * Cancels all eligible lines for this order.
+     * Returns null if successful.
+     *
+     * @param  array|null $data
+     * @return null
+     */
+    public function cancelAllLines($data = [])
+    {
+        $data['lines'] = [];
+        return $this->client->orderLines->cancelFor($this, $data);
     }
 
     /**

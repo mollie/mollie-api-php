@@ -274,25 +274,4 @@ class OrderLine extends BaseResource
         return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 
-    /**
-     * Cancel this order line.
-     *
-     * @param  array|null $data
-     * @return null
-     */
-    public function cancel($data = [])
-    {
-        $resource = "orders/" . urlencode($this->orderId) . "/lines/" . urlencode($this->id);
-
-        $body = null;
-        if (count($data) > 0) {
-            $body = json_encode($data);
-        }
-
-        return $this->client->performHttpCall(
-            MollieApiClient::HTTP_DELETE,
-            $resource,
-            $body
-        );
-    }
 }
