@@ -7,9 +7,6 @@
     <testsuite name="Unit tests">
         <directory>tests/</directory>
     </testsuite>
-    <logging>
-        <log type="junit" target="build/logs/junit-unittests.xml" logIncompleteSkipped="false"/>
-    </logging>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/</directory>
