@@ -18,7 +18,7 @@ class MandateEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Mandate($this->api);
+        return new Mandate($this->client);
     }
 
     /**
@@ -31,7 +31,7 @@ class MandateEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new MandateCollection($this->api, $count, $_links);
+        return new MandateCollection($this->client, $count, $_links);
     }
 
     /**

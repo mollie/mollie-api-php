@@ -19,7 +19,7 @@ abstract class EndpointAbstract
     /**
      * @var MollieApiClient
      */
-    protected $api;
+    protected $client;
 
     /**
      * @var string
@@ -36,7 +36,7 @@ abstract class EndpointAbstract
      */
     public function __construct(MollieApiClient $api)
     {
-        $this->api = $api;
+        $this->client = $api;
     }
 
     /**
@@ -70,7 +70,7 @@ abstract class EndpointAbstract
      */
     protected function rest_create(array $body, array $filters)
     {
-        $result = $this->api->performHttpCall(
+        $result = $this->client->performHttpCall(
             self::REST_CREATE,
             $this->getResourcePath() . $this->buildQueryString($filters),
             $this->parseRequestBody($body)
@@ -94,7 +94,7 @@ abstract class EndpointAbstract
         }
 
         $id = urlencode($id);
-        $result = $this->api->performHttpCall(
+        $result = $this->client->performHttpCall(
             self::REST_READ,
             "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filters)
         );
@@ -118,7 +118,7 @@ abstract class EndpointAbstract
         }
 
         $id = urlencode($id);
-        $result = $this->api->performHttpCall(
+        $result = $this->client->performHttpCall(
             self::REST_DELETE,
             "{$this->getResourcePath()}/{$id}",
             $this->parseRequestBody($body)
@@ -147,7 +147,7 @@ abstract class EndpointAbstract
 
         $apiPath = $this->getResourcePath() . $this->buildQueryString($filters);
 
-        $result = $this->api->performHttpCall(self::REST_LIST, $apiPath);
+        $result = $this->client->performHttpCall(self::REST_LIST, $apiPath);
 
         /** @var BaseCollection $collection */
         $collection = $this->getResourceCollectionObject($result->count, $result->_links);

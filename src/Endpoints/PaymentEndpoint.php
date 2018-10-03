@@ -22,7 +22,7 @@ class PaymentEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Payment($this->api);
+        return new Payment($this->client);
     }
 
     /**
@@ -35,7 +35,7 @@ class PaymentEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PaymentCollection($this->api, $count, $_links);
+        return new PaymentCollection($this->client, $count, $_links);
     }
 
     /**
@@ -141,8 +141,8 @@ class PaymentEndpoint extends EndpointAbstract
             $body = json_encode($data);
         }
 
-        $result = $this->api->performHttpCall(self::REST_CREATE, $resource, $body);
+        $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
 
-        return ResourceFactory::createFromApiResult($result, new Refund($this->api));
+        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
     }
 }
