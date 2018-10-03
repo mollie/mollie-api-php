@@ -6,7 +6,6 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
-use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
@@ -340,74 +339,59 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($canceledOrder, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
     }
 
-    public function testCancelOrderLineCompletely()
+    public function testCancelOrderLines()
     {
         $this->mockApiCall(
             new Request(
                 "DELETE",
-                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl"
-            ),
-            new Response(204)
-        );
-
-        $order = $this->getOrder('ord_8wmqcHMN4U');
-        $result = $order->cancelLine('odl_dgtxyl');
-        $this->assertNull($result);
-    }
-
-    public function testCancelOrderLinePartially()
-    {
-        $this->mockApiCall(
-            new Request(
-                "DELETE",
-                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl",
+                "/v2/orders/ord_8wmqcHMN4U/lines",
                 [],
                 '{
-                   "quantity": 1
+                   "lines": [
+                       {
+                           "id": "odl_dgtxyl",
+                           "quantity": 1
+                       }
+                   ]
                  }'
             ),
             new Response(204)
         );
 
         $order = $this->getOrder('ord_8wmqcHMN4U');
-        $result = $order->cancelLine('odl_dgtxyl', [
-            'quantity' => 1,
+
+        $result = $order->cancelLines([
+            'lines' => [
+                [
+                    'id' => 'odl_dgtxyl',
+                    'quantity' => 1,
+                ],
+            ],
         ]);
-        $this->assertNull($result);
-    }
-
-    public function testCancelOrderLineOnResourceCompletely()
-    {
-        $this->mockApiCall(
-            new Request(
-                "DELETE",
-                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl"
-            ),
-            new Response(204)
-        );
-        $line = $this->getOrder('ord_8wmqcHMN4U')->lines()[0];
-
-        $result = $line->cancel();
 
         $this->assertNull($result);
     }
 
-    public function testCancelOrderLineOnResourcePartially()
+    public function testCancelAllOrderLines()
     {
         $this->mockApiCall(
             new Request(
                 "DELETE",
-                "/v2/orders/ord_8wmqcHMN4U/lines/odl_dgtxyl",
+                "/v2/orders/ord_8wmqcHMN4U/lines",
                 [],
                 '{
-                   "quantity": 1
+                   "lines": [],
+                   "foo": "bar"
                  }'
             ),
             new Response(204)
         );
-        $line = $this->getOrder('ord_8wmqcHMN4U')->lines()[0];
 
-        $result = $line->cancel(['quantity' => 1]);
+        $order = $this->getOrder('ord_8wmqcHMN4U');
+
+        $result = $order->cancelAllLines([
+            'foo' => 'bar',
+        ]);
 
         $this->assertNull($result);
     }

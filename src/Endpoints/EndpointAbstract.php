@@ -208,7 +208,7 @@ abstract class EndpointAbstract
      * @return null|string
      * @throws ApiException
      */
-    private function parseRequestBody(array $body)
+    protected function parseRequestBody(array $body)
     {
         if (empty($body)) {
             return null;
