@@ -4,6 +4,8 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
+use Mollie\Api\Resources\OrderLine;
+use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
 class OrderLineEndpoint extends EndpointAbstract
@@ -37,7 +39,7 @@ class OrderLineEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new OrderLineCollection($this->client, $count, $_links);
+        return new OrderLineCollection($count, $_links);
     }
 
     /**
@@ -59,7 +61,7 @@ class OrderLineEndpoint extends EndpointAbstract
         }
         $this->parentId = $order->id;
 
-        $this->api->performHttpCall(
+        $this->client->performHttpCall(
             self::REST_DELETE,
             "{$this->getResourcePath()}",
             $this->parseRequestBody($data)
