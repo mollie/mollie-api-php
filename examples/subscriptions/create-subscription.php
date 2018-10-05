@@ -1,13 +1,14 @@
 <?php
 /*
- * Example 16 - How to create a regular subscription.
+ * How to create a regular subscription.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
+
     /*
      * Determine the url parts to these example files.
      */
@@ -15,20 +16,22 @@ try {
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
-    /**
+    /*
      * Retrieve the last created customer for this example.
-     * If no customers are created yet, run example 11.
+     * If no customers are created yet, run create-customer example.
      */
     $customer = $mollie->customers->page(null, 1)[0];
+
     /*
      * Generate a unique subscription id for this example. It is important to include this unique attribute
      * in the webhookUrl (below) so new payments can be associated with this subscription.
      */
     $subscriptionId = time();
-    /*
+
+    /**
      * Customer Subscription creation parameters.
      *
-     * See: https://www.mollie.com/nl/docs/reference/subscriptions/create
+     * @See: https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription
      */
     $subscription = $customer->createSubscription([
         "amount" => [
@@ -38,13 +41,16 @@ try {
         "times" => 12,
         "interval" => "1 month",
         "description" => "Subscription #{$subscriptionId}",
-        "method" => NULL,
-        "webhookUrl" => "https://example.com/webhook.php?subscription_id={$subscriptionId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/subscriptions/webhook.php",
+        "metadata" => [
+            "subscription_id" => $subscriptionId
+        ],
     ]);
+
     /*
      * The subscription will be either pending or active depending on whether the customer has
      * a pending or valid mandate. If the customer has no mandates an error is returned. You
-     * should then set up a "first payment" for the customer (example 14).
+     * should then set up a "first payment" for the customer.
      */
     echo "<p>The subscription status is '" . htmlspecialchars($subscription->status) . "'.</p>\n";
     echo "<p>";
