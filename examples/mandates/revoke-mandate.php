@@ -1,13 +1,13 @@
 <?php
 /*
-Example 24 - Revoke a customer mandate
-*/
+ * Revoke a customer mandate
+ */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "initialize.php";
+    require "../initialize.php";
 
     /*
      * Retrieve an existing customer by his customerId
