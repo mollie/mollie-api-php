@@ -61,6 +61,11 @@ class MollieApiClient
     const HTTP_NO_CONTENT = 204;
 
     /**
+     * Default response timeout (in seconds).
+     */
+    const TIMEOUT = 10;
+
+    /**
      * @var ClientInterface
      */
     protected $httpClient;
@@ -231,7 +236,8 @@ class MollieApiClient
         $this->httpClient = $httpClient ?
             $httpClient :
             new Client([
-                \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath()
+                \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath(),
+                \GuzzleHttp\RequestOptions::TIMEOUT => self::TIMEOUT,
             ]);
 
         $compatibilityChecker = new CompatibilityChecker();
