@@ -67,6 +67,11 @@ class Subscription extends BaseResource
     public $method;
 
     /**
+     * @var string|null
+     */
+    public $mandateId;
+
+    /**
      * UTC datetime the subscription canceled in ISO-8601 format.
      *
      * @var string|null
@@ -108,6 +113,7 @@ class Subscription extends BaseResource
             "startDate" => $this->startDate,
             "webhookUrl" => $this->webhookUrl,
             "description" => $this->description,
+            "mandateId" => $this->mandateId,
         ]);
 
         $result = $this->client->performHttpCallToFullUrl(
