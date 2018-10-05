@@ -360,15 +360,14 @@ class Order extends BaseResource
     }
 
     /**
-     * Refund some order lines. You can provide an empty array for the
-     * "lines" data to refund all eligable lines for this order.
+     * Refund specific order lines.
      *
      * @param  array  $data
      * @return Refund
      */
     public function refund(array $data)
     {
-        return $this->client->orderRefunds->createFor($this, $data = []);
+        return $this->client->orderRefunds->createFor($this, $data);
     }
 
     /**
