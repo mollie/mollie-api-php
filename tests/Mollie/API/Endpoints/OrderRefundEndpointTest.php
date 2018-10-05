@@ -27,9 +27,11 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                 [],
                 '{
                      "lines": [
-                        "id": "odl_dgtxyl",
-                        "quantity": 1
-                     ],
+                        {
+                            "id": "odl_dgtxyl",
+                            "quantity": 1
+                        }
+                     ]
                  }'
             ),
             new Response(
@@ -43,8 +45,10 @@ class OrderRefundEndpointTest extends BaseEndpointTest
 
         $refund = $order->refund([
             'lines' => [
-                'id' => 'odl_dgtxyl',
-                'quantity' => 1,
+                [
+                    'id' => 'odl_dgtxyl',
+                    'quantity' => 1,
+                ]
             ],
         ]);
 
@@ -59,7 +63,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                 "/v2/orders/ord_stTC2WHAuS/refunds",
                 [],
                 '{
-                     "lines": [],
+                     "lines": []
                  }'
             ),
             new Response(
