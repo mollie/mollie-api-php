@@ -7,7 +7,7 @@ try
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
-    require "initialize_with_oauth.php";
+    require "../initialize_with_oauth.php";
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
      * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -25,31 +25,31 @@ try
      */
     $profiles = $mollie->profiles->page();
     $profile  = reset($profiles);
-    /*
-     * Payment parameters:
-     *   amount        Amount in EUROs. This example creates a € 10,- payment.
-     *   description   Description of the payment.
-     *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
-     *   webhookUrl    Webhook location, used to report when the payment changes state.
-     *   metadata      Custom metadata that is stored with the payment.
+
+    /**
+     * Paramaters for creating a payment via oAuth
+     *
+     * @See https://docs.mollie.com/reference/v2/payments-api/create-payment
      */
-    $payment = $mollie->payments->create(array(
+    $payment = $mollie->payments->create([
         "amount"       => [
             "value" => "10.00",
             "currency" => "EUR"
         ],
         "description"  => "My first API payment",
-        "redirectUrl"  => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
-        "webhookUrl"   => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
-        "metadata"     => array(
+        "redirectUrl"  => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
+        "webhookUrl"   => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
+        "metadata"     => [
             "order_id" => $orderId,
-        ),
+        ],
         "profileId" => $profile->id // This is specifically necessary for payment resources via OAuth access.
-    ));
+    ]);
+
     /*
      * In this example we store the order with its payment status in a database.
      */
     database_write($orderId, $payment->status);
+
     /*
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
@@ -64,13 +64,4 @@ try
 catch (\Mollie\Api\Exceptions\ApiException $e)
 {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
-}
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write ($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-    file_put_contents($database, $status);
 }
