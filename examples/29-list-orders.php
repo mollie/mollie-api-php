@@ -3,6 +3,8 @@
  * Example 29 - List orders using the Mollie API.
  */
 
+use Mollie\Api\Resources\OrderCollection;
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -18,14 +20,14 @@ try {
     $latestOrders = $mollie->orders->page();
     printOrders($latestOrders);
 
-    $previousOrders = $orders->next();
-    printOrders($latestOrders);
+    $previousOrders = $latestOrders->next();
+    printOrders($previousOrders);
     echo '</ul>';
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 
-function printOrders(array $orders)
+function printOrders($orders)
 {
     if (empty($orders)) {
         return ;

@@ -22,7 +22,7 @@ try {
     foreach ($shipments as $shipment) {
         echo 'Shipment ' . $shipment->id . '. Items:';
         foreach ($shipment->lines as $line) {
-            echo $line->description . '. Status: <b>' . $line->status . '</b>.';
+            echo $line->name . ' - status: <b>' . $line->status . '</b>.';
         }
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

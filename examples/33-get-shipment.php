@@ -20,7 +20,7 @@ try {
 
     echo 'Shipment with ID ' . $shipment->id. ' for order with ID ' . $order->id . '.';
     foreach ($shipment->lines as $line) {
-        echo $line->description . '. Status: <b>' . $line->status . '</b>.';
+        echo $line->name . ' - status: <b>' . $line->status . '</b>.';
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
