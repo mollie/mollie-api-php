@@ -1,17 +1,19 @@
 <?php
 /*
- * Example 19 - Updating an existing profile via the Mollie API.
+ * Updating an existing profile via the Mollie API.
  */
 try
 {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "initialize_with_oauth.php";
+    require "../initialize_with_oauth.php";
+
     /*
      * Retrieve an existing profile by his profileId
      */
     $profile = $mollie->profiles->get("pfl_eA4MSz7Bvy");
+
     /**
      * Profile fields that can be updated.
      *

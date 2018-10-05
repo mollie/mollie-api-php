@@ -1,13 +1,14 @@
 <?php
 /*
- * Example 8 - Using OAuth access token to list profiles of an account.
+ * Using OAuth access token to list profiles of an account.
  */
 try
 {
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
-    require "initialize_with_oauth.php";
+    require "../initialize_with_oauth.php";
+
     /*
      * Get the all the profiles for this account.
      */
