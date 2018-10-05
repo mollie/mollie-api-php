@@ -1,13 +1,26 @@
 <?php
 /*
- * Example 26 - How to create a new order in the Mollie API.
+ * How to create a new order in the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
+
+    /*
+     * Generate a unique order id for this example. It is important to include this unique attribute
+     * in the redirectUrl (below) so a proper return page can be shown to the customer.
+     */
+    $orderId = time();
+
+    /*
+     * Determine the url parts to these example files.
+     */
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $hostname = $_SERVER['HTTP_HOST'];
+    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
     /*
      * Order creation parameters.
@@ -38,14 +51,13 @@ try {
           "email" => "luke@skywalker.com",
         ],
         "metadata" => [
-          "order_id" => "1337",
-          "description" => "Lego cars"
+          "order_id" => $orderId
         ],
         "consumerDateOfBirth" => "1958-01-31",
-        "locale" => "nl_NL",
-        "orderNumber" => "1337",
-        "redirectUrl" => "https://example.org/redirect",
-        "webhookUrl" => "https://example.org/webhook",
+        "locale" => "en_US",
+        "orderNumber" => $orderId,
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/orders/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/orders/webhook.php",
         "method" => "ideal",
         "lines" => [
             [

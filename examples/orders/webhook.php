@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 27 - Handle an order status change using the Mollie API.
+ * Handle an order status change using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * After your webhook has been called with the order ID in its body, you'd like
@@ -15,19 +15,35 @@ try {
      *
      * See: https://docs.mollie.com/reference/v2/orders-api/get-order
      */
-    $order = $mollie->orders->get("ord_pbjz8x");
+    $order = $mollie->orders->get($_POST["id"]);
+    $orderId = $payment->metadata->order_id;
+
+    /*
+     * Update the order in the database.
+     */
+    database_write($orderId, $payment->status);
 
     if ($order->isPaid() || $order->isAuthorized()) {
-        echo "The payment for your order " . $order->id . " has been processed.";
-        echo "\nYour order is now being prepared for shipment.";
+        /*
+         * The order is paid or authorized
+         * At this point you'd probably want to start the process of delivering the product to the customer.
+         */
     } elseif ($order->isCanceled()) {
-        echo "Your order " . $order->id . " has been canceled.";
+        /*
+         * The order is canceled.
+         */
     } elseif ($order->isRefunded()) {
-        echo "Your order " . $order->id . " has been refunded.";
+        /*
+         * The order is refunded.
+         */
     } elseif ($order->isExpired()) {
-        echo "Your order " . $order->id . " has expired.";
+        /*
+         * The order is expired.
+         */
     } elseif ($order->isCompleted()) {
-        echo "Your order " . $order->id . " is completed.";
+        /*
+         * The orderis completed.
+         */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
