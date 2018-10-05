@@ -1,17 +1,19 @@
 <?php
 /*
- * Example 18 - Updating an existing customer via the Mollie API.
+ * Updating an existing customer via the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
+
     /*
      * Retrieve an existing customer by his customerId
      */
     $customer = $mollie->customers->get("cst_cUe8HjeBuz");
+
     /**
      * Customer fields that can be updated.
      *

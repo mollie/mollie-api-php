@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 13 - How to retrieve your customers' payments history.
+ * How to retrieve your customers' payments history.
  */
 
 try {
@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "initialize.php";
+    require "../initialize.php";
 
     /*
     * Determine the url parts to these example files.
@@ -20,7 +20,7 @@ try {
 
     /*
      * Retrieve the last created customer for this example.
-     * If no customers are created yet, run example 11.
+     * If no customers are created yet, run create-customer example.
      */
     $customer = $mollie->customers->page(null, 1)[0];
 
@@ -47,7 +47,7 @@ try {
         }
 
         if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-            echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+            echo " (<a href=\"{$protocol}://{$hostname}{$path}/payments/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
         }
 
         echo "</li>";

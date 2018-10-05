@@ -1,17 +1,17 @@
 <?php
 /*
- * Example 12 - How to create a new customer in the Mollie API.
+ * How to create a new customer in the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "initialize.php";
+    require "../initialize.php";
 
     /*
      * Retrieve the last created customer for this example.
-     * If no customers are created yet, run example 11.
+     * If no customers are created yet, run create-customer example.
      */
     $customer = $mollie->customers->page(null, 1)[0];
 
@@ -28,11 +28,10 @@ try {
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
-    /*
-     * Customer Payment creation parameters.
+    /**
+     * Linking customers to payments has a few benefits
      *
-     * Linking customers to payments has a few benefits, see:
-     * https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
+     * @see https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
     $payment = $customer->createPayment([
         "amount" => [
@@ -40,8 +39,8 @@ try {
             "currency" => "EUR"
         ],
         "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ]
@@ -59,14 +58,4 @@ try {
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
-}
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-    file_put_contents($database, $status);
 }
