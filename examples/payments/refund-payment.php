@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 7 - How to refund a payment programmatically
+ * How to refund a payment programmatically
  */
 
 try {
@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Determine the url parts to these example files.
@@ -62,9 +62,9 @@ try {
     echo "<form method='get'><input name='payment_id' value='tr_xxx'/><input type='submit' /></form>";
 
     echo "<p>";
-    echo '<a href="' . $protocol . '://' . $hostname . $path . '/01-new-payment.php">Create payment with example 1</a><br>';
-    echo '<a href="' . $protocol . '://' . $hostname . $path . '/04-ideal-payment.php">Create iDEAL payment with example 4</a><br>';
-    echo '<a href="' . $protocol . '://' . $hostname . $path . '/05-payments-history.php">List payments with example 5</a><br>';
+    echo '<a href="' . $protocol . '://' . $hostname . $path . '/payments/create-payment.php">Create a payment</a><br>';
+    echo '<a href="' . $protocol . '://' . $hostname . $path . '/payments/create-ideal-payment.php">Create an iDEAL payment</a><br>';
+    echo '<a href="' . $protocol . '://' . $hostname . $path . '/payments/list-payments.php">List payments</a><br>';
     echo "</p>";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());

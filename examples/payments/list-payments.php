@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 5 - How to retrieve your payments history.
+ * How to list your payments.
  */
 
 try {
@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Determine the url parts to these example files.
@@ -41,7 +41,7 @@ try {
         }
 
         if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-            echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+            echo " (<a href=\"{$protocol}://{$hostname}{$path}/payments/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
         }
 
         echo "</li>";
@@ -72,7 +72,7 @@ try {
             }
 
             if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-                echo " (<a href=\"{$protocol}://{$hostname}{$path}/07-refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+                echo " (<a href=\"{$protocol}://{$hostname}{$path}/payments/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
             }
 
             echo "</li>";

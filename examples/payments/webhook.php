@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 2 - How to verify Mollie API Payments in a webhook.
+ * How to verify Mollie API Payments in a webhook.
  *
  * See: https://docs.mollie.com/guides/webhooks
  */
@@ -11,7 +11,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Retrieve the payment's current state.
@@ -62,15 +62,4 @@ try {
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
-}
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-
-    file_put_contents($database, $status);
 }

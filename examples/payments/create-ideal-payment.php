@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 4 - How to prepare an iDEAL payment with the Mollie API.
+ * How to prepare an iDEAL payment with the Mollie API.
  */
 
 try {
@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * First, let the customer pick the bank in a simple HTML form. This step is actually optional.
@@ -58,8 +58,8 @@ try {
         ],
         "method" => \Mollie\Api\Types\PaymentMethod::IDEAL,
         "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ],
@@ -69,7 +69,7 @@ try {
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($order_id, $payment->status);
+    database_write($orderId, $payment->status);
 
     /*
      * Send the customer off to complete the payment.
@@ -79,15 +79,3 @@ try {
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-
-    file_put_contents($database, $status);
-}
-

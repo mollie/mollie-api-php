@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
@@ -38,8 +38,8 @@ try {
             "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/03-return-page.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ],
@@ -57,15 +57,4 @@ try {
     header("Location: " . $payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
-}
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-
-    file_put_contents($database, $status);
 }

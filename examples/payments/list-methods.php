@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 6 - How to get the currently activated payment methods.
+ * How to get the currently activated payment methods for the Payments API.
  */
 
 try {
@@ -9,9 +9,11 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "./initialize.php";
+    require "../initialize.php";
     /*
      * Get all the activated methods for this API key.
+     * By default we are using the resource "payments".
+     * See the orders folder for an example with the Orders API.
      */
     $methods = $mollie->methods->all();
     foreach ($methods as $method) {
