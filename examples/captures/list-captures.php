@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 39 - List captures for a payment using the Mollie API.
+ * List captures for a payment using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * List captures for payment with ID 'tr_WDqYK6vllg'.
