@@ -1,17 +1,17 @@
 <?php
 /*
- * Example 15 - How to create an on-demand recurring payment.
+ * How to create an on-demand recurring payment.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "initialize.php";
+    require "../initialize.php";
 
     /*
      * Retrieve the last created customer for this example.
-     * If no customers are created yet, run example 11.
+     * If no customers are created yet, run the create-customer example.
      */
     $customer = $mollie->customers->page(null, 1)[0];
     
@@ -27,10 +27,10 @@ try {
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
     
-    /*
+    /**
      * Customer Payment creation parameters.
      *
-     * See: https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
+     * @See: https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
     $payment = $customer->createPayment([
         "amount" => [
@@ -38,7 +38,7 @@ try {
             "currency" => "EUR"
         ],
         "description" => "On-demand payment - Order #{$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/02-webhook-verification.php",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ],
@@ -60,14 +60,4 @@ try {
     echo "<p>The payment status is '" . htmlspecialchars($payment->status) . "'.</p>\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
-}
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
-function database_write($orderId, $status)
-{
-    $orderId = intval($orderId);
-    $database = dirname(__FILE__) . "/orders/order-{$orderId}.txt";
-    file_put_contents($database, $status);
 }
