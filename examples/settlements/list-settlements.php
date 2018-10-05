@@ -1,13 +1,14 @@
 <?php
 /*
- * Example 9 - Using OAuth access token to list settlements of an account.
+ * Using OAuth access token to list settlements of an account.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
-    require "./initialize_with_oauth.php";
+    require "../initialize_with_oauth.php";
+
     /*
      * Get the all the settlements for this account.
      */
