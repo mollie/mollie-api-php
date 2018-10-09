@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 34 - List shipment for an order using the Mollie API.
+ * List shipment for an order using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Listing shipments for the order with ID "ord_8wmqcHMN4U".

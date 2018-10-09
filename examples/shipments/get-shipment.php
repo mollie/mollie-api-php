@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 33 - Retrieve a shipment using the Mollie API.
+ * Retrieve a shipment using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Retrieve a shipment with ID "shp_3wmsgCJN4U" for the order with ID "ord_8wmqcHMN4U".

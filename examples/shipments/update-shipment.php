@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 37 - Update shipment tracking information using the Mollie API.
+ * Update shipment tracking information using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Update the tracking information for a shipment with ID "shp_3wmsgCJN4U" and
