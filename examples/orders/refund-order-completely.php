@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 35 - Refund all eligible items for an order using the Mollie API.
+ * Refund all eligible items for an order using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Refund all eligible items for an order with ID "ord_8wmqcHMN4U".

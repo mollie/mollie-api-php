@@ -1,6 +1,6 @@
 <?php
 /*
- * Example 29 - List orders using the Mollie API.
+ * List orders using the Mollie API.
  */
 
 use Mollie\Api\Resources\OrderCollection;
@@ -9,7 +9,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * List the most recent orders

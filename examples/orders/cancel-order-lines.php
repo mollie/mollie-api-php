@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 30 - Cancel an order line using the Mollie API.
+ * Cancel order lines using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Cancel an order line with ID "odl_dgtxyl" for order ID "ord_8wmqcHMN4U"
@@ -23,9 +23,10 @@ try {
     if ($line && $line->isCancelable) {
         $order->cancelLines([
             'lines' => [
-                'id' => $lineId,
-//               # You can set a quantity if you like:
-//               'quantity' => 1,
+                [
+                    'id' => $lineId,
+                    'quantity' => 1, // optional parameter
+                ]
             ],
         ]);
 

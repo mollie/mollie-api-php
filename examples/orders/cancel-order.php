@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 28 - Cancel an order using the Mollie API.
+ * Cancel an order using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Cancel the order with ID "ord_pbjz8x"

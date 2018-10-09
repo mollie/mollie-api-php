@@ -1,13 +1,13 @@
 <?php
 /*
- * Example 36 - Refund some items for an order using the Mollie API.
+ * Refund some items for an order using the Mollie API.
  */
 
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "./initialize.php";
+    require "../initialize.php";
 
     /*
      * Refund 1 item of order line "odl_dgtxyl" for an order with ID "ord_8wmqcHMN4U".
