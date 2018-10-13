@@ -1,31 +1,36 @@
 language: php
 dist: trusty
-
 php:
-- 5.4
-- 5.5
 - 5.6
 - 7.0
 - 7.1
 - 7.2
-- hhvm
-
+- nightly
 matrix:
-  include:
-    - php: 5.3
-      dist: precise
-      sudo: true
-
+  fast_finish: true
+  allow_failures:
+  - php: nightly
 sudo: false
-
 cache:
   directories:
-    - $HOME/.composer/cache
-
+  - "$HOME/.composer/cache"
+env:
+- COMPOSER_NO_INTERACTION=1
 install:
-- travis_retry composer install --no-interaction
-
+- travis_retry composer install --no-scripts --no-suggest
 script:
 - composer validate --strict
-- find src examples tests -name *.php | xargs -n 1 -P4 php -l
+- find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
+before_deploy:
+- sed -i "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" src/MollieApiClient.php
+- make mollie-api-php.zip
+deploy:
+  provider: releases
+  api_key:
+    secure: oXVzXjLkVfr7+5leMbIHQnLDg1o9/ldG6qdJ/GtwumZJYiit9h7VBYpxRvQGgXUESzhDlBf2jCLKxqxW+P2/PwG738/rSJVjLvbtbyFRz+pvk4o8rm3U7IKRv87BFhIvhaO9HcgvmyHbPMzGKRdAsWYWGQf/dg9N77xeDZ9++80=
+  file: mollie-api-php.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    php: 7.2
