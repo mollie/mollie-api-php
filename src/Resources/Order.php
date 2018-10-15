@@ -404,4 +404,25 @@ class Order extends BaseResource
 
         return $resourceCollection;
     }
+
+    /**
+     * Saves the order's updated billingAddress and/or shippingAddress.
+     *
+     * @return Order
+     */
+    public function update()
+    {
+        if (!isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $body = json_encode(array(
+            "billingAddress" => $this->billingAddress,
+            "shippingAddress" => $this->shippingAddress,
+        ));
+
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
 }

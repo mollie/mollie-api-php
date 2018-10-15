@@ -396,6 +396,62 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertNull($result);
     }
 
+    /** @test */
+    public function testUpdateOrder()
+    {
+        $this->mockApiCall(
+            new Request(
+                "PATCH",
+                "/v2/orders/ord_pbjz8x",
+                [],
+                '{
+                     "billingAddress": {
+                         "streetAndNumber": "Keizersgracht 313",
+                         "postalCode": "1234AB",
+                         "city": "Amsterdam",
+                         "country": "NL",
+                         "givenName": "Piet",
+                         "familyName": "Mondriaan",
+                         "email": "piet@mondriaan.com",
+                         "region": "Noord-Holland",
+                         "title": "Dhr",
+                         "phone": "+31208202070"
+                     },
+                     "shippingAddress": {
+                         "streetAndNumber": "Keizersgracht 313",
+                         "postalCode": "1016 EE",
+                         "city": "Amsterdam",
+                         "country": "nl",
+                         "givenName": "Luke",
+                         "familyName": "Skywalker",
+                         "email": "luke@skywalker.com"
+                     }
+                 }'
+            ),
+            new Response(
+                200,
+                [],
+                $this->getOrderResponseFixture("ord_pbjz8x")
+            )
+        );
+
+        $order = $this->getOrder("ord_pbjz8x");
+
+        $order->billingAddress->streetAndNumber = "Keizersgracht 313";
+        $order->billingAddress->city = "Amsterdam";
+        $order->billingAddress->region = "Noord-Holland";
+        $order->billingAddress->postalCode = "1234AB";
+        $order->billingAddress->country = "NL";
+        $order->billingAddress->title = "Dhr";
+        $order->billingAddress->givenName = "Piet";
+        $order->billingAddress->familyName = "Mondriaan";
+        $order->billingAddress->email = "piet@mondriaan.com";
+        $order->billingAddress->phone = "+31208202070";
+        $order = $order->update();
+
+        $this->assertOrder($order, "ord_pbjz8x");
+    }
+
     protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED)
     {
         $this->assertInstanceOf(Order::class, $order);
