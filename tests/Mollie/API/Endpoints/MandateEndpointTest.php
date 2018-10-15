@@ -217,28 +217,210 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $mandates->_links->documentation);
     }
 
+    public function testCustomerHasValidMandateWhenTrue()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "mandates": [
+                      {
+                        "resource": "mandate",
+                        "id": "mdt_AcQl5fdL4h",
+                        "status": "valid",
+                        "method": "directdebit",
+                        "details": {
+                          "consumerName": "John Doe",
+                          "consumerAccount": "NL55INGB0000000000",
+                          "consumerBic": "INGBNL2A"
+                        },
+                        "mandateReference": null,
+                        "signatureDate": "2018-05-07",
+                        "createdAt": "2018-05-07T10:49:08+00:00",
+                        "_links": {
+                          "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
+                            "type": "application/hal+json"
+                          },
+                          "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                            "type": "application/hal+json"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "count": 1,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://mollie.com/en/docs/reference/customers/list-mandates",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        $customer = $this->getCustomer();
+
+        $this->assertTrue($customer->hasValidMandate());
+    }
+
+    public function testCustomerHasValidMandateWhenFalse()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "mandates": []
+                  },
+                  "count": 0,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://mollie.com/en/docs/reference/customers/list-mandates",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        $customer = $this->getCustomer();
+
+        $this->assertFalse($customer->hasValidMandate());
+    }
+
+    public function testCustomerHasValidMandateForMethodWhenFalse()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "mandates": []
+                  },
+                  "count": 0,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://mollie.com/en/docs/reference/customers/list-mandates",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        $customer = $this->getCustomer();
+
+        $this->assertFalse($customer->hasValidMandateForMethod('directdebit'));
+    }
+
+    public function testCustomerHasValidMandateForMethodWhenTrue()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "mandates": [
+                      {
+                        "resource": "mandate",
+                        "id": "mdt_AcQl5fdL4h",
+                        "status": "valid",
+                        "method": "directdebit",
+                        "details": {
+                          "consumerName": "John Doe",
+                          "consumerAccount": "NL55INGB0000000000",
+                          "consumerBic": "INGBNL2A"
+                        },
+                        "mandateReference": null,
+                        "signatureDate": "2018-05-07",
+                        "createdAt": "2018-05-07T10:49:08+00:00",
+                        "_links": {
+                          "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h",
+                            "type": "application/hal+json"
+                          },
+                          "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                            "type": "application/hal+json"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "count": 1,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://mollie.com/en/docs/reference/customers/list-mandates",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        $customer = $this->getCustomer();
+
+        $this->assertTrue($customer->hasValidMandateForMethod('directdebit'));
+    }
+
     /**
      * @return Customer
      */
     private function getCustomer()
     {
         $customerJson = '{
-                  "resource": "customer",
-                  "id": "cst_FhQJRw4s2n",
-                  "mode": "test",
-                  "name": "John Doe",
-                  "email": "johndoe@example.org",
-                  "locale": null,
-                  "metadata": null,
-                  "recentlyUsedMethods": [],
-                  "createdAt": "2018-04-19T08:49:01+00:00",
-                  "_links": {
-                    "documentation": {
-                      "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
-                      "type": "text/html"
-                    }
-                  }
-                }';
+          "resource": "customer",
+          "id": "cst_FhQJRw4s2n",
+          "mode": "test",
+          "name": "John Doe",
+          "email": "johndoe@example.org",
+          "locale": null,
+          "metadata": null,
+          "recentlyUsedMethods": [],
+          "createdAt": "2018-04-19T08:49:01+00:00",
+          "_links": {
+            "documentation": {
+              "href": "https://docs.mollie.com/reference/v2/customers-api/get-customer",
+              "type": "text/html"
+            }
+          }
+        }';
 
         return $this->copy(json_decode($customerJson), new Customer($this->apiClient));
     }

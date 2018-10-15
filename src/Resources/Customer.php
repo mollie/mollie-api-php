@@ -193,9 +193,26 @@ class Customer extends BaseResource
      */
     public function hasValidMandate()
     {
-        $mandates = $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
+        $mandates = $this->mandates();
         foreach ($mandates as $mandate) {
             if ($mandate->isValid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper function to check for specific payment method mandate with status valid
+     *
+     * @return bool
+     */
+    public function hasValidMandateForMethod($method)
+    {
+        $mandates = $this->mandates();
+        foreach ($mandates as $mandate) {
+            if ($mandate->method === $method && $mandate->isValid()) {
                 return true;
             }
         }
