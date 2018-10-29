@@ -146,15 +146,25 @@ class Order extends BaseResource
 
     /**
      * The order lines contain the actual things the customer bought.
+     *
      * @var array|object[]
      */
     public $lines;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
+     *
      * @var object[]
      */
     public $_links;
+
+    /**
+     * An organization name which can be provided by the shopper, if they do shopping for business purposes of their
+     * company.
+     *
+     * @var string|null
+     */
+    public $organizationName;
 
     /**
      * Is this order created?
