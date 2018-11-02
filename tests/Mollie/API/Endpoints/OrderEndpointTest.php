@@ -59,6 +59,7 @@ class OrderEndpointTest extends BaseEndpointTest
                  "method" : "klarnapaylater",
                  "redirectUrl": "https://example.org/redirect",
                  "webhookUrl": "https://example.org/webhook",
+                 "organizationName": "Organization Name LTD.",
                  "lines": [
                      {
                          "sku": "5702016116977",
@@ -148,6 +149,7 @@ class OrderEndpointTest extends BaseEndpointTest
             "redirectUrl" => "https://example.org/redirect",
             "webhookUrl" => "https://example.org/webhook",
             "method" => "klarnapaylater",
+            "organizationName" => "Organization Name LTD.",
             "lines" => [
                 [
                     "sku" => "5702016116977",
@@ -498,6 +500,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $this->assertEquals("https://example.org/redirect", $order->redirectUrl);
         $this->assertEquals("https://example.org/webhook", $order->webhookUrl);
+        $this->assertEquals("Organization Name LTD.", $order->organizationName);
 
         $links = (object )[
           'self' => $this->createLinkObject(
@@ -614,6 +617,7 @@ class OrderEndpointTest extends BaseEndpointTest
              "isCancelable": true,
              "redirectUrl": "https://example.org/redirect",
              "webhookUrl": "https://example.org/webhook",
+             "organizationName": "Organization Name LTD.",
              "lines": [
                  {
                      "resource": "orderline",
