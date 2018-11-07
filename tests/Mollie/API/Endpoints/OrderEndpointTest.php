@@ -478,6 +478,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals($order_status, $order->status);
 
         $billingAddress = new stdClass();
+        $billingAddress->organizationName = "Organization Name LTD.";
         $billingAddress->streetAndNumber = "Keizersgracht 313";
         $billingAddress->postalCode = "1016 EE";
         $billingAddress->city = "Amsterdam";
