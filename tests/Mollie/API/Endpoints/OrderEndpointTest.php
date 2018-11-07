@@ -410,6 +410,7 @@ class OrderEndpointTest extends BaseEndpointTest
                 [],
                 '{
                      "billingAddress": {
+                         "organizationName": "Organization Name LTD.",
                          "streetAndNumber": "Keizersgracht 313",
                          "postalCode": "1234AB",
                          "city": "Amsterdam",
@@ -422,6 +423,7 @@ class OrderEndpointTest extends BaseEndpointTest
                          "phone": "+31208202070"
                      },
                      "shippingAddress": {
+                         "organizationName": "Organization Name LTD.",
                          "streetAndNumber": "Keizersgracht 313",
                          "postalCode": "1016 EE",
                          "city": "Amsterdam",
@@ -441,6 +443,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $order = $this->getOrder("ord_pbjz8x");
 
+        $order->billingAddress->organizationName = "Organization Name LTD.";
         $order->billingAddress->streetAndNumber = "Keizersgracht 313";
         $order->billingAddress->city = "Amsterdam";
         $order->billingAddress->region = "Noord-Holland";
