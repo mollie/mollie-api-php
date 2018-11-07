@@ -159,14 +159,6 @@ class Order extends BaseResource
     public $_links;
 
     /**
-     * An organization name which can be provided by the shopper, if they do shopping for business purposes of their
-     * company.
-     *
-     * @var string|null
-     */
-    public $organizationName;
-
-    /**
      * Is this order created?
      *
      * @return bool
