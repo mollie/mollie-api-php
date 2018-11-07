@@ -32,6 +32,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "currency": "EUR"
                  },
                  "billingAddress": {
+                     "organizationName": "Organization Name LTD.",
                      "streetAndNumber": "Keizersgracht 313",
                      "postalCode": "1016 EE",
                      "city": "Amsterdam",
@@ -41,6 +42,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "email": "luke@skywalker.com"
                  },
                  "shippingAddress": {
+                     "organizationName": "Organization Name LTD.",
                      "streetAndNumber": "Keizersgracht 313",
                      "postalCode": "1016 EE",
                      "city": "Amsterdam",
@@ -59,7 +61,6 @@ class OrderEndpointTest extends BaseEndpointTest
                  "method" : "klarnapaylater",
                  "redirectUrl": "https://example.org/redirect",
                  "webhookUrl": "https://example.org/webhook",
-                 "organizationName": "Organization Name LTD.",
                  "lines": [
                      {
                          "sku": "5702016116977",
@@ -122,6 +123,7 @@ class OrderEndpointTest extends BaseEndpointTest
               "currency" => "EUR"
             ],
             "billingAddress" => [
+              "organizationName" => "Organization Name LTD.",
               "streetAndNumber" => "Keizersgracht 313",
               "postalCode" => "1016 EE",
               "city" => "Amsterdam",
@@ -131,6 +133,7 @@ class OrderEndpointTest extends BaseEndpointTest
               "email" => "luke@skywalker.com",
             ],
             "shippingAddress" => [
+              "organizationName" => "Organization Name LTD.",
               "streetAndNumber" => "Keizersgracht 313",
               "postalCode" => "1016 EE",
               "city" => "Amsterdam",
@@ -149,7 +152,6 @@ class OrderEndpointTest extends BaseEndpointTest
             "redirectUrl" => "https://example.org/redirect",
             "webhookUrl" => "https://example.org/webhook",
             "method" => "klarnapaylater",
-            "organizationName" => "Organization Name LTD.",
             "lines" => [
                 [
                     "sku" => "5702016116977",
@@ -408,6 +410,7 @@ class OrderEndpointTest extends BaseEndpointTest
                 [],
                 '{
                      "billingAddress": {
+                         "organizationName": "Organization Name LTD.",
                          "streetAndNumber": "Keizersgracht 313",
                          "postalCode": "1234AB",
                          "city": "Amsterdam",
@@ -420,6 +423,7 @@ class OrderEndpointTest extends BaseEndpointTest
                          "phone": "+31208202070"
                      },
                      "shippingAddress": {
+                         "organizationName": "Organization Name LTD.",
                          "streetAndNumber": "Keizersgracht 313",
                          "postalCode": "1016 EE",
                          "city": "Amsterdam",
@@ -439,6 +443,7 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $order = $this->getOrder("ord_pbjz8x");
 
+        $order->billingAddress->organizationName = "Organization Name LTD.";
         $order->billingAddress->streetAndNumber = "Keizersgracht 313";
         $order->billingAddress->city = "Amsterdam";
         $order->billingAddress->region = "Noord-Holland";
@@ -476,6 +481,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals($order_status, $order->status);
 
         $billingAddress = new stdClass();
+        $billingAddress->organizationName = "Organization Name LTD.";
         $billingAddress->streetAndNumber = "Keizersgracht 313";
         $billingAddress->postalCode = "1016 EE";
         $billingAddress->city = "Amsterdam";
@@ -486,6 +492,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals($billingAddress, $order->billingAddress);
 
         $shippingAddress = new stdClass();
+        $shippingAddress->organizationName = "Organization Name LTD.";
         $shippingAddress->streetAndNumber = "Keizersgracht 313";
         $shippingAddress->postalCode = "1016 EE";
         $shippingAddress->city = "Amsterdam";
@@ -500,7 +507,6 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $this->assertEquals("https://example.org/redirect", $order->redirectUrl);
         $this->assertEquals("https://example.org/webhook", $order->webhookUrl);
-        $this->assertEquals("Organization Name LTD.", $order->organizationName);
 
         $links = (object )[
           'self' => $this->createLinkObject(
@@ -594,6 +600,7 @@ class OrderEndpointTest extends BaseEndpointTest
              "createdAt": "2018-08-02T09:29:56+00:00",
              "mode": "live",
              "billingAddress": {
+                 "organizationName": "Organization Name LTD.",
                  "streetAndNumber": "Keizersgracht 313",
                  "postalCode": "1016 EE",
                  "city": "Amsterdam",
@@ -603,6 +610,7 @@ class OrderEndpointTest extends BaseEndpointTest
                  "email": "luke@skywalker.com"
              },
              "shippingAddress": {
+                 "organizationName": "Organization Name LTD.",
                  "streetAndNumber": "Keizersgracht 313",
                  "postalCode": "1016 EE",
                  "city": "Amsterdam",
@@ -617,7 +625,6 @@ class OrderEndpointTest extends BaseEndpointTest
              "isCancelable": true,
              "redirectUrl": "https://example.org/redirect",
              "webhookUrl": "https://example.org/webhook",
-             "organizationName": "Organization Name LTD.",
              "lines": [
                  {
                      "resource": "orderline",
