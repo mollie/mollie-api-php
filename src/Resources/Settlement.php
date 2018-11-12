@@ -36,6 +36,14 @@ class Settlement extends BaseResource
     public $createdAt;
 
     /**
+     * The date on which the settlement was settled, in ISO 8601 format. When requesting the open settlement or next settlement the return value is null.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $settledAt;
+
+    /**
      * Status of the settlement.
      *
      * @var string
