@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -189,7 +190,14 @@ class MollieApiClient
      * @var PaymentCaptureEndpoint
      */
     public $paymentCaptures;
-  
+
+    /**
+     * RESTful Chargebacks resource.
+     *
+     * @var ChargebacksEndpoint
+     */
+    public $chargebacks;
+
     /**
      * RESTful Payment Chargebacks resource.
      *
@@ -270,6 +278,7 @@ class MollieApiClient
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
         $this->paymentCaptures = new PaymentCaptureEndpoint($this);
+        $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
     }
 

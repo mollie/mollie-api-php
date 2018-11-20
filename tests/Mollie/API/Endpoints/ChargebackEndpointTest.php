@@ -10,17 +10,17 @@ use Mollie\Api\Resources\Payment;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
-class PaymentChargebackEndpointTest extends BaseEndpointTest
+class ChargebackEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
 
-    public function testListChargebacksOnPaymentResource()
+    public function testListChargebacks()
     {
         $this->mockApiCall(
             new Request(
                 "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+                "/v2/chargebacks"
             ),
             new Response(
                 200,
@@ -64,18 +64,18 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
                                "currency":"EUR"
                             },
                             "createdAt":"2018-03-28T11:44:32+00:00",
-                            "paymentId":"tr_44aKxzEbr8",
+                            "paymentId":"tr_nQKWJbDj7j",
                             "settlementAmount":{
                                "value":"-0.37",
                                "currency":"EUR"
                             },
                             "_links":{
                                "self":{
-                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_6cqlwf",
+                                  "href":"https://api.mollie.com/v2/payments/tr_nQKWJbDj7j/chargebacks/chb_6cqlwf",
                                   "type":"application/hal+json"
                                },
                                "payment":{
-                                  "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
+                                  "href":"https://api.mollie.com/v2/payments/tr_nQKWJbDj7j",
                                   "type":"application/hal+json"
                                },
                               "documentation": {
@@ -92,7 +92,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
                          "type":"text/html"
                       },
                       "self":{
-                         "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+                         "href":"https://api.mollie.com/v2/chargebacks",
                          "type":"application/hal+json"
                       }
                    },
@@ -101,7 +101,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
             )
         );
 
-        $chargebacks = $this->getPayment()->chargebacks();
+        $chargebacks = $this->apiClient->chargebacks->all();
 
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
         $this->assertEquals(2, $chargebacks->count);
@@ -114,59 +114,13 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         );
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+            "https://api.mollie.com/v2/chargebacks",
             "application/hal+json",
             $chargebacks->_links->self
         );
 
         $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
-        $this->assertChargeback($chargebacks[1], 'tr_44aKxzEbr8', 'chb_6cqlwf', "-0.37");
-    }
-
-    public function testGetChargebackOnPaymentResource()
-    {
-        $this->mockApiCall(
-            new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp"
-            ),
-            new Response(
-                200,
-                [],
-                '{
-                  "resource":"chargeback",
-                  "id":"chb_n9z0tp",
-                  "amount":{
-                     "value":"-13.00",
-                     "currency":"EUR"
-                  },
-                  "createdAt":"2018-03-28T11:44:32+00:00",
-                  "paymentId":"tr_44aKxzEbr8",
-                  "settlementAmount":{
-                     "value":"-13.00",
-                     "currency":"EUR"
-                  },
-                  "_links":{
-                     "self":{
-                        "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
-                        "type":"application/hal+json"
-                     },
-                     "payment":{
-                        "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                        "type":"application/hal+json"
-                     },
-                     "documentation": {
-                          "href": "https://docs.mollie.com/reference/v2/chargebacks-api/get-chargeback",
-                          "type": "text/html"
-                      }
-                  }
-               }'
-            )
-        );
-
-        $chargeback = $this->getPayment()->getChargeback("chb_n9z0tp");
-
-        $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
+        $this->assertChargeback($chargebacks[1], 'tr_nQKWJbDj7j', 'chb_6cqlwf', "-0.37");
     }
 
     protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount)
@@ -198,68 +152,5 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
             "text/html",
             $chargeback->_links->documentation
         );
-    }
-
-    /**
-     * @return Payment
-     */
-    protected function getPayment()
-    {
-        $paymentJson = '{
-           "resource":"payment",
-           "id":"tr_44aKxzEbr8",
-           "mode":"test",
-           "createdAt":"2018-03-19T12:17:57+00:00",
-           "amount":{
-              "value":"20.00",
-              "currency":"EUR"
-           },
-           "description":"My first API payment",
-           "method":"ideal",
-           "metadata":{
-              "order_id":1234
-           },
-           "status":"paid",
-           "paidAt":"2018-03-19T12:18:35+00:00",
-           "amountRefunded":{
-              "value":"0.00",
-              "currency":"EUR"
-           },
-           "amountRemaining":{
-              "value":"20.00",
-              "currency":"EUR"
-           },
-           "details":{
-              "consumerName":"T. TEST",
-              "consumerAccount":"NL17RABO0213698412",
-              "consumerBic":"TESTNL99"
-           },
-           "locale":"nl_NL",
-           "countryCode":"NL",
-           "profileId":"pfl_2A1gacu42V",
-           "sequenceType":"oneoff",
-           "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
-           "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
-           "settlementAmount":{
-              "value":"20.00",
-              "currency":"EUR"
-           },
-           "_links":{
-              "self":{
-                 "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
-                 "type":"application/hal+json"
-              },
-              "documentation":{
-                 "href":"https://docs.mollie.com/reference/v2/payments-api/get-payment",
-                 "type":"text/html"
-              },
-              "chargebacks":{
-                 "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-                 "type":"application/hal+json"
-              }
-           }
-        }';
-
-        return $this->copy(json_decode($paymentJson), new Payment($this->apiClient));
     }
 }

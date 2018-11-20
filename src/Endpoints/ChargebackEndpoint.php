@@ -2,13 +2,13 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
-use Mollie\Api\Resources\Payment;
 
-class PaymentChargebackEndpoint extends EndpointAbstract
+class ChargebackEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "payments_chargebacks";
+    protected $resourcePath = "chargebacks";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -34,16 +34,15 @@ class PaymentChargebackEndpoint extends EndpointAbstract
     }
 
     /**
-     * @param Payment $payment
-     * @param string $chargebackId
+     * Retrieve all chargebacks.
+     *
      * @param array $parameters
      *
-     * @return Chargeback
+     * @return ChargebackCollection
+     * @throws ApiException
      */
-    public function getFor(Payment $payment, $chargebackId, array $parameters = [])
+    public function all(array $parameters = [])
     {
-        $this->parentId = $payment->id;
-
-        return parent::rest_read($chargebackId, $parameters);
+        return parent::rest_list(null, null, $parameters);
     }
 }

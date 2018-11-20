@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class ChargebackCollection extends CursorCollection
+class ChargebackCollection extends BaseCollection
 {
     /**
      * @return string
