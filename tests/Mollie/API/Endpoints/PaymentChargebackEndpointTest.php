@@ -10,7 +10,7 @@ use Mollie\Api\Resources\Payment;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
-class ChargebackEndpointTest extends BaseEndpointTest
+class PaymentChargebackEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
