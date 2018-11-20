@@ -101,7 +101,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
             )
         );
 
-        $chargebacks = $this->apiClient->chargebacks->all();
+        $chargebacks = $this->apiClient->chargebacks->page();
 
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
         $this->assertEquals(2, $chargebacks->count);

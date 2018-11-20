@@ -505,6 +505,7 @@ class Payment extends BaseResource
         );
 
         $resourceCollection = new ChargebackCollection(
+            $this->client,
             $result->count,
             $result->_links
         );

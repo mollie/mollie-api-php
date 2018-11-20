@@ -30,19 +30,21 @@ class ChargebackEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new ChargebackCollection($count, $_links);
+        return new ChargebackCollection($this->client, $count, $_links);
     }
 
     /**
-     * Retrieve all chargebacks.
+     * Retrieves a collection of Chargebacks from Mollie.
      *
+     * @param string $from The first chargeback ID you want to include in your list.
+     * @param int $limit
      * @param array $parameters
      *
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function page($from = null, $limit = null, array $parameters = [])
     {
-        return parent::rest_list(null, null, $parameters);
+        return $this->rest_list($from, $limit, $parameters);
     }
 }
