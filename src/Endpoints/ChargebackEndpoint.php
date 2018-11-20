@@ -3,21 +3,21 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\Refund;
-use Mollie\Api\Resources\RefundCollection;
+use Mollie\Api\Resources\Chargeback;
+use Mollie\Api\Resources\ChargebackCollection;
 
-class RefundEndpoint extends EndpointAbstract
+class ChargebackEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "refunds";
+    protected $resourcePath = "chargebacks";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return Refund
+     * @return Chargeback
      */
     protected function getResourceObject()
     {
-        return new Refund($this->client);
+        return new Chargeback($this->client);
     }
 
     /**
@@ -26,25 +26,23 @@ class RefundEndpoint extends EndpointAbstract
      * @param int $count
      * @param object[] $_links
      *
-     * @return RefundCollection
+     * @return ChargebackCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new RefundCollection($this->client, $count, $_links);
+        return new ChargebackCollection($count, $_links);
     }
 
     /**
-     * Retrieves a collection of Refunds from Mollie.
+     * Retrieve all chargebacks.
      *
-     * @param string $from The first refund ID you want to include in your list.
-     * @param int $limit
      * @param array $parameters
      *
-     * @return RefundCollection
+     * @return ChargebackCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function all(array $parameters = [])
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return parent::rest_list(null, null, $parameters);
     }
 }

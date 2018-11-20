@@ -496,7 +496,7 @@ class Payment extends BaseResource
     public function chargebacks()
     {
         if (!isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+            return new ChargebackCollection(0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
@@ -505,7 +505,6 @@ class Payment extends BaseResource
         );
 
         $resourceCollection = new ChargebackCollection(
-            $this->client,
             $result->count,
             $result->_links
         );
