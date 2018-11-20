@@ -30,7 +30,7 @@ class PaymentChargebackEndpoint extends EndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new ChargebackCollection($this->client, $count, $_links);
+        return new ChargebackCollection($count, $_links);
     }
 
     /**
