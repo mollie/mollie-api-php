@@ -244,6 +244,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                         "id": "stl_xcaSGAHuRt",
                         "reference": "1234567.1234.12",
                         "createdAt": "2018-04-30T04:00:02+00:00",
+                        "settledAt": "2018-05-01T04:00:02+00:00",
                         "status": "pending",
                         "amount": {
                           "value": "1980.98",
