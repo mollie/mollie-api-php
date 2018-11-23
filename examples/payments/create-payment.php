@@ -20,7 +20,7 @@ try {
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = ( (isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0) || $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
