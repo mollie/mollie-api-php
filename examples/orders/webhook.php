@@ -42,7 +42,11 @@ try {
          */
     } elseif ($order->isCompleted()) {
         /*
-         * The orderis completed.
+         * The order is completed.
+         */
+    } elseif ($order->isPending()) {
+        /*
+         * The order is pending.
          */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

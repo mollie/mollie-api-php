@@ -238,6 +238,16 @@ class Order extends BaseResource
         return $this->status === OrderStatus::STATUS_EXPIRED;
     }
 
+    /**
+     * Is this order completed?
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return $this->status === OrderStatus::STATUS_PENDING;
+    }
+
 
     /**
      * Cancels this order.

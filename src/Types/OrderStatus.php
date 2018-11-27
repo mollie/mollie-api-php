@@ -43,4 +43,9 @@ class OrderStatus
      * The order is expired.
      */
     const STATUS_EXPIRED = "expired";
+
+    /**
+     * The order is pending.
+     */
+    const STATUS_PENDING = "pending";
 }
