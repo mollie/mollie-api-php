@@ -32,17 +32,13 @@ try {
         /*
          * The order is canceled.
          */
-    } elseif ($order->isRefunded()) {
-        /*
-         * The order is refunded.
-         */
     } elseif ($order->isExpired()) {
         /*
          * The order is expired.
          */
     } elseif ($order->isCompleted()) {
         /*
-         * The orderis completed.
+         * The order is completed.
          */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

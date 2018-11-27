@@ -25,11 +25,6 @@ class OrderStatus
     const STATUS_CANCELED = "canceled";
 
     /**
-     * The order has been refunded.
-     */
-    const STATUS_REFUNDED = "refunded";
-
-    /**
      * The order is shipping.
      */
     const STATUS_SHIPPING = "shipping";
@@ -43,4 +38,10 @@ class OrderStatus
      * The order is expired.
      */
     const STATUS_EXPIRED = "expired";
+
+    /**
+     * (Deprecated) The order has been refunded.
+     * @deprecated 2018-11-27
+     */
+    const STATUS_REFUNDED = "refunded";
 }
