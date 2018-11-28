@@ -199,7 +199,8 @@ class Order extends BaseResource
     }
 
     /**
-     * Is this order refunded?
+     * (Deprecated) Is this order refunded?
+     * @deprecated 2018-11-27
      *
      * @return bool
      */

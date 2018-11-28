@@ -175,7 +175,8 @@ class OrderLine extends BaseResource
     }
 
     /**
-     * Is this order line refunded?
+     * (Deprecated) Is this order line refunded?
+     * @deprecated 2018-11-27
      *
      * @return bool
      */
