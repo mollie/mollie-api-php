@@ -40,6 +40,11 @@ class OrderStatus
     const STATUS_EXPIRED = "expired";
 
     /**
+     * The order is pending.
+     */
+    const STATUS_PENDING = "pending";
+
+    /**
      * (Deprecated) The order has been refunded.
      * @deprecated 2018-11-27
      */

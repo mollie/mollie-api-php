@@ -43,6 +43,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_CREATED, "isShipping", false],
             [OrderStatus::STATUS_CREATED, "isCompleted", false],
             [OrderStatus::STATUS_CREATED, "isExpired", false],
+            [OrderStatus::STATUS_CREATED, "isPending", false],
 
             [OrderStatus::STATUS_PAID, "isCreated", false],
             [OrderStatus::STATUS_PAID, "isPaid", true],
@@ -51,6 +52,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_PAID, "isShipping", false],
             [OrderStatus::STATUS_PAID, "isCompleted", false],
             [OrderStatus::STATUS_PAID, "isExpired", false],
+            [OrderStatus::STATUS_PAID, "isPending", false],
 
             [OrderStatus::STATUS_AUTHORIZED, "isCreated", false],
             [OrderStatus::STATUS_AUTHORIZED, "isPaid", false],
@@ -59,6 +61,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_AUTHORIZED, "isShipping", false],
             [OrderStatus::STATUS_AUTHORIZED, "isCompleted", false],
             [OrderStatus::STATUS_AUTHORIZED, "isExpired", false],
+            [OrderStatus::STATUS_AUTHORIZED, "isPending", false],
 
             [OrderStatus::STATUS_CANCELED, "isCreated", false],
             [OrderStatus::STATUS_CANCELED, "isPaid", false],
@@ -67,6 +70,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_CANCELED, "isShipping", false],
             [OrderStatus::STATUS_CANCELED, "isCompleted", false],
             [OrderStatus::STATUS_CANCELED, "isExpired", false],
+            [OrderStatus::STATUS_CANCELED, "isPending", false],
 
             [OrderStatus::STATUS_SHIPPING, "isCreated", false],
             [OrderStatus::STATUS_SHIPPING, "isPaid", false],
@@ -75,6 +79,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_SHIPPING, "isShipping", true],
             [OrderStatus::STATUS_SHIPPING, "isCompleted", false],
             [OrderStatus::STATUS_SHIPPING, "isExpired", false],
+            [OrderStatus::STATUS_SHIPPING, "isPending", false],
 
             [OrderStatus::STATUS_COMPLETED, "isCreated", false],
             [OrderStatus::STATUS_COMPLETED, "isPaid", false],
@@ -83,6 +88,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_COMPLETED, "isShipping", false],
             [OrderStatus::STATUS_COMPLETED, "isCompleted", true],
             [OrderStatus::STATUS_COMPLETED, "isExpired", false],
+            [OrderStatus::STATUS_COMPLETED, "isPending", false],
 
             [OrderStatus::STATUS_EXPIRED, "isCreated", false],
             [OrderStatus::STATUS_EXPIRED, "isPaid", false],
@@ -91,6 +97,16 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             [OrderStatus::STATUS_EXPIRED, "isShipping", false],
             [OrderStatus::STATUS_EXPIRED, "isCompleted", false],
             [OrderStatus::STATUS_EXPIRED, "isExpired", true],
+            [OrderStatus::STATUS_EXPIRED, "isPending", false],
+
+            [OrderStatus::STATUS_PENDING, "isCreated", false],
+            [OrderStatus::STATUS_PENDING, "isPaid", false],
+            [OrderStatus::STATUS_PENDING, "isAuthorized", false],
+            [OrderStatus::STATUS_PENDING, "isCanceled", false],
+            [OrderStatus::STATUS_PENDING, "isShipping", false],
+            [OrderStatus::STATUS_PENDING, "isCompleted", false],
+            [OrderStatus::STATUS_PENDING, "isExpired", false],
+            [OrderStatus::STATUS_PENDING, "isPending", true],
         ];
     }
 

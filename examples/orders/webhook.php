@@ -40,6 +40,10 @@ try {
         /*
          * The order is completed.
          */
+    } elseif ($order->isPending()) {
+        /*
+         * The order is pending.
+         */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
