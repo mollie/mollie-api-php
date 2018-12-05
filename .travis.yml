@@ -1,30 +1,41 @@
 language: php
+
 dist: trusty
+
 php:
 - 5.6
 - 7.0
 - 7.1
 - 7.2
+- 7.3
 - nightly
+
 matrix:
   fast_finish: true
   allow_failures:
   - php: nightly
+
 sudo: false
+
 cache:
   directories:
   - "$HOME/.composer/cache"
+
 env:
 - COMPOSER_NO_INTERACTION=1
+
 install:
 - travis_retry composer install --no-scripts --no-suggest
+
 script:
 - composer validate --strict
 - find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
 - vendor/bin/phpunit
+
 before_deploy:
 - sed -i "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" src/MollieApiClient.php
 - make mollie-api-php.zip
+
 deploy:
   provider: releases
   api_key:
