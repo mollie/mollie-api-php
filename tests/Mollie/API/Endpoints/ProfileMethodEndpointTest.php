@@ -73,57 +73,16 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
+                "DELETE",
                 "/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact"
             ),
-            new Response(
-                201,
-                [],
-                '{
-                    "resource": "method",
-                    "id": "bancontact",
-                    "description": "Bancontact",
-                    "image": {
-                        "size1x": "https://mollie.dev/external/icons/payment-methods/bancontact.png",
-                        "size2x": "https://mollie.dev/external/icons/payment-methods/bancontact%402x.png",
-                        "svg": "https://mollie.dev/external/icons/payment-methods/bancontact.svg"
-                    },
-                    "_links": {
-                        "self": {
-                            "href": "https://api.mollie.dev/v2/methods/bancontact",
-                            "type": "application/hal+json"
-                        },
-                        "documentation": {
-                            "href": "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
-                            "type": "text/html"
-                        }
-                    }
-                }'
-            )
+            new Response(204)
         );
 
         $profile = $this->getProfile();
-        $method = $profile->disableMethod('bancontact');
+        $result = $profile->disableMethod('bancontact');
 
-        $this->assertInstanceOf(Method::class, $method);
-        $this->assertEquals('bancontact', $method->id);
-        $this->assertEquals('Bancontact', $method->description);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact.png', $method->image->size1x);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact%402x.png', $method->image->size2x);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact.svg', $method->image->svg);
-
-        $this->assertLinkObject(
-            "https://api.mollie.dev/v2/methods/bancontact",
-            "application/hal+json",
-            $method->_links->self
-        );
-
-        $this->assertLinkObject(
-            "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
-            "text/html",
-            $method->_links->documentation
-        );
-
+        $this->assertNull($result);
     }
 
     /**

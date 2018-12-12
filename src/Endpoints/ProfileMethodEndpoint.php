@@ -37,23 +37,30 @@ class ProfileMethodEndpoint extends EndpointAbstract
     /**
      * @param Profile $profile
      * @param string $methodId
-     * @param array $options
+     * @param array $data
      * @return Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor($profile, $methodId, array $options = [])
+    public function createFor($profile, $methodId, array $data = [])
     {
         $this->parentId = $profile->id;
         $resource = $this->getResourcePath() . '/' . urlencode($methodId);
 
         $body = null;
-        if (count($options) > 0) {
-            $body = json_encode($options);
+        if (count($data) > 0) {
+            $body = json_encode($data);
         }
 
         $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
 
         return ResourceFactory::createFromApiResult($result, new Method($this->client));
+    }
+
+    public function deleteFor($profile, $methodId, array $data = [])
+    {
+        $this->parentId = $profile->id;
+
+        return $this->rest_delete($methodId, $data);
     }
 
 }

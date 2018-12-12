@@ -181,6 +181,19 @@ class Profile extends BaseResource
     }
 
     /**
+     * Disable a payment method for this profile.
+     *
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws ApiException
+     */
+    public function disableMethod($methodId, array $data = [])
+    {
+        return $this->client->profileMethods->deleteFor($this, $methodId, $data);
+    }
+
+    /**
      * Retrieves all payments associated with this profile
      *
      * @return PaymentCollection
