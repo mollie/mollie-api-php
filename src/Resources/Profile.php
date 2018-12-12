@@ -101,6 +101,7 @@ class Profile extends BaseResource
 
     /**
      * @return Profile
+     * @throws ApiException
      */
     public function update()
     {
@@ -164,6 +165,19 @@ class Profile extends BaseResource
         }
 
         return $resourceCollection;
+    }
+
+    /**
+     * Enable a payment method for this profile.
+     *
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws ApiException
+     */
+    public function enableMethod($methodId, array $data = [])
+    {
+        return $this->client->profileMethods->createFor($this, $methodId, $data);
     }
 
     /**

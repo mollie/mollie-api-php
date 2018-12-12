@@ -22,6 +22,7 @@ use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
+use Mollie\Api\Endpoints\ProfileMethodEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
@@ -89,6 +90,11 @@ class MollieApiClient
      * @var MethodEndpoint
      */
     public $methods;
+
+    /**
+     * @var ProfileMethodEndpoint
+     */
+    public $profileMethods;
 
     /**
      * RESTful Customers resource.
@@ -194,14 +200,14 @@ class MollieApiClient
     /**
      * RESTful Chargebacks resource.
      *
-     * @var ChargebacksEndpoint
+     * @var ChargebackEndpoint
      */
     public $chargebacks;
 
     /**
      * RESTful Payment Chargebacks resource.
      *
-     * @var PaymentChargebacksEndpoint
+     * @var PaymentChargebackEndpoint
      */
     public $paymentChargebacks;
 
@@ -262,6 +268,7 @@ class MollieApiClient
     {
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
+        $this->profileMethods = new ProfileMethodEndpoint($this);
         $this->customers = new CustomerEndpoint($this);
         $this->settlements = new SettlementsEndpoint($this);
         $this->subscriptions = new SubscriptionEndpoint($this);
