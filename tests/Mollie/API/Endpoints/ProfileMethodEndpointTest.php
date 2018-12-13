@@ -27,18 +27,22 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
                     "id": "bancontact",
                     "description": "Bancontact",
                     "image": {
-                        "size1x": "https://mollie.dev/external/icons/payment-methods/bancontact.png",
-                        "size2x": "https://mollie.dev/external/icons/payment-methods/bancontact%402x.png",
-                        "svg": "https://mollie.dev/external/icons/payment-methods/bancontact.svg"
+                        "size1x": "https://www.mollie.com/external/icons/payment-methods/bancontact.png",
+                        "size2x": "https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png",
+                        "svg": "https://www.mollie.com/external/icons/payment-methods/bancontact.svg"
                     },
                     "_links": {
                         "self": {
-                            "href": "https://api.mollie.dev/v2/methods/bancontact",
+                            "href": "https://api.mollie.com/v2/methods/bancontact",
                             "type": "application/hal+json"
                         },
                         "documentation": {
                             "href": "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
                             "type": "text/html"
+                        },
+                        "profile": {
+                             "href": "https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw",
+                             "type": "application/hal+json"
                         }
                     }
                 }'
@@ -51,12 +55,12 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $method);
         $this->assertEquals('bancontact', $method->id);
         $this->assertEquals('Bancontact', $method->description);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact.png', $method->image->size1x);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact%402x.png', $method->image->size2x);
-        $this->assertEquals('https://mollie.dev/external/icons/payment-methods/bancontact.svg', $method->image->svg);
+        $this->assertEquals('https://www.mollie.com/external/icons/payment-methods/bancontact.png', $method->image->size1x);
+        $this->assertEquals('https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png', $method->image->size2x);
+        $this->assertEquals('https://www.mollie.com/external/icons/payment-methods/bancontact.svg', $method->image->svg);
 
         $this->assertLinkObject(
-            "https://api.mollie.dev/v2/methods/bancontact",
+            "https://api.mollie.com/v2/methods/bancontact",
             "application/hal+json",
             $method->_links->self
         );
@@ -65,6 +69,12 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
             "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
             "text/html",
             $method->_links->documentation
+        );
+
+        $this->assertLinkObject(
+            "https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw",
+            "application/hal+json",
+            $method->_links->profile
         );
 
     }
