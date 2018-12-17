@@ -39,10 +39,6 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
                         "documentation": {
                             "href": "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
                             "type": "text/html"
-                        },
-                        "profile": {
-                             "href": "https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw",
-                             "type": "application/hal+json"
                         }
                     }
                 }'
@@ -69,12 +65,6 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
             "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
             "text/html",
             $method->_links->documentation
-        );
-
-        $this->assertLinkObject(
-            "https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw",
-            "application/hal+json",
-            $method->_links->profile
         );
 
     }

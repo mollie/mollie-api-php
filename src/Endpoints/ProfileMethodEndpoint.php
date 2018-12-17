@@ -56,6 +56,13 @@ class ProfileMethodEndpoint extends EndpointAbstract
         return ResourceFactory::createFromApiResult($result, new Method($this->client));
     }
 
+    /**
+     * @param $profile
+     * @param $methodId
+     * @param array $data
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     public function deleteFor($profile, $methodId, array $data = [])
     {
         $this->parentId = $profile->id;
