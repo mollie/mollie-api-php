@@ -9,9 +9,14 @@ use Mollie\Api\Resources\IssuerCollection;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use stdClass;
+use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
+use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
 class MethodEndpointTest extends BaseEndpointTest
 {
+    use LinkObjectTestHelpers;
+    use AmountObjectTestHelpers;
+
     public function testGetMethod()
     {
         $this->mockApiCall(
@@ -130,7 +135,6 @@ class MethodEndpointTest extends BaseEndpointTest
         $expectedSize2xImageLink = 'https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png';
         $this->assertEquals($expectedSize2xImageLink, $testIssuer->image->size2x);
 
-        // TODO: self link should include query parameters.
         $selfLink = (object)[
             'href' => 'https://api.mollie.com/v2/methods/ideal',
             'type' => 'application/hal+json'
@@ -143,6 +147,82 @@ class MethodEndpointTest extends BaseEndpointTest
         ];
 
         $this->assertEquals($documentationLink, $idealMethod->_links->documentation);
+    }
+
+    public function testGetMethodWithIncludePricing()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods/ideal?include=pricing'),
+            new Response(
+                200,
+                [],
+                '{
+                     "resource": "method",
+                     "id": "ideal",
+                     "description": "iDEAL",
+                     "image": {
+                         "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
+                         "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
+                         "svg": "https://www.mollie.com/external/icons/payment-methods/ideal.svg"
+                     },
+                     "pricing": [
+                         {
+                             "description": "The Netherlands",
+                             "fixed": {
+                                 "value": "0.29",
+                                 "currency": "EUR"
+                             },
+                             "variable": "0"
+                         }
+                     ],
+                     "_links": {
+                         "self": {
+                             "href": "https://api.mollie.com/v2/methods/ideal",
+                             "type": "application/hal+json"
+                         },
+                         "documentation": {
+                             "href": "https://docs.mollie.com/reference/v2/methods-api/get-method",
+                             "type": "text/html"
+                         }
+                     }
+                 }'
+            )
+        );
+
+        $method = $this->apiClient->methods->get('ideal', ['include' => 'pricing']);
+
+        $this->assertInstanceOf(Method::class, $method);
+        $this->assertEquals('method', $method->resource);
+        $this->assertEquals('ideal', $method->id);
+        $this->assertEquals('iDEAL', $method->description);
+        $this->assertEquals(
+            'https://www.mollie.com/external/icons/payment-methods/ideal.png',
+            $method->image->size1x);
+        $this->assertEquals(
+            'https://www.mollie.com/external/icons/payment-methods/ideal%402x.png',
+            $method->image->size2x);
+
+        $this->assertEquals(
+            'https://www.mollie.com/external/icons/payment-methods/ideal.svg',
+            $method->image->svg);
+
+        $this->assertLinkObject(
+            'https://api.mollie.com/v2/methods/ideal',
+            'application/hal+json',
+            $method->_links->self
+        );
+
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/get-method',
+            'text/html',
+            $method->_links->documentation
+        );
+
+        $price = $method->pricing[0];
+
+        $this->assertEquals('The Netherlands', $price->description);
+        $this->assertAmountObject(0.29, 'EUR', $price->fixed);
+        $this->assertEquals('0', $price->variable);
     }
 
     public function testGetTranslatedMethod()
