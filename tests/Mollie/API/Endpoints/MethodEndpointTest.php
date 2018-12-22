@@ -54,18 +54,17 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
-        $selfLink = (object)[
-            'href' => 'https://api.mollie.com/v2/methods/ideal',
-            'type' => 'application/hal+json'
-        ];
-        $this->assertEquals($selfLink, $idealMethod->_links->self);
+        $this->assertLinkObject(
+            'https://api.mollie.com/v2/methods/ideal',
+            'application/hal+json',
+            $idealMethod->_links->self
+        );
 
-        $documentationLink = (object)[
-            'href' => 'https://docs.mollie.com/reference/v2/methods-api/get-method',
-            'type' => 'text/html'
-        ];
-
-        $this->assertEquals($documentationLink, $idealMethod->_links->documentation);
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/get-method',
+            'text/html',
+            $idealMethod->_links->documentation
+        );
     }
 
     public function testGetMethodWithIncludeIssuers()
@@ -135,18 +134,17 @@ class MethodEndpointTest extends BaseEndpointTest
         $expectedSize2xImageLink = 'https://www.mollie.com/images/checkout/v2/ideal-issuer-icons/TESTNL99.png';
         $this->assertEquals($expectedSize2xImageLink, $testIssuer->image->size2x);
 
-        $selfLink = (object)[
-            'href' => 'https://api.mollie.com/v2/methods/ideal',
-            'type' => 'application/hal+json'
-        ];
-        $this->assertEquals($selfLink, $idealMethod->_links->self);
+        $this->assertLinkObject(
+            'https://api.mollie.com/v2/methods/ideal',
+            'application/hal+json',
+            $idealMethod->_links->self
+        );
 
-        $documentationLink = (object)[
-            'href' => 'https://docs.mollie.com/reference/v2/methods-api/get-method',
-            'type' => 'text/html'
-        ];
-
-        $this->assertEquals($documentationLink, $idealMethod->_links->documentation);
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/get-method',
+            'text/html',
+            $idealMethod->_links->documentation
+        );
     }
 
     public function testGetMethodWithIncludePricing()
