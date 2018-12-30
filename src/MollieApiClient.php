@@ -194,14 +194,14 @@ class MollieApiClient
     /**
      * RESTful Chargebacks resource.
      *
-     * @var ChargebacksEndpoint
+     * @var ChargebackEndpoint
      */
     public $chargebacks;
 
     /**
      * RESTful Payment Chargebacks resource.
      *
-     * @var PaymentChargebacksEndpoint
+     * @var PaymentChargebackEndpoint
      */
     public $paymentChargebacks;
 
@@ -425,7 +425,13 @@ class MollieApiClient
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
-            throw new ApiException($e->getMessage(), $e->getCode(), $e);
+            throw new ApiException(
+                $e->getMessage(),
+                $e->getCode(),
+                null,
+                null,
+                $e
+            );
         }
 
         if (!$response) {
