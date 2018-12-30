@@ -2,6 +2,9 @@
 
 namespace Mollie\Api\Exceptions;
 
+use GuzzleHttp\Psr7\Response;
+use Throwable;
+
 class ApiException extends \Exception
 {
     /**
@@ -15,13 +18,26 @@ class ApiException extends \Exception
     protected $documentationUrl;
 
     /**
-     * @param string          $message
-     * @param int             $code
-     * @param string|null     $field
-     * @param string|null     $documentationUrl
-     * @param \Throwable|null $previous
+     * @var Response
      */
-    public function __construct($message = "", $code = 0, $field = null, $documentationUrl = null, \Throwable $previous = null)
+    protected $response;
+
+    /**
+     * @param string $message
+     * @param int $code
+     * @param string|null $field
+     * @param string|null $documentationUrl
+     * @param \Throwable|null $previous
+     * @param \GuzzleHttp\Psr7\Response|null $response
+     */
+    public function __construct(
+        $message = "",
+        $code = 0,
+        $field = null,
+        $documentationUrl = null,
+        Throwable $previous = null,
+        Response $response = null
+    )
     {
         if (!empty($field)) {
             $this->field = (string)$field;
@@ -33,9 +49,36 @@ class ApiException extends \Exception
             $message .= ". Documentation: {$this->documentationUrl}";
         }
 
+        if (!empty($response)) {
+            $this->response = $response;
+        }
+
         parent::__construct($message, $code, $previous);
+    }
 
+    /**
+     * @param \GuzzleHttp\Exception\RequestException $guzzleException
+     * @param \Throwable $previous
+     * @return \Mollie\Api\Exceptions\ApiException
+     */
+    public static function createFromGuzzleException($guzzleException, \Throwable $previous = null)
+    {
+        $response = null;
 
+        if(method_exists($guzzleException, 'hasResponse')) {
+            if($guzzleException->hasResponse()) {
+                $response = $guzzleException->getResponse();
+            }
+        }
+
+        return new static(
+            $guzzleException->getMessage(),
+            $guzzleException->getCode(),
+            null,
+            null,
+            $previous,
+            $response
+        );
     }
 
     /**
@@ -52,5 +95,13 @@ class ApiException extends \Exception
     public function getDocumentationUrl()
     {
         return $this->documentationUrl;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 }
