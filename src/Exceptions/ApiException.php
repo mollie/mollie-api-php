@@ -82,7 +82,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getField()
     {
@@ -90,7 +90,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDocumentationUrl()
     {
@@ -98,7 +98,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return Response
+     * @return Response|null
      */
     public function getResponse()
     {
