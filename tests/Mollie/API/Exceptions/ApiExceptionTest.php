@@ -47,5 +47,6 @@ class ApiExceptionTest extends TestCase
         $this->assertInstanceOf(Response::class, $exception->getResponse());
 
         $this->assertEquals($response, $exception->getResponse());
+        $this->assertTrue($exception->hasResponse());
     }
 }

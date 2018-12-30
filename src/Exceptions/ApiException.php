@@ -65,6 +65,7 @@ class ApiException extends \Exception
     {
         $response = null;
 
+        // Not all Guzzle Exceptions implement hasResponse() / getResponse()
         if(method_exists($guzzleException, 'hasResponse')) {
             if($guzzleException->hasResponse()) {
                 $response = $guzzleException->getResponse();
@@ -103,5 +104,13 @@ class ApiException extends \Exception
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasResponse()
+    {
+        return $this->response !== null;
     }
 }
