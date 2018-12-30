@@ -121,6 +121,14 @@ class ApiException extends \Exception
     }
 
     /**
+     * @return string|null
+     */
+    public function getDashboardUrl()
+    {
+        return $this->getUrl('dashboard');
+    }
+
+    /**
      * @return Response|null
      */
     public function getResponse()

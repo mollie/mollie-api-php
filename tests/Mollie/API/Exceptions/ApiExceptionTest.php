@@ -67,6 +67,11 @@ class ApiExceptionTest extends TestCase
             $exception->getUrl('dashboard')
         );
 
+        $this->assertEquals(
+            'https://www.mollie.com/dashboard/settings/profiles/pfl_v9hTwCvYqw/payment-methods',
+            $exception->getDashboardUrl()
+        );
+
         $this->assertLinkObject(
             'https://docs.mollie.com/guides/handling-errors',
             'text/html',
@@ -75,7 +80,7 @@ class ApiExceptionTest extends TestCase
 
         $this->assertEquals(
             'https://docs.mollie.com/guides/handling-errors',
-            $exception->getUrl('documentation')
+            $exception->getDocumentationUrl()
         );
 
         $this->assertNull($exception->getLink('foo'));
