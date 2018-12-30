@@ -7,9 +7,12 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
 use PHPUnit\Framework\TestCase;
+use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
 class ApiExceptionTest extends TestCase
 {
+    use LinkObjectTestHelpers;
+
     public function testCreateFromGuzzleException()
     {
         $response = new Response(
@@ -48,5 +51,34 @@ class ApiExceptionTest extends TestCase
 
         $this->assertEquals($response, $exception->getResponse());
         $this->assertTrue($exception->hasResponse());
+
+        $this->assertTrue($exception->hasLink('dashboard'));
+        $this->assertTrue($exception->hasLink('documentation'));
+        $this->assertFalse($exception->hasLink('foo'));
+
+        $this->assertLinkObject(
+            'https://www.mollie.com/dashboard/settings/profiles/pfl_v9hTwCvYqw/payment-methods',
+            'text/html',
+            $exception->getLink('dashboard')
+        );
+
+        $this->assertEquals(
+            'https://www.mollie.com/dashboard/settings/profiles/pfl_v9hTwCvYqw/payment-methods',
+            $exception->getUrl('dashboard')
+        );
+
+        $this->assertLinkObject(
+            'https://docs.mollie.com/guides/handling-errors',
+            'text/html',
+            $exception->getLink('documentation')
+        );
+
+        $this->assertEquals(
+            'https://docs.mollie.com/guides/handling-errors',
+            $exception->getUrl('documentation')
+        );
+
+        $this->assertNull($exception->getLink('foo'));
+        $this->assertNull($exception->getUrl('foo'));
     }
 }

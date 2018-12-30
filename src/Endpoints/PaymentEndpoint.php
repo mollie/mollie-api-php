@@ -65,7 +65,7 @@ class PaymentEndpoint extends EndpointAbstract
     public function get($paymentId, array $parameters = [])
     {
         if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '".self::RESOURCE_ID_PREFIX."'.");
         }
 
         return parent::rest_read($paymentId, $parameters);
