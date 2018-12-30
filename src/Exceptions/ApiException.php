@@ -60,15 +60,14 @@ class ApiException extends \Exception
      * @param \GuzzleHttp\Exception\RequestException $guzzleException
      * @param \Throwable $previous
      * @return \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromGuzzleException($guzzleException, \Throwable $previous = null)
+    public static function createFromGuzzleException($guzzleException, Throwable $previous = null)
     {
-        $response = null;
-
         // Not all Guzzle Exceptions implement hasResponse() / getResponse()
-        if(method_exists($guzzleException, 'hasResponse')) {
+        if(method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
             if($guzzleException->hasResponse()) {
-                $response = $guzzleException->getResponse();
+                return static::createFromResponse($guzzleException->getResponse());
             }
         }
 
@@ -77,6 +76,41 @@ class ApiException extends \Exception
             $guzzleException->getCode(),
             null,
             null,
+            $previous
+        );
+    }
+
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Throwable|null $previous
+     * @return \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public static function createFromResponse($response, Throwable $previous = null)
+    {
+        $body = (string) $response->getBody();
+
+        $object = @json_decode($body);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new static("Unable to decode Mollie response: '{$body}'.");
+        }
+
+        $field = null;
+        if (!empty($object->field)) {
+            $field = $object->field;
+        }
+
+        $documentationUrl = null;
+        if (!empty($object->_links) && !empty($object->_links->documentation)) {
+            $documentationUrl = $object->_links->documentation->href;
+        }
+
+        return new static(
+            "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
+            $response->getStatusCode(),
+            $field,
+            $documentationUrl,
             $previous,
             $response
         );
