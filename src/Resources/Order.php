@@ -439,4 +439,17 @@ class Order extends BaseResource
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
     }
+
+    /**
+     * Create a new payment for this Order.
+     *
+     * @param $data
+     * @param array $filters
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createPayment($data, $filters = [])
+    {
+        return $this->client->orderPayments->createFor($this, $data, $filters);
+    }
 }
