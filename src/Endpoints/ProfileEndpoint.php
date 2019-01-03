@@ -39,7 +39,7 @@ class ProfileEndpoint extends EndpointAbstract
      * @param array $data An array containing details on the profile.
      * @param array $filters
      *
-     * @return Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function create(array $data = [], array $filters = [])
@@ -50,17 +50,30 @@ class ProfileEndpoint extends EndpointAbstract
     /**
      * Retrieve a Profile from Mollie.
      *
-     * Will throw a ApiException if the profile id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
      * @param string $profileId
      * @param array $parameters
      *
-     * @return Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function get($profileId, array $parameters = [])
     {
         return $this->rest_read($profileId, $parameters);
+    }
+
+    /**
+     * Retrieve the current Profile from Mollie.
+     *
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @throws ApiException
+     */
+    public function getCurrent(array $parameters = [])
+    {
+        return $this->rest_read('me', $parameters);
     }
 
     /**
@@ -72,7 +85,7 @@ class ProfileEndpoint extends EndpointAbstract
      * @param string $profileId
      *
      * @param array $data
-     * @return Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
      * @throws ApiException
      */
     public function delete($profileId, array $data = [])
@@ -87,7 +100,7 @@ class ProfileEndpoint extends EndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return ProfileCollection
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\ProfileCollection
      * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])
