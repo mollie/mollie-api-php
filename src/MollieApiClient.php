@@ -432,7 +432,7 @@ class MollieApiClient
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
-            throw new ApiException($e->getMessage(), $e->getCode(), $e);
+            throw ApiException::createFromGuzzleException($e);
         }
 
         if (!$response) {
@@ -467,22 +467,7 @@ class MollieApiClient
         }
 
         if ($response->getStatusCode() >= 400) {
-            $field = null;
-            if (!empty($object->field)) {
-                $field = $object->field;
-            }
-
-            $documentationUrl = null;
-            if (!empty($object->_links) && !empty($object->_links->documentation)) {
-                $documentationUrl = $object->_links->documentation->href;
-            }
-
-            throw new ApiException(
-                "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
-                $response->getStatusCode(),
-                $field,
-                $documentationUrl
-            );
+            throw ApiException::createFromResponse($response);
         }
 
         return $object;

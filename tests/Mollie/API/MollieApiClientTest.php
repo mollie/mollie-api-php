@@ -77,6 +77,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         } catch (ApiException $e) {
             $this->assertEquals('recurringType', $e->getField());
             $this->assertEquals('https://docs.mollie.com/guides/handling-errors', $e->getDocumentationUrl());
+            $this->assertEquals($response, $e->getResponse());
 
             throw $e;
         }
@@ -104,6 +105,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         } catch (ApiException $e) {
             $this->assertNull($e->getField());
             $this->assertNull($e->getDocumentationUrl());
+            $this->assertEquals($response, $e->getResponse());
 
             throw $e;
         }
