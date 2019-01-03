@@ -171,18 +171,6 @@ class ProfileEndpointTest extends BaseEndpointTest
         $selfLink = (object)["href" => "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $profile->_links->self);
 
-<<<<<<< HEAD
-        $chargebacksLink = (object)["href" => "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
-        $this->assertEquals($chargebacksLink, $profile->_links->chargebacks);
-
-        $methodsLink = (object)["href" => "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
-        $this->assertEquals($methodsLink, $profile->_links->methods);
-
-        $paymentsLink = (object)["href" => "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
-        $this->assertEquals($paymentsLink, $profile->_links->payments);
-
-        $refundsLink = (object)["href" => "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
-=======
         $chargebacksLink = (object)["href" => "https://api.mollie.com/v2/chargebacks", "type" => "application/hal+json"];
         $this->assertEquals($chargebacksLink, $profile->_links->chargebacks);
 
@@ -193,7 +181,6 @@ class ProfileEndpointTest extends BaseEndpointTest
         $this->assertEquals($paymentsLink, $profile->_links->payments);
 
         $refundsLink = (object)["href" => "https://api.mollie.com/v2/refunds", "type" => "application/hal+json"];
->>>>>>> upstream/master
         $this->assertEquals($refundsLink, $profile->_links->refunds);
 
         $checkoutPreviewLink = (object)["href" => "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut", "type" => "text/html"];
