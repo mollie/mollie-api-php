@@ -249,7 +249,6 @@ class Order extends BaseResource
         return $this->status === OrderStatus::STATUS_PENDING;
     }
 
-
     /**
      * Cancels this order.
      * If the order was partially shipped, the status will be "completed" instead of
@@ -258,7 +257,7 @@ class Order extends BaseResource
      * be found.
      *
      * @return Order
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()
     {
@@ -273,6 +272,7 @@ class Order extends BaseResource
      *
      * @param  array|null $data
      * @return null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancelLines(array $data)
     {
@@ -285,6 +285,7 @@ class Order extends BaseResource
      *
      * @param  array|null $data
      * @return null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancelAllLines($data = [])
     {
@@ -395,12 +396,11 @@ class Order extends BaseResource
         return $this->refund($data);
     }
 
-
     /**
      * Retrieves all refunds associated with this order
      *
      * @return RefundCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function refunds()
     {
@@ -421,7 +421,8 @@ class Order extends BaseResource
     /**
      * Saves the order's updated billingAddress and/or shippingAddress.
      *
-     * @return Order
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {
@@ -437,5 +438,18 @@ class Order extends BaseResource
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
+
+    /**
+     * Create a new payment for this Order.
+     *
+     * @param $data
+     * @param array $filters
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createPayment($data, $filters = [])
+    {
+        return $this->client->orderPayments->createFor($this, $data, $filters);
     }
 }
