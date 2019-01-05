@@ -24,6 +24,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
                     "id": "org_12345678",
                     "name": "Mollie B.V.",
                     "email": "info@mollie.com",
+                    "locale": "nl_NL",
                     "address": {
                         "streetAndNumber": "Keizersgracht 313",
                         "postalCode": "1016 EE",
