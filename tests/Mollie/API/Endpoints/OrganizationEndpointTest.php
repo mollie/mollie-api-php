@@ -63,6 +63,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
                     "id": "org_12345678",
                     "name": "Mollie B.V.",
                     "email": "info@mollie.com",
+                    "locale": "nl_NL",
                     "address": {
                         "streetAndNumber": "Keizersgracht 313",
                         "postalCode": "1016 EE",
@@ -97,6 +98,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
         $this->assertEquals('org_12345678', $organization->id);
         $this->assertEquals('Mollie B.V.', $organization->name);
         $this->assertEquals('info@mollie.com', $organization->email);
+        $this->assertEquals('nl_NL', $organization->locale);
 
         $this->assertEquals((object) [
             'streetAndNumber' => 'Keizersgracht 313',
