@@ -57,6 +57,27 @@ class ProfileMethodEndpoint extends EndpointAbstract
     }
 
     /**
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForMe($methodId, array $data = [])
+    {
+        $this->parentId = 'me';
+        $resource = $this->getResourcePath() . '/' . urlencode($methodId);
+
+        $body = null;
+        if (count($data) > 0) {
+            $body = json_encode($data);
+        }
+
+        $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Method($this->client));
+    }
+
+    /**
      * @param $profile
      * @param $methodId
      * @param array $data
@@ -66,6 +87,19 @@ class ProfileMethodEndpoint extends EndpointAbstract
     public function deleteFor($profile, $methodId, array $data = [])
     {
         $this->parentId = $profile->id;
+
+        return $this->rest_delete($methodId, $data);
+    }
+
+    /**
+     * @param $methodId
+     * @param array $data
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function deleteForMe($methodId, array $data = [])
+    {
+        $this->parentId = 'me';
 
         return $this->rest_delete($methodId, $data);
     }
