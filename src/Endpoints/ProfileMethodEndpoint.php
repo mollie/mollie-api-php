@@ -35,15 +35,17 @@ class ProfileMethodEndpoint extends EndpointAbstract
     }
 
     /**
-     * @param Profile $profile
-     * @param string $methodId
+     * Enable a method for the provided Profile ID.
+     *
+     * @param $profileId
+     * @param $methodId
      * @param array $data
-     * @return Method
+     * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor($profile, $methodId, array $data = [])
+    public function createForId($profileId, $methodId, array $data = [])
     {
-        $this->parentId = $profile->id;
+        $this->parentId = $profileId;
         $resource = $this->getResourcePath() . '/' . urlencode($methodId);
 
         $body = null;
@@ -57,6 +59,51 @@ class ProfileMethodEndpoint extends EndpointAbstract
     }
 
     /**
+     * Enable a method for the provided Profile object.
+     *
+     * @param Profile $profile
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createFor($profile, $methodId, array $data = [])
+    {
+        return $this->createForId($profile->id, $methodId, $data);
+    }
+
+    /**
+     * Enable a method for the current profile.
+     *
+     * @param $methodId
+     * @param array $data
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForCurrentProfile($methodId, array $data = [])
+    {
+        return $this->createForId('me', $methodId, $data);
+    }
+
+    /**
+     * Disable a method for the provided Profile ID.
+     *
+     * @param $profileId
+     * @param $methodId
+     * @param array $data
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function deleteForId($profileId, $methodId, array $data = [])
+    {
+        $this->parentId = $profileId;
+
+        return $this->rest_delete($methodId, $data);
+    }
+
+    /**
+     * Disable a method for the provided Profile object.
+     *
      * @param $profile
      * @param $methodId
      * @param array $data
@@ -65,9 +112,19 @@ class ProfileMethodEndpoint extends EndpointAbstract
      */
     public function deleteFor($profile, $methodId, array $data = [])
     {
-        $this->parentId = $profile->id;
-
-        return $this->rest_delete($methodId, $data);
+        return $this->deleteForId($profile->id, $methodId, $data);
     }
 
+    /**
+     * Disable a method for the current profile.
+     *
+     * @param $methodId
+     * @param array $data
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function deleteForCurrentProfile($methodId, array $data)
+    {
+        return $this->deleteForId('me', $methodId, $data);
+    }
 }
