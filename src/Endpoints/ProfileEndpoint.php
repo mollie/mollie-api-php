@@ -3,12 +3,14 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 
 class ProfileEndpoint extends EndpointAbstract
 {
     protected $resourcePath = "profiles";
+    protected $resourceClass = Profile::class;
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -17,7 +19,7 @@ class ProfileEndpoint extends EndpointAbstract
      */
     protected function getResourceObject()
     {
-        return new Profile($this->client);
+        return new $this->resourceClass($this->client);
     }
 
     /**
@@ -60,6 +62,10 @@ class ProfileEndpoint extends EndpointAbstract
      */
     public function get($profileId, array $parameters = [])
     {
+        if($profileId === 'me') {
+            return $this->getCurrent($parameters);
+        }
+
         return $this->rest_read($profileId, $parameters);
     }
 
@@ -68,11 +74,13 @@ class ProfileEndpoint extends EndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\CurrentProfile
      * @throws ApiException
      */
     public function getCurrent(array $parameters = [])
     {
+        $this->resourceClass = CurrentProfile::class;
+
         return $this->rest_read('me', $parameters);
     }
 

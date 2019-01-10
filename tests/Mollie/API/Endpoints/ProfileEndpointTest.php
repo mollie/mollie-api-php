@@ -4,6 +4,7 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 use Mollie\Api\Types\ProfileStatus;
@@ -96,7 +97,70 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $checkoutPreviewLink = (object)["href" => "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut", "type" => "text/html"];
         $this->assertEquals($checkoutPreviewLink, $profile->_links->checkoutPreviewUrl);
+    }
 
+    public function testGetProfileUsingMe()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/profiles/me",
+                [],
+                ''
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "profile",
+                    "id": "pfl_ahe8z8OPut",
+                    "mode": "live",
+                    "name": "My website name",
+                    "website": "http://www.mywebsite.com",
+                    "email": "info@mywebsite.com",
+                    "phone": "31123456789",
+                    "categoryCode": 5399,
+                    "status": "verified",
+                    "review": {
+                        "status": "pending"
+                    },
+                    "createdAt": "2016-01-11T13:03:55+00:00",
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "chargebacks": {
+                            "href": "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "methods": {
+                            "href": "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "payments": {
+                            "href": "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "refunds": {
+                            "href": "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut",
+                            "type": "application/hal+json"
+                        },
+                        "checkoutPreviewUrl": {
+                            "href": "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $profile = $this->apiClient->profiles->get('me');
+
+        $this->assertInstanceOf(CurrentProfile::class, $profile);
+        $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
+
+        // No need to test it all again...
     }
 
     public function testGetCurrentProfile()
@@ -157,7 +221,7 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $profile = $this->apiClient->profiles->getCurrent();
 
-        $this->assertInstanceOf(Profile::class, $profile);
+        $this->assertInstanceOf(CurrentProfile::class, $profile);
         $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
         $this->assertEquals("live", $profile->mode);
         $this->assertEquals("My website name", $profile->name);
@@ -185,7 +249,6 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $checkoutPreviewLink = (object)["href" => "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut", "type" => "text/html"];
         $this->assertEquals($checkoutPreviewLink, $profile->_links->checkoutPreviewUrl);
-
     }
 
     public function testListProfiles()
