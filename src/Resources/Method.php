@@ -67,7 +67,7 @@ class Method extends BaseResource
     }
 
     /**
-     * Create a resource collection for a nested resource array.
+     * Create a resource collection from an array.
      *
      * @param array $input
      * @param string $resourceClass The full class namespace
