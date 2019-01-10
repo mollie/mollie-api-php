@@ -8,6 +8,8 @@ use Mollie\Api\Resources\Issuer;
 use Mollie\Api\Resources\IssuerCollection;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use Mollie\Api\Resources\MethodPrice;
+use Mollie\Api\Resources\MethodPriceCollection;
 use stdClass;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
@@ -221,6 +223,15 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('The Netherlands', $price->description);
         $this->assertAmountObject(0.29, 'EUR', $price->fixed);
         $this->assertEquals('0', $price->variable);
+
+        $method_prices = $method->pricing();
+
+        $this->assertInstanceOf(MethodPriceCollection::class, $method_prices);
+
+        $method_price = $method_prices[0];
+        $this->assertInstanceOf(MethodPrice::class, $method_price);
+        $this->assertAmountObject(0.29, 'EUR', $method_price->fixed);
+        $this->assertEquals('0', $method_price->variable);
     }
 
     public function testGetTranslatedMethod()

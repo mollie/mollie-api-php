@@ -34,6 +34,14 @@ class Method extends BaseResource
     public $issuers;
 
     /**
+     * The pricing for this payment method. Will only be filled when explicitly requested using the query string
+     * `include` parameter.
+     *
+     * @var array|object[]
+     */
+    public $pricing;
+
+    /**
      * @var object[]
      */
     public $_links;
@@ -45,11 +53,39 @@ class Method extends BaseResource
      */
     public function issuers()
     {
-        $issuers  = new IssuerCollection(count($this->issuers), null);
-        foreach ($this->issuers as $issuer) {
-            $issuers->append(ResourceFactory::createFromApiResult($issuer, new Issuer($this->client)));
+        return $this->createResourceCollection($this->issuers, Issuer::class);
+    }
+
+    /**
+     * Get the method price value objects.
+     *
+     * @return MethodPriceCollection
+     */
+    public function pricing()
+    {
+        return $this->createResourceCollection($this->pricing, MethodPrice::class);
+    }
+
+    /**
+     * Create a resource collection for a nested resource array.
+     *
+     * @param array $input
+     * @param string $resourceClass The full class namespace
+     * @param null|object[] $_links
+     * @param null $resourceCollectionClass If empty, appends 'Collection' to the `$resourceClass` to resolve the Collection class.
+     * @return mixed
+     */
+    protected function createResourceCollection($input, $resourceClass, $_links = null, $resourceCollectionClass = null)
+    {
+        if (null === $resourceCollectionClass) {
+            $resourceCollectionClass = $resourceClass.'Collection';
         }
 
-        return $issuers;
+        $data = new $resourceCollectionClass(count($input), $_links);
+        foreach ($input as $item) {
+            $data[] = ResourceFactory::createFromApiResult($item, new $resourceClass($this->client));
+        }
+
+        return $data;
     }
 }
