@@ -30,16 +30,7 @@ abstract class BaseResource
      */
     protected function createBaseResourceCollection($input, $resourceClass, $_links = null, $resourceCollectionClass = null)
     {
-        if (null === $resourceCollectionClass) {
-            $resourceCollectionClass = $resourceClass.'Collection';
-        }
-
-        $data = new $resourceCollectionClass(count($input), $_links);
-        foreach ($input as $item) {
-            $data[] = ResourceFactory::createFromApiResult($item, new $resourceClass($this->client));
-        }
-
-        return $data;
+        return ResourceFactory::createBaseResourceCollection($this->client, $input, $resourceClass, $_links, $resourceCollectionClass);
     }
 
     /**
@@ -51,17 +42,14 @@ abstract class BaseResource
      * @param null $resourceCollectionClass If empty, appends 'Collection' to the `$resourceClass` to resolve the Collection class.
      * @return mixed
      */
-    protected function createCursorResourceCollection($input, $resourceClass, $_links = null, $resourceCollectionClass = null)
+    protected function createCursorResourceCollection($input, $resourceClass, $_links, $resourceCollectionClass = null)
     {
-        if (null === $resourceCollectionClass) {
-            $resourceCollectionClass = $resourceClass.'Collection';
-        }
-
-        $data = new $resourceCollectionClass($this->client, count($input), $_links);
-        foreach ($input as $item) {
-            $data[] = ResourceFactory::createFromApiResult($item, new $resourceClass($this->client));
-        }
-
-        return $data;
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $input,
+            $resourceClass,
+            $_links,
+            $resourceCollectionClass
+        );
     }
 }
