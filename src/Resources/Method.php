@@ -34,6 +34,14 @@ class Method extends BaseResource
     public $issuers;
 
     /**
+     * The pricing for this payment method. Will only be filled when explicitly requested using the query string
+     * `include` parameter.
+     *
+     * @var array|object[]
+     */
+    public $pricing;
+
+    /**
      * @var object[]
      */
     public $_links;
@@ -45,11 +53,24 @@ class Method extends BaseResource
      */
     public function issuers()
     {
-        $issuers  = new IssuerCollection(count($this->issuers), null);
-        foreach ($this->issuers as $issuer) {
-            $issuers->append(ResourceFactory::createFromApiResult($issuer, new Issuer($this->client)));
-        }
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            $this->issuers,
+            Issuer::class
+        );
+    }
 
-        return $issuers;
+    /**
+     * Get the method price value objects.
+     *
+     * @return MethodPriceCollection
+     */
+    public function pricing()
+    {
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            $this->pricing,
+            MethodPrice::class
+        );
     }
 }
