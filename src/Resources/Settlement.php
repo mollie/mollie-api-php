@@ -130,7 +130,12 @@ class Settlement extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
 
-        return $this->createCursorResourceCollection($result->_embedded->methods, Payment::class, $result->_links);
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->methods,
+            Payment::class,
+            $result->_links
+        );
     }
 
     /**
@@ -147,7 +152,12 @@ class Settlement extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        return $this->createCursorResourceCollection($result->_embedded->refunds, Refund::class, $result->_links);
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->refunds,
+            Refund::class,
+            $result->_links
+        );
     }
 
     /**
@@ -164,7 +174,12 @@ class Settlement extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
 
-        return $this->createCursorResourceCollection($result->_embedded->chargebacks, Chargeback::class, $result->_links);
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->chargebacks,
+            Chargeback::class,
+            $result->_links
+        );
     }
 
 	/**
@@ -181,6 +196,11 @@ class Settlement extends BaseResource
 
 		$result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->captures->href);
 
-        return $this->createCursorResourceCollection($result->_embedded->captures, Capture::class, $result->_links);
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->captures,
+            Capture::class,
+            $result->_links
+        );
 	}
 }

@@ -300,7 +300,7 @@ class Order extends BaseResource
      */
     public function lines()
     {
-        return $this->createBaseResourceCollection($this->lines, OrderLine::class);
+        return ResourceFactory::createBaseResourceCollection($this->client, $this->lines, OrderLine::class);
     }
 
     /**
@@ -405,7 +405,12 @@ class Order extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        return $this->createCursorResourceCollection($result->_embedded->refunds, Refund::class, $result->_links);
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->refunds,
+            Refund::class,
+            $result->_links
+        );
     }
 
     /**

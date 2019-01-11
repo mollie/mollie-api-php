@@ -94,13 +94,14 @@ class Shipment extends BaseResource
      */
     public function lines()
     {
-        return $this->createBaseResourceCollection($this->lines, OrderLine::class);
+        return ResourceFactory::createBaseResourceCollection($this->client, $this->lines, OrderLine::class);
     }
 
     /**
      * Get the Order object for this shipment
      *
      * @return Order
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function order()
     {
