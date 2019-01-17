@@ -440,7 +440,7 @@ class Order extends BaseResource
      *
      * @param $data
      * @param array $filters
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createPayment($data, $filters = [])
