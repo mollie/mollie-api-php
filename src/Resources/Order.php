@@ -447,4 +447,19 @@ class Order extends BaseResource
     {
         return $this->client->orderPayments->createFor($this, $data, $filters);
     }
+
+    /**
+     * Retrieve the payments for this order.
+     * Requires the order to be retrieved using the include payments parameter.
+     *
+     * @return \Mollie\Api\Resources\PaymentCollection
+     */
+    public function payments()
+    {
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $this->_embedded->payments,
+            Payment::class
+        );
+    }
 }
