@@ -440,11 +440,30 @@ class Order extends BaseResource
      *
      * @param $data
      * @param array $filters
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createPayment($data, $filters = [])
     {
         return $this->client->orderPayments->createFor($this, $data, $filters);
+    }
+
+    /**
+     * Retrieve the payments for this order.
+     * Requires the order to be retrieved using the embed payments parameter.
+     *
+     * @return null|\Mollie\Api\Resources\PaymentCollection
+     */
+    public function payments()
+    {
+        if(! isset($this->_embedded, $this->_embedded->payments) ) {
+            return null;
+        }
+
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $this->_embedded->payments,
+            Payment::class
+        );
     }
 }

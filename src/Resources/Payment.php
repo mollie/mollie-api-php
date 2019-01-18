@@ -215,6 +215,11 @@ class Payment extends BaseResource
     public $_links;
 
     /**
+     * @var object[]
+     */
+    public $_embedded;
+
+    /**
      * Whether or not this payment can be canceled.
      *
      * @var bool|null

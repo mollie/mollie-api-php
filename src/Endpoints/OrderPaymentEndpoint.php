@@ -47,7 +47,7 @@ class OrderPaymentEndpoint extends EndpointAbstract
      * @param array $data An array containing details on the order payment.
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Order $order, array $data, array $filters = [])
