@@ -230,7 +230,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->mockApiCall(
             new Request(
                 "GET",
-                "/v2/orders/ord_kEn1PlbGa?include=payments"
+                "/v2/orders/ord_kEn1PlbGa?embed=payments"
             ),
             new Response(
                 200,
@@ -443,7 +443,7 @@ class OrderEndpointTest extends BaseEndpointTest
             )
         );
 
-        $order = $this->apiClient->orders->get('ord_kEn1PlbGa', ['include' => 'payments']);
+        $order = $this->apiClient->orders->get('ord_kEn1PlbGa', ['embed' => 'payments']);
 
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals('ord_kEn1PlbGa', $order->id);
@@ -822,6 +822,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->totalAmount = $this->createAmountObject("329.99", "EUR");
         $line2->createdAt = "2018-08-02T09:29:56+00:00";
         $this->assertEquals($line2, $order->lines[1]);
+
+        $this->assertNull($order->payments());
     }
 
     protected function getOrder($id)

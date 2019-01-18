@@ -272,6 +272,19 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($order->getCheckoutUrl());
     }
 
+    public function testPaymentsHelperReturnsIfNoEmbedAvailable()
+    {
+        $order = new Order($this->createMock(MollieApiClient::class));
+        $this->assertNull($order->payments());
+    }
+
+    public function testPaymentsHelperReturnsIfNoPaymentsEmbedded()
+    {
+        $order = new Order($this->createMock(MollieApiClient::class));
+        $order->_embedded = [];
+        $this->assertNull($order->payments());
+    }
+
     protected function getOrderLinksDummy($overrides = [])
     {
         return (object) array_merge(
