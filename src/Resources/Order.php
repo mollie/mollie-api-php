@@ -452,7 +452,7 @@ class Order extends BaseResource
      * Retrieve the payments for this order.
      * Requires the order to be retrieved using the embed payments parameter.
      *
-     * @return \Mollie\Api\Resources\PaymentCollection
+     * @return null|\Mollie\Api\Resources\PaymentCollection
      */
     public function payments()
     {
