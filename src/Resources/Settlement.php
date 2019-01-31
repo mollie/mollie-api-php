@@ -132,7 +132,7 @@ class Settlement extends BaseResource
 
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
-            $result->_embedded->methods,
+            $result->_embedded->payments,
             Payment::class,
             $result->_links
         );
