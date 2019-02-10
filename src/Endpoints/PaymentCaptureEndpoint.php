@@ -3,6 +3,7 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\Capture;
+use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Payment;
 
 class PaymentCaptureEndpoint extends EndpointAbstract
@@ -25,7 +26,7 @@ class PaymentCaptureEndpoint extends EndpointAbstract
      * @param int $count
      * @param object[] $_links
      *
-     * @return CaptureCollection
+     * @return \Mollie\Api\Resources\CaptureCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
@@ -38,10 +39,24 @@ class PaymentCaptureEndpoint extends EndpointAbstract
      * @param array $parameters
      *
      * @return Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getFor(Payment $payment, $captureId, array $parameters = [])
     {
-        $this->parentId = $payment->id;
+        return $this->getForId($payment->id, $captureId, $parameters);
+    }
+
+    /**
+     * @param string $paymentId
+     * @param string $captureId
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function getForId($paymentId, $captureId, array $parameters = [])
+    {
+        $this->parentId = $paymentId;
 
         return parent::rest_read($captureId, $parameters);
     }
