@@ -75,6 +75,11 @@ class PaymentMethod
     const PAYSAFECARD = "paysafecard";
 
     /**
+     * @link https://www.mollie.com/en/payments/przelewy24
+     */
+    const PRZELEWY24 = 'przelewy24';
+
+    /**
      * @deprecated
      * @link https://www.mollie.com/en/payments/gift-cards
      */
