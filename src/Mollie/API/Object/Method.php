@@ -85,6 +85,11 @@ class Mollie_API_Object_Method
 	 * @link https://www.mollie.com/en/payments/kbc-cbc
 	 */
 	const KBC = "kbc";
+	
+	/**
+	 * @link https://www.mollie.com/en/payments/przelewy24
+	 */
+	const PRZELEWY24 = "przelewy24";
 
 	/**
 	 * Bancontact, formerly known as Mister Cash.
