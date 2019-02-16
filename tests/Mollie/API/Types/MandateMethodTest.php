@@ -31,6 +31,7 @@ class MandateMethodTest extends TestCase
             [PaymentMethod::INGHOMEPAY, MandateMethod::DIRECTDEBIT],
             [PaymentMethod::KBC, MandateMethod::DIRECTDEBIT],
             [PaymentMethod::SOFORT, MandateMethod::DIRECTDEBIT],
+            [PaymentMethod::KLARNA_PAY_LATER, null],
         ];
     }
 }
