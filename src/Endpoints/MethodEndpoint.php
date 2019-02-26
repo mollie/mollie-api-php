@@ -20,7 +20,7 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
-     * Retrieve all active methods. The results are not paginated. In test mode, this includes pending methods.
+     * Retrieve all active methods. In test mode, this includes pending methods. The results are not paginated.
      *
      * @deprecated Use allActive() instead
      * @param array $parameters
