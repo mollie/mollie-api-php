@@ -5,6 +5,7 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use Mollie\Api\Resources\ResourceFactory;
 
 class MethodEndpoint extends EndpointAbstract
 {
@@ -33,7 +34,8 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
-     * Retrieve all active methods. The results are not paginated. In test mode, this includes pending methods.
+     * Retrieve all active methods for the organization. In test mode, this includes pending methods.
+     * The results are not paginated.
      *
      * @param array $parameters
      *
@@ -43,6 +45,32 @@ class MethodEndpoint extends EndpointAbstract
     public function allActive(array $parameters = [])
     {
         return parent::rest_list(null, null, $parameters);
+    }
+
+    /**
+     * Retrieve all available methods for the organization, including activated and not yet activated methods.
+     * The results are not paginated.
+     *
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @throws ApiException
+     */
+    public function allAvailable(array $parameters = [])
+    {
+        $body = null;
+        if (count($parameters) > 0) {
+            $body = json_encode($parameters);
+        }
+
+        $result = $this->client->performHttpCall('GET', 'methods/all', $body);
+
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            $result->_embedded->methods,
+            Method::class,
+            $result->_links
+        );
     }
 
     /**
