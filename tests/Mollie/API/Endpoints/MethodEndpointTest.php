@@ -374,7 +374,7 @@ class MethodEndpointTest extends BaseEndpointTest
             )
         );
 
-        $methods = $this->apiClient->methods->all();
+        $methods = $this->apiClient->methods->allActive();
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(4, $methods->count);

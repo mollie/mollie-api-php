@@ -19,6 +19,33 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
+     * Retrieve all active methods. The results are not paginated. In test mode, this includes pending methods.
+     *
+     * @deprecated Use allActive() instead
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @throws ApiException
+     */
+    public function all(array $parameters = [])
+    {
+        return $this->allActive($parameters);
+    }
+
+    /**
+     * Retrieve all active methods. The results are not paginated. In test mode, this includes pending methods.
+     *
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @throws ApiException
+     */
+    public function allActive(array $parameters = [])
+    {
+        return parent::rest_list(null, null, $parameters);
+    }
+
+    /**
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
@@ -48,18 +75,5 @@ class MethodEndpoint extends EndpointAbstract
         }
 
         return parent::rest_read($methodId, $parameters);
-    }
-
-    /**
-     * Retrieve all methods.
-     *
-     * @param array $parameters
-     *
-     * @return MethodCollection
-     * @throws ApiException
-     */
-    public function all(array $parameters = [])
-    {
-        return parent::rest_list(null, null, $parameters);
     }
 }
