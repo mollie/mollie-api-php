@@ -287,7 +287,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $method->_links->documentation);
     }
 
-    public function testListMethods()
+    public function testListAllActiveMethods()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods'),
@@ -374,7 +374,127 @@ class MethodEndpointTest extends BaseEndpointTest
             )
         );
 
-        $methods = $this->apiClient->methods->all();
+        $methods = $this->apiClient->methods->allActive();
+
+        $this->assertInstanceOf(MethodCollection::class, $methods);
+        $this->assertEquals(4, $methods->count);
+        $this->assertCount(4, $methods);
+
+        $documentationLink = (object)[
+            'href' => 'https://docs.mollie.com/reference/v2/methods-api/list-methods',
+            'type' => 'text/html'
+        ];
+        $this->assertEquals($documentationLink, $methods->_links->documentation);
+
+        $selfLink = (object)[
+            'href' => 'http://api.mollie.com/v2/methods',
+            'type' => 'application/hal+json'
+        ];
+        $this->assertEquals($selfLink, $methods->_links->self);
+
+        $creditcardMethod = $methods[1];
+
+        $this->assertInstanceOf(Method::class, $creditcardMethod);
+        $this->assertEquals('creditcard', $creditcardMethod->id);
+        $this->assertEquals('Credit card', $creditcardMethod->description);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
+
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/creditcard',
+            'type' => 'application/hal+json'
+        ];
+        $this->assertEquals($selfLink, $creditcardMethod->_links->self);
+    }
+
+    public function testListAllAvailableMethods()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods/all'),
+            new Response(
+                200,
+                [],
+                '{
+                    "_embedded": {
+                        "methods": [
+                            {
+                                "resource": "method",
+                                "id": "ideal",
+                                "description": "iDEAL",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/ideal",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "creditcard",
+                                "description": "Credit card",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/creditcard",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "mistercash",
+                                "description": "Bancontact",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/mistercash",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "giftcard",
+                                "description": "Gift cards",
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/giftcard",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "count": 4,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/list-methods",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "http://api.mollie.com/v2/methods",
+                            "type": "application/hal+json"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $methods = $this->apiClient->methods->allAvailable();
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(4, $methods->count);
