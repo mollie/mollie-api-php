@@ -30,6 +30,14 @@ class MethodEndpointTest extends BaseEndpointTest
                     "resource": "method",
                     "id": "ideal",
                     "description": "iDEAL",
+                    "minimumAmount": {
+                        "value": "0.01",
+                        "currency": "EUR"
+                    },
+                    "maximumAmount": {
+                        "value": "50000.00",
+                        "currency": "EUR"
+                    },
                     "image": {
                         "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                         "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
@@ -53,6 +61,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
         $this->assertEquals('iDEAL', $idealMethod->description);
+        $this->assertAmountObject(0.01, 'EUR', $idealMethod->minimumAmount);
+        $this->assertAmountObject(50000, 'EUR', $idealMethod->maximumAmount);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
@@ -80,6 +90,14 @@ class MethodEndpointTest extends BaseEndpointTest
                     "resource": "method",
                     "id": "ideal",
                     "description": "iDEAL",
+                    "minimumAmount": {
+                        "value": "0.01",
+                        "currency": "EUR"
+                    },
+                    "maximumAmount": {
+                        "value": "50000.00",
+                        "currency": "EUR"
+                    },
                     "image": {
                         "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                         "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
@@ -116,6 +134,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $idealMethod);
         $this->assertEquals('ideal', $idealMethod->id);
         $this->assertEquals('iDEAL', $idealMethod->description);
+        $this->assertAmountObject(0.01, 'EUR', $idealMethod->minimumAmount);
+        $this->assertAmountObject(50000, 'EUR', $idealMethod->maximumAmount);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal.png', $idealMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/ideal%402x.png', $idealMethod->image->size2x);
 
@@ -160,6 +180,14 @@ class MethodEndpointTest extends BaseEndpointTest
                      "resource": "method",
                      "id": "ideal",
                      "description": "iDEAL",
+                     "minimumAmount": {
+                         "value": "0.01",
+                         "currency": "EUR"
+                     },
+                     "maximumAmount": {
+                         "value": "50000.00",
+                         "currency": "EUR"
+                     },
                      "image": {
                          "size1x": "https://www.mollie.com/external/icons/payment-methods/ideal.png",
                          "size2x": "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png",
@@ -195,6 +223,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('method', $method->resource);
         $this->assertEquals('ideal', $method->id);
         $this->assertEquals('iDEAL', $method->description);
+        $this->assertAmountObject(0.01, 'EUR', $method->minimumAmount);
+        $this->assertAmountObject(50000, 'EUR', $method->maximumAmount);
         $this->assertEquals(
             'https://www.mollie.com/external/icons/payment-methods/ideal.png',
             $method->image->size1x);
@@ -245,6 +275,14 @@ class MethodEndpointTest extends BaseEndpointTest
                     "resource": "method",
                     "id": "sofort",
                     "description": "SOFORT \u00dcberweisung",
+                    "minimumAmount": {
+                        "value": "0.01",
+                        "currency": "EUR"
+                    },
+                    "maximumAmount": {
+                        "value": "50000.00",
+                        "currency": "EUR"
+                    },
                     "image": {
                         "size1x": "https://www.mollie.com/images/payscreen/methods/sofort.png",
                         "size2x": "https://www.mollie.com/images/payscreen/methods/sofort%402x.png"
@@ -268,6 +306,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $method);
         $this->assertEquals('sofort', $method->id);
         $this->assertEquals('SOFORT Überweisung', $method->description);
+        $this->assertAmountObject(0.01, 'EUR', $method->minimumAmount);
+        $this->assertAmountObject(50000, 'EUR', $method->maximumAmount);
 
         $amount = new Stdclass();
         $amount->size1x = 'https://www.mollie.com/images/payscreen/methods/sofort.png';
@@ -301,6 +341,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "ideal",
                                 "description": "iDEAL",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
@@ -316,6 +364,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "creditcard",
                                 "description": "Credit card",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "2000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
@@ -331,6 +387,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "mistercash",
                                 "description": "Bancontact",
+                                "minimumAmount": {
+                                    "value": "0.02",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
@@ -397,6 +461,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $creditcardMethod);
         $this->assertEquals('creditcard', $creditcardMethod->id);
         $this->assertEquals('Credit card', $creditcardMethod->description);
+        $this->assertAmountObject(0.01, 'EUR', $creditcardMethod->minimumAmount);
+        $this->assertAmountObject(2000, 'EUR', $creditcardMethod->maximumAmount);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
 
@@ -421,6 +487,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "ideal",
                                 "description": "iDEAL",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
@@ -436,6 +510,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "creditcard",
                                 "description": "Credit card",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "2000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
@@ -451,6 +533,14 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "mistercash",
                                 "description": "Bancontact",
+                                "minimumAmount": {
+                                    "value": "0.02",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
@@ -517,6 +607,8 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Method::class, $creditcardMethod);
         $this->assertEquals('creditcard', $creditcardMethod->id);
         $this->assertEquals('Credit card', $creditcardMethod->description);
+        $this->assertAmountObject(0.01, 'EUR', $creditcardMethod->minimumAmount);
+        $this->assertAmountObject(2000, 'EUR', $creditcardMethod->maximumAmount);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
 
