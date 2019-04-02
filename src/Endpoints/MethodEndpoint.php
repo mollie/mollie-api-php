@@ -48,8 +48,8 @@ class MethodEndpoint extends EndpointAbstract
     }
 
     /**
-     * Retrieve all available methods for the organization, including activated and not yet activated methods.
-     * The results are not paginated.
+     * Retrieve all available methods for the organization, including activated and not yet activated methods. The
+     * results are not paginated. Make sure to include the profileId parameter if using OAuth Access Tokens.
      *
      * @param array $parameters
      *
