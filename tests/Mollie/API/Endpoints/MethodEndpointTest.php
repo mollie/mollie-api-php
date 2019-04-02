@@ -410,6 +410,11 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "giftcard",
                                 "description": "Gift cards",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": null,
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
@@ -556,6 +561,11 @@ class MethodEndpointTest extends BaseEndpointTest
                                 "resource": "method",
                                 "id": "giftcard",
                                 "description": "Gift cards",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": null,
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
