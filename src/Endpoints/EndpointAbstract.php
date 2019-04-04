@@ -43,7 +43,7 @@ abstract class EndpointAbstract
      * @param array $filters
      * @return string
      */
-    private function buildQueryString(array $filters)
+    protected function buildQueryString(array $filters)
     {
         if (empty($filters)) {
             return "";

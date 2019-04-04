@@ -481,7 +481,7 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testListAllAvailableMethods()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods/all'),
+            new Request('GET', '/v2/methods/all?include=pricing'),
             new Response(
                 200,
                 [],
@@ -504,6 +504,16 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
                                 },
+                                "pricing": [
+                                    {
+                                        "description": "Netherlands",
+                                        "fixed": {
+                                            "value": "0.29",
+                                            "currency": "EUR"
+                                        },
+                                        "variable": "0"
+                                    }
+                                ],
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/ideal",
@@ -594,23 +604,23 @@ class MethodEndpointTest extends BaseEndpointTest
             )
         );
 
-        $methods = $this->apiClient->methods->allAvailable();
+        $methods = $this->apiClient->methods->allAvailable([], ['include' => 'pricing']);
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(4, $methods->count);
         $this->assertCount(4, $methods);
 
-        $documentationLink = (object)[
-            'href' => 'https://docs.mollie.com/reference/v2/methods-api/list-methods',
-            'type' => 'text/html'
-        ];
-        $this->assertEquals($documentationLink, $methods->_links->documentation);
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/list-methods',
+            'text/html',
+            $methods->_links->documentation
+        );
 
-        $selfLink = (object)[
-            'href' => 'http://api.mollie.com/v2/methods',
-            'type' => 'application/hal+json'
-        ];
-        $this->assertEquals($selfLink, $methods->_links->self);
+        $this->assertLinkObject(
+            'http://api.mollie.com/v2/methods',
+            'application/hal+json',
+            $methods->_links->self
+        );
 
         $creditcardMethod = $methods[1];
 
@@ -622,10 +632,10 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
 
-        $selfLink = (object)[
-            'href' => 'https://api.mollie.com/v2/methods/creditcard',
-            'type' => 'application/hal+json'
-        ];
-        $this->assertEquals($selfLink, $creditcardMethod->_links->self);
+        $this->assertLinkObject(
+            'https://api.mollie.com/v2/methods/creditcard',
+            'application/hal+json',
+            $creditcardMethod->_links->self
+        );
     }
 }

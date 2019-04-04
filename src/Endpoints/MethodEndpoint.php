@@ -51,19 +51,18 @@ class MethodEndpoint extends EndpointAbstract
      * Retrieve all available methods for the organization, including activated and not yet activated methods. The
      * results are not paginated. Make sure to include the profileId parameter if using OAuth Access Tokens.
      *
-     * @param array $parameters
+     * @param array $data
      *
+     * @param array $filters
      * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function allAvailable(array $parameters = [])
+    public function allAvailable(array $data = [], array $filters = [])
     {
-        $body = null;
-        if (count($parameters) > 0) {
-            $body = json_encode($parameters);
-        }
+        $url = 'methods/all' . $this->buildQueryString($filters);
+        $body = $this->parseRequestBody($data);
 
-        $result = $this->client->performHttpCall('GET', 'methods/all', $body);
+        $result = $this->client->performHttpCall('GET', $url, $body);
 
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
@@ -93,7 +92,7 @@ class MethodEndpoint extends EndpointAbstract
      *
      * @param string $methodId
      * @param array $parameters
-     * @return Method
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Method
      * @throws ApiException
      */
     public function get($methodId, array $parameters = [])
