@@ -604,7 +604,7 @@ class MethodEndpointTest extends BaseEndpointTest
             )
         );
 
-        $methods = $this->apiClient->methods->allAvailable([], ['include' => 'pricing']);
+        $methods = $this->apiClient->methods->allAvailable(['include' => 'pricing']);
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(4, $methods->count);
