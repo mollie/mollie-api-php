@@ -55,7 +55,7 @@ try {
         ],
         "consumerDateOfBirth" => "1958-01-31",
         "locale" => "en_US",
-        "orderNumber" => $orderId,
+        "orderNumber" => strval($orderId),
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/orders/return.php?order_id={$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/orders/webhook.php",
         "method" => "ideal",
