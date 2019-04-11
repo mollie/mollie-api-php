@@ -380,9 +380,6 @@ class MollieApiClient
      * Perform an http call. This method is used by the resource specific classes. Please use the $payments property to
      * perform operations on payments.
      *
-     * @see $payments
-     * @see $isuers
-     *
      * @param string $httpMethod
      * @param string $apiMethod
      * @param string|null|resource|StreamInterface $httpBody
