@@ -167,16 +167,6 @@ abstract class EndpointAbstract
     abstract protected function getResourceObject();
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param object[] $_links
-     *
-     * @return BaseCollection
-     */
-    abstract protected function getResourceCollectionObject($count, $_links);
-
-    /**
      * @param string $resourcePath
      */
     public function setResourcePath($resourcePath)

@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 
-class SettlementsEndpoint extends EndpointAbstract
+class SettlementsEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "settlements";
 

@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 
-class CustomerEndpoint extends EndpointAbstract
+class CustomerEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "customers";
 

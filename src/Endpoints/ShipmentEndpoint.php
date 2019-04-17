@@ -6,7 +6,7 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 
-class ShipmentEndpoint extends EndpointAbstract
+class ShipmentEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_shipments";
 

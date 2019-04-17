@@ -12,6 +12,7 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
@@ -157,6 +158,13 @@ class MollieApiClient
     public $invoices;
 
     /**
+     * RESTful Onboarding resource.
+     *
+     * @var OnboardingEndpoint
+     */
+    public $onboarding;
+
+    /**
      * RESTful Order resource.
      *
      * @var OrderEndpoint
@@ -242,7 +250,6 @@ class MollieApiClient
      * @var array
      */
     protected $versionStrings = [];
-
     /**
      * @var int
      */
@@ -285,6 +292,7 @@ class MollieApiClient
         $this->invoices = new InvoiceEndpoint($this);
         $this->permissions = new PermissionEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
+        $this->onboarding = new OnboardingEndpoint($this);
         $this->organizations = new OrganizationEndpoint($this);
         $this->orders = new OrderEndpoint($this);
         $this->orderLines = new OrderLineEndpoint($this);

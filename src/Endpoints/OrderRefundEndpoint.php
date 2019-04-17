@@ -6,7 +6,7 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class OrderRefundEndpoint extends EndpointAbstract
+class OrderRefundEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_refunds";
 

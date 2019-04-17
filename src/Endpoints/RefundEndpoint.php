@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class RefundEndpoint extends EndpointAbstract
+class RefundEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "refunds";
 
