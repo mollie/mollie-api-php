@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\OrganizationCollection;
 
-class OrganizationEndpoint extends EndpointAbstract
+class OrganizationEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "organizations";
 

@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
 
-class PermissionEndpoint extends EndpointAbstract
+class PermissionEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "permissions";
 

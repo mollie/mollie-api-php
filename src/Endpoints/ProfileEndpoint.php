@@ -7,7 +7,7 @@ use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 
-class ProfileEndpoint extends EndpointAbstract
+class ProfileEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "profiles";
     protected $resourceClass = Profile::class;

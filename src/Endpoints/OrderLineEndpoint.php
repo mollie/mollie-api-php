@@ -8,7 +8,7 @@ use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-class OrderLineEndpoint extends EndpointAbstract
+class OrderLineEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_lines";
 

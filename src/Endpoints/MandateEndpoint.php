@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class MandateEndpoint extends EndpointAbstract
+class MandateEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "customers_mandates";
 

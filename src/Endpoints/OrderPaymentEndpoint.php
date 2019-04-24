@@ -6,7 +6,7 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class OrderPaymentEndpoint extends EndpointAbstract
+class OrderPaymentEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_payments";
 

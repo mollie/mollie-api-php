@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 
-class InvoiceEndpoint extends EndpointAbstract
+class InvoiceEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "invoices";
 
