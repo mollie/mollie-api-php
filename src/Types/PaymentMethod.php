@@ -20,7 +20,7 @@ class PaymentMethod
     const BELFIUS = "belfius";
 
     /**
-     * @link https://www.mollie.com/en/payments/bitcoin
+     * @deprecated 2019-05-01
      */
     const BITCOIN = "bitcoin";
 
