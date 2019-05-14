@@ -9,7 +9,10 @@ class MandateMethod
 
     public static function getForFirstPaymentMethod($firstPaymentMethod)
     {
-        if($firstPaymentMethod === static::CREDITCARD) {
+        if(in_array($firstPaymentMethod, [
+            PaymentMethod::APPLEPAY,
+            PaymentMethod::CREDITCARD,
+        ])) {
             return static::CREDITCARD;
         }
 
