@@ -22,6 +22,7 @@ class MandateMethodTest extends TestCase
     public function dpTestGetForFirstPaymentMethod()
     {
         return [
+            [PaymentMethod::APPLEPAY, MandateMethod::CREDITCARD],
             [PaymentMethod::CREDITCARD, MandateMethod::CREDITCARD],
             [PaymentMethod::BANCONTACT, MandateMethod::DIRECTDEBIT],
             [PaymentMethod::BELFIUS, MandateMethod::DIRECTDEBIT],
