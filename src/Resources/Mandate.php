@@ -33,7 +33,7 @@ class Mandate extends BaseResource
     public $method;
 
     /**
-     * @var object|null
+     * @var \stdClass|null
      */
     public $details;
 
@@ -60,7 +60,7 @@ class Mandate extends BaseResource
     public $signatureDate;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $_links;
 

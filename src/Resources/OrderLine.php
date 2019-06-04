@@ -70,21 +70,21 @@ class OrderLine extends BaseResource
     /**
      * The price of a single item in the order line.
      *
-     * @var object
+     * @var \stdClass
      */
     public $unitPrice;
 
     /**
      * Any discounts applied to the order line.
      *
-     * @var object|null
+     * @var \stdClass|null
      */
     public $discountAmount;
 
     /**
      * The total amount of the line, including VAT and discounts.
      *
-     * @var object
+     * @var \stdClass
      */
     public $totalAmount;
 
@@ -101,7 +101,7 @@ class OrderLine extends BaseResource
     /**
      * The amount of value-added tax on the line.
      *
-     * @var object
+     * @var \stdClass
      */
     public $vatAmount;
 
