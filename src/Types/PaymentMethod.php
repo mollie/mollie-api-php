@@ -5,6 +5,11 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
+     * @link https://www.mollie.com/en/payments/applepay
+     */
+    const APPLEPAY = "applepay";
+
+    /**
      * @link https://www.mollie.com/en/payments/bancontact
      */
     const BANCONTACT = "bancontact";
