@@ -56,6 +56,7 @@
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
+    "phpstan/phpstan": "^0.11.19",
     "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1"
   },
   "suggest": {
@@ -71,7 +72,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests"
+      "Tests\\": "tests/",
+      "Tests\\Mollie\\Api\\": "tests/Mollie/API/"
     }
   },
   "scripts": {
