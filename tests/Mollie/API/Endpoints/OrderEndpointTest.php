@@ -691,16 +691,22 @@ class OrderEndpointTest extends BaseEndpointTest
                          "givenName": "Luke",
                          "familyName": "Skywalker",
                          "email": "luke@skywalker.com"
-                     }
+                     },
+                     "orderNumber": "16738"
                  }'
             ),
             new Response(
                 200,
                 [],
-                $this->getOrderResponseFixture("ord_pbjz8x")
+                $this->getOrderResponseFixture(
+                    "ord_pbjz8x",
+                    OrderStatus::STATUS_CREATED,
+                    "16738"
+                )
             )
         );
 
+        /** @var Order $order */
         $order = $this->getOrder("ord_pbjz8x");
 
         $order->billingAddress->organizationName = "Organization Name LTD.";
@@ -714,12 +720,13 @@ class OrderEndpointTest extends BaseEndpointTest
         $order->billingAddress->familyName = "Mondriaan";
         $order->billingAddress->email = "piet@mondriaan.com";
         $order->billingAddress->phone = "+31208202070";
+        $order->orderNumber = "16738";
         $order = $order->update();
 
-        $this->assertOrder($order, "ord_pbjz8x");
+        $this->assertOrder($order, "ord_pbjz8x", OrderStatus::STATUS_CREATED, "16738");
     }
 
-    protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED)
+    protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED, $orderNumber = "1337")
     {
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals('order', $order->resource);
@@ -762,7 +769,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $shippingAddress->email = "luke@skywalker.com";
         $this->assertEquals($shippingAddress, $order->shippingAddress);
 
-        $this->assertEquals('1337', $order->orderNumber);
+        $this->assertEquals($orderNumber, $order->orderNumber);
         $this->assertEquals('nl_NL', $order->locale);
 
         $this->assertEquals("https://example.org/redirect", $order->redirectUrl);
@@ -832,11 +839,17 @@ class OrderEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED, $orderNumber = '1337')
     {
         return str_replace(
-            "<<order_id>>",
-            $order_id,
+            [
+                "<<order_id>>",
+                "<<order_number>>"
+            ],
+            [
+                $order_id,
+                $orderNumber,
+            ],
             '{
              "resource": "order",
              "id": "<<order_id>>",
@@ -881,7 +894,7 @@ class OrderEndpointTest extends BaseEndpointTest
                  "familyName": "Skywalker",
                  "email": "luke@skywalker.com"
              },
-             "orderNumber": "1337",
+             "orderNumber": <<order_number>>,
              "locale": "nl_NL",
              "method" : "klarnapaylater",
              "isCancelable": true,

@@ -428,6 +428,7 @@ class Order extends BaseResource
         $body = json_encode(array(
             "billingAddress" => $this->billingAddress,
             "shippingAddress" => $this->shippingAddress,
+            "orderNumber" => $this->orderNumber,
         ));
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
