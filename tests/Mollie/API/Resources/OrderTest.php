@@ -123,7 +123,6 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             'productUrl' => 'https://shop.lego.com/nl-NL/Bugatti-Chiron-42083',
             'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$',
             'sku' => '5702016116977',
-            'type' => 'physical',
             'status' => 'created',
             'quantity' => 2,
             'unitPrice' => (object) [
@@ -192,7 +191,6 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             'productUrl' => 'https://shop.lego.com/nl-NL/Bugatti-Chiron-42083',
             'imageUrl' => 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$',
             'sku' => '5702016116977',
-            'type' => 'physical',
             'status' => 'created',
             'quantity' => 2,
             'unitPrice' => (object) [

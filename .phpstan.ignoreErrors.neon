@@ -12,3 +12,8 @@ parameters:
             message: '/Function printOrders not found/'
             paths:
                 - %currentWorkingDirectory%/examples
+
+        -
+            message: "#^Call to an undefined method Mollie\\\\Api\\\\Endpoints\\\\EndpointAbstract\\:\\:getResourceCollectionObject\\(\\)\\.$#"
+            count: 1
+            path: src/Endpoints/EndpointAbstract.php

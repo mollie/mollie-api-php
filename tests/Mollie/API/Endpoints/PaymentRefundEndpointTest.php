@@ -127,7 +127,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refund = $this->getPayment("tr_44aKxzEbr8")->getRefund("re_PsAvxvLsnm");
+        $refund = $this->getPayment()->getRefund("re_PsAvxvLsnm");
 
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals("re_PsAvxvLsnm", $refund->id);

@@ -24,6 +24,7 @@ abstract class BaseCollection extends \ArrayObject
     {
         $this->count = $count;
         $this->_links = $_links;
+        parent::__construct();
     }
 
     /**
