@@ -42,7 +42,7 @@ class Subscription extends BaseResource
     public $status;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $amount;
 
@@ -88,12 +88,12 @@ class Subscription extends BaseResource
     /**
      * Contains an optional 'webhookUrl'.
      *
-     * @var object|null
+     * @var \stdClass|null
      */
     public $webhookUrl;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 

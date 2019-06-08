@@ -26,14 +26,14 @@ class Capture extends BaseResource
     /**
      * Amount object containing the value and currency
      *
-     * @var object
+     * @var \stdClass
      */
     public $amount;
 
     /**
      * Amount object containing the settlement value and currency
      *
-     * @var object
+     * @var \stdClass
      */
     public $settlementAmount;
 
@@ -64,7 +64,7 @@ class Capture extends BaseResource
     public $createdAt;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $_links;
 }
