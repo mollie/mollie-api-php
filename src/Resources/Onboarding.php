@@ -40,7 +40,7 @@ class Onboarding extends BaseResource
     public $canReceiveSettlements;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 

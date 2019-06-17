@@ -22,7 +22,7 @@ class Refund extends BaseResource
     /**
      * The $amount that was refunded.
      *
-     * @var object
+     * @var \stdClass
      */
     public $amount;
 
@@ -67,7 +67,7 @@ class Refund extends BaseResource
     /**
      * The settlement amount
      *
-     * @var object
+     * @var \stdClass
      */
     public $settlementAmount;
 
@@ -79,7 +79,7 @@ class Refund extends BaseResource
     public $status;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 

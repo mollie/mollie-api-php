@@ -32,14 +32,14 @@ class Payment extends BaseResource
     /**
      * Amount object containing the value and currency
      *
-     * @var object
+     * @var \stdClass
      */
     public $amount;
 
     /**
      * The amount that has been settled containing the value and currency
      *
-     * @var object
+     * @var \stdClass
      */
     public $settlementAmount;
 
@@ -47,7 +47,7 @@ class Payment extends BaseResource
      * The amount of the payment that has been refunded to the consumer, in EURO with
      * 2 decimals. This field will be null if the payment can not be refunded.
      *
-     * @var object|null
+     * @var \stdClass|null
      */
     public $amountRefunded;
 
@@ -59,7 +59,7 @@ class Payment extends BaseResource
      * This is possible to reimburse the costs for a return shipment to your customer
      * for example.
      *
-     * @var object|null
+     * @var \stdClass|null
      */
     public $amountRemaining;
 
@@ -197,7 +197,7 @@ class Payment extends BaseResource
      * During creation of the payment you can set custom metadata that is stored with
      * the payment, and given back whenever you retrieve that payment.
      *
-     * @var object|mixed|null
+     * @var \stdClass|mixed|null
      */
     public $metadata;
 
@@ -205,17 +205,17 @@ class Payment extends BaseResource
      * Details of a successfully paid payment are set here. For example, the iDEAL
      * payment method will set $details->consumerName and $details->consumerAccount.
      *
-     * @var object
+     * @var \stdClass
      */
     public $details;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 
     /**
-     * @var object[]
+     * @var \stdClass[]
      */
     public $_embedded;
 

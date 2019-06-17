@@ -55,21 +55,21 @@ class Invoice extends BaseResource
     /**
      * Amount object containing the total amount of the invoice excluding VAT.
      *
-     * @var object
+     * @var \stdClass
      */
     public $netAmount;
 
     /**
      * Amount object containing the VAT amount of the invoice. Only for merchants registered in the Netherlands.
      *
-     * @var object
+     * @var \stdClass
      */
     public $vatAmount;
 
     /**
      * Total amount of the invoice including VAT.
      *
-     * @var object
+     * @var \stdClass
      */
     public $grossAmount;
 
@@ -77,14 +77,14 @@ class Invoice extends BaseResource
      * Object containing the invoice lines.
      * See https://docs.mollie.com/reference/v2/invoices-api/get-invoice for reference
      *
-     * @var object
+     * @var \stdClass
      */
     public $lines;
 
     /**
      * Contains a PDF to the Invoice
      *
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 

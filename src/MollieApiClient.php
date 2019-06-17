@@ -39,7 +39,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.10.0";
+    const CLIENT_VERSION = "2.11.0";
 
     /**
      * Endpoint of the remote API.
@@ -392,7 +392,7 @@ class MollieApiClient
      * @param string $apiMethod
      * @param string|null|resource|StreamInterface $httpBody
      *
-     * @return object
+     * @return \stdClass
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -414,7 +414,7 @@ class MollieApiClient
      * @param string $url
      * @param string|null|resource|StreamInterface $httpBody
      *
-     * @return object|null
+     * @return \stdClass|null
      * @throws ApiException
      *
      * @codeCoverageIgnore
@@ -460,7 +460,7 @@ class MollieApiClient
      * Parse the PSR-7 Response body
      *
      * @param ResponseInterface $response
-     * @return object|null
+     * @return \stdClass|null   
      * @throws ApiException
      */
     private function parseResponseBody(ResponseInterface $response)
