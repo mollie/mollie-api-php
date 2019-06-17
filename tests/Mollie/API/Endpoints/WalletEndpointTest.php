@@ -42,11 +42,6 @@ class WalletEndpointTest extends BaseEndpointTest
 
         $response = $this->apiClient->wallets->requestApplePayPaymentSession($domain, $validationUrl);
 
-        $this->assertEquals(
-            json_encode(json_decode($responseBody)),
-            $response
-        );
-
         $this->assertJsonStringEqualsJsonString(
             $responseBody,
             $response
