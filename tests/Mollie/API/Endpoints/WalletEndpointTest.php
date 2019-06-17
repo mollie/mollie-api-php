@@ -46,5 +46,10 @@ class WalletEndpointTest extends BaseEndpointTest
             json_encode(json_decode($responseBody)),
             $response
         );
+
+        $this->assertJsonStringEqualsJsonString(
+            $responseBody,
+            $response
+        );
     }
 }
