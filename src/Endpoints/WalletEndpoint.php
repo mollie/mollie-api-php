@@ -18,12 +18,15 @@ class WalletEndpoint extends EndpointAbstract
 
     public function requestApplePayPaymentSession($domain, $validationUrl)
     {
+        $body = $this->parseRequestBody([
+            'domain'=> $domain,
+            'validationUrl' => $validationUrl,
+        ]);
+
         $response = $this->client->performHttpCall(
             self::REST_CREATE,
             'wallets/applepay/sessions',
-            $this->parseRequestBody([
-
-            ])
+            $body
         );
 
         return json_encode($response);
