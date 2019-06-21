@@ -27,7 +27,7 @@ class WalletEndpointTest extends BaseEndpointTest
                 [],
                 '{
                     "domain": "pay.mywebshop.com",
-                    "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+                    "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession"
                 }'
             ),
             new Response(
