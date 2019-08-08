@@ -26,8 +26,8 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                       "currency":"EUR"
                     },
                     "description": "My first API payment",
-                    "redirectUrl": "https://example.org/redirect",
-                    "webhookUrl": "https://example.org/webhook",
+                    "redirectUrl": "http://example.org/examples/payment/03-return-page.php?order_id=1234",
+                    "webhookUrl": "http://example.org/examples/payment/02-webhook-verification.php",
                     "metadata": {
                         "order_id": "1234"
                     }
@@ -48,7 +48,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                    "description":"My first API payment",
                    "method":null,
                    "metadata":{  
-                      "order_id":1234
+                      "order_id":"1234"
                    },
                    "status":"open",
                    "isCancelable":false,
@@ -88,8 +88,8 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                 "value" => "20.00"
             ],
             "description" => "My first API payment",
-            "redirectUrl" => "https://example.org/redirect",
-            "webhookUrl" => "https://example.org/webhook",
+            "redirectUrl" => "http://example.org/examples/payment/03-return-page.php?order_id=1234",
+            "webhookUrl" => "http://example.org/examples/payment/02-webhook-verification.php",
             "metadata" => [
                 "order_id" => "1234",
             ],

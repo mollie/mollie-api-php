@@ -19,7 +19,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
                 "/v2/payments/tr_44aKxzEbr8/refunds/re_PsAvxvLsnm"
             ),
             new Response(
-                201,
+                200,
                 [],
                 '{
                    "resource":"refund",
@@ -46,7 +46,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
                          "type":"application/hal+json"
                       },
                       "documentation":{
-                         "href":"https://docs.mollie.com/reference/v2/refunds-api/create-refund",
+                         "href":"https://docs.mollie.com/reference/v2/refunds-api/get-refund",
                          "type":"text/html"
                       }
                    }
@@ -80,7 +80,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($paymentLink, $refund->_links->payment);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/refunds-api/create-refund", "type" => "text/html"];
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/refunds-api/get-refund", "type" => "text/html"];
         $this->assertEquals($documentationLink, $refund->_links->documentation);
     }
 
