@@ -59,7 +59,7 @@ class RefundEndpointTest extends BaseEndpointTest
                       "type": "text/html"
                     },
                     "self": {
-                      "href": "http://api.mollie.nl/v2/payments/tr_44aKxzEbr8/refunds?limit=10",
+                      "href": "http://api.mollie.nl/v2/refunds?limit=10",
                       "type": "application/hal+json"
                     },
                     "previous": null,
