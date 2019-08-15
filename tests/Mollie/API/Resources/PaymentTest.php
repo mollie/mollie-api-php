@@ -104,7 +104,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasRefunds());
     }
 
-    public function testHasChargedbacksReturnsTrueWhenPaymentHasChargebacks()
+    public function testHasChargebacksReturnsTrueWhenPaymentHasChargebacks()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
@@ -114,7 +114,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasChargebacks());
     }
 
-    public function testHasChargedbacksReturnsFalseWhenPaymentHasNoChargebacks()
+    public function testHasChargebacksReturnsFalseWhenPaymentHasNoChargebacks()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 

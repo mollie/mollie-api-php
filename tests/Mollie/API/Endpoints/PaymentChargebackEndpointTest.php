@@ -238,8 +238,8 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
            "countryCode":"NL",
            "profileId":"pfl_2A1gacu42V",
            "sequenceType":"oneoff",
-           "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
-           "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
+           "redirectUrl":"https://example.org/redirect",
+           "webhookUrl":"https://example.org/webhook",
            "settlementAmount":{
               "value":"20.00",
               "currency":"EUR"

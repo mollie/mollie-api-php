@@ -47,7 +47,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "description":"My first API payment",
                    "method":null,
                    "metadata":{  
-                      "order_id":1234
+                      "order_id":"1234"
                    },
                    "status":"open",
                    "isCancelable":false,
@@ -55,8 +55,8 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "details":null,
                    "profileId":"pfl_2A1gacu42V",
                    "sequenceType":"oneoff",
-                   "redirectUrl":"http://example.org/examples/payment/03-return-page.php?order_id=1234",
-                   "webhookUrl":"http://example.org/examples/payment/02-webhook-verification.php",
+                   "redirectUrl":"https://example.org/redirect",
+                   "webhookUrl":"https://example.org/webhook",
                    "_links":{  
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
@@ -107,8 +107,8 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertNull($payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
         $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
-        $this->assertEquals("http://example.org/examples/payment/03-return-page.php?order_id=1234", $payment->redirectUrl);
-        $this->assertEquals("http://example.org/examples/payment/02-webhook-verification.php", $payment->webhookUrl);
+        $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
+        $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $payment->_links->self);
@@ -144,7 +144,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "description":"My first API payment",
                    "method":"ideal",
                    "metadata":{  
-                      "order_id":1234
+                      "order_id":"1234"
                    },
                    "status":"paid",
                    "paidAt":"2018-03-19T12:18:35+00:00",
@@ -165,8 +165,8 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "countryCode":"NL",
                    "profileId":"pfl_2A1gacu42V",
                    "sequenceType":"oneoff",
-                   "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
-                   "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
+                   "redirectUrl":"https://example.org/redirect",
+                   "webhookUrl":"https://example.org/webhook",
                    "settlementAmount":{  
                       "value":"20.00",
                       "currency":"EUR"
@@ -221,8 +221,8 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals($details, $payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
         $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
-        $this->assertEquals("http://example.org/examples/03-return-page.php?order_id=1234", $payment->redirectUrl);
-        $this->assertEquals("http://example.org/examples/02-webhook-verification.php", $payment->webhookUrl);
+        $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
+        $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $payment->_links->self);
