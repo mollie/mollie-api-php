@@ -29,6 +29,7 @@ use Mollie\Api\Endpoints\RefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Psr\Http\Message\ResponseInterface;
@@ -235,6 +236,13 @@ class MollieApiClient
     public $orderRefunds;
 
     /**
+     * Manages Wallet requests
+     *
+     * @var WalletEndpoint
+     */
+    public $wallets;
+
+    /**
      * @var string
      */
     protected $apiKey;
@@ -304,6 +312,7 @@ class MollieApiClient
         $this->paymentCaptures = new PaymentCaptureEndpoint($this);
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
+        $this->wallets = new WalletEndpoint($this);
     }
 
     /**
