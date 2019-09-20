@@ -549,4 +549,26 @@ class Payment extends BaseResource
             new Refund($this->client)
         );
     }
+
+    public function update()
+    {
+        if (!isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $body = json_encode([
+            "description" => $this->description,
+            "redirectUrl" => $this->redirectUrl,
+            "webhookUrl" => $this->webhookUrl,
+            "metadata" => $this->metadata,
+        ]);
+
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_PATCH,
+            $this->_links->self->href,
+            $body
+        );
+
+        return ResourceFactory::createFromApiResult($result, new Payment($this->client));
+    }
 }
