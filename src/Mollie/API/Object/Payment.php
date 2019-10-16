@@ -223,6 +223,13 @@ class Mollie_API_Object_Payment
 	public $mandateId;
 
 	/**
+	 * The URL the customer will be redirected to after the payment process.
+	 *
+	 * @var string|null
+	 */
+	public $redirectUrl;
+	
+	/**
 	 * The identifier referring to the settlement this payment was settled with.
 	 *
 	 * @example stl_BkEjN2eBb
