@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Mollie\API\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
