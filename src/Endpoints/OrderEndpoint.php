@@ -60,7 +60,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * Will throw a ApiException if the order id is invalid or the resource cannot
      * be found.
      *
-     * @param string $paymentId
+     * @param string $orderId
      * @param array $parameters
      * @return Order
      * @throws ApiException

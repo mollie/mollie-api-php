@@ -159,6 +159,13 @@ class Order extends BaseResource
     public $_links;
 
     /**
+     * TODO Add description for $_embedded.
+     *
+     * @var \stdClass
+     */
+    public $_embedded;
+
+    /**
      * Is this order created?
      *
      * @return bool
@@ -274,7 +281,7 @@ class Order extends BaseResource
      * @return null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelLines(array $data)
+    public function cancelLines($data)
     {
         return $this->client->orderLines->cancelFor($this, $data);
     }
@@ -439,7 +446,7 @@ class Order extends BaseResource
     /**
      * Create a new payment for this Order.
      *
-     * @param $data
+     * @param array $data
      * @param array $filters
      * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException

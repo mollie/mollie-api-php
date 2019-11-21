@@ -71,7 +71,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      *
      * @return \Mollie\Api\Resources\BaseCollection
      */
-    public function all(array $parameters = [])
+    public function all($parameters = [])
     {
         return $this->page( null, null, $parameters);
     }

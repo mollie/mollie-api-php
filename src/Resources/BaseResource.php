@@ -12,7 +12,7 @@ abstract class BaseResource
     protected $client;
 
     /**
-     * @param $client
+     * @param MollieApiClient $client
      */
     public function __construct(MollieApiClient $client)
     {

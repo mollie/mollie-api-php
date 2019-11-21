@@ -6,6 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
 abstract class EndpointAbstract
@@ -165,6 +166,17 @@ abstract class EndpointAbstract
      * @return BaseResource
      */
     abstract protected function getResourceObject();
+
+    /**
+     * Get the collection object that is used by this API endpoint. Every API
+     * endpoint uses one type of collection object.
+     *
+     * @param int $count
+     * @param \stdClass $_links
+     *
+     * @return CursorCollection
+     */
+    abstract protected function getResourceCollectionObject($count, $_links);
 
     /**
      * @param string $resourcePath

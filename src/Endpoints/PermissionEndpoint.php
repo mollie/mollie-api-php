@@ -32,7 +32,7 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PermissionCollection($this->client, $count, $_links);
+        return new PermissionCollection($count, $_links);
     }
 
     /**

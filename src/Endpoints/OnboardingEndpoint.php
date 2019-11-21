@@ -22,6 +22,20 @@ class OnboardingEndpoint extends EndpointAbstract
     }
 
     /**
+     * Get the collection object that is used by this API endpoint. Every API
+     * endpoint uses one type of collection object.
+     *
+     * @param int $count
+     * @param \stdClass $_links
+     *
+     * @return void
+     */
+    protected function getResourceCollectionObject($count, $_links)
+    {
+        // Not used
+    }
+
+    /**
      * Retrieve the organization's onboarding status from Mollie.
      *
      * Will throw a ApiException if the resource cannot be found.

@@ -145,7 +145,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return bool
      */
     public function hasLink($key)
@@ -154,7 +154,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return mixed|null
      */
     public function getLink($key)
@@ -166,7 +166,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return null
      */
     public function getUrl($key)
@@ -178,7 +178,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $response
+     * @param object $response
      * @return mixed
      * @throws \Mollie\Api\Exceptions\ApiException
      */
