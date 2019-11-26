@@ -85,7 +85,7 @@ class Method extends BaseResource
     {
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
-            $this->pricing,
+            $this->pricing ?: [],
             MethodPrice::class
         );
     }
