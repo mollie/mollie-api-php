@@ -71,7 +71,7 @@ class Method extends BaseResource
     {
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
-            $this->issuers,
+            $this->issuers ?: [],
             Issuer::class
         );
     }
