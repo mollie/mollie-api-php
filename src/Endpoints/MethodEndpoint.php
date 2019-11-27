@@ -63,8 +63,8 @@ class MethodEndpoint extends CollectionEndpointAbstract
 
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
-            $result->_embedded->methods,
             Method::class,
+            $result->_embedded->methods,
             $result->_links
         );
     }
