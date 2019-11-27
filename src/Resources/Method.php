@@ -69,7 +69,10 @@ class Method extends BaseResource
      */
     public function issuers()
     {
-        return ResourceFactory::createBaseResourceCollection($this->client, Issuer::class, $this->issuers
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            Issuer::class,
+            $this->issuers
         );
     }
 
@@ -80,7 +83,10 @@ class Method extends BaseResource
      */
     public function pricing()
     {
-        return ResourceFactory::createBaseResourceCollection($this->client, MethodPrice::class, $this->pricing
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            MethodPrice::class,
+            $this->pricing
         );
     }
 }
