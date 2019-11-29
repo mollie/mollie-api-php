@@ -300,7 +300,11 @@ class Order extends BaseResource
      */
     public function lines()
     {
-        return ResourceFactory::createBaseResourceCollection($this->client, $this->lines, OrderLine::class);
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            OrderLine::class,
+            $this->lines
+        );
     }
 
     /**
