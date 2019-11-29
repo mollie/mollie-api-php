@@ -36,7 +36,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new ShipmentCollection($this->client, $count, $_links);
+        return new ShipmentCollection($count, $_links);
     }
 
     /**

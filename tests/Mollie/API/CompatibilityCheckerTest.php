@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Mollie\Api;
 
-use Mollie\Api\CompatibilityChecker;
+use \Mollie\Api\CompatibilityChecker;
 
 class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 {

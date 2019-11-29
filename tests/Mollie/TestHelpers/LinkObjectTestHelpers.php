@@ -6,7 +6,7 @@ trait LinkObjectTestHelpers
 {
     protected function assertLinkObject($href, $type, $linkObject)
     {
-        return $this->assertEquals(
+        $this->assertEquals(
             $this->createLinkObject($href, $type),
             $linkObject
         );

@@ -159,6 +159,11 @@ class Order extends BaseResource
     public $_links;
 
     /**
+     * @var \stdClass
+     */
+    public $_embedded;
+
+    /**
      * Is this order created?
      *
      * @return bool
