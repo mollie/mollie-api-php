@@ -56,7 +56,6 @@
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
-    "phpstan/phpstan": "^0.11.19",
     "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1"
   },
   "suggest": {

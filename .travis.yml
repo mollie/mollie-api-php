@@ -12,7 +12,9 @@ matrix:
     - php: 7.1
     - php: 7.2
     - php: 7.3
-      env: PHPSTAN=1
+      env:
+        - COMPOSER_NO_INTERACTION=1
+        - PHPSTAN=0.11.19
     - php: nightly
 
 sudo: false
@@ -28,7 +30,7 @@ install:
   - travis_retry composer install --no-scripts --no-suggest
 
 before_script:
-  - test -z "${PHPSTAN}" || vendor/bin/phpstan analyse -c phpstan.neon --no-progress
+  - test -z "${PHPSTAN}" || (composer require phpstan/phpstan="${PHPSTAN}" && vendor/bin/phpstan analyse -c phpstan.neon --no-progress)
 
 script:
   - composer validate --strict
