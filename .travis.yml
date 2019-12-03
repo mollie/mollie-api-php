@@ -2,43 +2,51 @@ language: php
 
 dist: xenial
 
+sudo: false
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.4snapshot
+  - nightly
+
+env:
+  - COMPOSER_NO_INTERACTION=1
+
 matrix:
-  fast_finish: true
-  allow_failures:
-  - php: nightly
   include:
-    - php: 5.6
-    - php: 7.0
-    - php: 7.1
-    - php: 7.2
     - php: 7.3
       env:
         - COMPOSER_NO_INTERACTION=1
-        - PHPSTAN=0.11.19
+        - PHPSTAN_VERSION=0.11.19
+  fast_finish: true
+  allow_failures:
+    - php: 7.4snapshot
     - php: nightly
-
-sudo: false
 
 cache:
   directories:
     - "$HOME/.composer/cache"
 
-env:
-  - COMPOSER_NO_INTERACTION=1
-
 install:
   - travis_retry composer install --no-scripts --no-suggest
 
 before_script:
-  - test -z "${PHPSTAN}" || (composer require phpstan/phpstan="${PHPSTAN}" && vendor/bin/phpstan analyse -c phpstan.neon --no-progress)
+  - |
+    if [ -n "${PHPSTAN_VERSION}" ]; then
+        composer require "phpstan/phpstan:${PHPSTAN_VERSION}"
+        vendor/bin/phpstan analyse --no-progress
+    fi
 
 script:
   - composer validate --strict
-  - find src examples tests -name '*.php' | xargs -n 1 -P4 php -l
+  - find src/ examples/ tests/ -type f -name '*.php' -print0 | xargs -0 -L 1 -P 4 php -l
   - vendor/bin/phpunit
 
 before_deploy:
-  - sed -i "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" src/MollieApiClient.php
+  - sed -e "/const CLIENT_VERSION/c\\    const CLIENT_VERSION = '${TRAVIS_TAG:1}';" -i src/MollieApiClient.php
   - make mollie-api-php.zip
 
 deploy:
