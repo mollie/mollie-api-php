@@ -114,6 +114,7 @@ class Subscription extends BaseResource
             "webhookUrl" => $this->webhookUrl,
             "description" => $this->description,
             "mandateId" => $this->mandateId,
+            "interval" => $this->interval,
         ]);
 
         $result = $this->client->performHttpCallToFullUrl(
