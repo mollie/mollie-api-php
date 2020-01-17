@@ -110,7 +110,7 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param null $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MandateCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
