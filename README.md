@@ -169,8 +169,7 @@ A short way of retrieving this URL can be achieved by using the `$payment->getCh
 ### Refunding payments ###
 
 The API also supports refunding payments. Note that there is no confirmation and that all refunds are immediate and
-definitive. Refunds are only supported for iDEAL, credit card, Bancontact, SOFORT Banking, PayPal, Belfius Direct Net, KBC/CBC, 
-ING Home'Pay and bank transfer payments. Other types of payments cannot be refunded through our API at the moment.
+definitive. refunds are supported for all methods except for paysafecard and gift cards.
 
 ```php
 $payment = $mollie->payments->get($payment->id);
