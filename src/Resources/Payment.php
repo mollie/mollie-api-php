@@ -568,6 +568,7 @@ class Payment extends BaseResource
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
+            "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
         ]);
 
         $result = $this->client->performHttpCallToFullUrl(
