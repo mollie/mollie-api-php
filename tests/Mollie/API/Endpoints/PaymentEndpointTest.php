@@ -134,6 +134,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                     "description":"Order #98765",
                     "redirectUrl":"https://example.org/webshop/order/98765/",
                     "webhookUrl":"https://example.org/webshop/payments/webhook/",
+                    "restrictPaymentMethodsToCountry": null,
                     "metadata":{
                         "order_id":"98765"
                     }
