@@ -210,6 +210,13 @@ class Payment extends BaseResource
     public $details;
 
     /**
+     * Used to restrict the payment methods available to your customer to those from a single country.
+     *
+     * @var string|null;
+     */
+    public $restrictPaymentMethodsToCountry;
+
+    /**
      * @var \stdClass
      */
     public $_links;
@@ -561,6 +568,7 @@ class Payment extends BaseResource
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
+            "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
         ]);
 
         $result = $this->client->performHttpCallToFullUrl(
