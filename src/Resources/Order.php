@@ -322,7 +322,7 @@ class Order extends BaseResource
      */
     public function createShipment(array $options = [])
     {
-        return $this->client->shipments->createFor($this, $options);
+        return $this->client->shipments->createFor($this, $this->withPresetOptions($options));
     }
 
     /**
@@ -348,7 +348,7 @@ class Order extends BaseResource
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
-        return $this->client->shipments->getFor($this, $shipmentId, $parameters);
+        return $this->client->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
     }
 
     /**
@@ -360,7 +360,7 @@ class Order extends BaseResource
      */
     public function shipments(array $parameters = [])
     {
-        return $this->client->shipments->listFor($this, $parameters);
+        return $this->client->shipments->listFor($this, $this->withPresetOptions($parameters));
     }
 
     /**
