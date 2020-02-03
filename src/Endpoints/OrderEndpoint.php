@@ -85,12 +85,13 @@ class OrderEndpoint extends CollectionEndpointAbstract
      *
      * @param string $orderId
      *
+     * @param array $parameters
      * @return Order
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel($orderId)
+    public function cancel($orderId, $parameters = [])
     {
-        return $this->rest_delete($orderId);
+        return $this->rest_delete($orderId, $parameters);
     }
 
     /**

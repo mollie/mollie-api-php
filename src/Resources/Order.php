@@ -266,7 +266,7 @@ class Order extends BaseResource
      */
     public function cancel()
     {
-        return $this->client->orders->cancel($this->id);
+        return $this->client->orders->cancel($this->id, $this->getPresetOptions());
     }
 
     /**
@@ -475,5 +475,20 @@ class Order extends BaseResource
             $this->_embedded->payments,
             Payment::class
         );
+    }
+
+    /**
+     * When accessed by oAuth we want to pass the testmode by default
+     *
+     * @return array
+     */
+    private function getPresetOptions()
+    {
+        $options = [];
+        if($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode === "test" ? true : false;
+        }
+
+        return $options;
     }
 }
