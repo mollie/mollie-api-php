@@ -440,7 +440,7 @@ class Payment extends BaseResource
      */
     public function getRefund($refundId, array $parameters = [])
     {
-        return $this->client->paymentRefunds->getFor($this, $refundId, $parameters);
+        return $this->client->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
     }
 
     /**
@@ -540,6 +540,7 @@ class Payment extends BaseResource
     {
         $resource = "payments/" . urlencode($this->id) . "/refunds";
 
+        $data = $this->withPresetOptions($data);
         $body = null;
         if (count($data) > 0) {
             $body = json_encode($data);
