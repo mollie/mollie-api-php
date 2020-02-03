@@ -385,7 +385,7 @@ class Order extends BaseResource
      */
     public function refund(array $data)
     {
-        return $this->client->orderRefunds->createFor($this, $data);
+        return $this->client->orderRefunds->createFor($this, $this->withPresetOptions($data));
     }
 
     /**
@@ -397,6 +397,7 @@ class Order extends BaseResource
     public function refundAll(array $data = [])
     {
         $data['lines'] = [];
+
         return $this->refund($data);
     }
 
@@ -490,5 +491,16 @@ class Order extends BaseResource
         }
 
         return $options;
+    }
+
+    /**
+     * Apply the preset options.
+     *
+     * @param array $options
+     * @return array
+     */
+    private function withPresetOptions(array $options)
+    {
+        return array_merge($this->getPresetOptions(), $options);
     }
 }
