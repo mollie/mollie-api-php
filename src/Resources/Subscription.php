@@ -209,4 +209,23 @@ class Subscription extends BaseResource
 
         return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }
+
+    public function payments()
+    {
+        if (!isset($this->_links->payments->href)) {
+            return new PaymentCollection($this->client, 0, null);
+        }
+
+        $result = $this->client->performHttpCallToFullUrl(
+            MollieApiClient::HTTP_GET,
+            $this->_links->payments->href
+        );
+
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->payments,
+            Payment::class,
+            $result->_links
+        );
+    }
 }
