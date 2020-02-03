@@ -758,11 +758,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      }
                }'
             ),
-            new Response(
-                200,
-                [],
-                $this->getOrderResponseFixture('ord_pbjz8x')
-            )
+            new Response(200, [], $this->getOrderResponseFixture('ord_pbjz8x'))
         );
 
         $orderLine = new OrderLine($this->apiClient);
@@ -773,22 +769,10 @@ class OrderEndpointTest extends BaseEndpointTest
         $orderLine->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/71043_alt1?$main$';
         $orderLine->quantity = 2;
         $orderLine->vatRate = '21.00';
-        $orderLine->unitPrice = (object) [
-            'currency' => 'EUR',
-            'value' => '349.00',
-        ];
-        $orderLine->totalAmount = (object) [
-            'currency' => 'EUR',
-            'value' => '598.00',
-        ];
-        $orderLine->discountAmount = (object) [
-            'currency' => 'EUR',
-            'value' => '100.00',
-        ];
-        $orderLine->vatAmount = (object) [
-            'currency' => 'EUR',
-            'value' => '103.79',
-        ];
+        $orderLine->unitPrice = (object) ['currency' => 'EUR','value' => '349.00'];
+        $orderLine->totalAmount = (object) ['currency' => 'EUR','value' => '598.00'];
+        $orderLine->discountAmount = (object) ['currency' => 'EUR','value' => '100.00'];
+        $orderLine->vatAmount = (object) ['currency' => 'EUR','value' => '103.79'];
 
         $result = $orderLine->update();
 
