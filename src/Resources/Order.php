@@ -266,7 +266,7 @@ class Order extends BaseResource
      */
     public function cancel()
     {
-        return $this->client->orders->cancel($this->id);
+        return $this->client->orders->cancel($this->id, $this->getPresetOptions());
     }
 
     /**
@@ -322,7 +322,7 @@ class Order extends BaseResource
      */
     public function createShipment(array $options = [])
     {
-        return $this->client->shipments->createFor($this, $options);
+        return $this->client->shipments->createFor($this, $this->withPresetOptions($options));
     }
 
     /**
@@ -348,7 +348,7 @@ class Order extends BaseResource
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
-        return $this->client->shipments->getFor($this, $shipmentId, $parameters);
+        return $this->client->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
     }
 
     /**
@@ -360,7 +360,7 @@ class Order extends BaseResource
      */
     public function shipments(array $parameters = [])
     {
-        return $this->client->shipments->listFor($this, $parameters);
+        return $this->client->shipments->listFor($this, $this->withPresetOptions($parameters));
     }
 
     /**
@@ -385,7 +385,7 @@ class Order extends BaseResource
      */
     public function refund(array $data)
     {
-        return $this->client->orderRefunds->createFor($this, $data);
+        return $this->client->orderRefunds->createFor($this, $this->withPresetOptions($data));
     }
 
     /**
@@ -397,6 +397,7 @@ class Order extends BaseResource
     public function refundAll(array $data = [])
     {
         $data['lines'] = [];
+
         return $this->refund($data);
     }
 
@@ -475,5 +476,31 @@ class Order extends BaseResource
             $this->_embedded->payments,
             Payment::class
         );
+    }
+
+    /**
+     * When accessed by oAuth we want to pass the testmode by default
+     *
+     * @return array
+     */
+    private function getPresetOptions()
+    {
+        $options = [];
+        if($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode === "test" ? true : false;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Apply the preset options.
+     *
+     * @param array $options
+     * @return array
+     */
+    private function withPresetOptions(array $options)
+    {
+        return array_merge($this->getPresetOptions(), $options);
     }
 }

@@ -135,6 +135,11 @@ class OrderLine extends BaseResource
     public $createdAt;
 
     /**
+     * @var \stdClass
+     */
+    public $_links;
+
+    /**
      * Is this order line created?
      *
      * @return bool
@@ -275,4 +280,24 @@ class OrderLine extends BaseResource
         return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 
+    public function update()
+    {
+        $body = json_encode(array(
+            "name" => $this->name,
+            'imageUrl' => $this->imageUrl,
+            'productUrl' => $this->productUrl,
+            'quantity' => $this->quantity,
+            'unitPrice' => $this->unitPrice,
+            'discountAmount' => $this->discountAmount,
+            'totalAmount' => $this->totalAmount,
+            'vatAmount' => $this->vatAmount,
+            'vatRate' => $this->vatRate,
+        ));
+
+        $url="orders/{$this->orderId}/lines/{$this->id}";
+
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
 }

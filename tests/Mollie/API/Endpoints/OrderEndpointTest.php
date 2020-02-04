@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
+use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Shipment;
@@ -724,6 +725,58 @@ class OrderEndpointTest extends BaseEndpointTest
         $order = $order->update();
 
         $this->assertOrder($order, "ord_pbjz8x", OrderStatus::STATUS_CREATED, "16738");
+    }
+
+    public function testUpdateOrderLine()
+    {
+        $this->mockApiCall(
+            new Request(
+                "PATCH",
+                "/v2/orders/ord_pbjz8x/lines/odl_dgtxyl",
+                [],
+                '{
+                     "name": "LEGO 71043 Hogwarts™ Castle",
+                     "productUrl": "https://shop.lego.com/en-GB/product/Hogwarts-Castle-71043",
+                     "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image//LEGO/71043_alt1?$main$",
+                     "quantity": 2,
+                     "vatRate": "21.00",
+                     "unitPrice": {
+                        "currency": "EUR",
+                        "value": "349.00"
+                     },
+                     "totalAmount": {
+                        "currency": "EUR",
+                        "value": "598.00"
+                     },
+                     "discountAmount": {
+                        "currency": "EUR",
+                        "value": "100.00"
+                     },
+                     "vatAmount": {
+                        "currency": "EUR",
+                        "value": "103.79"
+                     }
+               }'
+            ),
+            new Response(200, [], $this->getOrderResponseFixture('ord_pbjz8x'))
+        );
+
+        $orderLine = new OrderLine($this->apiClient);
+        $orderLine->id = 'odl_dgtxyl';
+        $orderLine->orderId = 'ord_pbjz8x';
+        $orderLine->name = 'LEGO 71043 Hogwarts™ Castle';
+        $orderLine->productUrl = 'https://shop.lego.com/en-GB/product/Hogwarts-Castle-71043';
+        $orderLine->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/71043_alt1?$main$';
+        $orderLine->quantity = 2;
+        $orderLine->vatRate = '21.00';
+        $orderLine->unitPrice = (object) ['currency' => 'EUR','value' => '349.00'];
+        $orderLine->totalAmount = (object) ['currency' => 'EUR','value' => '598.00'];
+        $orderLine->discountAmount = (object) ['currency' => 'EUR','value' => '100.00'];
+        $orderLine->vatAmount = (object) ['currency' => 'EUR','value' => '103.79'];
+
+        $result = $orderLine->update();
+
+        $this->assertOrder($result, 'ord_pbjz8x');
     }
 
     protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED, $orderNumber = "1337")
