@@ -675,6 +675,20 @@ class Payment extends BaseResource
     }
 
     /**
+     * The amount that has been settled.
+     *
+     * @return float
+     */
+    public function getSettlementAmount()
+    {
+        if ($this->settlementAmount) {
+            return (float)$this->settlementAmount->value;
+        }
+
+        return 0.0;
+    }
+
+    /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
      * 
