@@ -580,15 +580,12 @@ class Payment extends BaseResource
     /**
      * Issue a refund for this payment.
      *
-     * The $data parameter may either be an array of endpoint parameters or empty to
-     * do a full refund.
-     *
-     * @param array|null $data
+     * @param array $data
      *
      * @return BaseResource
      * @throws ApiException
      */
-    public function refund($data = [])
+    public function refund($data)
     {
         $resource = "payments/" . urlencode($this->id) . "/refunds";
 
