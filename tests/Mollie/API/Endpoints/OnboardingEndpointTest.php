@@ -30,7 +30,7 @@ final class OnboardingEndpointTest extends BaseEndpointTest
                       "href": "https://api.mollie.com/v2/onboarding/me",
                       "type": "application/hal+json"
                     },
-                    "onboarding": {
+                    "dashboard": {
                       "href": "https://www.mollie.com/dashboard/onboarding",
                       "type": "text/html"
                     },
@@ -60,8 +60,8 @@ final class OnboardingEndpointTest extends BaseEndpointTest
         $selfLink = (object)['href' => 'https://api.mollie.com/v2/onboarding/me', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $onboarding->_links->self);
 
-        $onboardingLink = (object)['href' => 'https://www.mollie.com/dashboard/onboarding', 'type' => 'text/html'];
-        $this->assertEquals($onboardingLink, $onboarding->_links->onboarding);
+        $dashboardLink = (object)['href' => 'https://www.mollie.com/dashboard/onboarding', 'type' => 'text/html'];
+        $this->assertEquals($dashboardLink, $onboarding->_links->dashboard);
 
         $organizationLink = (object)['href' => 'https://api.mollie.com/v2/organization/org_12345', 'type' => 'application/hal+json'];
         $this->assertEquals($organizationLink, $onboarding->_links->organization);
