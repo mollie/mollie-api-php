@@ -261,7 +261,7 @@ class ProfileEndpointTest extends BaseEndpointTest
                 ''
             ),
             new Response(
-                201,
+                200,
                 [],
                 '{
                     "_embedded": {
