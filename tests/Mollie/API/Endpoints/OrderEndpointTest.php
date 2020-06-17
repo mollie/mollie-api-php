@@ -788,6 +788,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals('live', $order->mode);
         $this->assertEquals('klarnapaylater', $order->method);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $order->createdAt);
+        $this->assertEquals('2018-09-02T09:29:56+00:00', $order->expiresAt);
 
         $this->assertAmountObject('1027.99', 'EUR', $order->amount);
         $this->assertAmountObject('0.00', 'EUR', $order->amountCaptured);
@@ -926,6 +927,7 @@ class OrderEndpointTest extends BaseEndpointTest
              },
              "consumerDateOfBirth": "1958-01-31",
              "createdAt": "2018-08-02T09:29:56+00:00",
+             "expiresAt": "2018-09-02T09:29:56+00:00",
              "mode": "live",
              "billingAddress": {
                  "organizationName": "Organization Name LTD.",

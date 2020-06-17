@@ -145,6 +145,54 @@ class Order extends BaseResource
     public $createdAt;
 
     /**
+     * UTC datetime the order the order will expire in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $expiresAt;
+
+    /**
+     * UTC datetime if the order is expired, the time of expiration will be present in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $expiredAt;
+
+    /**
+     * UTC datetime if the order has been paid, the time of payment will be present in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $paidAt;
+
+    /**
+     * UTC datetime if the order has been authorized, the time of authorization will be present in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $authorizedAt;
+
+    /**
+     * UTC datetime if the order has been canceled, the time of cancellation will be present in ISO 8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $canceledAt;
+
+    /**
+     * UTC datetime if the order is completed, the time of completion will be present in ISO 8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $completedAt;
+
+    /**
      * The order lines contain the actual things the customer bought.
      *
      * @var array|object[]
