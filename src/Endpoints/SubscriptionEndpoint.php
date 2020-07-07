@@ -45,9 +45,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
-        $this->parentId = $customer->id;
-
-        return parent::rest_create($options, $filters);
+        return $this->createForId($customer->id, $options, $filters);
     }
 
     /**
@@ -75,9 +73,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      */
     public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
     {
-        $this->parentId = $customer->id;
-
-        return parent::rest_read($subscriptionId, $parameters);
+        return $this->getForId($customer->id, $subscriptionId, $parameters);
     }
 
     /**
@@ -104,9 +100,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
-        $this->parentId = $customer->id;
-
-        return parent::rest_list($from, $limit, $parameters);
+        return $this->listForId($customer->id, $from, $limit, $parameters);
     }
 
     /**
@@ -134,9 +128,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      */
     public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
     {
-        $this->parentId = $customer->id;
-
-        return parent::rest_delete($subscriptionId, $data);
+        return $this->cancelForId($customer->id, $subscriptionId, $data);
     }
 
     /**
