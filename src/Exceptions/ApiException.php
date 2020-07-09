@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Exceptions;
 
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Throwable;
 
 class ApiException extends \Exception
 {
@@ -11,6 +11,11 @@ class ApiException extends \Exception
      * @var string
      */
     protected $field;
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
      * @var Response
@@ -35,9 +40,8 @@ class ApiException extends \Exception
         $code = 0,
         $field = null,
         Response $response = null,
-        Throwable $previous = null
-    )
-    {
+        $previous = null
+    ) {
         if (!empty($field)) {
             $this->field = (string)$field;
             $message .= ". Field: {$this->field}";
@@ -48,7 +52,7 @@ class ApiException extends \Exception
 
             $object = static::parseResponseBody($this->response);
 
-            if(isset($object->_links)) {
+            if (isset($object->_links)) {
                 foreach ($object->_links as $key => $value) {
                     $this->links[$key] = $value;
                 }
@@ -63,12 +67,12 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param \GuzzleHttp\Exception\RequestException $guzzleException
-     * @param \Throwable $previous
+     * @param \GuzzleHttp\Exception\GuzzleException $guzzleException
+     * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromGuzzleException($guzzleException, Throwable $previous = null)
+    public static function createFromGuzzleException($guzzleException, $previous = null)
     {
         // Not all Guzzle Exceptions implement hasResponse() / getResponse()
         if(method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
@@ -81,12 +85,12 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param Response $response
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromResponse($response, Throwable $previous = null)
+    public static function createFromResponse($response, $previous = null)
     {
         $object = static::parseResponseBody($response);
 
@@ -159,7 +163,7 @@ class ApiException extends \Exception
      */
     public function getLink($key)
     {
-        if($this->hasLink($key)) {
+        if ($this->hasLink($key)) {
             return $this->links[$key];
         }
         return null;
@@ -171,10 +175,29 @@ class ApiException extends \Exception
      */
     public function getUrl($key)
     {
-        if($this->hasLink($key)) {
+        if ($this->hasLink($key)) {
             return $this->getLink($key)->href;
         }
         return null;
+    }
+
+    /**
+     * @param $request
+     * @return $this
+     */
+    public function withRequest($request)
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     /**
