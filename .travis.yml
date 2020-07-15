@@ -21,11 +21,11 @@ matrix:
     - php: 7.3
       env:
         - COMPOSER_NO_INTERACTION=1
-        - PHPSTAN_VERSION=0.11.19
+        - PHPSTAN_VERSION=0.12.32
     - php: 7.4
       env:
         - COMPOSER_NO_INTERACTION=1
-        - PHPSTAN_VERSION=0.11.19
+        - PHPSTAN_VERSION=0.12.32
   fast_finish: true
   allow_failures:
     - php: nightly
