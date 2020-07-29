@@ -14,6 +14,6 @@ parameters:
         	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::VERSION./'
         	path: src/MollieApiClient.php
 
-		-
+        -
         	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::MAJOR_VERSION./'
         	path: src/MollieApiClient.php
