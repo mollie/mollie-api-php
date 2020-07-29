@@ -11,9 +11,9 @@ parameters:
             path: src/Endpoints/EndpointAbstract.php
 
         -
-        	message: "Access to undefined constant GuzzleHttp\\ClientInterface::VERSION."
+        	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::VERSION./'
         	path: src/MollieApiClient.php
 
 		-
-			message: "Access to undefined constant GuzzleHttp\\ClientInterface::MAJOR_VERSION."
-			path: src/MollieApiClient.php
+        	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::MAJOR_VERSION./'
+        	path: src/MollieApiClient.php
