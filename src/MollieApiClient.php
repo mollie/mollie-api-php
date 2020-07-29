@@ -284,7 +284,12 @@ class MollieApiClient
 
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+
+        if(defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
+            $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
+        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
+            $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+        }
     }
 
     public function initializeEndpoints()

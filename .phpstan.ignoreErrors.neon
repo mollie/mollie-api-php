@@ -9,3 +9,8 @@ parameters:
             message: "#^Call to an undefined method Mollie\\\\Api\\\\Endpoints\\\\EndpointAbstract\\:\\:getResourceCollectionObject\\(\\)\\.$#"
             count: 1
             path: src/Endpoints/EndpointAbstract.php
+
+        -
+        	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::/'
+        	path: src/MollieApiClient.php
+        	count: 1
