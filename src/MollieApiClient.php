@@ -286,10 +286,8 @@ class MollieApiClient
         $this->addVersionString("PHP/" . phpversion());
 
         if(defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
-            /** @phpstan-ignore-next-line */
             $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
         } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
-            /** @phpstan-ignore-next-line */
             $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
         }
     }
