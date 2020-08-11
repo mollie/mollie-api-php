@@ -294,6 +294,7 @@ class OrderLine extends BaseResource
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
+            'metadata' => $this->metadata,
             'quantity' => $this->quantity,
             'unitPrice' => $this->unitPrice,
             'discountAmount' => $this->discountAmount,

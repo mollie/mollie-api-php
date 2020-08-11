@@ -487,6 +487,8 @@ class Order extends BaseResource
             "billingAddress" => $this->billingAddress,
             "shippingAddress" => $this->shippingAddress,
             "orderNumber" => $this->orderNumber,
+            "redirectUrl" => $this->redirectUrl,
+            "webhookUrl" => $this->webhookUrl,
         ));
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);

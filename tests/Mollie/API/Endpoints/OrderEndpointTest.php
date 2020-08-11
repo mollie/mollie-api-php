@@ -693,7 +693,9 @@ class OrderEndpointTest extends BaseEndpointTest
                          "familyName": "Skywalker",
                          "email": "luke@skywalker.com"
                      },
-                     "orderNumber": "16738"
+                     "orderNumber": "16738",
+                     "redirectUrl": "https://example.org/updated-redirect",
+                     "webhookUrl": "https://example.org/updated-webhook"
                  }'
             ),
             new Response(
@@ -722,6 +724,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $order->billingAddress->email = "piet@mondriaan.com";
         $order->billingAddress->phone = "+31208202070";
         $order->orderNumber = "16738";
+        $order->redirectUrl = "https://example.org/updated-redirect";
+        $order->webhookUrl = "https://example.org/updated-webhook";
         $order = $order->update();
 
         $this->assertOrder($order, "ord_pbjz8x", OrderStatus::STATUS_CREATED, "16738");
@@ -755,6 +759,9 @@ class OrderEndpointTest extends BaseEndpointTest
                      "vatAmount": {
                         "currency": "EUR",
                         "value": "103.79"
+                     },
+                     "metadata": {
+                        "foo": "bar"
                      }
                }'
             ),
@@ -773,6 +780,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $orderLine->totalAmount = (object) ['currency' => 'EUR','value' => '598.00'];
         $orderLine->discountAmount = (object) ['currency' => 'EUR','value' => '100.00'];
         $orderLine->vatAmount = (object) ['currency' => 'EUR','value' => '103.79'];
+        $orderLine->metadata = (object) ['foo' => 'bar'];
 
         $result = $orderLine->update();
 
