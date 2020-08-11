@@ -759,6 +759,9 @@ class OrderEndpointTest extends BaseEndpointTest
                      "vatAmount": {
                         "currency": "EUR",
                         "value": "103.79"
+                     },
+                     "metadata": {
+                        "foo": "bar"
                      }
                }'
             ),
@@ -777,6 +780,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $orderLine->totalAmount = (object) ['currency' => 'EUR','value' => '598.00'];
         $orderLine->discountAmount = (object) ['currency' => 'EUR','value' => '100.00'];
         $orderLine->vatAmount = (object) ['currency' => 'EUR','value' => '103.79'];
+        $orderLine->metadata = (object) ['foo' => 'bar'];
 
         $result = $orderLine->update();
 
