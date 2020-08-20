@@ -56,9 +56,9 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: oXVzXjLkVfr7+5leMbIHQnLDg1o9/ldG6qdJ/GtwumZJYiit9h7VBYpxRvQGgXUESzhDlBf2jCLKxqxW+P2/PwG738/rSJVjLvbtbyFRz+pvk4o8rm3U7IKRv87BFhIvhaO9HcgvmyHbPMzGKRdAsWYWGQf/dg9N77xeDZ9++80=
+    secure: E35J+mojZ/LCTLf4tsRrlq3vEwovRplq+Wcrzsb0m+lgtM1B8X4UAkv7aELiRcwBVg1pxyc6uVmpJBCS9MjoY6lmJwL4aN0R40pLak6FrFK25QelXquoUZgkiH0eKWz6AwxShKYqO4kcW7ZVKNwFYujf507AhGm7ytn8ZOiM+Tc=
   file: mollie-api-php.zip
   skip_cleanup: true
   on:
     tags: true
-    php: 7.2
+    php: 7.4
