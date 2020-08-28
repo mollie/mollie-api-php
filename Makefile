@@ -6,9 +6,11 @@ mollie-api-php.zip: php-scoper.phar
 	rm -rf build/*
 
 	#
-	# First, install all dependencies. Then prefix everything with humbug/php-scoper. Finally, we should dump the
-	# autoloader again to update the autoloader with the new classnames.
+	# First, revert to Guzzle 6 and install all dependencies. Then prefix everything
+	# with humbug/php-scoper. Finally, we should dump the autoloader again to update
+	# the autoloader with the new classnames.
 	#
+	sed -i.bak 's/guzzle": "^6.3 || ^7.0"/guzzle": "^6.3"/g' composer.json
 	composer install --no-dev --no-scripts --no-suggest
 	php php-scoper.phar add-prefix --force
 	composer dump-autoload --working-dir build --classmap-authoritative
@@ -18,7 +20,7 @@ mollie-api-php.zip: php-scoper.phar
 	# filename. Flip them around.
 	#
 	mv build/vendor/autoload.php build/vendor/composer-autoload.php
-	sed -i 's/autoload.php/composer-autoload.php/g' build/vendor/scoper-autoload.php
+	sed -i.bak 's/autoload.php/composer-autoload.php/g' build/vendor/scoper-autoload.php
 	mv build/vendor/scoper-autoload.php build/vendor/autoload.php
 
 	#
