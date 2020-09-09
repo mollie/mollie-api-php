@@ -1,15 +1,7 @@
 parameters:
     ignoreErrors:
         -
-            message: '/Undefined variable: \$mollie/'
-            paths:
-                - %currentWorkingDirectory%/examples
-        -
-            message: '/Function database_(write|read) not found/'
-            paths:
-                - %currentWorkingDirectory%/examples
-        -
-            message: '/Function printOrders not found/'
+            message: '/Variable \$mollie might not be defined./'
             paths:
                 - %currentWorkingDirectory%/examples
 
@@ -17,3 +9,8 @@ parameters:
             message: "#^Call to an undefined method Mollie\\\\Api\\\\Endpoints\\\\EndpointAbstract\\:\\:getResourceCollectionObject\\(\\)\\.$#"
             count: 1
             path: src/Endpoints/EndpointAbstract.php
+
+        -
+        	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::/'
+        	path: src/MollieApiClient.php
+        	count: 1

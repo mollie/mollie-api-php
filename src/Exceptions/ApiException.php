@@ -81,7 +81,7 @@ class ApiException extends \Exception
             }
         }
 
-        return new static($guzzleException->getMessage(), $guzzleException->getCode(), null, $previous);
+        return new self($guzzleException->getMessage(), $guzzleException->getCode(), null, $previous);
     }
 
     /**
@@ -99,7 +99,7 @@ class ApiException extends \Exception
             $field = $object->field;
         }
 
-        return new static(
+        return new self(
             "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
             $response->getStatusCode(),
             $field,
@@ -212,7 +212,7 @@ class ApiException extends \Exception
         $object = @json_decode($body);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new static("Unable to decode Mollie response: '{$body}'.");
+            throw new self("Unable to decode Mollie response: '{$body}'.");
         }
 
         return $object;

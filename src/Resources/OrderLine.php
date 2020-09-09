@@ -125,6 +125,14 @@ class OrderLine extends BaseResource
      * @var string|null
      */
     public $productUrl;
+    
+    /**
+     * During creation of the order you can set custom metadata on order lines that is stored with
+     * the order, and given back whenever you retrieve that order line.
+     *
+     * @var \stdClass|mixed|null
+     */
+    public $metadata;
 
     /**
      * The order line's date and time of creation, in ISO 8601 format.
@@ -286,6 +294,7 @@ class OrderLine extends BaseResource
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
+            'metadata' => $this->metadata,
             'quantity' => $this->quantity,
             'unitPrice' => $this->unitPrice,
             'discountAmount' => $this->discountAmount,

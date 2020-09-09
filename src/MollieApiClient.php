@@ -40,7 +40,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.16.0";
+    const CLIENT_VERSION = "2.22.3";
 
     /**
      * Endpoint of the remote API.
@@ -284,7 +284,12 @@ class MollieApiClient
 
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
-        $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+
+        if(defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
+            $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
+        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
+            $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+        }
     }
 
     public function initializeEndpoints()
@@ -469,7 +474,7 @@ class MollieApiClient
      * Parse the PSR-7 Response body
      *
      * @param ResponseInterface $response
-     * @return \stdClass|null   
+     * @return \stdClass|null
      * @throws ApiException
      */
     private function parseResponseBody(ResponseInterface $response)
