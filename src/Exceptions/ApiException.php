@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Exceptions;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class ApiException extends \Exception
 {
@@ -13,12 +13,12 @@ class ApiException extends \Exception
     protected $field;
 
     /**
-     * @var Request
+     * @var RequestInterface
      */
     protected $request;
 
     /**
-     * @var Response
+     * @var ResponseInterface
      */
     protected $response;
 
@@ -31,7 +31,7 @@ class ApiException extends \Exception
      * @param string $message
      * @param int $code
      * @param string|null $field
-     * @param \GuzzleHttp\Psr7\Response|null $response
+     * @param ResponseInterface|null $response
      * @param \Throwable|null $previous
      * @throws \Mollie\Api\Exceptions\ApiException
      */
@@ -39,7 +39,7 @@ class ApiException extends \Exception
         $message = "",
         $code = 0,
         $field = null,
-        Response $response = null,
+        ResponseInterface $response = null,
         $previous = null
     ) {
         if (!empty($field)) {
@@ -85,7 +85,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param Response $response
+     * @param ResponseInterface $response
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -133,7 +133,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return Response|null
+     * @return ResponseInterface|null
      */
     public function getResponse()
     {
@@ -182,7 +182,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $request
+     * @param RequestInterface $request
      * @return $this
      */
     public function withRequest($request)
@@ -201,7 +201,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param $response
+     * @param ResponseInterface $response
      * @return mixed
      * @throws \Mollie\Api\Exceptions\ApiException
      */
