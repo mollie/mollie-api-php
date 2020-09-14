@@ -39,6 +39,7 @@ class ApiException extends \Exception
      * @param string $message
      * @param int $code
      * @param string|null $field
+     * @param \Psr\Http\Message\RequestInterface|null $request
      * @param ResponseInterface|null $response
      * @param \Throwable|null $previous
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -47,10 +48,12 @@ class ApiException extends \Exception
         $message = "",
         $code = 0,
         $field = null,
+        RequestInterface $request = null,
         ResponseInterface $response = null,
         $previous = null
     ) {
         $this->raisedAt = (new DateTime)->format(DateTime::ISO8601);
+        $message = "[{$this->raisedAt}] " . $message;
 
         if (!empty($field)) {
             $this->field = (string)$field;
@@ -73,34 +76,47 @@ class ApiException extends \Exception
             $message .= ". Documentation: {$this->getDocumentationUrl()}";
         }
 
+        $this->request = $request;
+        $requestBody = $this->getRequestBody();
+
+        if ($requestBody) {
+            $message .= ". \nRequest body: " . $requestBody;
+        }
+
         parent::__construct($message, $code, $previous);
     }
 
     /**
      * @param \GuzzleHttp\Exception\GuzzleException $guzzleException
+     * @param \Psr\Http\Message\RequestInterface|null $request
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromGuzzleException($guzzleException, $previous = null)
+    public static function createFromGuzzleException(
+        $guzzleException,
+        RequestInterface $request = null,
+        $previous = null
+    )
     {
         // Not all Guzzle Exceptions implement hasResponse() / getResponse()
         if(method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
             if($guzzleException->hasResponse()) {
-                return static::createFromResponse($guzzleException->getResponse());
+                return static::createFromResponse($guzzleException->getResponse(), $request, $previous);
             }
         }
 
-        return new self($guzzleException->getMessage(), $guzzleException->getCode(), null, $previous);
+        return new self($guzzleException->getMessage(), $guzzleException->getCode(), null, $request, null, $previous);
     }
 
     /**
      * @param ResponseInterface $response
+     * @param \Psr\Http\Message\RequestInterface $request
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromResponse($response, $previous = null)
+    public static function createFromResponse(ResponseInterface $response, RequestInterface $request = null, $previous = null)
     {
         $object = static::parseResponseBody($response);
 
@@ -113,6 +129,7 @@ class ApiException extends \Exception
             "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
             $response->getStatusCode(),
             $field,
+            $request,
             $response,
             $previous
         );

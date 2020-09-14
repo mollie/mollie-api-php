@@ -128,8 +128,8 @@ class ApiExceptionTest extends TestCase
             $response
         );
 
-        $exception = ApiException::createFromGuzzleException($guzzleException);
-        $exception->withRequest($request);
+        $exception = ApiException::createFromGuzzleException($guzzleException, $request);
+        //$exception->withRequest($request);
 
         $this->assertEquals('{ "foo": "bar" }', $exception->getRequestBody());
     }
