@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Exceptions;
 
+use DateTime;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -23,6 +24,13 @@ class ApiException extends \Exception
     protected $response;
 
     /**
+     * ISO8601 representation of the moment this exception was thrown
+     *
+     * @var string
+     */
+    protected $raisedAt;
+
+    /**
      * @var array
      */
     protected $links = [];
@@ -42,6 +50,8 @@ class ApiException extends \Exception
         ResponseInterface $response = null,
         $previous = null
     ) {
+        $this->raisedAt = (new DateTime)->format(DateTime::ISO8601);
+
         if (!empty($field)) {
             $this->field = (string)$field;
             $message .= ". Field: {$this->field}";
@@ -198,6 +208,28 @@ class ApiException extends \Exception
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRequestBody()
+    {
+        if ($this->request) {
+            return (string) $this->request->getBody();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the ISO8601 representation of the moment this exception was thrown
+     *
+     * @return string
+     */
+    public function getRaisedAt()
+    {
+        return $this->raisedAt;
     }
 
     /**

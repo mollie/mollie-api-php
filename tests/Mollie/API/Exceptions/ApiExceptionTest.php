@@ -39,7 +39,9 @@ class ApiExceptionTest extends TestCase
             'Something went wrong...',
             new Request(
                 'POST',
-                'https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact'
+                'https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact',
+                [],
+                '{ "foo": "bar" }'
             ),
             $response
         );
@@ -85,5 +87,50 @@ class ApiExceptionTest extends TestCase
 
         $this->assertNull($exception->getLink('foo'));
         $this->assertNull($exception->getUrl('foo'));
+
+        $this->assertNotNull($exception->getRaisedAt());
+
+        $this->assertNull($exception->getRequestBody());
+    }
+
+    public function testCanGetRequestBodyIfRequestIsSet()
+    {
+        $response = new Response(
+            422,
+            [],
+            '{
+                    "status": 422,
+                    "title": "Unprocessable Entity",
+                    "detail": "Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.",
+                    "_links": {
+                         "dashboard": {
+                                "href": "https://www.mollie.com/dashboard/settings/profiles/pfl_v9hTwCvYqw/payment-methods",
+                                "type": "text/html"
+                         },
+                         "documentation": {
+                                "href": "https://docs.mollie.com/guides/handling-errors",
+                                "type": "text/html"
+                         }
+                    }
+                }'
+        );
+
+        $request = new Request(
+            'POST',
+            'https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact',
+            [],
+            '{ "foo": "bar" }'
+        );
+
+        $guzzleException = new RequestException(
+            'Something went wrong...',
+            $request,
+            $response
+        );
+
+        $exception = ApiException::createFromGuzzleException($guzzleException);
+        $exception->withRequest($request);
+
+        $this->assertEquals('{ "foo": "bar" }', $exception->getRequestBody());
     }
 }
