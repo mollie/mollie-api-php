@@ -460,11 +460,11 @@ class MollieApiClient
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
-            throw ApiException::createFromGuzzleException($e);
+            throw ApiException::createFromGuzzleException($e, $request);
         }
 
         if (!$response) {
-            throw new ApiException("Did not receive API response.");
+            throw new ApiException("Did not receive API response.", 0, null, $request);
         }
 
         return $this->parseResponseBody($response);
@@ -495,7 +495,7 @@ class MollieApiClient
         }
 
         if ($response->getStatusCode() >= 400) {
-            throw ApiException::createFromResponse($response);
+            throw ApiException::createFromResponse($response, null);
         }
 
         return $object;
