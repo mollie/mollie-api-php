@@ -26,7 +26,7 @@ class ApiException extends \Exception
     /**
      * ISO8601 representation of the moment this exception was thrown
      *
-     * @var string
+     * @var \DateTimeImmutable
      */
     protected $raisedAt;
 
@@ -39,7 +39,7 @@ class ApiException extends \Exception
      * @param string $message
      * @param int $code
      * @param string|null $field
-     * @param \Psr\Http\Message\RequestInterface|null $request
+     * @param RequestInterface|null $request
      * @param ResponseInterface|null $response
      * @param \Throwable|null $previous
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -52,8 +52,10 @@ class ApiException extends \Exception
         ResponseInterface $response = null,
         $previous = null
     ) {
-        $this->raisedAt = (new DateTime)->format(DateTime::ISO8601);
-        $message = "[{$this->raisedAt}] " . $message;
+        $this->raisedAt = new \DateTimeImmutable();
+
+        $formattedRaisedAt = $this->raisedAt->format(DateTime::ISO8601);
+        $message = "[{$formattedRaisedAt}] " . $message;
 
         if (!empty($field)) {
             $this->field = (string)$field;
@@ -77,10 +79,12 @@ class ApiException extends \Exception
         }
 
         $this->request = $request;
-        $requestBody = $this->getRequestBody();
+        if ($request) {
+            $requestBody = $request->getBody()->__toString();
 
-        if ($requestBody) {
-            $message .= ". \nRequest body: " . $requestBody;
+            if ($requestBody) {
+                $message .= ". Request body: {$requestBody}";
+            }
         }
 
         parent::__construct($message, $code, $previous);
@@ -88,14 +92,14 @@ class ApiException extends \Exception
 
     /**
      * @param \GuzzleHttp\Exception\GuzzleException $guzzleException
-     * @param \Psr\Http\Message\RequestInterface|null $request
+     * @param RequestInterface|null $request
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public static function createFromGuzzleException(
         $guzzleException,
-        RequestInterface $request = null,
+        $request = null,
         $previous = null
     )
     {
@@ -111,7 +115,7 @@ class ApiException extends \Exception
 
     /**
      * @param ResponseInterface $response
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param RequestInterface $request
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -209,18 +213,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param RequestInterface $request
-     * @return $this
-     */
-    public function withRequest($request)
-    {
-        $this->request = $request;
-
-        return $this;
-    }
-
-    /**
-     * @return \GuzzleHttp\Psr7\Request
+     * @return RequestInterface
      */
     public function getRequest()
     {
@@ -228,21 +221,9 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return string|null
-     */
-    public function getRequestBody()
-    {
-        if ($this->request) {
-            return (string) $this->request->getBody();
-        }
-
-        return null;
-    }
-
-    /**
      * Get the ISO8601 representation of the moment this exception was thrown
      *
-     * @return string
+     * @return \DateTimeImmutable
      */
     public function getRaisedAt()
     {

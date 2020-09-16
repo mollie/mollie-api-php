@@ -88,9 +88,9 @@ class ApiExceptionTest extends TestCase
         $this->assertNull($exception->getLink('foo'));
         $this->assertNull($exception->getUrl('foo'));
 
-        $this->assertNotNull($exception->getRaisedAt());
+        $this->assertInstanceOf(\DateTimeInterface::class, $exception->getRaisedAt());
 
-        $this->assertNull($exception->getRequestBody());
+        $this->assertNull($exception->getRequest());
     }
 
     public function testCanGetRequestBodyIfRequestIsSet()
@@ -98,7 +98,7 @@ class ApiExceptionTest extends TestCase
         $response = new Response(
             422,
             [],
-            '{
+            /** @lang JSON */'{
                     "status": 422,
                     "title": "Unprocessable Entity",
                     "detail": "Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.",
@@ -119,7 +119,7 @@ class ApiExceptionTest extends TestCase
             'POST',
             'https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact',
             [],
-            '{ "foo": "bar" }'
+            /** @lang JSON */'{ "foo": "bar" }'
         );
 
         $guzzleException = new RequestException(
@@ -129,8 +129,8 @@ class ApiExceptionTest extends TestCase
         );
 
         $exception = ApiException::createFromGuzzleException($guzzleException, $request);
-        //$exception->withRequest($request);
 
-        $this->assertEquals('{ "foo": "bar" }', $exception->getRequestBody());
+        $this->assertJsonStringEqualsJsonString(/** @lang JSON */'{ "foo": "bar" }', $exception->getRequest()->getBody()->__toString());
+        $this->assertStringEndsWith('Error executing API call (422: Unprocessable Entity): Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.. Documentation: https://docs.mollie.com/guides/handling-errors. Request body: { "foo": "bar" }', $exception->getMessage());
     }
 }
