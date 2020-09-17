@@ -78,7 +78,7 @@ class SettlementPaymentsEndpointTest extends BaseEndpointTest
         $settlement = new Settlement($this->apiClient);
         $settlement->id = 'stl_jDk30akdN';
 
-        $payments = $settlement->payments(null, 5, ['foo' => 'bar']);
+        $payments = $settlement->payments(5, ['foo' => 'bar']);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertCount(1, $payments);

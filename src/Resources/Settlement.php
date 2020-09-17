@@ -119,15 +119,14 @@ class Settlement extends BaseResource
     /**
      * Retrieves all payments associated with this settlement
      *
-     * @param null $from
      * @param null $limit
      * @param array $parameters
      * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function payments($from = null, $limit = null, array $parameters = [])
+    public function payments($limit = null, array $parameters = [])
     {
-        return $this->client->settlementPayments->pageForId($this->id, $from, $limit, $parameters);
+        return $this->client->settlementPayments->pageForId($this->id, null, $limit, $parameters);
     }
 
     /**
