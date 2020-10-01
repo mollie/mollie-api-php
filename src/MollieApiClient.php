@@ -469,7 +469,19 @@ class MollieApiClient
         $request = new Request($httpMethod, $url, $headers, $httpBody);
 
         try {
-            $response = $this->httpClient->send($request, ['http_errors' => false]);
+            $response = $this->httpClient->send($request, [
+                'http_errors' => false,
+                'curl' => [
+                    /*
+                     * Keep DNS lookups to Mollie in memory for a bit longer than the default of 120 seconds. This is
+                     * cached in the global cURL DNS cache which is used in CLI scripts and for example Apache-prefork
+                     * environments over requests.
+                     *
+                     * Mollie uses a 3600 second TTL for DNS records. Be careful not to exceed that.
+                     */
+                    CURLOPT_DNS_CACHE_TIMEOUT => 900,
+                ]
+            ]);
         } catch (GuzzleException $e) {
             throw ApiException::createFromGuzzleException($e, $request);
         }
