@@ -8,7 +8,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Guzzle\RetryMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
 
