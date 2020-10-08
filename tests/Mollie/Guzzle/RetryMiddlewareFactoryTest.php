@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Guzzle;
+namespace Tests\Mollie\Guzzle;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -8,6 +8,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Guzzle\RetryMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +37,6 @@ class RetryMiddlewareFactoryTest extends TestCase
     public function testRetryLimit()
     {
         $middlewareFactory = new RetryMiddlewareFactory;
-        $finalException = new ConnectException("Error 6", new Request('GET', 'test'));
 
         $mock = new MockHandler(
             array(
@@ -45,7 +45,7 @@ class RetryMiddlewareFactoryTest extends TestCase
                 new ConnectException("Error 3", new Request('GET', 'test')),
                 new ConnectException("Error 4", new Request('GET', 'test')),
                 new ConnectException("Error 5", new Request('GET', 'test')),
-                $finalException,
+                new ConnectException("Error 6", new Request('GET', 'test')),
             )
         );
 
@@ -53,7 +53,8 @@ class RetryMiddlewareFactoryTest extends TestCase
         $handler->push($middlewareFactory->retry(false));
         $client = new Client([ 'handler' => $handler ]);
 
-        $this->expectExceptionObject($finalException);
+        $this->expectException(ConnectException::class);
+        $this->expectExceptionMessage("Error 6");
 
         $client->request( 'GET', '/' )->getStatusCode();
     }
