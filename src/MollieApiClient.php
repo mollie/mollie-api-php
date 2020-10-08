@@ -2,10 +2,13 @@
 
 namespace Mollie\Api;
 
+use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
@@ -33,6 +36,7 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\Guzzle\RetryMiddlewareFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -70,6 +74,16 @@ class MollieApiClient
      * Default response timeout (in seconds).
      */
     const TIMEOUT = 10;
+
+    /**
+     * Default connect timeout (in seconds).
+     */
+    const CONNECT_TIMEOUT = 2;
+
+    /**
+     * Default read timeout (in seconds).
+     */
+    const READ_TIMEOUT = 10;
 
     /**
      * @var ClientInterface
@@ -280,12 +294,21 @@ class MollieApiClient
      */
     public function __construct(ClientInterface $httpClient = null)
     {
-        $this->httpClient = $httpClient ?
-            $httpClient :
-            new Client([
-                \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath(),
-                \GuzzleHttp\RequestOptions::TIMEOUT => self::TIMEOUT,
+        $this->httpClient = $httpClient;
+
+        if(! $this->httpClient) {
+            $retryMiddlewareFactory = new RetryMiddlewareFactory;
+            $handlerStack = HandlerStack::create();
+            $handlerStack->push($retryMiddlewareFactory->retry());
+
+            $this->httpClient = new Client([
+                GuzzleRequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
+                GuzzleRequestOptions::TIMEOUT => self::TIMEOUT,
+                GuzzleRequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
+                GuzzleRequestOptions::READ_TIMEOUT => self::READ_TIMEOUT,
+                'handler' => $handlerStack,
             ]);
+        }
 
         $compatibilityChecker = new CompatibilityChecker();
         $compatibilityChecker->checkCompatibility();
