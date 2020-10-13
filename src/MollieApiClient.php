@@ -81,11 +81,6 @@ class MollieApiClient
     const CONNECT_TIMEOUT = 2;
 
     /**
-     * Default read timeout (in seconds).
-     */
-    const READ_TIMEOUT = 10;
-
-    /**
      * @var ClientInterface
      */
     protected $httpClient;
@@ -305,7 +300,6 @@ class MollieApiClient
                 GuzzleRequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
                 GuzzleRequestOptions::TIMEOUT => self::TIMEOUT,
                 GuzzleRequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
-                GuzzleRequestOptions::READ_TIMEOUT => self::READ_TIMEOUT,
                 'handler' => $handlerStack,
             ]);
         }
