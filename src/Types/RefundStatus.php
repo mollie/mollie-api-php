@@ -23,4 +23,9 @@ class RefundStatus
      * The refund amount has been transferred to the consumer.
      */
     const STATUS_REFUNDED = 'refunded';
+
+    /**
+     * The refund has failed after processing. For example, the customer has closed his / her bank account. The funds will be returned to your account.
+     */
+    const STATUS_FAILED = 'failed';
 }
