@@ -7,15 +7,16 @@
     "service",
     "ideal",
     "creditcard",
+    "apple pay",
     "mistercash",
     "bancontact",
     "sofort",
     "sofortbanking",
     "sepa",
-    "bitcoin",
     "paypal",
     "paysafecard",
     "podiumcadeaukaart",
+    "przelewy24",
     "banktransfer",
     "direct debit",
     "belfius",
@@ -51,7 +52,7 @@
     "ext-json": "*",
     "ext-openssl": "*",
     "composer/ca-bundle": "^1.1",
-    "guzzlehttp/guzzle": "^6.3"
+    "guzzlehttp/guzzle": "^6.3 || ^7.0"
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
@@ -70,7 +71,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests"
+      "Tests\\": "tests/",
+      "Tests\\Mollie\\Api\\": "tests/Mollie/API/"
     }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit tests"
   }
 }

@@ -41,7 +41,7 @@ class Customer extends BaseResource
     public $locale;
 
     /**
-     * @var object|mixed|null
+     * @var \stdClass|mixed|null
      */
     public $metadata;
 
@@ -56,7 +56,7 @@ class Customer extends BaseResource
     public $createdAt;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 
@@ -89,7 +89,7 @@ class Customer extends BaseResource
      */
     public function createPayment(array $options = [], array $filters = [])
     {
-        return $this->client->customerPayments->createFor($this, $options, $filters);
+        return $this->client->customerPayments->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
@@ -110,7 +110,7 @@ class Customer extends BaseResource
      */
     public function createSubscription(array $options = [], array $filters = [])
     {
-        return $this->client->subscriptions->createFor($this, $options, $filters);
+        return $this->client->subscriptions->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
@@ -121,7 +121,7 @@ class Customer extends BaseResource
      */
     public function getSubscription($subscriptionId, array $parameters = [])
     {
-        return $this->client->subscriptions->getFor($this, $subscriptionId, $parameters);
+        return $this->client->subscriptions->getFor($this, $subscriptionId, $this->withPresetOptions($parameters));
     }
 
     /**
@@ -152,7 +152,7 @@ class Customer extends BaseResource
      */
     public function createMandate(array $options = [], array $filters = [])
     {
-        return $this->client->mandates->createFor($this, $options, $filters);
+        return $this->client->mandates->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
@@ -193,9 +193,26 @@ class Customer extends BaseResource
      */
     public function hasValidMandate()
     {
-        $mandates = $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
+        $mandates = $this->mandates();
         foreach ($mandates as $mandate) {
             if ($mandate->isValid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper function to check for specific payment method mandate with status valid
+     *
+     * @return bool
+     */
+    public function hasValidMandateForMethod($method)
+    {
+        $mandates = $this->mandates();
+        foreach ($mandates as $mandate) {
+            if ($mandate->method === $method && $mandate->isValid()) {
                 return true;
             }
         }
@@ -216,5 +233,16 @@ class Customer extends BaseResource
         }
 
         return $options;
+    }
+
+    /**
+     * Apply the preset options.
+     *
+     * @param array $options
+     * @return array
+     */
+    private function withPresetOptions(array $options)
+    {
+        return array_merge($this->getPresetOptions(), $options);
     }
 }

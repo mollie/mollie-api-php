@@ -14,7 +14,7 @@ abstract class CursorCollection extends BaseCollection
     /**
      * @param MollieApiClient $client
      * @param int $count
-     * @param object[] $_links
+     * @param \stdClass $_links
      */
     final public function __construct(MollieApiClient $client, $count, $_links)
     {
@@ -32,10 +32,11 @@ abstract class CursorCollection extends BaseCollection
      * Return the next set of resources when available
      *
      * @return CursorCollection|null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function next()
     {
-        if (!isset($this->_links->next->href)) {
+        if (!$this->hasNext()) {
             return null;
         }
 
@@ -54,10 +55,11 @@ abstract class CursorCollection extends BaseCollection
      * Return the previous set of resources when available
      *
      * @return CursorCollection|null
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function previous()
     {
-        if (!isset($this->_links->previous->href)) {
+        if (! $this->hasPrevious()) {
             return null;
         }
 
@@ -70,5 +72,25 @@ abstract class CursorCollection extends BaseCollection
         }
 
         return $collection;
+    }
+
+    /**
+     * Determine whether the collection has a next page available.
+     *
+     * @return bool
+     */
+    public function hasNext()
+    {
+        return isset($this->_links->next->href);
+    }
+
+    /**
+     * Determine whether the collection has a previous page available.
+     *
+     * @return bool
+     */
+    public function hasPrevious()
+    {
+        return isset($this->_links->previous->href);
     }
 }

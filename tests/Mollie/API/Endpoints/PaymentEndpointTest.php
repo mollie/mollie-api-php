@@ -9,9 +9,12 @@ use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 use stdClass;
+use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
 class PaymentEndpointTest extends BaseEndpointTest
 {
+    use LinkObjectTestHelpers;
+
     public function testCreatePayment()
     {
         $this->mockApiCall(
@@ -47,7 +50,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "description":"My first API payment",
                    "method":null,
                    "metadata":{  
-                      "order_id":1234
+                      "order_id":"1234"
                    },
                    "status":"open",
                    "isCancelable":false,
@@ -55,8 +58,8 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "details":null,
                    "profileId":"pfl_2A1gacu42V",
                    "sequenceType":"oneoff",
-                   "redirectUrl":"http://example.org/examples/payment/03-return-page.php?order_id=1234",
-                   "webhookUrl":"http://example.org/examples/payment/02-webhook-verification.php",
+                   "redirectUrl":"https://example.org/redirect",
+                   "webhookUrl":"https://example.org/webhook",
                    "_links":{  
                       "self":{  
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
@@ -107,8 +110,8 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertNull($payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
         $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
-        $this->assertEquals("http://example.org/examples/payment/03-return-page.php?order_id=1234", $payment->redirectUrl);
-        $this->assertEquals("http://example.org/examples/payment/02-webhook-verification.php", $payment->webhookUrl);
+        $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
+        $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $payment->_links->self);
@@ -118,6 +121,113 @@ class PaymentEndpointTest extends BaseEndpointTest
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/payments-api/create-payment", "type" => "text/html"];
         $this->assertEquals($documentationLink, $payment->_links->documentation);
+    }
+
+    public function testUpdatePayment()
+    {
+        $this->mockApiCall(
+            new Request(
+                "PATCH",
+                "/v2/payments/tr_7UhSN1zuXS",
+                [],
+                '{
+                    "description":"Order #98765",
+                    "redirectUrl":"https://example.org/webshop/order/98765/",
+                    "webhookUrl":"https://example.org/webshop/payments/webhook/",
+                    "restrictPaymentMethodsToCountry": null,
+                    "metadata":{
+                        "order_id":"98765"
+                    }
+                }'
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                   "resource": "payment",
+                   "id": "tr_7UhSN1zuXS",
+                   "mode": "test",
+                   "createdAt": "2018-03-20T09:13:37+00:00",
+                   "amount": {
+                       "value": "10.00",
+                       "currency": "EUR"
+                   },
+                   "description": "Order #98765",
+                   "method": null,
+                   "metadata": {
+                       "order_id": "98765"
+                   },
+                   "status": "open",
+                   "isCancelable": false,
+                   "expiresAt": "2018-03-20T09:28:37+00:00",
+                   "details": null,
+                   "profileId": "pfl_QkEhN94Ba",
+                   "sequenceType": "oneoff",
+                   "redirectUrl": "https://example.org/webshop/order/98765/",
+                   "webhookUrl": "https://example.org/webshop/payments/webhook/",
+                   "_links": {
+                       "self": {
+                           "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS",
+                           "type": "application/json"
+                       },
+                       "checkout": {
+                           "href": "https://www.mollie.com/payscreen/select-method/7UhSN1zuXS",
+                           "type": "text/html"
+                       },
+                       "documentation": {
+                           "href": "https://docs.mollie.com/reference/v2/payments-api/update-payment",
+                           "type": "text/html"
+                       }
+                   }
+               }'
+            )
+        );
+
+        // Get Payment stub
+        $payment = new Payment($this->apiClient);
+        $payment->id = "tr_7UhSN1zuXS";
+        $payment->_links = $this->createNamedLinkObject(
+            "self",
+            "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS",
+            "application/json"
+        );
+
+        // Modify fields
+        $payment->description = "Order #98765";
+        $payment->redirectUrl = "https://example.org/webshop/order/98765/";
+        $payment->webhookUrl = "https://example.org/webshop/payments/webhook/";
+        $payment->metadata = ["order_id" => "98765"];
+
+        $payment = $payment->update();
+
+        $this->assertEquals("payment", $payment->resource);
+        $this->assertEquals("tr_7UhSN1zuXS", $payment->id);
+
+        $this->assertEquals("Order #98765", $payment->description);
+        $this->assertEquals("https://example.org/webshop/order/98765/", $payment->redirectUrl);
+        $this->assertEquals("https://example.org/webshop/payments/webhook/", $payment->webhookUrl);
+        $this->assertEquals((object) ["order_id" => "98765"], $payment->metadata);
+        $this->assertEquals("oneoff", $payment->sequenceType);
+        $this->assertEquals("pfl_QkEhN94Ba", $payment->profileId);
+        $this->assertNull($payment->details);
+
+        $this->assertLinkObject(
+            "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS",
+            "application/json",
+            $payment->_links->self
+        );
+
+        $this->assertLinkObject(
+            "https://www.mollie.com/payscreen/select-method/7UhSN1zuXS",
+            "text/html",
+            $payment->_links->checkout
+        );
+
+        $this->assertLinkObject(
+            "https://docs.mollie.com/reference/v2/payments-api/update-payment",
+            "text/html",
+            $payment->_links->documentation
+        );
     }
 
     public function testGetPayment()
@@ -144,7 +254,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "description":"My first API payment",
                    "method":"ideal",
                    "metadata":{  
-                      "order_id":1234
+                      "order_id":"1234"
                    },
                    "status":"paid",
                    "paidAt":"2018-03-19T12:18:35+00:00",
@@ -165,8 +275,8 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "countryCode":"NL",
                    "profileId":"pfl_2A1gacu42V",
                    "sequenceType":"oneoff",
-                   "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
-                   "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
+                   "redirectUrl":"https://example.org/redirect",
+                   "webhookUrl":"https://example.org/webhook",
                    "settlementAmount":{  
                       "value":"20.00",
                       "currency":"EUR"
@@ -221,8 +331,8 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals($details, $payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
         $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
-        $this->assertEquals("http://example.org/examples/03-return-page.php?order_id=1234", $payment->redirectUrl);
-        $this->assertEquals("http://example.org/examples/02-webhook-verification.php", $payment->webhookUrl);
+        $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
+        $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
         $this->assertEquals($selfLink, $payment->_links->self);

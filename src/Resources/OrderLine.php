@@ -70,21 +70,21 @@ class OrderLine extends BaseResource
     /**
      * The price of a single item in the order line.
      *
-     * @var object
+     * @var \stdClass
      */
     public $unitPrice;
 
     /**
      * Any discounts applied to the order line.
      *
-     * @var object|null
+     * @var \stdClass|null
      */
     public $discountAmount;
 
     /**
      * The total amount of the line, including VAT and discounts.
      *
-     * @var object
+     * @var \stdClass
      */
     public $totalAmount;
 
@@ -101,7 +101,7 @@ class OrderLine extends BaseResource
     /**
      * The amount of value-added tax on the line.
      *
-     * @var object
+     * @var \stdClass
      */
     public $vatAmount;
 
@@ -125,6 +125,14 @@ class OrderLine extends BaseResource
      * @var string|null
      */
     public $productUrl;
+    
+    /**
+     * During creation of the order you can set custom metadata on order lines that is stored with
+     * the order, and given back whenever you retrieve that order line.
+     *
+     * @var \stdClass|mixed|null
+     */
+    public $metadata;
 
     /**
      * The order line's date and time of creation, in ISO 8601 format.
@@ -133,6 +141,11 @@ class OrderLine extends BaseResource
      * @var string
      */
     public $createdAt;
+
+    /**
+     * @var \stdClass
+     */
+    public $_links;
 
     /**
      * Is this order line created?
@@ -175,7 +188,8 @@ class OrderLine extends BaseResource
     }
 
     /**
-     * Is this order line refunded?
+     * (Deprecated) Is this order line refunded?
+     * @deprecated 2018-11-27
      *
      * @return bool
      */
@@ -274,4 +288,25 @@ class OrderLine extends BaseResource
         return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 
+    public function update()
+    {
+        $body = json_encode(array(
+            "name" => $this->name,
+            'imageUrl' => $this->imageUrl,
+            'productUrl' => $this->productUrl,
+            'metadata' => $this->metadata,
+            'quantity' => $this->quantity,
+            'unitPrice' => $this->unitPrice,
+            'discountAmount' => $this->discountAmount,
+            'totalAmount' => $this->totalAmount,
+            'vatAmount' => $this->vatAmount,
+            'vatRate' => $this->vatRate,
+        ));
+
+        $url="orders/{$this->orderId}/lines/{$this->id}";
+
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
 }

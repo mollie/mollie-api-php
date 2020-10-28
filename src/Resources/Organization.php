@@ -19,9 +19,23 @@ class Organization extends BaseResource
     public $name;
 
     /**
+     * The email address of the organization.
+     *
+     * @var string
+     */
+    public $email;
+
+    /**
+     * The preferred locale of the merchant which has been set in Mollie Dashboard.
+     *
+     * @var string
+     */
+    public $locale;
+
+    /**
      * The address of the organization.
      *
-     * @var object
+     * @var \stdClass
      */
     public $address;
 
@@ -42,7 +56,7 @@ class Organization extends BaseResource
     public $vatNumber;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 }

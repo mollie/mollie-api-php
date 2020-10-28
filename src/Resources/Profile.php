@@ -58,7 +58,7 @@ class Profile extends BaseResource
     public $status;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $review;
 
@@ -71,7 +71,7 @@ class Profile extends BaseResource
     public $createdAt;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 
@@ -101,6 +101,7 @@ class Profile extends BaseResource
 
     /**
      * @return Profile
+     * @throws ApiException
      */
     public function update()
     {
@@ -136,12 +137,12 @@ class Profile extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
 
-        $resourceCollection = new ChargebackCollection($this->client, $result->count, $result->_links);
-        foreach ($result->_embedded->chargebacks as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Chargeback($this->client));
-        }
-
-        return $resourceCollection;
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->chargebacks,
+            Chargeback::class,
+            $result->_links
+        );
     }
 
     /**
@@ -158,12 +159,38 @@ class Profile extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href);
 
-        $resourceCollection = new MethodCollection($result->count, $result->_links);
-        foreach ($result->_embedded->methods as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Method($this->client));
-        }
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->methods,
+            Method::class,
+            $result->_links
+        );
+    }
 
-        return $resourceCollection;
+    /**
+     * Enable a payment method for this profile.
+     *
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws ApiException
+     */
+    public function enableMethod($methodId, array $data = [])
+    {
+        return $this->client->profileMethods->createFor($this, $methodId, $data);
+    }
+
+    /**
+     * Disable a payment method for this profile.
+     *
+     * @param string $methodId
+     * @param array $data
+     * @return Method
+     * @throws ApiException
+     */
+    public function disableMethod($methodId, array $data = [])
+    {
+        return $this->client->profileMethods->deleteFor($this, $methodId, $data);
     }
 
     /**
@@ -180,12 +207,12 @@ class Profile extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
 
-        $resourceCollection = new PaymentCollection($this->client, $result->count, $result->_links);
-        foreach ($result->_embedded->payments as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Payment($this->client));
-        }
-
-        return $resourceCollection;
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->methods,
+            Method::class,
+            $result->_links
+        );
     }
 
     /**
@@ -202,11 +229,11 @@ class Profile extends BaseResource
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
 
-        $resourceCollection = new RefundCollection($this->client, $result->count, $result->_links);
-        foreach ($result->_embedded->refunds as $dataResult) {
-            $resourceCollection[] = ResourceFactory::createFromApiResult($dataResult, new Refund($this->client));
-        }
-
-        return $resourceCollection;
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $result->_embedded->refunds,
+            Refund::class,
+            $result->_links
+        );
     }
 }

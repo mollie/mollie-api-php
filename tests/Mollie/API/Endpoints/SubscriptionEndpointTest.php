@@ -422,6 +422,71 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals($expectedAmountObject, $updatedSubscription->amount);
     }
 
+    public function testListPageOfRootSubscriptionsWorks()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/subscriptions'),
+            new Response(
+                200,
+                [],
+                '{
+                    "_embedded": {
+                        "subscriptions": [{
+                            "resource": "subscription",
+                            "id": "sub_wByQa6efm6",
+                            "mode": "test",
+                            "createdAt": "2018-04-24T11:41:55+00:00",
+                            "status": "active",
+                            "amount": {
+                                "value": "10.00",
+                                "currency": "EUR"
+                            },
+                            "description": "Order 1234",
+                            "method": null,
+                            "times": null,
+                            "interval": "1 month",
+                            "startDate": "2018-04-24",
+                            "webhookUrl": null,
+                            "_links": {
+                                "self": {
+                                    "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6",
+                                    "type": "application/hal+json"
+                                },
+                                "customer": {
+                                    "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
+                                    "type": "application/hal+json"
+                                }
+                            }
+                        }]
+                    },
+                    "count": 1,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "https://api.mollie.com/v2/subscriptions?limit=50",
+                            "type": "application/hal+json"
+                        },
+                        "previous": null,
+                        "next": null
+                    }
+                }'
+            )
+        );
+
+        $subscriptions = $this->apiClient->subscriptions->page();
+
+        $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
+        $this->assertCount(1, $subscriptions);
+        $subscription = $subscriptions[0];
+
+        $this->assertEquals('subscription', $subscription->resource);
+        $this->assertEquals('sub_wByQa6efm6', $subscription->id);
+        // No need to test all attributes here ...
+    }
+
     /**
      * @return Subscription
      */

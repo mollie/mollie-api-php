@@ -10,7 +10,7 @@ use Mollie\Api\Resources\Payment;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
-class ChargebackEndpointTest extends BaseEndpointTest
+class PaymentChargebackEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
@@ -64,7 +64,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
                                "currency":"EUR"
                             },
                             "createdAt":"2018-03-28T11:44:32+00:00",
-                            "paymentId":"tr_nQKWJbDj7j",
+                            "paymentId":"tr_44aKxzEbr8",
                             "settlementAmount":{
                                "value":"-0.37",
                                "currency":"EUR"
@@ -107,21 +107,20 @@ class ChargebackEndpointTest extends BaseEndpointTest
         $this->assertEquals(2, $chargebacks->count);
         $this->assertCount(2, $chargebacks);
 
-        $documentationLink = (object)[
-            "href" => "https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks",
-            "type" => "text/html"
-        ];
-        $this->assertEquals($documentationLink, $chargebacks->_links->documentation);
+        $this->assertLinkObject(
+            "https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks",
+            "text/html",
+            $chargebacks->_links->documentation
+        );
 
-        $selfLink = (object)[
-            "href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-            "type" => "application/hal+json"
-        ];
-        $this->assertEquals($selfLink, $chargebacks->_links->self);
+        $this->assertLinkObject(
+            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
+            "application/hal+json",
+            $chargebacks->_links->self
+        );
 
-        $chargeback = $chargebacks[0];
-
-        $this->assertChargeback($chargeback);
+        $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
+        $this->assertChargeback($chargebacks[1], 'tr_44aKxzEbr8', 'chb_6cqlwf', "-0.37");
     }
 
     public function testGetChargebackOnPaymentResource()
@@ -167,29 +166,29 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         $chargeback = $this->getPayment()->getChargeback("chb_n9z0tp");
 
-        $this->assertChargeback($chargeback);
+        $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
     }
 
-    protected function assertChargeback($chargeback)
+    protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount)
     {
         $this->assertInstanceOf(Chargeback::class, $chargeback);
         $this->assertEquals("chargeback", $chargeback->resource);
-        $this->assertEquals("chb_n9z0tp", $chargeback->id);
+        $this->assertEquals($chargebackId, $chargeback->id);
 
-        $this->assertAmountObject("-13.00", "EUR", $chargeback->amount);
-        $this->assertAmountObject("-13.00", "EUR", $chargeback->settlementAmount);
+        $this->assertAmountObject($amount, "EUR", $chargeback->amount);
+        $this->assertAmountObject($amount, "EUR", $chargeback->settlementAmount);
 
         $this->assertEquals("2018-03-28T11:44:32+00:00", $chargeback->createdAt);
-        $this->assertEquals("tr_44aKxzEbr8", $chargeback->paymentId);
+        $this->assertEquals($paymentId, $chargeback->paymentId);
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
+            "https://api.mollie.com/v2/payments/{$paymentId}/chargebacks/{$chargebackId}",
             "application/hal+json",
             $chargeback->_links->self
         );
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
+            "https://api.mollie.com/v2/payments/{$paymentId}",
             "application/hal+json",
             $chargeback->_links->payment
         );
@@ -239,8 +238,8 @@ class ChargebackEndpointTest extends BaseEndpointTest
            "countryCode":"NL",
            "profileId":"pfl_2A1gacu42V",
            "sequenceType":"oneoff",
-           "redirectUrl":"http://example.org/examples/03-return-page.php?order_id=1234",
-           "webhookUrl":"http://example.org/examples/02-webhook-verification.php",
+           "redirectUrl":"https://example.org/redirect",
+           "webhookUrl":"https://example.org/webhook",
            "settlementAmount":{
               "value":"20.00",
               "currency":"EUR"

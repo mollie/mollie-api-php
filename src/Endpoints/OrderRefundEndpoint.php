@@ -6,7 +6,7 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class OrderRefundEndpoint extends EndpointAbstract
+class OrderRefundEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_refunds";
 
@@ -24,7 +24,7 @@ class OrderRefundEndpoint extends EndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param object[] $_links
+     * @param \stdClass $_links
      *
      * @return RefundCollection
      */
@@ -35,17 +35,35 @@ class OrderRefundEndpoint extends EndpointAbstract
 
     /**
      * Refund some order lines. You can provide an empty array for the
-     * "lines" data to refund all eligable lines for this order.
+     * "lines" data to refund all eligible lines for this order.
      *
      * @param Order $order
      * @param array $data
      * @param array $filters
      *
      * @return Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Order $order, array $data, array $filters = [])
     {
-        $this->parentId = $order->id;
+        return $this->createForId($order->id, $data, $filters);
+    }
+
+    /**
+     * Refund some order lines. You can provide an empty array for the
+     * "lines" data to refund all eligible lines for this order.
+     *
+     * @param string $orderId
+     * @param array $data
+     * @param array $filters
+     *
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForId($orderId, array $data, array $filters = [])
+    {
+        $this->parentId = $orderId;
+
         return parent::rest_create($data, $filters);
     }
 }

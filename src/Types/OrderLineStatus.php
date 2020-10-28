@@ -25,7 +25,8 @@ class OrderLineStatus
     const STATUS_CANCELED = "canceled";
 
     /**
-     * The order line has been refunded.
+     * (Deprecated) The order line has been refunded.
+     * @deprecated
      */
     const STATUS_REFUNDED = "refunded";
 

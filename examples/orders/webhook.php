@@ -16,12 +16,12 @@ try {
      * See: https://docs.mollie.com/reference/v2/orders-api/get-order
      */
     $order = $mollie->orders->get($_POST["id"]);
-    $orderId = $payment->metadata->order_id;
+    $orderId = $order->metadata->order_id;
 
     /*
      * Update the order in the database.
      */
-    database_write($orderId, $payment->status);
+    database_write($orderId, $order->status);
 
     if ($order->isPaid() || $order->isAuthorized()) {
         /*
@@ -32,17 +32,17 @@ try {
         /*
          * The order is canceled.
          */
-    } elseif ($order->isRefunded()) {
-        /*
-         * The order is refunded.
-         */
     } elseif ($order->isExpired()) {
         /*
          * The order is expired.
          */
     } elseif ($order->isCompleted()) {
         /*
-         * The orderis completed.
+         * The order is completed.
+         */
+    } elseif ($order->isPending()) {
+        /*
+         * The order is pending.
          */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

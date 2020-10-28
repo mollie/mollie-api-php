@@ -19,9 +19,25 @@ class Method extends BaseResource
     public $description;
 
     /**
+     * An object containing value and currency. It represents the minimum payment amount required to use this
+     * payment method.
+     *
+     * @var \stdClass
+     */
+    public $minimumAmount;
+
+    /**
+     * An object containing value and currency. It represents the maximum payment amount allowed when using this
+     * payment method.
+     *
+     * @var \stdClass
+     */
+    public $maximumAmount;
+
+    /**
      * The $image->size1x and $image->size2x to display the payment method logo.
      *
-     * @var object
+     * @var \stdClass
      */
     public $image;
 
@@ -34,7 +50,22 @@ class Method extends BaseResource
     public $issuers;
 
     /**
-     * @var object[]
+     * The pricing for this payment method. Will only be filled when explicitly requested using the query string
+     * `include` parameter.
+     *
+     * @var array|object[]
+     */
+    public $pricing;
+
+    /**
+     * The activation status the method is in.
+     *
+     * @var string
+     */
+    public $status;
+
+    /**
+     * @var \stdClass
      */
     public $_links;
 
@@ -45,11 +76,24 @@ class Method extends BaseResource
      */
     public function issuers()
     {
-        $issuers  = new IssuerCollection(count($this->issuers), null);
-        foreach ($this->issuers as $issuer) {
-            $issuers->append(ResourceFactory::createFromApiResult($issuer, new Issuer($this->client)));
-        }
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            Issuer::class,
+            $this->issuers
+        );
+    }
 
-        return $issuers;
+    /**
+     * Get the method price value objects.
+     *
+     * @return MethodPriceCollection
+     */
+    public function pricing()
+    {
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            MethodPrice::class,
+            $this->pricing
+        );
     }
 }

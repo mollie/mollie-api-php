@@ -26,7 +26,7 @@ class Permission extends BaseResource
     public $granted;
 
     /**
-     * @var object[]
+     * @var \stdClass
      */
     public $_links;
 }

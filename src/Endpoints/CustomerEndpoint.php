@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 
-class CustomerEndpoint extends EndpointAbstract
+class CustomerEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "customers";
 
@@ -24,7 +24,7 @@ class CustomerEndpoint extends EndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param object[] $_links
+     * @param \stdClass $_links
      *
      * @return CustomerCollection
      */

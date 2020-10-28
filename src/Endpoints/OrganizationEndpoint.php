@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\OrganizationCollection;
 
-class OrganizationEndpoint extends EndpointAbstract
+class OrganizationEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "organizations";
 
@@ -23,7 +23,7 @@ class OrganizationEndpoint extends EndpointAbstract
      * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param object[] $_links
+     * @param \stdClass $_links
      *
      * @return OrganizationCollection
      */
@@ -61,20 +61,5 @@ class OrganizationEndpoint extends EndpointAbstract
     public function current(array $parameters = [])
     {
         return parent::rest_read('me', $parameters);
-    }
-
-    /**
-     * Retrieves a collection of Organizations from Mollie.
-     *
-     * @param string $from The first organization ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     *
-     * @return OrganizationCollection
-     * @throws ApiException
-     */
-    public function page($from = null, $limit = null, array $parameters = [])
-    {
-        return $this->rest_list($from, $limit, $parameters);
     }
 }

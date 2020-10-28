@@ -27,6 +27,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                   "id": "stl_xcaSGAHuRt",
                   "reference": "1234567.1234.12",
                   "createdAt": "2018-04-30T04:00:02+00:00",
+                  "settledAt": "2018-05-01T04:00:02+00:00",
                   "status": "pending",
                   "amount": {
                     "value": "1980.98",
@@ -201,6 +202,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         $this->assertEquals("stl_xcaSGAHuRt", $settlement->id);
         $this->assertEquals("1234567.1234.12", $settlement->reference);
         $this->assertEquals("2018-04-30T04:00:02+00:00", $settlement->createdAt);
+        $this->assertEquals("2018-05-01T04:00:02+00:00", $settlement->settledAt);
         $this->assertEquals(SettlementStatus::STATUS_PENDING, $settlement->status);
         $this->assertEquals((object) ["value" => "1980.98", "currency" => "EUR"], $settlement->amount);
         $this->assertNotEmpty($settlement->periods);
@@ -242,6 +244,7 @@ class SettlementEndpointTest extends BaseEndpointTest
                         "id": "stl_xcaSGAHuRt",
                         "reference": "1234567.1234.12",
                         "createdAt": "2018-04-30T04:00:02+00:00",
+                        "settledAt": "2018-05-01T04:00:02+00:00",
                         "status": "pending",
                         "amount": {
                           "value": "1980.98",

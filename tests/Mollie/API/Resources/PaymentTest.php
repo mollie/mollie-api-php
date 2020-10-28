@@ -104,7 +104,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasRefunds());
     }
 
-    public function testHasChargedbacksReturnsTrueWhenPaymentHasChargebacks()
+    public function testHasChargebacksReturnsTrueWhenPaymentHasChargebacks()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
@@ -114,7 +114,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasChargebacks());
     }
 
-    public function testHasChargedbacksReturnsFalseWhenPaymentHasNoChargebacks()
+    public function testHasChargebacksReturnsFalseWhenPaymentHasNoChargebacks()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
@@ -208,5 +208,21 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
         $payment->amountRefunded = null;
         self::assertSame(0.0, $payment->getAmountRemaining());
+    }
+
+    public function testGetSettlementAmountReturns0WhenSettlementAmountIsSetToNull()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->settlementAmount = null;
+        self::assertSame(0.0, $payment->getSettlementAmount());
+    }
+
+    public function testGetSettlementAmountReturnsSettlementAmountAsFloat()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->settlementAmount= (object)["value" => 22.0, "currency" => "EUR"];
+        self::assertSame(22.0, $payment->getSettlementAmount());
     }
 }

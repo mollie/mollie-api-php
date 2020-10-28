@@ -6,7 +6,7 @@ trait AmountObjectTestHelpers
 {
     protected function assertAmountObject($value, $currency, $amountObject)
     {
-        return $this->assertEquals(
+        $this->assertEquals(
             $this->createAmountObject($value, $currency),
             $amountObject
         );

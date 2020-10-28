@@ -15,7 +15,7 @@ try {
      * See: https://docs.mollie.com/reference/v2/shipments-api/create-shipment
      */
 
-    $order = $this->getOrder('ord_8wmqcHMN4U');
+    $order = $mollie->orders->get('ord_8wmqcHMN4U');
     $lineId1 = $order->lines()[0]->id;
     $lineId2 = $order->lines()[1]->id;
     $shipment = $order->createShipment(

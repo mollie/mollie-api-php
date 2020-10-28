@@ -15,7 +15,7 @@ try {
      * By default we are using the resource "payments".
      * See the orders folder for an example with the Orders API.
      */
-    $methods = $mollie->methods->all();
+    $methods = $mollie->methods->allActive();
     foreach ($methods as $method) {
         echo '<div style="line-height:40px; vertical-align:top">';
         echo '<img src="' . htmlspecialchars($method->image->size1x) . '" srcset="' . htmlspecialchars($method->image->size2x) . ' 2x"> ';

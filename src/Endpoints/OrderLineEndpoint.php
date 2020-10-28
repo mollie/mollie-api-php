@@ -8,7 +8,7 @@ use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-class OrderLineEndpoint extends EndpointAbstract
+class OrderLineEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "orders_lines";
 
@@ -33,7 +33,7 @@ class OrderLineEndpoint extends EndpointAbstract
      * endpoint uses one type of collection object.
      *
      * @param int $count
-     * @param object[] $_links
+     * @param \stdClass $_links
      *
      * @return OrderLineCollection
      */
@@ -56,10 +56,27 @@ class OrderLineEndpoint extends EndpointAbstract
      */
     public function cancelFor(Order $order, array $data)
     {
-        if(! isset($data, $data['lines']) || ! is_array($data['lines'])) {
+        return $this->cancelForId($order->id, $data);
+    }
+
+    /**
+     * Cancel lines for the provided order id.
+     * The data array must contain a lines array.
+     * You can pass an empty lines array if you want to cancel all eligible lines.
+     * Returns null if successful.
+     *
+     * @param string $orderId
+     * @param array $data
+     *
+     * @return null
+     * @throws ApiException
+     */
+    public function cancelForId($orderId, array $data)
+    {
+        if(! isset($data['lines']) || ! is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
-        $this->parentId = $order->id;
+        $this->parentId = $orderId;
 
         $this->client->performHttpCall(
             self::REST_DELETE,
