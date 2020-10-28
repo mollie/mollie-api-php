@@ -288,9 +288,14 @@ class OrderLine extends BaseResource
         return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 
+    /**
+     * Update an orderline by supplying one or more parameters in the data array
+     *
+     * @return BaseResource
+     */
     public function update()
     {
-        $body = json_encode(array(
+        $data = array(
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
@@ -301,7 +306,10 @@ class OrderLine extends BaseResource
             'totalAmount' => $this->totalAmount,
             'vatAmount' => $this->vatAmount,
             'vatRate' => $this->vatRate,
-        ));
+        );
+
+        // Explicitly filter only NULL values to keep "vatRate => 0" intact
+        $body = json_encode(array_filter($data, function($value) { return $value !== null; }));
 
         $url="orders/{$this->orderId}/lines/{$this->id}";
 
