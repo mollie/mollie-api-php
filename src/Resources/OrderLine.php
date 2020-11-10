@@ -295,6 +295,20 @@ class OrderLine extends BaseResource
      */
     public function update()
     {
+        $url="orders/{$this->orderId}/lines/{$this->id}";
+        $body = json_encode($this->getData());
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
+
+    /**
+     * Get sanitized array of order line data
+     *
+     * @return array
+     */
+    public function getData()
+    {
         $data = array(
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
@@ -309,12 +323,6 @@ class OrderLine extends BaseResource
         );
 
         // Explicitly filter only NULL values to keep "vatRate => 0" intact
-        $body = json_encode(array_filter($data, function($value) { return $value !== null; }));
-
-        $url="orders/{$this->orderId}/lines/{$this->id}";
-
-        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        return array_filter($data, function($value) { return $value !== null; });
     }
 }

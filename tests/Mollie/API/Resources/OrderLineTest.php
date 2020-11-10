@@ -39,6 +39,29 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $orderLine->{$function}());
     }
 
+    /**
+     * @param $vatRate
+     * @param $expected_boolean
+     *
+     * @dataProvider dpTestUpdateVatRate
+     */
+    public function testUpdateVatRate($vatRate, $expected_boolean)
+    {
+        $orderLine = new OrderLine($this->createMock(MollieApiClient::class));
+        $orderLine->vatRate = $vatRate;
+
+        $this->assertEquals(isset($orderLine->getData()['vatRate']), $expected_boolean);
+    }
+
+    public function dpTestUpdateVatRate()
+    {
+        return [
+            [0, true],
+            ['0', true],
+            [null, false]
+        ];
+    }
+
     public function dpTestOrderLineTypes()
     {
         return [
