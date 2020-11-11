@@ -296,7 +296,7 @@ class OrderLine extends BaseResource
     public function update()
     {
         $url="orders/{$this->orderId}/lines/{$this->id}";
-        $body = json_encode($this->getData());
+        $body = json_encode($this->getUpdateData());
         $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
@@ -307,7 +307,7 @@ class OrderLine extends BaseResource
      *
      * @return array
      */
-    public function getData()
+    public function getUpdateData()
     {
         $data = array(
             "name" => $this->name,
