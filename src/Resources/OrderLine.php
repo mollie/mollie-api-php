@@ -288,9 +288,28 @@ class OrderLine extends BaseResource
         return $this->type === OrderLineType::TYPE_SURCHARGE;
     }
 
+    /**
+     * Update an orderline by supplying one or more parameters in the data array
+     *
+     * @return BaseResource
+     */
     public function update()
     {
-        $body = json_encode(array(
+        $url="orders/{$this->orderId}/lines/{$this->id}";
+        $body = json_encode($this->getUpdateData());
+        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
+
+        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+    }
+
+    /**
+     * Get sanitized array of order line data
+     *
+     * @return array
+     */
+    public function getUpdateData()
+    {
+        $data = array(
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
@@ -301,12 +320,9 @@ class OrderLine extends BaseResource
             'totalAmount' => $this->totalAmount,
             'vatAmount' => $this->vatAmount,
             'vatRate' => $this->vatRate,
-        ));
+        );
 
-        $url="orders/{$this->orderId}/lines/{$this->id}";
-
-        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        // Explicitly filter only NULL values to keep "vatRate => 0" intact
+        return array_filter($data, function($value) { return $value !== null; });
     }
 }

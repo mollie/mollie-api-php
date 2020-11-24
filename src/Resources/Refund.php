@@ -124,6 +124,16 @@ class Refund extends BaseResource
     }
 
     /**
+     * Is this refund failed?
+     *
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return $this->status === RefundStatus::STATUS_FAILED;
+    }
+
+    /**
      * Cancel the refund.
      * Returns null if successful.
      *
