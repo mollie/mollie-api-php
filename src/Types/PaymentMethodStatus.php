@@ -17,7 +17,7 @@ class PaymentMethodStatus
      *
      * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    const PENDING_ONBOARDING = "pending-boarding";
+    const PENDING_BOARDING = "pending-boarding";
 
     /**
      * Mollie needs to review your request for this payment method before it can be activated.
