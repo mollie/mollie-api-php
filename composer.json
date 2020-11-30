@@ -56,7 +56,7 @@
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
-    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1"
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^8.5"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
