@@ -1,0 +1,46 @@
+name: Installable Plugin
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: dom, curl, libxml, mbstring, zip
+          tools: composer:v2
+          coverage: none
+      - name: Build project
+        run: |
+          wget https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar
+          wget https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar.pubkey
+          rm -rf build/*
+          sed -i.bak 's/guzzle": "^6.3 || ^7.0"/guzzle": "^6.3"/g' composer.json
+          composer install --no-dev --no-scripts --no-suggest
+          php php-scoper.phar add-prefix --force
+          composer dump-autoload --working-dir build --classmap-authoritative
+          mv build/vendor/autoload.php build/vendor/composer-autoload.php
+          sed -i.bak 's/autoload.php/composer-autoload.php/g' build/vendor/scoper-autoload.php
+          mv build/vendor/scoper-autoload.php build/vendor/autoload.php
+      - name: Install zip
+        uses: montudor/action-zip@v0.1.1
+      - name: Create artifact
+        run: zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
+        working-directory: build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mollie-api-php
+          path: build/mollie-api-php.zip
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: build/mollie-api-php.zip application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,24 @@
+name: Check PHP syntax
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 5.6, 7.1 ]
+    name: Check PHP ${{ matrix.php }} syntax
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+      - name: Execute check PHP syntax
+        run: find src/ examples/ -type f -name '*.php' -print0 | xargs -0 -L 1 -P 4 php -l
