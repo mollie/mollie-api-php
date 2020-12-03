@@ -10,7 +10,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
      */
     protected $checker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -22,12 +22,9 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    /**
-     * @expectedException \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @expectedExceptionCode Mollie\Api\Exceptions\IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
-     */
     public function testCheckCompatibilityThrowsExceptionOnPhpVersion()
     {
+        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
             ->will($this->returnValue(false)); // Fail
@@ -38,12 +35,9 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
         $this->checker->checkCompatibility();
     }
 
-    /**
-     * @expectedException \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @expectedExceptionCode Mollie\Api\Exceptions\IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
-     */
     public function testCheckCompatibilityThrowsExceptionOnJsonExtension()
     {
+        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
         $this->checker->expects($this->once())
             ->method("satisfiesPhpVersion")
             ->will($this->returnValue(true));
