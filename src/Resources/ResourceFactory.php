@@ -63,8 +63,7 @@ class ResourceFactory
         $resourceClass,
         $_links = null,
         $resourceCollectionClass = null
-    )
-    {
+    ) {
         if (null === $resourceCollectionClass) {
             $resourceCollectionClass = $resourceClass.'Collection';
         }

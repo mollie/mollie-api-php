@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\OrderLineCollection;
-use Mollie\Api\Resources\ResourceFactory;
 
 class OrderLineEndpoint extends CollectionEndpointAbstract
 {
@@ -73,7 +72,7 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
      */
     public function cancelForId($orderId, array $data)
     {
-        if(! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (! isset($data['lines']) || ! is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
         $this->parentId = $orderId;

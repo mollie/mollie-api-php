@@ -39,7 +39,7 @@ class CustomerEndpointTest extends BaseEndpointTest
         /** @var Customer $customer */
         $customer = $this->apiClient->customers->create([
             "name" => "John Doe",
-            "email" => "johndoe@example.org"
+            "email" => "johndoe@example.org",
         ]);
 
         $this->assertInstanceOf(Customer::class, $customer);
@@ -54,7 +54,6 @@ class CustomerEndpointTest extends BaseEndpointTest
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/create-customer", "type" => "text/html"];
         $this->assertEquals($documentationLink, $customer->_links->documentation);
-
     }
 
     public function testGetWorks()
@@ -99,7 +98,6 @@ class CustomerEndpointTest extends BaseEndpointTest
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/get-customer", "type" => "text/html"];
         $this->assertEquals($documentationLink, $customer->_links->documentation);
-
     }
 
     public function testListWorks()
@@ -158,7 +156,6 @@ class CustomerEndpointTest extends BaseEndpointTest
             $this->assertEquals("customer", $customer->resource);
             $this->assertNotEmpty($customer->createdAt);
         }
-
     }
 
     public function testUpdateWorks()
@@ -230,5 +227,4 @@ class CustomerEndpointTest extends BaseEndpointTest
 
         return $this->copy(json_decode($customerJson), new Customer($this->apiClient));
     }
-
 }

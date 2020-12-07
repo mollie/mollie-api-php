@@ -67,7 +67,6 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
             "text/html",
             $method->_links->documentation
         );
-
     }
 
     public function testDisableProfileMethod()
@@ -140,7 +139,6 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
             "text/html",
             $method->_links->documentation
         );
-
     }
 
     public function testDisableCurrentProfileMethod()

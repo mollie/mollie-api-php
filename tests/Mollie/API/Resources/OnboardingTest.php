@@ -11,7 +11,7 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $status
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestOnboardingStatuses
      */

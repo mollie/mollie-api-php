@@ -53,7 +53,7 @@ try {
      */
     $nextPayments = $payments->next();
 
-    if (!empty($nextPayments)) {
+    if (! empty($nextPayments)) {
         echo "<ul>";
         foreach ($nextPayments as $payment) {
             echo "<li>";
@@ -79,7 +79,6 @@ try {
         }
         echo "</ul>";
     }
-
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

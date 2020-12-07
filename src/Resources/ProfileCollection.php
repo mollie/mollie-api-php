@@ -4,7 +4,6 @@ namespace Mollie\Api\Resources;
 
 class ProfileCollection extends CursorCollection
 {
-
     /**
      * @return string
      */

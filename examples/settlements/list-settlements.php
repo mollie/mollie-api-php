@@ -18,7 +18,7 @@ try {
         echo '<li><b>Settlement ' . htmlspecialchars($settlement->reference) . ':</b> (' . htmlspecialchars($settlement->createdAt) . ')';
         echo '<table border="1"><tr><th>Month</th><th>Description</th><th>Count</th><th>Net</th><th>VAT</th><th>Gross</th></tr>';
         // Convert from stdClass to array
-        $settlement_periods = json_decode(json_encode($settlement->periods), TRUE);
+        $settlement_periods = json_decode(json_encode($settlement->periods), true);
         foreach ($settlement_periods as $year => $months) {
             foreach ($months as $month => $monthly_settlement) {
                 foreach ($monthly_settlement['revenue'] as $revenue) {

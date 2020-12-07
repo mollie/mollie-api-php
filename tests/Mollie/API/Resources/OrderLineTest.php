@@ -12,7 +12,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $status
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestOrderLineStatuses
      */
@@ -27,7 +27,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $type
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestOrderLineTypes
      */
@@ -58,7 +58,7 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
         return [
             [0, true],
             ['0', true],
-            [null, false]
+            [null, false],
         ];
     }
 

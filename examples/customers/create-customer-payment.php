@@ -36,14 +36,14 @@ try {
     $payment = $customer->createPayment([
         "amount" => [
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR"
+            "currency" => "EUR",
         ],
         "description" => "Order #{$orderId}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
-        ]
+        ],
     ]);
 
     /*

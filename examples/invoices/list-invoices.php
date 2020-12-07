@@ -31,7 +31,6 @@ try {
         echo '<a href="'. $invoice->_links->pdf->href .'" target="_blank">Click here to open PDF</a>';
         echo '</li>';
     }
-
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

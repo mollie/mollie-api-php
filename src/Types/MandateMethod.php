@@ -14,7 +14,7 @@ class MandateMethod
             return static::PAYPAL;
         }
 
-        if(in_array($firstPaymentMethod, [
+        if (in_array($firstPaymentMethod, [
             PaymentMethod::APPLEPAY,
             PaymentMethod::CREDITCARD,
         ])) {

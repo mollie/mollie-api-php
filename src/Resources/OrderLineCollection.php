@@ -26,6 +26,7 @@ class OrderLineCollection extends BaseCollection
                 return $line;
             }
         }
+
         return null;
     }
 }

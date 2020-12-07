@@ -22,7 +22,7 @@ try {
     $customer->name = "Luke Sky";
     $customer->email = "luke@example.org";
     $customer->locale = "en_US";
-    $customer->metadata->isJedi = TRUE;
+    $customer->metadata->isJedi = true;
     $customer->update();
 
     echo "<p>Customer updated: " . htmlspecialchars($customer->name) . "</p>";

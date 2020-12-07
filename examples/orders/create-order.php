@@ -30,7 +30,7 @@ try {
     $order = $mollie->orders->create([
         "amount" => [
           "value" => "1027.99",
-          "currency" => "EUR"
+          "currency" => "EUR",
         ],
         "billingAddress" => [
           "streetAndNumber" => "Keizersgracht 313",
@@ -51,7 +51,7 @@ try {
           "email" => "luke@skywalker.com",
         ],
         "metadata" => [
-          "order_id" => $orderId
+          "order_id" => $orderId,
         ],
         "consumerDateOfBirth" => "1958-01-31",
         "locale" => "en_US",
@@ -69,20 +69,20 @@ try {
                 "vatRate" => "21.00",
                 "unitPrice" => [
                     "currency" => "EUR",
-                    "value" => "399.00"
+                    "value" => "399.00",
                 ],
                 "totalAmount" => [
                     "currency" => "EUR",
-                    "value" => "698.00"
+                    "value" => "698.00",
                 ],
                 "discountAmount" => [
                     "currency" => "EUR",
-                    "value" => "100.00"
+                    "value" => "100.00",
                 ],
                 "vatAmount" => [
                     "currency" => "EUR",
-                    "value" => "121.14"
-                ]
+                    "value" => "121.14",
+                ],
             ],
             [
                 "type" => "digital",
@@ -94,18 +94,18 @@ try {
                 "vatRate" => "21.00",
                 "unitPrice" => [
                     "currency" => "EUR",
-                    "value" => "329.99"
+                    "value" => "329.99",
                 ],
                 "totalAmount" => [
                     "currency" => "EUR",
-                    "value" => "329.99"
+                    "value" => "329.99",
                 ],
                 "vatAmount" => [
                     "currency" => "EUR",
-                    "value" => "57.27"
-                ]
-            ]
-        ]
+                    "value" => "57.27",
+                ],
+            ],
+        ],
     ]);
 
     /*

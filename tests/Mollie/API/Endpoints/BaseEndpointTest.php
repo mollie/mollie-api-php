@@ -25,7 +25,7 @@ abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 
         $this->apiClient = new MollieApiClient($this->guzzleClient);
 
-        if (!$oAuthClient) {
+        if (! $oAuthClient) {
             $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
         } else {
             $this->apiClient->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");

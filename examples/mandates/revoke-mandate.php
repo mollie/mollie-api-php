@@ -25,7 +25,6 @@ try {
     $mandate->revoke();
 
     echo "<p>Mandate has been successfully revoked.</p>";
-
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

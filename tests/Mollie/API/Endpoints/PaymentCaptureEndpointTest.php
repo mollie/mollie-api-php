@@ -29,8 +29,8 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
         );
 
         $capture = $this->apiClient->paymentCaptures->getFor(
-          $this->getPayment('tr_WDqYK6vllg'),
-          'cpt_4qqhO89gsT'
+            $this->getPayment('tr_WDqYK6vllg'),
+            'cpt_4qqhO89gsT'
         );
 
         $this->assertCapture($capture);
@@ -127,50 +127,50 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
         $this->assertEquals('2018-08-02T09:29:56+00:00', $capture->createdAt);
 
         $this->assertLinkObject(
-          'https://api.mollie.com/v2/payments/tr_WDqYK6vllg/captures/cpt_4qqhO89gsT',
-          'application/hal+json',
-          $capture->_links->self
+            'https://api.mollie.com/v2/payments/tr_WDqYK6vllg/captures/cpt_4qqhO89gsT',
+            'application/hal+json',
+            $capture->_links->self
         );
 
         $this->assertLinkObject(
-          'https://api.mollie.com/v2/payments/tr_WDqYK6vllg',
-          'application/hal+json',
-          $capture->_links->payment
+            'https://api.mollie.com/v2/payments/tr_WDqYK6vllg',
+            'application/hal+json',
+            $capture->_links->payment
         );
 
         $this->assertLinkObject(
-          'https://api.mollie.com/v2/orders/ord_8wmqcHMN4U/shipments/shp_3wmsgCJN4U',
-          'application/hal+json',
-          $capture->_links->shipment
+            'https://api.mollie.com/v2/orders/ord_8wmqcHMN4U/shipments/shp_3wmsgCJN4U',
+            'application/hal+json',
+            $capture->_links->shipment
         );
 
         $this->assertLinkObject(
-          'https://api.mollie.com/v2/settlements/stl_jDk30akdN',
-          'application/hal+json',
-          $capture->_links->settlement
+            'https://api.mollie.com/v2/settlements/stl_jDk30akdN',
+            'application/hal+json',
+            $capture->_links->settlement
         );
 
         $this->assertLinkObject(
-          'https://docs.mollie.com/reference/v2/captures-api/get-capture',
-          'text/html',
-          $capture->_links->documentation
+            'https://docs.mollie.com/reference/v2/captures-api/get-capture',
+            'text/html',
+            $capture->_links->documentation
         );
     }
 
     protected function getCaptureFixture(
-      $payment_id = 'tr_WDqYK6vllg',
-      $capture_id = 'cpt_4qqhO89gsT'
+        $payment_id = 'tr_WDqYK6vllg',
+        $capture_id = 'cpt_4qqhO89gsT'
     ) {
         return str_replace(
-          [
+            [
             '<<payment_id>>',
             '<<capture_id>>',
           ],
-          [
+            [
             $payment_id,
             $capture_id,
           ],
-          '{
+            '{
             "resource": "capture",
             "id": "<<capture_id>>",
             "mode": "live",

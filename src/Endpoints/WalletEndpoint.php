@@ -19,7 +19,7 @@ class WalletEndpoint extends EndpointAbstract
     public function requestApplePayPaymentSession($domain, $validationUrl)
     {
         $body = $this->parseRequestBody([
-            'domain'=> $domain,
+            'domain' => $domain,
             'validationUrl' => $validationUrl,
         ]);
 

@@ -440,11 +440,10 @@ class SettlementEndpointTest extends BaseEndpointTest
         $nextLink = (object)['href' => 'https://api.mollie.nl/v2/settlements?from=stl_xcaSGAHuRt&limit=1&previous=stl_xcaPACKpLs', 'type' => 'application/hal+json'];
         $this->assertEquals($nextLink, $settlements->_links->next);
 
-        foreach($settlements as $settlement) {
+        foreach ($settlements as $settlement) {
             $this->assertInstanceOf(Settlement::class, $settlement);
             $this->assertEquals("settlement", $settlement->resource);
             $this->assertNotEmpty($settlement->periods);
         }
     }
-
 }

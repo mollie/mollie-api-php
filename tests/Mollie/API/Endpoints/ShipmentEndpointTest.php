@@ -5,7 +5,6 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
-use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 use Mollie\Api\Types\OrderLineStatus;
@@ -52,7 +51,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
                     'quantity' => 1,
                 ],
                 [
-                    'id' => 'odl_jp31jz'
+                    'id' => 'odl_jp31jz',
                 ],
             ],
         ]);
@@ -316,12 +315,14 @@ class ShipmentEndpointTest extends BaseEndpointTest
     protected function getOrder($id)
     {
         $orderJson = $this->getOrderResponseFixture($id);
+
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
     protected function getShipment($shipment_id, $order_id, $orderLineStatus = OrderLineStatus::STATUS_SHIPPING)
     {
         $shipmentJson = $this->getShipmentResponseFixture($shipment_id, $order_id, $orderLineStatus);
+
         return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 

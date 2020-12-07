@@ -12,7 +12,6 @@ use Mollie\Api\Types\MandateStatus;
 
 class MandateEndpointTest extends BaseEndpointTest
 {
-
     public function testCreateWorks()
     {
         $this->mockApiCall(
@@ -58,7 +57,7 @@ class MandateEndpointTest extends BaseEndpointTest
             "consumerName" => "John Doe",
             "method" => "directdebit",
             "consumerBic" => "INGBNL2A",
-            "consumerAccount" => "NL55INGB0000000000"
+            "consumerAccount" => "NL55INGB0000000000",
         ]);
 
         $this->assertInstanceOf(Mandate::class, $mandate);
@@ -424,5 +423,4 @@ class MandateEndpointTest extends BaseEndpointTest
 
         return $this->copy(json_decode($customerJson), new Customer($this->apiClient));
     }
-
 }

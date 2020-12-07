@@ -45,7 +45,7 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      */
     public function get($settlementId, array $parameters = [])
     {
-         return parent::rest_read($settlementId, $parameters);
+        return parent::rest_read($settlementId, $parameters);
     }
 
     /**

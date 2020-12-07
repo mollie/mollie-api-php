@@ -9,9 +9,9 @@ use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
+use stdClass;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
-use stdClass;
 
 class OrderTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +21,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $status
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestOrderStatuses
      */
@@ -253,7 +253,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
             'checkout' => (object) [
                 'href' => 'https://www.some-mollie-checkout-url.com/123',
                 'type' => 'text/html',
-            ]
+            ],
         ]);
 
         $this->assertEquals(

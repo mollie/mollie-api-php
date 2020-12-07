@@ -2,8 +2,7 @@
 /*
  * Create a profile via the Mollie API.
  */
-try
-{
+try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
@@ -23,8 +22,6 @@ try
         "mode" => "live",
     ]);
     echo "<p>Profile created: " . htmlspecialchars($profile->name) . "</p>";
-}
-catch (\Mollie\Api\Exceptions\ApiException $e)
-{
+} catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "<p>API call failed: " . htmlspecialchars($e->getMessage()) . "</p>";
 }

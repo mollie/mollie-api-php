@@ -58,10 +58,10 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $subscription = $customer->createSubscription([
             "amount" => [
                 "value" => "10.00",
-                "currency" => "EUR"
+                "currency" => "EUR",
             ],
             "interval" => "1 month",
-            "description" => "Order 1234"
+            "description" => "Order 1234",
         ]);
 
         $this->assertInstanceOf(Subscription::class, $subscription);
@@ -297,7 +297,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
     }
 
-    public function testCancelOnSubscriptionResourceWorks($value='')
+    public function testCancelOnSubscriptionResourceWorks($value = '')
     {
         $this->mockApiCall(
             new Request('DELETE', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),

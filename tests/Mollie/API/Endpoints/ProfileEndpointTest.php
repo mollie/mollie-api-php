@@ -370,7 +370,7 @@ class ProfileEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(ProfileCollection::class, $profiles);
         $this->assertEquals(2, $profiles->count);
 
-        foreach($profiles as $profile) {
+        foreach ($profiles as $profile) {
             $this->assertInstanceOf(Profile::class, $profile);
         }
 
@@ -379,7 +379,6 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/profiles-api/list-profiles", "type" => "text/html"];
         $this->assertEquals($documentationLink, $profiles->_links->documentation);
-
     }
 
     public function testUpdateProfile()

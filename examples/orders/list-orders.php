@@ -3,7 +3,6 @@
  * List orders using the Mollie API.
  */
 
-use Mollie\Api\Resources\OrderCollection;
 
 try {
     /*

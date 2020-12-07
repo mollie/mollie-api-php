@@ -20,8 +20,8 @@ use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
-use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
+use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
@@ -277,6 +277,7 @@ class MollieApiClient
      * @var array
      */
     protected $versionStrings = [];
+
     /**
      * @var int
      */
@@ -291,7 +292,7 @@ class MollieApiClient
     {
         $this->httpClient = $httpClient;
 
-        if(! $this->httpClient) {
+        if (! $this->httpClient) {
             $retryMiddlewareFactory = new RetryMiddlewareFactory;
             $handlerStack = HandlerStack::create();
             $handlerStack->push($retryMiddlewareFactory->retry());
@@ -312,7 +313,7 @@ class MollieApiClient
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
 
-        if(defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
+        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
             $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
         } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
             $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
@@ -356,6 +357,7 @@ class MollieApiClient
     public function setApiEndpoint($url)
     {
         $this->apiEndpoint = rtrim(trim($url), '/');
+
         return $this;
     }
 
@@ -377,12 +379,13 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
         $this->apiKey = $apiKey;
         $this->oauthAccess = false;
+
         return $this;
     }
 
@@ -396,12 +399,13 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (!preg_match('/^access_\w+$/', $accessToken)) {
+        if (! preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
         $this->apiKey = $accessToken;
         $this->oauthAccess = true;
+
         return $this;
     }
 
@@ -423,6 +427,7 @@ class MollieApiClient
     public function addVersionString($versionString)
     {
         $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
+
         return $this;
     }
 
@@ -491,7 +496,7 @@ class MollieApiClient
             throw ApiException::createFromGuzzleException($e, $request);
         }
 
-        if (!$response) {
+        if (! $response) {
             throw new ApiException("Did not receive API response.", 0, null, $request);
         }
 

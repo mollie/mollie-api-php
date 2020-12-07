@@ -36,7 +36,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function next()
     {
-        if (!$this->hasNext()) {
+        if (! $this->hasNext()) {
             return null;
         }
 

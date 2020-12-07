@@ -5,18 +5,13 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
-use Mollie\Api\Resources\OrderCollection;
 use Mollie\Api\Resources\Payment;
-use Mollie\Api\Resources\Shipment;
-use Mollie\Api\Types\OrderLineStatus;
-use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
-use stdClass;
 
 class OrderPaymentEndpointTest extends BaseEndpointTest
 {
@@ -151,6 +146,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
     protected function getOrder($id)
     {
         $orderJson = $this->getOrderResponseFixture($id);
+
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
