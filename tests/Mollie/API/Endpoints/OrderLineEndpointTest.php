@@ -7,10 +7,10 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Order;
 
-
 class OrderLineEndpointTest extends BaseEndpointTest
 {
-    public function testCancelLinesRequiresLinesArray() {
+    public function testCancelLinesRequiresLinesArray()
+    {
         $this->expectException(ApiException::class);
 
         $this->guzzleClient = $this->createMock(Client::class);

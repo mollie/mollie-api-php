@@ -26,7 +26,7 @@ try {
                 [
                     'id' => $lineId,
                     'quantity' => 1, // optional parameter
-                ]
+                ],
             ],
         ]);
 

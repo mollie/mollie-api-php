@@ -5,7 +5,6 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Organization;
-use Mollie\Api\Resources\OrganizationCollection;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
 class OrganizationEndpointTest extends BaseEndpointTest

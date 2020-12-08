@@ -11,7 +11,6 @@ try {
 
     $mollie->customers->delete("cst_fE3F6nvX");
     echo "<p>Customer deleted!</p>";
-
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }

@@ -13,9 +13,9 @@ use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
 use Mollie\Api\Types\OrderStatus;
+use stdClass;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
-use stdClass;
 
 class OrderEndpointTest extends BaseEndpointTest
 {
@@ -123,7 +123,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $order = $this->apiClient->orders->create([
             "amount" => [
               "value" => "1027.99",
-              "currency" => "EUR"
+              "currency" => "EUR",
             ],
             "billingAddress" => [
               "organizationName" => "Organization Name LTD.",
@@ -147,7 +147,7 @@ class OrderEndpointTest extends BaseEndpointTest
             ],
             "metadata" => [
               "order_id" => "1337",
-              "description" => "Lego cars"
+              "description" => "Lego cars",
             ],
             "consumerDateOfBirth" => "1958-01-31",
             "locale" => "nl_NL",
@@ -165,20 +165,20 @@ class OrderEndpointTest extends BaseEndpointTest
                     "vatRate" => "21.00",
                     "unitPrice" => [
                         "currency" => "EUR",
-                        "value" => "399.00"
+                        "value" => "399.00",
                     ],
                     "totalAmount" => [
                         "currency" => "EUR",
-                        "value" => "698.00"
+                        "value" => "698.00",
                     ],
                     "discountAmount" => [
                         "currency" => "EUR",
-                        "value" => "100.00"
+                        "value" => "100.00",
                     ],
                     "vatAmount" => [
                         "currency" => "EUR",
-                        "value" => "121.14"
-                    ]
+                        "value" => "121.14",
+                    ],
                 ],
                 [
                     "type" => "digital",
@@ -190,18 +190,18 @@ class OrderEndpointTest extends BaseEndpointTest
                     "vatRate" => "21.00",
                     "unitPrice" => [
                         "currency" => "EUR",
-                        "value" => "329.99"
+                        "value" => "329.99",
                     ],
                     "totalAmount" => [
                         "currency" => "EUR",
-                        "value" => "329.99"
+                        "value" => "329.99",
                     ],
                     "vatAmount" => [
                         "currency" => "EUR",
-                        "value" => "57.27"
-                    ]
-                ]
-            ]
+                        "value" => "57.27",
+                    ],
+                ],
+            ],
         ]);
 
         $this->assertOrder($order, 'ord_pbjz8x');
@@ -547,20 +547,20 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $this->assertNull($orders->_links->previous);
         $selfLink = $this->createLinkObject(
-          "https://api.mollie.com/v2/orders",
-          "application/hal+json"
+            "https://api.mollie.com/v2/orders",
+            "application/hal+json"
         );
         $this->assertEquals($selfLink, $orders->_links->self);
 
         $nextLink = $this->createLinkObject(
-          "https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS",
-          "application/hal+json"
+            "https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS",
+            "application/hal+json"
         );
         $this->assertEquals($nextLink, $orders->_links->next);
 
         $documentationLink = $this->createLinkObject(
-          "https://docs.mollie.com/reference/v2/orders-api/list-orders",
-          "text/html"
+            "https://docs.mollie.com/reference/v2/orders-api/list-orders",
+            "text/html"
         );
         $this->assertEquals($documentationLink, $orders->_links->documentation);
 
@@ -898,6 +898,7 @@ class OrderEndpointTest extends BaseEndpointTest
     protected function getOrder($id)
     {
         $orderJson = $this->getOrderResponseFixture($id);
+
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
@@ -906,7 +907,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return str_replace(
             [
                 "<<order_id>>",
-                "<<order_number>>"
+                "<<order_number>>",
             ],
             [
                 $order_id,
@@ -1048,6 +1049,7 @@ class OrderEndpointTest extends BaseEndpointTest
             $orderId,
             $orderlineStatus
         );
+
         return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 
@@ -1062,7 +1064,7 @@ class OrderEndpointTest extends BaseEndpointTest
             [
                 $orderId,
                 $shipmentId,
-                $orderlineStatus
+                $orderlineStatus,
             ],
             '{
              "resource": "shipment",

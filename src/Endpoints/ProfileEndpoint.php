@@ -10,6 +10,7 @@ use Mollie\Api\Resources\ProfileCollection;
 class ProfileEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "profiles";
+
     protected $resourceClass = Profile::class;
 
     /**
@@ -46,7 +47,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      */
     public function create(array $data = [], array $filters = [])
     {
-       return $this->rest_create($data, $filters);
+        return $this->rest_create($data, $filters);
     }
 
     /**
@@ -62,7 +63,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      */
     public function get($profileId, array $parameters = [])
     {
-        if($profileId === 'me') {
+        if ($profileId === 'me') {
             return $this->getCurrent($parameters);
         }
 
@@ -115,6 +116,4 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     {
         return $this->rest_list($from, $limit, $parameters);
     }
-
-
 }

@@ -13,7 +13,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string $status
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestPaymentStatuses
      */
@@ -222,7 +222,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->settlementAmount= (object)["value" => 22.0, "currency" => "EUR"];
+        $payment->settlementAmount = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getSettlementAmount());
     }
 }

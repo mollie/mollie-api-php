@@ -5,7 +5,6 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Order;
-use Mollie\Api\Resources\OrderLine;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Types\OrderStatus;
@@ -48,7 +47,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                 [
                     'id' => 'odl_dgtxyl',
                     'quantity' => 1,
-                ]
+                ],
             ],
         ]);
 
@@ -287,6 +286,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
     protected function getOrder($id)
     {
         $orderJson = $this->getOrderResponseFixture($id);
+
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 

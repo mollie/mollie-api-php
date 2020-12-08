@@ -73,6 +73,6 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      */
     public function all(array $parameters = [])
     {
-        return $this->page( null, null, $parameters);
+        return $this->page(null, null, $parameters);
     }
 }

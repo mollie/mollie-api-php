@@ -18,7 +18,7 @@ try {
         "name" => "Luke Skywalker",
         "email" => "luke@example.org",
         "metadata" => [
-            "isJedi" => TRUE,
+            "isJedi" => true,
         ],
     ]);
     echo "<p>New customer created " . htmlspecialchars($customer->id) . " (" . htmlspecialchars($customer->name) . ").</p>";

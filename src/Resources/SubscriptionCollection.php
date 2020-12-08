@@ -4,7 +4,6 @@ namespace Mollie\Api\Resources;
 
 class SubscriptionCollection extends CursorCollection
 {
-
     /**
      * @return string
      */

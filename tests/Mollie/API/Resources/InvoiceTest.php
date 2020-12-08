@@ -12,7 +12,7 @@ class InvoiceTest extends TestCase
     /**
      * @param string $status
      * @param string $function
-     * @param boolean $expected_boolean
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestInvoiceStatuses
      */
@@ -23,6 +23,7 @@ class InvoiceTest extends TestCase
 
         $this->assertEquals($expected_boolean, $invoice->{$function}());
     }
+
     public function dpTestInvoiceStatuses()
     {
         return [

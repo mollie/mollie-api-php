@@ -41,7 +41,7 @@ class RetryMiddlewareFactory
      */
     private function getRetryDelay()
     {
-        return function($numberOfRetries) {
+        return function ($numberOfRetries) {
             return static::DELAY_INCREASE_MS * $numberOfRetries;
         };
     }
@@ -53,7 +53,7 @@ class RetryMiddlewareFactory
      */
     private function getZeroRetryDelay()
     {
-        return function($numberOfRetries) {
+        return function ($numberOfRetries) {
             return 0;
         };
     }
@@ -61,23 +61,23 @@ class RetryMiddlewareFactory
     /**
      * @return callable
      */
-    private function newRetryDecider() {
+    private function newRetryDecider()
+    {
         return function (
             $retries,
             Request $request,
             Response $response = null,
             TransferException $exception = null
         ) {
-            if ( $retries >= static::MAX_RETRIES ) {
+            if ($retries >= static::MAX_RETRIES) {
                 return false;
             }
 
-            if( $exception instanceof ConnectException ) {
+            if ($exception instanceof ConnectException) {
                 return true;
             }
 
             return false;
         };
     }
-
 }

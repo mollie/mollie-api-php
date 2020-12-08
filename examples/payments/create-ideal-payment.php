@@ -54,7 +54,7 @@ try {
     $payment = $mollie->payments->create([
         "amount" => [
             "currency" => "EUR",
-            "value" => "27.50" // You must send the correct number of decimals, thus we enforce the use of strings
+            "value" => "27.50", // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "method" => \Mollie\Api\Types\PaymentMethod::IDEAL,
         "description" => "Order #{$orderId}",
@@ -63,7 +63,7 @@ try {
         "metadata" => [
             "order_id" => $orderId,
         ],
-        "issuer" => !empty($_POST["issuer"]) ? $_POST["issuer"] : null
+        "issuer" => ! empty($_POST["issuer"]) ? $_POST["issuer"] : null,
     ]);
 
     /*

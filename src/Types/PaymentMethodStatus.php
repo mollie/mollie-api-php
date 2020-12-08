@@ -48,5 +48,4 @@ class PaymentMethodStatus
      * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
     const NOT_REQUESTED = null;
-
 }

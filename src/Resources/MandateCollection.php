@@ -29,7 +29,7 @@ class MandateCollection extends CursorCollection
         $collection = new self($this->client, $this->count, $this->_links);
 
         foreach ($this as $item) {
-            if($item->status === $status) {
+            if ($item->status === $status) {
                 $collection[] = $item;
             }
         }

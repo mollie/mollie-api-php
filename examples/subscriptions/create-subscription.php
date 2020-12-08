@@ -36,14 +36,14 @@ try {
     $subscription = $customer->createSubscription([
         "amount" => [
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR"
+            "currency" => "EUR",
         ],
         "times" => 12,
         "interval" => "1 month",
         "description" => "Subscription #{$subscriptionId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/subscriptions/webhook.php",
         "metadata" => [
-            "subscription_id" => $subscriptionId
+            "subscription_id" => $subscriptionId,
         ],
     ]);
 

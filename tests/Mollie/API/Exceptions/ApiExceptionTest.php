@@ -98,7 +98,8 @@ class ApiExceptionTest extends TestCase
         $response = new Response(
             422,
             [],
-            /** @lang JSON */'{
+            /** @lang JSON */
+            '{
                     "status": 422,
                     "title": "Unprocessable Entity",
                     "detail": "Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.",
@@ -119,7 +120,8 @@ class ApiExceptionTest extends TestCase
             'POST',
             'https://api.mollie.com/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact',
             [],
-            /** @lang JSON */'{ "foo": "bar" }'
+            /** @lang JSON */
+            '{ "foo": "bar" }'
         );
 
         $guzzleException = new RequestException(

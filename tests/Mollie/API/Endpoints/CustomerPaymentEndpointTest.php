@@ -85,7 +85,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $payment = $customer->createPayment([
             "amount" => [
                 "currency" => "EUR",
-                "value" => "20.00"
+                "value" => "20.00",
             ],
             "description" => "My first API payment",
             "redirectUrl" => "https://example.org/redirect",

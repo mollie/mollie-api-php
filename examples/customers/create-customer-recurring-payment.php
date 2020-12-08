@@ -35,7 +35,7 @@ try {
     $payment = $customer->createPayment([
         "amount" => [
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR"
+            "currency" => "EUR",
         ],
         "description" => "On-demand payment - Order #{$orderId}",
         "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",

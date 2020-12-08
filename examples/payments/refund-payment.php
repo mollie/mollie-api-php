@@ -34,8 +34,8 @@ try {
             $refund = $payment->refund([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "2.00" // You must send the correct number of decimals, thus we enforce the use of strings
-                ]
+                    "value" => "2.00", // You must send the correct number of decimals, thus we enforce the use of strings
+                ],
             ]);
 
             echo "{$refund->amount->currency} {$refund->amount->value} of payment {$paymentId} refunded.", PHP_EOL;

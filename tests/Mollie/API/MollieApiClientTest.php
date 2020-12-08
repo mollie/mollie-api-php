@@ -24,7 +24,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->guzzleClient    = $this->createMock(Client::class);
+        $this->guzzleClient = $this->createMock(Client::class);
         $this->mollieApiClient = new MollieApiClient($this->guzzleClient);
 
         $this->mollieApiClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');

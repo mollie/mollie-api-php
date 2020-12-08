@@ -295,7 +295,7 @@ class OrderLine extends BaseResource
      */
     public function update()
     {
-        $url="orders/{$this->orderId}/lines/{$this->id}";
+        $url = "orders/{$this->orderId}/lines/{$this->id}";
         $body = json_encode($this->getUpdateData());
         $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
 
@@ -309,7 +309,7 @@ class OrderLine extends BaseResource
      */
     public function getUpdateData()
     {
-        $data = array(
+        $data = [
             "name" => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
@@ -320,9 +320,11 @@ class OrderLine extends BaseResource
             'totalAmount' => $this->totalAmount,
             'vatAmount' => $this->vatAmount,
             'vatRate' => $this->vatRate,
-        );
+        ];
 
         // Explicitly filter only NULL values to keep "vatRate => 0" intact
-        return array_filter($data, function($value) { return $value !== null; });
+        return array_filter($data, function ($value) {
+            return $value !== null;
+        });
     }
 }

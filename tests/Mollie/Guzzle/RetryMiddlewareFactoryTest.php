@@ -18,10 +18,10 @@ class RetryMiddlewareFactoryTest extends TestCase
         $middlewareFactory = new RetryMiddlewareFactory;
 
         $mock = new MockHandler(
-            array(
+            [
                 new ConnectException("Error 1", new Request('GET', 'test')),
                 new Response(200, ['X-Foo' => 'Bar']),
-            )
+            ]
         );
 
         $handler = HandlerStack::create($mock);
@@ -38,14 +38,14 @@ class RetryMiddlewareFactoryTest extends TestCase
         $middlewareFactory = new RetryMiddlewareFactory;
 
         $mock = new MockHandler(
-            array(
+            [
                 new ConnectException("Error 1", new Request('GET', 'test')),
                 new ConnectException("Error 2", new Request('GET', 'test')),
                 new ConnectException("Error 3", new Request('GET', 'test')),
                 new ConnectException("Error 4", new Request('GET', 'test')),
                 new ConnectException("Error 5", new Request('GET', 'test')),
                 new ConnectException("Error 6", new Request('GET', 'test')),
-            )
+            ]
         );
 
         $handler = HandlerStack::create($mock);
@@ -55,7 +55,7 @@ class RetryMiddlewareFactoryTest extends TestCase
         $this->expectException(ConnectException::class);
         $this->expectExceptionMessage("Error 6");
 
-        $client->request( 'GET', '/' )->getStatusCode();
+        $client->request('GET', '/')->getStatusCode();
     }
 
     public function testRetryDelay()
@@ -63,11 +63,11 @@ class RetryMiddlewareFactoryTest extends TestCase
         $middlewareFactory = new RetryMiddlewareFactory;
 
         $mock = new MockHandler(
-            array(
+            [
                 new ConnectException("+1 second delay", new Request('GET', 'test')),
                 new ConnectException("+2 second delay", new Request('GET', 'test')),
                 new Response(200),
-            )
+            ]
         );
 
         $handler = HandlerStack::create($mock);

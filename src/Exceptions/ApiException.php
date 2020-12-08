@@ -57,12 +57,12 @@ class ApiException extends \Exception
         $formattedRaisedAt = $this->raisedAt->format(DateTime::ISO8601);
         $message = "[{$formattedRaisedAt}] " . $message;
 
-        if (!empty($field)) {
+        if (! empty($field)) {
             $this->field = (string)$field;
             $message .= ". Field: {$this->field}";
         }
 
-        if (!empty($response)) {
+        if (! empty($response)) {
             $this->response = $response;
 
             $object = static::parseResponseBody($this->response);
@@ -101,11 +101,10 @@ class ApiException extends \Exception
         $guzzleException,
         $request = null,
         $previous = null
-    )
-    {
+    ) {
         // Not all Guzzle Exceptions implement hasResponse() / getResponse()
-        if(method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
-            if($guzzleException->hasResponse()) {
+        if (method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
+            if ($guzzleException->hasResponse()) {
                 return static::createFromResponse($guzzleException->getResponse(), $request, $previous);
             }
         }
@@ -125,7 +124,7 @@ class ApiException extends \Exception
         $object = static::parseResponseBody($response);
 
         $field = null;
-        if (!empty($object->field)) {
+        if (! empty($object->field)) {
             $field = $object->field;
         }
 
@@ -197,6 +196,7 @@ class ApiException extends \Exception
         if ($this->hasLink($key)) {
             return $this->links[$key];
         }
+
         return null;
     }
 
@@ -209,6 +209,7 @@ class ApiException extends \Exception
         if ($this->hasLink($key)) {
             return $this->getLink($key)->href;
         }
+
         return null;
     }
 

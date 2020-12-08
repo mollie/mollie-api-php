@@ -35,7 +35,7 @@ try {
     $payment = $mollie->payments->create([
         "amount" => [
             "currency" => "EUR",
-            "value" => "10.00" // You must send the correct number of decimals, thus we enforce the use of strings
+            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "description" => "Order #{$orderId}",
         "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",

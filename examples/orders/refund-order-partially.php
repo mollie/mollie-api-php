@@ -21,7 +21,7 @@ try {
             [
                 'id' => 'odl_dgtxyl',
                 'quantity' => 1,
-            ]
+            ],
         ],
         "description" => "Required quantity not in stock, refunding one photo book.",
     ]);

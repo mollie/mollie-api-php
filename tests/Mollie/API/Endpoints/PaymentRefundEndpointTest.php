@@ -205,8 +205,8 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $refund = $this->getPayment()->refund([
             "amount" => [
                 "currency" => "EUR",
-                "value" => "20.00"
-            ]
+                "value" => "20.00",
+            ],
         ]);
 
         $this->assertInstanceOf(Refund::class, $refund);

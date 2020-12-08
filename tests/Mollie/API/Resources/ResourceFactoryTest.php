@@ -2,7 +2,6 @@
 
 namespace Tests\Mollie\Api\Resources;
 
-
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\ResourceFactory;

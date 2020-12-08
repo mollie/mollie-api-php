@@ -81,7 +81,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $payment = $this->apiClient->payments->create([
             "amount" => [
                 "currency" => "EUR",
-                "value" => "20.00"
+                "value" => "20.00",
             ],
             "description" => "My first API payment",
             "redirectUrl" => "https://example.org/redirect",
@@ -325,7 +325,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $details = (object)[
             'consumerName' => 'T. TEST',
             'consumerAccount' => 'NL17RABO0213698412',
-            'consumerBic' => 'TESTNL99'
+            'consumerBic' => 'TESTNL99',
         ];
 
         $this->assertEquals($details, $payment->details);

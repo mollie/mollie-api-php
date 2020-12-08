@@ -65,16 +65,16 @@ class Customer extends BaseResource
      */
     public function update()
     {
-        if (!isset($this->_links->self->href)) {
+        if (! isset($this->_links->self->href)) {
             return $this;
         }
 
-        $body = json_encode(array(
+        $body = json_encode([
             "name" => $this->name,
             "email" => $this->email,
             "locale" => $this->locale,
             "metadata" => $this->metadata,
-        ));
+        ]);
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
@@ -228,7 +228,7 @@ class Customer extends BaseResource
     private function getPresetOptions()
     {
         $options = [];
-        if($this->client->usesOAuth()) {
+        if ($this->client->usesOAuth()) {
             $options["testmode"] = $this->mode === "test" ? true : false;
         }
 

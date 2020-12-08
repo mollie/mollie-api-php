@@ -15,6 +15,7 @@ class OnboardingEndpoint extends EndpointAbstract
     {
         throw new \BadMethodCallException('not implemented');
     }
+
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
@@ -51,7 +52,6 @@ class OnboardingEndpoint extends EndpointAbstract
      */
     public function submit(array $parameters = [])
     {
-
         return $this->rest_create($parameters, []);
     }
 

@@ -50,5 +50,4 @@ class Chargeback extends BaseResource
      * @var \stdClass
      */
     public $_links;
-
 }
