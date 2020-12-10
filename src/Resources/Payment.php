@@ -62,6 +62,14 @@ class Payment extends BaseResource
      * @var \stdClass|null
      */
     public $amountRemaining;
+    
+    /**
+     * The total amount that was charged back for this payment. Only available when the
+     * total charged back amount is not zero. This value is expected to be negative.
+     *
+     * @var \stdClass|null
+     */
+    public $amountChargedBack;
 
     /**
      * Description of the payment that is shown to the customer during the payment,
