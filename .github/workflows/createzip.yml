@@ -18,8 +18,7 @@ jobs:
           coverage: none
       - name: Build project
         run: |
-          wget https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar
-          wget https://github.com/humbug/php-scoper/releases/download/0.9.2/php-scoper.phar.pubkey
+          wget https://github.com/humbug/php-scoper/releases/download/0.13.10/php-scoper.phar
           rm -rf build/*
           #
           # First, revert to Guzzle 6 and install all dependencies. Then prefix everything
@@ -30,6 +29,7 @@ jobs:
           composer install --no-dev --no-scripts --no-suggest
           php php-scoper.phar add-prefix --force
           composer dump-autoload --working-dir build --classmap-authoritative
+          php build/examples/initialize.php
           #
           # Now move the autoload files. We have to use the scoper one to load the aliasses but we want to load the normal
           # filename. Flip them around.
