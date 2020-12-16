@@ -4,3 +4,6 @@
 /.gitignore export-ignore
 /phpunit.xml export-ignore
 /scoper.inc.php export-ignore
+/examples export-ignore
+/.php_cs export-ignore
+/phpstan.neon export-ignore
