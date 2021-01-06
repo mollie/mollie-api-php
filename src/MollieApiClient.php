@@ -45,7 +45,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.27.1";
+    const CLIENT_VERSION = "2.27.2";
 
     /**
      * Endpoint of the remote API.
