@@ -62,10 +62,10 @@ class Payment extends BaseResource
      * @var \stdClass|null
      */
     public $amountRemaining;
-    
+
     /**
      * The total amount that was charged back for this payment. Only available when the
-     * total charged back amount is not zero. This value is expected to be negative.
+     * total charged back amount is not zero.
      *
      * @var \stdClass|null
      */
@@ -663,7 +663,7 @@ class Payment extends BaseResource
     {
         return array_merge($this->getPresetOptions(), $options);
     }
-    
+
     /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
