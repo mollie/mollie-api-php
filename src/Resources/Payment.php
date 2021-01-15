@@ -255,7 +255,7 @@ class Payment extends BaseResource
      *
      * @var \stdClass|null
      */
-    public $applicationFeeAmount;
+    public $applicationFee;
 
     /**
      * The date and time the payment became authorized, in ISO 8601 format. This
@@ -701,8 +701,8 @@ class Payment extends BaseResource
      */
     public function getApplicationFeeAmount()
     {
-        if ($this->applicationFeeAmount) {
-            return (float)$this->applicationFeeAmount->value;
+        if ($this->applicationFee) {
+            return (float)$this->applicationFee->amount->value;
         }
 
         return 0.0;
