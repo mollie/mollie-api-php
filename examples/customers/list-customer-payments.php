@@ -16,7 +16,6 @@ try {
     */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
-    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
     /*
      * Retrieve the last created customer for this example.
@@ -47,7 +46,7 @@ try {
         }
 
         if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-            echo " (<a href=\"{$protocol}://{$hostname}{$path}/payments/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+            echo " (<a href=\"{$protocol}://{$hostname}/payments/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
         }
 
         echo "</li>";
