@@ -504,6 +504,16 @@ class Payment extends BaseResource
     }
 
     /**
+     * @param array $parameters
+     *
+     * @return Refund
+     */
+    public function listRefunds(array $parameters = [])
+    {
+        return $this->client->paymentRefunds->listFor($this, $this->withPresetOptions($parameters));
+    }
+
+    /**
      * Retrieves all captures associated with this payment
      *
      * @return CaptureCollection

@@ -60,4 +60,30 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_read($refundId, $parameters);
     }
+
+    /**
+     * @param Payment $payment
+     * @param array $parameters
+     *
+     * @return Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listFor(Payment $payment, array $parameters = [])
+    {
+        return $this->listForId($payment->id, $parameters);
+    }
+
+    /**
+     * @param string $paymentId
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listForId($paymentId, array $parameters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return parent::rest_list($parameters);
+    }
 }
