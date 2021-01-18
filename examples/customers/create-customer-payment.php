@@ -26,7 +26,6 @@ try {
      */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
-    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
 
     /**
      * Linking customers to payments has a few benefits
@@ -39,8 +38,8 @@ try {
             "currency" => "EUR",
         ],
         "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
+        "redirectUrl" => "{$protocol}://{$hostname}/payments/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}/payments/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ],

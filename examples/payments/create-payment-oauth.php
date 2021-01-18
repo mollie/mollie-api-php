@@ -36,8 +36,8 @@ try {
             "currency" => "EUR",
         ],
         "description" => "My first API payment",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/payments/webhook.php",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/return.php?order_id={$orderId}",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
         "metadata" => [
             "order_id" => $orderId,
         ],

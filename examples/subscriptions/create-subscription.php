@@ -41,7 +41,7 @@ try {
         "times" => 12,
         "interval" => "1 month",
         "description" => "Subscription #{$subscriptionId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/subscriptions/webhook.php",
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
         "metadata" => [
             "subscription_id" => $subscriptionId,
         ],
