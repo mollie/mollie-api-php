@@ -323,6 +323,123 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $this->assertEquals($paymentLink, $refund->_links->payment);
     }
 
+    public function testListRefundsOnPaymentResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/payments/tr_44aKxzEbr8/refunds",
+                [],
+                ''
+            ),
+            new Response(
+                201,
+                [],
+                '{
+                  "_embedded": {
+                    "refunds": [
+                          {
+                            "resource": "refund",
+                            "id": "re_b63hJyxbap",
+                            "amount": {
+                                "value": "1.00",
+                                "currency": "EUR"
+                            },
+                            "createdAt": "2021-01-17T20:57:40+00:00",
+                            "description": "Order #1610620820",
+                            "paymentId": "tr_4NydwvhQDd",
+                            "orderId": null,
+                            "lines": null,
+                            "settlementAmount": {
+                                "value": "-1.00",
+                                "currency": "EUR"
+                            },
+                            "status": "refunded",
+                            "_links": {
+                                "self": {
+                                    "href": "https://api.mollie.com/v2/payments/tr_4NydwvhQDd/refunds/re_b63hJyxbap",
+                                    "type": "application/hal+json"
+                                },
+                                "payment": {
+                                    "href": "https://api.mollie.com/v2/payments/tr_4NydwvhQDd",
+                                    "type": "application/hal+json"
+                                }
+                            },
+                            "metadata": null
+                        },
+                        {
+                            "resource": "refund",
+                            "id": "re_SpBqRM9rcn",
+                            "amount": {
+                                "value": "2.00",
+                                "currency": "EUR"
+                            },
+                            "createdAt": "2021-01-17T20:26:10+00:00",
+                            "description": "test",
+                            "paymentId": "tr_4NydwvhQDd",
+                            "orderId": null,
+                            "lines": null,
+                            "settlementAmount": {
+                                "value": "-2.00",
+                                "currency": "EUR"
+                            },
+                            "status": "refunded",
+                            "_links": {
+                                "self": {
+                                    "href": "https://api.mollie.com/v2/payments/tr_4NydwvhQDd/refunds/re_SpBqRM9rcn",
+                                    "type": "application/hal+json"
+                                },
+                                "payment": {
+                                    "href": "https://api.mollie.com/v2/payments/tr_4NydwvhQDd",
+                                    "type": "application/hal+json"
+                                }
+                            },
+                            "metadata": null
+                        }
+                    ]
+                  },
+                  "_links": {
+                    "documentation": {
+                      "href": "https://docs.mollie.com/reference/v2/refunds-api/list-refunds",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/payments/tr_4NydwvhQDd/refunds?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  },
+                  "count": 2
+                }'
+            )
+        );
+
+        $refunds = $this->getPayment()->listRefunds();
+
+        $this->assertInstanceOf(RefundCollection::class, $refunds);
+        $this->assertEquals(2, $refunds->count);
+        $this->assertCount(2, $refunds);
+
+        $refund = $refunds[0];
+        $this->assertInstanceOf(Refund::class, $refund);
+        $this->assertEquals("re_b63hJyxbap", $refund->id);
+        $this->assertEquals("1.00", $refund->amount->value);
+        $this->assertEquals("EUR", $refund->amount->currency);
+        $this->assertEquals("refunded", $refund->status);
+        $this->assertEquals("2021-01-17T20:57:40+00:00", $refund->createdAt);
+        $this->assertEquals("Order #1610620820", $refund->description);
+        $this->assertEquals("tr_4NydwvhQDd", $refund->paymentId);
+        $this->assertEquals("-1.00", $refund->settlementAmount->value);
+        $this->assertEquals("EUR", $refund->settlementAmount->currency);
+
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_4NydwvhQDd/refunds/re_b63hJyxbap", "type" => "application/hal+json"];
+        $this->assertEquals($selfLink, $refund->_links->self);
+
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_4NydwvhQDd", "type" => "application/hal+json"];
+        $this->assertEquals($paymentLink, $refund->_links->payment);
+    }
+
     /**
      * @return Payment
      */
