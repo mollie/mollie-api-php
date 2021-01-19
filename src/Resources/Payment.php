@@ -134,6 +134,25 @@ class Payment extends BaseResource
     public $failedAt;
 
     /**
+     * $dueDate is used only for banktransfer method
+     * The minimum date is tomorrow and the maximum date is 100 days after tomorrow
+     * UTC due date for the banktransfer payment in ISO-8601 format.
+     *
+     * @example "2021-01-19"
+     * @var string|null
+     */
+    public $dueDate;
+
+    /**
+     * Consumer’s email address, to automatically send the bank transfer details to.
+     * Please note: the payment instructions will be sent immediately when creating the payment.
+     *
+     * @example "user@mollie.com"
+     * @var string|null
+     */
+    public $billingEmail;
+
+    /**
      * The profile ID this payment belongs to.
      *
      * @example pfl_xH2kP6Nc6X
