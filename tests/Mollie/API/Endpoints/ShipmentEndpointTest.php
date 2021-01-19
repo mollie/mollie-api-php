@@ -334,7 +334,6 @@ class ShipmentEndpointTest extends BaseEndpointTest
             '{
              "resource": "order",
              "id": "<<order_id>>",
-             "profileId": "pfl_URR55HPMGx",
              "amount": {
                  "value": "1027.99",
                  "currency": "EUR"
@@ -486,7 +485,6 @@ class ShipmentEndpointTest extends BaseEndpointTest
              "id": "<<shipment_id>>",
              "orderId": "<<order_id>>",
              "createdAt": "2018-08-02T09:29:56+00:00",
-             "profileId": "pfl_URR55HPMGx",
              <<tracking_info>>
              "lines": [
                  {
