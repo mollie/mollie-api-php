@@ -60,7 +60,12 @@ class PaymentMethod
     const IDEAL = "ideal";
 
     /**
-     * @link https://www.mollie.com/en/payments/ing-homepay
+     * Support for inghomepay will be discontinued February 1st, 2021.
+     * Make sure to remove this payment method from your checkout if needed.
+     * 
+     * @deprecated
+     * @link https://docs.mollie.com/changelog/v2/changelog
+     * 
      */
     const INGHOMEPAY = "inghomepay";
 
