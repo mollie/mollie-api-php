@@ -135,7 +135,7 @@ class Payment extends BaseResource
 
     /**
      * $dueDate is used only for banktransfer method
-     * The minimum date is tomorrow and the maximum date is 100 days after tomorrow
+     * The date the payment should expire. Please note: the minimum date is tomorrow and the maximum date is 100 days after tomorrow.
      * UTC due date for the banktransfer payment in ISO-8601 format.
      *
      * @example "2021-01-19"
