@@ -96,6 +96,13 @@ class Subscription extends BaseResource
      * @var \stdClass|null
      */
     public $webhookUrl;
+    
+    /**
+     * Date the next subscription payment will take place. For example: 2018-04-24
+     *
+     * @var string|null
+     */
+    public $nextPaymentDate;
 
     /**
      * @var \stdClass
