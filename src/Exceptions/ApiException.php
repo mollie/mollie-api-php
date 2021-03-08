@@ -14,12 +14,12 @@ class ApiException extends \Exception
     protected $field;
 
     /**
-     * @var RequestInterface
+     * @var RequestInterface|null
      */
     protected $request;
 
     /**
-     * @var ResponseInterface
+     * @var ResponseInterface|null
      */
     protected $response;
 
@@ -88,28 +88,6 @@ class ApiException extends \Exception
         }
 
         parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * @param \GuzzleHttp\Exception\GuzzleException $guzzleException
-     * @param RequestInterface|null $request
-     * @param \Throwable|null $previous
-     * @return \Mollie\Api\Exceptions\ApiException
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public static function createFromGuzzleException(
-        $guzzleException,
-        $request = null,
-        $previous = null
-    ) {
-        // Not all Guzzle Exceptions implement hasResponse() / getResponse()
-        if (method_exists($guzzleException, 'hasResponse') && method_exists($guzzleException, 'getResponse')) {
-            if ($guzzleException->hasResponse()) {
-                return static::createFromResponse($guzzleException->getResponse(), $request, $previous);
-            }
-        }
-
-        return new self($guzzleException->getMessage(), $guzzleException->getCode(), null, $request, null, $previous);
     }
 
     /**

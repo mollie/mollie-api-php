@@ -8,7 +8,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
-class GuzzleRetryMiddlewareFactory
+class Guzzle6And7RetryMiddlewareFactory
 {
     /**
      * The maximum number of retries

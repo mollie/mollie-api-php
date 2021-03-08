@@ -32,8 +32,6 @@ use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\HttpAdapter\MollieHttpAdapter;
-use Psr\Http\Message\ResponseInterface; // TODO check for removal
-use Psr\Http\Message\StreamInterface; // TODO check for removal
 
 class MollieApiClient
 {
@@ -59,11 +57,6 @@ class MollieApiClient
     const HTTP_POST = "POST";
     const HTTP_DELETE = "DELETE";
     const HTTP_PATCH = "PATCH";
-
-    /**
-     * HTTP status codes
-     */
-    const HTTP_NO_CONTENT = 204;
 
     /**
      * @var MollieHttpAdapter
@@ -271,7 +264,8 @@ class MollieApiClient
     public function __construct($httpClient = null)
     {
         if (! $httpClient) {
-            if (class_exists('\GuzzleHttp\ClientInterface')) {
+            // Detect and try to instantiate a Guzzle adapter
+            if (interface_exists("\GuzzleHttp\ClientInterface")) {
                 $this->httpClient = Guzzle6And7MollieHttpAdapter::createDefault();
             } else {
                 $this->httpClient = new CurlMollieHttpAdapter;
@@ -413,7 +407,7 @@ class MollieApiClient
      *
      * @param string $httpMethod
      * @param string $apiMethod
-     * @param string|null|resource|StreamInterface $httpBody
+     * @param string|null $httpBody
      *
      * @return \stdClass
      * @throws ApiException
@@ -435,7 +429,7 @@ class MollieApiClient
      *
      * @param string $httpMethod
      * @param string $url
-     * @param string|null|resource|StreamInterface $httpBody
+     * @param string|null $httpBody
      *
      * @return \stdClass|null
      * @throws ApiException
@@ -464,54 +458,7 @@ class MollieApiClient
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        // TODO GUZZLE SPECIFIC START
-
-        $request = new Request($httpMethod, $url, $headers, $httpBody); // TODO simply hand it off to the adapter from here,
-
-        try {
-            $response = $this->httpClient->send($request, ['http_errors' => false]);
-        } catch (GuzzleException $e) {
-            throw ApiException::createFromGuzzleException($e, $request);
-        }
-
-        if (! $response) {
-            throw new ApiException("Did not receive API response.", 0, null, $request);
-        }
-
-        return $this->parseResponseBody($response);
-
-        // TODO GUZZLE SPECIFIC END
-    }
-
-    /**
-     * Parse the PSR-7 Response body
-     *
-     * @param ResponseInterface $response
-     * @return \stdClass|null
-     * @throws ApiException
-     */
-    private function parseResponseBody(ResponseInterface $response)
-    {
-        $body = (string) $response->getBody();
-        if (empty($body)) {
-            if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
-                return null;
-            }
-
-            throw new ApiException("No response body found.");
-        }
-
-        $object = @json_decode($body);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        if ($response->getStatusCode() >= 400) {
-            throw ApiException::createFromResponse($response, null);
-        }
-
-        return $object;
+        return $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
     }
 
     /**
@@ -535,8 +482,7 @@ class MollieApiClient
     /**
      * When unserializing a collection or a resource, this class should restore itself.
      *
-     * Note that if you use a custom GuzzleClient, this client is lost. You can't re set the Client, so you should
-     * probably not use this feature.
+     * Note that if you have set an HttpAdapter, this adapter is lost on wakeup and reset to the default one.
      *
      * @throws IncompatiblePlatform If suddenly unserialized on an incompatible platform.
      */
