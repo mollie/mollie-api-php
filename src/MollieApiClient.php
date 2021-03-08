@@ -2,13 +2,6 @@
 
 namespace Mollie\Api;
 
-use Composer\CaBundle\CaBundle;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
@@ -36,9 +29,11 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\Guzzle\RetryMiddlewareFactory;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
+use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\HttpAdapter\MollieHttpAdapter;
+use Psr\Http\Message\ResponseInterface; // TODO check for removal
+use Psr\Http\Message\StreamInterface; // TODO check for removal
 
 class MollieApiClient
 {
@@ -71,17 +66,7 @@ class MollieApiClient
     const HTTP_NO_CONTENT = 204;
 
     /**
-     * Default response timeout (in seconds).
-     */
-    const TIMEOUT = 10;
-
-    /**
-     * Default connect timeout (in seconds).
-     */
-    const CONNECT_TIMEOUT = 2;
-
-    /**
-     * @var ClientInterface
+     * @var MollieHttpAdapter
      */
     protected $httpClient;
 
@@ -279,33 +264,25 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * @var int
-     */
-    protected $lastHttpResponseStatusCode;
-
-    /**
-     * @param ClientInterface $httpClient
+     * @param \GuzzleHttp\ClientInterface|HttpAdapter\MollieHttpAdapter $httpClient
      *
      * @throws IncompatiblePlatform
      */
-    public function __construct(ClientInterface $httpClient = null)
+    public function __construct($httpClient = null)
     {
-        $this->httpClient = $httpClient;
-
-        if (! $this->httpClient) {
-            $retryMiddlewareFactory = new RetryMiddlewareFactory;
-            $handlerStack = HandlerStack::create();
-            $handlerStack->push($retryMiddlewareFactory->retry());
-
-            $this->httpClient = new Client([
-                GuzzleRequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
-                GuzzleRequestOptions::TIMEOUT => self::TIMEOUT,
-                GuzzleRequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
-                'handler' => $handlerStack,
-            ]);
+        if (! $httpClient) {
+            if (class_exists('\GuzzleHttp\ClientInterface')) {
+                $this->httpClient = Guzzle6And7MollieHttpAdapter::createDefault();
+            } else {
+                $this->httpClient = new CurlMollieHttpAdapter;
+            }
+        } elseif ($httpClient instanceof MollieHttpAdapter) {
+            $this->httpClient = $httpClient;
+        } elseif ($httpClient instanceof \GuzzleHttp\ClientInterface) {
+            $this->httpClient = new Guzzle6And7MollieHttpAdapter($httpClient);
         }
 
-        $compatibilityChecker = new CompatibilityChecker();
+        $compatibilityChecker = new CompatibilityChecker;
         $compatibilityChecker->checkCompatibility();
 
         $this->initializeEndpoints();
@@ -313,10 +290,9 @@ class MollieApiClient
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
 
-        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
-            $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
-        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
-            $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+        $httpClientVersionString = $this->httpClient->versionString();
+        if ($httpClientVersionString) {
+            $this->addVersionString($httpClientVersionString);
         }
     }
 
@@ -488,7 +464,9 @@ class MollieApiClient
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        $request = new Request($httpMethod, $url, $headers, $httpBody);
+        // TODO GUZZLE SPECIFIC START
+
+        $request = new Request($httpMethod, $url, $headers, $httpBody); // TODO simply hand it off to the adapter from here,
 
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
@@ -501,6 +479,8 @@ class MollieApiClient
         }
 
         return $this->parseResponseBody($response);
+
+        // TODO GUZZLE SPECIFIC END
     }
 
     /**

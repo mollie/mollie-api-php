@@ -51,10 +51,10 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
-    "composer/ca-bundle": "^1.1",
-    "guzzlehttp/guzzle": "^6.3 || ^7.0"
+    "composer/ca-bundle": "^1.1"
   },
   "require-dev": {
+    "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "eloquent/liberator": "^2.0",
     "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^8.5",
     "friendsofphp/php-cs-fixer": "^v2.17"
