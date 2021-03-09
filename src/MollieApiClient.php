@@ -31,6 +31,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\HttpAdapter\HttpAdapterPicker;
 use Mollie\Api\HttpAdapter\MollieHttpAdapter;
 
 class MollieApiClient
@@ -263,18 +264,8 @@ class MollieApiClient
      */
     public function __construct($httpClient = null)
     {
-        if (! $httpClient) {
-            // Detect and try to instantiate a Guzzle adapter
-            if (interface_exists("\GuzzleHttp\ClientInterface")) {
-                $this->httpClient = Guzzle6And7MollieHttpAdapter::createDefault();
-            } else {
-                $this->httpClient = new CurlMollieHttpAdapter;
-            }
-        } elseif ($httpClient instanceof MollieHttpAdapter) {
-            $this->httpClient = $httpClient;
-        } elseif ($httpClient instanceof \GuzzleHttp\ClientInterface) {
-            $this->httpClient = new Guzzle6And7MollieHttpAdapter($httpClient);
-        }
+        $httpAdapterPicker = new HttpAdapterPicker;
+        $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
 
         $compatibilityChecker = new CompatibilityChecker;
         $compatibilityChecker->checkCompatibility();
