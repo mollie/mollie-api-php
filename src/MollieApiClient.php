@@ -29,7 +29,7 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\HttpAdapter\HttpAdapterPicker;
+use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 
 class MollieApiClient
 {
@@ -261,7 +261,7 @@ class MollieApiClient
      */
     public function __construct($httpClient = null)
     {
-        $httpAdapterPicker = new HttpAdapterPicker;
+        $httpAdapterPicker = new MollieHttpAdapterPicker;
         $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
 
         $compatibilityChecker = new CompatibilityChecker;

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\HttpAdapter;
 
-class HttpAdapterPicker
+class MollieHttpAdapterPicker
 {
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface $httpClient

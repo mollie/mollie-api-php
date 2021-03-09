@@ -4,15 +4,15 @@ namespace Tests\Mollie\API\HttpAdapter;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
-use Mollie\Api\HttpAdapter\HttpAdapterPicker;
+use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 use PHPUnit\Framework\TestCase;
 
-class HttpAdapterPickerTest extends TestCase
+class MollieHttpAdapterPickerTest extends TestCase
 {
     /** @test */
     public function createsAGuzzleAdapterIfNullIsPassedAndGuzzleIsDetected()
     {
-        $picker = new HttpAdapterPicker;
+        $picker = new MollieHttpAdapterPicker;
 
         $adapter = $picker->pickHttpAdapter(null);
 
@@ -22,19 +22,19 @@ class HttpAdapterPickerTest extends TestCase
     /** @test */
     public function returnsTheAdapterThatWasPassedIn()
     {
-        $picker = new HttpAdapterPicker;
-        $mockAdapter = new MockHttpAdapter;
+        $picker = new MollieHttpAdapterPicker;
+        $mockAdapter = new MockMollieHttpAdapter;
 
         $adapter = $picker->pickHttpAdapter($mockAdapter);
 
-        $this->assertInstanceOf(MockHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(MockMollieHttpAdapter::class, $adapter);
         $this->assertEquals($mockAdapter, $adapter);
     }
 
     /** @test */
     public function wrapsAGuzzleClientIntoAnAdapter()
     {
-        $picker = new HttpAdapterPicker;
+        $picker = new MollieHttpAdapterPicker;
         $guzzleClient = new GuzzleClient;
 
         $adapter = $picker->pickHttpAdapter($guzzleClient);
