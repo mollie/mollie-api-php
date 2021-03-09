@@ -2,24 +2,26 @@
 
 namespace Mollie\Api\HttpAdapter;
 
-
 class HttpAdapterPicker
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|MollieHttpAdapter $httpClient
+     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface $httpClient
      *
-     * @return \Mollie\Api\HttpAdapter\MollieHttpAdapter
+     * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
      */
     public function pickHttpAdapter($httpClient)
     {
         if (! $httpClient) {
-            // Detect and try to instantiate a Guzzle adapter
-            if (interface_exists("\GuzzleHttp\ClientInterface")) {
-                return Guzzle6And7MollieHttpAdapter::createDefault();
+            if ($this->guzzleIsDetected()) {
+                $guzzleVersion = $this->guzzleMajorVersionNumber();
+                
+                if ($guzzleVersion && in_array($guzzleVersion, [6, 7])) {
+                    return Guzzle6And7MollieHttpAdapter::createDefault();
+                }
             }
         }
 
-        if ($httpClient instanceof MollieHttpAdapter) {
+        if ($httpClient instanceof MollieHttpAdapterInterface) {
             return $httpClient;
         }
 
@@ -28,5 +30,29 @@ class HttpAdapterPicker
         }
 
         return new CurlMollieHttpAdapter;
+    }
+
+    /**
+     * @return bool
+     */
+    private function guzzleIsDetected()
+    {
+        return interface_exists("\GuzzleHttp\ClientInterface") === true;
+    }
+
+    /**
+     * @return int|null
+     */
+    private function guzzleMajorVersionNumber()
+    {
+        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
+            return (int) \GuzzleHttp\ClientInterface::MAJOR_VERSION;
+        }
+
+        if (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
+            return (int) \GuzzleHttp\ClientInterface::VERSION[0];
+        }
+
+        return null;
     }
 }

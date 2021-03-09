@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\HttpAdapter;
 
-interface MollieHttpAdapter
+interface MollieHttpAdapterInterface
 {
     /**
      * Send a request to the specified Mollie api url.

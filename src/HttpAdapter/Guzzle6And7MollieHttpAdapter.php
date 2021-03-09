@@ -12,7 +12,7 @@ use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Exceptions\ApiException;
 use Psr\Http\Message\ResponseInterface;
 
-class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapter
+class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
 {
     /**
      * Default response timeout (in seconds).

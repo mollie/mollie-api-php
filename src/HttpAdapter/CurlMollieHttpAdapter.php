@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\HttpAdapter;
 
-class CurlMollieHttpAdapter implements MollieHttpAdapter
+class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
 {
     /**
      * @param $httpMethod

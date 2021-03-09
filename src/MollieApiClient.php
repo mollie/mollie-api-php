@@ -29,10 +29,7 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\HttpAdapter\HttpAdapterPicker;
-use Mollie\Api\HttpAdapter\MollieHttpAdapter;
 
 class MollieApiClient
 {
@@ -258,7 +255,7 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * @param \GuzzleHttp\ClientInterface|HttpAdapter\MollieHttpAdapter $httpClient
+     * @param \GuzzleHttp\ClientInterface|HttpAdapter\MollieHttpAdapterInterface $httpClient
      *
      * @throws IncompatiblePlatform
      */
