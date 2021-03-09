@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\HttpAdapter;
 
-
 class HttpAdapterPicker
 {
     /**
