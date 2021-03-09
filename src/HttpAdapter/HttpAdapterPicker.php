@@ -37,7 +37,7 @@ class HttpAdapterPicker
      */
     private function guzzleIsDetected()
     {
-        return interface_exists("\GuzzleHttp\ClientInterface") === true;
+        return interface_exists("\GuzzleHttp\ClientInterface");
     }
 
     /**
@@ -45,11 +45,13 @@ class HttpAdapterPicker
      */
     private function guzzleMajorVersionNumber()
     {
-        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
+        // Guzzle 7
+        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
             return (int) \GuzzleHttp\ClientInterface::MAJOR_VERSION;
         }
 
-        if (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
+        // Before Guzzle 7
+        if (defined('\GuzzleHttp\ClientInterface::VERSION')) {
             return (int) \GuzzleHttp\ClientInterface::VERSION[0];
         }
 
