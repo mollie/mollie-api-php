@@ -2,7 +2,6 @@
 
 namespace Tests\Mollie\API\Exceptions;
 
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
