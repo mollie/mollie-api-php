@@ -12,5 +12,5 @@ parameters:
 
         -
         	message: '/Access to undefined constant GuzzleHttp\\ClientInterface::/'
-        	path: src/MollieApiClient.php
+        	path: src/HttpAdapter/MollieHttpAdapterPicker.php
         	count: 1
