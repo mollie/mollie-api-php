@@ -328,6 +328,14 @@ class MollieApiClient
     }
 
     /**
+     * @return array
+     */
+    public function getVersionStrings()
+    {
+        return $this->versionStrings;
+    }
+
+    /**
      * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
      *
      * @return MollieApiClient
