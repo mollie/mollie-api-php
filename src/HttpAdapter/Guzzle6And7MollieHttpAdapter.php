@@ -127,7 +127,8 @@ class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
-     * The version number for the underlying http client, if available.
+     * The version number for the underlying http client, if available. This is used to report the UserAgent to Mollie,
+     * for convenient support.
      * @example Guzzle/6.3
      *
      * @return string|null
