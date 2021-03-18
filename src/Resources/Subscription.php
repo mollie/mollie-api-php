@@ -96,7 +96,7 @@ class Subscription extends BaseResource
      * @var \stdClass|null
      */
     public $webhookUrl;
-    
+
     /**
      * Date the next subscription payment will take place. For example: 2018-04-24
      *
@@ -207,9 +207,12 @@ class Subscription extends BaseResource
             ]);
         }
 
+        // endpoint does not support 'testmode' as a query param, so we need to strip it from the url
+        $url = str_replace('?testmode=true', '', $this->_links->self->href);
+
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_DELETE,
-            $this->_links->self->href,
+            $url,
             $body
         );
 
