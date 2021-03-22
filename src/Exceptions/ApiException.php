@@ -3,8 +3,6 @@
 namespace Mollie\Api\Exceptions;
 
 use DateTime;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class ApiException extends \Exception
 {
@@ -14,12 +12,12 @@ class ApiException extends \Exception
     protected $field;
 
     /**
-     * @var RequestInterface|null
+     * @var \Psr\Http\Message\RequestInterface|null
      */
     protected $request;
 
     /**
-     * @var ResponseInterface|null
+     * @var \Psr\Http\Message\ResponseInterface|null
      */
     protected $response;
 
@@ -39,8 +37,8 @@ class ApiException extends \Exception
      * @param string $message
      * @param int $code
      * @param string|null $field
-     * @param RequestInterface|null $request
-     * @param ResponseInterface|null $response
+     * @param \Psr\Http\Message\RequestInterface|null $request
+     * @param \Psr\Http\Message\ResponseInterface|null $response
      * @param \Throwable|null $previous
      * @throws \Mollie\Api\Exceptions\ApiException
      */
@@ -48,8 +46,8 @@ class ApiException extends \Exception
         $message = "",
         $code = 0,
         $field = null,
-        RequestInterface $request = null,
-        ResponseInterface $response = null,
+        $request = null,
+        $response = null,
         $previous = null
     ) {
         $this->raisedAt = new \DateTimeImmutable();
@@ -91,13 +89,13 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param ResponseInterface $response
-     * @param RequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\RequestInterface $request
      * @param \Throwable|null $previous
      * @return \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public static function createFromResponse(ResponseInterface $response, RequestInterface $request = null, $previous = null)
+    public static function createFromResponse($response, $request = null, $previous = null)
     {
         $object = static::parseResponseBody($response);
 
@@ -141,7 +139,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return ResponseInterface|null
+     * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function getResponse()
     {
@@ -192,7 +190,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return RequestInterface
+     * @return \Psr\Http\Message\RequestInterface
      */
     public function getRequest()
     {
@@ -210,8 +208,8 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param ResponseInterface $response
-     * @return mixed
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return \stdClass
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     protected static function parseResponseBody($response)
