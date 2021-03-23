@@ -255,13 +255,13 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * @param \GuzzleHttp\ClientInterface|HttpAdapter\MollieHttpAdapterInterface $httpClient
-     *
-     * @throws IncompatiblePlatform
+     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
+     * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
      */
-    public function __construct($httpClient = null)
+    public function __construct($httpClient = null, $httpAdapterPicker = null)
     {
-        $httpAdapterPicker = new MollieHttpAdapterPicker;
+        $httpAdapterPicker = $httpAdapterPicker ?: new MollieHttpAdapterPicker;
         $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
 
         $compatibilityChecker = new CompatibilityChecker;
