@@ -2,12 +2,15 @@
 
 namespace Mollie\Api\HttpAdapter;
 
+use Mollie\Api\Exceptions\UnrecognizedClientException;
+
 class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
 {
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface $httpClient
      *
      * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
+     * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function pickHttpAdapter($httpClient)
     {
@@ -19,6 +22,8 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
                     return Guzzle6And7MollieHttpAdapter::createDefault();
                 }
             }
+
+            return new CurlMollieHttpAdapter;
         }
 
         if ($httpClient instanceof MollieHttpAdapterInterface) {
@@ -29,7 +34,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
             return new Guzzle6And7MollieHttpAdapter($httpClient);
         }
 
-        return new CurlMollieHttpAdapter;
+        throw new UnrecognizedClientException('The provided http client or adapter was not recognized.');
     }
 
     /**

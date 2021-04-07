@@ -257,7 +257,7 @@ class MollieApiClient
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
      * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function __construct($httpClient = null, $httpAdapterPicker = null)
     {
