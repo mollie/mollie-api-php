@@ -36,7 +36,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.31.0-alpha";
+    const CLIENT_VERSION = "2.31.1-alpha";
 
     /**
      * Endpoint of the remote API.
@@ -257,7 +257,7 @@ class MollieApiClient
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
      * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function __construct($httpClient = null, $httpAdapterPicker = null)
     {
