@@ -744,6 +744,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      "imageUrl": "https://sh-s7-live-s.legocdn.com/is/image//LEGO/71043_alt1?$main$",
                      "quantity": 2,
                      "vatRate": "21.00",
+                     "sku": "5702016116977",
                      "unitPrice": {
                         "currency": "EUR",
                         "value": "349.00"
@@ -774,6 +775,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $orderLine->name = 'LEGO 71043 Hogwarts™ Castle';
         $orderLine->productUrl = 'https://shop.lego.com/en-GB/product/Hogwarts-Castle-71043';
         $orderLine->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/71043_alt1?$main$';
+        $orderLine->sku = '5702016116977';
         $orderLine->quantity = 2;
         $orderLine->vatRate = '21.00';
         $orderLine->unitPrice = (object) ['currency' => 'EUR','value' => '349.00'];
