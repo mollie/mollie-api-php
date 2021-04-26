@@ -84,6 +84,6 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_list($parameters);
+        return parent::rest_list(null, null, $parameters);
     }
 }
