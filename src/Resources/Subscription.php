@@ -208,7 +208,7 @@ class Subscription extends BaseResource
         }
 
         // endpoint does not support 'testmode' as a query param, so we need to strip it from the url
-        $url = str_replace('?testmode=true', '', $this->_links->self->href);
+        $url = str_replace(['?testmode=true', '?testmode=false'], '', $this->_links->self->href);
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_DELETE,
