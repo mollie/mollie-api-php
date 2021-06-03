@@ -58,6 +58,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
                 break;
             case MollieApiClient::HTTP_DELETE:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                curl_setopt($curl, CURLOPT_POSTFIELDS,  $httpBody);
 
                 break;
             default:
