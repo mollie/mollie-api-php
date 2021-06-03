@@ -260,7 +260,7 @@ class MollieApiClient
      *
      * @var PaymentLinksEndpoint
      */
-    public $paymentLinks;
+    public $paymentLink;
 
     /**
      * Manages Wallet requests
