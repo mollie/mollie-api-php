@@ -2,11 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Types\PaymentStatus;
-use Mollie\Api\Types\SequenceType;
-
 class PaymentLink extends BaseResource
 {
     /**

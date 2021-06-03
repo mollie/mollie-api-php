@@ -4,11 +4,8 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
-use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
-use Mollie\Api\Resources\Refund;
-use Mollie\Api\Resources\ResourceFactory;
 
 class PaymentLinksEndpoint extends CollectionEndpointAbstract
 {
