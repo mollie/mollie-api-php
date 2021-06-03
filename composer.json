@@ -57,7 +57,7 @@
     "eloquent/liberator": "^2.0",
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^8.5",
-    "friendsofphp/php-cs-fixer": "^v2.17"
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
