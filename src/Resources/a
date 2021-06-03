@@ -1,0 +1,30 @@
+Content-Type: application/hal+json
+
+   {
+       "resource": "paymentLink",
+       "id": "pl_4Y0eZitmBnQ6IDoMqZQKh",
+       "mode": "test",
+       "createdAt": "2021-03-20T09:13:37+00:00",
+       "paidAt": null,
+       "updatedAt": null,
+       "amount": {
+           "value": "24.95",
+           "currency": "EUR"
+       },
+       "description": "Bicycle tires",
+       "webhookUrl": "https://webshop.example.org/payment-links/webhook/",
+       "_links": {
+           "self": {
+               "href": "https://api.mollie.com/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh",
+               "type": "application/json"
+           },
+           "paymentLink": {
+               "href": "https://useplink.com/payment/4Y0eZitmBnQ6IDoMqZQKh/",
+               "type": "text/html"
+           },
+           "documentation": {
+               "href": "https://docs.mollie.com/reference/v2/payment-links-api/create-payment-link",
+               "type": "text/html"
+           }
+       }
+   }
