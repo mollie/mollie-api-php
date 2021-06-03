@@ -69,6 +69,14 @@ class PaymentLink extends BaseResource
     public $updateddAt;
 
     /**
+     * UTC datetime - the expiry date of the payment link in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $expiresAt;
+
+    /**
      * Webhook URL set on this payment link
      *
      * @var string|null
