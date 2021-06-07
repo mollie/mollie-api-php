@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
 
-class PaymentLinksEndpoint extends CollectionEndpointAbstract
+class PaymentLinkEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "payment-links";
 

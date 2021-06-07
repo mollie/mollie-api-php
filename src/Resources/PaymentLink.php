@@ -98,7 +98,7 @@ class PaymentLink extends BaseResource
      *
      * @return string|null
      */
-    public function getPaymentLinkUrl()
+    public function getCheckoutUrl()
     {
         if (empty($this->_links->paymentLink)) {
             return null;
