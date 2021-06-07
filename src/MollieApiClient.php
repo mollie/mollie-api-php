@@ -482,8 +482,11 @@ class MollieApiClient
             'Accept' => "application/json",
             'Authorization' => "Bearer {$this->apiKey}",
             'User-Agent' => $userAgent,
-            'Content-Type' => "application/json",
         ];
+
+        if ($httpBody !== null) {
+            $headers['Content-type'] = "application/json";
+        }
 
         if (function_exists("php_uname")) {
             $headers['X-Mollie-Client-Info'] = php_uname();
