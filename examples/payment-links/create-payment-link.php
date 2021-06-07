@@ -32,7 +32,7 @@ try {
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
         ],
         "description" => "Bicycle tires",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php"
+        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
     ]);
 
     /*
