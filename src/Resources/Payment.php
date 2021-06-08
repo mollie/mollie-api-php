@@ -649,14 +649,28 @@ class Payment extends BaseResource
         if (! isset($this->_links->self->href)) {
             return $this;
         }
+        
+        if ($this->method == "banktransfer" and isset($this->dueDate)) {
+            $body = json_encode([
+                "description" => $this->description,
+                "redirectUrl" => $this->redirectUrl,
+                "webhookUrl" => $this->webhookUrl,
+                "metadata" => $this->metadata,
+                "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
+                "dueDate" => $this->dueDate,
+            ]);
+        } else {
+            $body = json_encode([
+                "description" => $this->description,
+                "redirectUrl" => $this->redirectUrl,
+                "webhookUrl" => $this->webhookUrl,
+                "metadata" => $this->metadata,
+                "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
+            ]);
+        }
 
-        $body = json_encode([
-            "description" => $this->description,
-            "redirectUrl" => $this->redirectUrl,
-            "webhookUrl" => $this->webhookUrl,
-            "metadata" => $this->metadata,
-            "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
-        ]);
+
+        
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_PATCH,
