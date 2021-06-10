@@ -450,6 +450,10 @@ class MollieApiClient
             'User-Agent' => $userAgent,
         ];
 
+        if ($httpBody !== null) {
+            $headers['Content-Type'] = "application/json";
+        }
+
         if (function_exists("php_uname")) {
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
