@@ -656,7 +656,8 @@ class Payment extends BaseResource
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
             "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
-            "dueDate" => $this->dueDate,])
+            "dueDate" => $this->dueDate,
+        ]);
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_PATCH,
