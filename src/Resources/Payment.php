@@ -649,13 +649,14 @@ class Payment extends BaseResource
         if (! isset($this->_links->self->href)) {
             return $this;
         }
-
+        
         $body = json_encode([
             "description" => $this->description,
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
             "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
+            "dueDate" => $this->dueDate,
         ]);
 
         $result = $this->client->performHttpCallToFullUrl(
