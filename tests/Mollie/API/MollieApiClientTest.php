@@ -210,5 +210,4 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(false, isset($fakeAdapter->getUsedHeaders()['Content-Type']));
     }
-
 }

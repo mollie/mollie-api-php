@@ -98,5 +98,4 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
     {
         return $this->usedBody;
     }
-
 }
