@@ -232,7 +232,7 @@ class Payment extends BaseResource
      * Details of a successfully paid payment are set here. For example, the iDEAL
      * payment method will set $details->consumerName and $details->consumerAccount.
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $details;
 
