@@ -21,17 +21,17 @@ try {
 
 
     $payment = $mollie->payments->get("tr_7UhSN1zuXS");
-
-    $payment->description = "Order #98765";
+    $newOrderId = 98765;
+    $payment->description = "Order #".$newOrderId;
     $payment->redirectUrl = "https://example.org/webshop/order/98765/";
     $payment->webhookUrl = "https://example.org/webshop/payments/webhook/";
-    $payment->metadata = ["order_id" => "98765"];
+    $payment->metadata = ["order_id" => $newOrderId];
 
     $payment = $payment->update();
     /*
      * In this example we store the order with its payment status in a database.
      */
-    database_write($orderId, $payment->status);
+    database_write($newOrderId, $payment->status);
 
     /*
      * Send the customer off to complete the payment.
