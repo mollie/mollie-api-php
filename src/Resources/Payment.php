@@ -649,21 +649,17 @@ class Payment extends BaseResource
         if (! isset($this->_links->self->href)) {
             return $this;
         }
-        
-        $body = json_encode([
+
+        $body = [
             "description" => $this->description,
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
             "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
-            "dueDate" => $this->dueDate,
-        ]);
+            "locale" => $this->locale
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_PATCH,
-            $this->_links->self->href,
-            $body
-        );
+        $result = $this->client->payments->update($this->id, $body);
 
         return ResourceFactory::createFromApiResult($result, new Payment($this->client));
     }
