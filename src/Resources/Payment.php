@@ -656,7 +656,8 @@ class Payment extends BaseResource
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
             "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
-            "locale" => $this->locale
+            "locale" => $this->locale,
+            "dueDate" => $this->dueDate
         ];
 
         $result = $this->client->payments->update($this->id, $body);
