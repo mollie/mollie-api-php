@@ -6,5 +6,5 @@
 composer.phar
 php-scoper.phar
 php-scoper.phar.pubkey
-.php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
