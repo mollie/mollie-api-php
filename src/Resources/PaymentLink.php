@@ -25,19 +25,12 @@ class PaymentLink extends BaseResource
     public $mode;
 
     /**
-     * Amount object containing the value and currency
+     * The profile ID this payment link belongs to.
      *
-     * @var \stdClass
-     */
-    public $amount;
-
-    /**
-     * Description of the payment link that is shown to the customer during the payment,
-     * and possibly on the bank or credit card statement.
-     *
+     * @example pfl_QkEhN94Ba
      * @var string
      */
-    public $description;
+    public $profileId;
 
     /**
      * UTC datetime the payment link was created in ISO-8601 format.
@@ -61,7 +54,7 @@ class PaymentLink extends BaseResource
      * @example "2013-12-25T10:30:54+00:00"
      * @var string|null
      */
-    public $updateddAt;
+    public $updatedAt;
 
     /**
      * UTC datetime - the expiry date of the payment link in ISO-8601 format.
@@ -70,6 +63,28 @@ class PaymentLink extends BaseResource
      * @var string|null
      */
     public $expiresAt;
+
+    /**
+     * Amount object containing the value and currency
+     *
+     * @var \stdClass
+     */
+    public $amount;
+
+    /**
+     * Description of the payment link that is shown to the customer during the payment,
+     * and possibly on the bank or credit card statement.
+     *
+     * @var string
+     */
+    public $description;
+
+    /**
+     * Redirect URL set on this payment
+     *
+     * @var string
+     */
+    public $redirectUrl;
 
     /**
      * Webhook URL set on this payment link
