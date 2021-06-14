@@ -657,7 +657,7 @@ class Payment extends BaseResource
             "metadata" => $this->metadata,
             "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
             "locale" => $this->locale,
-            "dueDate" => $this->dueDate
+            "dueDate" => $this->dueDate,
         ];
 
         $result = $this->client->payments->update($this->id, $body);
