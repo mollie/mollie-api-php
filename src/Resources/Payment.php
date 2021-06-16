@@ -646,10 +646,6 @@ class Payment extends BaseResource
 
     public function update()
     {
-        if (! isset($this->_links->self->href)) {
-            return $this;
-        }
-
         $body = [
             "description" => $this->description,
             "redirectUrl" => $this->redirectUrl,
