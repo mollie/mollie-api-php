@@ -9,7 +9,7 @@ class PaymentLinkCollection extends CursorCollection
      */
     public function getCollectionResourceName()
     {
-        return "paymentLinks";
+        return "payment_links";
     }
 
     /**
