@@ -138,7 +138,8 @@ class PaymentEndpointTest extends BaseEndpointTest
                     "metadata":{
                         "order_id":"98765"
                     },
-                    "dueDate":null
+                    "dueDate":null,
+                    "locale":null
                 }'
             ),
             new Response(
