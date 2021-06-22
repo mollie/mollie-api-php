@@ -27,7 +27,8 @@ class WalletEndpointTest extends BaseEndpointTest
                 [],
                 '{
                     "domain": "pay.mywebshop.com",
-                    "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession"
+                    "validationUrl": "https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession",
+                    "profileId": "pfl_xH2kP6Nc6X"
                 }'
             ),
             new Response(
@@ -40,7 +41,11 @@ class WalletEndpointTest extends BaseEndpointTest
         $domain = 'pay.mywebshop.com';
         $validationUrl = 'https://apple-pay-gateway-cert.apple.com/paymentservices/paymentSession';
 
-        $response = $this->apiClient->wallets->requestApplePayPaymentSession($domain, $validationUrl);
+        $response = $this->apiClient->wallets->requestApplePayPaymentSession(
+            $domain,
+            $validationUrl,
+            ['profileId' => 'pfl_xH2kP6Nc6X']
+        );
 
         $this->assertJsonStringEqualsJsonString(
             $responseBody,
