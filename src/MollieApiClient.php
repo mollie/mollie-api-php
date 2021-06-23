@@ -313,6 +313,7 @@ class MollieApiClient
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
+        $this->paymentLinks = new PaymentLinkEndpoint($this);
     }
 
     /**
