@@ -17,6 +17,7 @@ use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\PaymentLinkEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -36,7 +37,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.33.0";
+    const CLIENT_VERSION = "2.36.1";
 
     /**
      * Endpoint of the remote API.
@@ -231,6 +232,13 @@ class MollieApiClient
     public $orderRefunds;
 
     /**
+     * Manages Payment Links requests
+     *
+     * @var PaymentLinkEndpoint
+     */
+    public $paymentLinks;
+
+    /**
      * Manages Wallet requests
      *
      * @var WalletEndpoint
@@ -305,6 +313,7 @@ class MollieApiClient
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
+        $this->paymentLinks = new PaymentLinkEndpoint($this);
     }
 
     /**
