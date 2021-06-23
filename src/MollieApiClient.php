@@ -17,6 +17,7 @@ use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\PaymentLinkEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -229,6 +230,13 @@ class MollieApiClient
      * @var OrderRefundEndpoint
      */
     public $orderRefunds;
+
+    /**
+     * Manages Payment Links requests
+     *
+     * @var PaymentLinkEndpoint
+     */
+    public $paymentLinks;
 
     /**
      * Manages Wallet requests
