@@ -339,6 +339,71 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             )
         );
 
+        $subscription = $this->getSubscription('test');
+
+        $subscription = $subscription->cancel();
+
+        $this->assertInstanceOf(Subscription::class, $subscription);
+        $this->assertEquals("subscription", $subscription->resource);
+        $this->assertEquals("sub_DRjwaT5qHx", $subscription->id);
+        $this->assertEquals("test", $subscription->mode);
+        $this->assertEquals(SubscriptionStatus::STATUS_CANCELED, $subscription->status);
+        $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
+        $this->assertEquals("2018-04-24T12:31:32+00:00", $subscription->canceledAt);
+
+
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx", "type" => "application/hal+json"];
+        $this->assertEquals($selfLink, $subscription->_links->self);
+
+        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_VhjQebNW5j", "type" => "application/hal+json"];
+        $this->assertEquals($customerLink, $subscription->_links->customer);
+
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $subscription->_links->documentation);
+    }
+
+    public function testCancelOnTestModeSubscriptionResourceWorks()
+    {
+        $this->mockApiCall(
+            new Request('DELETE', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),
+            new Response(
+                200,
+                [],
+                '{
+                    "resource": "subscription",
+                    "id": "sub_DRjwaT5qHx",
+                    "mode": "test",
+                    "createdAt": "2018-04-24T11:41:55+00:00",
+                    "status": "canceled",
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
+                    },
+                    "description": "Order 1234",
+                    "method": null,
+                    "times": null,
+                    "interval": "1 month",
+                    "startDate": "2018-04-24",
+                    "webhookUrl": null,
+                    "canceledAt": "2018-04-24T12:31:32+00:00",
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "type": "application/hal+json"
+                        },
+                        "customer": {
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
         $subscription = $this->getSubscription();
 
         $subscription = $subscription->cancel();
@@ -490,13 +555,18 @@ class SubscriptionEndpointTest extends BaseEndpointTest
     /**
      * @return Subscription
      */
-    private function getSubscription()
+    private function getSubscription($mode = 'live')
     {
+        $linkSelfHref = "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx";
+        if ($mode === 'test') {
+            $linkSelfHref .= '?testmode=true';
+        }
+
         $subscriptionJson = '{
             "resource": "subscription",
             "id": "sub_DRjwaT5qHx",
             "customerId": "cst_VhjQebNW5j",
-            "mode": "live",
+            "mode": "' . $mode . '",
             "createdAt": "2018-07-17T07:45:52+00:00",
             "status": "active",
             "amount": {
@@ -511,7 +581,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             "webhookUrl": "https://example.org/webhook",
             "_links": {
                 "self": {
-                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                    "href": "' . $linkSelfHref . '",
                     "type": "application/hal+json"
                 },
                 "customer": {
