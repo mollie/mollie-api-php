@@ -21,7 +21,7 @@ try {
     /*
      * Get the all payments for this API key ordered by newest.
      */
-    $paymentLinks = $mollie->paymentLink->page();
+    $paymentLinks = $mollie->paymentLinks->page();
 
     echo "<ul>";
     foreach ($paymentLinks as $paymentLink) {
