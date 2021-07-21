@@ -137,7 +137,9 @@ class PaymentEndpointTest extends BaseEndpointTest
                     "restrictPaymentMethodsToCountry": null,
                     "metadata":{
                         "order_id":"98765"
-                    }
+                    },
+                    "dueDate":null,
+                    "locale":null
                 }'
             ),
             new Response(

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Guzzle;
+namespace Mollie\Api\HttpAdapter;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\TransferException;
@@ -8,7 +8,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
-class RetryMiddlewareFactory
+class Guzzle6And7RetryMiddlewareFactory
 {
     /**
      * The maximum number of retries

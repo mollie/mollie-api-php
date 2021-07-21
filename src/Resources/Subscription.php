@@ -72,7 +72,7 @@ class Subscription extends BaseResource
     public $mandateId;
 
     /**
-     * @var array|null
+     * @var \stdClass|null
      */
     public $metadata;
 

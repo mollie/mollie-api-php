@@ -8,14 +8,14 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Mollie\Api\Guzzle\RetryMiddlewareFactory;
+use Mollie\Api\HttpAdapter\Guzzle6And7RetryMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
 
 class RetryMiddlewareFactoryTest extends TestCase
 {
     public function testRetriesConnectException()
     {
-        $middlewareFactory = new RetryMiddlewareFactory;
+        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [
@@ -35,7 +35,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
     public function testRetryLimit()
     {
-        $middlewareFactory = new RetryMiddlewareFactory;
+        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [
@@ -60,7 +60,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
     public function testRetryDelay()
     {
-        $middlewareFactory = new RetryMiddlewareFactory;
+        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [

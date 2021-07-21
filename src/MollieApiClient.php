@@ -2,13 +2,6 @@
 
 namespace Mollie\Api;
 
-use Composer\CaBundle\CaBundle;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
@@ -24,6 +17,7 @@ use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
+use Mollie\Api\Endpoints\PaymentLinkEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -36,16 +30,14 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\Guzzle\RetryMiddlewareFactory;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 
 class MollieApiClient
 {
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.31.1";
+    const CLIENT_VERSION = "2.36.1";
 
     /**
      * Endpoint of the remote API.
@@ -66,22 +58,7 @@ class MollieApiClient
     const HTTP_PATCH = "PATCH";
 
     /**
-     * HTTP status codes
-     */
-    const HTTP_NO_CONTENT = 204;
-
-    /**
-     * Default response timeout (in seconds).
-     */
-    const TIMEOUT = 10;
-
-    /**
-     * Default connect timeout (in seconds).
-     */
-    const CONNECT_TIMEOUT = 2;
-
-    /**
-     * @var ClientInterface
+     * @var \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
      */
     protected $httpClient;
 
@@ -255,6 +232,13 @@ class MollieApiClient
     public $orderRefunds;
 
     /**
+     * Manages Payment Links requests
+     *
+     * @var PaymentLinkEndpoint
+     */
+    public $paymentLinks;
+
+    /**
      * Manages Wallet requests
      *
      * @var WalletEndpoint
@@ -279,33 +263,16 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * @var int
+     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
+     * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
-    protected $lastHttpResponseStatusCode;
-
-    /**
-     * @param ClientInterface $httpClient
-     *
-     * @throws IncompatiblePlatform
-     */
-    public function __construct(ClientInterface $httpClient = null)
+    public function __construct($httpClient = null, $httpAdapterPicker = null)
     {
-        $this->httpClient = $httpClient;
+        $httpAdapterPicker = $httpAdapterPicker ?: new MollieHttpAdapterPicker;
+        $this->httpClient = $httpAdapterPicker->pickHttpAdapter($httpClient);
 
-        if (! $this->httpClient) {
-            $retryMiddlewareFactory = new RetryMiddlewareFactory;
-            $handlerStack = HandlerStack::create();
-            $handlerStack->push($retryMiddlewareFactory->retry());
-
-            $this->httpClient = new Client([
-                GuzzleRequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
-                GuzzleRequestOptions::TIMEOUT => self::TIMEOUT,
-                GuzzleRequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
-                'handler' => $handlerStack,
-            ]);
-        }
-
-        $compatibilityChecker = new CompatibilityChecker();
+        $compatibilityChecker = new CompatibilityChecker;
         $compatibilityChecker->checkCompatibility();
 
         $this->initializeEndpoints();
@@ -313,10 +280,9 @@ class MollieApiClient
         $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
         $this->addVersionString("PHP/" . phpversion());
 
-        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
-            $this->addVersionString("Guzzle/" . ClientInterface::MAJOR_VERSION);
-        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
-            $this->addVersionString("Guzzle/" . ClientInterface::VERSION);
+        $httpClientVersionString = $this->httpClient->versionString();
+        if ($httpClientVersionString) {
+            $this->addVersionString($httpClientVersionString);
         }
     }
 
@@ -347,6 +313,7 @@ class MollieApiClient
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
+        $this->paymentLinks = new PaymentLinkEndpoint($this);
     }
 
     /**
@@ -367,6 +334,14 @@ class MollieApiClient
     public function getApiEndpoint()
     {
         return $this->apiEndpoint;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVersionStrings()
+    {
+        return $this->versionStrings;
     }
 
     /**
@@ -437,7 +412,7 @@ class MollieApiClient
      *
      * @param string $httpMethod
      * @param string $apiMethod
-     * @param string|null|resource|StreamInterface $httpBody
+     * @param string|null $httpBody
      *
      * @return \stdClass
      * @throws ApiException
@@ -459,7 +434,7 @@ class MollieApiClient
      *
      * @param string $httpMethod
      * @param string $url
-     * @param string|null|resource|StreamInterface $httpBody
+     * @param string|null $httpBody
      *
      * @return \stdClass|null
      * @throws ApiException
@@ -484,54 +459,15 @@ class MollieApiClient
             'User-Agent' => $userAgent,
         ];
 
+        if ($httpBody !== null) {
+            $headers['Content-Type'] = "application/json";
+        }
+
         if (function_exists("php_uname")) {
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        $request = new Request($httpMethod, $url, $headers, $httpBody);
-
-        try {
-            $response = $this->httpClient->send($request, ['http_errors' => false]);
-        } catch (GuzzleException $e) {
-            throw ApiException::createFromGuzzleException($e, $request);
-        }
-
-        if (! $response) {
-            throw new ApiException("Did not receive API response.", 0, null, $request);
-        }
-
-        return $this->parseResponseBody($response);
-    }
-
-    /**
-     * Parse the PSR-7 Response body
-     *
-     * @param ResponseInterface $response
-     * @return \stdClass|null
-     * @throws ApiException
-     */
-    private function parseResponseBody(ResponseInterface $response)
-    {
-        $body = (string) $response->getBody();
-        if (empty($body)) {
-            if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
-                return null;
-            }
-
-            throw new ApiException("No response body found.");
-        }
-
-        $object = @json_decode($body);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        if ($response->getStatusCode() >= 400) {
-            throw ApiException::createFromResponse($response, null);
-        }
-
-        return $object;
+        return $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
     }
 
     /**
@@ -555,8 +491,7 @@ class MollieApiClient
     /**
      * When unserializing a collection or a resource, this class should restore itself.
      *
-     * Note that if you use a custom GuzzleClient, this client is lost. You can't re set the Client, so you should
-     * probably not use this feature.
+     * Note that if you have set an HttpAdapter, this adapter is lost on wakeup and reset to the default one.
      *
      * @throws IncompatiblePlatform If suddenly unserialized on an incompatible platform.
      */
