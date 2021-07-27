@@ -55,7 +55,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Update the given Order.
+     * Update a specific Order resource
      *
      * Will throw a ApiException if the order id is invalid or the resource cannot be found.
      *

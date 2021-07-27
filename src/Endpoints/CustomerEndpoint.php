@@ -68,9 +68,9 @@ class CustomerEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Update the given Customer.
+     * Update a specific Customer resource.
      *
-     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the customer id is invalid or the resource cannot be found.
      *
      * @param string $customerId
      *

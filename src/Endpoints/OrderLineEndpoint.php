@@ -42,9 +42,9 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Update the given Order Line.
+     * Update a specific OrderLine resource.
      *
-     * Will throw a ApiException if the subscription id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
      *
      * @param $orderId
      * @param string $orderlineId

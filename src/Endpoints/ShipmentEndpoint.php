@@ -107,9 +107,9 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Update the given Shipment.
+     * Update a specific Order Shipment resource.
      *
-     * Will throw a ApiException if the subscription id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the shipment id is invalid or the resource cannot be found.
      *
      * @param string $shipmentId
      * @param string $orderId

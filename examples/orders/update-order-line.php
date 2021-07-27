@@ -1,6 +1,6 @@
 <?php
 /*
- * How to prepare a new payment with the Mollie API.
+ * How to update an order line with the Mollie API
  */
 
 try {

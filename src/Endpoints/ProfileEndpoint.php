@@ -75,23 +75,23 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Update the given Profile.
+     * Update a specific Profile resource.
      *
-     * Will throw a ApiException if the profile id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
-     * @param string $profileID
+     * @param string $profileId
      *
      * @param array $data
      * @return Profile
      * @throws ApiException
      */
-    public function update($profileID, array $data = [])
+    public function update($profileId, array $data = [])
     {
-        if (empty($profileID) || strpos($profileID, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid profile ID: '{$profileID}'. An profile ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '".self::RESOURCE_ID_PREFIX."'.");
         }
 
-        return parent::rest_update($profileID, $data);
+        return parent::rest_update($profileId, $data);
     }
 
     /**
