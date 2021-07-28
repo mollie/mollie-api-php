@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderLineType;
 
@@ -386,9 +385,7 @@ class OrderLine extends BaseResource
      */
     public function update()
     {
-        $url = "orders/{$this->orderId}/lines/{$this->id}";
-        $body = json_encode($this->getUpdateData());
-        $result = $this->client->performHttpCall(MollieApiClient::HTTP_PATCH, $url, $body);
+        $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
     }

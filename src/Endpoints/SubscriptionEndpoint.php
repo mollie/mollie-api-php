@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Resources\Subscription;
@@ -10,6 +11,11 @@ use Mollie\Api\Resources\SubscriptionCollection;
 class SubscriptionEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "customers_subscriptions";
+
+    /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'sub_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -62,6 +68,29 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
         $this->parentId = $customerId;
 
         return parent::rest_create($options, $filters);
+    }
+
+    /**
+     * Update a specific Subscription resource.
+     *
+     * Will throw an ApiException if the subscription id is invalid or the resource cannot be found.
+     *
+     * @param string $subscriptionId
+     * @param string $customerId
+     *
+     * @param array $data
+     * @return Order
+     * @throws ApiException
+     */
+    public function update($customerId, $subscriptionId, array $data = [])
+    {
+        if (empty($subscriptionId) || strpos($subscriptionId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        $this->parentId = $customerId;
+
+        return parent::rest_update($subscriptionId, $data);
     }
 
     /**

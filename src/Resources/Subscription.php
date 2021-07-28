@@ -115,11 +115,7 @@ class Subscription extends BaseResource
      */
     public function update()
     {
-        if (! isset($this->_links->self->href)) {
-            return $this;
-        }
-
-        $body = json_encode([
+        $body = [
             "amount" => $this->amount,
             "times" => $this->times,
             "startDate" => $this->startDate,
@@ -128,13 +124,9 @@ class Subscription extends BaseResource
             "mandateId" => $this->mandateId,
             "metadata" => $this->metadata,
             "interval" => $this->interval,
-        ]);
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_PATCH,
-            $this->_links->self->href,
-            $body
-        );
+        $result = $this->client->subscriptions->update($this->customerId, $this->id, $body);
 
         return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }

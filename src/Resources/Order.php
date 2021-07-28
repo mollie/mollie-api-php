@@ -480,19 +480,15 @@ class Order extends BaseResource
      */
     public function update()
     {
-        if (! isset($this->_links->self->href)) {
-            return $this;
-        }
-
-        $body = json_encode([
+        $body = [
             "billingAddress" => $this->billingAddress,
             "shippingAddress" => $this->shippingAddress,
             "orderNumber" => $this->orderNumber,
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
-        ]);
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
+        $result = $this->client->orders->update($this->id, $body);
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
     }
