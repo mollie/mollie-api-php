@@ -52,6 +52,11 @@ class Subscription extends BaseResource
     public $times;
 
     /**
+     * @var int|null
+     */
+    public $timesRemaining;
+
+    /**
      * @var string
      */
     public $interval;
