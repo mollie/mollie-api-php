@@ -4,7 +4,6 @@
  */
 
 try {
-
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -47,7 +46,7 @@ try {
 
      */
     $payment = $mollie->payments->create([
-        "profileId"=> "pfl_v9hTwCvYqw",
+        "profileId" => "pfl_v9hTwCvYqw",
         "amount" => [
             "currency" => "EUR",
             "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
@@ -59,15 +58,15 @@ try {
             [
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "10.00"
+                    "value" => "10.00",
                 ],
                 "destination" => [
                     "type" => "organization",
-                    "organizationId" => "org_23456"
+                    "organizationId" => "org_23456",
                 ],
-                "releaseDate" => "2025-01-01"
-            ]
-        ]
+                "releaseDate" => "2025-01-01",
+            ],
+        ],
     ]);
 
     /*

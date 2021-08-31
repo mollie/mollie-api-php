@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
-
 class Route extends BaseResource
 {
     /**
