@@ -24,7 +24,7 @@ class Route extends BaseResource
     public $amount;
 
     /**
-     * The destination where the routed payment was send.
+     * The destination where the routed payment was sent.
      *
      * @var \stdClass
      */
