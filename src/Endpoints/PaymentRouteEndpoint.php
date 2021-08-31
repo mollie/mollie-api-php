@@ -55,14 +55,14 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateForId($paymentId, $routeId, $releaseDate, array $filters=[])
+    public function updateReleaseDateForId($paymentId, $routeId, $releaseDate, array $filters = [])
     {
         $this->resourcePath = "payments/{$paymentId}/routes/{$routeId}";
 
         $params = [
-            'releaseDate' => $releaseDate
+            'releaseDate' => $releaseDate,
         ];
+
         return parent::rest_create($params, $filters);
     }
-
 }
