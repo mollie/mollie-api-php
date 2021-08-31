@@ -37,14 +37,4 @@ class Route extends BaseResource
      * @var string
      */
     public $releaseDate;
-
-
-
-    /**
-     * //TODO don't know if we need it
-     * The payment id that was refunded.
-     *
-     * @var string
-     */
-    public $paymentId;
 }
