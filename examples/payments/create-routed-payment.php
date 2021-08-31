@@ -55,7 +55,7 @@ try {
             [
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "10.00",
+                    "value" => "7.50",
                 ],
                 "destination" => [
                     "type" => "organization",

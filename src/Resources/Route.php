@@ -17,24 +17,45 @@ class Route extends BaseResource
     public $id;
 
     /**
-     * The $amount that was routed.
+     * Amount object containing the value and currency
      *
      * @var \stdClass
      */
     public $amount;
 
     /**
-     * The $destination where the routed payment was send.
+     * The destination where the routed payment was send.
      *
      * @var \stdClass
      */
     public $destination;
 
     /**
-     * UTC datetime The settlement of a routed payment can be delayed on payment level, by specifying a $releaseDate
+     * A UTC date. The settlement of a routed payment can be delayed on payment level, by specifying a release Date
      *
      * @example "2013-12-25"
      * @var string
      */
     public $releaseDate;
+
+    private function getPresetOptions()
+    {
+        $options = [];
+        if ($this->client->usesOAuth()) {
+            $options["testmode"] = $this->mode === "test" ? true : false;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Apply the preset options.
+     *
+     * @param array $options
+     * @return array
+     */
+    private function withPresetOptions(array $options)
+    {
+        return array_merge($this->getPresetOptions(), $options);
+    }
 }

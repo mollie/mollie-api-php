@@ -43,7 +43,7 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
      */
     public function updateReleaseDateFor(Payment $payment, $routeId, $releaseDate)
     {
-        return $this->updateReleaseDateForId($payment->id, $routeId, $releaseDate);
+        return $this->updateReleaseDateForPaymentId($payment->id, $routeId, $releaseDate);
     }
 
     /**
@@ -55,14 +55,15 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateForId($paymentId, $routeId, $releaseDate, array $filters = [])
+    public function updateReleaseDateForPaymentId($paymentId, $routeId, $releaseDate, $testmode = false)
     {
-        $this->resourcePath = "payments/{$paymentId}/routes/{$routeId}";
+        $this->parentId = $paymentId;
 
         $params = [
             'releaseDate' => $releaseDate,
+            'testmode' => $testmode,
         ];
 
-        return parent::rest_create($params, $filters);
+        return parent::rest_update($routeId, $params);
     }
 }
