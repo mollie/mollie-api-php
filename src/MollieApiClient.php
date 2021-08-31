@@ -205,7 +205,7 @@ class MollieApiClient
     public $paymentRefunds;
 
     /**
-     * RESTful Payment Refunds resource.
+     * RESTful Payment Route resource.
      *
      * @var PaymentRouteEndpoint
      */
