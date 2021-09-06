@@ -60,9 +60,10 @@ class Customer extends BaseResource
      */
     public $_links;
 
-    /**
-     * @return Customer
-     */
+	/**
+	 * @return Customer
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function update()
     {
         if (! isset($this->_links->self->href)) {
@@ -81,22 +82,24 @@ class Customer extends BaseResource
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }
 
-    /**
-     * @param array $options
-     * @param array $filters
-     *
-     * @return Payment
-     */
+	/**
+	 * @param array $options
+	 * @param array $filters
+	 *
+	 * @return Payment
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function createPayment(array $options = [], array $filters = [])
     {
         return $this->client->customerPayments->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
-    /**
-     * Get all payments for this customer
-     *
-     * @return PaymentCollection
-     */
+	/**
+	 * Get all payments for this customer
+	 *
+	 * @return PaymentCollection
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function payments()
     {
         return $this->client->customerPayments->listFor($this, null, null, $this->getPresetOptions());
@@ -124,11 +127,12 @@ class Customer extends BaseResource
         return $this->client->subscriptions->getFor($this, $subscriptionId, $this->withPresetOptions($parameters));
     }
 
-    /**
-     * @param string $subscriptionId
-     *
-     * @return null
-     */
+	/**
+	 * @param string $subscriptionId
+	 *
+	 * @return null
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function cancelSubscription($subscriptionId)
     {
         return $this->client->subscriptions->cancelFor($this, $subscriptionId, $this->getPresetOptions());
@@ -144,53 +148,58 @@ class Customer extends BaseResource
         return $this->client->subscriptions->listFor($this, null, null, $this->getPresetOptions());
     }
 
-    /**
-     * @param array $options
-     * @param array $filters
-     *
-     * @return Mandate
-     */
+	/**
+	 * @param array $options
+	 * @param array $filters
+	 *
+	 * @return Mandate
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function createMandate(array $options = [], array $filters = [])
     {
         return $this->client->mandates->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
-    /**
-     * @param string $mandateId
-     * @param array $parameters
-     *
-     * @return Mandate
-     */
+	/**
+	 * @param string $mandateId
+	 * @param array $parameters
+	 *
+	 * @return Mandate
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function getMandate($mandateId, array $parameters = [])
     {
         return $this->client->mandates->getFor($this, $mandateId, $parameters);
     }
 
-    /**
-     * @param string $mandateId
-     *
-     * @return null
-     */
+	/**
+	 * @param string $mandateId
+	 *
+	 * @return null
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function revokeMandate($mandateId)
     {
         return $this->client->mandates->revokeFor($this, $mandateId, $this->getPresetOptions());
     }
 
-    /**
-     * Get all mandates for this customer
-     *
-     * @return MandateCollection
-     */
+	/**
+	 * Get all mandates for this customer
+	 *
+	 * @return MandateCollection
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function mandates()
     {
         return $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
     }
 
-    /**
-     * Helper function to check for mandate with status valid
-     *
-     * @return bool
-     */
+	/**
+	 * Helper function to check for mandate with status valid
+	 *
+	 * @return bool
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function hasValidMandate()
     {
         $mandates = $this->mandates();
@@ -203,11 +212,12 @@ class Customer extends BaseResource
         return false;
     }
 
-    /**
-     * Helper function to check for specific payment method mandate with status valid
-     *
-     * @return bool
-     */
+	/**
+	 * Helper function to check for specific payment method mandate with status valid
+	 *
+	 * @return bool
+	 * @throws \Mollie\Api\Exceptions\ApiException
+	 */
     public function hasValidMandateForMethod($method)
     {
         $mandates = $this->mandates();
