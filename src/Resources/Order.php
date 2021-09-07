@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderStatus;
 
@@ -367,6 +368,7 @@ class Order extends BaseResource
      * @param array $options
      *
      * @return Shipment
+     * @throws ApiException
      */
     public function createShipment(array $options = [])
     {
@@ -394,6 +396,7 @@ class Order extends BaseResource
      * @param array $parameters
      *
      * @return Shipment
+     * @throws ApiException
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
@@ -406,6 +409,7 @@ class Order extends BaseResource
      * @param array $parameters
      *
      * @return ShipmentCollection
+     * @throws ApiException
      */
     public function shipments(array $parameters = [])
     {
@@ -431,6 +435,7 @@ class Order extends BaseResource
      *
      * @param  array  $data
      * @return Refund
+     * @throws ApiException
      */
     public function refund(array $data)
     {
