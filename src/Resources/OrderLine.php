@@ -382,6 +382,7 @@ class OrderLine extends BaseResource
      * Update an orderline by supplying one or more parameters in the data array
      *
      * @return BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {

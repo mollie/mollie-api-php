@@ -190,6 +190,7 @@ class Subscription extends BaseResource
      * Cancels this subscription
      *
      * @return Subscription
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()
     {
@@ -213,6 +214,12 @@ class Subscription extends BaseResource
         return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }
 
+    /**
+     * Get subscription payments
+     *
+     * @return \Mollie\Api\Resources\PaymentCollection
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     public function payments()
     {
         if (! isset($this->_links->payments->href)) {

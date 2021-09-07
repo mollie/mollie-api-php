@@ -516,6 +516,7 @@ class Payment extends BaseResource
      * @param array $parameters
      *
      * @return Refund
+     * @throws ApiException
      */
     public function getRefund($refundId, array $parameters = [])
     {
@@ -526,6 +527,7 @@ class Payment extends BaseResource
      * @param array $parameters
      *
      * @return Refund
+     * @throws ApiException
      */
     public function listRefunds(array $parameters = [])
     {
@@ -562,6 +564,7 @@ class Payment extends BaseResource
      * @param array $parameters
      *
      * @return Capture
+     * @throws ApiException
      */
     public function getCapture($captureId, array $parameters = [])
     {
@@ -604,6 +607,7 @@ class Payment extends BaseResource
      * @param array $parameters
      *
      * @return Chargeback
+     * @throws ApiException
      */
     public function getChargeback($chargebackId, array $parameters = [])
     {
@@ -644,6 +648,10 @@ class Payment extends BaseResource
         );
     }
 
+    /**
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     public function update()
     {
         $body = [
