@@ -48,6 +48,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
@@ -62,6 +63,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function createForId($customerId, array $options = [], array $filters = [])
     {
@@ -99,6 +101,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
     {
@@ -111,6 +114,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function getForId($customerId, $subscriptionId, array $parameters = [])
     {
@@ -126,6 +130,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
+     * @throws ApiException
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
@@ -139,6 +144,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
+     * @throws ApiException
      */
     public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
     {
@@ -153,7 +159,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $data
      *
      * @return null
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
     {
@@ -166,7 +172,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $data
      *
      * @return null
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function cancelForId($customerId, $subscriptionId, array $data = [])
     {
@@ -183,7 +189,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])
     {

@@ -644,6 +644,10 @@ class Payment extends BaseResource
         );
     }
 
+    /**
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     public function update()
     {
         $body = [

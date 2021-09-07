@@ -60,6 +60,7 @@ class Customer extends BaseResource
 
     /**
      * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Customer
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {
