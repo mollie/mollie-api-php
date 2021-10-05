@@ -119,7 +119,7 @@ class Settlement extends BaseResource
     /**
      * Retrieves all payments associated with this settlement
      *
-     * @param null $limit
+     * @param int|null $limit
      * @param array $parameters
      * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
