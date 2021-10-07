@@ -75,7 +75,7 @@ class Invoice extends BaseResource
 
     /**
      * Array containing the invoice lines.
-     * 
+     *
      * @see https://docs.mollie.com/reference/v2/invoices-api/get-invoice
      * @var array
      */
