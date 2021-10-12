@@ -53,6 +53,13 @@ class Profile extends BaseResource
     public $categoryCode;
 
     /**
+     * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
+     *
+     * @var string
+     */
+    public $businessCategory;
+
+    /**
      * @var string
      */
     public $status;
@@ -111,6 +118,7 @@ class Profile extends BaseResource
             "email" => $this->email,
             "phone" => $this->phone,
             "categoryCode" => $this->categoryCode,
+            "businessCategory" => $this->businessCategory,
             "mode" => $this->mode,
         ];
 
