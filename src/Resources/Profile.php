@@ -48,14 +48,14 @@ class Profile extends BaseResource
     /**
      * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
      *
-     * @var int
+     * @var int|null
      */
     public $categoryCode;
 
     /**
      * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
      *
-     * @var string
+     * @var string|null
      */
     public $businessCategory;
 
