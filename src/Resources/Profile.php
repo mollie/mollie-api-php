@@ -47,7 +47,9 @@ class Profile extends BaseResource
 
     /**
      * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
+     * This parameter is deprecated and will be removed in 2022. Please use the businessCategory parameter instead.
      *
+     * @deprecated
      * @var int|null
      */
     public $categoryCode;
