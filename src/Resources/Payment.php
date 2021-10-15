@@ -497,6 +497,16 @@ class Payment extends BaseResource
     }
 
     /**
+     * Does the payment have split payments
+     *
+     * @return bool
+     */
+    public function hasSplitPayments()
+    {
+        return ! empty($this->routing);
+    }
+
+    /**
      * Retrieves all refunds associated with this payment
      *
      * @return RefundCollection
