@@ -225,4 +225,12 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $payment->settlementAmount = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getSettlementAmount());
     }
+
+    public function testHasSplitPaymentsReturnsFalseWhenPaymentHasNoSplit()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->_links = new stdClass();
+        $this->assertFalse($payment->hasSplitPayments());
+    }
 }
