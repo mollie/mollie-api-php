@@ -18,7 +18,7 @@ try {
         "website" => "https://www.mywebsite.com",
         "email" => "info@mywebsite.com",
         "phone" => "+31208202070",
-        "categoryCode" => 5399,
+        "businessCategory" => "MARKETPLACES",
         "mode" => "live",
     ]);
     echo "<p>Profile created: " . htmlspecialchars($profile->name) . "</p>";
