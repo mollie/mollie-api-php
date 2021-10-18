@@ -19,6 +19,7 @@ use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentLinkEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
+use Mollie\Api\Endpoints\PaymentRouteEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\ProfileMethodEndpoint;
@@ -204,6 +205,13 @@ class MollieApiClient
     public $paymentRefunds;
 
     /**
+     * RESTful Payment Route resource.
+     *
+     * @var PaymentRouteEndpoint
+     */
+    public $paymentRoutes;
+
+    /**
      * RESTful Payment Captures resource.
      *
      * @var PaymentCaptureEndpoint
@@ -310,6 +318,7 @@ class MollieApiClient
         $this->refunds = new RefundEndpoint($this);
         $this->paymentRefunds = new PaymentRefundEndpoint($this);
         $this->paymentCaptures = new PaymentCaptureEndpoint($this);
+        $this->paymentRoutes = new PaymentRouteEndpoint($this);
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);

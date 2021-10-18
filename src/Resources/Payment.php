@@ -277,6 +277,16 @@ class Payment extends BaseResource
     public $applicationFee;
 
     /**
+     * An optional routing configuration which enables you to route a successful payment,
+     * or part of the payment, to one or more connected accounts. Additionally, you can
+     * schedule (parts of) the payment to become available on the connected account on a
+     * future date.
+     *
+     * @var \array|null
+     */
+    public $routing;
+
+    /**
      * The date and time the payment became authorized, in ISO 8601 format. This
      * parameter is omitted if the payment is not authorized (yet).
      *
@@ -484,6 +494,16 @@ class Payment extends BaseResource
         }
 
         return 0.0;
+    }
+
+    /**
+     * Does the payment have split payments
+     *
+     * @return bool
+     */
+    public function hasSplitPayments()
+    {
+        return ! empty($this->routing);
     }
 
     /**
