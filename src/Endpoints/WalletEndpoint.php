@@ -9,7 +9,7 @@ class WalletEndpoint extends EndpointAbstract
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return BaseResource
+     * @return BaseResource|null
      */
     protected function getResourceObject()
     {
