@@ -497,6 +497,21 @@ class Payment extends BaseResource
     }
 
     /**
+     * Get the total amount that was charged back for this payment. Only available when the
+     * total charged back amount is not zero.
+     *
+     * @return float
+     */
+    public function getAmountChargedBack()
+    {
+        if ($this->amountChargedBack) {
+            return (float)$this->amountChargedBack->value;
+        }
+
+        return 0.0;
+    }
+
+    /**
      * Does the payment have split payments
      *
      * @return bool
