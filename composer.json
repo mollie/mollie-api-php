@@ -51,12 +51,12 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
-    "composer/ca-bundle": "^1.1"
+    "composer/ca-bundle": "^1.2"
   },
   "require-dev": {
     "eloquent/liberator": "^2.0",
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
-    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^8.5",
+    "phpunit/phpunit": "^5.7 || ^6.5 || ^7.1 || ^8.5 || ^9.5",
     "friendsofphp/php-cs-fixer": "^3.0"
   },
   "suggest": {
