@@ -71,7 +71,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
         }
 
         $response = curl_exec($curl);
-
+        $limit = 0;
         while (curl_errno($curl) == 28 && $limit <= self::DEFAULT_RETRY_TIMES) {
             sleep(1);
             $response = curl_exec($curl);
