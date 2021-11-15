@@ -19,6 +19,11 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     const DEFAULT_CONNECT_TIMEOUT = 2;
 
     /**
+     * Default retry times.
+     */
+    const DEFAULT_RETRY_TIMES = 5;
+
+    /**
      * HTTP status code for an empty ok response.
      */
     const HTTP_NO_CONTENT = 204;
@@ -66,6 +71,12 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
         }
 
         $response = curl_exec($curl);
+
+        while (curl_errno($curl) == 28 && $limit <= self::DEFAULT_RETRY_TIMES) {
+            sleep(1);
+            $response = curl_exec($curl);
+            $limit++;
+        }
 
         if ($response === false) {
             throw new ApiException("Curl error: " . curl_error($curl));
