@@ -21,7 +21,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * Default retry times.
      */
-    const DEFAULT_RETRY_TIMES = 5;
+    const DEFAULT_CONNECT_TRIES = 5;
 
     /**
      * HTTP status code for an empty ok response.
@@ -72,7 +72,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
 
         $response = curl_exec($curl);
         $limit = 0;
-        while (curl_errno($curl) == 28 && $limit <= self::DEFAULT_RETRY_TIMES) {
+        while (curl_errno($curl) == 28 && $limit <= self::DEFAULT_CONNECT_TRIES) {
             sleep(1);
             $response = curl_exec($curl);
             $limit++;
