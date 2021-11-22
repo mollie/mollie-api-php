@@ -30,6 +30,11 @@ class Partners extends BaseResource
     public $_embedded;
 
     /**
+     * @var \stdClass
+     */
+    public $commission;
+
+    /**
      * @var int
      */
     public $count;
