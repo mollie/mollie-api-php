@@ -14,6 +14,7 @@ use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
+use Mollie\Api\Endpoints\PartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
@@ -247,6 +248,12 @@ class MollieApiClient
     public $paymentLinks;
 
     /**
+     * RESTful Onboarding resource.
+     *
+     * @var PartnerEndpoint
+     */
+    public $partner;
+    /**
      * Manages Wallet requests
      *
      * @var WalletEndpoint
@@ -323,6 +330,7 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
+        $this->partner = new PartnerEndpoint($this);
     }
 
     /**
