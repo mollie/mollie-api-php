@@ -3,19 +3,19 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\Partners;
-use Mollie\Api\Resources\PartnersCollection;
+use Mollie\Api\Resources\Client;
+use Mollie\Api\Resources\ClientCollection;
 
-class PartnersEndpoint extends CollectionEndpointAbstract
+class ClientEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "clients";
 
     /**
-     * @return Partners
+     * @return Client
      */
     protected function getResourceObject()
     {
-        return new Partners($this->client);
+        return new Client($this->client);
     }
 
     /**
@@ -24,11 +24,11 @@ class PartnersEndpoint extends CollectionEndpointAbstract
      * @param int $count
      * @param \stdClass $_links
      *
-     * @return PartnersCollection
+     * @return ClientCollection
      */
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new PartnersCollection($this->client, $count, $_links);
+        return new ClientCollection($this->client, $count, $_links);
     }
 
     /**
@@ -38,7 +38,8 @@ class PartnersEndpoint extends CollectionEndpointAbstract
      *
      * @param string $clientId
      * @param array $parameters
-     * @return Partners
+     *
+     * @return Client
      * @throws ApiException
      */
     public function get($clientId, array $parameters = [])
@@ -51,13 +52,13 @@ class PartnersEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Retrieves a collection of Partners from Mollie.
+     * Retrieves a collection of Client from Mollie.
      *
      * @param string $from The first client ID you want to include in your list.
      * @param int $limit
      * @param array $parameters
      *
-     * @return PartnersCollection
+     * @return ClientCollection
      * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])

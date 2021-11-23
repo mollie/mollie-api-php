@@ -14,7 +14,7 @@ use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
-use Mollie\Api\Endpoints\PartnersEndpoint;
+use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
@@ -272,11 +272,11 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
-     * RESTful Partners resource.
+     * RESTful Client resource.
      *
-     * @var PartnersEndpoint
+     * @var ClientEndpoint
      */
-    public $partners;
+    public $clients;
 
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
@@ -331,7 +331,7 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
-        $this->partners = new PartnersEndpoint($this);
+        $this->clients = new ClientEndpoint($this);
     }
 
     /**

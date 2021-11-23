@@ -4,11 +4,11 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Mollie\Api\Resources\Partners;
-use Mollie\Api\Resources\PartnersCollection;
+use Mollie\Api\Resources\Client;
+use Mollie\Api\Resources\ClientCollection;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
-class PartnersEndpointTest extends BaseEndpointTest
+class ClientEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
@@ -52,9 +52,9 @@ class PartnersEndpointTest extends BaseEndpointTest
             )
         );
 
-        $partner = $this->apiClient->partners->get('org_1337');
+        $client = $this->apiClient->clients->get('org_1337');
 
-        $this->assertPartner($partner);
+        $this->assertClient($client);
     }
 
     public function testAllClients()
@@ -119,19 +119,19 @@ class PartnersEndpointTest extends BaseEndpointTest
             )
         );
 
-        $partners = $this->apiClient->partners->page();
+        $clients = $this->apiClient->clients->page();
 
-        $this->assertInstanceOf(PartnersCollection::class, $partners);
-        $this->assertEquals(1, $partners->count);
-        $this->assertCount(1, $partners);
+        $this->assertInstanceOf(ClientCollection::class, $clients);
+        $this->assertEquals(1, $clients->count);
+        $this->assertCount(1, $clients);
 
-        $partner = $partners[0];
-        $this->assertPartner($partner);
+        $client = $clients[0];
+        $this->assertClient($client);
     }
 
-    protected function assertPartner($partner)
+    protected function assertClient($partner)
     {
-        $this->assertInstanceOf(Partners::class, $partner);
+        $this->assertInstanceOf(Client::class, $partner);
 
         $this->assertEquals('org_1337', $partner->id);
         $this->assertEquals('200', $partner->commission->count);

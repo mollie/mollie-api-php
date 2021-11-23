@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class Partners extends BaseResource
+class Client extends BaseResource
 {
     /**
      * The unique identifier of the client, which corresponds to the ID of the organization

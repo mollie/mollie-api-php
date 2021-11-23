@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class PartnersCollection extends CursorCollection
+class ClientCollection extends CursorCollection
 {
     /**
      * @return string
@@ -17,6 +17,6 @@ class PartnersCollection extends CursorCollection
      */
     protected function createResourceObject()
     {
-        return new Partners($this->client);
+        return new Client($this->client);
     }
 }
