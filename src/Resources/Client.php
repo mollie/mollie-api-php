@@ -30,7 +30,7 @@ class Client extends BaseResource
     public $_embedded;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $commission;
 
