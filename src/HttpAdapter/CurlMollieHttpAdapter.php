@@ -60,8 +60,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
         for ($i = self::MAX_RETRIES + 1; $i > 0; $i--) {
             try {
                 return $this->attemptRequest($httpMethod, $url, $headers, $httpBody);
-            }
-            catch (CurlConnectTimeoutException $e) {
+            } catch (CurlConnectTimeoutException $e) {
                 // Nothing
             }
         }
