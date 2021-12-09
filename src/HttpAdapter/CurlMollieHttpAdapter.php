@@ -166,9 +166,8 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
             return true;
         };
 
-        if($curlErrorNumber === \CURLE_OPERATION_TIMEOUTED) {
-
-            if($executionTime > self::DEFAULT_TIMEOUT) {
+        if ($curlErrorNumber === \CURLE_OPERATION_TIMEOUTED) {
+            if ($executionTime > self::DEFAULT_TIMEOUT) {
                 return false;
             }
 
