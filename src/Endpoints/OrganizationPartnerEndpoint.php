@@ -7,7 +7,7 @@ use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Partner;
 use Mollie\Api\Resources\ResourceFactory;
 
-class PartnerEndpoint extends EndpointAbstract
+class OrganizationPartnerEndpoint extends EndpointAbstract
 {
     protected $resourcePath = "organizations/me/partner";
 

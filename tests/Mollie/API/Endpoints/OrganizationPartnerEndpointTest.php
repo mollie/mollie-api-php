@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Partner;
 
-final class PartnerEndpointTest extends BaseEndpointTest
+final class OrganizationPartnerEndpointTest extends BaseEndpointTest
 {
     public function testGetWorks()
     {
@@ -39,7 +39,7 @@ final class PartnerEndpointTest extends BaseEndpointTest
             )
         );
 
-        $partner = $this->apiClient->partner->get();
+        $partner = $this->apiClient->organizationPartners->get();
 
         $this->assertInstanceOf(Partner::class, $partner);
         $this->assertEquals("partner", $partner->resource);
