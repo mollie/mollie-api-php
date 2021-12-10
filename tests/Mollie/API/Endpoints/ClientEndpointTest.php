@@ -57,7 +57,7 @@ class ClientEndpointTest extends BaseEndpointTest
         $this->assertClient($client);
     }
 
-    public function testAllClients()
+    public function testGetClientsPage()
     {
         $this->mockApiCall(
             new Request("GET", "/v2/clients", [], ''),
@@ -129,32 +129,32 @@ class ClientEndpointTest extends BaseEndpointTest
         $this->assertClient($client);
     }
 
-    protected function assertClient($partner)
+    protected function assertClient($client)
     {
-        $this->assertInstanceOf(Client::class, $partner);
+        $this->assertInstanceOf(Client::class, $client);
 
-        $this->assertEquals('org_1337', $partner->id);
-        $this->assertEquals('200', $partner->commission->count);
-        $this->assertEquals('EUR', $partner->commission->totalAmount->currency);
-        $this->assertEquals('10.00', $partner->commission->totalAmount->value);
-        $this->assertEquals('2018-03-21T13:13:37+00:00', $partner->organizationCreatedAt);
+        $this->assertEquals('org_1337', $client->id);
+        $this->assertEquals('200', $client->commission->count);
+        $this->assertEquals('EUR', $client->commission->totalAmount->currency);
+        $this->assertEquals('10.00', $client->commission->totalAmount->value);
+        $this->assertEquals('2018-03-21T13:13:37+00:00', $client->organizationCreatedAt);
 
         $this->assertLinkObject(
             'https://api.mollie.com/v2/clients/org_1337',
             'application/hal+json',
-            $partner->_links->self
+            $client->_links->self
         );
 
         $this->assertLinkObject(
             'https://api.mollie.com/v2/organizations/org_1337',
             'application/hal+json',
-            $partner->_links->organization
+            $client->_links->organization
         );
 
         $this->assertLinkObject(
             'https://api.mollie.com/v2/onboarding/org_1337',
             'application/hal+json',
-            $partner->_links->onboarding
+            $client->_links->onboarding
         );
     }
 }
