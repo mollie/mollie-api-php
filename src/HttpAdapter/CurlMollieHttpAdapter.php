@@ -42,7 +42,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     public function __construct()
     {
         if (self::DEFAULT_CONNECT_TIMEOUT >= self::DEFAULT_TIMEOUT) {
-            throw new LogicException("The connect timeout must be shorter than the generic timeout.");
+            throw new LogicException("The connect timeout must be shorter than the response timeout.");
         }
     }
 
