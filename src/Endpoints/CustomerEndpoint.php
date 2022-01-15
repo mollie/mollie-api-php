@@ -11,6 +11,11 @@ class CustomerEndpoint extends CollectionEndpointAbstract
     protected $resourcePath = "customers";
 
     /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'cst_';
+
+    /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
      * @return Customer
@@ -60,6 +65,26 @@ class CustomerEndpoint extends CollectionEndpointAbstract
     public function get($customerId, array $parameters = [])
     {
         return $this->rest_read($customerId, $parameters);
+    }
+
+    /**
+     * Update a specific Customer resource.
+     *
+     * Will throw an ApiException if the customer id is invalid or the resource cannot be found.
+     *
+     * @param string $customerId
+     *
+     * @param array $data
+     * @return Customer
+     * @throws ApiException
+     */
+    public function update($customerId, array $data = [])
+    {
+        if (empty($customerId) || strpos($customerId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid order ID: '{$customerId}'. An order ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        return parent::rest_update($customerId, $data);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\OrderStatus;
 
@@ -367,6 +368,7 @@ class Order extends BaseResource
      * @param array $options
      *
      * @return Shipment
+     * @throws ApiException
      */
     public function createShipment(array $options = [])
     {
@@ -394,6 +396,7 @@ class Order extends BaseResource
      * @param array $parameters
      *
      * @return Shipment
+     * @throws ApiException
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
@@ -406,6 +409,7 @@ class Order extends BaseResource
      * @param array $parameters
      *
      * @return ShipmentCollection
+     * @throws ApiException
      */
     public function shipments(array $parameters = [])
     {
@@ -431,6 +435,7 @@ class Order extends BaseResource
      *
      * @param  array  $data
      * @return Refund
+     * @throws ApiException
      */
     public function refund(array $data)
     {
@@ -480,19 +485,15 @@ class Order extends BaseResource
      */
     public function update()
     {
-        if (! isset($this->_links->self->href)) {
-            return $this;
-        }
-
-        $body = json_encode([
+        $body = [
             "billingAddress" => $this->billingAddress,
             "shippingAddress" => $this->shippingAddress,
             "orderNumber" => $this->orderNumber,
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
-        ]);
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
+        $result = $this->client->orders->update($this->id, $body);
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
     }

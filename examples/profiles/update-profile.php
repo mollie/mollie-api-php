@@ -22,7 +22,7 @@ try {
     $profile->website = 'www.mollie.com';
     $profile->email = 'info@mollie.com';
     $profile->phone = '0612345670';
-    $profile->categoryCode = 5399;
+    $profile->businessCategory = "MARKETPLACES";
     $profile->update();
     echo "<p>Profile updated: " . htmlspecialchars($profile->name) . "</p>";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

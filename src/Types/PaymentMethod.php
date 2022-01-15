@@ -78,6 +78,11 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/klarna-pay-later
      */
     const KLARNA_PAY_LATER = "klarnapaylater";
+    
+    /**
+     * @link https://www.mollie.com/en/payments/klarna-pay-now
+     */
+    const KLARNA_PAY_NOW = "klarnapaynow";
 
     /**
      * @link https://www.mollie.com/en/payments/klarna-slice-it

@@ -14,6 +14,10 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     protected $resourceClass = Profile::class;
 
     /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'pfl_';
+    /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
      * @return Profile
@@ -68,6 +72,26 @@ class ProfileEndpoint extends CollectionEndpointAbstract
         }
 
         return $this->rest_read($profileId, $parameters);
+    }
+
+    /**
+     * Update a specific Profile resource.
+     *
+     * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
+     *
+     * @param string $profileId
+     *
+     * @param array $data
+     * @return Profile
+     * @throws ApiException
+     */
+    public function update($profileId, array $data = [])
+    {
+        if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        return parent::rest_update($profileId, $data);
     }
 
     /**

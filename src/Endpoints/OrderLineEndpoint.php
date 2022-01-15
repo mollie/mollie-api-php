@@ -42,6 +42,30 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Update a specific OrderLine resource.
+     *
+     * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
+     *
+     * @param $orderId
+     * @param string $orderlineId
+     *
+     * @param array $data
+     *
+     * @return \Mollie\Api\Resources\BaseResource|null
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function update($orderId, $orderlineId, array $data = [])
+    {
+        $this->parentId = $orderId;
+
+        if (empty($orderlineId) || strpos($orderlineId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid order line ID: '{$orderlineId}'. An order line ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        return parent::rest_update($orderlineId, $data);
+    }
+
+    /**
      * Cancel lines for the provided order.
      * The data array must contain a lines array.
      * You can pass an empty lines array if you want to cancel all eligible lines.

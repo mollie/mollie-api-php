@@ -55,6 +55,26 @@ class OrderEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Update a specific Order resource
+     *
+     * Will throw a ApiException if the order id is invalid or the resource cannot be found.
+     *
+     * @param string $orderId
+     *
+     * @param array $data
+     * @return Order
+     * @throws ApiException
+     */
+    public function update($orderId, array $data = [])
+    {
+        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        return parent::rest_update($orderId, $data);
+    }
+
+    /**
      * Retrieve a single order from Mollie.
      *
      * Will throw a ApiException if the order id is invalid or the resource cannot

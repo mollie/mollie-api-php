@@ -70,6 +70,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @param array|null $parameters
      *
      * @return \Mollie\Api\Resources\BaseCollection
+     * @throws ApiException
      */
     public function all(array $parameters = [])
     {

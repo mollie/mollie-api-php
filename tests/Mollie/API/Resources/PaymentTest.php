@@ -210,6 +210,22 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountRemaining());
     }
 
+    public function testGetAmountChargedBackReturnsAmountChargedBackAsFloat()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->amountChargedBack = (object)["value" => 22.0, "currency" => "EUR"];
+        self::assertSame(22.0, $payment->getAmountChargedBack());
+    }
+
+    public function testGetAmountChargedBackReturns0WhenAmountChargedBackIsSetToNull()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->amountChargedBack = null;
+        self::assertSame(0.0, $payment->getAmountChargedBack());
+    }
+
     public function testGetSettlementAmountReturns0WhenSettlementAmountIsSetToNull()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
@@ -224,5 +240,13 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
 
         $payment->settlementAmount = (object)["value" => 22.0, "currency" => "EUR"];
         self::assertSame(22.0, $payment->getSettlementAmount());
+    }
+
+    public function testHasSplitPaymentsReturnsFalseWhenPaymentHasNoSplit()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->_links = new stdClass();
+        $this->assertFalse($payment->hasSplitPayments());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Resources\Subscription;
@@ -10,6 +11,11 @@ use Mollie\Api\Resources\SubscriptionCollection;
 class SubscriptionEndpoint extends CollectionEndpointAbstract
 {
     protected $resourcePath = "customers_subscriptions";
+
+    /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'sub_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -42,6 +48,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function createFor(Customer $customer, array $options = [], array $filters = [])
     {
@@ -56,6 +63,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function createForId($customerId, array $options = [], array $filters = [])
     {
@@ -65,11 +73,35 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Update a specific Subscription resource.
+     *
+     * Will throw an ApiException if the subscription id is invalid or the resource cannot be found.
+     *
+     * @param string $subscriptionId
+     * @param string $customerId
+     *
+     * @param array $data
+     * @return Order
+     * @throws ApiException
+     */
+    public function update($customerId, $subscriptionId, array $data = [])
+    {
+        if (empty($subscriptionId) || strpos($subscriptionId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        $this->parentId = $customerId;
+
+        return parent::rest_update($subscriptionId, $data);
+    }
+
+    /**
      * @param Customer $customer
      * @param string $subscriptionId
      * @param array $parameters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
     {
@@ -82,6 +114,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function getForId($customerId, $subscriptionId, array $parameters = [])
     {
@@ -97,6 +130,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
+     * @throws ApiException
      */
     public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
     {
@@ -110,6 +144,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
+     * @throws ApiException
      */
     public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
     {
@@ -124,7 +159,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $data
      *
      * @return null
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
     {
@@ -137,7 +172,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $data
      *
      * @return null
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function cancelForId($customerId, $subscriptionId, array $data = [])
     {
@@ -154,7 +189,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return SubscriptionCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])
     {

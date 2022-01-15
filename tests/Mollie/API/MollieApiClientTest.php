@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Mollie\Api;
 
 use Eloquent\Liberator\Liberator;
@@ -10,6 +11,7 @@ use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\MollieApiClient;
+use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -174,5 +176,56 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
 
         $client->disableDebugging();
+    }
+
+    /**
+     * This test verifies that our request headers are correctly sent to Mollie.
+     * If these are broken, it could be that some payments do not work.
+     *
+     * @throws ApiException
+     */
+    public function testCorrectRequestHeaders()
+    {
+        $response = new Response(200, [], '{"resource": "payment"}');
+        $fakeAdapter = new FakeHttpAdapter($response);
+
+        $mollieClient = new MollieApiClient($fakeAdapter);
+        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+
+        $mollieClient->performHttpCallToFullUrl('GET', '', '');
+
+        $usedHeaders = $fakeAdapter->getUsedHeaders();
+
+        # these change through environments
+        # just make sure its existing
+        $this->assertArrayHasKey('User-Agent', $usedHeaders);
+        $this->assertArrayHasKey('X-Mollie-Client-Info', $usedHeaders);
+
+        # these should be exactly the expected values
+        $this->assertEquals('Bearer test_foobarfoobarfoobarfoobarfoobar', $usedHeaders['Authorization']);
+        $this->assertEquals('application/json', $usedHeaders['Accept']);
+        $this->assertEquals('application/json', $usedHeaders['Content-Type']);
+    }
+
+    /**
+     * This test verifies that we do not add a Content-Type request header
+     * if we do not send a BODY (skipping argument).
+     * In this case it has to be skipped.
+     *
+     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
+     * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
+     */
+    public function testNoContentTypeWithoutProvidedBody()
+    {
+        $response = new Response(200, [], '{"resource": "payment"}');
+        $fakeAdapter = new FakeHttpAdapter($response);
+
+        $mollieClient = new MollieApiClient($fakeAdapter);
+        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+
+        $mollieClient->performHttpCallToFullUrl('GET', '');
+
+        $this->assertEquals(false, isset($fakeAdapter->getUsedHeaders()['Content-Type']));
     }
 }

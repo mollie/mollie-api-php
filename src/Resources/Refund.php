@@ -84,6 +84,13 @@ class Refund extends BaseResource
     public $_links;
 
     /**
+     * An object containing information relevant to a refund issued for a split payment.
+     *
+     * @var array|object[]|null
+     */
+    public $routingReversal;
+
+    /**
      * Is this refund queued?
      *
      * @return bool

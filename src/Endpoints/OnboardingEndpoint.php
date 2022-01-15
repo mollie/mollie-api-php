@@ -55,6 +55,13 @@ class OnboardingEndpoint extends EndpointAbstract
         return $this->rest_create($parameters, []);
     }
 
+    /**
+     * @param string $id
+     * @param array $filters
+     *
+     * @return \Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     protected function rest_read($id, array $filters)
     {
         $result = $this->client->performHttpCall(
@@ -65,6 +72,13 @@ class OnboardingEndpoint extends EndpointAbstract
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
+    /**
+     * @param array $body
+     * @param array $filters
+     *
+     * @return \Mollie\Api\Resources\BaseResource|void
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
     protected function rest_create(array $body, array $filters)
     {
         $this->client->performHttpCall(

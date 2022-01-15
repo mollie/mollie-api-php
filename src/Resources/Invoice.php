@@ -74,10 +74,10 @@ class Invoice extends BaseResource
     public $grossAmount;
 
     /**
-     * Object containing the invoice lines.
-     * See https://docs.mollie.com/reference/v2/invoices-api/get-invoice for reference
+     * Array containing the invoice lines.
      *
-     * @var \stdClass
+     * @see https://docs.mollie.com/reference/v2/invoices-api/get-invoice
+     * @var array
      */
     public $lines;
 

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Exceptions\ApiException;
 
 class Customer extends BaseResource
 {
@@ -61,22 +61,19 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return Customer
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Customer
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
     {
-        if (! isset($this->_links->self->href)) {
-            return $this;
-        }
-
-        $body = json_encode([
+        $body = [
             "name" => $this->name,
             "email" => $this->email,
             "locale" => $this->locale,
             "metadata" => $this->metadata,
-        ]);
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
+        $result = $this->client->customers->update($this->id, $body);
 
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }
@@ -86,6 +83,7 @@ class Customer extends BaseResource
      * @param array $filters
      *
      * @return Payment
+     * @throws ApiException
      */
     public function createPayment(array $options = [], array $filters = [])
     {
@@ -96,6 +94,7 @@ class Customer extends BaseResource
      * Get all payments for this customer
      *
      * @return PaymentCollection
+     * @throws ApiException
      */
     public function payments()
     {
@@ -107,6 +106,7 @@ class Customer extends BaseResource
      * @param array $filters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function createSubscription(array $options = [], array $filters = [])
     {
@@ -118,6 +118,7 @@ class Customer extends BaseResource
      * @param array $parameters
      *
      * @return Subscription
+     * @throws ApiException
      */
     public function getSubscription($subscriptionId, array $parameters = [])
     {
@@ -128,6 +129,7 @@ class Customer extends BaseResource
      * @param string $subscriptionId
      *
      * @return null
+     * @throws ApiException
      */
     public function cancelSubscription($subscriptionId)
     {
@@ -138,6 +140,7 @@ class Customer extends BaseResource
      * Get all subscriptions for this customer
      *
      * @return SubscriptionCollection
+     * @throws ApiException
      */
     public function subscriptions()
     {
@@ -149,6 +152,7 @@ class Customer extends BaseResource
      * @param array $filters
      *
      * @return Mandate
+     * @throws ApiException
      */
     public function createMandate(array $options = [], array $filters = [])
     {
@@ -160,6 +164,7 @@ class Customer extends BaseResource
      * @param array $parameters
      *
      * @return Mandate
+     * @throws ApiException
      */
     public function getMandate($mandateId, array $parameters = [])
     {
@@ -170,6 +175,7 @@ class Customer extends BaseResource
      * @param string $mandateId
      *
      * @return null
+     * @throws ApiException
      */
     public function revokeMandate($mandateId)
     {
@@ -180,6 +186,7 @@ class Customer extends BaseResource
      * Get all mandates for this customer
      *
      * @return MandateCollection
+     * @throws ApiException
      */
     public function mandates()
     {
