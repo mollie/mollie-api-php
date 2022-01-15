@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
+use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\MollieApiClient;
 
@@ -156,5 +158,21 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             (object)['resource' => 'payment'],
             $parsedResponse
         );
+    }
+
+    public function testEnablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    {
+        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
+        $client = new MollieApiClient(new CurlMollieHttpAdapter);
+
+        $client->enableDebugging();
+    }
+
+    public function testDisablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    {
+        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
+        $client = new MollieApiClient(new CurlMollieHttpAdapter);
+
+        $client->disableDebugging();
     }
 }

@@ -90,6 +90,17 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
+     * Whether this http adapter provides a debugging mode. If debugging mode is enabled, the
+     * request will be included in the ApiException.
+     *
+     * @return false
+     */
+    public function supportsDebugging()
+    {
+        return false;
+    }
+
+    /**
      * @param string $response
      * @param int $statusCode
      * @param string $httpBody
