@@ -185,6 +185,37 @@ $refund = $payment->refund([
 
 For a working example, see [Example - Refund payment](https://github.com/mollie/mollie-api-php/blob/master/examples/payments/refund-payment.php).
 
+## Enabling debug mode
+
+When debugging it can be convenient to have the submitted request available on the `ApiException`.
+
+In order to prevent leaking sensitive request data into your local application logs, debugging is disabled by default.
+
+To enable debugging and inspect the request: 
+
+```php
+/** @var $mollie \Mollie\Api\MollieApiClient */
+$mollie->enableDebugging();
+
+try {
+    $mollie->payments->get('tr_12345678');
+} catch (\Mollie\Api\Exceptions\ApiException $exception) {
+    $request = $exception->getRequest();
+}
+```
+
+If you're logging the `ApiException`, the request will also be logged. Make sure to not retain any sensitive data in
+these logs and clean up after debugging.
+
+To disable debugging again:
+
+```php
+/** @var $mollie \Mollie\Api\MollieApiClient */
+$mollie->disableDebugging();
+```
+
+Note that debugging is only available when using the default Guzzle http adapter (`Guzzle6And7MollieHttpAdapter`).
+
 ## API documentation ##
 If you wish to learn more about our API, please visit the [Mollie Developer Portal](https://www.mollie.com/developers). API Documentation is available in English.
 

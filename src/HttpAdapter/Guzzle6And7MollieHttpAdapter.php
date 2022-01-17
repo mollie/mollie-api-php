@@ -34,6 +34,15 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      */
     protected $httpClient;
 
+    /**
+     * Whether debugging is enabled. If debugging mode is enabled, the request will
+     * be included in the ApiException. By default, debugging is disabled to prevent
+     * sensitive request data from leaking into exception logs.
+     *
+     * @var bool
+     */
+    protected $debugging = false;
+
     public function __construct(ClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
@@ -77,6 +86,10 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
+            // Prevent sensitive request data from ending up in exception logs unintended
+            if (! $this->debugging) {
+                $request = null;
+            }
 
             // Not all Guzzle Exceptions implement hasResponse() / getResponse()
             if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse')) {
@@ -93,6 +106,49 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
         }
 
         return $this->parseResponseBody($response);
+    }
+
+    /**
+     * Whether this http adapter provides a debugging mode. If debugging mode is enabled, the
+     * request will be included in the ApiException.
+     *
+     * @return true
+     */
+    public function supportsDebugging()
+    {
+        return true;
+    }
+
+    /**
+     * Whether debugging is enabled. If debugging mode is enabled, the request will
+     * be included in the ApiException. By default, debugging is disabled to prevent
+     * sensitive request data from leaking into exception logs.
+     *
+     * @return bool
+     */
+    public function debugging()
+    {
+        return $this->debugging;
+    }
+
+    /**
+     * Enable debugging. If debugging mode is enabled, the request will
+     * be included in the ApiException. By default, debugging is disabled to prevent
+     * sensitive request data from leaking into exception logs.
+     */
+    public function enableDebugging()
+    {
+        $this->debugging = true;
+    }
+
+    /**
+     * Disable debugging. If debugging mode is enabled, the request will
+     * be included in the ApiException. By default, debugging is disabled to prevent
+     * sensitive request data from leaking into exception logs.
+     */
+    public function disableDebugging()
+    {
+        $this->debugging = false;
     }
 
     /**

@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
+use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\MollieApiClient;
 use Tests\Mollie\TestHelpers\FakeHttpAdapter;
@@ -140,7 +142,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $response = new Response(200, [], '{"resource": "payment"}');
 
         // Before the MollieApiClient gets the response, some middleware reads the body first.
-        $bodyAsReadFromMiddleware = (string)$response->getBody();
+        $bodyAsReadFromMiddleware = (string) $response->getBody();
 
         $this->guzzleClient
             ->expects($this->once())
@@ -158,6 +160,22 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             (object)['resource' => 'payment'],
             $parsedResponse
         );
+    }
+
+    public function testEnablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    {
+        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
+        $client = new MollieApiClient(new CurlMollieHttpAdapter);
+
+        $client->enableDebugging();
+    }
+
+    public function testDisablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    {
+        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
+        $client = new MollieApiClient(new CurlMollieHttpAdapter);
+
+        $client->disableDebugging();
     }
 
     /**
