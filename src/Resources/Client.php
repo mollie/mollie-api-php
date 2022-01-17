@@ -33,9 +33,4 @@ class Client extends BaseResource
      * @var \stdClass|null
      */
     public $commission;
-
-    /**
-     * @var int
-     */
-    public $count;
 }
