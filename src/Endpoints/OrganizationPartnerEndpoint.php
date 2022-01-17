@@ -29,7 +29,7 @@ class OrganizationPartnerEndpoint extends EndpointAbstract
     /**
      * Retrieve details about the partner status of the currently authenticated organization.
      *
-     * Will throw a ApiException if the resource cannot be found.
+     * Will throw an ApiException if the resource cannot be found.
      *
      * @return Partner
      * @throws ApiException
