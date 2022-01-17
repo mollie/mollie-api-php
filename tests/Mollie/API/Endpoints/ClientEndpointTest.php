@@ -156,5 +156,11 @@ class ClientEndpointTest extends BaseEndpointTest
             'application/hal+json',
             $client->_links->onboarding
         );
+        
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/clients-api/list-clients',
+            'text/html',
+            $client->_links->documentation
+        );
     }
 }
