@@ -158,7 +158,7 @@ class ClientEndpointTest extends BaseEndpointTest
         );
         
         $this->assertLinkObject(
-            'https://docs.mollie.com/reference/v2/clients-api/list-clients',
+            'https://docs.mollie.com/reference/v2/clients-api/get-client',
             'text/html',
             $client->_links->documentation
         );
