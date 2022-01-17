@@ -32,9 +32,10 @@ class ClientEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Retrieve an organization from Mollie.
+     * Retrieve a client from Mollie.
      *
-     * Will throw a ApiException if the organization id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the client id is invalid or the resource cannot be found.
+     * The client id corresponds to the organization id, for example "org_1337".
      *
      * @param string $clientId
      * @param array $parameters
@@ -45,14 +46,14 @@ class ClientEndpoint extends CollectionEndpointAbstract
     public function get($clientId, array $parameters = [])
     {
         if (empty($clientId)) {
-            throw new ApiException("Organization ID is empty.");
+            throw new ApiException("Client ID is empty.");
         }
 
         return parent::rest_read($clientId, $parameters);
     }
 
     /**
-     * Retrieves a collection of Client from Mollie.
+     * Retrieves a page of clients from Mollie.
      *
      * @param string $from The first client ID you want to include in your list.
      * @param int $limit
