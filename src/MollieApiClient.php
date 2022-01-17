@@ -3,6 +3,7 @@
 namespace Mollie\Api;
 
 use Mollie\Api\Endpoints\ChargebackEndpoint;
+use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -271,6 +272,13 @@ class MollieApiClient
     protected $versionStrings = [];
 
     /**
+     * RESTful Client resource.
+     *
+     * @var ClientEndpoint
+     */
+    public $clients;
+
+    /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
      * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
@@ -323,6 +331,7 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
+        $this->clients = new ClientEndpoint($this);
     }
 
     /**
