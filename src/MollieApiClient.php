@@ -39,7 +39,7 @@ use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 class MollieApiClient
 {
     /**
-     * Version of our client. 
+     * Version of our client.
      */
     const CLIENT_VERSION = "2.40.0";
 
