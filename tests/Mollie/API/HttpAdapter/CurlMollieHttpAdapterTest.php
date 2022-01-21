@@ -2,7 +2,6 @@
 
 namespace Tests\Mollie\API\HttpAdapter;
 
-use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use PHPUnit\Framework\TestCase;
 
