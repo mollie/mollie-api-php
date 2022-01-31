@@ -118,9 +118,8 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
             throw new ApiException($curlErrorMessage);
         }
 
-        curl_close($curl);
-
         $statusCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+        curl_close($curl);
 
         return $this->parseResponseBody($response, $statusCode, $httpBody);
     }
