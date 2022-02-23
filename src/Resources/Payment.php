@@ -282,7 +282,7 @@ class Payment extends BaseResource
      * schedule (parts of) the payment to become available on the connected account on a
      * future date.
      *
-     * @var \array|null
+     * @var array|null
      */
     public $routing;
 
