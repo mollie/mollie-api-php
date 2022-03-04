@@ -35,7 +35,7 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
 
     /**
      * FakeHttpAdapter constructor.
-     * @param $response
+     * @param \stdClass|null $response
      */
     public function __construct($response)
     {
@@ -43,10 +43,10 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
-     * @param $httpMethod
-     * @param $url
-     * @param $headers
-     * @param $httpBody
+     * @param string $httpMethod
+     * @param string $url
+     * @param string $headers
+     * @param string $httpBody
      * @return \stdClass|void|null
      */
     public function send($httpMethod, $url, $headers, $httpBody)

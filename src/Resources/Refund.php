@@ -5,6 +5,10 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\RefundStatus;
 
+/**
+* @property int $count
+*/
+
 class Refund extends BaseResource
 {
     /**

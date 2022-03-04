@@ -34,6 +34,7 @@ use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 
 class MollieApiClient
@@ -62,7 +63,7 @@ class MollieApiClient
     const HTTP_PATCH = "PATCH";
 
     /**
-     * @var \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
+     * @var Guzzle6And7MollieHttpAdapter
      */
     protected $httpClient;
 
@@ -390,6 +391,22 @@ class MollieApiClient
         $this->oauthAccess = false;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @return Guzzle6And7MollieHttpAdapter
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
     }
 
     /**

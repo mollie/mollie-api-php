@@ -1,10 +1,13 @@
 parameters:
-    level: 1
+    level: 2
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests
         - %currentWorkingDirectory%/examples
-    excludes_analyse:
+    excludePaths:
         - %currentWorkingDirectory%/vendor
+    ignoreErrors:
+            - '#Call to an undefined method Tests\\Mollie\\Api\\Endpoints\\CustomerPaymentEndpointTest::createPayment#'
+            - '#Access to an undefined property Eloquent\\Liberator\\LiberatorProxyInterface::\$request#'
 includes:
     - .phpstan.ignoreErrors.neon

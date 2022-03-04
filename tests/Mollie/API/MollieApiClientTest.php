@@ -16,7 +16,7 @@ use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ClientInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $guzzleClient;
 
@@ -126,8 +126,8 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         /** @var MollieApiClient $client_copy */
         $client_copy = Liberator::liberate(unserialize($serialized));
 
-        $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
+        $this->assertEmpty($client_copy->getApiKey(), "API key should not have been remembered");
+        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->getHttpClient(), "A Guzzle client should have been set.");
         $this->assertNull($client_copy->usesOAuth());
         $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 

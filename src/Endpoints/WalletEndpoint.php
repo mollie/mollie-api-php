@@ -2,14 +2,12 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\BaseResource;
-
 class WalletEndpoint extends EndpointAbstract
 {
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return BaseResource|null
+     * @return void
      */
     protected function getResourceObject()
     {
@@ -19,10 +17,11 @@ class WalletEndpoint extends EndpointAbstract
     /**
      * Obtain a new ApplePay payment session.
      *
-     * @param $domain
-     * @param $validationUrl
+     * @param string $domain
+     * @param string $validationUrl
      * @param array $parameters
-     * @return false|string|void
+     *
+     * @return false|string
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function requestApplePayPaymentSession($domain, $validationUrl, $parameters = [])
