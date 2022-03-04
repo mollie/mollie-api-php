@@ -46,7 +46,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param array $data An array containing details on the profile.
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @return Profile
      * @throws ApiException
      */
     public function create(array $data = [], array $filters = [])
@@ -62,7 +62,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @return Profile
      * @throws ApiException
      */
     public function get($profileId, array $parameters = [])
@@ -99,7 +99,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\CurrentProfile
+     * @return CurrentProfile
      * @throws ApiException
      */
     public function getCurrent(array $parameters = [])
@@ -118,7 +118,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      *
      * @param array $data
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @return Profile
      * @throws ApiException
      */
     public function delete($profileId, array $data = [])
@@ -133,7 +133,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\ProfileCollection
+     * @return ProfileCollection
      * @throws ApiException
      */
     public function page($from = null, $limit = null, array $parameters = [])
