@@ -394,22 +394,6 @@ class MollieApiClient
     }
 
     /**
-     * @return string
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * @return Guzzle6And7MollieHttpAdapter
-     */
-    public function getHttpClient()
-    {
-        return $this->httpClient;
-    }
-
-    /**
      * @param string $accessToken OAuth access token, starting with 'access_'
      *
      * @return MollieApiClient

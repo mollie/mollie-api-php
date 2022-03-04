@@ -9,5 +9,7 @@ parameters:
     ignoreErrors:
             - '#Call to an undefined method Tests\\Mollie\\Api\\Endpoints\\CustomerPaymentEndpointTest::createPayment#'
             - '#Access to an undefined property Eloquent\\Liberator\\LiberatorProxyInterface::\$request#'
+            - '#Access to protected property Mollie\\Api\\MollieApiClient::\$apiKey#'
+            - '#Access to protected property Mollie\\Api\\MollieApiClient::\$httpClient#'
 includes:
     - .phpstan.ignoreErrors.neon
