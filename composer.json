@@ -54,7 +54,7 @@
     "composer/ca-bundle": "^1.2"
   },
   "require-dev": {
-    "eloquent/liberator": "^3.0",
+    "eloquent/liberator": "^2.0 || ^3.0",
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "phpunit/phpunit": "^6.5 || ^7.1 || ^8.5 || ^9.5",
     "friendsofphp/php-cs-fixer": "^3.0"
