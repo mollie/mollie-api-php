@@ -60,4 +60,30 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_read($chargebackId, $parameters);
     }
+
+    /**
+     * @param Payment $payment
+     * @param array $parameters
+     *
+     * @return Chargeback
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listFor(Payment $payment, array $parameters = [])
+    {
+        return $this->listForId($payment->id, $parameters);
+    }
+
+    /**
+     * @param string $paymentId
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Chargeback
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listForId($paymentId, array $parameters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return parent::rest_list(null, null, $parameters);
+    }
 }
