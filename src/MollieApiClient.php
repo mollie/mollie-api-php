@@ -34,7 +34,6 @@ use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
 
 class MollieApiClient
@@ -63,7 +62,7 @@ class MollieApiClient
     const HTTP_PATCH = "PATCH";
 
     /**
-     * @var Guzzle6And7MollieHttpAdapter
+     * @var \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
      */
     protected $httpClient;
 
