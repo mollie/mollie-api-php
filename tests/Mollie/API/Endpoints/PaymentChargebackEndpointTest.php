@@ -169,6 +169,144 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
     }
 
+    public function testPaymentChargebacksListForIdPaymentChargebackEndpoint()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "count": 3,
+                    "_embedded": {
+                        "chargebacks": [
+                            {
+                                "resource": "chargeback",
+                                "id": "chb_n9z0tp",
+                                "amount": {
+                                    "currency": "EUR",
+                                    "value": "43.38"
+                                },
+                                "settlementAmount": {
+                                    "currency": "EUR",
+                                    "value": "-35.07"
+                                },
+                                "createdAt": "2018-03-14T17:00:52.0Z",
+                                "reversedAt": null,
+                                "paymentId": "tr_44aKxzEbr8",
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/chargebacks/chb_n9z0tp",
+                                        "type": "application/hal+json"
+                                    },
+                                    "payment": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg",
+                                        "type": "application/hal+json"
+                                    },
+                                    "documentation": {
+                                        "href": "https://docs.mollie.com/reference/v2/chargebacks-api/get-payment-chargeback",
+                                        "type": "text/html"
+                                    }
+                                }
+                            },
+                            { },
+                            { }
+                        ]
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS/chargebacks",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/chargebacks-api/list-payment-chargebacks",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $chargebacks = $this->apiClient->paymentChargebacks->listForId('tr_44aKxzEbr8');
+
+        $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
+        $this->assertEquals($chargebacks[0]->id, 'chb_n9z0tp');
+        $this->assertAmountObject('43.38', 'EUR', $chargebacks[0]->amount);
+        $this->assertEquals($chargebacks[0]->paymentId, 'tr_44aKxzEbr8');
+    }
+
+    public function testPaymentChargebacksListForPaymentChargebackEndpoint()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                    "count": 3,
+                    "_embedded": {
+                        "chargebacks": [
+                            {
+                                "resource": "chargeback",
+                                "id": "chb_n9z0tp",
+                                "amount": {
+                                    "currency": "USD",
+                                    "value": "43.38"
+                                },
+                                "settlementAmount": {
+                                    "currency": "EUR",
+                                    "value": "-35.07"
+                                },
+                                "createdAt": "2018-03-14T17:00:52.0Z",
+                                "reversedAt": null,
+                                "paymentId": "tr_44aKxzEbr8",
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/chargebacks/chb_n9z0tp",
+                                        "type": "application/hal+json"
+                                    },
+                                    "payment": {
+                                        "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg",
+                                        "type": "application/hal+json"
+                                    },
+                                    "documentation": {
+                                        "href": "https://docs.mollie.com/reference/v2/chargebacks-api/get-payment-chargeback",
+                                        "type": "text/html"
+                                    }
+                                }
+                            },
+                            { },
+                            { }
+                        ]
+                    },
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS/chargebacks",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/chargebacks-api/list-payment-chargebacks",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+        $payment = $this->getPayment();
+
+        $chargebacks = $this->apiClient->paymentChargebacks->listFor($payment);
+
+        $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
+        $this->assertEquals($chargebacks[0]->id, 'chb_n9z0tp');
+        $this->assertEquals($chargebacks[0]->paymentId, 'tr_44aKxzEbr8');
+    }
+
     protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount)
     {
         $this->assertInstanceOf(Chargeback::class, $chargeback);
