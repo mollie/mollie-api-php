@@ -13,7 +13,7 @@ class PermissionEndpointTest extends BaseEndpointTest
     use LinkObjectTestHelpers;
 
     /**
-     * @param string id
+     * @param string $permissionId
      *
      * @dataProvider dpTestGetPermissionIds
      */

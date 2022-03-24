@@ -46,7 +46,7 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
      *
      * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
      *
-     * @param $orderId
+     * @param string|null $orderId
      * @param string $orderlineId
      *
      * @param array $data

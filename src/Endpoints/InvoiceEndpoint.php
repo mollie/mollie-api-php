@@ -67,7 +67,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
     /**
      * This is a wrapper method for page
      *
-     * @param array|null $parameters
+     * @param array $parameters
      *
      * @return \Mollie\Api\Resources\BaseCollection
      * @throws ApiException

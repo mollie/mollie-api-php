@@ -16,7 +16,7 @@ use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ClientInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $guzzleClient;
 

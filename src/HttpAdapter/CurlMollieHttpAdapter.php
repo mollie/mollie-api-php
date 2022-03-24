@@ -38,7 +38,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @param string $httpMethod
      * @param string $url
      * @param array $headers
-     * @param $httpBody
+     * @param string $httpBody
      * @return \stdClass|void|null
      * @throws \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\CurlConnectTimeoutException
@@ -64,7 +64,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @param string $httpMethod
      * @param string $url
      * @param array $headers
-     * @param $httpBody
+     * @param string $httpBody
      * @return \stdClass|void|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
@@ -147,8 +147,8 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
-     * @param $curlErrorNumber
-     * @param $executionTime
+     * @param int $curlErrorNumber
+     * @param int $executionTime
      * @return bool
      */
     protected function isConnectTimeoutError($curlErrorNumber, $executionTime)

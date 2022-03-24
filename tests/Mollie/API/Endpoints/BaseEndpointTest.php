@@ -10,7 +10,7 @@ use Mollie\Api\MollieApiClient;
 abstract class BaseEndpointTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var Client|\PHPUnit_Framework_MockObject_MockObject
+     * @var Client|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $guzzleClient;
 

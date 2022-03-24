@@ -196,10 +196,11 @@ class MandateEndpointTest extends BaseEndpointTest
 
         $customer = $this->getCustomer();
 
-        /** @var Mandate $mandate */
+        /** @var MandateCollection $mandates */
         $mandates = $customer->mandates();
         $this->assertInstanceOf(MandateCollection::class, $mandates);
 
+        /** @var Mandate $mandate */
         foreach ($mandates as $mandate) {
             $this->assertInstanceOf(Mandate::class, $mandate);
             $this->assertEquals("mandate", $mandate->resource);
