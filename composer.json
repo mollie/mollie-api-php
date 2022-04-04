@@ -58,6 +58,7 @@
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "phpunit/phpunit": "^6.5 || ^7.1 || ^8.5 || ^9.5",
     "friendsofphp/php-cs-fixer": "^3.0"
+    "phpstan/phpstan": "^1.4"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."

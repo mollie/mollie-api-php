@@ -37,8 +37,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Enable a method for the provided Profile ID.
      *
-     * @param $profileId
-     * @param $methodId
+     * @param string $profileId
+     * @param string $methodId
      * @param array $data
      * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -75,7 +75,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Enable a method for the current profile.
      *
-     * @param $methodId
+     * @param string $methodId
      * @param array $data
      * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -88,8 +88,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Disable a method for the provided Profile ID.
      *
-     * @param $profileId
-     * @param $methodId
+     * @param string $profileId
+     * @param string $methodId
      * @param array $data
      * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -104,8 +104,8 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Disable a method for the provided Profile object.
      *
-     * @param $profile
-     * @param $methodId
+     * @param \stdClass $profile
+     * @param string $methodId
      * @param array $data
      * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
@@ -118,7 +118,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Disable a method for the current profile.
      *
-     * @param $methodId
+     * @param string $methodId
      * @param array $data
      * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException

@@ -140,7 +140,6 @@ class CustomerEndpointTest extends BaseEndpointTest
             )
         );
 
-        /** @var Customer $customer */
         $customers = $this->apiClient->customers->page();
 
         $this->assertInstanceOf(CustomerCollection::class, $customers);

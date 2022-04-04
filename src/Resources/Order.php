@@ -323,7 +323,7 @@ class Order extends BaseResource
      * You can pass an empty lines array if you want to cancel all eligible lines.
      * Returns null if successful.
      *
-     * @param  array|null $data
+     * @param  array $data
      * @return null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
@@ -501,7 +501,7 @@ class Order extends BaseResource
     /**
      * Create a new payment for this Order.
      *
-     * @param $data
+     * @param array $data
      * @param array $filters
      * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException

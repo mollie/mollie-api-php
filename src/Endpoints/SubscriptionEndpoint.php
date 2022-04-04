@@ -81,7 +81,8 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $customerId
      *
      * @param array $data
-     * @return Order
+     *
+     * @return Subscription
      * @throws ApiException
      */
     public function update($customerId, $subscriptionId, array $data = [])
