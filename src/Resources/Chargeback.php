@@ -47,6 +47,13 @@ class Chargeback extends BaseResource
     public $settlementAmount;
 
     /**
+     * The chargeback reason
+     *
+     * @var \stdClass
+     */
+    public $reason;
+
+    /**
      * @var \stdClass
      */
     public $_links;
