@@ -49,7 +49,7 @@ class Chargeback extends BaseResource
     /**
      * The chargeback reason
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $reason;
 
