@@ -47,6 +47,21 @@ class Chargeback extends BaseResource
     public $settlementAmount;
 
     /**
+     * The chargeback reason
+     *
+     * @var \stdClass|null
+     */
+    public $reason;
+
+    /**
+     * UTC datetime the date and time the chargeback was reversed in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $reversedAt;
+
+    /**
      * @var \stdClass
      */
     public $_links;

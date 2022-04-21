@@ -40,6 +40,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
                                "value":"-13.00",
                                "currency":"EUR"
                             },
+                            "reversedAt": null,
+                            "reason":{
+                               "code":"AC01",
+                               "description":""
+                            },
                             "_links":{
                                "self":{
                                   "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp",
@@ -68,6 +73,8 @@ class ChargebackEndpointTest extends BaseEndpointTest
                                "value":"-0.37",
                                "currency":"EUR"
                             },
+                            "reversedAt": null,
+                            "reason": null,
                             "_links":{
                                "self":{
                                   "href":"https://api.mollie.com/v2/payments/tr_nQKWJbDj7j/chargebacks/chb_6cqlwf",
@@ -118,11 +125,11 @@ class ChargebackEndpointTest extends BaseEndpointTest
             $chargebacks->_links->self
         );
 
-        $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
-        $this->assertChargeback($chargebacks[1], 'tr_nQKWJbDj7j', 'chb_6cqlwf', "-0.37");
+        $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00", "AC01");
+        $this->assertChargeback($chargebacks[1], 'tr_nQKWJbDj7j', 'chb_6cqlwf', "-0.37", null);
     }
 
-    protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount)
+    protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount, $reasonCode)
     {
         $this->assertInstanceOf(Chargeback::class, $chargeback);
         $this->assertEquals("chargeback", $chargeback->resource);
@@ -133,6 +140,13 @@ class ChargebackEndpointTest extends BaseEndpointTest
 
         $this->assertEquals("2018-03-28T11:44:32+00:00", $chargeback->createdAt);
         $this->assertEquals($paymentId, $chargeback->paymentId);
+        $this->assertNull($chargeback->reversedAt);
+
+        if ($reasonCode === null) {
+            $this->assertNull($chargeback->reason);
+        } else {
+            $this->assertReasonObject($reasonCode, "", $chargeback->reason);
+        }
 
         $this->assertLinkObject(
             "https://api.mollie.com/v2/payments/{$paymentId}/chargebacks/{$chargebackId}",
@@ -151,5 +165,21 @@ class ChargebackEndpointTest extends BaseEndpointTest
             "text/html",
             $chargeback->_links->documentation
         );
+    }
+
+    protected function assertReasonObject($code, $description, $reasonObject)
+    {
+        $this->assertEquals(
+            $this->createReasonObject($code, $description),
+            $reasonObject
+        );
+    }
+
+    protected function createReasonObject($code, $description)
+    {
+        return (object) [
+            'code' => $code,
+            'description' => $description,
+        ];
     }
 }
