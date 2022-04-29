@@ -80,6 +80,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
             )
         );
 
+        /** @var Customer $customer */
         $customer = $this->getCustomer();
 
         $payment = $customer->createPayment([

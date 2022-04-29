@@ -6,7 +6,7 @@ use \Mollie\Api\CompatibilityChecker;
 class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var CompatibilityChecker|\PHPUnit_Framework_MockObject_MockObject
+     * @var CompatibilityChecker|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $checker;
 

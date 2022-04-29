@@ -40,8 +40,8 @@ class OrderLineTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $vatRate
-     * @param $expected_boolean
+     * @param string $vatRate
+     * @param bool $expected_boolean
      *
      * @dataProvider dpTestUpdateVatRate
      */

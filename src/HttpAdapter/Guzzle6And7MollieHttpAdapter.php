@@ -72,10 +72,10 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * Send a request to the specified Mollie api url.
      *
-     * @param $httpMethod
-     * @param $url
-     * @param $headers
-     * @param $httpBody
+     * @param string $httpMethod
+     * @param string $url
+     * @param string $headers
+     * @param string $httpBody
      * @return \stdClass|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */

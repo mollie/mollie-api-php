@@ -1,10 +1,16 @@
 parameters:
-    level: 1
+    level: 2
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests
         - %currentWorkingDirectory%/examples
-    excludes_analyse:
+    excludePaths:
         - %currentWorkingDirectory%/vendor
+    ignoreErrors:
+            - '#Access to an undefined property Eloquent\\Liberator\\LiberatorProxyInterface::\$request#'
+            - '#Access to protected property Mollie\\Api\\MollieApiClient::\$apiKey#'
+            - '#Access to protected property Mollie\\Api\\MollieApiClient::\$httpClient#'
+            - '#Call to an undefined method Mollie\\Api\\HttpAdapter\\MollieHttpAdapterInterface::enableDebugging\(\)#'
+            - '#Call to an undefined method Mollie\\Api\\HttpAdapter\\MollieHttpAdapterInterface::disableDebugging\(\)#'
 includes:
     - .phpstan.ignoreErrors.neon

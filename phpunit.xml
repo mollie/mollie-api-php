@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<phpunit colors="true" bootstrap="./vendor/autoload.php">
-    <php>
-        <ini name="display_errors" value="stderr"/>
-        <ini name="error_log" value="/dev/null"/>
-    </php>
-    <testsuite name="Unit tests">
-        <directory>tests/</directory>
-    </testsuite>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" bootstrap="./vendor/autoload.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">src/</directory>
+    </include>
+  </coverage>
+  <php>
+    <ini name="display_errors" value="stderr"/>
+    <ini name="error_log" value="/dev/null"/>
+  </php>
+  <testsuite name="Unit tests">
+    <directory>tests/</directory>
+  </testsuite>
 </phpunit>

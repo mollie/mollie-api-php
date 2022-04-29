@@ -425,7 +425,7 @@ class SettlementEndpointTest extends BaseEndpointTest
             )
         );
 
-        /** @var Settlement $settlement */
+        /** @var Settlement $settlements */
         $settlements = $this->apiClient->settlements->page();
         $this->assertInstanceOf(SettlementCollection::class, $settlements);
 
