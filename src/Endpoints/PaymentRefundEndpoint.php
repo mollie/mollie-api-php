@@ -86,4 +86,37 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_list(null, null, $parameters);
     }
+
+
+    /**
+     * Creates a refund for a specific payment.
+     *
+     * @param Payment $payment
+     * @param array $data
+     * @param array $filters
+     *
+     * @return Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createFor(Payment $payment, array $data, array $filters = [])
+    {
+        return $this->createForId($payment->id, $data, $filters);
+    }
+
+    /**
+     * Creates a refund for a specific payment.
+     *
+     * @param string $paymentId
+     * @param array $data
+     * @param array $filters
+     *
+     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Refund
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForId(string $paymentId, array $data, array $filters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return parent::rest_create($data, $filters);
+    }
 }

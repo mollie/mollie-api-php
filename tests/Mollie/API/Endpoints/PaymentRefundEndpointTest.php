@@ -84,6 +84,80 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $refund->_links->documentation);
     }
 
+    public function testCreateRefundForPaymentResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                "POST",
+                "/v2/payments/tr_44aKxzEbr8/refunds"
+            ),
+            new Response(
+                201,
+                [],
+                '{
+                    "resource": "refund",
+                    "id": "re_4qqhO89gsT",
+                    "amount": {
+                        "currency": "EUR",
+                        "value": "20.00"
+                    },
+                    "status": "pending",
+                    "createdAt": "2018-03-14T17:09:02.0Z",
+                    "description": "Order #33",
+                    "metadata": {
+                         "bookkeeping_id": 12345
+                    },
+                    "paymentId": "tr_WDqYK6vllg",
+                    "_links": {
+                        "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/re_4qqhO89gsT",
+                            "type": "application/hal+json"
+                        },
+                        "payment": {
+                            "href": "https://api.mollie.com/v2/payments/tr_WDqYK6vllg",
+                            "type": "application/hal+json"
+                        },
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/refunds-api/create-payment-refund",
+                            "type": "text/html"
+                        }
+                    }
+                }'
+            )
+        );
+        $payment = $this->getPayment();
+        $refundData = [
+            "amount" => [
+                "currency" => "EUR",
+                "value" => "20.00",
+            ],
+        ];
+        $refund = $this->apiClient->paymentRefunds->createFor($payment, $refundData);
+
+        $this->assertInstanceOf(Refund::class, $refund);
+        $this->assertEquals("re_4qqhO89gsT", $refund->id);
+
+        $amount = new Stdclass();
+        $amount->value = '20.00';
+        $amount->currency = "EUR";
+        $this->assertEquals($amount, $refund->amount);
+
+        $this->assertEquals("pending", $refund->status);
+        $this->assertEquals("2018-03-14T17:09:02.0Z", $refund->createdAt);
+        $this->assertEquals("Order #33", $refund->description);
+        $this->assertEquals("tr_WDqYK6vllg", $refund->paymentId);
+
+
+        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/re_4qqhO89gsT", "type" => "application/hal+json"];
+        $this->assertEquals($selfLink, $refund->_links->self);
+
+        $paymentLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_WDqYK6vllg", "type" => "application/hal+json"];
+        $this->assertEquals($paymentLink, $refund->_links->payment);
+
+        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/refunds-api/create-payment-refund", "type" => "text/html"];
+        $this->assertEquals($documentationLink, $refund->_links->documentation);
+    }
+
     public function testGetRefundOnPaymentResource()
     {
         $this->mockApiCall(
