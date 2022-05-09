@@ -160,6 +160,18 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($payment->getCheckoutUrl(), "https://example.com");
     }
 
+    public function testGetMobileAppCheckoutUrlReturnsPaymentUrlFromLinksObject()
+    {
+        $payment = new Payment($this->createMock(MollieApiClient::class));
+
+        $payment->_links = new stdClass();
+        $payment->_links->mobileAppCheckout = new stdClass();
+        $payment->_links->mobileAppCheckout->href = "https://example-mobile-checkout.com";
+
+
+        $this->assertSame($payment->getMobileAppCheckoutUrl(), "https://example-mobile-checkout.com");
+    }
+
     public function testCanBeRefundedReturnsTrueWhenAmountRemainingIsSet()
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));

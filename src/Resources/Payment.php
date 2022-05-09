@@ -451,6 +451,20 @@ class Payment extends BaseResource
     }
 
     /**
+     * Get the mobile checkout URL where the customer can complete the payment.
+     *
+     * @return string|null
+     */
+    public function getMobileAppCheckoutUrl()
+    {
+        if (empty($this->_links->mobileAppCheckout)) {
+            return null;
+        }
+
+        return $this->_links->mobileAppCheckout->href;
+    }
+
+    /**
      * @return bool
      */
     public function canBeRefunded()
