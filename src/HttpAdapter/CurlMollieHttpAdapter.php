@@ -148,7 +148,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
 
     /**
      * @param int $curlErrorNumber
-     * @param int $executionTime
+     * @param string|float $executionTime
      * @return bool
      */
     protected function isConnectTimeoutError($curlErrorNumber, $executionTime)
