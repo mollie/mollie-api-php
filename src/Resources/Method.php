@@ -60,7 +60,7 @@ class Method extends BaseResource
     /**
      * The activation status the method is in.
      *
-     * @var string
+     * @var string | null
      */
     public $status;
 
