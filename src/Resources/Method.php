@@ -59,8 +59,9 @@ class Method extends BaseResource
 
     /**
      * The activation status the method is in.
+     * If the method has status "null", this value will be returned as a null value, not as a string.
      *
-     * @var string
+     * @var string | null
      */
     public $status;
 
