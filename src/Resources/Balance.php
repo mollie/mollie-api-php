@@ -14,6 +14,14 @@ class Balance extends BaseResource
     public $resource;
 
     /**
+     * The mode used to create this balance. Mode determines whether real or test payments can be moved to this balance.
+     * The value is either "live" or "test".
+     *
+     * @var string
+     */
+    public $mode;
+
+    /**
      * The identifier uniquely referring this balance. Mollie assigns this identifier at balance creation.
      *
      * @example bal_gVMhHKqSSRYJyPsuoPABC

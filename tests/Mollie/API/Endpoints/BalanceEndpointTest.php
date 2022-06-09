@@ -151,16 +151,61 @@ class BalanceEndpointTest extends BaseEndpointTest
             $balances->_links->next
         );
 
-        $this->assertBalance($balances[0], "bal_gVMhHKqSSRYJyPsuoPNFH");
-        $this->assertBalance($balances[1], "bal_gVMhHKqSSRYJyPsuoPABC");
+        $this->assertBalance(
+            $balances[0],
+            "bal_gVMhHKqSSRYJyPsuoPNFH",
+            "2019-01-10T12:06:28+00:00",
+            'daily',
+            "40.00",
+            (object) [
+                "type" => "bank-account",
+                "beneficiaryName" => "Jack Bauer",
+                "bankAccount" => "NL53INGB0654422370",
+                "bankAccountId" => "bnk_jrty3f",
+            ]
+        );
+        $this->assertBalance(
+            $balances[1],
+            "bal_gVMhHKqSSRYJyPsuoPABC",
+            "2019-01-10T10:23:41+00:00",
+            'twice-a-month',
+            "5.00",
+            (object) [
+                "type" => "bank-account",
+                "beneficiaryName" => "Jack Bauer",
+                "bankAccount" => "NL97MOLL6351480700",
+                "bankAccountId" => "bnk_jrty3e",
+            ]
+        );
     }
 
-    protected function assertBalance(Balance $balance, $balanceId)
-    {
+    protected function assertBalance(
+        Balance $balance,
+        $balanceId,
+        $createdAt,
+        $transferFrequency,
+        $thresholdValue,
+        $destination
+    ) {
         $this->assertInstanceOf(Balance::class, $balance);
         $this->assertEquals("balance", $balance->resource);
         $this->assertEquals($balanceId, $balance->id);
 
-        $this->markTestIncomplete("TBI");
+        $this->assertEquals("live", $balance->mode);
+        $this->assertEquals($createdAt, $balance->createdAt);
+        $this->assertEquals("EUR", $balance->currency);
+        $this->assertAmountObject("0.00", "EUR", $balance->availableAmount);
+        $this->assertAmountObject("0.00", "EUR", $balance->incomingAmount);
+        $this->assertAmountObject("0.00", "EUR", $balance->outgoingAmount);
+        $this->assertEquals($transferFrequency, $balance->transferFrequency);
+        $this->assertAmountObject($thresholdValue, "EUR", $balance->transferThreshold);
+        $this->assertEquals("Mollie payout", $balance->transferReference);
+        $this->assertEquals($destination, $balance->transferDestination);
+
+        $this->assertLinkObject(
+            "https://api.mollie.com/v2/balances/{$balanceId}",
+            "application/hal+json",
+            $balance->_links->self
+        );
     }
 }
