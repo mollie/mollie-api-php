@@ -11,6 +11,11 @@ use Mollie\Api\Resources\BaseCollection;
 
 class BalanceEndpoint extends CollectionEndpointAbstract
 {
+    /**
+     * @var string
+     */
+    const RESOURCE_ID_PREFIX = 'bal_';
+
     protected $resourcePath = "balances";
 
     protected function getResourceCollectionObject($count, $_links)
@@ -21,6 +26,25 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     protected function getResourceObject()
     {
         return new Balance($this->client);
+    }
+
+    /**
+     * Retrieve a single balance from Mollie.
+     *
+     * Will throw a ApiException if the balance id is invalid or the resource cannot be found.
+     *
+     * @param string $balanceId
+     * @param array $parameters
+     * @return Balance
+     * @throws ApiException
+     */
+    public function get($balanceId, array $parameters = [])
+    {
+        if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
+            throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        }
+
+        return parent::rest_read($balanceId, $parameters);
     }
 
     /**

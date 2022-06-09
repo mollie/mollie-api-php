@@ -181,27 +181,94 @@ class BalanceEndpointTest extends BaseEndpointTest
 
     public function testGetBalance()
     {
-        $this->markTestIncomplete();
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                     "resource": "balance",
+                     "id": "bal_gVMhHKqSSRYJyPsuoPNFH",
+                     "mode": "live",
+                     "createdAt": "2019-01-10T10:23:41+00:00",
+                     "currency": "EUR",
+                     "status": "active",
+                     "availableAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "incomingAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "outgoingAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "transferFrequency": "twice-a-month",
+                     "transferThreshold": {
+                       "value": "5.00",
+                       "currency": "EUR"
+                     },
+                    "transferReference": "Mollie payout",
+                     "transferDestination": {
+                       "type": "bank-account",
+                       "beneficiaryName": "Jack Bauer",
+                       "bankAccount": "NL53INGB0654422370",
+                       "bankAccountId": "bnk_jrty3f"
+                     },
+                     "_links": {
+                       "self": {
+                         "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH",
+                         "type": "application/hal+json"
+                       },
+                       "documentation": {
+                         "href": "https://docs.mollie.com/reference/v2/balances-api/get-balance",
+                         "type": "text/html"
+                       }
+                     }
+                   }'
+            )
+        );
+
+        $balance = $this->apiClient->balances->get("bal_gVMhHKqSSRYJyPsuoPNFH");
+
+        $this->assertBalance(
+            $balance,
+            "bal_gVMhHKqSSRYJyPsuoPNFH",
+            "2019-01-10T10:23:41+00:00",
+            "twice-a-month",
+            "5.00",
+            (object) [
+                'type' => 'bank-account',
+                'beneficiaryName' => 'Jack Bauer',
+                'bankAccount' => 'NL53INGB0654422370',
+                'bankAccountId' => 'bnk_jrty3f',
+            ]
+        );
     }
 
     public function testGetPrimaryBalance()
     {
         // /v2/balances/primary
         // $api->balances->primary();
-        $this->markTestIncomplete();
+        $this->markTestIncomplete("TBI");
     }
 
     public function testGetBalanceReport()
     {
         // /v2/balances/*/reporting
-        $this->markTestIncomplete();
+        $this->markTestIncomplete("TBI");
     }
 
     public function testGetBalanceTransactions()
     {
         // /v2/balances/*/transactions
         // TODO move to BalanceTransactionEndpoint?
-        $this->markTestIncomplete();
+        $this->markTestIncomplete("TBI");
     }
 
     public function testGetPrimaryBalanceTransactions()
@@ -210,7 +277,7 @@ class BalanceEndpointTest extends BaseEndpointTest
         // $api->balances->primary()->transactions(); (2 calls)
         // $api->balances->primaryTransactions(); (1 call)
         // TODO move to BalanceTransactionEndpoint?
-        $this->markTestIncomplete();
+        $this->markTestIncomplete("TBI");
     }
 
     protected function assertBalance(
