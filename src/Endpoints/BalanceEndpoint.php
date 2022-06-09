@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
@@ -31,11 +29,11 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     /**
      * Retrieve a single balance from Mollie.
      *
-     * Will throw a ApiException if the balance id is invalid or the resource cannot be found.
+     * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
      *
      * @param string $balanceId
      * @param array $parameters
-     * @return Balance
+     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
      * @throws ApiException
      */
     public function get($balanceId, array $parameters = [])
@@ -45,6 +43,20 @@ class BalanceEndpoint extends CollectionEndpointAbstract
         }
 
         return parent::rest_read($balanceId, $parameters);
+    }
+
+    /**
+     * Retrieve the primary balance from Mollie.
+     *
+     * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
+     *
+     * @param array $parameters
+     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
+     * @throws ApiException
+     */
+    public function primary(array $parameters = [])
+    {
+        return parent::rest_read("primary", $parameters);
     }
 
     /**

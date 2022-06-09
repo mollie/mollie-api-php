@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
+use Mollie\Api\Types\BalanceTransferFrequency;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
@@ -155,7 +156,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             $balances[0],
             "bal_gVMhHKqSSRYJyPsuoPNFH",
             "2019-01-10T12:06:28+00:00",
-            'daily',
+            BalanceTransferFrequency::DAILY,
             "40.00",
             (object) [
                 "type" => "bank-account",
@@ -168,7 +169,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             $balances[1],
             "bal_gVMhHKqSSRYJyPsuoPABC",
             "2019-01-10T10:23:41+00:00",
-            'twice-a-month',
+            BalanceTransferFrequency::TWICE_A_MONTH,
             "5.00",
             (object) [
                 "type" => "bank-account",
@@ -240,7 +241,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             $balance,
             "bal_gVMhHKqSSRYJyPsuoPNFH",
             "2019-01-10T10:23:41+00:00",
-            "twice-a-month",
+            BalanceTransferFrequency::TWICE_A_MONTH,
             "5.00",
             (object) [
                 'type' => 'bank-account',
@@ -253,21 +254,91 @@ class BalanceEndpointTest extends BaseEndpointTest
 
     public function testGetPrimaryBalance()
     {
-        // /v2/balances/primary
-        // $api->balances->primary();
-        $this->markTestIncomplete("TBI");
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/balances/primary"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                     "resource": "balance",
+                     "id": "bal_gVMhHKqSSRYJyPsuoPNFH",
+                     "mode": "live",
+                     "createdAt": "2019-01-10T10:23:41+00:00",
+                     "currency": "EUR",
+                     "status": "active",
+                     "availableAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "incomingAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "outgoingAmount": {
+                       "value": "0.00",
+                       "currency": "EUR"
+                     },
+                     "transferFrequency": "twice-a-month",
+                     "transferThreshold": {
+                       "value": "5.00",
+                       "currency": "EUR"
+                     },
+                    "transferReference": "Mollie payout",
+                     "transferDestination": {
+                       "type": "bank-account",
+                       "beneficiaryName": "Jack Bauer",
+                       "bankAccount": "NL53INGB0654422370",
+                       "bankAccountId": "bnk_jrty3f"
+                     },
+                     "_links": {
+                       "self": {
+                         "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH",
+                         "type": "application/hal+json"
+                       },
+                       "documentation": {
+                         "href": "https://docs.mollie.com/reference/v2/balances-api/get-balance",
+                         "type": "text/html"
+                       }
+                     }
+                   }'
+            )
+        );
+
+        $balance = $this->apiClient->balances->primary();
+
+        $this->assertBalance(
+            $balance,
+            "bal_gVMhHKqSSRYJyPsuoPNFH",
+            "2019-01-10T10:23:41+00:00",
+            BalanceTransferFrequency::TWICE_A_MONTH,
+            "5.00",
+            (object) [
+                'type' => 'bank-account',
+                'beneficiaryName' => 'Jack Bauer',
+                'bankAccount' => 'NL53INGB0654422370',
+                'bankAccountId' => 'bnk_jrty3f',
+            ]
+        );
     }
 
     public function testGetBalanceReport()
     {
         // /v2/balances/*/reporting
+        // $api->balanceReporting();
+        // $balance->reporting();
+        // TODO move to BalanceReportingEndpoint / BalanceReportingEndpointTest
         $this->markTestIncomplete("TBI");
     }
 
     public function testGetBalanceTransactions()
     {
         // /v2/balances/*/transactions
-        // TODO move to BalanceTransactionEndpoint?
+        // $api->balanceReporting();
+        // $balance->transactions();
+        // TODO move to BalanceTransactionEndpoint / BalanceTransactionEndpointTest
         $this->markTestIncomplete("TBI");
     }
 
@@ -276,10 +347,19 @@ class BalanceEndpointTest extends BaseEndpointTest
         // /v2/balances/primary/transactions
         // $api->balances->primary()->transactions(); (2 calls)
         // $api->balances->primaryTransactions(); (1 call)
-        // TODO move to BalanceTransactionEndpoint?
+        // TODO move to BalanceTransactionEndpoint / BalanceTransactionEndpointTest
         $this->markTestIncomplete("TBI");
     }
 
+    /**
+     * @param \Mollie\Api\Resources\Balance $balance
+     * @param string $balanceId
+     * @param string $createdAt
+     * @param string $transferFrequency
+     * @param string $thresholdValue
+     * @param \stdClass $destination
+     * @return void
+     */
     protected function assertBalance(
         Balance $balance,
         $balanceId,
