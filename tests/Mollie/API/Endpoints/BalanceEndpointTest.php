@@ -179,6 +179,40 @@ class BalanceEndpointTest extends BaseEndpointTest
         );
     }
 
+    public function testGetBalance()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testGetPrimaryBalance()
+    {
+        // /v2/balances/primary
+        // $api->balances->primary();
+        $this->markTestIncomplete();
+    }
+
+    public function testGetBalanceReport()
+    {
+        // /v2/balances/*/reporting
+        $this->markTestIncomplete();
+    }
+
+    public function testGetBalanceTransactions()
+    {
+        // /v2/balances/*/transactions
+        // TODO move to BalanceTransactionEndpoint?
+        $this->markTestIncomplete();
+    }
+
+    public function testGetPrimaryBalanceTransactions()
+    {
+        // /v2/balances/primary/transactions
+        // $api->balances->primary()->transactions(); (2 calls)
+        // $api->balances->primaryTransactions(); (1 call)
+        // TODO move to BalanceTransactionEndpoint?
+        $this->markTestIncomplete();
+    }
+
     protected function assertBalance(
         Balance $balance,
         $balanceId,
