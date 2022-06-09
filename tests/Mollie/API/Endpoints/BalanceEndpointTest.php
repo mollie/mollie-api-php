@@ -324,33 +324,6 @@ class BalanceEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testGetBalanceReport()
-    {
-        // /v2/balances/*/reporting
-        // $api->balanceReporting();
-        // $balance->reporting();
-        // TODO move to BalanceReportingEndpoint / BalanceReportingEndpointTest
-        $this->markTestIncomplete("TBI");
-    }
-
-    public function testGetBalanceTransactions()
-    {
-        // /v2/balances/*/transactions
-        // $api->balanceReporting();
-        // $balance->transactions();
-        // TODO move to BalanceTransactionEndpoint / BalanceTransactionEndpointTest
-        $this->markTestIncomplete("TBI");
-    }
-
-    public function testGetPrimaryBalanceTransactions()
-    {
-        // /v2/balances/primary/transactions
-        // $api->balances->primary()->transactions(); (2 calls)
-        // $api->balances->primaryTransactions(); (1 call)
-        // TODO move to BalanceTransactionEndpoint / BalanceTransactionEndpointTest
-        $this->markTestIncomplete("TBI");
-    }
-
     /**
      * @param \Mollie\Api\Resources\Balance $balance
      * @param string $balanceId
