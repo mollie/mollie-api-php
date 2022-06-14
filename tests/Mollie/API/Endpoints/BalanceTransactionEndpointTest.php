@@ -16,7 +16,16 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
 
     public function testGetBalanceTransactions()
     {
-        // /v2/balances/*/transactions
+        $this->mockApiCall(
+            new Request("GET", "/v2/balances/*/transactions"),
+            new Response(
+                200,
+                [],
+                ''
+            )
+        );
+
+
         // $api->balanceTransactions->forBalance();
         // $balance->transactions();
         $this->markTestIncomplete("TBI BalanceTransactionEndpointTest");
@@ -24,10 +33,18 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
 
     public function testGetPrimaryBalanceTransactions()
     {
+        $this->mockApiCall(
+            new Request("GET", "/v2/balances/me/transactions"),
+            new Response(
+                200,
+                [],
+                ''
+            )
+        );
         // /v2/balances/primary/transactions
-        // $api->balanceTransactions->forPrimary();
+        // $api->balanceTransactions->forPrimary(); (1 call)
+        // $api->balances->primaryTransactions(); (1 call, proxy)
         // $api->balances->primary()->transactions(); (2 calls)
-        // $api->balances->primaryTransactions(); (1 call)
         $this->markTestIncomplete("TBI BalanceTransactionEndpointTest");
     }
 }
