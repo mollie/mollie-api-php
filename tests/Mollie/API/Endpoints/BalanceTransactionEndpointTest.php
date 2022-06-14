@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Mollie\API\Endpoints;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
