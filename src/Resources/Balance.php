@@ -113,29 +113,4 @@ class Balance extends BaseResource
      * @var \stdClass
      */
     public $_links;
-
-    /**
-     * Retrieve the transactions for this balance.
-     *
-     * @return BalanceTransactionCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function transactions()
-    {
-        if (! isset($this->_links->balance_transactions->href)) {
-            return new BalanceTransactionCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_GET,
-            $this->_links->balance_transactions->href
-        );
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->balance_transactions,
-            BalanceTransaction::class,
-            $result->_links
-        );
-    }
 }
