@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
-
 class Balance extends BaseResource
 {
     /**
