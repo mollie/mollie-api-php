@@ -2,6 +2,9 @@
 
 namespace Mollie\Api;
 
+use Mollie\Api\Endpoints\BalanceEndpoint;
+use Mollie\Api\Endpoints\BalanceReportEndpoint;
+use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
@@ -133,6 +136,8 @@ class MollieApiClient
     public $mandates;
 
     /**
+     * RESTful Profile resource.
+     *
      * @var ProfileEndpoint
      */
     public $profiles;
@@ -157,6 +162,23 @@ class MollieApiClient
      * @var InvoiceEndpoint
      */
     public $invoices;
+
+    /**
+     * RESTful Balance resource.
+     *
+     * @var BalanceEndpoint
+     */
+    public $balances;
+
+    /**
+     * @var BalanceTransactionEndpoint
+     */
+    public $balanceTransactions;
+
+    /**
+     * @var BalanceReportEndpoint
+     */
+    public $balanceReports;
 
     /**
      * RESTful Onboarding resource.
@@ -322,6 +344,9 @@ class MollieApiClient
         $this->subscriptions = new SubscriptionEndpoint($this);
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
+        $this->balances = new BalanceEndpoint($this);
+        $this->balanceTransactions = new BalanceTransactionEndpoint($this);
+        $this->balanceReports = new BalanceReportEndpoint($this);
         $this->invoices = new InvoiceEndpoint($this);
         $this->permissions = new PermissionEndpoint($this);
         $this->profiles = new ProfileEndpoint($this);
