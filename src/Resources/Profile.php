@@ -119,7 +119,6 @@ class Profile extends BaseResource
             "website" => $this->website,
             "email" => $this->email,
             "phone" => $this->phone,
-            "categoryCode" => $this->categoryCode,
             "businessCategory" => $this->businessCategory,
             "mode" => $this->mode,
         ];
