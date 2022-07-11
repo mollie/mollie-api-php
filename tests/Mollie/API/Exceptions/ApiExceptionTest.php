@@ -47,5 +47,6 @@ class ApiExceptionTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(/** @lang JSON */'{ "foo": "bar" }', $exception->getRequest()->getBody()->__toString());
         $this->assertStringEndsWith('Error executing API call (422: Unprocessable Entity): Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.. Documentation: https://docs.mollie.com/guides/handling-errors. Request body: { "foo": "bar" }', $exception->getMessage());
+        $this->assertEquals('Error executing API call (422: Unprocessable Entity): Can not enable Credit card via the API. Please go to the dashboard to enable this payment method.', $exception->getPlainMessage());
     }
 }
