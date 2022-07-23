@@ -35,7 +35,7 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
 
     /**
      * FakeHttpAdapter constructor.
-     * @param \stdClass|null $response
+     * @param \stdClass|null|\GuzzleHttp\Psr7\Response $response
      */
     public function __construct($response)
     {

@@ -104,7 +104,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
     /**
      * Disable a method for the provided Profile object.
      *
-     * @param \stdClass $profile
+     * @param Profile $profile
      * @param string $methodId
      * @param array $data
      * @throws \Mollie\Api\Exceptions\ApiException
