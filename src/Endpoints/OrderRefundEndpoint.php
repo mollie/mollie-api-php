@@ -57,7 +57,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @param array $data
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Refund
+     * @return \Mollie\Api\Resources\Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($orderId, array $data, array $filters = [])

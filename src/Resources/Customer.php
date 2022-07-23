@@ -61,7 +61,7 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Customer
+     * @return \Mollie\Api\Resources\Customer
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()

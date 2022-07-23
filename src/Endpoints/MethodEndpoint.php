@@ -89,7 +89,7 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param string $methodId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Method
+     * @return \Mollie\Api\Resources\Method
      * @throws ApiException
      */
     public function get($methodId, array $parameters = [])

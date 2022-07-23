@@ -91,7 +91,7 @@ class Mandate extends BaseResource
     /**
      * Revoke the mandate
      *
-     * @return null
+     * @return null|\stdClass|\Mollie\Api\Resources\Mandate
      */
     public function revoke()
     {

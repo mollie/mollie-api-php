@@ -207,7 +207,7 @@ class Order extends BaseResource
     public $_links;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_embedded;
 
@@ -480,7 +480,7 @@ class Order extends BaseResource
     /**
      * Saves the order's updated billingAddress and/or shippingAddress.
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Order
+     * @return \Mollie\Api\Resources\Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
@@ -503,7 +503,7 @@ class Order extends BaseResource
      *
      * @param array $data
      * @param array $filters
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Payment
+     * @return \Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createPayment($data, $filters = [])

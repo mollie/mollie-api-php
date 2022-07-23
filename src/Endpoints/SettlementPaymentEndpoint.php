@@ -34,7 +34,7 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return BaseCollection|PaymentCollection
+     * @return mixed
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function pageForId($settlementId, $from = null, $limit = null, array $parameters = [])

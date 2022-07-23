@@ -12,7 +12,7 @@ class ResourceFactory
      * @param object $apiResult
      * @param BaseResource $resource
      *
-     * @return BaseResource
+     * @return mixed
      */
     public static function createFromApiResult($apiResult, BaseResource $resource)
     {

@@ -39,7 +39,7 @@ class Payment extends BaseResource
     /**
      * The amount that has been settled containing the value and currency
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $settlementAmount;
 

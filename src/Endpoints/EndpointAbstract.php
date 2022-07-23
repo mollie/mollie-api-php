@@ -65,7 +65,7 @@ abstract class EndpointAbstract
     /**
      * @param array $body
      * @param array $filters
-     * @return BaseResource
+     * @return mixed
      * @throws ApiException
      */
     protected function rest_create(array $body, array $filters)
@@ -85,7 +85,7 @@ abstract class EndpointAbstract
      * @param string $id
      * @param array $body
      *
-     * @return BaseResource
+     * @return mixed
      * @throws ApiException
      */
     protected function rest_update($id, array $body = [])
@@ -113,7 +113,7 @@ abstract class EndpointAbstract
      *
      * @param string $id Id of the object to retrieve.
      * @param array $filters
-     * @return BaseResource
+     * @return mixed
      * @throws ApiException
      */
     protected function rest_read($id, array $filters)
@@ -137,7 +137,7 @@ abstract class EndpointAbstract
      * @param string $id
      * @param array $body
      *
-     * @return BaseResource
+     * @return mixed
      * @throws ApiException
      */
     protected function rest_delete($id, array $body = [])
@@ -167,7 +167,7 @@ abstract class EndpointAbstract
      * @param int $limit
      * @param array $filters
      *
-     * @return BaseCollection
+     * @return mixed
      * @throws ApiException
      */
     protected function rest_list($from = null, $limit = null, array $filters = [])

@@ -176,7 +176,11 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->amountRemaining = 15;
+        $amountRemaining = new Stdclass();
+        $amountRemaining->value = '15.00';
+        $amountRemaining->currency = "EUR";
+
+        $payment->amountRemaining = $amountRemaining;
         $this->assertTrue($payment->canBeRefunded());
         $this->assertTrue($payment->canBePartiallyRefunded());
     }
