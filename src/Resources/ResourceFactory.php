@@ -28,7 +28,7 @@ class ResourceFactory
      * @param string $resourceClass
      * @param array $data
      * @param null $_links
-     * @param null $resourceCollectionClass
+     * @param string $resourceCollectionClass
      * @return mixed
      */
     public static function createBaseResourceCollection(

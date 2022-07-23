@@ -101,7 +101,7 @@ abstract class EndpointAbstract
             $this->parseRequestBody($body)
         );
 
-        if ($result === null) {
+        if ($result == null) {
             return null;
         }
 
@@ -153,7 +153,7 @@ abstract class EndpointAbstract
             $this->parseRequestBody($body)
         );
 
-        if ($result === null) {
+        if ($result == null) {
             return null;
         }
 
@@ -225,7 +225,6 @@ abstract class EndpointAbstract
     /**
      * @param array $body
      * @return null|string
-     * @throws ApiException
      */
     protected function parseRequestBody(array $body)
     {
@@ -233,12 +232,6 @@ abstract class EndpointAbstract
             return null;
         }
 
-        try {
-            $encoded = @json_encode($body);
-        } catch (\InvalidArgumentException $e) {
-            throw new ApiException("Error encoding parameters into JSON: '".$e->getMessage()."'.");
-        }
-
-        return $encoded;
+        return @json_encode($body);
     }
 }

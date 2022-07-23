@@ -101,10 +101,6 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
             throw new ApiException($e->getMessage(), $e->getCode(), null, $request, null);
         }
 
-        if (! $response) {
-            throw new ApiException("Did not receive API response.", 0, null, $request);
-        }
-
         return $this->parseResponseBody($response);
     }
 
