@@ -13,4 +13,4 @@ parameters:
             - '#Call to an undefined method Mollie\\Api\\HttpAdapter\\MollieHttpAdapterInterface::enableDebugging\(\)#'
             - '#Call to an undefined method Mollie\\Api\\HttpAdapter\\MollieHttpAdapterInterface::disableDebugging\(\)#'
 includes:
-    - .phpstan.ignoreErrors.neon
+    - phpstan-baseline.neon
