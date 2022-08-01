@@ -28,7 +28,7 @@ jobs:
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
-          composer require "phpstan/phpstan:0.12.99"
+          composer require "phpstan/phpstan:1.8.2"
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
         if: ${{ matrix.php >= 7.1 }}

@@ -279,7 +279,7 @@ class OrderTest extends \PHPUnit\Framework\TestCase
     public function testPaymentsHelperReturnsIfNoPaymentsEmbedded()
     {
         $order = new Order($this->createMock(MollieApiClient::class));
-        $order->_embedded = [];
+        $order->_embedded = null;
         $this->assertNull($order->payments());
     }
 

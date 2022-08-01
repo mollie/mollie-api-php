@@ -96,7 +96,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $shipmentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Shipment
+     * @return \Mollie\Api\Resources\Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId($orderId, $shipmentId, array $parameters = [])
@@ -149,7 +149,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $orderId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\ShipmentCollection
+     * @return \Mollie\Api\Resources\ShipmentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listForId($orderId, array $parameters = [])

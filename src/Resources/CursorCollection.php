@@ -14,7 +14,7 @@ abstract class CursorCollection extends BaseCollection
     /**
      * @param MollieApiClient $client
      * @param int $count
-     * @param \stdClass $_links
+     * @param \stdClass|null $_links
      */
     final public function __construct(MollieApiClient $client, $count, $_links)
     {

@@ -7,7 +7,7 @@ use Mollie\Api\Exceptions\UnrecognizedClientException;
 class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface $httpClient
+     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null|\stdClass $httpClient
      *
      * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
@@ -17,7 +17,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
         if (! $httpClient) {
             if ($this->guzzleIsDetected()) {
                 $guzzleVersion = $this->guzzleMajorVersionNumber();
-                
+
                 if ($guzzleVersion && in_array($guzzleVersion, [6, 7])) {
                     return Guzzle6And7MollieHttpAdapter::createDefault();
                 }
