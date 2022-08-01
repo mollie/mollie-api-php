@@ -14,4 +14,4 @@ parameters:
             - '#Call to an undefined method Mollie\\Api\\HttpAdapter\\MollieHttpAdapterInterface::disableDebugging\(\)#'
     treatPhpDocTypesAsCertain: false
 includes:
-    - .phpstan.ignoreErrors.neon
+    - phpstan-baseline.neon
