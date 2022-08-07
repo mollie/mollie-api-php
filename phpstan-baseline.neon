@@ -246,62 +246,7 @@ parameters:
 			path: src/HttpAdapter/MollieHttpAdapterPicker.php
 
 		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$email\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/CustomerEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$name\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/CustomerEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$_links\\.$#"
-			count: 8
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$description\\.$#"
-			count: 4
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$id\\.$#"
-			count: 4
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$image\\.$#"
-			count: 7
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$maximumAmount\\.$#"
-			count: 4
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$minimumAmount\\.$#"
-			count: 4
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$pricing\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$resource\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Call to an undefined method Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:issuers\\(\\)\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
-
-		-
-			message: "#^Call to an undefined method Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:pricing\\(\\)\\.$#"
+			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Method\\:\\:\\$resource\\.$#"
 			count: 1
 			path: tests/Mollie/API/Endpoints/MethodEndpointTest.php
 
@@ -396,31 +341,6 @@ parameters:
 			path: tests/Mollie/API/Endpoints/PaymentRefundEndpointTest.php
 
 		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$id\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/PaymentRouteEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$releaseDate\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/PaymentRouteEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$email\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/ProfileEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$name\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/ProfileEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$phone\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/ProfileEndpointTest.php
-
-		-
 			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$amount\\.$#"
 			count: 1
 			path: tests/Mollie/API/Endpoints/SubscriptionEndpointTest.php
@@ -429,28 +349,3 @@ parameters:
 			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$startDate\\.$#"
 			count: 1
 			path: tests/Mollie/API/Endpoints/SubscriptionEndpointTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$amount\\.$#"
-			count: 1
-			path: tests/Mollie/API/Resources/ResourceFactoryTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$createdAt\\.$#"
-			count: 1
-			path: tests/Mollie/API/Resources/ResourceFactoryTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$id\\.$#"
-			count: 1
-			path: tests/Mollie/API/Resources/ResourceFactoryTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$mode\\.$#"
-			count: 1
-			path: tests/Mollie/API/Resources/ResourceFactoryTest.php
-
-		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\BaseResource\\:\\:\\$resource\\.$#"
-			count: 1
-			path: tests/Mollie/API/Resources/ResourceFactoryTest.php
