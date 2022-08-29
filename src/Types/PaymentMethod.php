@@ -119,4 +119,9 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/sofort
      */
     const SOFORT = "sofort";
+    
+    /**
+     * @link https://www.mollie.com/en/payments/in3
+     */
+    const IN3 = "in3";
 }
