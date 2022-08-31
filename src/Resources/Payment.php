@@ -672,7 +672,7 @@ class Payment extends BaseResource
      *
      * @param array $data
      *
-     * @return BaseResource
+     * @return \Mollie\Api\Resources\Refund
      * @throws ApiException
      */
     public function refund($data)
@@ -681,7 +681,7 @@ class Payment extends BaseResource
     }
 
     /**
-     * @return \Mollie\Api\Resources\BaseResource
+     * @return \Mollie\Api\Resources\Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
