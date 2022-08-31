@@ -4,7 +4,6 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceFactory;
 
