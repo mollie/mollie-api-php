@@ -14,7 +14,7 @@ try {
      */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'];
-    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+    $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
 
     /*
      * Retrieve the last created customer for this example.

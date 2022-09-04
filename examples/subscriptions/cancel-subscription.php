@@ -18,7 +18,7 @@ try {
     /*
      * The subscription ID, starting with sub_
      */
-    $subscriptionId = isset($_GET['subscription_id']) ? $_GET['subscription_id'] : '';
+    $subscriptionId = $_GET['subscription_id'] ?? '';
 
     /*
      * Customer Subscription deletion parameters.
