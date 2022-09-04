@@ -8,6 +8,10 @@ class MandateMethod
     const CREDITCARD = "creditcard";
     const PAYPAL = "paypal";
 
+    /**
+     * @param string $firstPaymentMethod
+     * @return string
+     */
     public static function getForFirstPaymentMethod($firstPaymentMethod)
     {
         if ($firstPaymentMethod === PaymentMethod::PAYPAL) {
