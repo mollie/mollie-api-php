@@ -10,6 +10,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 
@@ -277,6 +278,23 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $mollieClient->performHttpCallToFullUrl('POST', '');
 
+        $this->assertNull($mollieClient->getIdempotencyKey());
+    }
+
+    public function testItUsesTheIdempotencyKeyGenerator()
+    {
+        $response = new Response(200, [], '{"resource": "payment"}');
+        $fakeAdapter = new FakeHttpAdapter($response);
+        $fakeIdempotencyKeyGenerator = new FakeIdempotencyKeyGenerator;
+        $fakeIdempotencyKeyGenerator->setFakeKey('fake-idempotency-key');
+
+        $mollieClient = new MollieApiClient($fakeAdapter, null, $fakeIdempotencyKeyGenerator);
+        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $this->assertNull($mollieClient->getIdempotencyKey());
+
+        $mollieClient->performHttpCallToFullUrl('POST', '');
+
+        $this->assertEquals('fake-idempotency-key', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);
         $this->assertNull($mollieClient->getIdempotencyKey());
     }
 

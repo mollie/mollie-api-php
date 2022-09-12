@@ -8,4 +8,5 @@ class IncompatiblePlatform extends ApiException
     const INCOMPATIBLE_CURL_EXTENSION = 2000;
     const INCOMPATIBLE_CURL_FUNCTION = 2500;
     const INCOMPATIBLE_JSON_EXTENSION = 3000;
+    const INCOMPATIBLE_RANDOM_BYTES_FUNCTION = 4000;
 }
