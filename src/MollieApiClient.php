@@ -276,6 +276,14 @@ class MollieApiClient
     protected $oauthAccess;
 
     /**
+     * A unique string ensuring a request to a mutating Mollie endpoint is processed only once.
+     * This key resets to null after each request.
+     *
+     * @var string
+     */
+    protected $idempotencyKey = null;
+
+    /**
      * @var array
      */
     protected $versionStrings = [];
@@ -475,6 +483,41 @@ class MollieApiClient
     }
 
     /**
+     * Set the idempotency key used on the next request. The idempotency key is unique string ensuring a request to a
+     * mutating Mollie endpoint is processed only once. The idempotency key resets to null after each request.
+     *
+     * @param $key
+     * @return $this
+     */
+    public function setIdempotencyKey($key)
+    {
+        $this->idempotencyKey = $key;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the idempotency key. Note that the idempotency key gets reset to null after each request.
+     *
+     * @return string|null
+     */
+    public function getIdempotencyKey()
+    {
+        return $this->idempotencyKey;
+    }
+
+    /**
+     * Reset the idempotency key. Note that the idempotency key automatically resets to null after each request.
+     * @return $this
+     */
+    public function resetIdempotencyKey()
+    {
+        $this->idempotencyKey = null;
+
+        return $this;
+    }
+
+    /**
      * Perform a http call. This method is used by the resource specific classes. Please use the $payments property to
      * perform operations on payments.
      *
@@ -535,7 +578,15 @@ class MollieApiClient
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        return $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
+        if ($this->idempotencyKey && in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
+            $headers['Idempotency-Key'] = $this->idempotencyKey;
+        }
+
+        $response = $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
+
+        $this->resetIdempotencyKey();
+
+        return $response;
     }
 
     /**
