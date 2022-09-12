@@ -280,7 +280,7 @@ class MollieApiClient
      * A unique string ensuring a request to a mutating Mollie endpoint is processed only once.
      * This key resets to null after each request.
      *
-     * @var string
+     * @var string|null
      */
     protected $idempotencyKey = null;
 
@@ -628,7 +628,7 @@ class MollieApiClient
             if (! $this->idempotencyKey && $this->idempotencyKeyGenerator) {
                 $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
             }
-            
+
             if ($this->idempotencyKey) {
                 $headers['Idempotency-Key'] = $this->idempotencyKey;
             } elseif ($this->idempotencyKeyGenerator) {
