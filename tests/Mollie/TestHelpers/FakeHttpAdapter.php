@@ -6,7 +6,6 @@ use Mollie\Api\HttpAdapter\MollieHttpAdapterInterface;
 
 class FakeHttpAdapter implements MollieHttpAdapterInterface
 {
-
     /**
      * @var \stdClass|null
      */
