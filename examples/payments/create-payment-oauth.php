@@ -17,7 +17,7 @@ try {
      */
     $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
     $hostname = $_SERVER['HTTP_HOST'] ? : "my.app";
-    $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+    $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
     /*
      * Since unlike an API key the OAuth access token does NOT belong to a profile, we need to retrieve a profile
      * so we can specify the profileId-parameter when creating a payment below.

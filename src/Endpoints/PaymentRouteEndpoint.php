@@ -36,6 +36,8 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
     /**
      * @param Payment $payment
      * @param string $routeId
+     * @param string $releaseDate - UTC datetime in ISO-8601 format when the funds for the following payment will become available on
+     * the balance of the connected account
      *
      * @return Route
      * @throws \Mollie\Api\Exceptions\ApiException
