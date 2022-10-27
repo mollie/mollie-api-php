@@ -41,25 +41,25 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.46.0";
+    public const CLIENT_VERSION = "2.46.0";
 
     /**
      * Endpoint of the remote API.
      */
-    const API_ENDPOINT = "https://api.mollie.com";
+    public const API_ENDPOINT = "https://api.mollie.com";
 
     /**
      * Version of the remote API.
      */
-    const API_VERSION = "v2";
+    public const API_VERSION = "v2";
 
     /**
      * HTTP Methods
      */
-    const HTTP_GET = "GET";
-    const HTTP_POST = "POST";
-    const HTTP_DELETE = "DELETE";
-    const HTTP_PATCH = "PATCH";
+    public const HTTP_GET = "GET";
+    public const HTTP_POST = "POST";
+    public const HTTP_DELETE = "DELETE";
+    public const HTTP_PATCH = "PATCH";
 
     /**
      * @var \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface

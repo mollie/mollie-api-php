@@ -4,9 +4,9 @@ namespace Mollie\Api\Types;
 
 class MandateMethod
 {
-    const DIRECTDEBIT = "directdebit";
-    const CREDITCARD = "creditcard";
-    const PAYPAL = "paypal";
+    public const DIRECTDEBIT = "directdebit";
+    public const CREDITCARD = "creditcard";
+    public const PAYPAL = "paypal";
 
     /**
      * @param string $firstPaymentMethod
