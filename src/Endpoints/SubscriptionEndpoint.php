@@ -15,7 +15,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     /**
      * @var string
      */
-    const RESOURCE_ID_PREFIX = 'sub_';
+    public const RESOURCE_ID_PREFIX = 'sub_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.

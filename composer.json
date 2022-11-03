@@ -47,7 +47,7 @@
     }
   ],
   "require": {
-    "php": "^7.0|^8.0",
+    "php": "^7.2|^8.0",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
@@ -55,10 +55,10 @@
   },
   "require-dev": {
     "eloquent/liberator": "^2.0||^3.0",
-    "guzzlehttp/guzzle": "^6.3 || ^7.0",
-    "phpunit/phpunit": "^6.5 || ^7.1 || ^8.5 || ^9.5",
     "friendsofphp/php-cs-fixer": "^3.0",
-    "phpstan/phpstan": "^1.4"
+    "guzzlehttp/guzzle": "^6.3 || ^7.0",
+    "phpstan/phpstan": "^1.4",
+    "phpunit/phpunit": "^8.5 || ^9.5"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."

@@ -13,7 +13,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
     /**
      * @var string
      */
-    const RESOURCE_ID_PREFIX = 'ord_';
+    public const RESOURCE_ID_PREFIX = 'ord_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one

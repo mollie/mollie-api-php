@@ -13,7 +13,7 @@ class CustomerEndpoint extends CollectionEndpointAbstract
     /**
      * @var string
      */
-    const RESOURCE_ID_PREFIX = 'cst_';
+    public const RESOURCE_ID_PREFIX = 'cst_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
