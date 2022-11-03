@@ -3,7 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
-
+#[\AllowDynamicProperties]
 class ResourceFactory
 {
     /**
