@@ -128,7 +128,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             )
         );
 
-        /** @var array<Balance> $balances */
+        /** @var BalanceCollection $balances */
         $balances = $this->apiClient->balances->page();
 
         $this->assertInstanceOf(BalanceCollection::class, $balances);
@@ -153,8 +153,14 @@ class BalanceEndpointTest extends BaseEndpointTest
             $balances->_links->next
         );
 
+        /** @var Balance $balanceA */
+        $balanceA = $balances[0];
+
+        /** @var Balance $balanceB */
+        $balanceB = $balances[1];
+
         $this->assertBalance(
-            $balances[0],
+            $balanceA,
             "bal_gVMhHKqSSRYJyPsuoPNFH",
             "2019-01-10T12:06:28+00:00",
             BalanceTransferFrequency::DAILY,
@@ -167,7 +173,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             ]
         );
         $this->assertBalance(
-            $balances[1],
+            $balanceB,
             "bal_gVMhHKqSSRYJyPsuoPABC",
             "2019-01-10T10:23:41+00:00",
             BalanceTransferFrequency::TWICE_A_MONTH,
