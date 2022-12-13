@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransactionCollection;
+use Mollie\Api\Resources\BaseCollection;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
@@ -173,7 +174,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
         $this->assertTransactions($transactions);
     }
 
-    private function assertTransactions(BalanceTransactionCollection $transactions)
+    private function assertTransactions(BaseCollection $transactions)
     {
         $this->assertInstanceOf(BalanceTransactionCollection::class, $transactions);
         $this->assertCount(2, $transactions);
