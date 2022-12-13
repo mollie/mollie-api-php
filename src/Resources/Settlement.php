@@ -154,13 +154,13 @@ class Settlement extends BaseResource
     /**
      * Retrieves all chargebacks associated with this settlement
      *
-     * @return ChargebackCollection
+     * @return BalanceCollection
      * @throws ApiException
      */
     public function chargebacks()
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+            return new BalanceCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
