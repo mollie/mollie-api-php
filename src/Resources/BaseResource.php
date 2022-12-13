@@ -12,6 +12,15 @@ abstract class BaseResource
     protected $client;
 
     /**
+     * Indicates the type of resource.
+     *
+     * @example payment
+     *
+     * @var string
+     */
+    public $resource;
+
+    /**
      * @param MollieApiClient $client
      */
     public function __construct(MollieApiClient $client)
