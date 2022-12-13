@@ -3,14 +3,5 @@ parameters:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			path: examples/*
-
 		-
-			message: "#^Access to undefined constant GuzzleHttp\\\\ClientInterface\\:\\:VERSION\\.$#"
-			count: 1
-			path: src/HttpAdapter/Guzzle6And7MollieHttpAdapter.php
-
-		-
-			message: "#^Access to undefined constant GuzzleHttp\\\\ClientInterface\\:\\:VERSION\\.$#"
-			count: 1
-			path: src/HttpAdapter/MollieHttpAdapterPicker.php
-
+		    message: '#^Access to an undefined property Mollie\\Api\\Resources\\Chargeback::\$resource.#'

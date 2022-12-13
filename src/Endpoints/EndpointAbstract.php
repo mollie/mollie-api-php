@@ -79,7 +79,7 @@ abstract class EndpointAbstract
     }
 
     /**
-     * Sends a PATCH request to a single Molle API object.
+     * Sends a PATCH request to a single Mollie API object.
      *
      * @param string $id
      * @param array $body
