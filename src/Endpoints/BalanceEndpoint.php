@@ -42,7 +42,7 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
      * @throws ApiException
      */
-    public function get($balanceId, array $parameters = [])
+    public function get(string $balanceId, array $parameters = [])
     {
         if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '".self::RESOURCE_ID_PREFIX."'.");
@@ -68,14 +68,14 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     /**
      * Retrieves a collection of Balances from Mollie.
      *
-     * @param string $from The first Balance ID you want to include in your list.
-     * @param int $limit
+     * @param string|null $from The first Balance ID you want to include in your list.
+     * @param int|null $limit
      * @param array $parameters
      *
      * @return BaseCollection|BalanceCollection
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
     {
         return $this->rest_list($from, $limit, $parameters);
     }
