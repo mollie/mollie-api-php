@@ -8,7 +8,6 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Types\BalanceTransferFrequency;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
@@ -129,6 +128,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             )
         );
 
+        /** @var array<Balance> $balances */
         $balances = $this->apiClient->balances->page();
 
         $this->assertInstanceOf(BalanceCollection::class, $balances);
@@ -236,6 +236,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             )
         );
 
+        /** @var Balance $balance */
         $balance = $this->apiClient->balances->get("bal_gVMhHKqSSRYJyPsuoPNFH");
 
         $this->assertBalance(
@@ -308,6 +309,7 @@ class BalanceEndpointTest extends BaseEndpointTest
             )
         );
 
+        /** @var Balance $balance */
         $balance = $this->apiClient->balances->primary();
 
         $this->assertBalance(
@@ -326,7 +328,7 @@ class BalanceEndpointTest extends BaseEndpointTest
     }
 
     /**
-     * @param \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource $balance
+     * @param \Mollie\Api\Resources\Balance $balance
      * @param string $balanceId
      * @param string $createdAt
      * @param string $transferFrequency
@@ -335,7 +337,7 @@ class BalanceEndpointTest extends BaseEndpointTest
      * @return void
      */
     protected function assertBalance(
-        BaseResource $balance,
+        Balance $balance,
         string $balanceId,
         string $createdAt,
         string $transferFrequency,
