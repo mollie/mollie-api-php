@@ -29,7 +29,7 @@ try {
         echo "<strong style='font-family: monospace'>" . htmlspecialchars($paymentLink->id) . "</strong><br />";
         echo htmlspecialchars($paymentLink->description) . "<br />";
         echo htmlspecialchars($paymentLink->amount->currency) . " " . htmlspecialchars($paymentLink->amount->value) . "<br />";
-        echo "Link: " . htmlspecialchars($paymentLink->getPaymentLinkUrl()) . "<br />";
+        echo "Link: " . htmlspecialchars($paymentLink->getCheckoutUrl()) . "<br />";
 
         echo "</li>";
     }
