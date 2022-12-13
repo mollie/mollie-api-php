@@ -45,7 +45,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor($balance, $parameters = [])
+    public function listFor(Balance $balance, array $parameters = [])
     {
         return $this->listForId($balance->id, $parameters);
     }
@@ -59,7 +59,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($balanceId, $parameters = [])
+    public function listForId(string $balanceId, array $parameters = [])
     {
         $this->parentId = $balanceId;
 
@@ -74,7 +74,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForPrimary($parameters = [])
+    public function listForPrimary(array $parameters = [])
     {
         $this->parentId = "primary";
 

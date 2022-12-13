@@ -16,11 +16,17 @@ class BalanceEndpoint extends CollectionEndpointAbstract
 
     protected $resourcePath = "balances";
 
+    /**
+     * @inheritDoc
+     */
     protected function getResourceCollectionObject($count, $_links)
     {
         return new BalanceCollection($this->client, $count, $_links);
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function getResourceObject()
     {
         return new Balance($this->client);

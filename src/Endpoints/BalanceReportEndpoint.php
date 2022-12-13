@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Resources\ResourceFactory;
 
@@ -19,7 +20,15 @@ class BalanceReportEndpoint extends EndpointAbstract
         return new BalanceReport($this->client);
     }
 
-    public function getForBalanceId($balanceId, $parameters = [])
+    /**
+     * Retrieve a balance report for the provided balance id and parameters.
+     *
+     * @param string $balanceId
+     * @param array $parameters
+     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function getForBalanceId(string $balanceId, array $parameters = [])
     {
         $this->parentId = $balanceId;
 
@@ -31,12 +40,29 @@ class BalanceReportEndpoint extends EndpointAbstract
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
-    public function getForPrimaryBalance($parameters = [])
+    /**
+     * Retrieve the primary balance.
+     * This is the balance of your account’s primary currency, where all payments are settled to by default.
+     *
+     * @param array $parameters
+     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function getForPrimaryBalance(array $parameters = [])
     {
         return $this->getForBalanceId("primary", $parameters);
     }
 
-    public function getForBalance($balance, $parameters = [])
+
+    /**
+     * Retrieve a balance report for the provided balance resource and parameters.
+     *
+     * @param \Mollie\Api\Resources\Balance $balance
+     * @param array $parameters
+     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function getForBalance(Balance $balance, array $parameters = [])
     {
         return $this->getForBalanceId($balance->id, $parameters);
     }
