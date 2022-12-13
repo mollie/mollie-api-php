@@ -33,7 +33,7 @@ class BalanceReportEndpointTest extends BaseEndpointTest
         $balance = new Balance($this->apiClient);
         $balance->id = "bal_gVMhHKqSSRYJyPsuoPNFH";
 
-        $report = $this->apiClient->balanceReports->getForBalance($balance, [
+        $report = $this->apiClient->balanceReports->getFor($balance, [
             "from" => "2021-01-01",
             "until" => "2021-02-01",
             "grouping" => "transaction-categories",
@@ -56,7 +56,7 @@ class BalanceReportEndpointTest extends BaseEndpointTest
             )
         );
 
-        $report = $this->apiClient->balanceReports->getForPrimaryBalance([
+        $report = $this->apiClient->balanceReports->getForPrimary([
             "from" => "2021-01-01",
             "until" => "2021-02-01",
             "grouping" => "transaction-categories",

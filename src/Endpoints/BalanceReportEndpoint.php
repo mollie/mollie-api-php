@@ -28,7 +28,7 @@ class BalanceReportEndpoint extends EndpointAbstract
      * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForBalanceId(string $balanceId, array $parameters = [])
+    public function getForId(string $balanceId, array $parameters = [])
     {
         $this->parentId = $balanceId;
 
@@ -48,9 +48,9 @@ class BalanceReportEndpoint extends EndpointAbstract
      * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForPrimaryBalance(array $parameters = [])
+    public function getForPrimary(array $parameters = [])
     {
-        return $this->getForBalanceId("primary", $parameters);
+        return $this->getForId("primary", $parameters);
     }
 
 
@@ -62,8 +62,8 @@ class BalanceReportEndpoint extends EndpointAbstract
      * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForBalance(Balance $balance, array $parameters = [])
+    public function getFor(Balance $balance, array $parameters = [])
     {
-        return $this->getForBalanceId($balance->id, $parameters);
+        return $this->getForId($balance->id, $parameters);
     }
 }
