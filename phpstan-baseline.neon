@@ -3,5 +3,3 @@ parameters:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			path: examples/*
-		-
-		    message: '#^Access to an undefined property Mollie\\Api\\Resources\\Chargeback::\$resource.#'
