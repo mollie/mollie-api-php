@@ -175,6 +175,13 @@ class Payment extends BaseResource
     public $redirectUrl;
 
     /**
+     * Cancel URL set on this payment
+     *
+     * @var string
+     */
+    public $cancelUrl;
+
+    /**
      * Webhook URL set on this payment
      *
      * @var string|null
@@ -688,6 +695,7 @@ class Payment extends BaseResource
     {
         $body = [
             "description" => $this->description,
+            "cancelUrl" => $this->cancelUrl,
             "redirectUrl" => $this->redirectUrl,
             "webhookUrl" => $this->webhookUrl,
             "metadata" => $this->metadata,
