@@ -24,7 +24,7 @@ class MandateCollectionTest extends TestCase
 
     public function testWhereStatus()
     {
-        $collection = new MandateCollection($this->client, 3, null);
+        $collection = new MandateCollection($this->client, 6, null);
         $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
         $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
         $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
@@ -42,9 +42,13 @@ class MandateCollectionTest extends TestCase
         $this->assertInstanceOf(MandateCollection::class, $pending);
 
         $this->assertCount(6, $collection);
+        $this->assertEquals(6, $collection->count);
         $this->assertCount(3, $valid);
+        $this->assertEquals(3, $valid->count);
         $this->assertCount(2, $invalid);
+        $this->assertEquals(2, $invalid->count);
         $this->assertCount(1, $pending);
+        $this->assertEquals(1, $pending->count);
     }
 
     /**
