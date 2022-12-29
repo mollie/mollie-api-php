@@ -695,6 +695,7 @@ class OrderEndpointTest extends BaseEndpointTest
                      },
                      "orderNumber": "16738",
                      "redirectUrl": "https://example.org/updated-redirect",
+                     "cancelUrl": "https://example.org/updated-cancel-url",
                      "webhookUrl": "https://example.org/updated-webhook"
                  }'
             ),
@@ -725,6 +726,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $order->billingAddress->phone = "+31208202070";
         $order->orderNumber = "16738";
         $order->redirectUrl = "https://example.org/updated-redirect";
+        $order->cancelUrl = "https://example.org/updated-cancel-url";
         $order->webhookUrl = "https://example.org/updated-webhook";
         $order = $order->update();
 
