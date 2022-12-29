@@ -133,6 +133,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                 '{
                     "description":"Order #98765",
                     "redirectUrl":"https://example.org/webshop/order/98765/",
+                    "cancelUrl":"https://example.org/webshop/order/98765/canceled/",
                     "webhookUrl":"https://example.org/webshop/payments/webhook/",
                     "restrictPaymentMethodsToCountry": null,
                     "metadata":{
@@ -199,6 +200,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $payment->redirectUrl = "https://example.org/webshop/order/98765/";
         $payment->webhookUrl = "https://example.org/webshop/payments/webhook/";
         $payment->metadata = ["order_id" => "98765"];
+        $payment->cancelUrl = "https://example.org/webshop/order/98765/canceled/";
 
         $payment = $payment->update();
 
