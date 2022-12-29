@@ -49,7 +49,6 @@ class MandateCollectionTest extends TestCase
         $this->assertEquals(2, $invalid->count);
         $this->assertCount(1, $pending);
         $this->assertEquals(1, $pending->count);
-
     }
 
     /**
