@@ -124,7 +124,7 @@ class Settlement extends BaseResource
      * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function payments($limit = null, array $parameters = [])
+    public function payments(int $limit = null, array $parameters = []): PaymentCollection
     {
         return $this->client->settlementPayments->pageForId($this->id, null, $limit, $parameters);
     }

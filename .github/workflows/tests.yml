@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.1, 7.2, 7.3, 7.4, 8.0, 8.1]
+        php: [7.2, 7.3, 7.4, 8.0, 8.1, 8.2]
     name: PHP - ${{ matrix.php }}
     steps:
       - name: Checkout code
@@ -28,8 +28,7 @@ jobs:
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
-          composer require "phpstan/phpstan:1.8.2"
+          composer require "phpstan/phpstan:1.9.2"
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
-        if: ${{ matrix.php >= 7.1 }}
         run: vendor/bin/phpunit --verbose

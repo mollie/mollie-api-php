@@ -9,7 +9,7 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    const MIN_PHP_VERSION = "7.0";
+    public const MIN_PHP_VERSION = "7.2";
 
     /**
      * @throws IncompatiblePlatform

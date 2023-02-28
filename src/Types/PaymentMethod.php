@@ -7,57 +7,57 @@ class PaymentMethod
     /**
      * @link https://www.mollie.com/en/payments/applepay
      */
-    const APPLEPAY = "applepay";
+    public const APPLEPAY = "applepay";
 
     /**
      * @link https://www.mollie.com/en/payments/bancontact
      */
-    const BANCONTACT = "bancontact";
+    public const BANCONTACT = "bancontact";
 
     /**
      * @link https://www.mollie.com/en/payments/bank-transfer
      */
-    const BANKTRANSFER = "banktransfer";
+    public const BANKTRANSFER = "banktransfer";
 
     /**
      * @link https://www.mollie.com/en/payments/belfius
      */
-    const BELFIUS = "belfius";
+    public const BELFIUS = "belfius";
 
     /**
      * @deprecated 2019-05-01
      */
-    const BITCOIN = "bitcoin";
+    public const BITCOIN = "bitcoin";
 
     /**
      * @link https://www.mollie.com/en/payments/credit-card
      */
-    const CREDITCARD = "creditcard";
+    public const CREDITCARD = "creditcard";
 
     /**
      * @link https://www.mollie.com/en/payments/direct-debit
      */
-    const DIRECTDEBIT = "directdebit";
+    public const DIRECTDEBIT = "directdebit";
 
     /**
      * @link https://www.mollie.com/en/payments/eps
      */
-    const EPS = "eps";
+    public const EPS = "eps";
 
     /**
      * @link https://www.mollie.com/en/payments/gift-cards
      */
-    const GIFTCARD = "giftcard";
+    public const GIFTCARD = "giftcard";
 
     /**
      * @link https://www.mollie.com/en/payments/giropay
      */
-    const GIROPAY = "giropay";
+    public const GIROPAY = "giropay";
 
     /**
      * @link https://www.mollie.com/en/payments/ideal
      */
-    const IDEAL = "ideal";
+    public const IDEAL = "ideal";
 
     /**
      * Support for inghomepay will be discontinued February 1st, 2021.
@@ -67,61 +67,61 @@ class PaymentMethod
      * @link https://docs.mollie.com/changelog/v2/changelog
      *
      */
-    const INGHOMEPAY = "inghomepay";
+    public const INGHOMEPAY = "inghomepay";
 
     /**
      * @link https://www.mollie.com/en/payments/kbc-cbc
      */
-    const KBC = "kbc";
+    public const KBC = "kbc";
 
     /**
      * @link https://www.mollie.com/en/payments/klarna-pay-later
      */
-    const KLARNA_PAY_LATER = "klarnapaylater";
+    public const KLARNA_PAY_LATER = "klarnapaylater";
     
     /**
      * @link https://www.mollie.com/en/payments/klarna-pay-now
      */
-    const KLARNA_PAY_NOW = "klarnapaynow";
+    public const KLARNA_PAY_NOW = "klarnapaynow";
 
     /**
      * @link https://www.mollie.com/en/payments/klarna-slice-it
      */
-    const KLARNA_SLICE_IT = "klarnasliceit";
+    public const KLARNA_SLICE_IT = "klarnasliceit";
 
     /**
      * @link https://www.mollie.com/en/payments/mybank
      */
-    const MYBANK = "mybank";
+    public const MYBANK = "mybank";
 
     /**
      * @link https://www.mollie.com/en/payments/paypal
      */
-    const PAYPAL = "paypal";
+    public const PAYPAL = "paypal";
 
     /**
      * @link https://www.mollie.com/en/payments/paysafecard
      */
-    const PAYSAFECARD = "paysafecard";
+    public const PAYSAFECARD = "paysafecard";
 
     /**
      * @link https://www.mollie.com/en/payments/przelewy24
      */
-    const PRZELEWY24 = 'przelewy24';
+    public const PRZELEWY24 = 'przelewy24';
 
     /**
      * @deprecated
      * @link https://www.mollie.com/en/payments/gift-cards
      */
-    const PODIUMCADEAUKAART = "podiumcadeaukaart";
+    public const PODIUMCADEAUKAART = "podiumcadeaukaart";
 
     /**
      * @link https://www.mollie.com/en/payments/sofort
      */
-    const SOFORT = "sofort";
+    public const SOFORT = "sofort";
     
     /**
      * @link https://www.mollie.com/en/payments/in3
      */
-    const IN3 = "in3";
+    public const IN3 = "in3";
 }

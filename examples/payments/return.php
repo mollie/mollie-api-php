@@ -19,7 +19,7 @@ $status = database_read($_GET["order_id"]);
  */
 $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 $hostname = $_SERVER['HTTP_HOST'];
-$path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+$path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
 
 echo "<p>Your payment status is '" . htmlspecialchars($status) . "'.</p>";
 echo "<p>";

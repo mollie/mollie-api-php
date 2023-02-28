@@ -42,7 +42,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
      */
     private function guzzleIsDetected()
     {
-        return interface_exists("\GuzzleHttp\ClientInterface");
+        return interface_exists('\\' . \GuzzleHttp\ClientInterface::class);
     }
 
     /**

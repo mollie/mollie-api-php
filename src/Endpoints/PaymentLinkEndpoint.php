@@ -14,7 +14,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
     /**
      * @var string
      */
-    const RESOURCE_ID_PREFIX = 'pl_';
+    public const RESOURCE_ID_PREFIX = 'pl_';
 
     /**
      * @return PaymentLink

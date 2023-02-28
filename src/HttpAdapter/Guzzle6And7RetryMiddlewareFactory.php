@@ -13,12 +13,12 @@ class Guzzle6And7RetryMiddlewareFactory
     /**
      * The maximum number of retries
      */
-    const MAX_RETRIES = 5;
+    public const MAX_RETRIES = 5;
 
     /**
      * The amount of milliseconds the delay is being increased with on each retry.
      */
-    const DELAY_INCREASE_MS = 1000;
+    public const DELAY_INCREASE_MS = 1000;
 
     /**
      * @param bool $delay default to true, can be false to speed up tests
