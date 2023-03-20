@@ -207,6 +207,15 @@ class Order extends BaseResource
     public $lines;
 
     /**
+     * For digital goods, you must make sure to apply the VAT rate from your customer’s country in most jurisdictions.
+     * Use this parameter to restrict the payment methods available to your customer to methods from the billing country
+     * only.
+     *
+     * @var bool
+     */
+    public $shopperCountryMustMatchBillingCountry;
+
+    /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
      *
      * @var \stdClass
