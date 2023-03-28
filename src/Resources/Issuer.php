@@ -12,6 +12,11 @@ class Issuer extends BaseResource
     public $id;
 
     /**
+     * @var string
+     */
+    public $resource;
+
+    /**
      * Name of the issuer.
      *
      * @var string
