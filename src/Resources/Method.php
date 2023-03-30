@@ -71,12 +71,6 @@ class Method extends BaseResource
     public $_links;
 
     /**
-     *
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Get the issuer value objects
      *
      * @return IssuerCollection

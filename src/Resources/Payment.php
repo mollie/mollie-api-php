@@ -10,11 +10,6 @@ use Mollie\Api\Types\SequenceType;
 class Payment extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the payment (on the Mollie platform).
      *
      * @var string

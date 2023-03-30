@@ -5,11 +5,6 @@ namespace Mollie\Api\Resources;
 class Partner extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Indicates the type of partner. Will be null if the currently authenticated organization is
      * not enrolled as a partner. Possible values: "oauth", "signuplink", "useragent".
      *

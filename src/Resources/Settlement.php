@@ -9,11 +9,6 @@ use Mollie\Api\Types\SettlementStatus;
 class Settlement extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the settlement.
      *
      * @var string

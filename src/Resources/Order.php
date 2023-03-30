@@ -9,11 +9,6 @@ use Mollie\Api\Types\OrderStatus;
 class Order extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the order.
      *
      * @example ord_8wmqcHMN4U
