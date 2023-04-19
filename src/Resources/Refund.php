@@ -91,6 +91,11 @@ class Refund extends BaseResource
     public $routingReversal;
 
     /**
+     * @var \stdClass|null
+     */
+    public $metadata;
+
+    /**
      * Is this refund queued?
      *
      * @return bool
