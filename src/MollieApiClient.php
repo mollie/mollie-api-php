@@ -46,7 +46,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = "2.53.0";
+    public const CLIENT_VERSION = "2.54.0";
 
     /**
      * Endpoint of the remote API.
@@ -659,7 +659,7 @@ class MollieApiClient
         }
 
         if (in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
-            if (! $this->idempotencyKey && $this->idempotencyKeyGenerator) {
+            if (!$this->idempotencyKey && $this->idempotencyKeyGenerator) {
                 $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
             }
 
