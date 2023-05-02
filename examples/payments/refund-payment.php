@@ -25,7 +25,7 @@ try {
         $paymentId = $_GET['payment_id'];
         $payment = $mollie->payments->get($paymentId);
 
-        if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
+        if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->getAmountRemaining() >= 2.00) {
             /*
              * Refund € 2,00 of the payment.
              *
