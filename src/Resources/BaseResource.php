@@ -4,6 +4,7 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
 
+#[\AllowDynamicProperties]
 abstract class BaseResource
 {
     /**
