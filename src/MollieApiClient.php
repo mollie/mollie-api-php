@@ -33,6 +33,7 @@ use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
@@ -272,12 +273,19 @@ class MollieApiClient
     public $paymentLinks;
 
     /**
+     * RESTful Terminal resource.
+     *
+     * @var TerminalEndpoint
+     */
+    public $terminals;
+
+    /**
      * RESTful Onboarding resource.
      *
      * @var OrganizationPartnerEndpoint
      */
     public $organizationPartners;
-  
+
     /**
      * Manages Wallet requests
      *
@@ -365,6 +373,7 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
+        $this->terminals = new TerminalEndpoint($this);
         $this->organizationPartners = new OrganizationPartnerEndpoint($this);
         $this->clients = new ClientEndpoint($this);
     }
@@ -407,7 +416,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -427,7 +436,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (! preg_match('/^access_\w+$/', $accessToken)) {
+        if (!preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
@@ -468,8 +477,8 @@ class MollieApiClient
     public function enableDebugging()
     {
         if (
-            ! method_exists($this->httpClient, 'supportsDebugging')
-            || ! $this->httpClient->supportsDebugging()
+            !method_exists($this->httpClient, 'supportsDebugging')
+            || !$this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
@@ -488,8 +497,8 @@ class MollieApiClient
     public function disableDebugging()
     {
         if (
-            ! method_exists($this->httpClient, 'supportsDebugging')
-            || ! $this->httpClient->supportsDebugging()
+            !method_exists($this->httpClient, 'supportsDebugging')
+            || !$this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
