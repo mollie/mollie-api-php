@@ -132,7 +132,7 @@ class Terminal extends BaseResource
     public $_links;
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPending()
     {
@@ -140,7 +140,7 @@ class Terminal extends BaseResource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -148,7 +148,7 @@ class Terminal extends BaseResource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInactive()
     {
