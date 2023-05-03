@@ -182,7 +182,7 @@ class TerminalEndpointTest extends BaseEndpointTest
 
         $this->assertLinkObject('https://docs.mollie.com/reference/v2/terminals-api/list-terminals', 'text/html', $terminals->_links->documentation);
         $this->assertLinkObject('https://api.mollie.com/v2/terminals?limit=3', 'application/hal+json', $terminals->_links->self);
-        $this->assertLinkObject('https://api.mollie.com/v2/terminals?from=term_7MgL4wea46qkRcoTZjWEH&limit=3', 'text/html', $terminals->_links->next);
+        $this->assertLinkObject('https://api.mollie.com/v2/terminals?from=term_7MgL4wea46qkRcoTZjWEH&limit=3', 'application/hal+json', $terminals->_links->next);
 
         $this->assertNull($terminals->_links->previous);
     }
