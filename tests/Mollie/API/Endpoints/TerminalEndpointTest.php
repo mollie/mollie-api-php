@@ -37,7 +37,7 @@ class TerminalEndpointTest extends BaseEndpointTest
                     "timezone": "GMT +08:00",
                     "locale": "nl_NL",
                     "createdAt": "2022-02-12T11:58:35.0Z",
-                    "updatedAt": "2022-11-15T13:32:11+00:00",fp
+                    "updatedAt": "2022-11-15T13:32:11+00:00",
                     "activatedAt": "2022-02-12T12:13:35.0Z",
                     "_links": {
                         "self": {
