@@ -157,7 +157,7 @@ class TerminalEndpointTest extends BaseEndpointTest
                     },
                     "_links": {
                       "self": {
-                        "href": "https://api.mollie.com/v2/terminalss?limit=3",
+                        "href": "https://api.mollie.com/v2/terminals?limit=3",
                         "type": "application/hal+json"
                       },
                       "previous": null,
