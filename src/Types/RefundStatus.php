@@ -32,5 +32,5 @@ class RefundStatus
     /**
      * The refund was canceled and will no longer be processed.
      */
-    public const STATUS_CANCELED= 'canceled';
+    public const STATUS_CANCELED = 'canceled';
 }
