@@ -49,7 +49,7 @@ class TerminalEndpoint extends CollectionEndpointAbstract
     public function get($terminalId, array $parameters = [])
     {
         if (empty($terminalId) || strpos($terminalId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment link ID: '{$terminalId}'. A payment link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+            throw new ApiException("Invalid terminal ID: '{$terminalId}'. A terminal ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         return parent::rest_read($terminalId, $parameters);
