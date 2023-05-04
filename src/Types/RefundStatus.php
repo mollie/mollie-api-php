@@ -28,4 +28,9 @@ class RefundStatus
      * The refund has failed after processing. For example, the customer has closed his / her bank account. The funds will be returned to your account.
      */
     public const STATUS_FAILED = 'failed';
+    
+    /**
+     * The refund was canceled and will no longer be processed.
+     */
+    public const STATUS_CANCELED = 'canceled';
 }

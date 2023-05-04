@@ -146,6 +146,16 @@ class Refund extends BaseResource
     }
 
     /**
+     * Is this refund canceled?
+     *
+     * @return bool
+     */
+    public function isCanceled()
+    {
+        return $this->status === RefundStatus::STATUS_CANCELED;
+    }
+
+    /**
      * Cancel the refund.
      * Returns null if successful.
      *
