@@ -33,6 +33,7 @@ use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
@@ -273,12 +274,19 @@ class MollieApiClient
     public $paymentLinks;
 
     /**
+     * RESTful Terminal resource.
+     *
+     * @var TerminalEndpoint
+     */
+    public $terminals;
+
+    /**
      * RESTful Onboarding resource.
      *
      * @var OrganizationPartnerEndpoint
      */
     public $organizationPartners;
-  
+
     /**
      * Manages Wallet requests
      *
@@ -374,6 +382,7 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
+        $this->terminals = new TerminalEndpoint($this);
         $this->organizationPartners = new OrganizationPartnerEndpoint($this);
         $this->clients = new ClientEndpoint($this);
     }
