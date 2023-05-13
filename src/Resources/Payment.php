@@ -416,7 +416,7 @@ class Payment extends BaseResource
      */
     public function isPaid()
     {
-        return !empty($this->paidAt);
+        return ! empty($this->paidAt);
     }
 
     /**
@@ -426,7 +426,7 @@ class Payment extends BaseResource
      */
     public function hasRefunds()
     {
-        return !empty($this->_links->refunds);
+        return ! empty($this->_links->refunds);
     }
 
     /**
@@ -436,7 +436,7 @@ class Payment extends BaseResource
      */
     public function hasChargebacks()
     {
-        return !empty($this->_links->chargebacks);
+        return ! empty($this->_links->chargebacks);
     }
 
     /**
@@ -569,7 +569,7 @@ class Payment extends BaseResource
      */
     public function hasSplitPayments()
     {
-        return !empty($this->routing);
+        return ! empty($this->routing);
     }
 
     /**
@@ -580,7 +580,7 @@ class Payment extends BaseResource
      */
     public function refunds()
     {
-        if (!isset($this->_links->refunds->href)) {
+        if (! isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
@@ -628,7 +628,7 @@ class Payment extends BaseResource
      */
     public function captures()
     {
-        if (!isset($this->_links->captures->href)) {
+        if (! isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client, 0, null);
         }
 
@@ -669,7 +669,7 @@ class Payment extends BaseResource
      */
     public function chargebacks()
     {
-        if (!isset($this->_links->chargebacks->href)) {
+        if (! isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
