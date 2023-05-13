@@ -276,6 +276,36 @@ class Payment extends BaseResource
     public $amountCaptured;
 
     /**
+     * Indicates whether the capture will be scheduled automatically or not. Set
+     * to manual to capture the payment manually using the Create capture endpoint.
+     *
+     * Possible values: "automatic", "manual"
+     *
+     * @var string|null
+     */
+    public $captureMode;
+
+    /**
+     * Indicates the interval to wait before the payment is
+     * captured, for example `8 hours` or `2 days. The capture delay
+     * will be added to the date and time the payment became authorized.
+     *
+     * Possible values: ... hours ... days
+     * @example 8 hours
+     * @var string|null
+     */
+    public $captureDelay;
+
+    /**
+     * UTC datetime on which the merchant has to have captured the payment in
+     * ISO-8601 format. This parameter is omitted if the payment is not authorized (yet).
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     * @var string|null
+     */
+    public $captureBefore;
+
+    /**
      * The application fee, if the payment was created with one. Contains amount
      * (the value and currency) and description.
      *
@@ -386,7 +416,7 @@ class Payment extends BaseResource
      */
     public function isPaid()
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -396,7 +426,7 @@ class Payment extends BaseResource
      */
     public function hasRefunds()
     {
-        return ! empty($this->_links->refunds);
+        return !empty($this->_links->refunds);
     }
 
     /**
@@ -406,7 +436,7 @@ class Payment extends BaseResource
      */
     public function hasChargebacks()
     {
-        return ! empty($this->_links->chargebacks);
+        return !empty($this->_links->chargebacks);
     }
 
     /**
@@ -539,7 +569,7 @@ class Payment extends BaseResource
      */
     public function hasSplitPayments()
     {
-        return ! empty($this->routing);
+        return !empty($this->routing);
     }
 
     /**
@@ -550,7 +580,7 @@ class Payment extends BaseResource
      */
     public function refunds()
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
@@ -598,7 +628,7 @@ class Payment extends BaseResource
      */
     public function captures()
     {
-        if (! isset($this->_links->captures->href)) {
+        if (!isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client, 0, null);
         }
 
@@ -639,7 +669,7 @@ class Payment extends BaseResource
      */
     public function chargebacks()
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
