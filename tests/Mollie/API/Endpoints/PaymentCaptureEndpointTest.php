@@ -29,9 +29,14 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
             )
         );
 
-        $capture = $this->apiClient->paymentCaptures->getFor(
+        $capture = $this->apiClient->paymentCaptures->createFor(
             $this->getPayment('tr_WDqYK6vllg'),
-            'cpt_4qqhO89gsT'
+            [
+                'amount' => [
+                    "value" => "1027.99",
+                    "currency" => "EUR"
+                ]
+            ]
         );
 
         $this->assertCapture($capture);
@@ -186,13 +191,13 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
     ) {
         return str_replace(
             [
-            '<<payment_id>>',
-            '<<capture_id>>',
-          ],
+                '<<payment_id>>',
+                '<<capture_id>>',
+            ],
             [
-            $payment_id,
-            $capture_id,
-          ],
+                $payment_id,
+                $capture_id,
+            ],
             '{
             "resource": "capture",
             "id": "<<capture_id>>",
