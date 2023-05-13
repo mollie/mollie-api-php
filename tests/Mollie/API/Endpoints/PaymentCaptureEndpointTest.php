@@ -34,8 +34,8 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
             [
                 'amount' => [
                     "value" => "1027.99",
-                    "currency" => "EUR"
-                ]
+                    "currency" => "EUR",
+                ],
             ]
         );
 
