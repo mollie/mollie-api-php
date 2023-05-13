@@ -41,7 +41,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Capture
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createFor(Payment $payment, array $data = [], array $filters = [])
     {
@@ -56,7 +56,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Capture
-     * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId($paymentId, array $data = [], array $filters = [])
     {
