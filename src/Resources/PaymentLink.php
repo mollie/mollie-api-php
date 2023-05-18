@@ -49,6 +49,14 @@ class PaymentLink extends BaseResource
     public $paidAt;
 
     /**
+     * Whether the payment link is archived. Customers will not be able to complete
+     * payments on archived payment links.
+     *
+     * @var boolean
+     */
+    public $archived;
+    
+    /**
      * UTC datetime the payment link was updated in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
