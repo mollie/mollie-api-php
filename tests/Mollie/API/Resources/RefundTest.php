@@ -81,7 +81,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
             [RefundStatus::STATUS_QUEUED, true],
             [RefundStatus::STATUS_REFUNDED, false],
             [RefundStatus::STATUS_FAILED, false],
-            [RefundStatus::STATUS_CANCELED, false]
+            [RefundStatus::STATUS_CANCELED, false],
         ];
     }
 }
