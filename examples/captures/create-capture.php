@@ -26,7 +26,7 @@ try {
     $capture = $mollie->paymentCaptures->createForId('tr_WDqYK6vllg', [
         "amount" => [
             "currency" => "EUR",
-            "value" => "5.00"
+            "value" => "5.00",
         ],
         "description" => "Order #12345",
     ]);
