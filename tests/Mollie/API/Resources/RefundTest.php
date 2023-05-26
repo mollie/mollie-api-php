@@ -25,7 +25,6 @@ class RefundTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @param string $status
-     * @param string $function
      * @param bool $expected_boolean
      *
      * @dataProvider dpTestRefundCanBeCanceled
