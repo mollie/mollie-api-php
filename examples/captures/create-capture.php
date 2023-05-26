@@ -12,14 +12,8 @@ try {
     require "../initialize.php";
 
     /*
-     * Generate a unique order id for this example. It is important to include this unique attribute
-     * in the redirectUrl (below) so a proper return page can be shown to the customer.
-     */
-    $orderId = time();
-
-    /*
      * Capture parameters:
-     *   amount        Amount in EUROs. This example creates a € 10,- capture.
+     *   amount        Amount in EUROs. This example creates a € 5,- capture. The amount can be the original payment amount or lower.
      *   description   Description of the capture.
      *   metadata      Custom metadata that is stored with the payment.
      */
