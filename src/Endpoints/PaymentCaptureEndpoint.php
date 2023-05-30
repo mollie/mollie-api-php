@@ -34,6 +34,38 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Creates a payment capture in Mollie.
+     *
+     * @param Payment $payment.
+     * @param array $data An array containing details on the capture.
+     * @param array $filters
+     *
+     * @return Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createFor(Payment $payment, array $data = [], array $filters = [])
+    {
+        return $this->createForId($payment->id, $data, $filters);
+    }
+
+    /**
+     * Creates a payment capture in Mollie.
+     *
+     * @param string $paymentId The payment's ID.
+     * @param array $data An array containing details on the capture.
+     * @param array $filters
+     *
+     * @return Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function createForId($paymentId, array $data = [], array $filters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return $this->rest_create($data, $filters);
+    }
+
+    /**
      * @param Payment $payment
      * @param string $captureId
      * @param array $parameters
@@ -59,5 +91,31 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
         $this->parentId = $paymentId;
 
         return parent::rest_read($captureId, $parameters);
+    }
+
+    /**
+     * @param Payment $payment
+     * @param array $parameters
+     *
+     * @return Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listFor(Payment $payment, array $parameters = [])
+    {
+        return $this->listForId($payment->id, $parameters);
+    }
+
+    /**
+     * @param string $paymentId
+     * @param array $parameters
+     *
+     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Capture
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function listForId($paymentId, array $parameters = [])
+    {
+        $this->parentId = $paymentId;
+
+        return parent::rest_list(null, null, $parameters);
     }
 }

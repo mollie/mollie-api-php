@@ -14,6 +14,34 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
+
+    public function testCreateCaptureForPaymentResource()
+    {
+        $this->mockApiCall(
+            new Request(
+                'POST',
+                '/v2/payments/tr_WDqYK6vllg/captures'
+            ),
+            new Response(
+                201,
+                [],
+                $this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT')
+            )
+        );
+
+        $capture = $this->apiClient->paymentCaptures->createFor(
+            $this->getPayment('tr_WDqYK6vllg'),
+            [
+                'amount' => [
+                    "value" => "1027.99",
+                    "currency" => "EUR",
+                ],
+            ]
+        );
+
+        $this->assertCapture($capture);
+    }
+
     public function testGetCaptureForPaymentResource()
     {
         $this->mockApiCall(
@@ -163,13 +191,13 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
     ) {
         return str_replace(
             [
-            '<<payment_id>>',
-            '<<capture_id>>',
-          ],
+                '<<payment_id>>',
+                '<<capture_id>>',
+            ],
             [
-            $payment_id,
-            $capture_id,
-          ],
+                $payment_id,
+                $capture_id,
+            ],
             '{
             "resource": "capture",
             "id": "<<capture_id>>",
