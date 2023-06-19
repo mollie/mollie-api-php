@@ -47,17 +47,17 @@ class ClientLinkEndpointTest extends BaseEndpointTest
                 "email" => "foo@test.com",
                 "givenName" => "foo",
                 "familyName" => "bar",
-                "locale" => "nl_NL"
+                "locale" => "nl_NL",
             ],
             "name" => "Foo Company",
             "address" => [
                 "streetAndNumber" => "Keizersgracht 313",
                 "postalCode" => "1016 EE",
                 "city" => "Amsterdam",
-                "country" => "nl"
+                "country" => "nl",
             ],
             "registrationNumber" => "30204462",
-            "vatNumber" => "NL123456789B01"
+            "vatNumber" => "NL123456789B01",
         ]);
 
         $this->assertEquals($clientLink->id, "csr_vZCnNQsV2UtfXxYifWKWH");

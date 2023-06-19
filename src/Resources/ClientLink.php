@@ -33,7 +33,7 @@ class ClientLink extends BaseResource
      */
     public function getRedirectUrl(string $client_id, string $state, string $approval_prompt, array $scopes = [])
     {
-        if (!in_array($approval_prompt, [ApprovalPrompt::AUTO, ApprovalPrompt::FORCE])) {
+        if (! in_array($approval_prompt, [ApprovalPrompt::AUTO, ApprovalPrompt::FORCE])) {
             throw new \Exception('Invalid approval_prompt. Please use "auto" or "force".');
         }
 
@@ -41,7 +41,7 @@ class ClientLink extends BaseResource
             'client_id' => $client_id,
             'state' => $state,
             'approval_prompt' => $approval_prompt,
-            'scopes' => implode('+', $scopes)
+            'scopes' => implode('+', $scopes),
         ], '', '&', PHP_QUERY_RFC3986);
 
         return "{$this->_links->clientLink->href}?{$query}";
