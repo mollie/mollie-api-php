@@ -64,7 +64,7 @@ class ClientLinkEndpointTest extends BaseEndpointTest
         $this->assertLinkObject("https://my.mollie.com/dashboard/client-link/finalize/csr_vZCnNQsV2UtfXxYifWKWH", "text/html", $clientLink->_links->clientLink);
         $this->assertLinkObject("https://docs.mollie.com/reference/v2/clients-api/create-client-link", "text/html", $clientLink->_links->documentation);
 
-        $redirectLink = $clientLink->getRedirectUrl(client_id: "app_j9Pakf56Ajta6Y65AkdTtAv", state: "decafbad", approval_prompt: "force", scopes: [
+        $redirectLink = $clientLink->getRedirectUrl("app_j9Pakf56Ajta6Y65AkdTtAv", "decafbad", "force", [
             'onboarding.read',
             'onboarding.write',
         ]);
