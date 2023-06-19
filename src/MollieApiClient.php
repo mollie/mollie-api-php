@@ -445,7 +445,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -465,7 +465,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (!preg_match('/^access_\w+$/', $accessToken)) {
+        if (! preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
@@ -506,8 +506,8 @@ class MollieApiClient
     public function enableDebugging()
     {
         if (
-            !method_exists($this->httpClient, 'supportsDebugging')
-            || !$this->httpClient->supportsDebugging()
+            ! method_exists($this->httpClient, 'supportsDebugging')
+            || ! $this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
@@ -526,8 +526,8 @@ class MollieApiClient
     public function disableDebugging()
     {
         if (
-            !method_exists($this->httpClient, 'supportsDebugging')
-            || !$this->httpClient->supportsDebugging()
+            ! method_exists($this->httpClient, 'supportsDebugging')
+            || ! $this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
@@ -659,7 +659,7 @@ class MollieApiClient
         }
 
         if (in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
-            if (!$this->idempotencyKey && $this->idempotencyKeyGenerator) {
+            if (! $this->idempotencyKey && $this->idempotencyKeyGenerator) {
                 $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
             }
 
