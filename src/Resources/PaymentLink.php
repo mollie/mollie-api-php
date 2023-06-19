@@ -52,7 +52,7 @@ class PaymentLink extends BaseResource
      * Whether the payment link is archived. Customers will not be able to complete
      * payments on archived payment links.
      *
-     * @var boolean
+     * @var bool
      */
     public $archived;
     
