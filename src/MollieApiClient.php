@@ -7,6 +7,7 @@ use Mollie\Api\Endpoints\BalanceReportEndpoint;
 use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
+use Mollie\Api\Endpoints\ClientLinkEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -332,6 +333,13 @@ class MollieApiClient
     public $clients;
 
     /**
+     * RESTful Client resource.
+     *
+     * @var ClientLinkEndpoint
+     */
+    public $clientLinks;
+
+    /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
      * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker,
      * @param \Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $idempotencyKeyGenerator,
@@ -385,6 +393,7 @@ class MollieApiClient
         $this->terminals = new TerminalEndpoint($this);
         $this->organizationPartners = new OrganizationPartnerEndpoint($this);
         $this->clients = new ClientEndpoint($this);
+        $this->clientLinks = new ClientLinkEndpoint($this);
     }
 
     protected function initializeVersionStrings()
