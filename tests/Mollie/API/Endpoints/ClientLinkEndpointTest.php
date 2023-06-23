@@ -120,7 +120,7 @@ class ClientLinkEndpointTest extends BaseEndpointTest
                 ],
                 'auto',
                 'client_id=app_j9Pakf56Ajta6Y65AkdTtAw&state=decafbad&approval_prompt=auto&scope=onboarding.read',
-            ]
+            ],
         ];
     }
 }
