@@ -10,7 +10,10 @@ class ClientLinkEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testCreateClientLink()
+    /**
+     * @dataProvider clientCreateData
+     */
+    public function testCreateClientLink(string $client_link_id, string $app_id, string $state, array $scopes, string $approval_prompt, string $expected_url_query)
     {
         $this->mockApiCall(
             new Request(
@@ -38,7 +41,7 @@ class ClientLinkEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getClientLinkResponseFixture("csr_vZCnNQsV2UtfXxYifWKWH")
+                $this->getClientLinkResponseFixture($client_link_id)
             )
         );
 
@@ -60,15 +63,12 @@ class ClientLinkEndpointTest extends BaseEndpointTest
             "vatNumber" => "NL123456789B01",
         ]);
 
-        $this->assertEquals($clientLink->id, "csr_vZCnNQsV2UtfXxYifWKWH");
-        $this->assertLinkObject("https://my.mollie.com/dashboard/client-link/finalize/csr_vZCnNQsV2UtfXxYifWKWH", "text/html", $clientLink->_links->clientLink);
+        $this->assertEquals($clientLink->id, $client_link_id);
+        $this->assertLinkObject("https://my.mollie.com/dashboard/client-link/finalize/{$client_link_id}", "text/html", $clientLink->_links->clientLink);
         $this->assertLinkObject("https://docs.mollie.com/reference/v2/clients-api/create-client-link", "text/html", $clientLink->_links->documentation);
 
-        $redirectLink = $clientLink->getRedirectUrl("app_j9Pakf56Ajta6Y65AkdTtAv", "decafbad", "force", [
-            'onboarding.read',
-            'onboarding.write',
-        ]);
-        $this->assertEquals("https://my.mollie.com/dashboard/client-link/finalize/csr_vZCnNQsV2UtfXxYifWKWH?client_id=app_j9Pakf56Ajta6Y65AkdTtAv&state=decafbad&approval_prompt=force&scopes=onboarding.read%2Bonboarding.write", $redirectLink);
+        $redirectLink = $clientLink->getRedirectUrl($app_id, $state, $scopes, $approval_prompt);
+        $this->assertEquals("https://my.mollie.com/dashboard/client-link/finalize/{$client_link_id}?{$expected_url_query}", $redirectLink);
     }
 
     protected function getClientLinkResponseFixture(string $client_link_id)
@@ -95,5 +95,32 @@ class ClientLinkEndpointTest extends BaseEndpointTest
                 }
             }'
         );
+    }
+
+    public function clientCreateData(): array
+    {
+        return [
+            [
+                'cl_vZCnNQsV2UtfXxYifWKWH',
+                'app_j9Pakf56Ajta6Y65AkdTtAv',
+                'decafbad',
+                [
+                    'onboarding.read',
+                    'onboarding.write',
+                ],
+                'force',
+                'client_id=app_j9Pakf56Ajta6Y65AkdTtAv&state=decafbad&approval_prompt=force&scope=onboarding.read%20onboarding.write',
+            ],
+            [
+                'cl_vZCnNQsV2UtfXxYifWKWG',
+                'app_j9Pakf56Ajta6Y65AkdTtAw',
+                'decafbad',
+                [
+                    'onboarding.read',
+                ],
+                'auto',
+                'client_id=app_j9Pakf56Ajta6Y65AkdTtAw&state=decafbad&approval_prompt=auto&scope=onboarding.read',
+            ]
+        ];
     }
 }

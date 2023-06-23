@@ -12,7 +12,7 @@ class ClientLinkEndpoint extends EndpointAbstract
     /**
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'csr_';
+    public const RESOURCE_ID_PREFIX = 'cl_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one
@@ -29,13 +29,12 @@ class ClientLinkEndpoint extends EndpointAbstract
      * Creates a client link in Mollie.
      *
      * @param array $data An array containing details on the client link.
-     * @param array $filters
      *
      * @return ClientLink
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = []): ClientLink
+    public function create(array $data = []): ClientLink
     {
-        return $this->rest_create($data, $filters);
+        return $this->rest_create($data, []);
     }
 }
