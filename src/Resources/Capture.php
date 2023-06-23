@@ -6,6 +6,7 @@ class Capture extends BaseResource
 {
     /**
      * Always 'capture' for this object
+     *
      * @var string
      */
     public $resource;

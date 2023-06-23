@@ -8,11 +8,6 @@ use Mollie\Api\Types\RefundStatus;
 class Refund extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the payment method.
      *
      * @var string

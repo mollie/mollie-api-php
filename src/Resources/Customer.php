@@ -7,11 +7,6 @@ use Mollie\Api\Exceptions\ApiException;
 class Customer extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the customer.
      *
      * @var string

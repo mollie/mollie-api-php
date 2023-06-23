@@ -5,11 +5,6 @@ namespace Mollie\Api\Resources;
 class PaymentLink extends BaseResource
 {
     /**
-     * @var string
-     */
-    public $resource;
-
-    /**
      * Id of the payment link (on the Mollie platform).
      *
      * @var string
