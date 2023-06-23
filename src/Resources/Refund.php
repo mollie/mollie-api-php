@@ -96,6 +96,14 @@ class Refund extends BaseResource
     public $metadata;
 
     /**
+     * @return bool
+     */
+    public function canBeCanceled()
+    {
+        return $this->isQueued() || $this->isPending();
+    }
+
+    /**
      * Is this refund queued?
      *
      * @return bool

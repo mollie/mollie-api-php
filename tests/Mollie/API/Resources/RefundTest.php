@@ -23,6 +23,20 @@ class RefundTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->{$function}());
     }
 
+    /**
+     * @param string $status
+     * @param bool $expected_boolean
+     *
+     * @dataProvider dpTestRefundCanBeCanceled
+     */
+    public function testRefundCanBeCanceled($status, $expected_boolean)
+    {
+        $refund = new Refund($this->createMock(MollieApiClient::class));
+        $refund->status = $status;
+
+        $this->assertEquals($expected_boolean, $refund->canBeCanceled());
+    }
+
     public function dpTestRefundStatuses()
     {
         return [
@@ -55,6 +69,18 @@ class RefundTest extends \PHPUnit\Framework\TestCase
             [RefundStatus::STATUS_FAILED, "isQueued", false],
             [RefundStatus::STATUS_FAILED, "isTransferred", false],
             [RefundStatus::STATUS_FAILED, "isFailed", true],
+        ];
+    }
+
+    public function dpTestRefundCanBeCanceled()
+    {
+        return [
+            [RefundStatus::STATUS_PENDING, true],
+            [RefundStatus::STATUS_PROCESSING, false],
+            [RefundStatus::STATUS_QUEUED, true],
+            [RefundStatus::STATUS_REFUNDED, false],
+            [RefundStatus::STATUS_FAILED, false],
+            [RefundStatus::STATUS_CANCELED, false],
         ];
     }
 }
