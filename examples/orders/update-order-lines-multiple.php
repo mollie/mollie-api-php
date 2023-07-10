@@ -1,6 +1,6 @@
 <?php
 /*
- * How to update an order line with the Mollie API
+ * Perform operations (add, cancel, update) on multiple order lines in a single call.
  */
 
 try {
