@@ -69,10 +69,11 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
     /**
      * @param string $orderId
      * @param array $operations
+     * @param array $parameters
      * @return Order|\Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateMultiple(string $orderId, array $operations)
+    public function updateMultiple(string $orderId, array $operations, array $parameters = [])
     {
         if (empty($orderId)) {
             throw new ApiException("Invalid resource id.");
@@ -80,12 +81,12 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
 
         $this->parentId = $orderId;
 
+        $parameters['operations'] = $operations;
+
         $result = $this->client->performHttpCall(
             self::REST_UPDATE,
             "{$this->getResourcePath()}",
-            $this->parseRequestBody([
-                'operations' => $operations,
-            ])
+            $this->parseRequestBody($parameters)
         );
 
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
