@@ -129,4 +129,9 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/in3
      */
     public const IN3 = "in3";
+
+    /**
+     * @link https://docs.mollie.com/point-of-sale/overview
+     */
+    public const POINT_OF_SALE = "pointofsale";
 }
