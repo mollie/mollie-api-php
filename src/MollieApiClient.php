@@ -596,10 +596,9 @@ class MollieApiClient
     }
 
     /**
-     * @param \Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $generator
      * @return \Mollie\Api\MollieApiClient
      */
-    public function clearIdempotencyKeyGenerator($generator)
+    public function clearIdempotencyKeyGenerator()
     {
         $this->idempotencyKeyGenerator = null;
 
@@ -667,23 +666,45 @@ class MollieApiClient
             $headers['X-Mollie-Client-Info'] = php_uname();
         }
 
-        if (in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
-            if (! $this->idempotencyKey && $this->idempotencyKeyGenerator) {
-                $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
-            }
-
-            if ($this->idempotencyKey) {
-                $headers['Idempotency-Key'] = $this->idempotencyKey;
-            } elseif ($this->idempotencyKeyGenerator) {
-                $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
-            }
-        }
+        $headers = $this->applyIdempotencyKey($headers, $httpMethod);
 
         $response = $this->httpClient->send($httpMethod, $url, $headers, $httpBody);
 
         $this->resetIdempotencyKey();
 
         return $response;
+    }
+
+    /**
+     * Conditionally apply the idempotency key to the request headers
+     *
+     * @param array $headers
+     * @param string $httpMethod
+     * @return array
+     */
+    private function applyIdempotencyKey(array $headers, string $httpMethod)
+    {
+        if (! in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
+            unset($headers['Idempotency-Key']);
+
+            return $headers;
+        }
+
+        if ($this->idempotencyKey) {
+            $headers['Idempotency-Key'] = $this->idempotencyKey;
+
+            return $headers;
+        }
+
+        if ($this->idempotencyKeyGenerator) {
+            $headers['Idempotency-Key'] = $this->idempotencyKeyGenerator->generate();
+
+            return $headers;
+        }
+
+        unset($headers['Idempotency-Key']);
+
+        return $headers;
     }
 
     /**
