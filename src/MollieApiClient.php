@@ -596,10 +596,9 @@ class MollieApiClient
     }
 
     /**
-     * @param \Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $generator
      * @return \Mollie\Api\MollieApiClient
      */
-    public function clearIdempotencyKeyGenerator($generator)
+    public function clearIdempotencyKeyGenerator()
     {
         $this->idempotencyKeyGenerator = null;
 
