@@ -30,6 +30,7 @@ use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\ProfileMethodEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
+use Mollie\Api\Endpoints\SettlementCaptureEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
@@ -116,6 +117,13 @@ class MollieApiClient
      * @var SettlementsEndpoint
      */
     public $settlements;
+
+    /**
+     * RESTful Settlement capture resource.
+     *
+     * @var \Mollie\Api\Endpoints\SettlementCaptureEndpoint
+     */
+    public $settlementCaptures;
 
     /**
      * RESTful Settlement payment resource.
@@ -365,6 +373,7 @@ class MollieApiClient
         $this->profileMethods = new ProfileMethodEndpoint($this);
         $this->customers = new CustomerEndpoint($this);
         $this->settlements = new SettlementsEndpoint($this);
+        $this->settlementCaptures = new SettlementCaptureEndpoint($this);
         $this->settlementPayments = new SettlementPaymentEndpoint($this);
         $this->subscriptions = new SubscriptionEndpoint($this);
         $this->customerPayments = new CustomerPaymentsEndpoint($this);

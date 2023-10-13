@@ -174,19 +174,13 @@ class Settlement extends BaseResource
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures()
+    public function captures(int $limit = null, array $parameters = [])
     {
-        if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->captures->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->captures,
-            Capture::class,
-            $result->_links
+        return $this->client->settlementCaptures->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 }
