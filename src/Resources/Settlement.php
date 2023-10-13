@@ -112,7 +112,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Retrieves all payments associated with this settlement
+     * Retrieves the first page of payments associated with this settlement.
      *
      * @param int|null $limit
      * @param array $parameters
@@ -149,28 +149,26 @@ class Settlement extends BaseResource
     /**
      * Retrieves all chargebacks associated with this settlement
      *
+     * @param int|null $limit
+     * @param array $parameters
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(int $limit = null, array $parameters = [])
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->chargebacks,
-            Chargeback::class,
-            $result->_links
+        return $this->client->settlementChargebacks->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 
     /**
      * Retrieves all captures associated with this settlement
      *
+     * @param int|null $limit
+     * @param array $parameters
      * @return CaptureCollection
      * @throws ApiException
      */
