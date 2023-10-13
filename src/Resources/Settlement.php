@@ -3,7 +3,6 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SettlementStatus;
 
 class Settlement extends BaseResource
