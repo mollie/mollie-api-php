@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\BaseCollection;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 

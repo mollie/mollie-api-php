@@ -92,7 +92,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Is this settlement paidout?
+     * Is this settlement paid out?
      *
      * @return bool
      */
@@ -102,7 +102,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Is this settlement failed?
+     * Has this settlement failed?
      *
      * @return bool
      */
@@ -112,7 +112,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Retrieves the first page of payments associated with this settlement.
+     * Retrieve the first page of payments associated with this settlement.
      *
      * @param int|null $limit
      * @param array $parameters
@@ -121,33 +121,34 @@ class Settlement extends BaseResource
      */
     public function payments(int $limit = null, array $parameters = []): PaymentCollection
     {
-        return $this->client->settlementPayments->pageForId($this->id, null, $limit, $parameters);
-    }
-
-    /**
-     * Retrieves all refunds associated with this settlement
-     *
-     * @return RefundCollection
-     * @throws ApiException
-     */
-    public function refunds()
-    {
-        if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->refunds,
-            Refund::class,
-            $result->_links
+        return $this->client->settlementPayments->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 
     /**
-     * Retrieves all chargebacks associated with this settlement
+     * Retrieve the first page of refunds associated with this settlement.
+     *
+     * @param int|null $limit
+     * @param array $parameters
+     * @return RefundCollection
+     * @throws ApiException
+     */
+    public function refunds(int $limit = null, array $parameters = [])
+    {
+        return $this->client->settlementRefunds->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
+        );
+    }
+
+    /**
+     * Retrieve the first page of chargebacks associated with this settlement.
      *
      * @param int|null $limit
      * @param array $parameters
@@ -165,7 +166,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Retrieves all captures associated with this settlement
+     * Retrieve the first page of cap associated with this settlement.
      *
      * @param int|null $limit
      * @param array $parameters
