@@ -3,7 +3,6 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\SettlementStatus;
 
 class Settlement extends BaseResource
@@ -92,7 +91,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Is this settlement paidout?
+     * Is this settlement paid out?
      *
      * @return bool
      */
@@ -102,7 +101,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Is this settlement failed?
+     * Has this settlement failed?
      *
      * @return bool
      */
@@ -112,7 +111,7 @@ class Settlement extends BaseResource
     }
 
     /**
-     * Retrieves all payments associated with this settlement
+     * Retrieve the first page of payments associated with this settlement.
      *
      * @param int|null $limit
      * @param array $parameters
@@ -121,72 +120,65 @@ class Settlement extends BaseResource
      */
     public function payments(int $limit = null, array $parameters = []): PaymentCollection
     {
-        return $this->client->settlementPayments->pageForId($this->id, null, $limit, $parameters);
+        return $this->client->settlementPayments->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
+        );
     }
 
     /**
-     * Retrieves all refunds associated with this settlement
+     * Retrieve the first page of refunds associated with this settlement.
      *
+     * @param int|null $limit
+     * @param array $parameters
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(int $limit = null, array $parameters = [])
     {
-        if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->refunds,
-            Refund::class,
-            $result->_links
+        return $this->client->settlementRefunds->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 
     /**
-     * Retrieves all chargebacks associated with this settlement
+     * Retrieve the first page of chargebacks associated with this settlement.
      *
+     * @param int|null $limit
+     * @param array $parameters
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(int $limit = null, array $parameters = [])
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->chargebacks,
-            Chargeback::class,
-            $result->_links
+        return $this->client->settlementChargebacks->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 
     /**
-     * Retrieves all captures associated with this settlement
+     * Retrieve the first page of cap associated with this settlement.
      *
+     * @param int|null $limit
+     * @param array $parameters
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures()
+    public function captures(int $limit = null, array $parameters = [])
     {
-        if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->client, 0, null);
-        }
-
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->captures->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->captures,
-            Capture::class,
-            $result->_links
+        return $this->client->settlementCaptures->pageForId(
+            $this->id,
+            null,
+            $limit,
+            $parameters
         );
     }
 }
