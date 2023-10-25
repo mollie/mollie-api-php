@@ -2,8 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
+use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
 abstract class CollectionEndpointAbstract extends EndpointAbstract
@@ -34,6 +36,35 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
         }
 
         return $collection;
+    }
+
+    /**
+     * Iterate over all objects from the REST API.
+     *
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $filters
+     * @param boolean $iterateBackwards Whether to iterate backwards or forward.
+     * @return Generator
+     */
+    protected function rest_iterator($from = null, $limit = null, array $filters = [], bool $iterateBackwards = false): Generator
+    {
+        /** @var CursorCollection $page */
+        $page = $this->rest_list($from, $limit, $filters);
+
+        while (true) {
+            foreach ($page as $item) {
+                yield $item;
+            }
+
+            if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
+                break;
+            }
+
+            $page = $iterateBackwards
+                ? $page->previous()
+                : $page->next();
+        }
     }
 
     /**
