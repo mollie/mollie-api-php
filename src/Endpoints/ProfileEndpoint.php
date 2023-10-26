@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Profile;
@@ -88,7 +89,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     public function update($profileId, array $data = [])
     {
         if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '".self::RESOURCE_ID_PREFIX."'.");
+            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         return parent::rest_update($profileId, $data);
@@ -139,5 +140,20 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     public function page($from = null, $limit = null, array $parameters = [])
     {
         return $this->rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over profiles retrieved from Mollie.
+     *
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

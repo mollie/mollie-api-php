@@ -20,7 +20,7 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      * @return mixed
      * @throws ApiException
      */
-    protected function rest_list($from = null, $limit = null, array $filters = [])
+    protected function rest_list(?string $from = null, ?int $limit = null, array $filters = [])
     {
         $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
@@ -39,19 +39,36 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
     }
 
     /**
-     * Iterate over all objects from the REST API.
+     * Create a generator for iterating over a resource's collection using REST API calls.
+     *
+     * This function fetches paginated data from a RESTful resource endpoint and returns a generator
+     * that allows you to iterate through the items in the collection one by one. It supports forward
+     * and backward iteration, pagination, and filtering.
      *
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $filters
-     * @param boolean $iterateBackwards Whether to iterate backwards or forward.
+     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
      * @return Generator
      */
-    protected function rest_iterator($from = null, $limit = null, array $filters = [], bool $iterateBackwards = false): Generator
+    protected function rest_iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): Generator
     {
         /** @var CursorCollection $page */
         $page = $this->rest_list($from, $limit, $filters);
 
+        return $this->iterate($page, $iterateBackwards);
+    }
+
+    /**
+     * Iterate over a CursorCollection and yield its elements.
+     *
+     * @param CursorCollection $page
+     * @param boolean $iterateBackwards
+     *
+     * @return Generator
+     */
+    protected function iterate(CursorCollection $page, bool $iterateBackwards = false): Generator
+    {
         while (true) {
             foreach ($page as $item) {
                 yield $item;

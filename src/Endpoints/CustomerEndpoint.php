@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
@@ -81,7 +82,7 @@ class CustomerEndpoint extends CollectionEndpointAbstract
     public function update($customerId, array $data = [])
     {
         if (empty($customerId) || strpos($customerId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$customerId}'. An order ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+            throw new ApiException("Invalid order ID: '{$customerId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         return parent::rest_update($customerId, $data);
@@ -114,8 +115,23 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * @return CustomerCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
     {
         return $this->rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over customers retrieved from Mollie.
+     *
+     * @param string $from The first customer ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

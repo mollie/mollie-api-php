@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
@@ -41,5 +42,23 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
         $this->parentId = $settlementId;
 
         return $this->rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over payments for the given settlement id, retrieved from Mollie.
+     *
+     * @param string $settlementId
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        $this->parentId = $settlementId;
+
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

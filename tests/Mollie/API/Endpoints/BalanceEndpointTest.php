@@ -187,6 +187,119 @@ class BalanceEndpointTest extends BaseEndpointTest
         );
     }
 
+    public function testIterateBalances()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/balances"
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                     "count": 2,
+                     "_embedded": {
+                       "balances": [
+                          {
+                            "resource": "balance",
+                            "id": "bal_gVMhHKqSSRYJyPsuoPNFH",
+                            "mode": "live",
+                            "createdAt": "2019-01-10T12:06:28+00:00",
+                            "currency": "EUR",
+                            "status": "active",
+                            "availableAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "incomingAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "outgoingAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "transferFrequency": "daily",
+                            "transferThreshold": {
+                              "value": "40.00",
+                              "currency": "EUR"
+                            },
+                            "transferReference": "Mollie payout",
+                            "transferDestination": {
+                              "type": "bank-account",
+                              "beneficiaryName": "Jack Bauer",
+                              "bankAccount": "NL53INGB0654422370",
+                              "bankAccountId": "bnk_jrty3f"
+                            },
+                            "_links": {
+                              "self": {
+                                "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH",
+                                "type": "application/hal+json"
+                              }
+                            }
+                          },
+                          {
+                            "resource": "balance",
+                            "id": "bal_gVMhHKqSSRYJyPsuoPABC",
+                            "mode": "live",
+                            "createdAt": "2019-01-10T10:23:41+00:00",
+                            "status": "active",
+                            "currency": "EUR",
+                            "availableAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "incomingAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "outgoingAmount": {
+                              "value": "0.00",
+                              "currency": "EUR"
+                            },
+                            "transferFrequency": "twice-a-month",
+                            "transferThreshold": {
+                              "value": "5.00",
+                              "currency": "EUR"
+                            },
+                            "transferReference": "Mollie payout",
+                            "transferDestination": {
+                              "type": "bank-account",
+                              "beneficiaryName": "Jack Bauer",
+                              "bankAccount": "NL97MOLL6351480700",
+                              "bankAccountId": "bnk_jrty3e"
+                            },
+                            "_links": {
+                              "self": {
+                                "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPABC",
+                                "type": "application/hal+json"
+                              }
+                            }
+                          }
+                       ]
+                     },
+                     "_links": {
+                       "documentation": {
+                         "href": "https://docs.mollie.com/reference/v2/balances-api/list-balances",
+                         "type": "text/html"
+                       },
+                       "self": {
+                         "href": "https://api.mollie.com/v2/balances?limit=5",
+                         "type": "application/hal+json"
+                       },
+                       "previous": null,
+                       "next": null
+                     }
+                   }'
+            )
+        );
+
+        foreach ($this->apiClient->balances->iterator() as $balance) {
+            $this->assertInstanceOf(Balance::class, $balance);
+        }
+    }
+
     public function testGetBalance()
     {
         $this->mockApiCall(

@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
@@ -45,7 +46,7 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     public function get(string $balanceId, array $parameters = [])
     {
         if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+            throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         return parent::rest_read($balanceId, $parameters);
@@ -78,5 +79,20 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     public function page(?string $from = null, ?int $limit = null, array $parameters = [])
     {
         return $this->rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over balances retrieved from Mollie.
+     *
+     * @param string $from The first Balance ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

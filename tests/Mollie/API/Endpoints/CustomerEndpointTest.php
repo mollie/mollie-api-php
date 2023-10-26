@@ -157,6 +157,53 @@ class CustomerEndpointTest extends BaseEndpointTest
         }
     }
 
+    public function testIteratorWorks()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/customers'),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "customers": [
+                      {
+                        "resource": "customer",
+                        "id": "cst_FhQJRw4s2n",
+                        "mode": "test",
+                        "name": "John Doe",
+                        "email": "johndoe@example.org",
+                        "locale": null,
+                        "metadata": null,
+                        "recentlyUsedMethods": [],
+                        "createdAt": "2018-04-19T08:49:01+00:00"
+                      }
+                    ]
+                  },
+                  "count": 1,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://docs.mollie.com/reference/v2/customers-api/list-customers",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.com/v2/customers?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        foreach ($this->apiClient->customers->iterator() as $customer) {
+            $this->assertInstanceOf(Customer::class, $customer);
+            $this->assertEquals("customer", $customer->resource);
+            $this->assertNotEmpty($customer->createdAt);
+        }
+    }
+
     public function testUpdateWorks()
     {
         $expectedName = 'Kaas Broodje';
