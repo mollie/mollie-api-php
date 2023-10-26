@@ -48,7 +48,7 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $filters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      * @return Generator
      */
     protected function rest_iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): Generator
@@ -63,7 +63,7 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      * Iterate over a CursorCollection and yield its elements.
      *
      * @param CursorCollection $page
-     * @param boolean $iterateBackwards
+     * @param bool $iterateBackwards
      *
      * @return Generator
      */
@@ -74,7 +74,7 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
                 yield $item;
             }
 
-            if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
+            if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
                 break;
             }
 

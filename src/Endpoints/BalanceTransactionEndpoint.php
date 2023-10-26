@@ -56,7 +56,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @param Balance $balance
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */
@@ -86,7 +86,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @param string $balanceId
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */
@@ -116,7 +116,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      * Create an iterator for iterating over transactions for the primary balance retrieved from Mollie.
      *
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */

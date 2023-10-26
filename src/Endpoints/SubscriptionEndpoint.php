@@ -146,7 +146,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */
@@ -178,7 +178,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */
@@ -251,7 +251,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
      * @param array $parameters
-     * @param boolean $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
      * @return Generator
      */
