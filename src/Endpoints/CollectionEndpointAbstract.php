@@ -56,32 +56,7 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
         /** @var CursorCollection $page */
         $page = $this->rest_list($from, $limit, $filters);
 
-        return $this->iterate($page, $iterateBackwards);
-    }
-
-    /**
-     * Iterate over a CursorCollection and yield its elements.
-     *
-     * @param CursorCollection $page
-     * @param bool $iterateBackwards
-     *
-     * @return Generator
-     */
-    protected function iterate(CursorCollection $page, bool $iterateBackwards = false): Generator
-    {
-        while (true) {
-            foreach ($page as $item) {
-                yield $item;
-            }
-
-            if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
-                break;
-            }
-
-            $page = $iterateBackwards
-                ? $page->previous()
-                : $page->next();
-        }
+        return $page->getAutoIterator($iterateBackwards);
     }
 
     /**

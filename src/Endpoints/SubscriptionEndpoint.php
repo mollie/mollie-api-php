@@ -259,6 +259,6 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     {
         $page = $this->page($from, $limit, $parameters);
 
-        return $this->iterate($page, $iterateBackwards);
+        return $page->getAutoIterator($iterateBackwards);
     }
 }
