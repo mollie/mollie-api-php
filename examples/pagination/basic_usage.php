@@ -36,11 +36,11 @@ try {
 
 
     // cursor paginating through all orders
-    $page = $client->orders->page();
+    $page = $mollie->orders->page();
 
     while ($page->hasNext()) {
         foreach ($page as $order) {
-            echo($order->id);
+            echo ($order->id);
         }
 
         $page = $page->next();
@@ -48,8 +48,8 @@ try {
 
 
     // using the iterator we can iterate over all orders directly
-    foreach ($client->orders->iterator() as $order) {
-        echo($order->id);
+    foreach ($mollie->orders->iterator() as $order) {
+        echo ($order->id);
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
