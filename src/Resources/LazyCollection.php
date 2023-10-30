@@ -5,6 +5,10 @@ namespace Mollie\Api\Resources;
 use Iterator;
 use IteratorAggregate;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ */
 class LazyCollection implements IteratorAggregate
 {
     /**
@@ -33,7 +37,7 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get an item from the collection by key.
      *
-     * @param  int|string  $key
+     * @param int|string  $key
      * @return mixed|null
      */
     public function get($key)
@@ -50,12 +54,12 @@ class LazyCollection implements IteratorAggregate
     /**
      * Run a filter over each of the items.
      *
-     * @param  (callable(value, key): bool)  $callback
-     * @return static
+     * @param (callable(TValue, TKey): bool)  $callback
+     * @return self
      */
     public function filter(callable $callback): self
     {
-        return new static(function () use ($callback) {
+        return new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 if ($callback($value, $key)) {
                     yield $key => $value;
@@ -67,15 +71,15 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get the first item from the collection passing the given truth test.
      *
-     * @param  (callable(value): bool)|null  $callback
-     * @return mixed|null
+     * @param (callable(TValue, TKey): bool)|null  $callback
+     * @return TValue|null
      */
     public function first(callable $callback = null)
     {
         $iterator = $this->getIterator();
 
         if (is_null($callback)) {
-            if (! $iterator->valid()) {
+            if (!$iterator->valid()) {
                 return null;
             }
 
@@ -94,12 +98,14 @@ class LazyCollection implements IteratorAggregate
     /**
      * Run a map over each of the items.
      *
-     * @param  callable(value, key): mixed  $callback
-     * @return static<key, mixed>
+     * @template TMapValue
+     *
+     * @param callable(TValue, TKey): TMapValue  $callback
+     * @return static<TKey, TMapValue>
      */
     public function map(callable $callback): self
     {
-        return new static(function () use ($callback) {
+        return new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 yield $key => $callback($value, $key);
             }
@@ -109,16 +115,16 @@ class LazyCollection implements IteratorAggregate
     /**
      * Take the first or last {$limit} items.
      *
-     * @param  int  $limit
+     * @param int $limit
      * @return static
      */
     public function take(int $limit): self
     {
-        return new static(function () use ($limit) {
+        return new self(function () use ($limit) {
             $iterator = $this->getIterator();
 
             while ($limit--) {
-                if (! $iterator->valid()) {
+                if (!$iterator->valid()) {
                     break;
                 }
 
@@ -134,7 +140,7 @@ class LazyCollection implements IteratorAggregate
     /**
      * Determine if all items pass the given truth test.
      *
-     * @param callable $callback
+     * @param (callable(TValue, TKey): bool) $callback
      * @return bool
      */
     public function every(callable $callback): bool
@@ -142,7 +148,7 @@ class LazyCollection implements IteratorAggregate
         $iterator = $this->getIterator();
 
         foreach ($iterator as $key => $value) {
-            if (! $callback($value, $key)) {
+            if (!$callback($value, $key)) {
                 return false;
             }
         }
@@ -163,7 +169,7 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get an iterator for the items.
      *
-     * @return Iterator
+     * @return Iterator<TKey, TValue>
      */
     public function getIterator(): Iterator
     {
@@ -173,8 +179,11 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get an iterator for the given value.
      *
-     * @param callable|IteratorAggregate $source
-     * @return Iterator
+     * @template TIteratorKey of array-key
+     * @template TIteratorValue
+     *
+     * @param IteratorAggregate<TIteratorValue>|(callable(): \Generator<TIteratorKey, TIteratorValue>)  $source
+     * @return Iterator<TIteratorValue>
      */
     protected function makeIterator($source): Iterator
     {
