@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\BalanceTransactionCollection;
@@ -58,9 +58,9 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         return $this->iteratorForId($balance->id, $parameters, $iterateBackwards);
     }
@@ -88,9 +88,9 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorForId(string $balanceId, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorForId(string $balanceId, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         $this->parentId = $balanceId;
 
@@ -118,9 +118,9 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorForPrimary(array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorForPrimary(array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         $this->parentId = "primary";
 

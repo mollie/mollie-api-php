@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
@@ -79,9 +79,9 @@ class TerminalEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }

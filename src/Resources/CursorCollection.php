@@ -37,7 +37,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function next()
     {
-        if (! $this->hasNext()) {
+        if (!$this->hasNext()) {
             return null;
         }
 
@@ -60,7 +60,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function previous()
     {
-        if (! $this->hasPrevious()) {
+        if (!$this->hasPrevious()) {
             return null;
         }
 
@@ -100,24 +100,26 @@ abstract class CursorCollection extends BaseCollection
      *
      * @param bool $iterateBackwards
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function getAutoIterator(bool $iterateBackwards = false): Generator
+    public function getAutoIterator(bool $iterateBackwards = false): LazyCollection
     {
         $page = $this;
 
-        while (true) {
-            foreach ($page as $item) {
-                yield $item;
-            }
+        return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
+            while (true) {
+                foreach ($page as $item) {
+                    yield $item;
+                }
 
-            if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
-                break;
-            }
+                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
+                    break;
+                }
 
-            $page = $iterateBackwards
-                ? $page->previous()
-                : $page->next();
-        }
+                $page = $iterateBackwards
+                    ? $page->previous()
+                    : $page->next();
+            }
+        });
     }
 }

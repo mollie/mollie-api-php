@@ -3,6 +3,7 @@
 namespace Tests\Mollie\API\Resources;
 
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\OrderCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -108,5 +109,16 @@ class CursorCollectionTest extends TestCase
 
         $this->assertFalse($collection->hasPrevious());
         $this->assertNull($collection->previous());
+    }
+
+    public function testAutoPaginatorReturnsLazyCollection()
+    {
+        $collection = new OrderCollection(
+            $this->createMock(MollieApiClient::class),
+            1,
+            (object) []
+        );
+
+        $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
 }
