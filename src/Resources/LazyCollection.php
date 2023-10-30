@@ -2,9 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
-use ArrayIterator;
+use Iterator;
 use IteratorAggregate;
-use Traversable;
 
 class LazyCollection implements IteratorAggregate
 {
@@ -48,7 +47,7 @@ class LazyCollection implements IteratorAggregate
      * @param  (callable(value, key): bool)  $callback
      * @return static
      */
-    public function filter(callable $callback): static
+    public function filter(callable $callback): self
     {
         return new static(function () use ($callback) {
             foreach ($this as $key => $value) {
@@ -92,7 +91,7 @@ class LazyCollection implements IteratorAggregate
      * @param  callable(value, key): mixed  $callback
      * @return static<key, mixed>
      */
-    public function map(callable $callback): static
+    public function map(callable $callback): self
     {
         return new static(function () use ($callback) {
             foreach ($this as $key => $value) {
@@ -107,7 +106,7 @@ class LazyCollection implements IteratorAggregate
      * @param  int  $limit
      * @return static
      */
-    public function take(int $limit): static
+    public function take(int $limit): self
     {
         return new static(function () use ($limit) {
             $iterator = $this->getIterator();
@@ -126,6 +125,12 @@ class LazyCollection implements IteratorAggregate
         });
     }
 
+    /**
+     * Determine if all items pass the given truth test.
+     *
+     * @param callable $callback
+     * @return boolean
+     */
     public function every(callable $callback): bool
     {
         $iterator = $this->getIterator();
@@ -149,21 +154,33 @@ class LazyCollection implements IteratorAggregate
         return iterator_count($this->getIterator());
     }
 
-    public function getIterator(): Traversable
+    /**
+     * Get an iterator for the items.
+     *
+     * @return Iterator
+     */
+    public function getIterator(): Iterator
     {
         return $this->makeIterator($this->source);
     }
 
-    protected function makeIterator($source): Traversable
+    /**
+     * Get an iterator for the given value.
+     *
+     * @param callable|IteratorAggregate $source
+     * @return Iterator
+     */
+    protected function makeIterator($source): Iterator
     {
         if ($source instanceof IteratorAggregate) {
             return $source->getIterator();
         }
 
-        if (is_array($source)) {
-            return new ArrayIterator($source);
-        }
-
         return $source();
+    }
+
+    public function __call($name, $arguments)
+    {
+        var_dump($this->getIterator());
     }
 }

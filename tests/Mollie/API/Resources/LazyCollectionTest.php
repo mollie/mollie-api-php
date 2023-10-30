@@ -3,6 +3,8 @@
 namespace Tests\Mollie\API\Resources;
 
 use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Types\MandateStatus;
 use PHPUnit\Framework\TestCase;
 
 class LazyCollectionTest extends TestCase
@@ -80,5 +82,19 @@ class LazyCollectionTest extends TestCase
         $this->assertFalse($this->collection->every(function ($value) {
             return $value > 1;
         }));
+    }
+
+    public function testItRemainsAccessToOriginalCollectionMethods()
+    {
+        $collection = new MandateCollection(
+            $this->createMock(\Mollie\Api\MollieApiClient::class),
+            1,
+            (object) []
+        );
+        $collection[0] = (object) ['id' => 'mdt_12345', 'status' => MandateStatus::STATUS_VALID];
+        $collection[1] = (object) ['id' => 'mdt_12346', 'status' => MandateStatus::STATUS_PENDING];
+
+        $pendingMandates = $collection->getAutoIterator()->whereStatus(MandateStatus::STATUS_PENDING);
+        $this->assertCount(1, $pendingMandates);
     }
 }
