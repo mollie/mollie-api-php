@@ -70,12 +70,12 @@ class LazyCollection implements IteratorAggregate
      * @param  (callable(value): bool)|null  $callback
      * @return mixed|null
      */
-    public function first(callable $callback = null): mixed
+    public function first(callable $callback = null)
     {
         $iterator = $this->getIterator();
 
         if (is_null($callback)) {
-            if (! $iterator->valid()) {
+            if (!$iterator->valid()) {
                 return null;
             }
 
@@ -118,7 +118,7 @@ class LazyCollection implements IteratorAggregate
             $iterator = $this->getIterator();
 
             while ($limit--) {
-                if (! $iterator->valid()) {
+                if (!$iterator->valid()) {
                     break;
                 }
 
@@ -142,7 +142,7 @@ class LazyCollection implements IteratorAggregate
         $iterator = $this->getIterator();
 
         foreach ($iterator as $key => $value) {
-            if (! $callback($value, $key)) {
+            if (!$callback($value, $key)) {
                 return false;
             }
         }
@@ -183,10 +183,5 @@ class LazyCollection implements IteratorAggregate
         }
 
         return $source();
-    }
-
-    public function __call($name, $arguments)
-    {
-        var_dump($this->getIterator());
     }
 }
