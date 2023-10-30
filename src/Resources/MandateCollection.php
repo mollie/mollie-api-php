@@ -4,6 +4,11 @@ namespace Mollie\Api\Resources;
 
 class MandateCollection extends CursorCollection
 {
+    public function getLazyCollectionName(): string
+    {
+        return LazyMandateCollection::class;
+    }
+
     /**
      * @return string
      */
@@ -26,15 +31,6 @@ class MandateCollection extends CursorCollection
      */
     public function whereStatus($status)
     {
-        $collection = new self($this->client, 0, $this->_links);
-
-        foreach ($this as $item) {
-            if ($item->status === $status) {
-                $collection[] = $item;
-                $collection->count++;
-            }
-        }
-
-        return $collection;
+        return $this->filter(fn (Mandate $mandate) => $mandate->status === $status);
     }
 }
