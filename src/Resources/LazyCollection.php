@@ -8,6 +8,8 @@ use IteratorAggregate;
 /**
  * @template TKey of array-key
  * @template TValue
+ *
+ * @implements IteratorAggregate<TKey, TValue>
  */
 class LazyCollection implements IteratorAggregate
 {
@@ -37,8 +39,8 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get an item from the collection by key.
      *
-     * @param int|string  $key
-     * @return mixed|null
+     * @param TKey $key
+     * @return TValue|null
      */
     public function get($key)
     {
@@ -113,7 +115,7 @@ class LazyCollection implements IteratorAggregate
     }
 
     /**
-     * Take the first or last {$limit} items.
+     * Take the first {$limit} items.
      *
      * @param int $limit
      * @return static

@@ -84,4 +84,17 @@ class LazyCollectionTest extends TestCase
             return $value > 1;
         }));
     }
+
+    public function testChainedUsage()
+    {
+        $result = $this->collection
+            ->filter(function ($value) {
+                return $value > 1;
+            })->map(function ($value) {
+                return $value * 2;
+            })->take(1);
+
+        $this->assertEquals(1, $result->count());
+        $this->assertEquals(4, $result->first());
+    }
 }
