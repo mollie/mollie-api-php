@@ -70,7 +70,7 @@ class LazyCollection implements IteratorAggregate
         $iterator = $this->getIterator();
 
         if (is_null($callback)) {
-            if (!$iterator->valid()) {
+            if (! $iterator->valid()) {
                 return null;
             }
 
@@ -113,7 +113,7 @@ class LazyCollection implements IteratorAggregate
             $iterator = $this->getIterator();
 
             while ($limit--) {
-                if (!$iterator->valid()) {
+                if (! $iterator->valid()) {
                     break;
                 }
 
@@ -131,7 +131,7 @@ class LazyCollection implements IteratorAggregate
         $iterator = $this->getIterator();
 
         foreach ($iterator as $key => $value) {
-            if (!$callback($value, $key)) {
+            if (! $callback($value, $key)) {
                 return false;
             }
         }

@@ -37,7 +37,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function next()
     {
-        if (!$this->hasNext()) {
+        if (! $this->hasNext()) {
             return null;
         }
 
@@ -60,7 +60,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function previous()
     {
-        if (!$this->hasPrevious()) {
+        if (! $this->hasPrevious()) {
             return null;
         }
 
@@ -112,7 +112,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
+                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
                     break;
                 }
 

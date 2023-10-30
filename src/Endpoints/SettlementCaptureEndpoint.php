@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class SettlementCaptureEndpoint extends CollectionEndpointAbstract
 {

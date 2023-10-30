@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 
 class PaymentCaptureEndpoint extends CollectionEndpointAbstract

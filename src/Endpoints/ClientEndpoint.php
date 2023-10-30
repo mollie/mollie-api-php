@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class ClientEndpoint extends CollectionEndpointAbstract
 {

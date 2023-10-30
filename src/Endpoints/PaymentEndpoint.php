@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;

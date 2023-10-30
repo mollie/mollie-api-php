@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\CurrentProfile;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class SettlementChargebackEndpoint extends CollectionEndpointAbstract
 {

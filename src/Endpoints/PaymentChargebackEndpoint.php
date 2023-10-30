@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 
 class PaymentChargebackEndpoint extends CollectionEndpointAbstract

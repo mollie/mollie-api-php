@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Customer;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 

@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class ChargebackEndpoint extends CollectionEndpointAbstract
 {
