@@ -129,7 +129,7 @@ class LazyCollection implements IteratorAggregate
      * Determine if all items pass the given truth test.
      *
      * @param callable $callback
-     * @return boolean
+     * @return bool
      */
     public function every(callable $callback): bool
     {

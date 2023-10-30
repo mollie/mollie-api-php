@@ -108,6 +108,7 @@ abstract class CursorCollection extends BaseCollection
 
         var_dump(get_class($page));
         die;
+
         return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
             while (true) {
                 foreach ($page as $item) {
