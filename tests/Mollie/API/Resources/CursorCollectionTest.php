@@ -168,7 +168,7 @@ class CursorCollectionTest extends TestCase
                     '_links' => [
                         'self' => [
                             'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuB',
-                        ]
+                        ],
                     ],
                     '_embedded' => [
                         'orders' => [
@@ -204,7 +204,7 @@ class CursorCollectionTest extends TestCase
      */
     private function arrayToObject($data)
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return $data;
         }
 
