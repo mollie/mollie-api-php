@@ -6,6 +6,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\OrderCollection;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class CursorCollectionTest extends TestCase
 {
@@ -14,28 +15,28 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
-            ->willReturn((object) [
+            ->willReturn($this->arrayToObject([
                 'count' => 1,
-                '_links' => (object) [
+                '_links' => [
                     'self' => [
                         'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
                     ],
                 ],
-                '_embedded' => (object) [
+                '_embedded' => [
                     'orders' => [
-                        (object) ['id' => 'ord_stTC2WHAuS'],
+                        ['id' => 'ord_stTC2WHAuS'],
                     ],
                 ],
-            ]);
+            ]));
 
         $collection = new OrderCollection(
             $mockedClient,
             1,
-            (object) [
-                'next' => (object) [
+            $this->arrayToObject([
+                'next' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
                 ],
-            ]
+            ])
         );
 
         $this->assertTrue($collection->hasNext());
@@ -65,28 +66,30 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
-            ->willReturn((object) [
-                'count' => 1,
-                '_links' => (object) [
-                    'self' => [
-                        'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+            ->willReturn(
+                $this->arrayToObject([
+                    'count' => 1,
+                    '_links' => [
+                        'self' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                        ],
                     ],
-                ],
-                '_embedded' => (object) [
-                    'orders' => [
-                        (object) ['id' => 'ord_stTC2WHAuS'],
+                    '_embedded' => [
+                        'orders' => [
+                            ['id' => 'ord_stTC2WHAuS'],
+                        ],
                     ],
-                ],
-            ]);
+                ])
+            );
 
         $collection = new OrderCollection(
             $mockedClient,
             1,
-            (object) [
-                'previous' => (object) [
+            $this->arrayToObject([
+                'previous' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
                 ],
-            ]
+            ])
         );
 
         $this->assertTrue($collection->hasPrevious());
@@ -120,5 +123,97 @@ class CursorCollectionTest extends TestCase
         );
 
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
+    }
+
+    public function testAutoPaginatorCanHandleConsecutiveCalls()
+    {
+        $mockedClient = $this->createMock(MollieApiClient::class);
+        $mockedClient->expects($this->exactly(3))
+            ->method('performHttpCallToFullUrl')
+            ->willReturnOnConsecutiveCalls(
+                $this->arrayToObject([
+                    'count' => 1,
+                    '_links' => [
+                        'self' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                        ],
+                        'next' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                        ],
+                    ],
+                    '_embedded' => [
+                        'orders' => [
+                            ['id' => 'ord_stTC2WHAuS'],
+                        ],
+                    ],
+                ]),
+                $this->arrayToObject([
+                    'count' => 1,
+                    '_links' => [
+                        'self' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuF',
+                        ],
+                        'next' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuF',
+                        ],
+                    ],
+                    '_embedded' => [
+                        'orders' => [
+                            ['id' => 'ord_stTC2WHAuF'],
+                        ],
+                    ],
+                ]),
+                $this->arrayToObject([
+                    'count' => 1,
+                    '_links' => [
+                        'self' => [
+                            'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuB',
+                        ]
+                    ],
+                    '_embedded' => [
+                        'orders' => [
+                            ['id' => 'ord_stTC2WHAuB'],
+                        ],
+                    ],
+                ])
+            );
+
+        $collection = new OrderCollection(
+            $mockedClient,
+            0,
+            $this->arrayToObject([
+                'next' => [
+                    'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                ],
+            ])
+        );
+
+        $orderIds = [];
+        foreach ($collection->getAutoIterator() as $order) {
+            $orderIds[] = $order->id;
+        }
+
+        $this->assertEquals(['ord_stTC2WHAuS', 'ord_stTC2WHAuF', 'ord_stTC2WHAuB'], $orderIds);
+    }
+
+    /**
+     * Convert an array to an object recursively.
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    private function arrayToObject($data)
+    {
+        if (!is_array($data)) {
+            return $data;
+        }
+
+        $obj = new stdClass();
+
+        foreach ($data as $key => $value) {
+            $obj->$key = $this->arrayToObject($value);
+        }
+
+        return $obj;
     }
 }
