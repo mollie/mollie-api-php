@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
@@ -74,6 +75,22 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Create an iterator for iterating over refunds for the given payment, retrieved from Mollie.
+     *
+     * @param Payment $payment
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iteratorFor(Payment $payment, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        return $this->iteratorForId($payment->id, $from, $limit, $parameters, $iterateBackwards);
+    }
+
+    /**
      * @param string $paymentId
      * @param array $parameters
      *
@@ -85,6 +102,24 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
         $this->parentId = $paymentId;
 
         return parent::rest_list(null, null, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over refunds for the given payment id, retrieved from Mollie.
+     *
+     * @param string $paymentId
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iteratorForId(string $paymentId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        $this->parentId = $paymentId;
+
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 
 

@@ -121,7 +121,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
     public function update($orderId, $shipmentId, array $data = [])
     {
         if (empty($shipmentId) || strpos($shipmentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$shipmentId}'. An subscription ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+            throw new ApiException("Invalid subscription ID: '{$shipmentId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         $this->parentId = $orderId;

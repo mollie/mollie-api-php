@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\ResourceFactory;
@@ -88,7 +89,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     public function update($customerId, $subscriptionId, array $data = [])
     {
         if (empty($subscriptionId) || strpos($subscriptionId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         $this->parentId = $customerId;
@@ -139,6 +140,22 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     }
 
     /**
+     * Create an iterator for iterating over subscriptions for the given customer, retrieved from Mollie.
+     *
+     * @param Customer $customer
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
+    }
+
+    /**
      * @param string $customerId
      * @param string $from The first resource ID you want to include in your list.
      * @param int $limit
@@ -152,6 +169,24 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
         $this->parentId = $customerId;
 
         return parent::rest_list($from, $limit, $parameters);
+    }
+
+    /**
+     * Create an iterator for iterating over subscriptions for the given customer id, retrieved from Mollie.
+     *
+     * @param string $customerId
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        $this->parentId = $customerId;
+
+        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -208,5 +243,22 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
         }
 
         return $collection;
+    }
+
+    /**
+     * Create an iterator for iterating over subscriptions retrieved from Mollie.
+     *
+     * @param string $from The first resource ID you want to include in your list.
+     * @param int $limit
+     * @param array $parameters
+     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     *
+     * @return Generator
+     */
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    {
+        $page = $this->page($from, $limit, $parameters);
+
+        return $page->getAutoIterator($iterateBackwards);
     }
 }

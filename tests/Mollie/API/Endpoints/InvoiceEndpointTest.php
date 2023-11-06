@@ -218,4 +218,102 @@ class InvoiceEndpointTest extends BaseEndpointTest
             $this->assertNotEmpty($invoice->lines);
         }
     }
+
+    public function testIterateInvoices()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/invoices",
+                [],
+                ''
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "invoices": [
+                      {
+                          "resource": "invoice",
+                          "id": "inv_bsa6PvAwaK",
+                          "reference": "2018.190241",
+                          "vatNumber": "123456789B01",
+                          "status": "paid",
+                          "issuedAt": "2018-05-02",
+                          "paidAt": "2018-05-02",
+                          "netAmount": {
+                            "value": "100.00",
+                            "currency": "EUR"
+                          },
+                          "vatAmount": {
+                            "value": "0.00",
+                            "currency": "EUR"
+                          },
+                          "grossAmount": {
+                            "value": "100.00",
+                            "currency": "EUR"
+                          },
+                          "lines": [
+                            {
+                              "period": "2018-04",
+                              "description": "iDEAL transaction costs: april 2018",
+                              "count": 1337,
+                              "vatPercentage": 0,
+                              "amount": {
+                                "value": "50.00",
+                                "currency": "EUR"
+                              }
+                            },
+                            {
+                              "period": "2018-04",
+                              "description": "Refunds iDEAL: april 2018",
+                              "count": 1337,
+                              "vatPercentage": 0,
+                              "amount": {
+                                "value": "50.00",
+                                "currency": "EUR"
+                              }
+                            }
+                          ],
+                          "_links": {
+                            "self": {
+                              "href": "https://api.mollie.com/v2/invoices/inv_bsa6PvAwaK",
+                              "type": "application/hal+json"
+                            },
+                            "pdf": {
+                              "href": "https://www.mollie.com/merchant/download/invoice/bsa6PvAwaK/79aa10f49132b7844c0243648ade6985",
+                              "type": "application/pdf"
+                            },
+                            "documentation": {
+                              "href": "https://docs.mollie.com/reference/v2/invoices-api/get-invoice",
+                              "type": "text/html"
+                            }
+                          }
+                        }
+                    ]
+                  },
+                  "count": 1,
+                  "_links": {
+                    "documentation": {
+                      "href": "https://docs.mollie.com/reference/v2/invoices-api/list-invoices",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "https://api.mollie.nl/v2/invoices?limit=50",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  }
+                }'
+            )
+        );
+
+        foreach ($this->apiClient->invoices->iterator() as $invoice) {
+            $this->assertInstanceOf(Invoice::class, $invoice);
+            $this->assertEquals("invoice", $invoice->resource);
+            $this->assertNotEmpty($invoice->lines);
+        }
+    }
 }

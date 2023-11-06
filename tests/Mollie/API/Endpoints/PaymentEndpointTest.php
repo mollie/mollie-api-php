@@ -23,7 +23,7 @@ class PaymentEndpointTest extends BaseEndpointTest
                 "/v2/payments",
                 [],
                 '{
-                    "amount":{  
+                    "amount":{
                       "value":"20.00",
                       "currency":"EUR"
                     },
@@ -43,13 +43,13 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "id":"tr_44aKxzEbr8",
                    "mode":"test",
                    "createdAt":"2018-03-13T14:02:29+00:00",
-                   "amount":{  
+                   "amount":{
                       "value":"20.00",
                       "currency":"EUR"
                    },
                    "description":"My first API payment",
                    "method":null,
-                   "metadata":{  
+                   "metadata":{
                       "order_id":"1234"
                    },
                    "status":"open",
@@ -60,16 +60,16 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "sequenceType":"oneoff",
                    "redirectUrl":"https://example.org/redirect",
                    "webhookUrl":"https://example.org/webhook",
-                   "_links":{  
-                      "self":{  
+                   "_links":{
+                      "self":{
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
                          "type":"application/hal+json"
                       },
-                      "checkout":{  
+                      "checkout":{
                          "href":"https://www.mollie.com/payscreen/select-method/44aKxzEbr8",
                          "type":"text/html"
                       },
-                      "documentation":{  
+                      "documentation":{
                          "href":"https://docs.mollie.com/reference/v2/payments-api/create-payment",
                          "type":"text/html"
                       }
@@ -246,31 +246,31 @@ class PaymentEndpointTest extends BaseEndpointTest
             new Response(
                 200,
                 [],
-                '{  
+                '{
                    "resource":"payment",
                    "id":"tr_44aKxzEbr8",
                    "mode":"test",
                    "createdAt":"2018-03-13T14:02:29+00:00",
-                   "amount":{  
+                   "amount":{
                       "value":"20.00",
                       "currency":"EUR"
                    },
                    "description":"My first API payment",
                    "method":"ideal",
-                   "metadata":{  
+                   "metadata":{
                       "order_id":"1234"
                    },
                    "status":"paid",
                    "paidAt":"2018-03-19T12:18:35+00:00",
-                   "amountRefunded":{  
+                   "amountRefunded":{
                       "value":"0.00",
                       "currency":"EUR"
                    },
-                   "amountRemaining":{  
+                   "amountRemaining":{
                       "value":"20.00",
                       "currency":"EUR"
                    },
-                   "details":{  
+                   "details":{
                       "consumerName":"T. TEST",
                       "consumerAccount":"NL17RABO0213698412",
                       "consumerBic":"TESTNL99"
@@ -281,16 +281,16 @@ class PaymentEndpointTest extends BaseEndpointTest
                    "sequenceType":"oneoff",
                    "redirectUrl":"https://example.org/redirect",
                    "webhookUrl":"https://example.org/webhook",
-                   "settlementAmount":{  
+                   "settlementAmount":{
                       "value":"20.00",
                       "currency":"EUR"
                    },
-                   "_links":{  
-                      "self":{  
+                   "_links":{
+                      "self":{
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
                          "type":"application/hal+json"
                       },
-                      "documentation":{  
+                      "documentation":{
                          "href":"https://docs.mollie.com/reference/v2/payments-api/get-payment",
                          "type":"text/html"
                       }
@@ -491,5 +491,138 @@ class PaymentEndpointTest extends BaseEndpointTest
 
         $nextLink = (object)["href" => "http://api.mollie.com/v2/payments?from=tr_eW8f5kzUkF&limit=3", "type" => "application/hal+json"];
         $this->assertEquals($nextLink, $payments->_links->next);
+    }
+
+    public function testIteratePayment()
+    {
+        $this->mockApiCall(
+            new Request(
+                "GET",
+                "/v2/payments",
+                [],
+                ''
+            ),
+            new Response(
+                200,
+                [],
+                '{
+                  "_embedded": {
+                    "payments": [
+                      {
+                        "resource": "payment",
+                        "id": "tr_admNa2tFfa",
+                        "mode": "test",
+                        "createdAt": "2018-03-19T15:00:50+00:00",
+                        "amount": {
+                          "value": "100.00",
+                          "currency": "EUR"
+                        },
+                        "description": "Payment no 1",
+                        "method": null,
+                        "metadata": null,
+                        "status": "open",
+                        "isCancelable": false,
+                        "expiresAt": "2018-03-19T15:15:50+00:00",
+                        "details": null,
+                        "locale": "nl_NL",
+                        "profileId": "pfl_7N5qjbu42V",
+                        "sequenceType": "oneoff",
+                        "redirectUrl": "https://www.example.org/",
+                        "_links": {
+                          "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_admNa2tFfa",
+                            "type": "application/hal+json"
+                          },
+                          "checkout": {
+                            "href": "https://www.mollie.com/payscreen/select-method/admNa2tFfa",
+                            "type": "text/html"
+                          }
+                        }
+                      },
+                      {
+                        "resource": "payment",
+                        "id": "tr_bcaLc7hFfa",
+                        "mode": "test",
+                        "createdAt": "2018-03-19T15:00:50+00:00",
+                        "amount": {
+                          "value": "100.00",
+                          "currency": "EUR"
+                        },
+                        "description": "Payment no 2",
+                        "method": null,
+                        "metadata": null,
+                        "status": "open",
+                        "isCancelable": false,
+                        "expiresAt": "2018-03-19T15:15:50+00:00",
+                        "details": null,
+                        "locale": "nl_NL",
+                        "profileId": "pfl_7N5qjbu42V",
+                        "sequenceType": "oneoff",
+                        "redirectUrl": "https://www.example.org/",
+                        "_links": {
+                          "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_bcaLc7hFfa",
+                            "type": "application/hal+json"
+                          },
+                          "checkout": {
+                            "href": "https://www.mollie.com/payscreen/select-method/bcaLc7hFfa",
+                            "type": "text/html"
+                          }
+                        }
+                      },
+                      {
+                        "resource": "payment",
+                        "id": "tr_pslHy1tFfa",
+                        "mode": "test",
+                        "createdAt": "2018-03-19T15:00:50+00:00",
+                        "amount": {
+                          "value": "100.00",
+                          "currency": "EUR"
+                        },
+                        "description": "Payment no 3",
+                        "method": null,
+                        "metadata": null,
+                        "status": "open",
+                        "isCancelable": false,
+                        "expiresAt": "2018-03-19T15:15:50+00:00",
+                        "details": null,
+                        "locale": "nl_NL",
+                        "profileId": "pfl_7N5qjbu42V",
+                        "sequenceType": "oneoff",
+                        "redirectUrl": "https://www.example.org/",
+                        "_links": {
+                          "self": {
+                            "href": "https://api.mollie.com/v2/payments/tr_pslHy1tFfa",
+                            "type": "application/hal+json"
+                          },
+                          "checkout": {
+                            "href": "https://www.mollie.com/payscreen/select-method/pslHy1tFfa",
+                            "type": "text/html"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "_links": {
+                    "documentation": {
+                      "href": "https://docs.mollie.com/reference/v2/payments-api/list-payments",
+                      "type": "text/html"
+                    },
+                    "self": {
+                      "href": "http://api.mollie.com/v2/payments?limit=3",
+                      "type": "application/hal+json"
+                    },
+                    "previous": null,
+                    "next": null
+                  },
+                  "count": 3
+                }'
+            )
+        );
+
+        foreach ($this->apiClient->payments->iterator() as $payment) {
+            $this->assertInstanceOf(Payment::class, $payment);
+            $this->assertEquals("payment", $payment->resource);
+        }
     }
 }

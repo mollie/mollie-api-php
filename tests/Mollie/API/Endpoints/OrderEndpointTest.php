@@ -122,32 +122,32 @@ class OrderEndpointTest extends BaseEndpointTest
 
         $order = $this->apiClient->orders->create([
             "amount" => [
-              "value" => "1027.99",
-              "currency" => "EUR",
+                "value" => "1027.99",
+                "currency" => "EUR",
             ],
             "billingAddress" => [
-              "organizationName" => "Organization Name LTD.",
-              "streetAndNumber" => "Keizersgracht 313",
-              "postalCode" => "1016 EE",
-              "city" => "Amsterdam",
-              "country" => "nl",
-              "givenName" => "Luke",
-              "familyName" => "Skywalker",
-              "email" => "luke@skywalker.com",
+                "organizationName" => "Organization Name LTD.",
+                "streetAndNumber" => "Keizersgracht 313",
+                "postalCode" => "1016 EE",
+                "city" => "Amsterdam",
+                "country" => "nl",
+                "givenName" => "Luke",
+                "familyName" => "Skywalker",
+                "email" => "luke@skywalker.com",
             ],
             "shippingAddress" => [
-              "organizationName" => "Organization Name LTD.",
-              "streetAndNumber" => "Keizersgracht 313",
-              "postalCode" => "1016 EE",
-              "city" => "Amsterdam",
-              "country" => "nl",
-              "givenName" => "Luke",
-              "familyName" => "Skywalker",
-              "email" => "luke@skywalker.com",
+                "organizationName" => "Organization Name LTD.",
+                "streetAndNumber" => "Keizersgracht 313",
+                "postalCode" => "1016 EE",
+                "city" => "Amsterdam",
+                "country" => "nl",
+                "givenName" => "Luke",
+                "familyName" => "Skywalker",
+                "email" => "luke@skywalker.com",
             ],
             "metadata" => [
-              "order_id" => "1337",
-              "description" => "Lego cars",
+                "order_id" => "1337",
+                "description" => "Lego cars",
             ],
             "consumerDateOfBirth" => "1958-01-31",
             "locale" => "nl_NL",
@@ -569,6 +569,43 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($orders[2], 'ord_pbjz3z');
     }
 
+    public function testIterateOrders()
+    {
+        $this->mockApiCall(
+            new Request("GET", "/v2/orders"),
+            new Response(
+                200,
+                [],
+                '{
+                   "count": 3,
+                   "_embedded": {
+                       "orders": [
+                           ' . $this->getOrderResponseFixture("ord_pbjz1x") . ',
+                           ' . $this->getOrderResponseFixture("ord_pbjz2y") . ',
+                           ' . $this->getOrderResponseFixture("ord_pbjz3z") . '
+                       ]
+                   },
+                   "_links": {
+                       "self": {
+                           "href": "https://api.mollie.com/v2/orders",
+                           "type": "application/hal+json"
+                       },
+                       "previous": null,
+                       "next": null,
+                       "documentation": {
+                           "href": "https://docs.mollie.com/reference/v2/orders-api/list-orders",
+                           "type": "text/html"
+                       }
+                   }
+               }'
+            )
+        );
+
+        foreach ($this->apiClient->orders->iterator() as $order) {
+            $this->assertInstanceOf(Order::class, $order);
+        }
+    }
+
     public function testCancelOrderDirectly()
     {
         $this->mockApiCall(
@@ -780,10 +817,10 @@ class OrderEndpointTest extends BaseEndpointTest
         $orderLine->sku = '5702016116977';
         $orderLine->quantity = 2;
         $orderLine->vatRate = '21.00';
-        $orderLine->unitPrice = (object) ['currency' => 'EUR','value' => '349.00'];
-        $orderLine->totalAmount = (object) ['currency' => 'EUR','value' => '598.00'];
-        $orderLine->discountAmount = (object) ['currency' => 'EUR','value' => '100.00'];
-        $orderLine->vatAmount = (object) ['currency' => 'EUR','value' => '103.79'];
+        $orderLine->unitPrice = (object) ['currency' => 'EUR', 'value' => '349.00'];
+        $orderLine->totalAmount = (object) ['currency' => 'EUR', 'value' => '598.00'];
+        $orderLine->discountAmount = (object) ['currency' => 'EUR', 'value' => '100.00'];
+        $orderLine->vatAmount = (object) ['currency' => 'EUR', 'value' => '103.79'];
         $orderLine->metadata = (object) ['foo' => 'bar'];
 
         $result = $orderLine->update();
@@ -807,8 +844,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertAmountObject('0.00', 'EUR', $order->amountRefunded);
 
         $this->assertEquals((object) [
-          'order_id' => '1337',
-          'description' => 'Lego cars',
+            'order_id' => '1337',
+            'description' => 'Lego cars',
         ], $order->metadata);
 
         $this->assertEquals($order_status, $order->status);
@@ -841,19 +878,19 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertEquals("https://example.org/redirect", $order->redirectUrl);
         $this->assertEquals("https://example.org/webhook", $order->webhookUrl);
 
-        $links = (object )[
-          'self' => $this->createLinkObject(
-              'https://api.mollie.com/v2/orders/' . $order_id,
-              'application/hal+json'
-          ),
-          'checkout' => $this->createLinkObject(
-              'https://www.mollie.com/payscreen/select-method/7UhSN1zuXS',
-              'text/html'
-          ),
-          'documentation' => $this->createLinkObject(
-              'https://docs.mollie.com/reference/v2/orders-api/get-order',
-              'text/html'
-          ),
+        $links = (object)[
+            'self' => $this->createLinkObject(
+                'https://api.mollie.com/v2/orders/' . $order_id,
+                'application/hal+json'
+            ),
+            'checkout' => $this->createLinkObject(
+                'https://www.mollie.com/payscreen/select-method/7UhSN1zuXS',
+                'text/html'
+            ),
+            'documentation' => $this->createLinkObject(
+                'https://docs.mollie.com/reference/v2/orders-api/get-order',
+                'text/html'
+            ),
         ];
         $this->assertEquals($links, $order->_links);
 

@@ -21,7 +21,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                 "/v2/customers/cst_FhQJRw4s2n/payments",
                 [],
                 '{
-                    "amount":{  
+                    "amount":{
                       "value":"20.00",
                       "currency":"EUR"
                     },
@@ -41,13 +41,13 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                    "id":"tr_44aKxzEbr8",
                    "mode":"test",
                    "createdAt":"2018-03-13T14:02:29+00:00",
-                   "amount":{  
+                   "amount":{
                       "value":"20.00",
                       "currency":"EUR"
                    },
                    "description":"My first API payment",
                    "method":null,
-                   "metadata":{  
+                   "metadata":{
                       "order_id":"1234"
                    },
                    "status":"open",
@@ -58,12 +58,12 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                    "sequenceType":"oneoff",
                    "redirectUrl":"https://example.org/redirect",
                    "webhookUrl":"https://example.org/webhook",
-                   "_links":{  
-                      "self":{  
+                   "_links":{
+                      "self":{
                          "href":"https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
                          "type":"application/hal+json"
                       },
-                      "checkout":{  
+                      "checkout":{
                          "href":"https://www.mollie.com/payscreen/select-method/44aKxzEbr8",
                          "type":"text/html"
                       },
@@ -71,7 +71,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
                          "href": "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n",
                          "type": "application/hal+json"
                       },
-                      "documentation":{  
+                      "documentation":{
                          "href":"https://docs.mollie.com/reference/v2/customers-api/create-payment",
                          "type":"text/html"
                       }

@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -9,7 +10,7 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
 
-class SettlementRefundEndpointTest extends Mollie\Api\Endpoints\BaseEndpointTest
+class SettlementRefundEndpointTest extends BaseEndpointTest
 {
     /** @test */
     public function testListSettlementRefunds()
