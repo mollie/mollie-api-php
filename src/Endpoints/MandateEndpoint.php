@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
 use Mollie\Api\Resources\Customer;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
@@ -113,9 +113,9 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
     }
@@ -145,9 +145,9 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         $this->parentId = $customerId;
 

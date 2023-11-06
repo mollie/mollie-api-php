@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
@@ -53,9 +53,9 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         $this->parentId = $settlementId;
 

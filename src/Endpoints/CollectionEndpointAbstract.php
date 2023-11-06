@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\CursorCollection;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
 abstract class CollectionEndpointAbstract extends EndpointAbstract
@@ -49,9 +49,9 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      * @param int $limit
      * @param array $filters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     * @return Generator
+     * @return LazyCollection
      */
-    protected function rest_iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): Generator
+    protected function rest_iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
         /** @var CursorCollection $page */
         $page = $this->rest_list($from, $limit, $filters);

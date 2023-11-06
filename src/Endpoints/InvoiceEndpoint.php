@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class InvoiceEndpoint extends CollectionEndpointAbstract
 {
@@ -86,9 +86,9 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-use Generator;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use Mollie\Api\Resources\LazyCollection;
 
 class SettlementCaptureEndpoint extends CollectionEndpointAbstract
 {
@@ -52,9 +52,9 @@ class SettlementCaptureEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
-     * @return Generator
+     * @return LazyCollection
      */
-    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): Generator
+    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
         $this->parentId = $settlementId;
 
