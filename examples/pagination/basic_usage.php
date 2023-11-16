@@ -19,6 +19,7 @@
  * - paymentRefunds
  * - profiles
  * - refunds
+ * - sessions
  * - settlementCaptures
  * - settlementChargebacks
  * - settlementPayments
@@ -40,7 +41,7 @@ try {
 
     while ($page->hasNext()) {
         foreach ($page as $order) {
-            echo($order->id);
+            echo ($order->id);
         }
 
         $page = $page->next();
@@ -49,7 +50,7 @@ try {
 
     // using the iterator we can iterate over all orders directly
     foreach ($mollie->orders->iterator() as $order) {
-        echo($order->id);
+        echo ($order->id);
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());

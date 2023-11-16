@@ -30,6 +30,7 @@ use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\ProfileMethodEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
+use Mollie\Api\Endpoints\SessionEndpoint;
 use Mollie\Api\Endpoints\SettlementCaptureEndpoint;
 use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
@@ -364,6 +365,13 @@ class MollieApiClient
     public $clientLinks;
 
     /**
+     * RESTful Session resource.
+     *
+     * @var SessionEndpoint
+     */
+    public $sessions;
+
+    /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
      * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerInterface|null $httpAdapterPicker,
      * @param \Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $idempotencyKeyGenerator,
@@ -421,6 +429,7 @@ class MollieApiClient
         $this->organizationPartners = new OrganizationPartnerEndpoint($this);
         $this->clients = new ClientEndpoint($this);
         $this->clientLinks = new ClientLinkEndpoint($this);
+        $this->sessions = new SessionEndpoint($this);
     }
 
     protected function initializeVersionStrings()
@@ -481,7 +490,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -501,7 +510,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (! preg_match('/^access_\w+$/', $accessToken)) {
+        if (!preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
@@ -542,8 +551,8 @@ class MollieApiClient
     public function enableDebugging()
     {
         if (
-            ! method_exists($this->httpClient, 'supportsDebugging')
-            || ! $this->httpClient->supportsDebugging()
+            !method_exists($this->httpClient, 'supportsDebugging')
+            || !$this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
@@ -562,8 +571,8 @@ class MollieApiClient
     public function disableDebugging()
     {
         if (
-            ! method_exists($this->httpClient, 'supportsDebugging')
-            || ! $this->httpClient->supportsDebugging()
+            !method_exists($this->httpClient, 'supportsDebugging')
+            || !$this->httpClient->supportsDebugging()
         ) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
@@ -711,7 +720,7 @@ class MollieApiClient
      */
     private function applyIdempotencyKey(array $headers, string $httpMethod)
     {
-        if (! in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
+        if (!in_array($httpMethod, [self::HTTP_POST, self::HTTP_PATCH, self::HTTP_DELETE])) {
             unset($headers['Idempotency-Key']);
 
             return $headers;
