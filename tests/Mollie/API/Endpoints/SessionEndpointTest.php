@@ -55,10 +55,10 @@ class SessionEndpointTest extends BaseEndpointTest
             ],
             "method" => "paypal",
             "methodDetails" => [
-                "checkoutFlow" => "express"
+                "checkoutFlow" => "express",
             ],
             "returnUrl" => "https://example.org/redirect",
-            "cancelUrl" => "https://example.org/cancel"
+            "cancelUrl" => "https://example.org/cancel",
         ]);
 
         $this->assertSession($session, 'sess_pbjz8x');
@@ -302,11 +302,11 @@ class SessionEndpointTest extends BaseEndpointTest
         return str_replace(
             [
                 "<<session_id>>",
-                "<<session_status>>"
+                "<<session_status>>",
             ],
             [
                 $session_id,
-                $sessionStatus
+                $sessionStatus,
             ],
             '{
                 "resource": "session",

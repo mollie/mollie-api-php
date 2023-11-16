@@ -476,7 +476,7 @@ class Order extends BaseResource
      */
     public function refunds()
     {
-        if (!isset($this->_links->refunds->href)) {
+        if (! isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
@@ -533,7 +533,7 @@ class Order extends BaseResource
      */
     public function payments()
     {
-        if (!isset($this->_embedded, $this->_embedded->payments)) {
+        if (! isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 

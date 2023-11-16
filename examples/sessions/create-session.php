@@ -37,7 +37,7 @@ try {
         ],
         "method" => "paypal",
         "methodDetails" => [
-            "checkoutFlow" => "express"
+            "checkoutFlow" => "express",
         ],
         "returnUrl" => "{$protocol}://{$hostname}{$path}/shippingSelection.php?order_id={$sessionId}",
         "cancelUrl" => "{$protocol}://{$hostname}{$path}/cancel.php?order_id={$sessionId}",
