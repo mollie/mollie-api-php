@@ -6,6 +6,7 @@ use Mollie\Api\MollieApiClient;
 
 /**
  * @property MollieApiClient $client
+ * @property string $mode
  */
 trait HasPresetOptions
 {
