@@ -241,7 +241,7 @@ class SessionEndpointTest extends BaseEndpointTest
                 [],
                 $this->getSessionResponseFixture(
                     "sess_pbjz8x",
-                    SessionStatus::STATUS_CREATED,
+                    SessionStatus::STATUS_CREATED
                 )
             )
         );
