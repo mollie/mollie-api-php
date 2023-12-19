@@ -136,4 +136,9 @@ class PaymentMethod
      * @link https://docs.mollie.com/point-of-sale/overview
      */
     public const POINT_OF_SALE = "pointofsale";
+
+    /**
+     * @link https://www.mollie.com/en/payments/twint
+     */
+    public const TWINT = "twint";
 }
