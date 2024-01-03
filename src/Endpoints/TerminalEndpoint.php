@@ -11,7 +11,7 @@ class TerminalEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "terminals";
 
-    public const string RESOURCE_ID_PREFIX = 'term_';
+    public const RESOURCE_ID_PREFIX = 'term_';
 
     /**
      * @return Terminal

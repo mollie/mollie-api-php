@@ -11,7 +11,7 @@ class OrderEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "orders";
 
-    public const string RESOURCE_ID_PREFIX = 'ord_';
+    public const RESOURCE_ID_PREFIX = 'ord_';
 
     /**
      * @inheritDoc

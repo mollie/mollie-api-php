@@ -12,7 +12,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "payment-links";
 
-    public const string RESOURCE_ID_PREFIX = 'pl_';
+    public const RESOURCE_ID_PREFIX = 'pl_';
 
     /**
      * @return PaymentLink

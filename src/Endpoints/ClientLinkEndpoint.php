@@ -9,7 +9,7 @@ class ClientLinkEndpoint extends EndpointAbstract
 {
     protected string $resourcePath = "client-links";
 
-    public const string RESOURCE_ID_PREFIX = 'cl_';
+    public const RESOURCE_ID_PREFIX = 'cl_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one

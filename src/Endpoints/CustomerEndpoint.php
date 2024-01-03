@@ -11,7 +11,7 @@ class CustomerEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "customers";
 
-    public const string RESOURCE_ID_PREFIX = 'cst_';
+    public const RESOURCE_ID_PREFIX = 'cst_';
 
     /**
      * @inheritDoc

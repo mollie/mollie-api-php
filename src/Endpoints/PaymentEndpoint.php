@@ -13,7 +13,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "payments";
 
-    public const string RESOURCE_ID_PREFIX = 'tr_';
+    public const RESOURCE_ID_PREFIX = 'tr_';
 
     /**
      * @inheritDoc

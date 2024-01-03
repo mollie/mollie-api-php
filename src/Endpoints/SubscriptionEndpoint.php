@@ -13,7 +13,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "customers_subscriptions";
 
-    public const string RESOURCE_ID_PREFIX = 'sub_';
+    public const RESOURCE_ID_PREFIX = 'sub_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.

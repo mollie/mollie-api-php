@@ -12,7 +12,7 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
 {
     protected string $resourcePath = "orders_lines";
 
-    public const string RESOURCE_ID_PREFIX = 'odl_';
+    public const RESOURCE_ID_PREFIX = 'odl_';
 
     /**
      * @inheritDoc
