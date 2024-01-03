@@ -2,7 +2,6 @@
 
 namespace Tests\Mollie\Api;
 
-use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
@@ -125,7 +124,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
         /** @var MollieApiClient $client_copy */
-        $client_copy = Liberator::liberate(unserialize($serialized));
+        $client_copy = invade(unserialize($serialized));
 
         $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
         $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");

@@ -9,27 +9,20 @@ use Mollie\Api\Resources\LazyCollection;
 
 class InvoiceEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "invoices";
+    protected string $resourcePath = "invoices";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Invoice
     {
         return new Invoice($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): InvoiceCollection
     {
         return new InvoiceCollection($this->client, $count, $_links);
     }
@@ -45,7 +38,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @return Invoice
      * @throws ApiException
      */
-    public function get($invoiceId, array $parameters = [])
+    public function get(string $invoiceId, array $parameters = []): Invoice
     {
         return $this->rest_read($invoiceId, $parameters);
     }
@@ -60,7 +53,7 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @return InvoiceCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }
@@ -70,10 +63,10 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @return InvoiceCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): InvoiceCollection
     {
         return $this->page(null, null, $parameters);
     }

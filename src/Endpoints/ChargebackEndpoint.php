@@ -9,27 +9,20 @@ use Mollie\Api\Resources\LazyCollection;
 
 class ChargebackEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "chargebacks";
+    protected string $resourcePath = "chargebacks";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Chargeback
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Chargeback
     {
         return new Chargeback($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ChargebackCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): ChargebackCollection
     {
         return new ChargebackCollection($this->client, $count, $_links);
     }
@@ -44,7 +37,7 @@ class ChargebackEndpoint extends CollectionEndpointAbstract
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }

@@ -9,14 +9,22 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class MethodEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "methods";
+    protected string $resourcePath = "methods";
 
     /**
-     * @return Method
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Method
     {
         return new Method($this->client);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getResourceCollectionObject(int $count, object $_links): MethodCollection
+    {
+        return new MethodCollection($count, $_links);
     }
 
     /**
@@ -25,10 +33,10 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * @deprecated Use allActive() instead
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): MethodCollection
     {
         return $this->allActive($parameters);
     }
@@ -39,10 +47,10 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws ApiException
      */
-    public function allActive(array $parameters = [])
+    public function allActive(array $parameters = []): MethodCollection
     {
         return parent::rest_list(null, null, $parameters);
     }
@@ -52,10 +60,10 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * results are not paginated. Make sure to include the profileId parameter if using an OAuth Access Token.
      *
      * @param array $parameters Query string parameters.
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function allAvailable(array $parameters = [])
+    public function allAvailable(array $parameters = []): MethodCollection
     {
         $url = 'methods/all' . $this->buildQueryString($parameters);
 
@@ -70,29 +78,16 @@ class MethodEndpoint extends CollectionEndpointAbstract
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return MethodCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new MethodCollection($count, $_links);
-    }
-
-    /**
      * Retrieve a payment method from Mollie.
      *
      * Will throw a ApiException if the method id is invalid or the resource cannot be found.
      *
      * @param string $methodId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Method
+     * @return Method
      * @throws ApiException
      */
-    public function get($methodId, array $parameters = [])
+    public function get(string $methodId, array $parameters = []): Method
     {
         if (empty($methodId)) {
             throw new ApiException("Method ID is empty.");

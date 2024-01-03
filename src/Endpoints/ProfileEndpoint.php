@@ -10,14 +10,11 @@ use Mollie\Api\Resources\ProfileCollection;
 
 class ProfileEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "profiles";
+    protected string $resourcePath = "profiles";
 
     protected $resourceClass = Profile::class;
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'pfl_';
+    public const string RESOURCE_ID_PREFIX = 'pfl_';
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
@@ -36,7 +33,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      *
      * @return ProfileCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new ProfileCollection($this->client, $count, $_links);
     }

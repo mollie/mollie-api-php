@@ -9,7 +9,7 @@ use Mollie\Api\Resources\RefundCollection;
 
 class PaymentRefundEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "payments_refunds";
+    protected string $resourcePath = "payments_refunds";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -29,7 +29,7 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
      *
      * @return RefundCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new RefundCollection($this->client, $count, $_links);
     }

@@ -17,10 +17,10 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      * @param int $limit
      * @param array $filters
      *
-     * @return mixed
+     * @return BaseCollection
      * @throws ApiException
      */
-    protected function rest_list(?string $from = null, ?int $limit = null, array $filters = [])
+    protected function rest_list(?string $from = null, ?int $limit = null, array $filters = []): BaseCollection
     {
         $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
 
@@ -67,5 +67,5 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      *
      * @return BaseCollection
      */
-    abstract protected function getResourceCollectionObject($count, $_links);
+    abstract protected function getResourceCollectionObject(int $count, object $_links): BaseCollection;
 }

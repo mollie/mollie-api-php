@@ -9,7 +9,7 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class ProfileMethodEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "profiles_methods";
+    protected string $resourcePath = "profiles_methods";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -29,7 +29,7 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      *
      * @return MethodCollection()
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new MethodCollection($count, $_links);
     }

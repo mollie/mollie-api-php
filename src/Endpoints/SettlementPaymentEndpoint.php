@@ -8,7 +8,7 @@ use Mollie\Api\Resources\PaymentCollection;
 
 class SettlementPaymentEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "settlements_payments";
+    protected string $resourcePath = "settlements_payments";
 
     /**
      * @inheritDoc
@@ -21,7 +21,7 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new PaymentCollection($this->client, $count, $_links);
     }

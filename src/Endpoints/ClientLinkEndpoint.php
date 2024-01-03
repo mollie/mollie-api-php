@@ -7,12 +7,9 @@ use Mollie\Api\Resources\ClientLink;
 
 class ClientLinkEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "client-links";
+    protected string $resourcePath = "client-links";
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'cl_';
+    public const string RESOURCE_ID_PREFIX = 'cl_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one

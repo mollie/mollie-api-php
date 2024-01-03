@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Contracts\SingleResourceEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseResource;
@@ -15,24 +16,12 @@ abstract class EndpointAbstract
     public const REST_LIST = MollieApiClient::HTTP_GET;
     public const REST_DELETE = MollieApiClient::HTTP_DELETE;
 
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
+    protected MollieApiClient $client;
 
-    /**
-     * @var string
-     */
-    protected $resourcePath;
+    protected string $resourcePath;
 
-    /**
-     * @var string|null
-     */
-    protected $parentId;
+    protected ?string $parentId;
 
-    /**
-     * @param MollieApiClient $api
-     */
     public function __construct(MollieApiClient $api)
     {
         $this->client = $api;
@@ -42,7 +31,7 @@ abstract class EndpointAbstract
      * @param array $filters
      * @return string
      */
-    protected function buildQueryString(array $filters)
+    protected function buildQueryString(array $filters): string
     {
         if (empty($filters)) {
             return "";
@@ -64,10 +53,10 @@ abstract class EndpointAbstract
     /**
      * @param array $body
      * @param array $filters
-     * @return mixed
+     * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_create(array $body, array $filters)
+    protected function rest_create(array $body, array $filters): BaseResource
     {
         $result = $this->client->performHttpCall(
             self::REST_CREATE,
@@ -84,10 +73,10 @@ abstract class EndpointAbstract
      * @param string $id
      * @param array $body
      *
-     * @return mixed
+     * @return null|BaseResource
      * @throws ApiException
      */
-    protected function rest_update($id, array $body = [])
+    protected function rest_update(string $id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -96,7 +85,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->client->performHttpCall(
             self::REST_UPDATE,
-            "{$this->getResourcePath()}/{$id}",
+            $this->getPathToSingleResource($id),
             $this->parseRequestBody($body)
         );
 
@@ -112,19 +101,19 @@ abstract class EndpointAbstract
      *
      * @param string $id Id of the object to retrieve.
      * @param array $filters
-     * @return mixed
+     * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read($id, array $filters)
+    protected function rest_read(string $id, array $filters): BaseResource
     {
-        if (empty($id)) {
+        if (!$this instanceof SingleResourceEndpoint && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 
         $id = urlencode($id);
         $result = $this->client->performHttpCall(
             self::REST_READ,
-            "{$this->getResourcePath()}/{$id}" . $this->buildQueryString($filters)
+            $this->getPathToSingleResource($id) . $this->buildQueryString($filters)
         );
 
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
@@ -136,10 +125,10 @@ abstract class EndpointAbstract
      * @param string $id
      * @param array $body
      *
-     * @return mixed
+     * @return null|BaseResource
      * @throws ApiException
      */
-    protected function rest_delete($id, array $body = [])
+    protected function rest_delete(string $id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -148,7 +137,7 @@ abstract class EndpointAbstract
         $id = urlencode($id);
         $result = $this->client->performHttpCall(
             self::REST_DELETE,
-            "{$this->getResourcePath()}/{$id}",
+            $this->getPathToSingleResource($id),
             $this->parseRequestBody($body)
         );
 
@@ -159,14 +148,12 @@ abstract class EndpointAbstract
         return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 
-
-
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
      * @return BaseResource
      */
-    abstract protected function getResourceObject();
+    abstract protected function getResourceObject(): BaseResource;
 
     /**
      * @param string $resourcePath
@@ -180,7 +167,7 @@ abstract class EndpointAbstract
      * @return string
      * @throws ApiException
      */
-    public function getResourcePath()
+    public function getResourcePath(): string
     {
         if (strpos($this->resourcePath, "_") !== false) {
             [$parentResource, $childResource] = explode("_", $this->resourcePath, 2);
@@ -195,11 +182,20 @@ abstract class EndpointAbstract
         return $this->resourcePath;
     }
 
+    protected function getPathToSingleResource(string $id): string
+    {
+        if ($this instanceof SingleResourceEndpoint) {
+            return $this->getResourcePath();
+        }
+
+        return "{$this->getResourcePath()}/{$id}";
+    }
+
     /**
      * @param array $body
      * @return null|string
      */
-    protected function parseRequestBody(array $body)
+    protected function parseRequestBody(array $body): ?string
     {
         if (empty($body)) {
             return null;

@@ -10,17 +10,14 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceEndpoint extends CollectionEndpointAbstract
 {
-    /**
-     * @var string
-     */
-    const RESOURCE_ID_PREFIX = 'bal_';
+    const string RESOURCE_ID_PREFIX = 'bal_';
 
-    protected $resourcePath = "balances";
+    protected string $resourcePath = "balances";
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): BalanceCollection
     {
         return new BalanceCollection($this->client, $count, $_links);
     }
@@ -28,7 +25,7 @@ class BalanceEndpoint extends CollectionEndpointAbstract
     /**
      * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Balance
     {
         return new Balance($this->client);
     }
@@ -43,7 +40,7 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
      * @throws ApiException
      */
-    public function get(string $balanceId, array $parameters = [])
+    public function get(string $balanceId, array $parameters = []): Balance
     {
         if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -58,10 +55,10 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
      *
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
+     * @return \Mollie\Api\Resources\Balance
      * @throws ApiException
      */
-    public function primary(array $parameters = [])
+    public function primary(array $parameters = []): Balance
     {
         return parent::rest_read("primary", $parameters);
     }
@@ -73,10 +70,10 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * @param int|null $limit
      * @param array $parameters
      *
-     * @return BaseCollection|BalanceCollection
+     * @return BalanceCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }

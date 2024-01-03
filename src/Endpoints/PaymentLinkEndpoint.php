@@ -10,12 +10,9 @@ use Mollie\Api\Resources\PaymentLinkCollection;
 
 class PaymentLinkEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "payment-links";
+    protected string $resourcePath = "payment-links";
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'pl_';
+    public const string RESOURCE_ID_PREFIX = 'pl_';
 
     /**
      * @return PaymentLink
@@ -33,7 +30,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      *
      * @return PaymentLinkCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new PaymentLinkCollection($this->client, $count, $_links);
     }

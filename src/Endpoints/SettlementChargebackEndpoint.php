@@ -10,7 +10,7 @@ use Mollie\Api\Resources\LazyCollection;
 
 class SettlementChargebackEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "settlements_chargebacks";
+    protected string $resourcePath = "settlements_chargebacks";
 
     /**
      * @inheritDoc
@@ -23,7 +23,7 @@ class SettlementChargebackEndpoint extends CollectionEndpointAbstract
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new ChargebackCollection($this->client, $count, $_links);
     }

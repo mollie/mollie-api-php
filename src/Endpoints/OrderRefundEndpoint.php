@@ -8,27 +8,20 @@ use Mollie\Api\Resources\RefundCollection;
 
 class OrderRefundEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "orders_refunds";
+    protected string $resourcePath = "orders_refunds";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Refund
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Refund
     {
         return new Refund($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return RefundCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): RefundCollection
     {
         return new RefundCollection($this->client, $count, $_links);
     }
@@ -44,7 +37,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @return Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Order $order, array $data, array $filters = [])
+    public function createFor(Order $order, array $data, array $filters = []): Refund
     {
         return $this->createForId($order->id, $data, $filters);
     }
@@ -60,7 +53,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($orderId, array $data, array $filters = [])
+    public function createForId(string $orderId, array $data, array $filters = []): Refund
     {
         $this->parentId = $orderId;
 

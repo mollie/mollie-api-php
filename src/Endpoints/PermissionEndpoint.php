@@ -8,7 +8,7 @@ use Mollie\Api\Resources\PermissionCollection;
 
 class PermissionEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "permissions";
+    protected string $resourcePath = "permissions";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one
@@ -30,7 +30,7 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      *
      * @return PermissionCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new PermissionCollection($count, $_links);
     }

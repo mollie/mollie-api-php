@@ -9,12 +9,9 @@ use Mollie\Api\Resources\TerminalCollection;
 
 class TerminalEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "terminals";
+    protected string $resourcePath = "terminals";
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'term_';
+    public const string RESOURCE_ID_PREFIX = 'term_';
 
     /**
      * @return Terminal
@@ -32,7 +29,7 @@ class TerminalEndpoint extends CollectionEndpointAbstract
      *
      * @return TerminalCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new TerminalCollection($this->client, $count, $_links);
     }

@@ -10,7 +10,7 @@ use Mollie\Api\Resources\LazyCollection;
 
 class SettlementCaptureEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "settlements_captures";
+    protected string $resourcePath = "settlements_captures";
 
     /**
      * @inheritDoc
@@ -20,7 +20,7 @@ class SettlementCaptureEndpoint extends CollectionEndpointAbstract
         return new Capture($this->client);
     }
 
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new CaptureCollection($this->client, $count, $_links);
     }

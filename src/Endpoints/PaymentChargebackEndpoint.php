@@ -9,27 +9,20 @@ use Mollie\Api\Resources\Payment;
 
 class PaymentChargebackEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "payments_chargebacks";
+    protected string $resourcePath = "payments_chargebacks";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Chargeback
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Chargeback
     {
         return new Chargeback($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ChargebackCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): ChargebackCollection
     {
         return new ChargebackCollection($this->client, $count, $_links);
     }
@@ -42,7 +35,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Payment $payment, $chargebackId, array $parameters = [])
+    public function getFor(Payment $payment, string $chargebackId, array $parameters = []): Chargeback
     {
         return $this->getForId($payment->id, $chargebackId, $parameters);
     }
@@ -55,7 +48,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($paymentId, $chargebackId, array $parameters = [])
+    public function getForId(string $paymentId, string $chargebackId, array $parameters = []): Chargeback
     {
         $this->parentId = $paymentId;
 
@@ -69,7 +62,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Payment $payment, array $parameters = [])
+    public function listFor(Payment $payment, array $parameters = []): ChargebackCollection
     {
         return $this->listForId($payment->id, $parameters);
     }
@@ -85,8 +78,13 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorFor(Payment $payment, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Payment $payment,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($payment->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
@@ -97,7 +95,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($paymentId, array $parameters = [])
+    public function listForId(string $paymentId, array $parameters = []): ChargebackCollection
     {
         $this->parentId = $paymentId;
 
@@ -115,8 +113,13 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $paymentId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $paymentId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $paymentId;
 
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);

@@ -9,25 +9,20 @@ use Mollie\Api\Resources\LazyCollection;
 
 class ClientEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "clients";
+    protected string $resourcePath = "clients";
 
     /**
-     * @return Client
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Client
     {
         return new Client($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ClientCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): ClientCollection
     {
         return new ClientCollection($this->client, $count, $_links);
     }
@@ -44,7 +39,7 @@ class ClientEndpoint extends CollectionEndpointAbstract
      * @return Client
      * @throws ApiException
      */
-    public function get($clientId, array $parameters = [])
+    public function get(string $clientId, array $parameters = []): Client
     {
         if (empty($clientId)) {
             throw new ApiException("Client ID is empty.");
@@ -63,7 +58,7 @@ class ClientEndpoint extends CollectionEndpointAbstract
      * @return ClientCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }

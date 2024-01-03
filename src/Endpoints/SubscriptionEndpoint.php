@@ -11,12 +11,9 @@ use Mollie\Api\Resources\SubscriptionCollection;
 
 class SubscriptionEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "customers_subscriptions";
+    protected string $resourcePath = "customers_subscriptions";
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'sub_';
+    public const string RESOURCE_ID_PREFIX = 'sub_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -36,7 +33,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      *
      * @return SubscriptionCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new SubscriptionCollection($this->client, $count, $_links);
     }

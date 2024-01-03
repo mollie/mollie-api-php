@@ -11,20 +11,14 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceTransactionEndpoint extends CollectionEndpointAbstract
 {
-    /**
-     * @var string
-     */
-    const RESOURCE_ID_PREFIX = 'baltr_';
+    const string RESOURCE_ID_PREFIX = 'baltr_';
 
-    /**
-     * @var string
-     */
-    protected $resourcePath = "balances_transactions";
+    protected string $resourcePath = "balances_transactions";
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): BalanceTransactionCollection
     {
         return new BalanceTransactionCollection($this->client, $count, $_links);
     }
@@ -32,7 +26,7 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
     /**
      * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): BalanceTransaction
     {
         return new BalanceTransaction($this->client);
     }
@@ -42,11 +36,11 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @param Balance $balance
      * @param array $parameters
-     * @return BalanceTransactionCollection|\Mollie\Api\Resources\BaseCollection
+     * @return BalanceTransactionCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Balance $balance, array $parameters = [])
+    public function listFor(Balance $balance, array $parameters = []): BalanceTransactionCollection
     {
         return $this->listForId($balance->id, $parameters);
     }
@@ -70,11 +64,11 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      *
      * @param string $balanceId
      * @param array $parameters
-     * @return BalanceTransactionCollection|\Mollie\Api\Resources\BaseCollection
+     * @return BalanceTransactionCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId(string $balanceId, array $parameters = [])
+    public function listForId(string $balanceId, array $parameters = []): BalanceTransactionCollection
     {
         $this->parentId = $balanceId;
 
@@ -101,11 +95,11 @@ class BalanceTransactionEndpoint extends CollectionEndpointAbstract
      * List the transactions for the primary Balance.
      *
      * @param array $parameters
-     * @return BalanceTransactionCollection|\Mollie\Api\Resources\BaseCollection
+     * @return BalanceTransactionCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForPrimary(array $parameters = [])
+    public function listForPrimary(array $parameters = []): BalanceTransactionCollection
     {
         $this->parentId = "primary";
 

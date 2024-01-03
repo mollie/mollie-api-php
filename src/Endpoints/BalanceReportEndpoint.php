@@ -10,7 +10,7 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class BalanceReportEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "balances_report";
+    protected string $resourcePath = "balances_report";
 
     /**
      * @inheritDoc

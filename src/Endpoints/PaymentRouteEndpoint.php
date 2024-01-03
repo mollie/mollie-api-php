@@ -4,11 +4,10 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Route;
-use Mollie\Api\Resources\RouteCollection;
 
-class PaymentRouteEndpoint extends CollectionEndpointAbstract
+class PaymentRouteEndpoint extends EndpointAbstract
 {
-    protected $resourcePath = "payments_routes";
+    protected string $resourcePath = "payments_routes";
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -18,19 +17,6 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
     protected function getResourceObject()
     {
         return new Route($this->client);
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\RouteCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new RouteCollection($this->client, $count, $_links);
     }
 
     /**

@@ -9,7 +9,7 @@ use Mollie\Api\Resources\SettlementCollection;
 
 class SettlementsEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "settlements";
+    protected string $resourcePath = "settlements";
 
     /**
      * Get the object that is used by this API. Every API uses one type of object.
@@ -29,7 +29,7 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      *
      * @return \Mollie\Api\Resources\BaseCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new SettlementCollection($this->client, $count, $_links);
     }

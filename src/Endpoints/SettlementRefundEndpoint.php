@@ -10,12 +10,12 @@ use Mollie\Api\Resources\RefundCollection;
 
 class SettlementRefundEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "settlements_refunds";
+    protected string $resourcePath = "settlements_refunds";
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new RefundCollection($this->client, $count, $_links);
     }

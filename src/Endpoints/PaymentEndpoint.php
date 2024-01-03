@@ -11,30 +11,22 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class PaymentEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "payments";
+    protected string $resourcePath = "payments";
+
+    public const string RESOURCE_ID_PREFIX = 'tr_';
 
     /**
-     * @var string
+     * @inheritDoc
      */
-    public const RESOURCE_ID_PREFIX = 'tr_';
-
-    /**
-     * @return Payment
-     */
-    protected function getResourceObject()
+    protected function getResourceObject(): Payment
     {
         return new Payment($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): PaymentCollection
     {
         return new PaymentCollection($this->client, $count, $_links);
     }
@@ -48,7 +40,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * @return Payment
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Payment
     {
         return $this->rest_create($data, $filters);
     }
@@ -59,12 +51,12 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
      * @param string $paymentId
-     *
      * @param array $data
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function update($paymentId, array $data = [])
+    public function update($paymentId, array $data = []): Payment
     {
         if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -80,10 +72,11 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      *
      * @param string $paymentId
      * @param array $parameters
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function get($paymentId, array $parameters = [])
+    public function get($paymentId, array $parameters = []): Payment
     {
         if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -99,14 +92,14 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Returns with HTTP status No Content (204) if successful.
      *
      * @param string $paymentId
-     *
      * @param array $data
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function delete($paymentId, array $data = [])
+    public function delete(string $paymentId, array $data = []): ?Payment
     {
-        return $this->rest_delete($paymentId, $data);
+        return $this->cancel($paymentId, $data);
     }
 
     /**
@@ -116,12 +109,12 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Returns with HTTP status No Content (204) if successful.
      *
      * @param string $paymentId
-     *
      * @param array $data
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function cancel($paymentId, array $data = [])
+    public function cancel(string $paymentId, array $data = []): ?Payment
     {
         return $this->rest_delete($paymentId, $data);
     }
@@ -136,7 +129,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }
@@ -167,8 +160,9 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      *
      * @return Refund
      * @throws ApiException
+     * @todo: Refactor
      */
-    public function refund(Payment $payment, $data = [])
+    public function refund(Payment $payment, $data = []): Refund
     {
         $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 

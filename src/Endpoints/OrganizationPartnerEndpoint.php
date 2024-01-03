@@ -2,26 +2,18 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Contracts\SingleResourceEndpoint;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Partner;
-use Mollie\Api\Resources\ResourceFactory;
 
-class OrganizationPartnerEndpoint extends EndpointAbstract
+class OrganizationPartnerEndpoint extends EndpointAbstract implements SingleResourceEndpoint
 {
-    protected $resourcePath = "organizations/me/partner";
-
-    protected function getResourceCollectionObject($count, $links)
-    {
-        throw new \BadMethodCallException('not implemented');
-    }
+    protected string $resourcePath = "organizations/me/partner";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return BaseResource
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Partner
     {
         return new Partner($this->client);
     }
@@ -34,25 +26,8 @@ class OrganizationPartnerEndpoint extends EndpointAbstract
      * @return Partner
      * @throws ApiException
      */
-    public function get()
+    public function get(): Partner
     {
         return $this->rest_read('', []);
-    }
-
-    /**
-     * @param string $id
-     * @param array $filters
-     *
-     * @return mixed
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    protected function rest_read($id, array $filters)
-    {
-        $result = $this->client->performHttpCall(
-            self::REST_READ,
-            $this->getResourcePath() . $this->buildQueryString($filters)
-        );
-
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
     }
 }

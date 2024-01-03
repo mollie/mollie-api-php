@@ -9,12 +9,9 @@ use Mollie\Api\Resources\ShipmentCollection;
 
 class ShipmentEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "orders_shipments";
+    protected string $resourcePath = "orders_shipments";
 
-    /**
-     * @var string
-     */
-    public const RESOURCE_ID_PREFIX = 'shp_';
+    public const string RESOURCE_ID_PREFIX = 'shp_';
 
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
@@ -35,7 +32,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      *
      * @return ShipmentCollection
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links)
     {
         return new ShipmentCollection($count, $_links);
     }

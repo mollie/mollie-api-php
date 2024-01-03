@@ -12,10 +12,9 @@ class ResourceFactory
      *
      * @param object $apiResult
      * @param BaseResource $resource
-     *
-     * @return mixed
+     * @return BaseResource
      */
-    public static function createFromApiResult($apiResult, BaseResource $resource)
+    public static function createFromApiResult(object $apiResult, BaseResource $resource): BaseResource
     {
         foreach ($apiResult as $property => $value) {
             $resource->{$property} = $value;
@@ -30,15 +29,15 @@ class ResourceFactory
      * @param array $data
      * @param null $_links
      * @param string $resourceCollectionClass
-     * @return mixed
+     * @return BaseCollection
      */
     public static function createBaseResourceCollection(
         MollieApiClient $client,
-        $resourceClass,
-        $data,
-        $_links = null,
-        $resourceCollectionClass = null
-    ) {
+        string $resourceClass,
+        array $data,
+        object $_links = null,
+        string $resourceCollectionClass = null
+    ): BaseCollection {
         $resourceCollectionClass = $resourceCollectionClass ?: $resourceClass . 'Collection';
         $data = $data ?: [];
 
@@ -56,17 +55,17 @@ class ResourceFactory
      * @param string $resourceClass
      * @param null $_links
      * @param null $resourceCollectionClass
-     * @return mixed
+     * @return CursorCollection
      */
     public static function createCursorResourceCollection(
-        $client,
+        MollieApiClient $client,
         array $input,
-        $resourceClass,
-        $_links = null,
-        $resourceCollectionClass = null
-    ) {
+        string $resourceClass,
+        object $_links = null,
+        string $resourceCollectionClass = null
+    ): CursorCollection {
         if (null === $resourceCollectionClass) {
-            $resourceCollectionClass = $resourceClass.'Collection';
+            $resourceCollectionClass = $resourceClass . 'Collection';
         }
 
         $data = new $resourceCollectionClass($client, count($input), $_links);

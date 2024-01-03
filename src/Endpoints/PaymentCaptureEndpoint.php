@@ -9,27 +9,20 @@ use Mollie\Api\Resources\Payment;
 
 class PaymentCaptureEndpoint extends CollectionEndpointAbstract
 {
-    protected $resourcePath = "payments_captures";
+    protected string $resourcePath = "payments_captures";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Capture
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Capture
     {
         return new Capture($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\CaptureCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): CaptureCollection
     {
         return new CaptureCollection($this->client, $count, $_links);
     }
@@ -44,7 +37,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @return Capture
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Payment $payment, array $data = [], array $filters = [])
+    public function createFor(Payment $payment, array $data = [], array $filters = []): Capture
     {
         return $this->createForId($payment->id, $data, $filters);
     }
@@ -59,7 +52,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @return Capture
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($paymentId, array $data = [], array $filters = [])
+    public function createForId(string $paymentId, array $data = [], array $filters = []): Capture
     {
         $this->parentId = $paymentId;
 
@@ -74,7 +67,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @return Capture
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Payment $payment, $captureId, array $parameters = [])
+    public function getFor(Payment $payment, string $captureId, array $parameters = []): Capture
     {
         return $this->getForId($payment->id, $captureId, $parameters);
     }
@@ -87,7 +80,7 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @return \Mollie\Api\Resources\Capture
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($paymentId, $captureId, array $parameters = [])
+    public function getForId(string $paymentId, string $captureId, array $parameters = []): Capture
     {
         $this->parentId = $paymentId;
 
@@ -98,10 +91,10 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param Payment $payment
      * @param array $parameters
      *
-     * @return Capture
+     * @return CaptureCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Payment $payment, array $parameters = [])
+    public function listFor(Payment $payment, array $parameters = []): CaptureCollection
     {
         return $this->listForId($payment->id, $parameters);
     }
@@ -117,8 +110,13 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorFor(Payment $payment, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Payment $payment,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($payment->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
@@ -126,10 +124,10 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      * @param string $paymentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Capture
+     * @return CaptureCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($paymentId, array $parameters = [])
+    public function listForId(string $paymentId, array $parameters = []): CaptureCollection
     {
         $this->parentId = $paymentId;
 
@@ -147,8 +145,13 @@ class PaymentCaptureEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $paymentId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $paymentId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $paymentId;
 
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
