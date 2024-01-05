@@ -45,7 +45,7 @@ class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpoint
      */
     public function submit(array $parameters = []): void
     {
-        return $this->create($parameters, []);
+        $this->create($parameters, []);
     }
 
     /**

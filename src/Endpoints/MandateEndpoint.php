@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class MandateEndpoint extends CollectionRestEndpoint
+class MandateEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_mandates";
 

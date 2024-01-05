@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
 
-class TerminalEndpoint extends CollectionRestEndpoint
+class TerminalEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "terminals";
 

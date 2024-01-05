@@ -34,9 +34,9 @@ class ResourceFactory
     public static function createBaseResourceCollection(
         MollieApiClient $client,
         string $resourceClass,
-        array $data,
-        object $_links = null,
-        string $resourceCollectionClass = null
+        ?array $data = null,
+        ?object $_links = null,
+        ?string $resourceCollectionClass = null
     ): BaseCollection {
         $resourceCollectionClass = $resourceCollectionClass ?: $resourceClass . 'Collection';
         $data = $data ?: [];
@@ -61,8 +61,8 @@ class ResourceFactory
         MollieApiClient $client,
         array $input,
         string $resourceClass,
-        object $_links = null,
-        string $resourceCollectionClass = null
+        ?object $_links = null,
+        ?string $resourceCollectionClass = null
     ): CursorCollection {
         if (null === $resourceCollectionClass) {
             $resourceCollectionClass = $resourceClass . 'Collection';

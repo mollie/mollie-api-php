@@ -8,7 +8,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class SettlementRefundEndpoint extends CollectionRestEndpoint
+class SettlementRefundEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "settlements_refunds";
 

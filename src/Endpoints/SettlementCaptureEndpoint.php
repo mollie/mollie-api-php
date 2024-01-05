@@ -8,7 +8,7 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class SettlementCaptureEndpoint extends CollectionRestEndpoint
+class SettlementCaptureEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "settlements_captures";
 

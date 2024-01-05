@@ -6,7 +6,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class SettlementPaymentEndpoint extends CollectionRestEndpoint
+class SettlementPaymentEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "settlements_payments";
 

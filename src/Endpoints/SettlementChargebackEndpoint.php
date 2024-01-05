@@ -8,7 +8,7 @@ use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class SettlementChargebackEndpoint extends CollectionRestEndpoint
+class SettlementChargebackEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "settlements_chargebacks";
 

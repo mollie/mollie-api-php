@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class CustomerEndpoint extends CollectionRestEndpoint
+class CustomerEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers";
 

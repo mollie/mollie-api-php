@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-class MethodEndpoint extends CollectionRestEndpoint
+class MethodEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "methods";
 

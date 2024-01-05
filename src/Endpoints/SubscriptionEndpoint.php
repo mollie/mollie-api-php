@@ -8,7 +8,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
 
-class SubscriptionEndpoint extends CollectionRestEndpoint
+class SubscriptionEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_subscriptions";
 

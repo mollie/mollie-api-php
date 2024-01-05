@@ -7,7 +7,7 @@ use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ResourceFactory;
 
-class ProfileMethodEndpoint extends CollectionRestEndpoint
+class ProfileMethodEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "profiles_methods";
 

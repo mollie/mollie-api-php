@@ -9,9 +9,9 @@ use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class BalanceTransactionEndpoint extends CollectionRestEndpoint
+class BalanceTransactionEndpoint extends EndpointCollection
 {
-    const string RESOURCE_ID_PREFIX = 'baltr_';
+    const RESOURCE_ID_PREFIX = 'baltr_';
 
     protected string $resourcePath = "balances_transactions";
 

@@ -8,7 +8,7 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
 
-class PaymentEndpoint extends CollectionRestEndpoint
+class PaymentEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "payments";
 

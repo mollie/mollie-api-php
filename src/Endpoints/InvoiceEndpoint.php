@@ -7,7 +7,7 @@ use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class InvoiceEndpoint extends CollectionRestEndpoint
+class InvoiceEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "invoices";
 

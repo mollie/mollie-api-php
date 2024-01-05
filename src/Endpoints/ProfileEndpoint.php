@@ -8,7 +8,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 
-class ProfileEndpoint extends CollectionRestEndpoint
+class ProfileEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "profiles";
 

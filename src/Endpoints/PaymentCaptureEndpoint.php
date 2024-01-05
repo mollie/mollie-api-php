@@ -7,7 +7,7 @@ use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 
-class PaymentCaptureEndpoint extends CollectionRestEndpoint
+class PaymentCaptureEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "payments_captures";
 

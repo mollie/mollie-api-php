@@ -8,7 +8,7 @@ use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-abstract class CollectionRestEndpoint extends RestEndpoint
+abstract class EndpointCollection extends RestEndpoint
 {
     /**
      * Get a collection of objects from the REST API.
