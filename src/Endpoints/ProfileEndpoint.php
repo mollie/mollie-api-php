@@ -8,7 +8,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 
-class ProfileEndpoint extends CollectionEndpointAbstract
+class ProfileEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "profiles";
 
@@ -16,24 +16,17 @@ class ProfileEndpoint extends CollectionEndpointAbstract
 
     public const RESOURCE_ID_PREFIX = 'pfl_';
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Profile
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Profile
     {
         return new $this->resourceClass($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ProfileCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): ProfileCollection
     {
         return new ProfileCollection($this->client, $count, $_links);
     }
@@ -47,7 +40,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return Profile
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Profile
     {
         return $this->rest_create($data, $filters);
     }
@@ -63,7 +56,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return Profile
      * @throws ApiException
      */
-    public function get($profileId, array $parameters = [])
+    public function get($profileId, array $parameters = []): Profile
     {
         if ($profileId === 'me') {
             return $this->getCurrent($parameters);
@@ -78,12 +71,11 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
      * @param string $profileId
-     *
      * @param array $data
      * @return Profile
      * @throws ApiException
      */
-    public function update($profileId, array $data = [])
+    public function update(string $profileId, array $data = []): Profile
     {
         if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -100,7 +92,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return CurrentProfile
      * @throws ApiException
      */
-    public function getCurrent(array $parameters = [])
+    public function getCurrent(array $parameters = []): CurrentProfile
     {
         $this->resourceClass = CurrentProfile::class;
 
@@ -119,7 +111,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return Profile
      * @throws ApiException
      */
-    public function delete($profileId, array $data = [])
+    public function delete($profileId, array $data = []): ?Profile
     {
         return $this->rest_delete($profileId, $data);
     }
@@ -134,7 +126,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return ProfileCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }
@@ -149,8 +141,12 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iterator(
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

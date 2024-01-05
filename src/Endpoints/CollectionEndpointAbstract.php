@@ -8,7 +8,7 @@ use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-abstract class CollectionEndpointAbstract extends EndpointAbstract
+abstract class CollectionRestEndpoint extends RestEndpoint
 {
     /**
      * Get a collection of objects from the REST API.
@@ -22,20 +22,16 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
      */
     protected function rest_list(?string $from = null, ?int $limit = null, array $filters = []): BaseCollection
     {
-        $filters = array_merge(["from" => $from, "limit" => $limit], $filters);
+        $apiPath = $this->getResourcePath() . $this->buildQueryString(
+            $this->getMergedFilters($filters, $from, $limit)
+        );
 
-        $apiPath = $this->getResourcePath() . $this->buildQueryString($filters);
+        $result = $this->client->performHttpCall(
+            self::REST_LIST,
+            $apiPath
+        );
 
-        $result = $this->client->performHttpCall(self::REST_LIST, $apiPath);
-
-        /** @var BaseCollection $collection */
-        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
-        }
-
-        return $collection;
+        return $this->createCollectionFromResult($result);
     }
 
     /**
@@ -57,6 +53,23 @@ abstract class CollectionEndpointAbstract extends EndpointAbstract
         $page = $this->rest_list($from, $limit, $filters);
 
         return $page->getAutoIterator($iterateBackwards);
+    }
+
+    protected function getMergedFilters(array $filters = [], ?string $from = null, ?int $limit = null): array
+    {
+        return array_merge(["from" => $from, "limit" => $limit], $filters);
+    }
+
+    protected function createCollectionFromResult(object $result): BaseCollection
+    {
+        /** @var BaseCollection $collection */
+        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
+
+        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
+            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
+        }
+
+        return $collection;
     }
 
     /**

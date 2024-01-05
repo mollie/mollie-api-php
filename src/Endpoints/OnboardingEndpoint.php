@@ -6,7 +6,7 @@ use Mollie\Api\Contracts\SingleResourceEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Onboarding;
 
-class OnboardingEndpoint extends EndpointAbstract implements SingleResourceEndpoint
+class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpoint
 {
     protected string $resourcePath = "onboarding/me";
 

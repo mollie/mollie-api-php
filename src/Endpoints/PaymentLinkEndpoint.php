@@ -4,33 +4,27 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\LazyCollection;
-use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
 
-class PaymentLinkEndpoint extends CollectionEndpointAbstract
+class PaymentLinkEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "payment-links";
 
     public const RESOURCE_ID_PREFIX = 'pl_';
 
     /**
-     * @return PaymentLink
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): PaymentLink
     {
         return new PaymentLink($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentLinkCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): PaymentLinkCollection
     {
         return new PaymentLinkCollection($this->client, $count, $_links);
     }
@@ -44,7 +38,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLink
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): PaymentLink
     {
         return $this->rest_create($data, $filters);
     }
@@ -59,7 +53,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLink
      * @throws ApiException
      */
-    public function get($paymentLinkId, array $parameters = [])
+    public function get(string $paymentLinkId, array $parameters = []): PaymentLink
     {
         if (empty($paymentLinkId) || strpos($paymentLinkId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid payment link ID: '{$paymentLinkId}'. A payment link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -78,7 +72,7 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLinkCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }

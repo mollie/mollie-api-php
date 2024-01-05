@@ -7,9 +7,8 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
-use Mollie\Api\Resources\ResourceFactory;
 
-class PaymentEndpoint extends CollectionEndpointAbstract
+class PaymentEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "payments";
 
@@ -160,19 +159,10 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      *
      * @return Refund
      * @throws ApiException
-     * @todo: Refactor
      */
     public function refund(Payment $payment, $data = []): Refund
     {
-        $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
-
-        $body = null;
-        if (($data === null ? 0 : count($data)) > 0) {
-            $body = json_encode($data);
-        }
-
-        $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
+        return (new PaymentRefundEndpoint($this->client))
+            ->createFor($payment, $data);
     }
 }

@@ -6,31 +6,22 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
 
-class PermissionEndpoint extends CollectionEndpointAbstract
+class PermissionEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "permissions";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
-     *
-     * @return Permission
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Permission
     {
         return new Permission($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PermissionCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): PermissionCollection
     {
         return new PermissionCollection($count, $_links);
     }
@@ -45,7 +36,7 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      * @return Permission
      * @throws ApiException
      */
-    public function get($permissionId, array $parameters = [])
+    public function get(string $permissionId, array $parameters = []): Permission
     {
         return $this->rest_read($permissionId, $parameters);
     }
@@ -58,7 +49,7 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      * @return PermissionCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): PermissionCollection
     {
         return parent::rest_list(null, null, $parameters);
     }

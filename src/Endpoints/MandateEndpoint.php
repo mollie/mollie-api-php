@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class MandateEndpoint extends CollectionEndpointAbstract
+class MandateEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "customers_mandates";
 
@@ -92,7 +92,7 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @return MandateCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = []): MandateCollection
+    public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
     {
         return $this->listForId($customer->id, $from, $limit, $parameters);
     }
@@ -127,7 +127,7 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @return MandateCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId(string $customerId, string $from = null, int $limit = null, array $parameters = []): MandateCollection
+    public function listForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
     {
         $this->parentId = $customerId;
 

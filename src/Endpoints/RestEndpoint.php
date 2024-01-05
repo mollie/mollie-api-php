@@ -4,52 +4,11 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Contracts\SingleResourceEndpoint;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceFactory;
 
-abstract class EndpointAbstract
+abstract class RestEndpoint extends BaseEndpoint
 {
-    public const REST_CREATE = MollieApiClient::HTTP_POST;
-    public const REST_UPDATE = MollieApiClient::HTTP_PATCH;
-    public const REST_READ = MollieApiClient::HTTP_GET;
-    public const REST_LIST = MollieApiClient::HTTP_GET;
-    public const REST_DELETE = MollieApiClient::HTTP_DELETE;
-
-    protected MollieApiClient $client;
-
-    protected string $resourcePath;
-
-    protected ?string $parentId;
-
-    public function __construct(MollieApiClient $api)
-    {
-        $this->client = $api;
-    }
-
-    /**
-     * @param array $filters
-     * @return string
-     */
-    protected function buildQueryString(array $filters): string
-    {
-        if (empty($filters)) {
-            return "";
-        }
-
-        foreach ($filters as $key => $value) {
-            if ($value === true) {
-                $filters[$key] = "true";
-            }
-
-            if ($value === false) {
-                $filters[$key] = "false";
-            }
-        }
-
-        return "?" . http_build_query($filters, "", "&");
-    }
-
     /**
      * @param array $body
      * @param array $filters
@@ -154,53 +113,4 @@ abstract class EndpointAbstract
      * @return BaseResource
      */
     abstract protected function getResourceObject(): BaseResource;
-
-    /**
-     * @param string $resourcePath
-     */
-    public function setResourcePath($resourcePath)
-    {
-        $this->resourcePath = strtolower($resourcePath);
-    }
-
-    /**
-     * @return string
-     * @throws ApiException
-     */
-    public function getResourcePath(): string
-    {
-        if (strpos($this->resourcePath, "_") !== false) {
-            [$parentResource, $childResource] = explode("_", $this->resourcePath, 2);
-
-            if (empty($this->parentId)) {
-                throw new ApiException("Subresource '{$this->resourcePath}' used without parent '$parentResource' ID.");
-            }
-
-            return "$parentResource/{$this->parentId}/$childResource";
-        }
-
-        return $this->resourcePath;
-    }
-
-    protected function getPathToSingleResource(string $id): string
-    {
-        if ($this instanceof SingleResourceEndpoint) {
-            return $this->getResourcePath();
-        }
-
-        return "{$this->getResourcePath()}/{$id}";
-    }
-
-    /**
-     * @param array $body
-     * @return null|string
-     */
-    protected function parseRequestBody(array $body): ?string
-    {
-        if (empty($body)) {
-            return null;
-        }
-
-        return @json_encode($body);
-    }
 }

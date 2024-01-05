@@ -7,32 +7,24 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 
-class ShipmentEndpoint extends CollectionEndpointAbstract
+class ShipmentEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "orders_shipments";
 
     public const RESOURCE_ID_PREFIX = 'shp_';
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Shipment
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Shipment
     {
         return new Shipment($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ShipmentCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): ShipmentCollection
     {
         return new ShipmentCollection($count, $_links);
     }
@@ -48,7 +40,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Order $order, array $options = [], array $filters = [])
+    public function createFor(Order $order, array $options = [], array $filters = []): Shipment
     {
         return $this->createForId($order->id, $options, $filters);
     }
@@ -64,7 +56,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($orderId, array $options = [], array $filters = [])
+    public function createForId(string $orderId, array $options = [], array $filters = []): Shipment
     {
         $this->parentId = $orderId;
 
@@ -81,7 +73,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Order $order, $shipmentId, array $parameters = [])
+    public function getFor(Order $order, string $shipmentId, array $parameters = []): Shipment
     {
         return $this->getForId($order->id, $shipmentId, $parameters);
     }
@@ -93,10 +85,10 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $shipmentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\Shipment
+     * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($orderId, $shipmentId, array $parameters = [])
+    public function getForId(string $orderId, string $shipmentId, array $parameters = []): Shipment
     {
         $this->parentId = $orderId;
 
@@ -110,12 +102,12 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      *
      * @param string $shipmentId
      * @param string $orderId
-     *
      * @param array $data
+     *
      * @return Shipment
      * @throws ApiException
      */
-    public function update($orderId, $shipmentId, array $data = [])
+    public function update(string $orderId, $shipmentId, array $data = []): Shipment
     {
         if (empty($shipmentId) || strpos($shipmentId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid subscription ID: '{$shipmentId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -135,7 +127,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return ShipmentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Order $order, array $parameters = [])
+    public function listFor(Order $order, array $parameters = []): ShipmentCollection
     {
         return $this->listForId($order->id, $parameters);
     }
@@ -146,10 +138,10 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $orderId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\ShipmentCollection
+     * @return ShipmentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($orderId, array $parameters = [])
+    public function listForId(string $orderId, array $parameters = []): ShipmentCollection
     {
         $this->parentId = $orderId;
 

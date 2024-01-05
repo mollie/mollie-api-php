@@ -6,7 +6,7 @@ use Mollie\Api\Contracts\SingleResourceEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Partner;
 
-class OrganizationPartnerEndpoint extends EndpointAbstract implements SingleResourceEndpoint
+class OrganizationPartnerEndpoint extends RestEndpoint implements SingleResourceEndpoint
 {
     protected string $resourcePath = "organizations/me/partner";
 

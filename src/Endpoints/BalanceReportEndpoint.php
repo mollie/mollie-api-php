@@ -8,7 +8,7 @@ use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Resources\ResourceFactory;
 
-class BalanceReportEndpoint extends EndpointAbstract
+class BalanceReportEndpoint extends RestEndpoint
 {
     protected string $resourcePath = "balances_report";
 

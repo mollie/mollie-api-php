@@ -5,16 +5,14 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Route;
 
-class PaymentRouteEndpoint extends EndpointAbstract
+class PaymentRouteEndpoint extends RestEndpoint
 {
     protected string $resourcePath = "payments_routes";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return \Mollie\Api\Resources\Route
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Route
     {
         return new Route($this->client);
     }
@@ -28,7 +26,7 @@ class PaymentRouteEndpoint extends EndpointAbstract
      * @return Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateFor(Payment $payment, $routeId, $releaseDate)
+    public function updateReleaseDateFor(Payment $payment, $routeId, $releaseDate): Route
     {
         return $this->updateReleaseDateForPaymentId($payment->id, $routeId, $releaseDate);
     }
@@ -42,15 +40,13 @@ class PaymentRouteEndpoint extends EndpointAbstract
      * @return \Mollie\Api\Resources\Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateForPaymentId($paymentId, $routeId, $releaseDate, $testmode = false)
+    public function updateReleaseDateForPaymentId(string $paymentId, string $routeId, string $releaseDate, bool $testmode = false): Route
     {
         $this->parentId = $paymentId;
 
-        $params = [
+        return parent::rest_update($routeId, [
             'releaseDate' => $releaseDate,
             'testmode' => $testmode,
-        ];
-
-        return parent::rest_update($routeId, $params);
+        ]);
     }
 }

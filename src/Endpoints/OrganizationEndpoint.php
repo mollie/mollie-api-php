@@ -5,7 +5,7 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Organization;
 
-class OrganizationEndpoint extends EndpointAbstract
+class OrganizationEndpoint extends RestEndpoint
 {
     protected string $resourcePath = "organizations";
 

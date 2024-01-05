@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
 
-class OrderEndpoint extends CollectionEndpointAbstract
+class OrderEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "orders";
 

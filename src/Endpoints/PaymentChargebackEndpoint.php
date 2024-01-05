@@ -7,7 +7,7 @@ use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 
-class PaymentChargebackEndpoint extends CollectionEndpointAbstract
+class PaymentChargebackEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "payments_chargebacks";
 

@@ -7,29 +7,24 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
 
-class TerminalEndpoint extends CollectionEndpointAbstract
+class TerminalEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "terminals";
 
     public const RESOURCE_ID_PREFIX = 'term_';
 
     /**
-     * @return Terminal
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Terminal
     {
         return new Terminal($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return TerminalCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): TerminalCollection
     {
         return new TerminalCollection($this->client, $count, $_links);
     }
@@ -41,10 +36,11 @@ class TerminalEndpoint extends CollectionEndpointAbstract
      *
      * @param string $terminalId
      * @param array $parameters
+     *
      * @return Terminal
      * @throws ApiException
      */
-    public function get($terminalId, array $parameters = [])
+    public function get(string $terminalId, array $parameters = []): Terminal
     {
         if (empty($terminalId) || strpos($terminalId, self::RESOURCE_ID_PREFIX) !== 0) {
             throw new ApiException("Invalid terminal ID: '{$terminalId}'. A terminal ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
@@ -63,9 +59,9 @@ class TerminalEndpoint extends CollectionEndpointAbstract
      * @return TerminalCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return parent::rest_list($from, $limit, $parameters);
     }
 
     /**
@@ -78,8 +74,12 @@ class TerminalEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iterator(
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

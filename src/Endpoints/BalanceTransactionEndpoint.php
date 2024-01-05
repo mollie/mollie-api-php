@@ -9,7 +9,7 @@ use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class BalanceTransactionEndpoint extends CollectionEndpointAbstract
+class BalanceTransactionEndpoint extends CollectionRestEndpoint
 {
     const string RESOURCE_ID_PREFIX = 'baltr_';
 

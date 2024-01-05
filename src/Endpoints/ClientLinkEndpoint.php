@@ -5,7 +5,7 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\ClientLink;
 
-class ClientLinkEndpoint extends EndpointAbstract
+class ClientLinkEndpoint extends RestEndpoint
 {
     protected string $resourcePath = "client-links";
 

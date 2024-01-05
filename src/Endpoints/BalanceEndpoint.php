@@ -8,7 +8,7 @@ use Mollie\Api\Resources\BalanceCollection;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class BalanceEndpoint extends CollectionEndpointAbstract
+class BalanceEndpoint extends CollectionRestEndpoint
 {
     const string RESOURCE_ID_PREFIX = 'bal_';
 

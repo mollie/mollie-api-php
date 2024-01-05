@@ -7,29 +7,22 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class RefundEndpoint extends CollectionEndpointAbstract
+class RefundEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "refunds";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Refund
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Refund
     {
         return new Refund($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return RefundCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): RefundCollection
     {
         return new RefundCollection($this->client, $count, $_links);
     }
@@ -44,7 +37,7 @@ class RefundEndpoint extends CollectionEndpointAbstract
      * @return RefundCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }
@@ -59,8 +52,12 @@ class RefundEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iterator(
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

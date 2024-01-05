@@ -8,19 +8,22 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class SettlementCaptureEndpoint extends CollectionEndpointAbstract
+class SettlementCaptureEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "settlements_captures";
 
     /**
      * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Capture
     {
         return new Capture($this->client);
     }
 
-    protected function getResourceCollectionObject(int $count, object $_links)
+    /**
+     * @inheritDoc
+     */
+    protected function getResourceCollectionObject(int $count, object $_links): CaptureCollection
     {
         return new CaptureCollection($this->client, $count, $_links);
     }
@@ -33,10 +36,10 @@ class SettlementCaptureEndpoint extends CollectionEndpointAbstract
      * @param int|null $limit
      * @param array $parameters
      *
-     * @return mixed
+     * @return CaptureCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForId(string $settlementId, string $from = null, int $limit = null, array $parameters = [])
+    public function pageForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = []): CaptureCollection
     {
         $this->parentId = $settlementId;
 
@@ -54,8 +57,13 @@ class SettlementCaptureEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $settlementId;
 
         return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);

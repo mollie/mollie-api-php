@@ -7,29 +7,22 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 
-class SettlementsEndpoint extends CollectionEndpointAbstract
+class SettlementsEndpoint extends CollectionRestEndpoint
 {
     protected string $resourcePath = "settlements";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
-     *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    protected function getResourceObject(): Settlement
     {
         return new Settlement($this->client);
     }
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links)
+    protected function getResourceCollectionObject(int $count, object $_links): SettlementCollection
     {
         return new SettlementCollection($this->client, $count, $_links);
     }
@@ -41,10 +34,11 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      *
      * @param string $settlementId
      * @param array $parameters
+     *
      * @return Settlement
      * @throws ApiException
      */
-    public function get($settlementId, array $parameters = [])
+    public function get(string $settlementId, array $parameters = []): Settlement
     {
         return parent::rest_read($settlementId, $parameters);
     }
@@ -55,7 +49,7 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return Settlement
      * @throws ApiException
      */
-    public function next()
+    public function next(): Settlement
     {
         return parent::rest_read("next", []);
     }
@@ -66,7 +60,7 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return Settlement
      * @throws ApiException
      */
-    public function open()
+    public function open(): Settlement
     {
         return parent::rest_read("open", []);
     }
@@ -81,7 +75,7 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return SettlementCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
     {
         return $this->rest_list($from, $limit, $parameters);
     }
