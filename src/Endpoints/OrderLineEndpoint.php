@@ -109,7 +109,7 @@ class OrderLineEndpoint extends CollectionRestEndpoint
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (!isset($data['lines']) || !is_array($data['lines'])) {
+        if (! isset($data['lines']) || ! is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
         $this->parentId = $orderId;

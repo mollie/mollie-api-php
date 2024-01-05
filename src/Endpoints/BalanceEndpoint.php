@@ -5,7 +5,6 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
-use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\LazyCollection;
 
 class BalanceEndpoint extends CollectionRestEndpoint
