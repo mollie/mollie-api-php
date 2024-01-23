@@ -5,9 +5,19 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
+     * @link https://www.mollie.com/en/payments/alma
+     */
+    public const ALMA = "alma";
+
+    /**
      * @link https://www.mollie.com/en/payments/applepay
      */
     public const APPLEPAY = "applepay";
+
+    /**
+     * @link https://www.mollie.com/en/payments/bancomatpay
+     */
+    public const BANCOMATPAY = "bancomatpay";
 
     /**
      * @link https://www.mollie.com/en/payments/bancontact
@@ -33,6 +43,11 @@ class PaymentMethod
      * @deprecated 2019-05-01
      */
     public const BITCOIN = "bitcoin";
+
+    /**
+     * @link https://www.mollie.com/en/payments/blik
+     */
+    public const BLIK = "blik";
 
     /**
      * @link https://www.mollie.com/en/payments/credit-card
