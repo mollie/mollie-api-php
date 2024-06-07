@@ -144,6 +144,7 @@ class Payment extends BaseResource
      *
      * @example "user@mollie.com"
      * @var string|null
+     * @deprecated 2024-06-01 The billingEmail field is deprecated. Use the "billingAddress" field instead.
      */
     public $billingEmail;
 
