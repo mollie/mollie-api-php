@@ -208,6 +208,20 @@ class Payment extends BaseResource
     public $orderId;
 
     /**
+     * The person and the address the order is billed to.
+     *
+     * @var \stdClass|null
+     */
+    public $billingAddress;
+
+    /**
+     * The person and the address the order is shipped to.
+     *
+     * @var \stdClass|null
+     */
+    public $shippingAddress;
+
+    /**
      * The settlement ID this payment belongs to.
      *
      * @example stl_jDk30akdN
