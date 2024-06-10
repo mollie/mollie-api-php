@@ -209,6 +209,13 @@ class Payment extends BaseResource
     public $orderId;
 
     /**
+     * The lines contain the actual items the customer bought.
+     *
+     * @var array|object[]|null
+     */
+    public $lines;
+
+    /**
      * The person and the address the order is billed to.
      *
      * @var \stdClass|null
