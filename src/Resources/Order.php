@@ -80,7 +80,7 @@ class Order extends BaseResource
     public $orderNumber;
 
     /**
-     * The person and the address the order is billed to.
+     * The person and the address the order is shipped to.
      *
      * @var \stdClass
      */
