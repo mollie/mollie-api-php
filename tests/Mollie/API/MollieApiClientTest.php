@@ -15,8 +15,8 @@ use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use ReflectionClass;
-use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 use function serialize;
+use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
