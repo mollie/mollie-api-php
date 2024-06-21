@@ -55,7 +55,6 @@
   },
   "require-dev": {
     "brianium/paratest": "^6.11",
-    "eloquent/liberator": "^2.0||^3.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
     "phpstan/phpstan": "^1.4"

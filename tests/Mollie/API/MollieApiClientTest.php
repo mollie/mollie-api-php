@@ -2,17 +2,21 @@
 
 namespace Tests\Mollie\Api;
 
-use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
+use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
 use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
+use ReflectionClass;
 use Tests\Mollie\TestHelpers\FakeHttpAdapter;
+use function serialize;
 
 class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -120,21 +124,30 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     public function testCanBeSerializedAndUnserialized()
     {
         $this->mollieApiClient->setApiEndpoint("https://mymollieproxy.local");
-        $serialized = \serialize($this->mollieApiClient);
+        $serialized = serialize($this->mollieApiClient);
+
+        $deserialized = unserialize($serialized);
+        $reflection = new ReflectionClass($deserialized);
+        $apiKeyProperty = $reflection->getProperty('apiKey');
+        $apiKeyProperty->setAccessible(true);
+        $httpClientProperty = $reflection->getProperty('httpClient');
+        $httpClientProperty->setAccessible(true);
+        $usesOauthMethod = $reflection->getMethod('usesOAuth');
+        $usesOauthMethod->setAccessible(true);
+        $apiEndpointProperty = $reflection->getProperty('apiEndpoint');
+        $apiEndpointProperty->setAccessible(true);
+
 
         $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
+        $this->assertEmpty($apiKeyProperty->getValue($deserialized), "API key should not have been remembered");
 
-        /** @var MollieApiClient $client_copy */
-        $client_copy = Liberator::liberate(unserialize($serialized));
+        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $httpClientProperty->getValue($deserialized), "A Guzzle client should have been set.");
+        $this->assertNull($usesOauthMethod->invoke($deserialized), "The client should not use OAuth.");
+        $this->assertEquals("https://mymollieproxy.local", $apiEndpointProperty->getValue($deserialized), "The API endpoint should be remembered");
 
-        $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
-        $this->assertNull($client_copy->usesOAuth());
-        $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
-
-        $this->assertNotEmpty($client_copy->customerPayments);
-        $this->assertNotEmpty($client_copy->payments);
-        $this->assertNotEmpty($client_copy->methods);
+        $this->assertInstanceOf(CustomerPaymentsEndpoint::class, $deserialized->customerPayments);
+        $this->assertInstanceOf(PaymentEndpoint::class, $deserialized->payments);
+        $this->assertInstanceOf(MethodEndpoint::class, $deserialized->methods);
         // no need to assert them all.
     }
 

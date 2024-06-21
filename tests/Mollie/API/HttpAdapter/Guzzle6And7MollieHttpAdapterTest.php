@@ -2,7 +2,6 @@
 
 namespace Tests\Mollie\API\HttpAdapter;
 
-use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
@@ -54,8 +53,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = Liberator::liberate($e);
-            $this->assertInstanceOf(RequestInterface::class, $exception->request);
+            $this->assertInstanceOf(RequestInterface::class, $e->getRequest());
         }
     }
 
@@ -86,8 +84,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = Liberator::liberate($e);
-            $this->assertNull($exception->request);
+            $this->assertNull($e->getRequest());
         }
     }
 }
