@@ -40,7 +40,7 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function get(string $invoiceId, array $parameters = []): Invoice
     {
-        return $this->rest_read($invoiceId, $parameters);
+        return $this->readResource($invoiceId, $parameters);
     }
 
     /**
@@ -53,9 +53,9 @@ class InvoiceEndpoint extends EndpointCollection
      * @return InvoiceCollection
      * @throws ApiException
      */
-    public function page(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
+    public function collect(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -68,7 +68,7 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function all(array $parameters = []): InvoiceCollection
     {
-        return $this->page(null, null, $parameters);
+        return $this->collect(null, null, $parameters);
     }
 
     /**
@@ -83,6 +83,6 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

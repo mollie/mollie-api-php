@@ -59,7 +59,7 @@ class SubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_create($options, $filters);
+        return parent::createResource($options, $filters);
     }
 
     /**
@@ -83,7 +83,7 @@ class SubscriptionEndpoint extends EndpointCollection
 
         $this->parentId = $customerId;
 
-        return parent::rest_update($subscriptionId, $data);
+        return parent::updateResource($subscriptionId, $data);
     }
 
     /**
@@ -111,7 +111,7 @@ class SubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_read($subscriptionId, $parameters);
+        return parent::readResource($subscriptionId, $parameters);
     }
 
     /**
@@ -162,7 +162,7 @@ class SubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_list($from, $limit, $parameters);
+        return parent::fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -185,7 +185,7 @@ class SubscriptionEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $customerId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -213,7 +213,7 @@ class SubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_delete($subscriptionId, $data);
+        return parent::deleteResource($subscriptionId, $data);
     }
 
     /**
@@ -226,7 +226,7 @@ class SubscriptionEndpoint extends EndpointCollection
      * @return SubscriptionCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
     {
         $apiPath = 'subscriptions' . $this->buildQueryString(
             $this->getMergedFilters($parameters, $from, $limit)
@@ -237,7 +237,7 @@ class SubscriptionEndpoint extends EndpointCollection
             $apiPath
         );
 
-        return $this->createCollectionFromResult($result);
+        return $this->buildResultCollection($result);
     }
 
     /**
@@ -252,7 +252,7 @@ class SubscriptionEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $page = $this->page($from, $limit, $parameters);
+        $page = $this->collect($from, $limit, $parameters);
 
         return $page->getAutoIterator($iterateBackwards);
     }

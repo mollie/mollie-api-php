@@ -9,21 +9,22 @@ abstract class BaseCollection extends \ArrayObject
      *
      * @var int
      */
-    public $count;
+    public int $count;
 
     /**
      * @var \stdClass|null
      */
-    public $_links;
+    public ?\stdClass $_links;
 
     /**
      * @param int $count
      * @param \stdClass|null $_links
      */
-    public function __construct($count, $_links)
+    public function __construct(int $count, ?\stdClass $_links)
     {
         $this->count = $count;
         $this->_links = $_links;
+
         parent::__construct();
     }
 

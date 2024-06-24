@@ -200,7 +200,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
             )
         );
 
-        $invoices = $this->apiClient->invoices->page();
+        $invoices = $this->apiClient->invoices->collect();
         $this->assertInstanceOf(InvoiceCollection::class, $invoices);
 
         $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/invoices-api/list-invoices', 'type' => 'text/html'];

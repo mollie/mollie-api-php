@@ -52,7 +52,7 @@ class MandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_create($options, $filters);
+        return parent::createResource($options, $filters);
     }
 
     /**
@@ -80,7 +80,7 @@ class MandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_read($mandateId, $parameters);
+        return parent::readResource($mandateId, $parameters);
     }
 
     /**
@@ -131,7 +131,7 @@ class MandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_list($from, $limit, $parameters);
+        return parent::fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -154,7 +154,7 @@ class MandateEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $customerId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -182,6 +182,6 @@ class MandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_delete($mandateId, $data);
+        return parent::deleteResource($mandateId, $data);
     }
 }

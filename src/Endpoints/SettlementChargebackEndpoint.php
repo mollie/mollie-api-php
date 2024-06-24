@@ -43,7 +43,7 @@ class SettlementChargebackEndpoint extends EndpointCollection
     {
         $this->parentId = $settlementId;
 
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -66,6 +66,6 @@ class SettlementChargebackEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $settlementId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

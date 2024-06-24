@@ -32,6 +32,6 @@ class ClientLinkEndpoint extends RestEndpoint
      */
     public function create(array $data = []): ClientLink
     {
-        return $this->rest_create($data, []);
+        return $this->createResource($data, []);
     }
 }

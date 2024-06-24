@@ -7,14 +7,14 @@ interface MollieHttpAdapterInterface
     /**
      * Send a request to the specified Mollie api url.
      *
-     * @param string $httpMethod
+     * @param string $meethod
      * @param string $url
      * @param string|array $headers
-     * @param ?string $httpBody
+     * @param ?string $body
      * @return \stdClass|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass;
+    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass;
 
     /**
      * The version number for the underlying http client, if available.

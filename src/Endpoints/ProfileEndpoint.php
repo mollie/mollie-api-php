@@ -42,7 +42,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Profile
     {
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -62,7 +62,7 @@ class ProfileEndpoint extends EndpointCollection
             return $this->getCurrent($parameters);
         }
 
-        return $this->rest_read($profileId, $parameters);
+        return $this->readResource($profileId, $parameters);
     }
 
     /**
@@ -81,7 +81,7 @@ class ProfileEndpoint extends EndpointCollection
             throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_update($profileId, $data);
+        return parent::updateResource($profileId, $data);
     }
 
     /**
@@ -96,7 +96,7 @@ class ProfileEndpoint extends EndpointCollection
     {
         $this->resourceClass = CurrentProfile::class;
 
-        return $this->rest_read('me', $parameters);
+        return $this->readResource('me', $parameters);
     }
 
     /**
@@ -113,7 +113,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function delete($profileId, array $data = []): ?Profile
     {
-        return $this->rest_delete($profileId, $data);
+        return $this->deleteResource($profileId, $data);
     }
 
     /**
@@ -126,9 +126,9 @@ class ProfileEndpoint extends EndpointCollection
      * @return ProfileCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -147,6 +147,6 @@ class ProfileEndpoint extends EndpointCollection
         array $parameters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -52,7 +52,7 @@ class MethodEndpoint extends EndpointCollection
      */
     public function allActive(array $parameters = []): MethodCollection
     {
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -93,6 +93,6 @@ class MethodEndpoint extends EndpointCollection
             throw new ApiException("Method ID is empty.");
         }
 
-        return parent::rest_read($methodId, $parameters);
+        return parent::readResource($methodId, $parameters);
     }
 }

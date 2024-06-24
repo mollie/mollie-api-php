@@ -56,7 +56,7 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -84,7 +84,7 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_read($captureId, $parameters);
+        return parent::readResource($captureId, $parameters);
     }
 
     /**
@@ -131,7 +131,7 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -154,6 +154,6 @@ class PaymentCaptureEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $paymentId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

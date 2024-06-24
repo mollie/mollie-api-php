@@ -20,7 +20,7 @@ abstract class EndpointCollection extends RestEndpoint
      * @return BaseCollection
      * @throws ApiException
      */
-    protected function rest_list(?string $from = null, ?int $limit = null, array $filters = []): BaseCollection
+    protected function fetchCollection(?string $from = null, ?int $limit = null, array $filters = []): BaseCollection
     {
         $apiPath = $this->getResourcePath() . $this->buildQueryString(
             $this->getMergedFilters($filters, $from, $limit)
@@ -31,7 +31,7 @@ abstract class EndpointCollection extends RestEndpoint
             $apiPath
         );
 
-        return $this->createCollectionFromResult($result);
+        return $this->buildResultCollection($result);
     }
 
     /**
@@ -47,10 +47,10 @@ abstract class EndpointCollection extends RestEndpoint
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      * @return LazyCollection
      */
-    protected function rest_iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
+    protected function createIterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
         /** @var CursorCollection $page */
-        $page = $this->rest_list($from, $limit, $filters);
+        $page = $this->fetchCollection($from, $limit, $filters);
 
         return $page->getAutoIterator($iterateBackwards);
     }
@@ -60,7 +60,7 @@ abstract class EndpointCollection extends RestEndpoint
         return array_merge(["from" => $from, "limit" => $limit], $filters);
     }
 
-    protected function createCollectionFromResult(object $result): BaseCollection
+    protected function buildResultCollection(object $result): BaseCollection
     {
         /** @var BaseCollection $collection */
         $collection = $this->getResourceCollectionObject($result->count, $result->_links);

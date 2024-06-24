@@ -177,7 +177,7 @@ class TerminalEndpointTest extends BaseEndpointTest
             )
         );
 
-        $terminals = $this->apiClient->terminals->page(null, 3);
+        $terminals = $this->apiClient->terminals->collect(null, 3);
 
         $this->assertInstanceOf(TerminalCollection::class, $terminals);
         $this->assertEquals(3, $terminals->count);

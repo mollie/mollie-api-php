@@ -52,7 +52,7 @@ class PaymentRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_read($refundId, $parameters);
+        return parent::readResource($refundId, $parameters);
     }
 
     /**
@@ -99,7 +99,7 @@ class PaymentRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -122,7 +122,7 @@ class PaymentRefundEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $paymentId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
 
@@ -155,6 +155,6 @@ class PaymentRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_create($data, $filters);
+        return parent::createResource($data, $filters);
     }
 }

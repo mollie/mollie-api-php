@@ -31,7 +31,6 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
      */
     private $usedBody;
 
-
     /**
      * FakeHttpAdapter constructor.
      * @param \stdClass|null|\GuzzleHttp\Psr7\Response $response
@@ -42,18 +41,18 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
-     * @param string $httpMethod
+     * @param string $meethod
      * @param string $url
      * @param string $headers
-     * @param string $httpBody
+     * @param string $body
      * @return \stdClass|void|null
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
     {
-        $this->usedMethod = $httpMethod;
+        $this->usedMethod = $meethod;
         $this->usedUrl = $url;
         $this->usedHeaders = $headers;
-        $this->usedBody = $httpBody;
+        $this->usedBody = $body;
 
         return $this->response;
     }
@@ -61,7 +60,7 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
     /**
      * @return string
      */
-    public function versionString()
+    public function versionString(): string
     {
         return 'fake';
     }

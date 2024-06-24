@@ -60,7 +60,7 @@ class ShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_create($options, $filters);
+        return parent::createResource($options, $filters);
     }
 
     /**
@@ -92,7 +92,7 @@ class ShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_read($shipmentId, $parameters);
+        return parent::readResource($shipmentId, $parameters);
     }
 
     /**
@@ -115,7 +115,7 @@ class ShipmentEndpoint extends EndpointCollection
 
         $this->parentId = $orderId;
 
-        return parent::rest_update($shipmentId, $data);
+        return parent::updateResource($shipmentId, $data);
     }
 
     /**
@@ -145,6 +145,6 @@ class ShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 }

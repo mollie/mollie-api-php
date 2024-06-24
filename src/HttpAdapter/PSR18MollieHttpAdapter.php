@@ -45,10 +45,10 @@ final class PSR18MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass
+    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
     {
         try {
-            $request = $this->createRequest($httpMethod, $url, $headers, $httpBody ?? '');
+            $request = $this->createRequest($meethod, $url, $headers, $body ?? '');
             $response = $this->httpClient->sendRequest($request);
 
             $body = (string) $response->getBody();

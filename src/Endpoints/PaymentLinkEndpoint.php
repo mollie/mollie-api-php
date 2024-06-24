@@ -40,7 +40,7 @@ class PaymentLinkEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): PaymentLink
     {
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -59,7 +59,7 @@ class PaymentLinkEndpoint extends EndpointCollection
             throw new ApiException("Invalid payment link ID: '{$paymentLinkId}'. A payment link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_read($paymentLinkId, $parameters);
+        return parent::readResource($paymentLinkId, $parameters);
     }
 
     /**
@@ -72,9 +72,9 @@ class PaymentLinkEndpoint extends EndpointCollection
      * @return PaymentLinkCollection
      * @throws ApiException
      */
-    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
+    public function collect(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -89,6 +89,6 @@ class PaymentLinkEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

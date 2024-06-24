@@ -45,7 +45,7 @@ class BalanceEndpoint extends EndpointCollection
             throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_read($balanceId, $parameters);
+        return parent::readResource($balanceId, $parameters);
     }
 
     /**
@@ -59,7 +59,7 @@ class BalanceEndpoint extends EndpointCollection
      */
     public function primary(array $parameters = []): Balance
     {
-        return parent::rest_read("primary", $parameters);
+        return parent::readResource("primary", $parameters);
     }
 
     /**
@@ -72,9 +72,9 @@ class BalanceEndpoint extends EndpointCollection
      * @return BalanceCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -89,6 +89,6 @@ class BalanceEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

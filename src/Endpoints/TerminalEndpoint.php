@@ -46,7 +46,7 @@ class TerminalEndpoint extends EndpointCollection
             throw new ApiException("Invalid terminal ID: '{$terminalId}'. A terminal ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_read($terminalId, $parameters);
+        return parent::readResource($terminalId, $parameters);
     }
 
     /**
@@ -59,9 +59,9 @@ class TerminalEndpoint extends EndpointCollection
      * @return TerminalCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
     {
-        return parent::rest_list($from, $limit, $parameters);
+        return parent::fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -80,6 +80,6 @@ class TerminalEndpoint extends EndpointCollection
         array $parameters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

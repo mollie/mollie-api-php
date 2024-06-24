@@ -7,7 +7,7 @@ class MockMollieHttpAdapter implements \Mollie\Api\HttpAdapter\MollieHttpAdapter
     /**
      * @inheritDoc
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $meethod, string $url, $headers, ?string $body): \stdClass
     {
         return (object) ['foo' => 'bar'];
     }
@@ -15,7 +15,7 @@ class MockMollieHttpAdapter implements \Mollie\Api\HttpAdapter\MollieHttpAdapter
     /**
      * @inheritDoc
      */
-    public function versionString()
+    public function versionString(): string
     {
         return 'mock-client/1.0';
     }

@@ -28,7 +28,7 @@ class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpoint
      */
     public function get(): Onboarding
     {
-        return $this->rest_read('', []);
+        return $this->readResource('', []);
     }
 
     /**

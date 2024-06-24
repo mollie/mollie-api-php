@@ -40,7 +40,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Order
     {
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -60,7 +60,7 @@ class OrderEndpoint extends EndpointCollection
             throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_update($orderId, $data);
+        return parent::updateResource($orderId, $data);
     }
 
     /**
@@ -80,7 +80,7 @@ class OrderEndpoint extends EndpointCollection
             throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_read($orderId, $parameters);
+        return parent::readResource($orderId, $parameters);
     }
 
     /**
@@ -100,7 +100,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function cancel(string $orderId, $parameters = []): ?Order
     {
-        return $this->rest_delete($orderId, $parameters);
+        return $this->deleteResource($orderId, $parameters);
     }
 
     /**
@@ -113,9 +113,9 @@ class OrderEndpoint extends EndpointCollection
      * @return OrderCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -130,6 +130,6 @@ class OrderEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

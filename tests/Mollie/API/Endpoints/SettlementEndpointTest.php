@@ -426,7 +426,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         );
 
         /** @var SettlementCollection $settlements */
-        $settlements = $this->apiClient->settlements->page();
+        $settlements = $this->apiClient->settlements->collect();
         $this->assertInstanceOf(SettlementCollection::class, $settlements);
 
         $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/settlements-api/list-settlements', 'type' => 'text/html'];

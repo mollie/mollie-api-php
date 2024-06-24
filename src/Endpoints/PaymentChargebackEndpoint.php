@@ -52,7 +52,7 @@ class PaymentChargebackEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_read($chargebackId, $parameters);
+        return parent::readResource($chargebackId, $parameters);
     }
 
     /**
@@ -99,7 +99,7 @@ class PaymentChargebackEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -122,6 +122,6 @@ class PaymentChargebackEndpoint extends EndpointCollection
     ): LazyCollection {
         $this->parentId = $paymentId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -44,7 +44,7 @@ class PaymentRouteEndpoint extends RestEndpoint
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_update($routeId, [
+        return parent::updateResource($routeId, [
             'releaseDate' => $releaseDate,
             'testmode' => $testmode,
         ]);

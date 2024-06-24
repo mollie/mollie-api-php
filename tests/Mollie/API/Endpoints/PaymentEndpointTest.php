@@ -475,7 +475,7 @@ class PaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $payments = $this->apiClient->payments->page(null, 3);
+        $payments = $this->apiClient->payments->collect(null, 3);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertEquals(3, $payments->count);

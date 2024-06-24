@@ -37,9 +37,9 @@ class ChargebackEndpoint extends EndpointCollection
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -54,6 +54,6 @@ class ChargebackEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

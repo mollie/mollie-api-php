@@ -40,7 +40,7 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function get(string $settlementId, array $parameters = []): Settlement
     {
-        return parent::rest_read($settlementId, $parameters);
+        return parent::readResource($settlementId, $parameters);
     }
 
     /**
@@ -51,7 +51,7 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function next(): Settlement
     {
-        return parent::rest_read("next", []);
+        return parent::readResource("next", []);
     }
 
     /**
@@ -62,7 +62,7 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function open(): Settlement
     {
-        return parent::rest_read("open", []);
+        return parent::readResource("open", []);
     }
 
     /**
@@ -75,9 +75,9 @@ class SettlementsEndpoint extends EndpointCollection
      * @return SettlementCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -92,6 +92,6 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

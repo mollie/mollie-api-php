@@ -11,7 +11,7 @@ try {
     /*
      * Get the all the profiles for this account.
      */
-    $profiles = $mollie->profiles->page();
+    $profiles = $mollie->profiles->collect();
     foreach ($profiles as $profile) {
         echo '<div style="line-height:40px; vertical-align:top">';
         echo htmlspecialchars($profile->name) .

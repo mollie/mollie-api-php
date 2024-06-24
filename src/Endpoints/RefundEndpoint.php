@@ -37,9 +37,9 @@ class RefundEndpoint extends EndpointCollection
      * @return RefundCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
+    public function collect(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -58,6 +58,6 @@ class RefundEndpoint extends EndpointCollection
         array $parameters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -9,11 +9,14 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
+use Mollie\Api\Contracts\SupportsDebugging;
 use Mollie\Api\Exceptions\ApiException;
 use Psr\Http\Message\ResponseInterface;
 
-final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
+final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, SupportsDebugging
 {
+    use IsDebuggable;
+
     /**
      * Default response timeout (in seconds).
      */
@@ -33,15 +36,6 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * @var \GuzzleHttp\ClientInterface
      */
     protected ClientInterface $httpClient;
-
-    /**
-     * Whether debugging is enabled. If debugging mode is enabled, the request will
-     * be included in the ApiException. By default, debugging is disabled to prevent
-     * sensitive request data from leaking into exception logs.
-     *
-     * @var bool
-     */
-    protected bool $debugging = false;
 
     public function __construct(ClientInterface $httpClient)
     {
@@ -72,22 +66,22 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * Send a request to the specified Mollie api url.
      *
-     * @param string $httpMethod
+     * @param string $meethod
      * @param string $url
      * @param array $headers
-     * @param string $httpBody
+     * @param string $body
      * @return \stdClass|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass
+    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
     {
-        $request = new Request($httpMethod, $url, $headers, $httpBody);
+        $request = new Request($meethod, $url, $headers, $body);
 
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             // Prevent sensitive request data from ending up in exception logs unintended
-            if (! $this->debugging) {
+            if (!$this->debug) {
                 $request = null;
             }
 
@@ -102,49 +96,6 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
         }
 
         return $this->parseResponseBody($response);
-    }
-
-    /**
-     * Whether this http adapter provides a debugging mode. If debugging mode is enabled, the
-     * request will be included in the ApiException.
-     *
-     * @return bool
-     */
-    public function supportsDebugging(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Whether debugging is enabled. If debugging mode is enabled, the request will
-     * be included in the ApiException. By default, debugging is disabled to prevent
-     * sensitive request data from leaking into exception logs.
-     *
-     * @return bool
-     */
-    public function debugging(): bool
-    {
-        return $this->debugging;
-    }
-
-    /**
-     * Enable debugging. If debugging mode is enabled, the request will
-     * be included in the ApiException. By default, debugging is disabled to prevent
-     * sensitive request data from leaking into exception logs.
-     */
-    public function enableDebugging(): void
-    {
-        $this->debugging = true;
-    }
-
-    /**
-     * Disable debugging. If debugging mode is enabled, the request will
-     * be included in the ApiException. By default, debugging is disabled to prevent
-     * sensitive request data from leaking into exception logs.
-     */
-    public function disableDebugging(): void
-    {
-        $this->debugging = false;
     }
 
     /**

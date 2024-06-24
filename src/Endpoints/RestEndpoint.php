@@ -15,7 +15,7 @@ abstract class RestEndpoint extends BaseEndpoint
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_create(array $body, array $filters): BaseResource
+    protected function createResource(array $body, array $filters): BaseResource
     {
         $result = $this->client->performHttpCall(
             self::REST_CREATE,
@@ -35,7 +35,7 @@ abstract class RestEndpoint extends BaseEndpoint
      * @return null|BaseResource
      * @throws ApiException
      */
-    protected function rest_update(string $id, array $body = []): ?BaseResource
+    protected function updateResource(string $id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");
@@ -63,9 +63,9 @@ abstract class RestEndpoint extends BaseEndpoint
      * @return BaseResource
      * @throws ApiException
      */
-    protected function rest_read(string $id, array $filters): BaseResource
+    protected function readResource(string $id, array $filters): BaseResource
     {
-        if (! $this instanceof SingleResourceEndpoint && empty($id)) {
+        if (!$this instanceof SingleResourceEndpoint && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 
@@ -87,7 +87,7 @@ abstract class RestEndpoint extends BaseEndpoint
      * @return null|BaseResource
      * @throws ApiException
      */
-    protected function rest_delete(string $id, array $body = []): ?BaseResource
+    protected function deleteResource(string $id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
             throw new ApiException("Invalid resource id.");

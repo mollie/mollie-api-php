@@ -38,7 +38,7 @@ class PermissionEndpoint extends EndpointCollection
      */
     public function get(string $permissionId, array $parameters = []): Permission
     {
-        return $this->rest_read($permissionId, $parameters);
+        return $this->readResource($permissionId, $parameters);
     }
 
     /**
@@ -51,6 +51,6 @@ class PermissionEndpoint extends EndpointCollection
      */
     public function all(array $parameters = []): PermissionCollection
     {
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 }

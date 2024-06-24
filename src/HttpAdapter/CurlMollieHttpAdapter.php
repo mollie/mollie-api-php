@@ -35,21 +35,21 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
     public const DELAY_INCREASE_MS = 1000;
 
     /**
-     * @param string $httpMethod
+     * @param string $meethod
      * @param string $url
      * @param array $headers
-     * @param string $httpBody
+     * @param string $body
      * @return \stdClass|void|null
      * @throws \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\CurlConnectTimeoutException
      */
-    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass
+    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
     {
         for ($i = 0; $i <= self::MAX_RETRIES; $i++) {
             usleep($i * self::DELAY_INCREASE_MS);
 
             try {
-                return $this->attemptRequest($httpMethod, $url, $headers, $httpBody);
+                return $this->attemptRequest($meethod, $url, $headers, $body);
             } catch (CurlConnectTimeoutException $e) {
                 return null;
             }

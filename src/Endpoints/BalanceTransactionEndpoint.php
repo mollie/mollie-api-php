@@ -72,7 +72,7 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = $balanceId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -88,7 +88,7 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = $balanceId;
 
-        return $this->rest_iterator(null, null, $parameters, $iterateBackwards);
+        return $this->createIterator(null, null, $parameters, $iterateBackwards);
     }
 
     /**
@@ -103,7 +103,7 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = "primary";
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -118,6 +118,6 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = "primary";
 
-        return $this->rest_iterator(null, null, $parameters, $iterateBackwards);
+        return $this->createIterator(null, null, $parameters, $iterateBackwards);
     }
 }

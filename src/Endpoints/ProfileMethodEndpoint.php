@@ -93,7 +93,7 @@ class ProfileMethodEndpoint extends EndpointCollection
     {
         $this->parentId = $profileId;
 
-        return $this->rest_delete($methodId, $data);
+        return $this->deleteResource($methodId, $data);
     }
 
     /**

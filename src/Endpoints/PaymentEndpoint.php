@@ -41,7 +41,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Payment
     {
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -61,7 +61,7 @@ class PaymentEndpoint extends EndpointCollection
             throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_update($paymentId, $data);
+        return parent::updateResource($paymentId, $data);
     }
 
     /**
@@ -81,7 +81,7 @@ class PaymentEndpoint extends EndpointCollection
             throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_read($paymentId, $parameters);
+        return parent::readResource($paymentId, $parameters);
     }
 
     /**
@@ -115,7 +115,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function cancel(string $paymentId, array $data = []): ?Payment
     {
-        return $this->rest_delete($paymentId, $data);
+        return $this->deleteResource($paymentId, $data);
     }
 
     /**
@@ -128,9 +128,9 @@ class PaymentEndpoint extends EndpointCollection
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
+    public function collect(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -145,7 +145,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**

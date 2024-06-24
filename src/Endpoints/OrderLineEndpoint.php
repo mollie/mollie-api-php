@@ -50,7 +50,7 @@ class OrderLineEndpoint extends EndpointCollection
             throw new ApiException("Invalid order line ID: '{$orderlineId}'. An order line ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
-        return parent::rest_update($orderlineId, $data);
+        return parent::updateResource($orderlineId, $data);
     }
 
     /**
@@ -109,7 +109,7 @@ class OrderLineEndpoint extends EndpointCollection
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (!isset($data['lines']) || !is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
         $this->parentId = $orderId;

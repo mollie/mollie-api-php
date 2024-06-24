@@ -210,7 +210,7 @@ class Customer extends BaseResource
      *
      * @return bool
      */
-    public function hasValidMandateForMethod($method)
+    public function hasValidMandateForMethod($method): bool
     {
         $mandates = $this->mandates();
         foreach ($mandates as $mandate) {
@@ -227,7 +227,7 @@ class Customer extends BaseResource
      *
      * @return array
      */
-    private function getPresetOptions()
+    private function getPresetOptions(): array
     {
         $options = [];
         if ($this->client->usesOAuth()) {
@@ -243,7 +243,7 @@ class Customer extends BaseResource
      * @param array $options
      * @return array
      */
-    private function withPresetOptions(array $options)
+    private function withPresetOptions(array $options): array
     {
         return array_merge($this->getPresetOptions(), $options);
     }

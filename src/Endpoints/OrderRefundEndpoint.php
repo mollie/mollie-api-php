@@ -57,7 +57,7 @@ class OrderRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_create($data, $filters);
+        return parent::createResource($data, $filters);
     }
 
     /**
@@ -70,7 +70,7 @@ class OrderRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_list(null, null, $parameters);
+        return parent::fetchCollection(null, null, $parameters);
     }
 
     /**

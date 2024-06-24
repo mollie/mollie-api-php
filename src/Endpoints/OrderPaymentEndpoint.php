@@ -57,6 +57,6 @@ class OrderPaymentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return $this->rest_create($data, $filters);
+        return $this->createResource($data, $filters);
     }
 }

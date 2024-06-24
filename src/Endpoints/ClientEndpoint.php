@@ -45,7 +45,7 @@ class ClientEndpoint extends EndpointCollection
             throw new ApiException("Client ID is empty.");
         }
 
-        return parent::rest_read($clientId, $parameters);
+        return parent::readResource($clientId, $parameters);
     }
 
     /**
@@ -58,9 +58,9 @@ class ClientEndpoint extends EndpointCollection
      * @return ClientCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
+    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -75,6 +75,6 @@ class ClientEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

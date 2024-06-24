@@ -7,17 +7,14 @@ use Mollie\Api\MollieApiClient;
 
 abstract class CursorCollection extends BaseCollection
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
+    protected MollieApiClient $client;
 
     /**
      * @param MollieApiClient $client
      * @param int $count
      * @param \stdClass|null $_links
      */
-    final public function __construct(MollieApiClient $client, $count, $_links)
+    final public function __construct(MollieApiClient $client, int $count, ?\stdClass $_links)
     {
         parent::__construct($count, $_links);
 
@@ -35,9 +32,9 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function next()
+    final public function next(): ?CursorCollection
     {
-        if (! $this->hasNext()) {
+        if (!$this->hasNext()) {
             return null;
         }
 
@@ -58,9 +55,9 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function previous()
+    final public function previous(): ?CursorCollection
     {
-        if (! $this->hasPrevious()) {
+        if (!$this->hasPrevious()) {
             return null;
         }
 
@@ -80,7 +77,7 @@ abstract class CursorCollection extends BaseCollection
      *
      * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return isset($this->_links->next->href);
     }
@@ -90,7 +87,7 @@ abstract class CursorCollection extends BaseCollection
      *
      * @return bool
      */
-    public function hasPrevious()
+    public function hasPrevious(): bool
     {
         return isset($this->_links->previous->href);
     }
@@ -112,7 +109,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
+                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
                     break;
                 }
 
