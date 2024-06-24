@@ -5,9 +5,19 @@ namespace Mollie\Api\Types;
 class PaymentMethod
 {
     /**
+     * @link https://www.mollie.com/en/payments/alma
+     */
+    public const ALMA = "alma";
+
+    /**
      * @link https://www.mollie.com/en/payments/applepay
      */
     public const APPLEPAY = "applepay";
+
+    /**
+     * @link https://www.mollie.com/en/payments/bancomatpay
+     */
+    public const BANCOMATPAY = "bancomatpay";
 
     /**
      * @link https://www.mollie.com/en/payments/bancontact
@@ -35,6 +45,11 @@ class PaymentMethod
     public const BITCOIN = "bitcoin";
 
     /**
+     * @link https://www.mollie.com/en/payments/blik
+     */
+    public const BLIK = "blik";
+
+    /**
      * @link https://www.mollie.com/en/payments/credit-card
      */
     public const CREDITCARD = "creditcard";
@@ -58,6 +73,11 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/giropay
      */
     public const GIROPAY = "giropay";
+
+    /**
+     * @link https://www.mollie.com/en/payments/in3
+     */
+    public const IN3 = "in3";
 
     /**
      * @link https://www.mollie.com/en/payments/ideal
@@ -112,15 +132,20 @@ class PaymentMethod
     public const PAYSAFECARD = "paysafecard";
 
     /**
-     * @link https://www.mollie.com/en/payments/przelewy24
-     */
-    public const PRZELEWY24 = 'przelewy24';
-
-    /**
      * @deprecated
      * @link https://www.mollie.com/en/payments/gift-cards
      */
     public const PODIUMCADEAUKAART = "podiumcadeaukaart";
+
+    /**
+     * @link https://docs.mollie.com/point-of-sale/overview
+     */
+    public const POINT_OF_SALE = "pointofsale";
+
+    /**
+     * @link https://www.mollie.com/en/payments/przelewy24
+     */
+    public const PRZELEWY24 = 'przelewy24';
 
     /**
      * @link https://www.mollie.com/en/payments/sofort
@@ -128,14 +153,9 @@ class PaymentMethod
     public const SOFORT = "sofort";
 
     /**
-     * @link https://www.mollie.com/en/payments/in3
+     * @link https://www.mollie.com/en/payments/riverty
      */
-    public const IN3 = "in3";
-
-    /**
-     * @link https://docs.mollie.com/point-of-sale/overview
-     */
-    public const POINT_OF_SALE = "pointofsale";
+    public const RIVERTY = "riverty";
 
     /**
      * @link https://www.mollie.com/en/payments/twint

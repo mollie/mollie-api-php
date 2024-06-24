@@ -65,7 +65,7 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function rest_read(string $id, array $filters): BaseResource
     {
-        if (! $this instanceof SingleResourceEndpoint && empty($id)) {
+        if (!$this instanceof SingleResourceEndpoint && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 
@@ -79,7 +79,7 @@ abstract class RestEndpoint extends BaseEndpoint
     }
 
     /**
-     * Sends a DELETE request to a single Molle API object.
+     * Sends a DELETE request to a single Mollie API object.
      *
      * @param string $id
      * @param array $body
