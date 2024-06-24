@@ -62,7 +62,7 @@ class MandateEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals("mandate", $mandate->resource);
-        $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
+        $this->assertEquals(MandateStatus::VALID, $mandate->status);
         $this->assertEquals("directdebit", $mandate->method);
         $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
         $this->assertNull($mandate->mandateReference);
@@ -124,7 +124,7 @@ class MandateEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals("mandate", $mandate->resource);
-        $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
+        $this->assertEquals(MandateStatus::VALID, $mandate->status);
         $this->assertEquals(MandateMethod::DIRECTDEBIT, $mandate->method);
         $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
         $this->assertNull($mandate->mandateReference);
@@ -204,7 +204,7 @@ class MandateEndpointTest extends BaseEndpointTest
         foreach ($mandates as $mandate) {
             $this->assertInstanceOf(Mandate::class, $mandate);
             $this->assertEquals("mandate", $mandate->resource);
-            $this->assertEquals(MandateStatus::STATUS_VALID, $mandate->status);
+            $this->assertEquals(MandateStatus::VALID, $mandate->status);
 
             $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
             $this->assertEquals($customerLink, $mandate->_links->customer);

@@ -225,7 +225,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
                 $this->getShipmentResponseFixture(
                     "shp_3wmsgCJN4U",
                     "ord_pbjz8x",
-                    OrderLineStatus::STATUS_SHIPPING,
+                    OrderLineStatus::SHIPPING,
                     '"tracking": {
                          "carrier": "PostNL",
                          "code": "3SKABA000000000",
@@ -235,7 +235,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $shipment = $this->getShipment('shp_3wmsgCJN4U', 'ord_pbjz8x', OrderLineStatus::STATUS_SHIPPING);
+        $shipment = $this->getShipment('shp_3wmsgCJN4U', 'ord_pbjz8x', OrderLineStatus::SHIPPING);
 
         $shipment->tracking = [
             'carrier' => 'PostNL',
@@ -285,7 +285,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$', $line1->imageUrl);
         $this->assertEquals('5702016116977', $line1->sku);
         $this->assertEquals('physical', $line1->type);
-        $this->assertEquals(OrderLineStatus::STATUS_SHIPPING, $line1->status);
+        $this->assertEquals(OrderLineStatus::SHIPPING, $line1->status);
         $this->assertEquals(2, $line1->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line1->createdAt);
         $this->assertEquals('21.00', $line1->vatRate);
@@ -303,7 +303,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$', $line2->imageUrl);
         $this->assertEquals('5702015594028', $line2->sku);
         $this->assertEquals('digital', $line2->type);
-        $this->assertEquals(OrderLineStatus::STATUS_SHIPPING, $line2->status);
+        $this->assertEquals(OrderLineStatus::SHIPPING, $line2->status);
         $this->assertEquals(1, $line2->quantity);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $line2->createdAt);
         $this->assertEquals('21.00', $line2->vatRate);
@@ -319,14 +319,14 @@ class ShipmentEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
-    protected function getShipment($shipment_id, $order_id, $orderLineStatus = OrderLineStatus::STATUS_SHIPPING)
+    protected function getShipment($shipment_id, $order_id, $orderLineStatus = OrderLineStatus::SHIPPING)
     {
         $shipmentJson = $this->getShipmentResponseFixture($shipment_id, $order_id, $orderLineStatus);
 
         return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
             "<<order_id>>",
@@ -465,7 +465,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::STATUS_SHIPPING, $tracking_info = '')
+    protected function getShipmentResponseFixture($shipment_id, $order_id, $orderline_status = OrderLineStatus::SHIPPING, $tracking_info = '')
     {
         return str_replace(
             [

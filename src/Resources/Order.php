@@ -228,7 +228,7 @@ class Order extends BaseResource
      */
     public function isCreated()
     {
-        return $this->status === OrderStatus::STATUS_CREATED;
+        return $this->status === OrderStatus::CREATED;
     }
 
     /**
@@ -238,7 +238,7 @@ class Order extends BaseResource
      */
     public function isPaid()
     {
-        return $this->status === OrderStatus::STATUS_PAID;
+        return $this->status === OrderStatus::PAID;
     }
 
     /**
@@ -248,7 +248,7 @@ class Order extends BaseResource
      */
     public function isAuthorized()
     {
-        return $this->status === OrderStatus::STATUS_AUTHORIZED;
+        return $this->status === OrderStatus::AUTHORIZED;
     }
 
     /**
@@ -258,7 +258,7 @@ class Order extends BaseResource
      */
     public function isCanceled()
     {
-        return $this->status === OrderStatus::STATUS_CANCELED;
+        return $this->status === OrderStatus::CANCELED;
     }
 
     /**
@@ -269,7 +269,7 @@ class Order extends BaseResource
      */
     public function isRefunded()
     {
-        return $this->status === OrderStatus::STATUS_REFUNDED;
+        return $this->status === OrderStatus::REFUNDED;
     }
 
     /**
@@ -279,7 +279,7 @@ class Order extends BaseResource
      */
     public function isShipping()
     {
-        return $this->status === OrderStatus::STATUS_SHIPPING;
+        return $this->status === OrderStatus::SHIPPING;
     }
 
     /**
@@ -289,7 +289,7 @@ class Order extends BaseResource
      */
     public function isCompleted()
     {
-        return $this->status === OrderStatus::STATUS_COMPLETED;
+        return $this->status === OrderStatus::COMPLETED;
     }
 
     /**
@@ -299,7 +299,7 @@ class Order extends BaseResource
      */
     public function isExpired()
     {
-        return $this->status === OrderStatus::STATUS_EXPIRED;
+        return $this->status === OrderStatus::EXPIRED;
     }
 
     /**
@@ -309,7 +309,7 @@ class Order extends BaseResource
      */
     public function isPending()
     {
-        return $this->status === OrderStatus::STATUS_PENDING;
+        return $this->status === OrderStatus::PENDING;
     }
 
     /**
@@ -519,7 +519,7 @@ class Order extends BaseResource
      */
     public function payments()
     {
-        if (! isset($this->_embedded, $this->_embedded->payments)) {
+        if (!isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 

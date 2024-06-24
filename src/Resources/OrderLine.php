@@ -187,7 +187,7 @@ class OrderLine extends BaseResource
      * @var string|null
      */
     public $productUrl;
-    
+
     /**
      * During creation of the order you can set custom metadata on order lines that is stored with
      * the order, and given back whenever you retrieve that order line.
@@ -244,7 +244,7 @@ class OrderLine extends BaseResource
      */
     public function isCreated()
     {
-        return $this->status === OrderLineStatus::STATUS_CREATED;
+        return $this->status === OrderLineStatus::CREATED;
     }
 
     /**
@@ -254,7 +254,7 @@ class OrderLine extends BaseResource
      */
     public function isPaid()
     {
-        return $this->status === OrderLineStatus::STATUS_PAID;
+        return $this->status === OrderLineStatus::PAID;
     }
 
     /**
@@ -264,7 +264,7 @@ class OrderLine extends BaseResource
      */
     public function isAuthorized()
     {
-        return $this->status === OrderLineStatus::STATUS_AUTHORIZED;
+        return $this->status === OrderLineStatus::AUTHORIZED;
     }
 
     /**
@@ -274,7 +274,7 @@ class OrderLine extends BaseResource
      */
     public function isCanceled()
     {
-        return $this->status === OrderLineStatus::STATUS_CANCELED;
+        return $this->status === OrderLineStatus::CANCELED;
     }
 
     /**
@@ -285,7 +285,7 @@ class OrderLine extends BaseResource
      */
     public function isRefunded()
     {
-        return $this->status === OrderLineStatus::STATUS_REFUNDED;
+        return $this->status === OrderLineStatus::REFUNDED;
     }
 
     /**
@@ -295,7 +295,7 @@ class OrderLine extends BaseResource
      */
     public function isShipping()
     {
-        return $this->status === OrderLineStatus::STATUS_SHIPPING;
+        return $this->status === OrderLineStatus::SHIPPING;
     }
 
     /**
@@ -305,7 +305,7 @@ class OrderLine extends BaseResource
      */
     public function isCompleted()
     {
-        return $this->status === OrderLineStatus::STATUS_COMPLETED;
+        return $this->status === OrderLineStatus::COMPLETED;
     }
 
     /**
@@ -315,7 +315,7 @@ class OrderLine extends BaseResource
      */
     public function isPhysical()
     {
-        return $this->type === OrderLineType::TYPE_PHYSICAL;
+        return $this->type === OrderLineType::PHYSICAL;
     }
 
     /**
@@ -325,7 +325,7 @@ class OrderLine extends BaseResource
      */
     public function isDiscount()
     {
-        return $this->type === OrderLineType::TYPE_DISCOUNT;
+        return $this->type === OrderLineType::DISCOUNT;
     }
 
     /**
@@ -335,7 +335,7 @@ class OrderLine extends BaseResource
      */
     public function isDigital()
     {
-        return $this->type === OrderLineType::TYPE_DIGITAL;
+        return $this->type === OrderLineType::DIGITAL;
     }
 
     /**
@@ -345,7 +345,7 @@ class OrderLine extends BaseResource
      */
     public function isShippingFee()
     {
-        return $this->type === OrderLineType::TYPE_SHIPPING_FEE;
+        return $this->type === OrderLineType::SHIPPING_FEE;
     }
 
     /**
@@ -355,7 +355,7 @@ class OrderLine extends BaseResource
      */
     public function isStoreCredit()
     {
-        return $this->type === OrderLineType::TYPE_STORE_CREDIT;
+        return $this->type === OrderLineType::STORE_CREDIT;
     }
 
     /**
@@ -365,7 +365,7 @@ class OrderLine extends BaseResource
      */
     public function isGiftCard()
     {
-        return $this->type === OrderLineType::TYPE_GIFT_CARD;
+        return $this->type === OrderLineType::GIFT_CARD;
     }
 
     /**
@@ -375,7 +375,7 @@ class OrderLine extends BaseResource
      */
     public function isSurcharge()
     {
-        return $this->type === OrderLineType::TYPE_SURCHARGE;
+        return $this->type === OrderLineType::SURCHARGE;
     }
 
     /**

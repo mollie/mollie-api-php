@@ -27,17 +27,17 @@ class InvoiceTest extends TestCase
     public function dpTestInvoiceStatuses()
     {
         return [
-            [InvoiceStatus::STATUS_PAID, "isPaid", true],
-            [InvoiceStatus::STATUS_PAID, "isOpen", false],
-            [InvoiceStatus::STATUS_PAID, "isOverdue", false],
+            [InvoiceStatus::PAID, "isPaid", true],
+            [InvoiceStatus::PAID, "isOpen", false],
+            [InvoiceStatus::PAID, "isOverdue", false],
 
-            [InvoiceStatus::STATUS_OPEN, "isPaid", false],
-            [InvoiceStatus::STATUS_OPEN, "isOpen", true],
-            [InvoiceStatus::STATUS_OPEN, "isOverdue", false],
+            [InvoiceStatus::OPEN, "isPaid", false],
+            [InvoiceStatus::OPEN, "isOpen", true],
+            [InvoiceStatus::OPEN, "isOverdue", false],
 
-            [InvoiceStatus::STATUS_OVERDUE, "isPaid", false],
-            [InvoiceStatus::STATUS_OVERDUE, "isOpen", false],
-            [InvoiceStatus::STATUS_OVERDUE, "isOverdue", true],
+            [InvoiceStatus::OVERDUE, "isPaid", false],
+            [InvoiceStatus::OVERDUE, "isOpen", false],
+            [InvoiceStatus::OVERDUE, "isOverdue", true],
         ];
     }
 }

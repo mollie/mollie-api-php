@@ -89,7 +89,7 @@ class InvoiceEndpointTest extends BaseEndpointTest
         $this->assertEquals("inv_bsa6PvAwaK", $invoice->id);
         $this->assertEquals("2018.190241", $invoice->reference);
         $this->assertEquals("123456789B01", $invoice->vatNumber);
-        $this->assertEquals(InvoiceStatus::STATUS_PAID, $invoice->status);
+        $this->assertEquals(InvoiceStatus::PAID, $invoice->status);
         $this->assertEquals("2018-05-02", $invoice->issuedAt);
         $this->assertEquals("2018-05-02", $invoice->paidAt);
 

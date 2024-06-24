@@ -26,25 +26,25 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
     public function dpTestSettlementStatuses()
     {
         return [
-            [SettlementStatus::STATUS_PENDING, "isPending", true],
-            [SettlementStatus::STATUS_PENDING, "isOpen", false],
-            [SettlementStatus::STATUS_PENDING, "isPaidout", false],
-            [SettlementStatus::STATUS_PENDING, "isFailed", false],
+            [SettlementStatus::PENDING, "isPending", true],
+            [SettlementStatus::PENDING, "isOpen", false],
+            [SettlementStatus::PENDING, "isPaidout", false],
+            [SettlementStatus::PENDING, "isFailed", false],
 
-            [SettlementStatus::STATUS_OPEN, "isPending", false],
-            [SettlementStatus::STATUS_OPEN, "isOpen", true],
-            [SettlementStatus::STATUS_OPEN, "isPaidout", false],
-            [SettlementStatus::STATUS_OPEN, "isFailed", false],
+            [SettlementStatus::OPEN, "isPending", false],
+            [SettlementStatus::OPEN, "isOpen", true],
+            [SettlementStatus::OPEN, "isPaidout", false],
+            [SettlementStatus::OPEN, "isFailed", false],
 
-            [SettlementStatus::STATUS_PAIDOUT, "isPending", false],
-            [SettlementStatus::STATUS_PAIDOUT, "isOpen", false],
-            [SettlementStatus::STATUS_PAIDOUT, "isPaidout", true],
-            [SettlementStatus::STATUS_PAIDOUT, "isFailed", false],
+            [SettlementStatus::PAIDOUT, "isPending", false],
+            [SettlementStatus::PAIDOUT, "isOpen", false],
+            [SettlementStatus::PAIDOUT, "isPaidout", true],
+            [SettlementStatus::PAIDOUT, "isFailed", false],
 
-            [SettlementStatus::STATUS_FAILED, "isPending", false],
-            [SettlementStatus::STATUS_FAILED, "isOpen", false],
-            [SettlementStatus::STATUS_FAILED, "isPaidout", false],
-            [SettlementStatus::STATUS_FAILED, "isFailed", true],
+            [SettlementStatus::FAILED, "isPending", false],
+            [SettlementStatus::FAILED, "isOpen", false],
+            [SettlementStatus::FAILED, "isPaidout", false],
+            [SettlementStatus::FAILED, "isFailed", true],
         ];
     }
 }

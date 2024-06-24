@@ -84,7 +84,7 @@ class Profile extends BaseResource
      */
     public function isUnverified()
     {
-        return $this->status == ProfileStatus::STATUS_UNVERIFIED;
+        return $this->status == ProfileStatus::UNVERIFIED;
     }
 
     /**
@@ -92,7 +92,7 @@ class Profile extends BaseResource
      */
     public function isVerified()
     {
-        return $this->status == ProfileStatus::STATUS_VERIFIED;
+        return $this->status == ProfileStatus::VERIFIED;
     }
 
     /**
@@ -100,7 +100,7 @@ class Profile extends BaseResource
      */
     public function isBlocked()
     {
-        return $this->status == ProfileStatus::STATUS_BLOCKED;
+        return $this->status == ProfileStatus::BLOCKED;
     }
 
     /**
@@ -131,7 +131,7 @@ class Profile extends BaseResource
      */
     public function chargebacks()
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
@@ -153,7 +153,7 @@ class Profile extends BaseResource
      */
     public function methods()
     {
-        if (! isset($this->_links->methods->href)) {
+        if (!isset($this->_links->methods->href)) {
             return new MethodCollection(0, null);
         }
 
@@ -201,7 +201,7 @@ class Profile extends BaseResource
      */
     public function payments()
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 
@@ -223,7 +223,7 @@ class Profile extends BaseResource
      */
     public function refunds()
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 

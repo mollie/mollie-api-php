@@ -64,7 +64,7 @@ class Mandate extends BaseResource
      */
     public function isValid()
     {
-        return $this->status === MandateStatus::STATUS_VALID;
+        return $this->status === MandateStatus::VALID;
     }
 
     /**
@@ -72,7 +72,7 @@ class Mandate extends BaseResource
      */
     public function isPending()
     {
-        return $this->status === MandateStatus::STATUS_PENDING;
+        return $this->status === MandateStatus::PENDING;
     }
 
     /**
@@ -80,7 +80,7 @@ class Mandate extends BaseResource
      */
     public function isInvalid()
     {
-        return $this->status === MandateStatus::STATUS_INVALID;
+        return $this->status === MandateStatus::INVALID;
     }
 
     /**
@@ -90,7 +90,7 @@ class Mandate extends BaseResource
      */
     public function revoke()
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 

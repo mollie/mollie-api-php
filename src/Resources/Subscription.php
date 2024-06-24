@@ -138,7 +138,7 @@ class Subscription extends BaseResource
      */
     public function isActive()
     {
-        return $this->status === SubscriptionStatus::STATUS_ACTIVE;
+        return $this->status === SubscriptionStatus::ACTIVE;
     }
 
     /**
@@ -148,7 +148,7 @@ class Subscription extends BaseResource
      */
     public function isPending()
     {
-        return $this->status === SubscriptionStatus::STATUS_PENDING;
+        return $this->status === SubscriptionStatus::PENDING;
     }
 
     /**
@@ -158,7 +158,7 @@ class Subscription extends BaseResource
      */
     public function isCanceled()
     {
-        return $this->status === SubscriptionStatus::STATUS_CANCELED;
+        return $this->status === SubscriptionStatus::CANCELED;
     }
 
     /**
@@ -168,7 +168,7 @@ class Subscription extends BaseResource
      */
     public function isSuspended()
     {
-        return $this->status === SubscriptionStatus::STATUS_SUSPENDED;
+        return $this->status === SubscriptionStatus::SUSPENDED;
     }
 
     /**
@@ -178,7 +178,7 @@ class Subscription extends BaseResource
      */
     public function isCompleted()
     {
-        return $this->status === SubscriptionStatus::STATUS_COMPLETED;
+        return $this->status === SubscriptionStatus::COMPLETED;
     }
 
     /**
@@ -189,7 +189,7 @@ class Subscription extends BaseResource
      */
     public function cancel()
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -217,7 +217,7 @@ class Subscription extends BaseResource
      */
     public function payments()
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 

@@ -45,7 +45,7 @@ try {
         ],
 
         // Flag this payment as a first payment to allow recurring payments later.
-        "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_FIRST,
+        "sequenceType" => \Mollie\Api\Types\SequenceType::FIRST,
     ]);
 
     /*

@@ -58,7 +58,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Terminal::class, $terminal);
         $this->assertEquals('term_7MgL4wea46qkRcoTZjWEH', $terminal->id);
         $this->assertEquals('pfl_QkEhN94Ba', $terminal->profileId);
-        $this->assertEquals(TerminalStatus::STATUS_ACTIVE, $terminal->status);
+        $this->assertEquals(TerminalStatus::ACTIVE, $terminal->status);
         $this->assertEquals('PAX', $terminal->brand);
         $this->assertEquals('A920', $terminal->model);
         $this->assertEquals('1234567890', $terminal->serialNumber);

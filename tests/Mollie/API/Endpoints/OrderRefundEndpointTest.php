@@ -188,7 +188,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
         $this->assertOrderRefund($refunds[0], 're_4qqhO89gsT');
     }
 
-    protected function assertOrderRefund($refund, $refund_id, $refund_status = RefundStatus::STATUS_PENDING)
+    protected function assertOrderRefund($refund, $refund_id, $refund_status = RefundStatus::PENDING)
     {
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals($refund_id, $refund->id);
@@ -290,7 +290,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
             "<<order_id>>",

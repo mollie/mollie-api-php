@@ -28,53 +28,53 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     public function dpTestPaymentStatuses()
     {
         return [
-            [PaymentStatus::STATUS_PENDING, "isPending", true],
-            [PaymentStatus::STATUS_PENDING, "isAuthorized", false],
-            [PaymentStatus::STATUS_PENDING, "isFailed", false],
-            [PaymentStatus::STATUS_PENDING, "isOpen", false],
-            [PaymentStatus::STATUS_PENDING, "isCanceled", false],
-            [PaymentStatus::STATUS_PENDING, "isPaid", false],
-            [PaymentStatus::STATUS_PENDING, "isExpired", false],
+            [PaymentStatus::PENDING, "isPending", true],
+            [PaymentStatus::PENDING, "isAuthorized", false],
+            [PaymentStatus::PENDING, "isFailed", false],
+            [PaymentStatus::PENDING, "isOpen", false],
+            [PaymentStatus::PENDING, "isCanceled", false],
+            [PaymentStatus::PENDING, "isPaid", false],
+            [PaymentStatus::PENDING, "isExpired", false],
 
-            [PaymentStatus::STATUS_AUTHORIZED, "isPending", false],
-            [PaymentStatus::STATUS_AUTHORIZED, "isAuthorized", true],
-            [PaymentStatus::STATUS_AUTHORIZED, "isFailed", false],
-            [PaymentStatus::STATUS_AUTHORIZED, "isOpen", false],
-            [PaymentStatus::STATUS_AUTHORIZED, "isCanceled", false],
-            [PaymentStatus::STATUS_AUTHORIZED, "isPaid", false],
-            [PaymentStatus::STATUS_AUTHORIZED, "isExpired", false],
+            [PaymentStatus::AUTHORIZED, "isPending", false],
+            [PaymentStatus::AUTHORIZED, "isAuthorized", true],
+            [PaymentStatus::AUTHORIZED, "isFailed", false],
+            [PaymentStatus::AUTHORIZED, "isOpen", false],
+            [PaymentStatus::AUTHORIZED, "isCanceled", false],
+            [PaymentStatus::AUTHORIZED, "isPaid", false],
+            [PaymentStatus::AUTHORIZED, "isExpired", false],
 
-            [PaymentStatus::STATUS_FAILED, "isPending", false],
-            [PaymentStatus::STATUS_FAILED, "isAuthorized", false],
-            [PaymentStatus::STATUS_FAILED, "isFailed", true],
-            [PaymentStatus::STATUS_FAILED, "isOpen", false],
-            [PaymentStatus::STATUS_FAILED, "isCanceled", false],
-            [PaymentStatus::STATUS_FAILED, "isPaid", false],
-            [PaymentStatus::STATUS_FAILED, "isExpired", false],
+            [PaymentStatus::FAILED, "isPending", false],
+            [PaymentStatus::FAILED, "isAuthorized", false],
+            [PaymentStatus::FAILED, "isFailed", true],
+            [PaymentStatus::FAILED, "isOpen", false],
+            [PaymentStatus::FAILED, "isCanceled", false],
+            [PaymentStatus::FAILED, "isPaid", false],
+            [PaymentStatus::FAILED, "isExpired", false],
 
-            [PaymentStatus::STATUS_OPEN, "isPending", false],
-            [PaymentStatus::STATUS_OPEN, "isAuthorized", false],
-            [PaymentStatus::STATUS_OPEN, "isFailed", false],
-            [PaymentStatus::STATUS_OPEN, "isOpen", true],
-            [PaymentStatus::STATUS_OPEN, "isCanceled", false],
-            [PaymentStatus::STATUS_OPEN, "isPaid", false],
-            [PaymentStatus::STATUS_OPEN, "isExpired", false],
+            [PaymentStatus::OPEN, "isPending", false],
+            [PaymentStatus::OPEN, "isAuthorized", false],
+            [PaymentStatus::OPEN, "isFailed", false],
+            [PaymentStatus::OPEN, "isOpen", true],
+            [PaymentStatus::OPEN, "isCanceled", false],
+            [PaymentStatus::OPEN, "isPaid", false],
+            [PaymentStatus::OPEN, "isExpired", false],
 
-            [PaymentStatus::STATUS_CANCELED, "isPending", false],
-            [PaymentStatus::STATUS_CANCELED, "isAuthorized", false],
-            [PaymentStatus::STATUS_CANCELED, "isFailed", false],
-            [PaymentStatus::STATUS_CANCELED, "isOpen", false],
-            [PaymentStatus::STATUS_CANCELED, "isCanceled", true],
-            [PaymentStatus::STATUS_CANCELED, "isPaid", false],
-            [PaymentStatus::STATUS_CANCELED, "isExpired", false],
+            [PaymentStatus::CANCELED, "isPending", false],
+            [PaymentStatus::CANCELED, "isAuthorized", false],
+            [PaymentStatus::CANCELED, "isFailed", false],
+            [PaymentStatus::CANCELED, "isOpen", false],
+            [PaymentStatus::CANCELED, "isCanceled", true],
+            [PaymentStatus::CANCELED, "isPaid", false],
+            [PaymentStatus::CANCELED, "isExpired", false],
 
-            [PaymentStatus::STATUS_EXPIRED, "isPending", false],
-            [PaymentStatus::STATUS_EXPIRED, "isAuthorized", false],
-            [PaymentStatus::STATUS_EXPIRED, "isFailed", false],
-            [PaymentStatus::STATUS_EXPIRED, "isOpen", false],
-            [PaymentStatus::STATUS_EXPIRED, "isCanceled", false],
-            [PaymentStatus::STATUS_EXPIRED, "isPaid", false],
-            [PaymentStatus::STATUS_EXPIRED, "isExpired", true],
+            [PaymentStatus::EXPIRED, "isPending", false],
+            [PaymentStatus::EXPIRED, "isAuthorized", false],
+            [PaymentStatus::EXPIRED, "isFailed", false],
+            [PaymentStatus::EXPIRED, "isOpen", false],
+            [PaymentStatus::EXPIRED, "isCanceled", false],
+            [PaymentStatus::EXPIRED, "isPaid", false],
+            [PaymentStatus::EXPIRED, "isExpired", true],
         ];
     }
 
@@ -126,7 +126,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->sequenceType = SequenceType::SEQUENCETYPE_FIRST;
+        $payment->sequenceType = SequenceType::FIRST;
         $this->assertFalse($payment->hasSequenceTypeRecurring());
         $this->assertTrue($payment->hasSequenceTypeFirst());
     }
@@ -135,7 +135,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->sequenceType = SequenceType::SEQUENCETYPE_RECURRING;
+        $payment->sequenceType = SequenceType::RECURRING;
         $this->assertTrue($payment->hasSequenceTypeRecurring());
         $this->assertFalse($payment->hasSequenceTypeFirst());
     }
@@ -144,7 +144,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment($this->createMock(MollieApiClient::class));
 
-        $payment->sequenceType = SequenceType::SEQUENCETYPE_ONEOFF;
+        $payment->sequenceType = SequenceType::ONEOFF;
         $this->assertFalse($payment->hasSequenceTypeFirst());
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }

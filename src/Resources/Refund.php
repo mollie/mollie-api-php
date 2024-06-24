@@ -105,7 +105,7 @@ class Refund extends BaseResource
      */
     public function isQueued()
     {
-        return $this->status === RefundStatus::STATUS_QUEUED;
+        return $this->status === RefundStatus::QUEUED;
     }
 
     /**
@@ -115,7 +115,7 @@ class Refund extends BaseResource
      */
     public function isPending()
     {
-        return $this->status === RefundStatus::STATUS_PENDING;
+        return $this->status === RefundStatus::PENDING;
     }
 
     /**
@@ -125,7 +125,7 @@ class Refund extends BaseResource
      */
     public function isProcessing()
     {
-        return $this->status === RefundStatus::STATUS_PROCESSING;
+        return $this->status === RefundStatus::PROCESSING;
     }
 
     /**
@@ -135,7 +135,7 @@ class Refund extends BaseResource
      */
     public function isTransferred()
     {
-        return $this->status === RefundStatus::STATUS_REFUNDED;
+        return $this->status === RefundStatus::REFUNDED;
     }
 
     /**
@@ -145,7 +145,7 @@ class Refund extends BaseResource
      */
     public function isFailed()
     {
-        return $this->status === RefundStatus::STATUS_FAILED;
+        return $this->status === RefundStatus::FAILED;
     }
 
     /**
@@ -155,7 +155,7 @@ class Refund extends BaseResource
      */
     public function isCanceled()
     {
-        return $this->status === RefundStatus::STATUS_CANCELED;
+        return $this->status === RefundStatus::CANCELED;
     }
 
     /**

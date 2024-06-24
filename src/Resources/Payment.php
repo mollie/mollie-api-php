@@ -88,7 +88,7 @@ class Payment extends BaseResource
      *
      * @var string
      */
-    public $status = PaymentStatus::STATUS_OPEN;
+    public $status = PaymentStatus::OPEN;
 
     /**
      * UTC datetime the payment was created in ISO-8601 format.
@@ -383,7 +383,7 @@ class Payment extends BaseResource
      */
     public function isCanceled()
     {
-        return $this->status === PaymentStatus::STATUS_CANCELED;
+        return $this->status === PaymentStatus::CANCELED;
     }
 
     /**
@@ -393,7 +393,7 @@ class Payment extends BaseResource
      */
     public function isExpired()
     {
-        return $this->status === PaymentStatus::STATUS_EXPIRED;
+        return $this->status === PaymentStatus::EXPIRED;
     }
 
     /**
@@ -403,7 +403,7 @@ class Payment extends BaseResource
      */
     public function isOpen()
     {
-        return $this->status === PaymentStatus::STATUS_OPEN;
+        return $this->status === PaymentStatus::OPEN;
     }
 
     /**
@@ -413,7 +413,7 @@ class Payment extends BaseResource
      */
     public function isPending()
     {
-        return $this->status === PaymentStatus::STATUS_PENDING;
+        return $this->status === PaymentStatus::PENDING;
     }
 
     /**
@@ -423,7 +423,7 @@ class Payment extends BaseResource
      */
     public function isAuthorized()
     {
-        return $this->status === PaymentStatus::STATUS_AUTHORIZED;
+        return $this->status === PaymentStatus::AUTHORIZED;
     }
 
     /**
@@ -433,7 +433,7 @@ class Payment extends BaseResource
      */
     public function isPaid()
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -443,7 +443,7 @@ class Payment extends BaseResource
      */
     public function hasRefunds()
     {
-        return ! empty($this->_links->refunds);
+        return !empty($this->_links->refunds);
     }
 
     /**
@@ -453,7 +453,7 @@ class Payment extends BaseResource
      */
     public function hasChargebacks()
     {
-        return ! empty($this->_links->chargebacks);
+        return !empty($this->_links->chargebacks);
     }
 
     /**
@@ -463,7 +463,7 @@ class Payment extends BaseResource
      */
     public function isFailed()
     {
-        return $this->status === PaymentStatus::STATUS_FAILED;
+        return $this->status === PaymentStatus::FAILED;
     }
 
     /**
@@ -475,7 +475,7 @@ class Payment extends BaseResource
      */
     public function hasSequenceTypeFirst()
     {
-        return $this->sequenceType === SequenceType::SEQUENCETYPE_FIRST;
+        return $this->sequenceType === SequenceType::FIRST;
     }
 
     /**
@@ -487,7 +487,7 @@ class Payment extends BaseResource
      */
     public function hasSequenceTypeRecurring()
     {
-        return $this->sequenceType === SequenceType::SEQUENCETYPE_RECURRING;
+        return $this->sequenceType === SequenceType::RECURRING;
     }
 
     /**
@@ -586,7 +586,7 @@ class Payment extends BaseResource
      */
     public function hasSplitPayments()
     {
-        return ! empty($this->routing);
+        return !empty($this->routing);
     }
 
     /**
@@ -597,7 +597,7 @@ class Payment extends BaseResource
      */
     public function refunds()
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
@@ -645,7 +645,7 @@ class Payment extends BaseResource
      */
     public function captures()
     {
-        if (! isset($this->_links->captures->href)) {
+        if (!isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client, 0, null);
         }
 
@@ -686,7 +686,7 @@ class Payment extends BaseResource
      */
     public function chargebacks()
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
