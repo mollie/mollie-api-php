@@ -75,6 +75,11 @@ class PaymentMethod
     public const GIROPAY = "giropay";
 
     /**
+     * @link https://www.mollie.com/en/payments/in3
+     */
+    public const IN3 = "in3";
+
+    /**
      * @link https://www.mollie.com/en/payments/ideal
      */
     public const IDEAL = "ideal";
@@ -127,15 +132,20 @@ class PaymentMethod
     public const PAYSAFECARD = "paysafecard";
 
     /**
-     * @link https://www.mollie.com/en/payments/przelewy24
-     */
-    public const PRZELEWY24 = 'przelewy24';
-
-    /**
      * @deprecated
      * @link https://www.mollie.com/en/payments/gift-cards
      */
     public const PODIUMCADEAUKAART = "podiumcadeaukaart";
+
+    /**
+     * @link https://docs.mollie.com/point-of-sale/overview
+     */
+    public const POINT_OF_SALE = "pointofsale";
+
+    /**
+     * @link https://www.mollie.com/en/payments/przelewy24
+     */
+    public const PRZELEWY24 = 'przelewy24';
 
     /**
      * @link https://www.mollie.com/en/payments/sofort
@@ -143,14 +153,9 @@ class PaymentMethod
     public const SOFORT = "sofort";
 
     /**
-     * @link https://www.mollie.com/en/payments/in3
+     * @link https://www.mollie.com/en/payments/riverty
      */
-    public const IN3 = "in3";
-
-    /**
-     * @link https://docs.mollie.com/point-of-sale/overview
-     */
-    public const POINT_OF_SALE = "pointofsale";
+    public const RIVERTY = "riverty";
 
     /**
      * @link https://www.mollie.com/en/payments/twint
