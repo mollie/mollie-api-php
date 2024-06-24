@@ -2,4 +2,270 @@ parameters:
 	ignoreErrors:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
-			path: examples/*
+			count: 1
+			path: examples/captures/create-capture.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/captures/get-capture.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/captures/list-captures.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/client-links/create-client-link.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/create-customer-first-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/create-customer-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/create-customer-recurring-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/create-customer.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/delete-customer.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/list-customer-payments.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/customers/update-customer.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/invoices/list-invoices.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/mandates/create-mandate.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/mandates/list-mandates.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/mandates/revoke-mandate.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 2
+			path: examples/orders/cancel-order-lines.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/cancel-order.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/create-order.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/list-methods.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/list-orders.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/refund-order-completely.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/refund-order-partially.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/update-order-line.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/update-order-lines-multiple.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/update-order.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/orders/webhook.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 2
+			path: examples/pagination/backwards.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 2
+			path: examples/pagination/basic_usage.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payment-links/create-payment-link.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payment-links/list-payment-links.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/create-capturable-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 2
+			path: examples/payments/create-ideal-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 2
+			path: examples/payments/create-payment-oauth.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/create-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/list-methods.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/list-payments.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/refund-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/return.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/update-payment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/payments/webhook.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/profiles/create-profile.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/profiles/delete-profile.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/profiles/list-profiles.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/profiles/update-profile.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/settlements/list-settlements.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/shipments/create-shipment-all.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/shipments/create-shipment-partial.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/shipments/get-shipment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/shipments/list-shipments.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/shipments/update-shipment.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/subscriptions/cancel-subscription.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/subscriptions/create-subscription.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/subscriptions/update-subscription.php
+
+		-
+			message: "#^Result of method Mollie\\\\Api\\\\Endpoints\\\\PaymentLinkEndpoint\\:\\:delete\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: tests/Mollie/API/Endpoints/PaymentLinkEndpointTest.php
