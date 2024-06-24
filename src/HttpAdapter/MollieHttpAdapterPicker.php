@@ -12,9 +12,9 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
      * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
-    public function pickHttpAdapter($httpClient)
+    public function pickHttpAdapter($httpClient): MollieHttpAdapterInterface
     {
-        if (! $httpClient) {
+        if (!$httpClient) {
             if ($this->guzzleIsDetected()) {
                 $guzzleVersion = $this->guzzleMajorVersionNumber();
 
@@ -40,7 +40,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
     /**
      * @return bool
      */
-    private function guzzleIsDetected()
+    private function guzzleIsDetected(): bool
     {
         return interface_exists('\\' . \GuzzleHttp\ClientInterface::class);
     }
@@ -48,7 +48,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
     /**
      * @return int|null
      */
-    private function guzzleMajorVersionNumber()
+    private function guzzleMajorVersionNumber(): ?int
     {
         // Guzzle 7
         if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {

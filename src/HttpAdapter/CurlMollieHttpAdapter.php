@@ -43,7 +43,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @throws \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\CurlConnectTimeoutException
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass
     {
         for ($i = 0; $i <= self::MAX_RETRIES; $i++) {
             usleep($i * self::DELAY_INCREASE_MS);
@@ -51,12 +51,12 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
             try {
                 return $this->attemptRequest($httpMethod, $url, $headers, $httpBody);
             } catch (CurlConnectTimeoutException $e) {
-                // Nothing
+                return null;
             }
         }
 
         throw new CurlConnectTimeoutException(
-            "Unable to connect to Mollie. Maximum number of retries (". self::MAX_RETRIES .") reached."
+            "Unable to connect to Mollie. Maximum number of retries (" . self::MAX_RETRIES . ") reached."
         );
     }
 
@@ -68,7 +68,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @return \stdClass|void|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    protected function attemptRequest($httpMethod, $url, $headers, $httpBody)
+    protected function attemptRequest(string $httpMethod, string $url, array $headers, string $httpBody): ?\stdClass
     {
         $curl = curl_init($url);
         $headers["Content-Type"] = "application/json";
@@ -99,7 +99,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
 
                 break;
             default:
-                throw new \InvalidArgumentException("Invalid http method: ". $httpMethod);
+                throw new \InvalidArgumentException("Invalid http method: " . $httpMethod);
         }
 
         $startTime = microtime(true);
@@ -130,7 +130,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString()
+    public function versionString(): string
     {
         return 'Curl/*';
     }
@@ -139,9 +139,9 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * Whether this http adapter provides a debugging mode. If debugging mode is enabled, the
      * request will be included in the ApiException.
      *
-     * @return false
+     * @return bool
      */
-    public function supportsDebugging()
+    public function supportsDebugging(): bool
     {
         return false;
     }
@@ -151,7 +151,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @param string|float $executionTime
      * @return bool
      */
-    protected function isConnectTimeoutError($curlErrorNumber, $executionTime)
+    protected function isConnectTimeoutError(int $curlErrorNumber, $executionTime): bool
     {
         $connectErrors = [
             \CURLE_COULDNT_RESOLVE_HOST => true,
@@ -182,7 +182,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
      * @return \stdClass|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    protected function parseResponseBody($response, $statusCode, $httpBody)
+    protected function parseResponseBody(string $response, int $statusCode, string $httpBody): ?\stdClass
     {
         if (empty($response)) {
             if ($statusCode === self::HTTP_NO_CONTENT) {
@@ -208,7 +208,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
 
             $field = null;
 
-            if (! empty($body->field)) {
+            if (!empty($body->field)) {
                 $field = $body->field;
             }
 
@@ -226,12 +226,12 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterInterface
         return $body;
     }
 
-    protected function parseHeaders($headers)
+    protected function parseHeaders(array $headers): array
     {
         $result = [];
 
         foreach ($headers as $key => $value) {
-            $result[] = $key .': ' . $value;
+            $result[] = $key . ': ' . $value;
         }
 
         return $result;

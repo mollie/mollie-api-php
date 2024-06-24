@@ -5,9 +5,9 @@ namespace Mollie\Api\HttpAdapter;
 interface MollieHttpAdapterPickerInterface
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface $httpClient
+     * @param \GuzzleHttp\ClientInterface|MollieHttpAdapterInterface $httpClient
      *
-     * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
+     * @return MollieHttpAdapterInterface
      */
-    public function pickHttpAdapter($httpClient);
+    public function pickHttpAdapter($httpClient): MollieHttpAdapterInterface;
 }

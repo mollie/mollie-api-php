@@ -32,7 +32,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * @var \GuzzleHttp\ClientInterface
      */
-    protected $httpClient;
+    protected ClientInterface $httpClient;
 
     /**
      * Whether debugging is enabled. If debugging mode is enabled, the request will
@@ -41,7 +41,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      *
      * @var bool
      */
-    protected $debugging = false;
+    protected bool $debugging = false;
 
     public function __construct(ClientInterface $httpClient)
     {
@@ -51,9 +51,9 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * Instantiate a default adapter with sane configuration for Guzzle 6 or 7.
      *
-     * @return static
+     * @return self
      */
-    public static function createDefault()
+    public static function createDefault(): self
     {
         $retryMiddlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
         $handlerStack = HandlerStack::create();
@@ -79,7 +79,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * @return \stdClass|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $httpMethod, string $url, $headers, ?string $httpBody): ?\stdClass
     {
         $request = new Request($httpMethod, $url, $headers, $httpBody);
 
@@ -87,7 +87,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             // Prevent sensitive request data from ending up in exception logs unintended
-            if (! $this->debugging) {
+            if (!$this->debugging) {
                 $request = null;
             }
 
@@ -108,9 +108,9 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * Whether this http adapter provides a debugging mode. If debugging mode is enabled, the
      * request will be included in the ApiException.
      *
-     * @return true
+     * @return bool
      */
-    public function supportsDebugging()
+    public function supportsDebugging(): bool
     {
         return true;
     }
@@ -122,7 +122,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      *
      * @return bool
      */
-    public function debugging()
+    public function debugging(): bool
     {
         return $this->debugging;
     }
@@ -132,7 +132,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * be included in the ApiException. By default, debugging is disabled to prevent
      * sensitive request data from leaking into exception logs.
      */
-    public function enableDebugging()
+    public function enableDebugging(): void
     {
         $this->debugging = true;
     }
@@ -142,7 +142,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * be included in the ApiException. By default, debugging is disabled to prevent
      * sensitive request data from leaking into exception logs.
      */
-    public function disableDebugging()
+    public function disableDebugging(): void
     {
         $this->debugging = false;
     }
@@ -154,7 +154,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      * @return \stdClass|null
      * @throws ApiException
      */
-    private function parseResponseBody(ResponseInterface $response)
+    private function parseResponseBody(ResponseInterface $response): ?\stdClass
     {
         $body = (string) $response->getBody();
         if (empty($body)) {
@@ -185,7 +185,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString()
+    public function versionString(): ?string
     {
         if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
             return "Guzzle/" . ClientInterface::MAJOR_VERSION;
