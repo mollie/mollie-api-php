@@ -2,11 +2,11 @@
 
 namespace Mollie\Api\HttpAdapter;
 
+use Mollie\Api\Exceptions\ApiException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\RequestInterface;
-use Mollie\Api\Exceptions\ApiException;
+use Psr\Http\Message\StreamFactoryInterface;
 
 final class PSR18MollieHttpAdapter implements MollieHttpAdapterInterface
 {
@@ -52,6 +52,7 @@ final class PSR18MollieHttpAdapter implements MollieHttpAdapterInterface
             $response = $this->httpClient->sendRequest($request);
 
             $body = (string) $response->getBody();
+
             return json_decode($body);
         } catch (\Exception $e) {
             throw new ApiException("Error while sending request to Mollie API: " . $e->getMessage(), 0, $e);

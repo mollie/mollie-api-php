@@ -14,7 +14,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
      */
     public function pickHttpAdapter($httpClient): MollieHttpAdapterInterface
     {
-        if (!$httpClient) {
+        if (! $httpClient) {
             if ($this->guzzleIsDetected()) {
                 $guzzleVersion = $this->guzzleMajorVersionNumber();
 
