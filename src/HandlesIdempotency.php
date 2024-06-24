@@ -101,7 +101,7 @@ trait HandlesIdempotency
      */
     protected function applyIdempotencyKey(array $headers, string $httpMethod)
     {
-        if (!in_array($httpMethod, [MollieApiClient::HTTP_POST, MollieApiClient::HTTP_PATCH, MollieApiClient::HTTP_DELETE])) {
+        if (! in_array($httpMethod, [MollieApiClient::HTTP_POST, MollieApiClient::HTTP_PATCH, MollieApiClient::HTTP_DELETE])) {
             unset($headers['Idempotency-Key']);
 
             return $headers;

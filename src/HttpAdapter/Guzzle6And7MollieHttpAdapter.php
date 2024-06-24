@@ -81,7 +81,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, 
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             // Prevent sensitive request data from ending up in exception logs unintended
-            if (!$this->debug) {
+            if (! $this->debug) {
                 $request = null;
             }
 

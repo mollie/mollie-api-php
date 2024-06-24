@@ -53,7 +53,7 @@ try {
      */
     $nextPayments = $payments->next();
 
-    if (!empty($nextPayments)) {
+    if (! empty($nextPayments)) {
         echo "<ul>";
         foreach ($nextPayments as $payment) {
             echo "<li>";

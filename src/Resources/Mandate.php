@@ -90,7 +90,7 @@ class Mandate extends BaseResource
      */
     public function revoke()
     {
-        if (!isset($this->_links->self->href)) {
+        if (! isset($this->_links->self->href)) {
             return $this;
         }
 

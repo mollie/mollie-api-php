@@ -189,7 +189,7 @@ class Subscription extends BaseResource
      */
     public function cancel()
     {
-        if (!isset($this->_links->self->href)) {
+        if (! isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -217,7 +217,7 @@ class Subscription extends BaseResource
      */
     public function payments()
     {
-        if (!isset($this->_links->payments->href)) {
+        if (! isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 

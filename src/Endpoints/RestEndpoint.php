@@ -65,7 +65,7 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function readResource(string $id, array $filters): BaseResource
     {
-        if (!$this instanceof SingleResourceEndpoint && empty($id)) {
+        if (! $this instanceof SingleResourceEndpoint && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 

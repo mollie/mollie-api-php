@@ -17,14 +17,14 @@ class CompatibilityChecker
      */
     public function checkCompatibility()
     {
-        if (!$this->satisfiesPhpVersion()) {
+        if (! $this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatform(
                 "The client requires PHP version >= " . self::MIN_PHP_VERSION . ", you have " . PHP_VERSION . ".",
                 IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
             );
         }
 
-        if (!$this->satisfiesJsonExtension()) {
+        if (! $this->satisfiesJsonExtension()) {
             throw new IncompatiblePlatform(
                 "PHP extension json is not enabled. Please make sure to enable 'json' in your PHP configuration.",
                 IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
