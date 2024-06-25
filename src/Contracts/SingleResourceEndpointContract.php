@@ -2,6 +2,6 @@
 
 namespace Mollie\Api\Contracts;
 
-interface SingleResourceEndpoint
+interface SingleResourceEndpointContract
 {
 }

@@ -8,11 +8,11 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
 
-class SubscriptionEndpoint extends EndpointCollection
+class CustomerSubscriptionEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_subscriptions";
 
-    public const RESOURCE_ID_PREFIX = 'sub_';
+    protected static string $resourceIdPrefix = 'sub_';
 
     /**
      * @inheritDoc
@@ -77,9 +77,7 @@ class SubscriptionEndpoint extends EndpointCollection
      */
     public function update(string $customerId, string $subscriptionId, array $data = []): Subscription
     {
-        if (empty($subscriptionId) || strpos($subscriptionId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($subscriptionId);
 
         $this->parentId = $customerId;
 
@@ -226,7 +224,7 @@ class SubscriptionEndpoint extends EndpointCollection
      * @return SubscriptionCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
     {
         $apiPath = 'subscriptions' . $this->buildQueryString(
             $this->getMergedFilters($parameters, $from, $limit)
@@ -252,7 +250,7 @@ class SubscriptionEndpoint extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $page = $this->collect($from, $limit, $parameters);
+        $page = $this->page($from, $limit, $parameters);
 
         return $page->getAutoIterator($iterateBackwards);
     }

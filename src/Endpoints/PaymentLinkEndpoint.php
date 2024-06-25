@@ -11,7 +11,7 @@ class PaymentLinkEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "payment-links";
 
-    public const RESOURCE_ID_PREFIX = 'pl_';
+    protected static string $resourceIdPrefix = 'pl_';
 
     /**
      * @inheritDoc
@@ -55,9 +55,7 @@ class PaymentLinkEndpoint extends EndpointCollection
      */
     public function get(string $paymentLinkId, array $parameters = []): PaymentLink
     {
-        if (empty($paymentLinkId) || strpos($paymentLinkId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment link ID: '{$paymentLinkId}'. A payment link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentLinkId);
 
         return parent::readResource($paymentLinkId, $parameters);
     }
@@ -72,7 +70,7 @@ class PaymentLinkEndpoint extends EndpointCollection
      * @return PaymentLinkCollection
      * @throws ApiException
      */
-    public function collect(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

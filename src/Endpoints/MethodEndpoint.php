@@ -5,7 +5,6 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
-use Mollie\Api\Resources\ResourceFactory;
 
 class MethodEndpoint extends EndpointCollection
 {
@@ -69,12 +68,7 @@ class MethodEndpoint extends EndpointCollection
 
         $result = $this->client->performHttpCall('GET', $url);
 
-        return ResourceFactory::createBaseResourceCollection(
-            $this->client,
-            Method::class,
-            $result->_embedded->methods,
-            $result->_links
-        );
+        return $this->buildResultCollection($result);
     }
 
     /**

@@ -5,19 +5,19 @@ namespace Tests\Mollie\API\HttpAdapter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
-use Mollie\Api\Contracts\SupportsDebugging;
+use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
-class Guzzle6And7MollieHttpAdapterTest extends TestCase
+class GuzzleMollieHttpAdapterTest extends TestCase
 {
     /** @test */
     public function testDebuggingIsSupported()
     {
-        $adapter = Guzzle6And7MollieHttpAdapter::createDefault();
-        $this->assertTrue($adapter instanceof SupportsDebugging);
+        $adapter = GuzzleMollieHttpAdapter::createDefault();
+        $this->assertTrue($adapter instanceof SupportsDebuggingContract);
         $this->assertFalse($adapter->debuggingIsActive());
 
         $adapter->enableDebugging();
@@ -42,7 +42,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 )
             );
 
-        $adapter = new Guzzle6And7MollieHttpAdapter($guzzleClient);
+        $adapter = new GuzzleMollieHttpAdapter($guzzleClient);
         $adapter->enableDebugging();
 
         try {
@@ -74,7 +74,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 )
             );
 
-        $adapter = new Guzzle6And7MollieHttpAdapter($guzzleClient);
+        $adapter = new GuzzleMollieHttpAdapter($guzzleClient);
         $this->assertFalse($adapter->debuggingIsActive());
 
         try {

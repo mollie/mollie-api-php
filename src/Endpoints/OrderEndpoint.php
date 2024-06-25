@@ -11,7 +11,7 @@ class OrderEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "orders";
 
-    public const RESOURCE_ID_PREFIX = 'ord_';
+    protected static string $resourceIdPrefix = 'ord_';
 
     /**
      * @inheritDoc
@@ -56,9 +56,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function update(string $orderId, array $data = []): Order
     {
-        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($orderId);
 
         return parent::updateResource($orderId, $data);
     }
@@ -76,9 +74,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function get(string $orderId, array $parameters = []): Order
     {
-        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($orderId);
 
         return parent::readResource($orderId, $parameters);
     }
@@ -113,7 +109,7 @@ class OrderEndpoint extends EndpointCollection
      * @return OrderCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

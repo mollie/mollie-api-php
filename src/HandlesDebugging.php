@@ -2,7 +2,7 @@
 
 namespace Mollie\Api;
 
-use Mollie\Api\Contracts\SupportsDebugging;
+use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 
 /**
@@ -39,7 +39,7 @@ trait HandlesDebugging
      */
     public function setDebugging(bool $enable)
     {
-        if (! $this->httpClient instanceof SupportsDebugging) {
+        if (!$this->httpClient instanceof SupportsDebuggingContract) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
             );

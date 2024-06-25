@@ -38,15 +38,7 @@ abstract class CursorCollection extends BaseCollection
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
-
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+        return $this->fetchCollection($this->_links->next->href);
     }
 
     /**
@@ -61,7 +53,12 @@ abstract class CursorCollection extends BaseCollection
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
+        return $this->fetchCollection($this->_links->previous->href);
+    }
+
+    private function fetchCollection(string $url): CursorCollection
+    {
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $url);
 
         $collection = new static($this->client, $result->count, $result->_links);
 

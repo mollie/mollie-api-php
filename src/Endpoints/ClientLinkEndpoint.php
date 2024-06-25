@@ -9,8 +9,6 @@ class ClientLinkEndpoint extends RestEndpoint
 {
     protected string $resourcePath = "client-links";
 
-    public const RESOURCE_ID_PREFIX = 'cl_';
-
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one
      * type of object.

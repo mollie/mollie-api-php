@@ -1,37 +1,39 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Http\Adapter;
 
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\Exceptions\UnrecognizedClientException;
 
-class MollieHttpAdapterPicker implements MollieHttpAdapterPickerInterface
+class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null|\stdClass $httpClient
+     * @param \GuzzleHttp\ClientInterface|MollieHttpAdapterContract|null|\stdClass $httpClient
      *
-     * @return \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
+     * @return MollieHttpAdapterContract
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
-    public function pickHttpAdapter($httpClient): MollieHttpAdapterInterface
+    public function pickHttpAdapter($httpClient): MollieHttpAdapterContract
     {
-        if (! $httpClient) {
+        if (!$httpClient) {
             if ($this->guzzleIsDetected()) {
                 $guzzleVersion = $this->guzzleMajorVersionNumber();
 
                 if ($guzzleVersion && in_array($guzzleVersion, [6, 7])) {
-                    return Guzzle6And7MollieHttpAdapter::createDefault();
+                    return GuzzleMollieHttpAdapter::createDefault();
                 }
             }
 
             return new CurlMollieHttpAdapter;
         }
 
-        if ($httpClient instanceof MollieHttpAdapterInterface) {
+        if ($httpClient instanceof MollieHttpAdapterContract) {
             return $httpClient;
         }
 
         if ($httpClient instanceof \GuzzleHttp\ClientInterface) {
-            return new Guzzle6And7MollieHttpAdapter($httpClient);
+            return new GuzzleMollieHttpAdapter($httpClient);
         }
 
         throw new UnrecognizedClientException('The provided http client or adapter was not recognized.');

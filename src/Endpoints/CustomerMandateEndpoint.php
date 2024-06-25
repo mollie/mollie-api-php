@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class MandateEndpoint extends EndpointCollection
+class CustomerMandateEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_mandates";
 
@@ -80,7 +80,7 @@ class MandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::readResource($mandateId, $parameters);
+        return $this->readResource($mandateId, $parameters);
     }
 
     /**

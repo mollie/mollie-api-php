@@ -58,7 +58,7 @@ class ClientEndpoint extends EndpointCollection
      * @return ClientCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

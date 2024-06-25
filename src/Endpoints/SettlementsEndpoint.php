@@ -75,7 +75,7 @@ class SettlementsEndpoint extends EndpointCollection
      * @return SettlementCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

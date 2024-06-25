@@ -37,7 +37,7 @@ class ChargebackEndpoint extends EndpointCollection
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

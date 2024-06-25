@@ -11,8 +11,6 @@ class TerminalEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "terminals";
 
-    public const RESOURCE_ID_PREFIX = 'term_';
-
     /**
      * @inheritDoc
      */
@@ -59,7 +57,7 @@ class TerminalEndpoint extends EndpointCollection
      * @return TerminalCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
     {
         return parent::fetchCollection($from, $limit, $parameters);
     }

@@ -8,14 +8,14 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Mollie\Api\HttpAdapter\Guzzle6And7RetryMiddlewareFactory;
+use Mollie\Api\Http\Adapter\GuzzleRetryMiddlewareFactory;
 use PHPUnit\Framework\TestCase;
 
 class RetryMiddlewareFactoryTest extends TestCase
 {
     public function testRetriesConnectException()
     {
-        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
+        $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [
@@ -35,7 +35,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
     public function testRetryLimit()
     {
-        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
+        $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [
@@ -50,7 +50,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
         $handler = HandlerStack::create($mock);
         $handler->push($middlewareFactory->retry(false));
-        $client = new Client([ 'handler' => $handler ]);
+        $client = new Client(['handler' => $handler]);
 
         $this->expectException(ConnectException::class);
         $this->expectExceptionMessage("Error 6");
@@ -60,7 +60,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
     public function testRetryDelay()
     {
-        $middlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
+        $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 
         $mock = new MockHandler(
             [
@@ -72,7 +72,7 @@ class RetryMiddlewareFactoryTest extends TestCase
 
         $handler = HandlerStack::create($mock);
         $handler->push($middlewareFactory->retry(true));
-        $client = new Client([ 'handler' => $handler ]);
+        $client = new Client(['handler' => $handler]);
 
         $startTime = time();
         $client->request('GET', '/')->getStatusCode();

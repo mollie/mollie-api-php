@@ -12,7 +12,7 @@ class PaymentEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "payments";
 
-    public const RESOURCE_ID_PREFIX = 'tr_';
+    protected static string $resourceIdPrefix = 'tr_';
 
     /**
      * @inheritDoc
@@ -57,9 +57,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function update($paymentId, array $data = []): Payment
     {
-        if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentId);
 
         return parent::updateResource($paymentId, $data);
     }
@@ -77,9 +75,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function get($paymentId, array $parameters = []): Payment
     {
-        if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentId);
 
         return parent::readResource($paymentId, $parameters);
     }
@@ -128,7 +124,7 @@ class PaymentEndpoint extends EndpointCollection
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function collect(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

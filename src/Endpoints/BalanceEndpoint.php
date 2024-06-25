@@ -9,7 +9,7 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceEndpoint extends EndpointCollection
 {
-    const RESOURCE_ID_PREFIX = 'bal_';
+    protected static string $resourceIdPrefix = 'bal_';
 
     protected string $resourcePath = "balances";
 
@@ -41,9 +41,7 @@ class BalanceEndpoint extends EndpointCollection
      */
     public function get(string $balanceId, array $parameters = []): Balance
     {
-        if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($balanceId);
 
         return parent::readResource($balanceId, $parameters);
     }
@@ -72,7 +70,7 @@ class BalanceEndpoint extends EndpointCollection
      * @return BalanceCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

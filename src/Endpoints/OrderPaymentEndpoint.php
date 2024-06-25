@@ -10,8 +10,6 @@ class OrderPaymentEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "orders_payments";
 
-    public const RESOURCE_ID_PREFIX = 'tr_';
-
     /**
      * @inheritDoc
      */

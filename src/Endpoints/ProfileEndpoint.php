@@ -14,7 +14,8 @@ class ProfileEndpoint extends EndpointCollection
 
     protected $resourceClass = Profile::class;
 
-    public const RESOURCE_ID_PREFIX = 'pfl_';
+    protected static string $resourceIdPrefix = 'pfl_';
+
     /**
      * @inheritDoc
      */
@@ -77,9 +78,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function update(string $profileId, array $data = []): Profile
     {
-        if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($profileId);
 
         return parent::updateResource($profileId, $data);
     }
@@ -126,7 +125,7 @@ class ProfileEndpoint extends EndpointCollection
      * @return ProfileCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

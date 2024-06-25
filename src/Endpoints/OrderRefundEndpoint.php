@@ -70,7 +70,7 @@ class OrderRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**

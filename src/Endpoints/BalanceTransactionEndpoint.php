@@ -11,8 +11,6 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceTransactionEndpoint extends EndpointCollection
 {
-    const RESOURCE_ID_PREFIX = 'baltr_';
-
     protected string $resourcePath = "balances_transactions";
 
     /**

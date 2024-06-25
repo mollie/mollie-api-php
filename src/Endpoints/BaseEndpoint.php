@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
-use Mollie\Api\Contracts\SingleResourceEndpoint;
+use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 
@@ -57,9 +57,7 @@ abstract class BaseEndpoint
         if (strpos($this->resourcePath, "_") !== false) {
             [$parentResource, $childResource] = explode("_", $this->resourcePath, 2);
 
-            if (empty($this->parentId)) {
-                throw new ApiException("Subresource '{$this->resourcePath}' used without parent '$parentResource' ID.");
-            }
+            $this->guardAgainstMissingParentId($parentResource);
 
             return "$parentResource/{$this->parentId}/$childResource";
         }
@@ -69,7 +67,7 @@ abstract class BaseEndpoint
 
     protected function getPathToSingleResource(string $id): string
     {
-        if ($this instanceof SingleResourceEndpoint) {
+        if ($this instanceof SingleResourceEndpointContract) {
             return $this->getResourcePath();
         }
 
@@ -87,5 +85,12 @@ abstract class BaseEndpoint
         }
 
         return @json_encode($body);
+    }
+
+    private function guardAgainstMissingParentId(string $parentResource): void
+    {
+        if (empty($this->parentId)) {
+            throw new ApiException("Subresource '{$this->resourcePath}' used without parent '$parentResource' ID.");
+        }
     }
 }

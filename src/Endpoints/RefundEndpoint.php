@@ -37,7 +37,7 @@ class RefundEndpoint extends EndpointCollection
      * @return RefundCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
+    public function page(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

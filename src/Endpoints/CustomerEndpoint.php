@@ -11,7 +11,7 @@ class CustomerEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers";
 
-    public const RESOURCE_ID_PREFIX = 'cst_';
+    protected static string $resourceIdPrefix = 'cst_';
 
     /**
      * @inheritDoc
@@ -70,9 +70,7 @@ class CustomerEndpoint extends EndpointCollection
      */
     public function update(string $customerId, array $data = []): Customer
     {
-        if (empty($customerId) || strpos($customerId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$customerId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($customerId);
 
         return parent::updateResource($customerId, $data);
     }
@@ -103,7 +101,7 @@ class CustomerEndpoint extends EndpointCollection
      * @return CustomerCollection
      * @throws ApiException
      */
-    public function collect(?string $from = null, ?int $limit = null, array $parameters = []): CustomerCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): CustomerCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }

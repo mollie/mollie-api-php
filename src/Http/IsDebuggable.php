@@ -1,6 +1,8 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Http;
+
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
 
 trait IsDebuggable
 {
@@ -16,7 +18,7 @@ trait IsDebuggable
      *
      * @return $this
      */
-    public function enableDebugging(): MollieHttpAdapterInterface
+    public function enableDebugging(): MollieHttpAdapterContract
     {
         $this->debug = true;
 
@@ -30,7 +32,7 @@ trait IsDebuggable
      *
      * @return $this
      */
-    public function disableDebugging(): MollieHttpAdapterInterface
+    public function disableDebugging(): MollieHttpAdapterContract
     {
         $this->debug = false;
 

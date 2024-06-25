@@ -1,15 +1,22 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Http\Adapter;
 
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\ResponseContract;
+use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\IsDebuggable;
+use Mollie\Api\Http\PsrResponseHandler;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
-final class PSR18MollieHttpAdapter implements MollieHttpAdapterInterface
+final class PSR18MollieHttpAdapter implements MollieHttpAdapterContract, SupportsDebuggingContract
 {
+    use IsDebuggable;
+
     /**
      * @var ClientInterface
      */
@@ -45,24 +52,33 @@ final class PSR18MollieHttpAdapter implements MollieHttpAdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
         try {
-            $request = $this->createRequest($meethod, $url, $headers, $body ?? '');
+            $request = $this->createRequest($method, $url, $headers, $body ?? '');
             $response = $this->httpClient->sendRequest($request);
 
-            $body = (string) $response->getBody();
-
-            return json_decode($body);
+            return PsrResponseHandler::create()
+                ->handle($response, $response->getStatusCode(), $body);
         } catch (\Exception $e) {
-            throw new ApiException("Error while sending request to Mollie API: " . $e->getMessage(), 0, $e);
+            if (!$this->debug) {
+                $request = null;
+            }
+
+            throw new ApiException(
+                "Error while sending request to Mollie API: " . $e->getMessage(),
+                0,
+                $e,
+                $request,
+                null
+            );
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function versionString(): string
+    public function version(): string
     {
         return 'PSR18MollieHttpAdapter';
     }

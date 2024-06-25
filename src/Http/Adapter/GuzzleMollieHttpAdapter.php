@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client;
@@ -9,11 +9,15 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
-use Mollie\Api\Contracts\SupportsDebugging;
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\ResponseContract;
+use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\IsDebuggable;
+use Mollie\Api\Http\PsrResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 
-final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, SupportsDebugging
+final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, SupportsDebuggingContract
 {
     use IsDebuggable;
 
@@ -49,7 +53,7 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, 
      */
     public static function createDefault(): self
     {
-        $retryMiddlewareFactory = new Guzzle6And7RetryMiddlewareFactory;
+        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory;
         $handlerStack = HandlerStack::create();
         $handlerStack->push($retryMiddlewareFactory->retry());
 
@@ -60,22 +64,22 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, 
             'handler' => $handlerStack,
         ]);
 
-        return new Guzzle6And7MollieHttpAdapter($client);
+        return new GuzzleMollieHttpAdapter($client);
     }
 
     /**
      * Send a request to the specified Mollie api url.
      *
-     * @param string $meethod
+     * @param string $method
      * @param string $url
      * @param array $headers
      * @param string $body
-     * @return \stdClass|null
+     * @return ResponseContract
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
-        $request = new Request($meethod, $url, $headers, $body);
+        $request = new Request($method, $url, $headers, $body);
 
         try {
             $response = $this->httpClient->send($request, ['http_errors' => false]);
@@ -95,7 +99,8 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, 
             throw new ApiException($e->getMessage(), $e->getCode(), null, $request, null);
         }
 
-        return $this->parseResponseBody($response);
+        return PsrResponseHandler::create()
+            ->handle($response, $response->getStatusCode(), $body);
     }
 
     /**
@@ -130,20 +135,15 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface, 
     }
 
     /**
-     * The version number for the underlying http client, if available. This is used to report the UserAgent to Mollie,
-     * for convenient support.
-     * @example Guzzle/6.3
+     * The version number for the underlying http client, if available.
+     * This is used to report the UserAgent to Mollie, for convenient support.
+     *
+     * @example Guzzle/7.0
      *
      * @return string|null
      */
-    public function versionString(): ?string
+    public function version(): string
     {
-        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) { // Guzzle 7
-            return "Guzzle/" . ClientInterface::MAJOR_VERSION;
-        } elseif (defined('\GuzzleHttp\ClientInterface::VERSION')) { // Before Guzzle 7
-            return "Guzzle/" . ClientInterface::VERSION;
-        }
-
-        return null;
+        return "Guzzle/" . ClientInterface::MAJOR_VERSION;
     }
 }

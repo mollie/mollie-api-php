@@ -2,9 +2,11 @@
 
 namespace Tests\Mollie\TestHelpers;
 
-use Mollie\Api\HttpAdapter\MollieHttpAdapterInterface;
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\ResponseContract;
+use Mollie\Api\Http\PsrResponseHandler;
 
-class FakeHttpAdapter implements MollieHttpAdapterInterface
+class FakeHttpAdapter implements MollieHttpAdapterContract
 {
     /**
      * @var \stdClass|null
@@ -41,26 +43,27 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
     }
 
     /**
-     * @param string $meethod
+     * @param string $method
      * @param string $url
      * @param string $headers
      * @param string $body
-     * @return \stdClass|void|null
+     * @return \stdClass|null
      */
-    public function send(string $meethod, string $url, $headers, ?string $body): ?\stdClass
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
-        $this->usedMethod = $meethod;
+        $this->usedMethod = $method;
         $this->usedUrl = $url;
         $this->usedHeaders = $headers;
         $this->usedBody = $body;
 
-        return $this->response;
+        return PsrResponseHandler::create()
+            ->handle($this->response, 200, $body);
     }
 
     /**
      * @return string
      */
-    public function versionString(): string
+    public function version(): string
     {
         return 'fake';
     }

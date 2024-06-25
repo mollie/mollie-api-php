@@ -53,7 +53,7 @@ class InvoiceEndpoint extends EndpointCollection
      * @return InvoiceCollection
      * @throws ApiException
      */
-    public function collect(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
+    public function page(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
     {
         return $this->fetchCollection($from, $limit, $parameters);
     }
@@ -68,7 +68,7 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function all(array $parameters = []): InvoiceCollection
     {
-        return $this->collect(null, null, $parameters);
+        return $this->page(null, null, $parameters);
     }
 
     /**

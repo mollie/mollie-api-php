@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Contracts;
 
-interface SupportsDebugging
+interface SupportsDebuggingContract
 {
     /**
      * Enable debugging for the current request.

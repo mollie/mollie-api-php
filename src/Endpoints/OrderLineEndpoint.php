@@ -12,7 +12,7 @@ class OrderLineEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "orders_lines";
 
-    public const RESOURCE_ID_PREFIX = 'odl_';
+    protected static string $resourceIdPrefix = 'odl_';
 
     /**
      * @inheritDoc
@@ -46,9 +46,7 @@ class OrderLineEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        if (empty($orderlineId) || strpos($orderlineId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order line ID: '{$orderlineId}'. An order line ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($orderlineId);
 
         return parent::updateResource($orderlineId, $data);
     }

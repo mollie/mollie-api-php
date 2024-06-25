@@ -7,11 +7,11 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 
-class ShipmentEndpoint extends EndpointCollection
+class OrderShipmentEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "orders_shipments";
 
-    public const RESOURCE_ID_PREFIX = 'shp_';
+    protected static string $resourceIdPrefix = 'shp_';
 
     /**
      * @inheritDoc
@@ -109,9 +109,7 @@ class ShipmentEndpoint extends EndpointCollection
      */
     public function update(string $orderId, $shipmentId, array $data = []): Shipment
     {
-        if (empty($shipmentId) || strpos($shipmentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$shipmentId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($shipmentId);
 
         $this->parentId = $orderId;
 
