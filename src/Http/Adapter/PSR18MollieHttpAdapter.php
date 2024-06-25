@@ -61,7 +61,7 @@ final class PSR18MollieHttpAdapter implements MollieHttpAdapterContract, Support
             return PsrResponseHandler::create()
                 ->handle($response, $response->getStatusCode(), $body);
         } catch (\Exception $e) {
-            if (!$this->debug) {
+            if (! $this->debug) {
                 $request = null;
             }
 

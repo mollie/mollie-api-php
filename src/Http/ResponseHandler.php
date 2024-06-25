@@ -48,7 +48,7 @@ class ResponseHandler
 
     protected function guardNoContentWithBody(ResponseContract $response): void
     {
-        if ($response->status() === ResponseStatusCode::HTTP_NO_CONTENT && !empty($response->body())) {
+        if ($response->status() === ResponseStatusCode::HTTP_NO_CONTENT && ! empty($response->body())) {
             throw new ApiException("No response body found.");
         }
     }
@@ -74,7 +74,7 @@ class ResponseHandler
 
         $field = null;
 
-        if (!empty($body->field)) {
+        if (! empty($body->field)) {
             $field = $body->field;
         }
 

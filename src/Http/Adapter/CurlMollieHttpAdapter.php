@@ -119,16 +119,19 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
             case MollieApiClient::HTTP_POST:
                 curl_setopt($curl, CURLOPT_POST, true);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case MollieApiClient::HTTP_PATCH:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, MollieApiClient::HTTP_PATCH);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case MollieApiClient::HTTP_DELETE:
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, MollieApiClient::HTTP_DELETE);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case MollieApiClient::HTTP_GET:
@@ -136,6 +139,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
                 if ($method !== MollieApiClient::HTTP_GET) {
                     throw new \InvalidArgumentException("Invalid HTTP method: " . $method);
                 }
+
                 break;
         }
     }

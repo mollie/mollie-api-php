@@ -65,12 +65,12 @@ class ApiException extends \Exception
         $formattedRaisedAt = $this->raisedAt->format(DateTime::ATOM);
         $message = "[{$formattedRaisedAt}] " . $message;
 
-        if (!empty($field)) {
+        if (! empty($field)) {
             $this->field = (string)$field;
             $message .= ". Field: {$this->field}";
         }
 
-        if (!empty($response)) {
+        if (! empty($response)) {
             $this->response = $response;
 
             $object = static::parseResponseBody($this->response);
@@ -110,7 +110,7 @@ class ApiException extends \Exception
         $object = static::parseResponseBody($response);
 
         $field = null;
-        if (!empty($object->field)) {
+        if (! empty($object->field)) {
             $field = $object->field;
         }
 
@@ -161,7 +161,7 @@ class ApiException extends \Exception
      */
     public function hasResponse(): bool
     {
-        return !!$this->response;
+        return ! ! $this->response;
     }
 
     /**

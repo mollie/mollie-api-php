@@ -2,6 +2,8 @@
 
 namespace Mollie\Api;
 
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\ResponseContract as Response;
 use Mollie\Api\Endpoints\BalanceEndpoint;
 use Mollie\Api\Endpoints\BalanceReportEndpoint;
 use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
@@ -9,15 +11,17 @@ use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\ClientLinkEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
-use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
-use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\CustomerMandateEndpoint;
+use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
+use Mollie\Api\Endpoints\CustomerSubscriptionEndpoint;
+use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
+use Mollie\Api\Endpoints\OrderShipmentEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
@@ -35,14 +39,10 @@ use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
-use Mollie\Api\Endpoints\OrderShipmentEndpoint;
-use Mollie\Api\Endpoints\CustomerSubscriptionEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Contracts\MollieHttpAdapterContract;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
-use Mollie\Api\Contracts\ResponseContract as Response;
 
 /**
  * @property BalanceEndpoint $balances

@@ -23,7 +23,7 @@ class PsrResponseHandler
     /**
      * Undocumented function
      *
-     * @param mixed|callback|ResponseContract|null $response
+     * @param mixed|callable|ResponseContract|null $response
      * @param int $code
      * @param string|null $requestBody
      * @return ResponseContract
@@ -34,7 +34,7 @@ class PsrResponseHandler
             return ResponseHandler::noResponse();
         }
 
-        if (!$response instanceof ResponseInterface) {
+        if (! $response instanceof ResponseInterface) {
             throw new RuntimeException("Response must be an instance of ResponseInterface.");
         }
 

@@ -39,7 +39,7 @@ trait HandlesDebugging
      */
     public function setDebugging(bool $enable)
     {
-        if (!$this->httpClient instanceof SupportsDebuggingContract) {
+        if (! $this->httpClient instanceof SupportsDebuggingContract) {
             throw new HttpAdapterDoesNotSupportDebuggingException(
                 "Debugging is not supported by " . get_class($this->httpClient) . "."
             );
