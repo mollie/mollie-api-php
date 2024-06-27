@@ -508,7 +508,7 @@ class Order extends BaseResource
      */
     public function payments(): ?PaymentCollection
     {
-        if (!isset($this->_embedded, $this->_embedded->payments)) {
+        if (! isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 

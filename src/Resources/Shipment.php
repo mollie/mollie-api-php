@@ -63,7 +63,7 @@ class Shipment extends BaseResource
      */
     public function hasTrackingUrl(): bool
     {
-        return $this->hasTracking() && !empty($this->tracking->url);
+        return $this->hasTracking() && ! empty($this->tracking->url);
     }
 
     /**
@@ -73,7 +73,7 @@ class Shipment extends BaseResource
      */
     public function getTrackingUrl(): ?string
     {
-        if (!$this->hasTrackingUrl()) {
+        if (! $this->hasTrackingUrl()) {
             return null;
         }
 

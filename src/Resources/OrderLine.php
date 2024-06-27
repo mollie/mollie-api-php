@@ -375,7 +375,7 @@ class OrderLine extends BaseResource
      */
     public function update(): ?Order
     {
-        /** @var null|Order  */
+        /** @var null|Order */
         $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
 
         /** @var Order */
