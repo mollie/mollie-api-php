@@ -9,7 +9,9 @@ interface ResponseContract
     /**
      * @return \stdClass
      */
-    public function json(): \stdClass;
+    public function decode(): \stdClass;
 
     public function status(): int;
+
+    public function isEmpty(): bool;
 }

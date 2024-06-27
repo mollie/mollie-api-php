@@ -476,7 +476,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             )
         );
 
-        $subscriptions = $this->apiClient->subscriptions->collect();
+        $subscriptions = $this->apiClient->subscriptions->page();
 
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
         $this->assertCount(1, $subscriptions);

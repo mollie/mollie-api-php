@@ -35,20 +35,21 @@ class OrderLineEndpoint extends EndpointCollection
      *
      * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
      *
-     * @param string|null $orderId
+     * @param string $orderId
      * @param string $orderlineId
      * @param array $data
      *
-     * @return OrderLine
+     * @return null|OrderLine
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update(string $orderId, string $orderlineId, array $data = []): OrderLine
+    public function update(string $orderId, string $orderlineId, array $data = []): ?OrderLine
     {
         $this->parentId = $orderId;
 
         $this->guardAgainstInvalidId($orderlineId);
 
-        return parent::updateResource($orderlineId, $data);
+        /** @var null|OrderLine */
+        return $this->updateResource($orderlineId, $data);
     }
 
     /**
@@ -75,7 +76,8 @@ class OrderLineEndpoint extends EndpointCollection
             $this->parseRequestBody($parameters)
         );
 
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        /** @var Order */
+        return ResourceFactory::createFromApiResult($result->decode(), new Order($this->client));
     }
 
     /**
@@ -107,7 +109,7 @@ class OrderLineEndpoint extends EndpointCollection
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (!isset($data['lines']) || !is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
         $this->parentId = $orderId;

@@ -43,6 +43,7 @@ class SettlementChargebackEndpoint extends EndpointCollection
     {
         $this->parentId = $settlementId;
 
+        /** @var ChargebackCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

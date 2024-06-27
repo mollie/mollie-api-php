@@ -30,15 +30,16 @@ class RefundEndpoint extends EndpointCollection
     /**
      * Retrieves a collection of Refunds from Mollie.
      *
-     * @param string $from The first refund ID you want to include in your list.
-     * @param int $limit
+     * @param null|string $from The first refund ID you want to include in your list.
+     * @param null|int $limit
      * @param array $parameters
      *
      * @return RefundCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?string $limit = null, array $parameters = []): RefundCollection
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): RefundCollection
     {
+        /** @var RefundCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

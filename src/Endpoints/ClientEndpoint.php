@@ -45,7 +45,8 @@ class ClientEndpoint extends EndpointCollection
             throw new ApiException("Client ID is empty.");
         }
 
-        return parent::readResource($clientId, $parameters);
+        /** @var Client */
+        return $this->readResource($clientId, $parameters);
     }
 
     /**
@@ -60,6 +61,7 @@ class ClientEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
     {
+        /** @var ClientCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

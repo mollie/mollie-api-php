@@ -40,6 +40,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Order
     {
+        /** @var Order */
         return $this->createResource($data, $filters);
     }
 
@@ -51,14 +52,15 @@ class OrderEndpoint extends EndpointCollection
      * @param string $orderId
      * @param array $data
      *
-     * @return Order
+     * @return null|Order
      * @throws ApiException
      */
-    public function update(string $orderId, array $data = []): Order
+    public function update(string $orderId, array $data = []): ?Order
     {
         $this->guardAgainstInvalidId($orderId);
 
-        return parent::updateResource($orderId, $data);
+        /** @var null|Order */
+        return $this->updateResource($orderId, $data);
     }
 
     /**
@@ -76,7 +78,8 @@ class OrderEndpoint extends EndpointCollection
     {
         $this->guardAgainstInvalidId($orderId);
 
-        return parent::readResource($orderId, $parameters);
+        /** @var Order */
+        return $this->readResource($orderId, $parameters);
     }
 
     /**
@@ -96,6 +99,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function cancel(string $orderId, $parameters = []): ?Order
     {
+        /** @var null|Order */
         return $this->deleteResource($orderId, $parameters);
     }
 
@@ -111,6 +115,7 @@ class OrderEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
     {
+        /** @var OrderCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

@@ -334,27 +334,27 @@ class Order extends BaseResource
      * Returns null if successful.
      *
      * @param  array $data
-     * @return null
+     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelLines(array $data)
+    public function cancelLines(array $data): void
     {
-        return $this->client->orderLines->cancelFor($this, $data);
+        $this->client->orderLines->cancelFor($this, $data);
     }
 
     /**
      * Cancels all eligible lines for this order.
      * Returns null if successful.
      *
-     * @param  array|null $data
-     * @return null
+     * @param  array $data
+     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelAllLines($data = [])
+    public function cancelAllLines($data = []): void
     {
         $data['lines'] = [];
 
-        return $this->client->orderLines->cancelFor($this, $data);
+        $this->client->orderLines->cancelFor($this, $data);
     }
 
     /**
@@ -362,8 +362,9 @@ class Order extends BaseResource
      *
      * @return OrderLineCollection
      */
-    public function lines()
+    public function lines(): OrderLineCollection
     {
+        /** @var OrderLineCollection */
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
             OrderLine::class,
@@ -471,7 +472,7 @@ class Order extends BaseResource
      * @return RefundCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
         return $this->client->orderRefunds->pageFor($this);
     }
@@ -479,10 +480,10 @@ class Order extends BaseResource
     /**
      * Saves the order's updated billingAddress and/or shippingAddress.
      *
-     * @return \Mollie\Api\Resources\Order
+     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Order
     {
         $body = [
             "billingAddress" => $this->billingAddress,
@@ -493,9 +494,8 @@ class Order extends BaseResource
             "webhookUrl" => $this->webhookUrl,
         ];
 
-        $result = $this->client->orders->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        /** @var null|Order */
+        return $this->client->orders->update($this->id, $body);
     }
 
     /**
@@ -503,7 +503,7 @@ class Order extends BaseResource
      *
      * @param array $data
      * @param array $filters
-     * @return \Mollie\Api\Resources\Payment
+     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createPayment($data, $filters = [])
@@ -515,14 +515,15 @@ class Order extends BaseResource
      * Retrieve the payments for this order.
      * Requires the order to be retrieved using the embed payments parameter.
      *
-     * @return null|\Mollie\Api\Resources\PaymentCollection
+     * @return null|PaymentCollection
      */
-    public function payments()
+    public function payments(): ?PaymentCollection
     {
-        if (! isset($this->_embedded, $this->_embedded->payments)) {
+        if (!isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 
+        /** @var PaymentCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $this->_embedded->payments,

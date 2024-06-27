@@ -54,8 +54,8 @@ class GuzzleMollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = invade($e);
-            $this->assertInstanceOf(RequestInterface::class, $exception->request);
+            /** @phpstan-ignore-next-line */
+            $this->assertInstanceOf(RequestInterface::class, invade($e)->request);
         }
     }
 
@@ -86,8 +86,8 @@ class GuzzleMollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = invade($e);
-            $this->assertNull($exception->request);
+            /** @phpstan-ignore-next-line */
+            $this->assertNull(invade($e)->request);
         }
     }
 }

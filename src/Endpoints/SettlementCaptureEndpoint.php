@@ -43,6 +43,7 @@ class SettlementCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $settlementId;
 
+        /** @var CaptureCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Mollie\API\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\OrderCollection;
@@ -15,7 +16,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
-            ->willReturn($this->arrayToObject([
+            ->willReturn($this->arrayToResponse([
                 'count' => 1,
                 '_links' => [
                     'self' => [
@@ -67,7 +68,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
             ->willReturn(
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -131,7 +132,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient->expects($this->exactly(3))
             ->method('performHttpCallToFullUrl')
             ->willReturnOnConsecutiveCalls(
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -147,7 +148,7 @@ class CursorCollectionTest extends TestCase
                         ],
                     ],
                 ]),
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -163,7 +164,7 @@ class CursorCollectionTest extends TestCase
                         ],
                     ],
                 ]),
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -204,7 +205,7 @@ class CursorCollectionTest extends TestCase
      */
     private function arrayToObject($data)
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             return $data;
         }
 
@@ -215,5 +216,17 @@ class CursorCollectionTest extends TestCase
         }
 
         return $obj;
+    }
+
+    private function objectToResponse(object $obj): Response
+    {
+        return new Response(200, [], json_encode($obj));
+    }
+
+    private function arrayToResponse($data): Response
+    {
+        $obj = $this->arrayToObject($data);
+
+        return $this->objectToResponse($obj);
     }
 }

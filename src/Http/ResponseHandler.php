@@ -15,7 +15,7 @@ class ResponseHandler
     public function handle(?ResponseContract $response = null, ?string $requestBody = null): ResponseContract
     {
         if ($response === null) {
-            return new NoResponse();
+            return new EmptyResponse();
         }
 
         $this->guard($response);
@@ -27,54 +27,59 @@ class ResponseHandler
 
     public static function create(): self
     {
-        return new static();
+        return new self();
     }
 
     public static function noResponse(): ResponseContract
     {
-        return (new static())->handle(null);
+        return (new self())->handle(null);
     }
 
-    protected function guard(ResponseContract $response): void
+    public function guard(ResponseContract $response): void
     {
         $this->guardNoContentWithBody($response);
+
+        if (empty($response->body())) {
+            return;
+        }
+
         $this->guardJsonNotDecodable($response);
 
         // @todo check if this is still necessary as it seems to be from api v1
-        if (isset($response->json()->error)) {
-            throw new ApiException($response->json()->error->message);
+        if (isset($response->decode()->error)) {
+            throw new ApiException($response->decode()->error->message);
         }
     }
 
     protected function guardNoContentWithBody(ResponseContract $response): void
     {
-        if ($response->status() === ResponseStatusCode::HTTP_NO_CONTENT && ! empty($response->body())) {
+        if (empty($response->body()) && $response->status() !== ResponseStatusCode::HTTP_NO_CONTENT) {
             throw new ApiException("No response body found.");
         }
     }
 
     protected function guardJsonNotDecodable(ResponseContract $response): void
     {
-        $response->json();
+        $response->decode();
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ApiException("Unable to decode Mollie response: '{$response->body()}'.");
         }
     }
 
-    protected function throwExceptionIfRequestFailed(ResponseContract $response, ?string $requestBody): void
+    public function throwExceptionIfRequestFailed(ResponseContract $response, ?string $requestBody): void
     {
         if ($this->requestSucceeded($response->status())) {
             return;
         }
 
-        $body = $response->json();
+        $body = $response->decode();
 
         $message = "Error executing API call ({$body->status}: {$body->title}): {$body->detail}";
 
         $field = null;
 
-        if (! empty($body->field)) {
+        if (!empty($body->field)) {
             $field = $body->field;
         }
 
@@ -83,10 +88,14 @@ class ResponseHandler
         }
 
         if ($requestBody) {
-            $message .= ". Request body: {$body}";
+            $message .= ". Request body: {$requestBody}";
         }
 
-        throw new ApiException($message, $response->status(), $field);
+        throw new ApiException(
+            $message,
+            $response->status(),
+            $field,
+        );
     }
 
     /**

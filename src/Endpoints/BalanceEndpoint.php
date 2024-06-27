@@ -36,14 +36,15 @@ class BalanceEndpoint extends EndpointCollection
      *
      * @param string $balanceId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
+     * @return Balance
      * @throws ApiException
      */
     public function get(string $balanceId, array $parameters = []): Balance
     {
         $this->guardAgainstInvalidId($balanceId);
 
-        return parent::readResource($balanceId, $parameters);
+        /** @var Balance */
+        return $this->readResource($balanceId, $parameters);
     }
 
     /**
@@ -57,7 +58,8 @@ class BalanceEndpoint extends EndpointCollection
      */
     public function primary(array $parameters = []): Balance
     {
-        return parent::readResource("primary", $parameters);
+        /** @var Balance */
+        return $this->readResource("primary", $parameters);
     }
 
     /**
@@ -72,6 +74,7 @@ class BalanceEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
     {
+        /** @var BalanceCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

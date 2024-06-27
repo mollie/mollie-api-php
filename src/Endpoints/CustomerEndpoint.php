@@ -40,6 +40,7 @@ class CustomerEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Customer
     {
+        /** @var Customer */
         return $this->createResource($data, $filters);
     }
 
@@ -55,6 +56,7 @@ class CustomerEndpoint extends EndpointCollection
      */
     public function get(string $customerId, array $parameters = []): Customer
     {
+        /** @var Customer */
         return $this->readResource($customerId, $parameters);
     }
 
@@ -65,14 +67,15 @@ class CustomerEndpoint extends EndpointCollection
      *
      * @param string $customerId
      * @param array $data
-     * @return Customer
+     * @return null|Customer
      * @throws ApiException
      */
-    public function update(string $customerId, array $data = []): Customer
+    public function update(string $customerId, array $data = []): ?Customer
     {
         $this->guardAgainstInvalidId($customerId);
 
-        return parent::updateResource($customerId, $data);
+        /** @var null|Customer */
+        return $this->updateResource($customerId, $data);
     }
 
     /**
@@ -88,6 +91,7 @@ class CustomerEndpoint extends EndpointCollection
      */
     public function delete(string $customerId, array $data = []): ?Customer
     {
+        /** @var null|Customer */
         return $this->deleteResource($customerId, $data);
     }
 
@@ -103,6 +107,7 @@ class CustomerEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): CustomerCollection
     {
+        /** @var CustomerCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

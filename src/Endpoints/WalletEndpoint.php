@@ -27,6 +27,6 @@ class WalletEndpoint extends BaseEndpoint
             $body
         );
 
-        return json_encode($response);
+        return $response->body();
     }
 }

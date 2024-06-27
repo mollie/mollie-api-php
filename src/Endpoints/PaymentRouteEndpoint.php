@@ -37,14 +37,15 @@ class PaymentRouteEndpoint extends RestEndpoint
      * @param string $releaseDate - UTC datetime in ISO-8601 format when the funds for the following payment will become available on
      * the balance of the connected account
      *
-     * @return \Mollie\Api\Resources\Route
+     * @return Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateForPaymentId(string $paymentId, string $routeId, string $releaseDate, bool $testmode = false): Route
+    public function updateReleaseDateForPaymentId(string $paymentId, string $routeId, string $releaseDate, bool $testmode = false): ?Route
     {
         $this->parentId = $paymentId;
 
-        return parent::updateResource($routeId, [
+        /** @var Route */
+        return $this->updateResource($routeId, [
             'releaseDate' => $releaseDate,
             'testmode' => $testmode,
         ]);

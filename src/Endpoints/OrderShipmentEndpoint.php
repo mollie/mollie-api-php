@@ -60,7 +60,8 @@ class OrderShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::createResource($options, $filters);
+        /** @var Shipment */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -92,7 +93,8 @@ class OrderShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::readResource($shipmentId, $parameters);
+        /** @var Shipment */
+        return $this->readResource($shipmentId, $parameters);
     }
 
     /**
@@ -104,16 +106,17 @@ class OrderShipmentEndpoint extends EndpointCollection
      * @param string $orderId
      * @param array $data
      *
-     * @return Shipment
+     * @return null|Shipment
      * @throws ApiException
      */
-    public function update(string $orderId, $shipmentId, array $data = []): Shipment
+    public function update(string $orderId, $shipmentId, array $data = []): ?Shipment
     {
         $this->guardAgainstInvalidId($shipmentId);
 
         $this->parentId = $orderId;
 
-        return parent::updateResource($shipmentId, $data);
+        /** @var null|Shipment */
+        return $this->updateResource($shipmentId, $data);
     }
 
     /**
@@ -143,6 +146,7 @@ class OrderShipmentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var ShipmentCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 }

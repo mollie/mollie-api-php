@@ -39,6 +39,7 @@ class ChargebackEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
     {
+        /** @var ChargebackCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

@@ -56,13 +56,17 @@ class Response implements ResponseContract
      *
      * @return \stdClass
      */
-    public function json(): \stdClass
+    public function decode(): \stdClass
     {
-        if (! $this->decoded) {
-            $this->decoded = @json_decode($this->body());
+        if (empty($body = $this->body())) {
+            return (object)[];
+        }
+
+        if (!$this->decoded) {
+            $this->decoded = @json_decode($body);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new ApiException("Unable to decode Mollie response: '{$this->body()}'.");
+                throw new ApiException("Unable to decode Mollie response: '{$body}'.");
             }
         }
 
@@ -72,6 +76,11 @@ class Response implements ResponseContract
     public function status(): int
     {
         return $this->statusCode;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->body());
     }
 
     public function getReasonPhrase(): string

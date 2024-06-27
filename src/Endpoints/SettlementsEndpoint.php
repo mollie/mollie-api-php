@@ -40,7 +40,8 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function get(string $settlementId, array $parameters = []): Settlement
     {
-        return parent::readResource($settlementId, $parameters);
+        /** @var Settlement */
+        return $this->readResource($settlementId, $parameters);
     }
 
     /**
@@ -51,7 +52,8 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function next(): Settlement
     {
-        return parent::readResource("next", []);
+        /** @var Settlement */
+        return $this->readResource("next", []);
     }
 
     /**
@@ -62,7 +64,8 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function open(): Settlement
     {
-        return parent::readResource("open", []);
+        /** @var Settlement */
+        return $this->readResource("open", []);
     }
 
     /**
@@ -77,6 +80,7 @@ class SettlementsEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
     {
+        /** @var SettlementCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

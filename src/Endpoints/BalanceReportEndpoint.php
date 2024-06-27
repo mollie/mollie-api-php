@@ -26,19 +26,24 @@ class BalanceReportEndpoint extends RestEndpoint
      * @param string $balanceId
      * @param array $parameters
      *
-     * @return BalanceReport
+     * @return null|BalanceReport
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId(string $balanceId, array $parameters = []): BalanceReport
+    public function getForId(string $balanceId, array $parameters = []): ?BalanceReport
     {
         $this->parentId = $balanceId;
 
-        $result = $this->client->performHttpCall(
+        $response = $this->client->performHttpCall(
             self::REST_READ,
             $this->getResourcePath() . $this->buildQueryString($parameters)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        if ($response->isEmpty()) {
+            return null;
+        }
+
+        /** @var BalanceReport */
+        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
     }
 
     /**

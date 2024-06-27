@@ -7,7 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class CustomerMandateEndpoint extends EndpointCollection
+class MandateEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_mandates";
 
@@ -52,7 +52,8 @@ class CustomerMandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::createResource($options, $filters);
+        /** @var Mandate */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -80,6 +81,7 @@ class CustomerMandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
+        /** @var Mandate */
         return $this->readResource($mandateId, $parameters);
     }
 
@@ -131,7 +133,8 @@ class CustomerMandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::fetchCollection($from, $limit, $parameters);
+        /** @var MandateCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -182,6 +185,7 @@ class CustomerMandateEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::deleteResource($mandateId, $data);
+        /** @var null|Mandate */
+        return $this->deleteResource($mandateId, $data);
     }
 }

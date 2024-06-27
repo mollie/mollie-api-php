@@ -140,7 +140,7 @@ class CustomerEndpointTest extends BaseEndpointTest
             )
         );
 
-        $customers = $this->apiClient->customers->collect();
+        $customers = $this->apiClient->customers->page();
 
         $this->assertInstanceOf(CustomerCollection::class, $customers);
 

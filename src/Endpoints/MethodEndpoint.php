@@ -51,7 +51,8 @@ class MethodEndpoint extends EndpointCollection
      */
     public function allActive(array $parameters = []): MethodCollection
     {
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var MethodCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -68,7 +69,8 @@ class MethodEndpoint extends EndpointCollection
 
         $result = $this->client->performHttpCall('GET', $url);
 
-        return $this->buildResultCollection($result);
+        /** @var MethodCollection */
+        return $this->buildResultCollection($result->decode());
     }
 
     /**
@@ -83,10 +85,7 @@ class MethodEndpoint extends EndpointCollection
      */
     public function get(string $methodId, array $parameters = []): Method
     {
-        if (empty($methodId)) {
-            throw new ApiException("Method ID is empty.");
-        }
-
-        return parent::readResource($methodId, $parameters);
+        /** @var Method */
+        return $this->readResource($methodId, $parameters);
     }
 }

@@ -43,6 +43,7 @@ class SettlementRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $settlementId;
 
+        /** @var RefundCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

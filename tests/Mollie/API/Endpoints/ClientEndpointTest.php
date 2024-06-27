@@ -119,7 +119,7 @@ class ClientEndpointTest extends BaseEndpointTest
             )
         );
 
-        $clients = $this->apiClient->clients->collect();
+        $clients = $this->apiClient->clients->page();
 
         $this->assertInstanceOf(ClientCollection::class, $clients);
         $this->assertEquals(1, $clients->count);

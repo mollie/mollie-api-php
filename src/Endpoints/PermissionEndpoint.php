@@ -38,6 +38,7 @@ class PermissionEndpoint extends EndpointCollection
      */
     public function get(string $permissionId, array $parameters = []): Permission
     {
+        /** @var Permission */
         return $this->readResource($permissionId, $parameters);
     }
 
@@ -51,6 +52,7 @@ class PermissionEndpoint extends EndpointCollection
      */
     public function all(array $parameters = []): PermissionCollection
     {
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var PermissionCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 }

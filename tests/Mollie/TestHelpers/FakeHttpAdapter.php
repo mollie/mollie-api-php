@@ -2,42 +2,28 @@
 
 namespace Tests\Mollie\TestHelpers;
 
+use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Contracts\MollieHttpAdapterContract;
 use Mollie\Api\Contracts\ResponseContract;
 use Mollie\Api\Http\PsrResponseHandler;
 
 class FakeHttpAdapter implements MollieHttpAdapterContract
 {
-    /**
-     * @var \stdClass|null
-     */
-    private $response;
+    private Response $response;
 
-    /**
-     * @var string
-     */
-    private $usedMethod;
+    private string $usedMethod;
 
-    /**
-     * @var string
-     */
-    private $usedUrl;
+    private string $usedUrl;
 
-    /**
-     * @var string
-     */
-    private $usedHeaders;
+    private string $usedHeaders;
 
-    /**
-     * @var string
-     */
-    private $usedBody;
+    private string $usedBody;
 
     /**
      * FakeHttpAdapter constructor.
-     * @param \stdClass|null|\GuzzleHttp\Psr7\Response $response
+     * @paramResponse $response
      */
-    public function __construct($response)
+    public function __construct(Response $response)
     {
         $this->response = $response;
     }
@@ -47,7 +33,7 @@ class FakeHttpAdapter implements MollieHttpAdapterContract
      * @param string $url
      * @param string $headers
      * @param string $body
-     * @return \stdClass|null
+     * @return ResponseContract
      */
     public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
@@ -57,7 +43,7 @@ class FakeHttpAdapter implements MollieHttpAdapterContract
         $this->usedBody = $body;
 
         return PsrResponseHandler::create()
-            ->handle($this->response, 200, $body);
+            ->handle(null, $this->response, 200, $body);
     }
 
     /**

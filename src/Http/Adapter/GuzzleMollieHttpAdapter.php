@@ -77,7 +77,7 @@ final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, Suppor
      * @return ResponseContract
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
+    public function send(string $method, string $url, $headers, ?string $body = null): ResponseContract
     {
         $request = new Request($method, $url, $headers, $body);
 
@@ -85,7 +85,7 @@ final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, Suppor
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             // Prevent sensitive request data from ending up in exception logs unintended
-            if (! $this->debug) {
+            if (!$this->debug) {
                 $request = null;
             }
 
@@ -100,38 +100,7 @@ final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, Suppor
         }
 
         return PsrResponseHandler::create()
-            ->handle($response, $response->getStatusCode(), $body);
-    }
-
-    /**
-     * Parse the PSR-7 Response body
-     *
-     * @param ResponseInterface $response
-     * @return \stdClass|null
-     * @throws ApiException
-     */
-    private function parseResponseBody(ResponseInterface $response): ?\stdClass
-    {
-        $body = (string) $response->getBody();
-        if (empty($body)) {
-            if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
-                return null;
-            }
-
-            throw new ApiException("No response body found.");
-        }
-
-        $object = @json_decode($body);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-        }
-
-        if ($response->getStatusCode() >= 400) {
-            throw ApiException::createFromResponse($response, null);
-        }
-
-        return $object;
+            ->handle($request, $response, $response->getStatusCode(), $body);
     }
 
     /**
@@ -140,7 +109,7 @@ final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, Suppor
      *
      * @example Guzzle/7.0
      *
-     * @return string|null
+     * @return string
      */
     public function version(): string
     {

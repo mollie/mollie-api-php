@@ -31,7 +31,7 @@ abstract class EndpointCollection extends RestEndpoint
             $apiPath
         );
 
-        return $this->buildResultCollection($result);
+        return $this->buildResultCollection($result->decode());
     }
 
     /**

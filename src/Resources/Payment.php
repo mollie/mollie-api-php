@@ -433,7 +433,7 @@ class Payment extends BaseResource
      */
     public function isPaid()
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -443,7 +443,7 @@ class Payment extends BaseResource
      */
     public function hasRefunds()
     {
-        return ! empty($this->_links->refunds);
+        return !empty($this->_links->refunds);
     }
 
     /**
@@ -453,7 +453,7 @@ class Payment extends BaseResource
      */
     public function hasChargebacks()
     {
-        return ! empty($this->_links->chargebacks);
+        return !empty($this->_links->chargebacks);
     }
 
     /**
@@ -586,7 +586,7 @@ class Payment extends BaseResource
      */
     public function hasSplitPayments()
     {
-        return ! empty($this->routing);
+        return !empty($this->routing);
     }
 
     /**
@@ -595,17 +595,18 @@ class Payment extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->refunds->href
-        );
+        )->decode();
 
+        /** @var RefundCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->refunds,
@@ -629,12 +630,18 @@ class Payment extends BaseResource
     /**
      * @param array $parameters
      *
-     * @return Refund
+     * @return RefundCollection
      * @throws ApiException
      */
-    public function listRefunds(array $parameters = [])
+    public function listRefunds(array $parameters = []): RefundCollection
     {
-        return $this->client->paymentRefunds->listFor($this, $this->withPresetOptions($parameters));
+        return $this
+            ->client
+            ->paymentRefunds
+            ->listFor(
+                $this,
+                $this->withPresetOptions($parameters)
+            );
     }
 
     /**
@@ -643,17 +650,18 @@ class Payment extends BaseResource
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures()
+    public function captures(): CaptureCollection
     {
-        if (! isset($this->_links->captures->href)) {
+        if (!isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->captures->href
-        );
+        )->decode();
 
+        /** @var CaptureCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->captures,
@@ -684,17 +692,18 @@ class Payment extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->chargebacks->href
-        );
+        )->decode();
 
+        /** @var ChargebackCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->chargebacks,
@@ -735,10 +744,10 @@ class Payment extends BaseResource
     }
 
     /**
-     * @return \Mollie\Api\Resources\Payment
+     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Payment
     {
         $body = [
             "description" => $this->description,
@@ -751,12 +760,11 @@ class Payment extends BaseResource
             "dueDate" => $this->dueDate,
         ];
 
-        $result = $this->client->payments->update(
+        /** @var null|Payment */
+        return $this->client->payments->update(
             $this->id,
             $this->withPresetOptions($body)
         );
-
-        return ResourceFactory::createFromApiResult($result, new Payment($this->client));
     }
 
     /**

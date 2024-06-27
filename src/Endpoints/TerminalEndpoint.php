@@ -11,6 +11,8 @@ class TerminalEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "terminals";
 
+    protected static string $resourceIdPrefix = 'term_';
+
     /**
      * @inheritDoc
      */
@@ -40,11 +42,10 @@ class TerminalEndpoint extends EndpointCollection
      */
     public function get(string $terminalId, array $parameters = []): Terminal
     {
-        if (empty($terminalId) || strpos($terminalId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid terminal ID: '{$terminalId}'. A terminal ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($terminalId);
 
-        return parent::readResource($terminalId, $parameters);
+        /** @var Terminal */
+        return $this->readResource($terminalId, $parameters);
     }
 
     /**
@@ -59,7 +60,8 @@ class TerminalEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): TerminalCollection
     {
-        return parent::fetchCollection($from, $limit, $parameters);
+        /** @var TerminalCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**

@@ -40,6 +40,7 @@ class PaymentLinkEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): PaymentLink
     {
+        /** @var PaymentLink */
         return $this->createResource($data, $filters);
     }
 
@@ -57,7 +58,8 @@ class PaymentLinkEndpoint extends EndpointCollection
     {
         $this->guardAgainstInvalidId($paymentLinkId);
 
-        return parent::readResource($paymentLinkId, $parameters);
+        /** @var PaymentLink */
+        return $this->readResource($paymentLinkId, $parameters);
     }
 
     /**
@@ -72,6 +74,7 @@ class PaymentLinkEndpoint extends EndpointCollection
      */
     public function page(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
     {
+        /** @var PaymentLinkCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

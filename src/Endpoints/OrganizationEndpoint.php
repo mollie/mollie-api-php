@@ -34,7 +34,8 @@ class OrganizationEndpoint extends RestEndpoint
             throw new ApiException("Organization ID is empty.");
         }
 
-        return parent::readResource($organizationId, $parameters);
+        /** @var Organization */
+        return $this->readResource($organizationId, $parameters);
     }
 
     /**
@@ -47,6 +48,7 @@ class OrganizationEndpoint extends RestEndpoint
      */
     public function current(array $parameters = []): Organization
     {
-        return parent::readResource('me', $parameters);
+        /** @var Organization */
+        return $this->readResource('me', $parameters);
     }
 }

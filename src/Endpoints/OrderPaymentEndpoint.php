@@ -55,6 +55,7 @@ class OrderPaymentEndpoint extends EndpointCollection
     {
         $this->parentId = $orderId;
 
+        /** @var Payment */
         return $this->createResource($data, $filters);
     }
 }

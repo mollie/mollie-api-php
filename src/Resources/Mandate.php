@@ -86,11 +86,11 @@ class Mandate extends BaseResource
     /**
      * Revoke the mandate
      *
-     * @return null|\stdClass|\Mollie\Api\Resources\Mandate
+     * @return null|\Mollie\Api\Resources\Mandate
      */
-    public function revoke()
+    public function revoke(): ?Mandate
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -107,6 +107,9 @@ class Mandate extends BaseResource
             $body
         );
 
-        return $result;
+        /** @var null|Mandate */
+        return $result->isEmpty()
+            ? null
+            : ResourceFactory::createFromApiResult($result->decode(), new self($this->client));
     }
 }

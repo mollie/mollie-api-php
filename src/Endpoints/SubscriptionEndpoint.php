@@ -8,7 +8,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
 
-class CustomerSubscriptionEndpoint extends EndpointCollection
+class SubscriptionEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "customers_subscriptions";
 
@@ -59,7 +59,8 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::createResource($options, $filters);
+        /** @var Subscription */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -72,16 +73,17 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
      *
      * @param array $data
      *
-     * @return Subscription
+     * @return null|Subscription
      * @throws ApiException
      */
-    public function update(string $customerId, string $subscriptionId, array $data = []): Subscription
+    public function update(string $customerId, string $subscriptionId, array $data = []): ?Subscription
     {
         $this->guardAgainstInvalidId($subscriptionId);
 
         $this->parentId = $customerId;
 
-        return parent::updateResource($subscriptionId, $data);
+        /** @var null|Subscription */
+        return $this->updateResource($subscriptionId, $data);
     }
 
     /**
@@ -109,7 +111,8 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::readResource($subscriptionId, $parameters);
+        /** @var Subscription */
+        return $this->readResource($subscriptionId, $parameters);
     }
 
     /**
@@ -160,7 +163,8 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::fetchCollection($from, $limit, $parameters);
+        /** @var SubscriptionCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -211,7 +215,8 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
     {
         $this->parentId = $customerId;
 
-        return parent::deleteResource($subscriptionId, $data);
+        /** @var null|Subscription */
+        return $this->deleteResource($subscriptionId, $data);
     }
 
     /**
@@ -235,7 +240,8 @@ class CustomerSubscriptionEndpoint extends EndpointCollection
             $apiPath
         );
 
-        return $this->buildResultCollection($result);
+        /** @var SubscriptionCollection */
+        return $this->buildResultCollection($result->decode());
     }
 
     /**

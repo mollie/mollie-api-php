@@ -41,6 +41,7 @@ class SettlementPaymentEndpoint extends EndpointCollection
     {
         $this->parentId = $settlementId;
 
+        /** @var PaymentCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

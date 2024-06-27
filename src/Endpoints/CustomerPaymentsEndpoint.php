@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
@@ -35,7 +36,7 @@ class CustomerPaymentsEndpoint extends EndpointCollection
      * @param array $filters
      *
      * @return Payment
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function createFor(Customer $customer, array $options = [], array $filters = []): Payment
     {
@@ -49,14 +50,15 @@ class CustomerPaymentsEndpoint extends EndpointCollection
      * @param array $options
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Payment
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return Payment
+     * @throws ApiException
      */
     public function createForId($customerId, array $options = [], array $filters = [])
     {
         $this->parentId = $customerId;
 
-        return parent::createResource($options, $filters);
+        /** @var Payment */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -66,7 +68,7 @@ class CustomerPaymentsEndpoint extends EndpointCollection
      * @param array $parameters
      *
      * @return PaymentCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
     public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
     {
@@ -100,14 +102,15 @@ class CustomerPaymentsEndpoint extends EndpointCollection
      * @param int $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\PaymentCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return PaymentCollection
+     * @throws ApiException
      */
     public function listForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
     {
         $this->parentId = $customerId;
 
-        return parent::fetchCollection($from, $limit, $parameters);
+        /** @var PaymentCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**

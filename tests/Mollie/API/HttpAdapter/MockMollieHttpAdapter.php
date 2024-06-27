@@ -11,8 +11,9 @@ class MockMollieHttpAdapter implements \Mollie\Api\Contracts\MollieHttpAdapterCo
      */
     public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
-        return new class implements ResponseContract {
-            public function json(): \stdClass
+        return new class implements ResponseContract
+        {
+            public function decode(): \stdClass
             {
                 return (object) ['foo' => 'bar'];
             }
@@ -25,6 +26,11 @@ class MockMollieHttpAdapter implements \Mollie\Api\Contracts\MollieHttpAdapterCo
             public function body(): string
             {
                 return 'foo';
+            }
+
+            public function isEmpty(): bool
+            {
+                return false;
             }
         };
     }

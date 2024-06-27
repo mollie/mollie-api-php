@@ -69,7 +69,7 @@ class RefundEndpointTest extends BaseEndpointTest
             )
         );
 
-        $refunds = $this->apiClient->refunds->collect();
+        $refunds = $this->apiClient->refunds->page();
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
         $this->assertEquals(1, $refunds->count);

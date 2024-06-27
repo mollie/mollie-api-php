@@ -42,7 +42,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
      * @throws \Mollie\Api\Exceptions\ApiException
      * @throws \Mollie\Api\Exceptions\CurlConnectTimeoutException
      */
-    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
+    public function send(string $method, string $url, $headers, ?string $body = null): ResponseContract
     {
         for ($i = 0; $i <= self::MAX_RETRIES; $i++) {
             usleep($i * self::DELAY_INCREASE_MS);
@@ -71,7 +71,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
      * @return Response
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    protected function attemptRequest(string $method, string $url, array $headers = [], ?string $body): Response
+    protected function attemptRequest(string $method, string $url, array $headers = [], ?string $body = null): Response
     {
         $curl = $this->initializeCurl($url);
         $this->setCurlHeaders($curl, $headers);
@@ -219,7 +219,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
      * The version number for the underlying http client, if available.
      * @example Guzzle/6.3
      *
-     * @return string|null
+     * @return string
      */
     public function version(): string
     {

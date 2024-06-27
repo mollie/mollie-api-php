@@ -70,7 +70,8 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = $balanceId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var BalanceTransactionCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -101,7 +102,8 @@ class BalanceTransactionEndpoint extends EndpointCollection
     {
         $this->parentId = "primary";
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var BalanceTransactionCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**

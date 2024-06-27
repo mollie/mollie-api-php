@@ -63,7 +63,7 @@ class Shipment extends BaseResource
      */
     public function hasTrackingUrl()
     {
-        return $this->hasTracking() && ! empty($this->tracking->url);
+        return $this->hasTracking() && !empty($this->tracking->url);
     }
 
     /**
@@ -73,7 +73,7 @@ class Shipment extends BaseResource
      */
     public function getTrackingUrl()
     {
-        if (! $this->hasTrackingUrl()) {
+        if (!$this->hasTrackingUrl()) {
             return null;
         }
 
@@ -85,8 +85,9 @@ class Shipment extends BaseResource
      *
      * @return OrderLineCollection
      */
-    public function lines()
+    public function lines(): OrderLineCollection
     {
+        /** @var OrderLineCollection */
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
             OrderLine::class,
@@ -100,7 +101,7 @@ class Shipment extends BaseResource
      * @return Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function order()
+    public function order(): Order
     {
         return $this->client->orders->get($this->orderId);
     }
@@ -108,10 +109,10 @@ class Shipment extends BaseResource
     /**
      * Save changes made to this shipment.
      *
-     * @return BaseResource|Shipment
+     * @return null|Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Shipment
     {
         $body = [
             "tracking" => $this->tracking,
@@ -119,6 +120,11 @@ class Shipment extends BaseResource
 
         $result = $this->client->shipments->update($this->orderId, $this->id, $body);
 
+        if (!$result) {
+            return null;
+        }
+
+        /** @var Shipment */
         return ResourceFactory::createFromApiResult($result, new Shipment($this->client));
     }
 }

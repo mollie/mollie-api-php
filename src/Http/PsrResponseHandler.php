@@ -3,6 +3,8 @@
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\ResponseContract;
+use Mollie\Api\Exceptions\ApiException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
@@ -23,30 +25,49 @@ class PsrResponseHandler
     /**
      * Undocumented function
      *
-     * @param mixed|callable|ResponseContract|null $response
+     * @param RequestInterface|null $psrResponse
+     * @param ResponseInterface|null $psrResponse
      * @param int $code
      * @param string|null $requestBody
      * @return ResponseContract
      */
-    public function handle(?ResponseInterface $response = null, int $code, ?string $requestBody = null): ResponseContract
-    {
-        if ($response === null) {
+    public function handle(
+        ?RequestInterface $prsRequest = null,
+        ?ResponseInterface $psrResponse = null,
+        int $code = 200,
+        ?string $requestBody = null
+    ): ResponseContract {
+        if ($psrResponse === null) {
             return ResponseHandler::noResponse();
         }
 
-        if (! $response instanceof ResponseInterface) {
+        if (!$psrResponse instanceof ResponseInterface) {
             throw new RuntimeException("Response must be an instance of ResponseInterface.");
         }
 
-        $body = (string) $response->getBody();
+        $body = (string) $psrResponse->getBody();
 
-        return $this->responseHandler->handle(
-            new Response(
-                $code,
-                $response->getHeaders(),
-                $body
-            ),
-            $requestBody
+        $response = new Response(
+            $code,
+            $psrResponse->getHeaders(),
+            $body
         );
+
+        $this->responseHandler->guard($response);
+
+        try {
+            $this->responseHandler->throwExceptionIfRequestFailed($response, $requestBody);
+        } catch (ApiException $e) {
+            throw new ApiException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e->getField(),
+                $prsRequest,
+                $psrResponse,
+                $e->getPrevious()
+            );
+        }
+
+        return $response;
     }
 }

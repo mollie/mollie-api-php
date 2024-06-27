@@ -41,6 +41,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Payment
     {
+        /** @var Payment */
         return $this->createResource($data, $filters);
     }
 
@@ -52,14 +53,15 @@ class PaymentEndpoint extends EndpointCollection
      * @param string $paymentId
      * @param array $data
      *
-     * @return Payment
+     * @return null|Payment
      * @throws ApiException
      */
-    public function update($paymentId, array $data = []): Payment
+    public function update($paymentId, array $data = []): ?Payment
     {
         $this->guardAgainstInvalidId($paymentId);
 
-        return parent::updateResource($paymentId, $data);
+        /** @var null|Payment */
+        return $this->updateResource($paymentId, $data);
     }
 
     /**
@@ -77,7 +79,8 @@ class PaymentEndpoint extends EndpointCollection
     {
         $this->guardAgainstInvalidId($paymentId);
 
-        return parent::readResource($paymentId, $parameters);
+        /** @var Payment */
+        return $this->readResource($paymentId, $parameters);
     }
 
     /**
@@ -106,11 +109,12 @@ class PaymentEndpoint extends EndpointCollection
      * @param string $paymentId
      * @param array $data
      *
-     * @return Payment
+     * @return null|Payment
      * @throws ApiException
      */
     public function cancel(string $paymentId, array $data = []): ?Payment
     {
+        /** @var null|Payment */
         return $this->deleteResource($paymentId, $data);
     }
 
@@ -126,6 +130,7 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function page(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
     {
+        /** @var PaymentCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

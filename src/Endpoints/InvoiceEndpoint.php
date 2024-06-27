@@ -40,6 +40,7 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function get(string $invoiceId, array $parameters = []): Invoice
     {
+        /** @var Invoice */
         return $this->readResource($invoiceId, $parameters);
     }
 
@@ -55,6 +56,7 @@ class InvoiceEndpoint extends EndpointCollection
      */
     public function page(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
     {
+        /** @var InvoiceCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

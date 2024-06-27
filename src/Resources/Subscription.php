@@ -110,10 +110,10 @@ class Subscription extends BaseResource
     public $_links;
 
     /**
-     * @return Subscription
+     * @return null|Subscription
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Subscription
     {
         $body = [
             "amount" => $this->amount,
@@ -128,6 +128,11 @@ class Subscription extends BaseResource
 
         $result = $this->client->subscriptions->update($this->customerId, $this->id, $body);
 
+        if (!$result) {
+            return null;
+        }
+
+        /** @var Subscription */
         return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
     }
 
@@ -184,12 +189,12 @@ class Subscription extends BaseResource
     /**
      * Cancels this subscription
      *
-     * @return Subscription
+     * @return null|Subscription
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel()
+    public function cancel(): ?Subscription
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -206,26 +211,32 @@ class Subscription extends BaseResource
             $body
         );
 
-        return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
+        if ($result->isEmpty()) {
+            return null;
+        }
+
+        /** @var Subscription */
+        return ResourceFactory::createFromApiResult($result->decode(), new Subscription($this->client));
     }
 
     /**
      * Get subscription payments
      *
-     * @return \Mollie\Api\Resources\PaymentCollection
+     * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function payments()
+    public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->payments->href
-        );
+        )->decode();
 
+        /** @var PaymentCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->payments,

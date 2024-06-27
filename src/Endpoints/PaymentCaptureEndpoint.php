@@ -56,6 +56,7 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
+        /** @var Capture */
         return $this->createResource($data, $filters);
     }
 
@@ -84,7 +85,8 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::readResource($captureId, $parameters);
+        /** @var Capture */
+        return $this->readResource($captureId, $parameters);
     }
 
     /**
@@ -131,7 +133,8 @@ class PaymentCaptureEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var CaptureCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**

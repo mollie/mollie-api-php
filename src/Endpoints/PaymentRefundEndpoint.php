@@ -45,14 +45,15 @@ class PaymentRefundEndpoint extends EndpointCollection
      * @param string $refundId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\Refund
+     * @return Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId(string $paymentId, $refundId, array $parameters = []): Refund
     {
         $this->parentId = $paymentId;
 
-        return parent::readResource($refundId, $parameters);
+        /** @var Refund */
+        return $this->readResource($refundId, $parameters);
     }
 
     /**
@@ -64,6 +65,7 @@ class PaymentRefundEndpoint extends EndpointCollection
      */
     public function listFor(Payment $payment, array $parameters = []): RefundCollection
     {
+        /** @var RefundCollection */
         return $this->listForId($payment->id, $parameters);
     }
 
@@ -99,7 +101,8 @@ class PaymentRefundEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var RefundCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -148,13 +151,14 @@ class PaymentRefundEndpoint extends EndpointCollection
      * @param array $data
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Refund
+     * @return Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createForId(string $paymentId, array $data, array $filters = []): Refund
     {
         $this->parentId = $paymentId;
 
-        return parent::createResource($data, $filters);
+        /** @var Refund */
+        return $this->createResource($data, $filters);
     }
 }

@@ -56,10 +56,10 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return \Mollie\Api\Resources\Customer
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return null|Customer
+     * @throws ApiException
      */
-    public function update()
+    public function update(): ?Customer
     {
         $body = [
             "name" => $this->name,
@@ -68,9 +68,8 @@ class Customer extends BaseResource
             "metadata" => $this->metadata,
         ];
 
-        $result = $this->client->customers->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Customer($this->client));
+        /** @var null|Customer */
+        return $this->client->customers->update($this->id, $body);
     }
 
     /**

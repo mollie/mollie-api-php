@@ -43,6 +43,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function create(array $data = [], array $filters = []): Profile
     {
+        /** @var Profile */
         return $this->createResource($data, $filters);
     }
 
@@ -63,6 +64,7 @@ class ProfileEndpoint extends EndpointCollection
             return $this->getCurrent($parameters);
         }
 
+        /** @var Profile */
         return $this->readResource($profileId, $parameters);
     }
 
@@ -73,14 +75,15 @@ class ProfileEndpoint extends EndpointCollection
      *
      * @param string $profileId
      * @param array $data
-     * @return Profile
+     * @return null|Profile
      * @throws ApiException
      */
-    public function update(string $profileId, array $data = []): Profile
+    public function update(string $profileId, array $data = []): ?Profile
     {
         $this->guardAgainstInvalidId($profileId);
 
-        return parent::updateResource($profileId, $data);
+        /** @var null|Profile */
+        return $this->updateResource($profileId, $data);
     }
 
     /**
@@ -95,6 +98,7 @@ class ProfileEndpoint extends EndpointCollection
     {
         $this->resourceClass = CurrentProfile::class;
 
+        /** @var CurrentProfile */
         return $this->readResource('me', $parameters);
     }
 
@@ -107,11 +111,12 @@ class ProfileEndpoint extends EndpointCollection
      * @param string $profileId
      *
      * @param array $data
-     * @return Profile
+     * @return null|Profile
      * @throws ApiException
      */
     public function delete($profileId, array $data = []): ?Profile
     {
+        /** @var null|Profile */
         return $this->deleteResource($profileId, $data);
     }
 
@@ -127,6 +132,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
     {
+        /** @var ProfileCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 

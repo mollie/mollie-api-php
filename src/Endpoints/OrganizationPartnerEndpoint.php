@@ -28,6 +28,7 @@ class OrganizationPartnerEndpoint extends RestEndpoint implements SingleResource
      */
     public function get(): Partner
     {
+        /** @var Partner */
         return $this->readResource('', []);
     }
 }

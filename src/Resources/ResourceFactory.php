@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Contracts\ResponseContract;
 use Mollie\Api\MollieApiClient;
 
 #[\AllowDynamicProperties]
@@ -11,13 +10,13 @@ class ResourceFactory
     /**
      * Create resource object from Api result
      *
-     * @param ResponseContract $response
+     * @param object $response
      * @param BaseResource $resource
      * @return BaseResource
      */
-    public static function createFromApiResult(ResponseContract $response, BaseResource $resource): BaseResource
+    public static function createFromApiResult(object $response, BaseResource $resource): BaseResource
     {
-        foreach ($response->json() as $property => $value) {
+        foreach ($response as $property => $value) {
             $resource->{$property} = $value;
         }
 

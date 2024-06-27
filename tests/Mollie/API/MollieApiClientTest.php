@@ -49,7 +49,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             (object)['resource' => 'payment'],
-            $parsedResponse
+            $parsedResponse->decode()
         );
     }
 
@@ -126,7 +126,9 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         /** @var MollieApiClient $client_copy */
         $client_copy = invade(unserialize($serialized));
 
+        /** @phpstan-ignore-next-line */
         $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
+        /** @phpstan-ignore-next-line */
         $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
         $this->assertNull($client_copy->usesOAuth());
         $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
@@ -158,7 +160,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             (object)['resource' => 'payment'],
-            $parsedResponse
+            $parsedResponse->decode()
         );
     }
 

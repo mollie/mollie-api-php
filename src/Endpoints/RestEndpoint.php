@@ -32,7 +32,7 @@ abstract class RestEndpoint extends BaseEndpoint
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($result->decode(), $this->getResourceObject());
     }
 
     /**
@@ -51,13 +51,17 @@ abstract class RestEndpoint extends BaseEndpoint
         }
 
         $id = urlencode($id);
-        $result = $this->client->performHttpCall(
+        $response = $this->client->performHttpCall(
             self::REST_UPDATE,
             $this->getPathToSingleResource($id),
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        if ($response->isEmpty()) {
+            return null;
+        }
+
+        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
     }
 
     /**
@@ -75,12 +79,12 @@ abstract class RestEndpoint extends BaseEndpoint
         }
 
         $id = urlencode($id);
-        $result = $this->client->performHttpCall(
+        $response = $this->client->performHttpCall(
             self::REST_READ,
             $this->getPathToSingleResource($id) . $this->buildQueryString($filters)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
     }
 
     /**
@@ -99,13 +103,17 @@ abstract class RestEndpoint extends BaseEndpoint
         }
 
         $id = urlencode($id);
-        $result = $this->client->performHttpCall(
+        $response = $this->client->performHttpCall(
             self::REST_DELETE,
             $this->getPathToSingleResource($id),
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        if ($response->isEmpty()) {
+            return null;
+        }
+
+        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
     }
 
     protected function guardAgainstInvalidId(string $id): void
@@ -125,7 +133,7 @@ abstract class RestEndpoint extends BaseEndpoint
     {
         $resourceClass = $this->getResourceObject()::class;
         $classBasename = basename(str_replace("\\", "/", $resourceClass));
-\
+
         return strtolower($classBasename);
     }
 

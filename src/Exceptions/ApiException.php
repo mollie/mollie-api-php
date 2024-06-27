@@ -175,7 +175,7 @@ class ApiException extends \Exception
 
     /**
      * @param string $key
-     * @return mixed|null
+     * @return \stdClass|null
      */
     public function getLink($key): ?\stdClass
     {

@@ -52,14 +52,14 @@ final class PSR18MollieHttpAdapter implements MollieHttpAdapterContract, Support
     /**
      * {@inheritdoc}
      */
-    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
+    public function send(string $method, string $url, $headers, ?string $body = null): ResponseContract
     {
         try {
             $request = $this->createRequest($method, $url, $headers, $body ?? '');
             $response = $this->httpClient->sendRequest($request);
 
             return PsrResponseHandler::create()
-                ->handle($response, $response->getStatusCode(), $body);
+                ->handle($request, $response, $response->getStatusCode(), $body);
         } catch (\Exception $e) {
             if (! $this->debug) {
                 $request = null;

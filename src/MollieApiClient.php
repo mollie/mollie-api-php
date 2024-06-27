@@ -2,7 +2,6 @@
 
 namespace Mollie\Api;
 
-use Mollie\Api\Contracts\MollieHttpAdapterContract;
 use Mollie\Api\Contracts\ResponseContract as Response;
 use Mollie\Api\Endpoints\BalanceEndpoint;
 use Mollie\Api\Endpoints\BalanceReportEndpoint;
@@ -11,17 +10,15 @@ use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\ClientLinkEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
-use Mollie\Api\Endpoints\CustomerMandateEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
-use Mollie\Api\Endpoints\CustomerSubscriptionEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
+use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
-use Mollie\Api\Endpoints\OrderShipmentEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
@@ -39,10 +36,16 @@ use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
+use Mollie\Api\Endpoints\OrderShipmentEndpoint;
+use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
+use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
 
 /**
  * @property BalanceEndpoint $balances
@@ -54,7 +57,7 @@ use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
  * @property CustomerPaymentsEndpoint $customerPayments
  * @property CustomerEndpoint $customers
  * @property InvoiceEndpoint $invoices
- * @property CustomerMandateEndpoint $mandates
+ * @property MandateEndpoint $mandates
  * @property MethodEndpoint $methods
  * @property OnboardingEndpoint $onboarding
  * @property OrderEndpoint $orders
@@ -79,7 +82,7 @@ use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
  * @property SettlementPaymentEndpoint $settlementPayments
  * @property SettlementRefundEndpoint $settlementRefunds
  * @property OrderShipmentEndpoint $shipments
- * @property CustomerSubscriptionEndpoint $subscriptions
+ * @property SubscriptionEndpoint $subscriptions
  * @property TerminalEndpoint $terminals
  * @property WalletEndpoint $wallets
  */
@@ -124,19 +127,19 @@ class MollieApiClient
     /**
      * @var string
      */
-    protected $apiKey;
+    protected string $apiKey;
 
     /**
      * True if an OAuth access token is set as API key.
      *
      * @var bool
      */
-    protected $oauthAccess;
+    protected bool $oauthAccess;
 
     /**
      * @var array
      */
-    protected $versionStrings = [];
+    protected array $versionStrings = [];
 
     /**
      * @var array
@@ -144,18 +147,18 @@ class MollieApiClient
     protected array $endpoints = [];
 
     /**
-     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterContract|null $client
-     * @param \Mollie\Api\HttpAdapter\MollieHttpAdapterPickerContract|null $httpAdapterPicker,
-     * @param \Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract $idempotencyKeyGenerator,
+     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\MollieHttpAdapterContract|null $client
+     * @param MollieHttpAdapterPickerContract|null $adapterPicker,
+     * @param IdempotencyKeyGeneratorContract|null $idempotencyKeyGenerator,
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function __construct(
         $client = null,
-        $adapter = null,
-        $idempotencyKeyGenerator = null
+        ?MollieHttpAdapterPickerContract $adapterPicker = null,
+        ?IdempotencyKeyGeneratorContract $idempotencyKeyGenerator = null
     ) {
-        $adapter = $adapter ?: new MollieHttpAdapterPicker;
-        $this->httpClient = $adapter->pickHttpAdapter($client);
+        $adapterPicker = $adapterPicker ?: new MollieHttpAdapterPicker;
+        $this->httpClient = $adapterPicker->pickHttpAdapter($client);
 
         $compatibilityChecker = new CompatibilityChecker;
         $compatibilityChecker->checkCompatibility();
@@ -177,7 +180,7 @@ class MollieApiClient
             'customerPayments' => CustomerPaymentsEndpoint::class,
             'customers' => CustomerEndpoint::class,
             'invoices' => InvoiceEndpoint::class,
-            'mandates' => CustomerMandateEndpoint::class,
+            'mandates' => MandateEndpoint::class,
             'methods' => MethodEndpoint::class,
             'onboarding' => OnboardingEndpoint::class,
             'orderLines' => OrderLineEndpoint::class,
@@ -202,7 +205,7 @@ class MollieApiClient
             'settlementRefunds' => SettlementRefundEndpoint::class,
             'settlements' => SettlementsEndpoint::class,
             'shipments' => OrderShipmentEndpoint::class,
-            'subscriptions' => CustomerSubscriptionEndpoint::class,
+            'subscriptions' => SubscriptionEndpoint::class,
             'terminals' => TerminalEndpoint::class,
             'wallets' => WalletEndpoint::class,
         ];
@@ -260,7 +263,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -280,7 +283,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (! preg_match('/^access_\w+$/', $accessToken)) {
+        if (!preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 

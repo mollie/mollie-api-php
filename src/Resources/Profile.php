@@ -104,10 +104,10 @@ class Profile extends BaseResource
     }
 
     /**
-     * @return \Mollie\Api\Resources\Profile
+     * @return null|Profile
      * @throws ApiException
      */
-    public function update()
+    public function update(): ?Profile
     {
         $body = [
             "name" => $this->name,
@@ -120,6 +120,11 @@ class Profile extends BaseResource
 
         $result = $this->client->profiles->update($this->id, $body);
 
+        if (!$result) {
+            return null;
+        }
+
+        /** @var Profile */
         return ResourceFactory::createFromApiResult($result, new Profile($this->client));
     }
 
@@ -129,14 +134,18 @@ class Profile extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href)
+            ->decode();
 
+        /** @var ChargebackCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->chargebacks,
@@ -151,14 +160,18 @@ class Profile extends BaseResource
      * @return MethodCollection
      * @throws ApiException
      */
-    public function methods()
+    public function methods(): MethodCollection
     {
-        if (! isset($this->_links->methods->href)) {
+        if (!isset($this->_links->methods->href)) {
             return new MethodCollection(0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href)
+            ->decode();
 
+        /** @var MethodCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->methods,
@@ -199,14 +212,18 @@ class Profile extends BaseResource
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function payments()
+    public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href)
+            ->decode();
 
+        /** @var PaymentCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->methods,
@@ -221,14 +238,18 @@ class Profile extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href)
+            ->decode();
 
+        /** @var RefundCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->refunds,

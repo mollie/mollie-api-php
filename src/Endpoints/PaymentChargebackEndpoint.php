@@ -52,18 +52,20 @@ class PaymentChargebackEndpoint extends EndpointCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::readResource($chargebackId, $parameters);
+        /** @var Chargeback */
+        return $this->readResource($chargebackId, $parameters);
     }
 
     /**
      * @param Payment $payment
      * @param array $parameters
      *
-     * @return Chargeback
+     * @return ChargebackCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listFor(Payment $payment, array $parameters = []): ChargebackCollection
     {
+        /** @var ChargebackCollection */
         return $this->listForId($payment->id, $parameters);
     }
 
@@ -92,14 +94,15 @@ class PaymentChargebackEndpoint extends EndpointCollection
      * @param string $paymentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Chargeback
+     * @return ChargebackCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function listForId(string $paymentId, array $parameters = []): ChargebackCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::fetchCollection(null, null, $parameters);
+        /** @var ChargebackCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**

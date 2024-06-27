@@ -47,7 +47,8 @@ class ProfileMethodEndpoint extends EndpointCollection
             $this->parseRequestBody($data)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        /** @var Method */
+        return ResourceFactory::createFromApiResult($result->decode(), $this->getResourceObject());
     }
 
     /**
@@ -93,6 +94,7 @@ class ProfileMethodEndpoint extends EndpointCollection
     {
         $this->parentId = $profileId;
 
+        /** @var null|Method */
         return $this->deleteResource($methodId, $data);
     }
 
