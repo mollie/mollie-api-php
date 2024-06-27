@@ -82,7 +82,7 @@ class Profile extends BaseResource
     /**
      * @return bool
      */
-    public function isUnverified()
+    public function isUnverified(): bool
     {
         return $this->status == ProfileStatus::UNVERIFIED;
     }
@@ -90,7 +90,7 @@ class Profile extends BaseResource
     /**
      * @return bool
      */
-    public function isVerified()
+    public function isVerified(): bool
     {
         return $this->status == ProfileStatus::VERIFIED;
     }
@@ -98,7 +98,7 @@ class Profile extends BaseResource
     /**
      * @return bool
      */
-    public function isBlocked()
+    public function isBlocked(): bool
     {
         return $this->status == ProfileStatus::BLOCKED;
     }
@@ -118,14 +118,7 @@ class Profile extends BaseResource
             "mode" => $this->mode,
         ];
 
-        $result = $this->client->profiles->update($this->id, $body);
-
-        if (! $result) {
-            return null;
-        }
-
-        /** @var Profile */
-        return ResourceFactory::createFromApiResult($result, new Profile($this->client));
+        return $this->client->profiles->update($this->id, $body);
     }
 
     /**
@@ -136,7 +129,7 @@ class Profile extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
@@ -162,7 +155,7 @@ class Profile extends BaseResource
      */
     public function methods(): MethodCollection
     {
-        if (! isset($this->_links->methods->href)) {
+        if (!isset($this->_links->methods->href)) {
             return new MethodCollection(0, null);
         }
 
@@ -188,7 +181,7 @@ class Profile extends BaseResource
      * @return Method
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = [])
+    public function enableMethod($methodId, array $data = []): Method
     {
         return $this->client->profileMethods->createFor($this, $methodId, $data);
     }
@@ -201,7 +194,7 @@ class Profile extends BaseResource
      * @return Method
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = [])
+    public function disableMethod($methodId, array $data = []): ?Method
     {
         return $this->client->profileMethods->deleteFor($this, $methodId, $data);
     }
@@ -214,7 +207,7 @@ class Profile extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 
@@ -240,7 +233,7 @@ class Profile extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 

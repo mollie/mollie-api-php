@@ -381,7 +381,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
         return $this->status === PaymentStatus::CANCELED;
     }
@@ -391,7 +391,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
         return $this->status === PaymentStatus::EXPIRED;
     }
@@ -401,7 +401,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return $this->status === PaymentStatus::OPEN;
     }
@@ -411,7 +411,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === PaymentStatus::PENDING;
     }
@@ -421,7 +421,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
         return $this->status === PaymentStatus::AUTHORIZED;
     }
@@ -431,9 +431,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -441,9 +441,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasRefunds()
+    public function hasRefunds(): bool
     {
-        return ! empty($this->_links->refunds);
+        return !empty($this->_links->refunds);
     }
 
     /**
@@ -451,9 +451,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasChargebacks()
+    public function hasChargebacks(): bool
     {
-        return ! empty($this->_links->chargebacks);
+        return !empty($this->_links->chargebacks);
     }
 
     /**
@@ -461,7 +461,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
         return $this->status === PaymentStatus::FAILED;
     }
@@ -473,7 +473,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSequenceTypeFirst()
+    public function hasSequenceTypeFirst(): bool
     {
         return $this->sequenceType === SequenceType::FIRST;
     }
@@ -485,7 +485,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSequenceTypeRecurring()
+    public function hasSequenceTypeRecurring(): bool
     {
         return $this->sequenceType === SequenceType::RECURRING;
     }
@@ -495,7 +495,7 @@ class Payment extends BaseResource
      *
      * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->checkout)) {
             return null;
@@ -509,7 +509,7 @@ class Payment extends BaseResource
      *
      * @return string|null
      */
-    public function getMobileAppCheckoutUrl()
+    public function getMobileAppCheckoutUrl(): ?string
     {
         if (empty($this->_links->mobileAppCheckout)) {
             return null;
@@ -521,7 +521,7 @@ class Payment extends BaseResource
     /**
      * @return bool
      */
-    public function canBeRefunded()
+    public function canBeRefunded(): bool
     {
         return $this->amountRemaining !== null;
     }
@@ -529,7 +529,7 @@ class Payment extends BaseResource
     /**
      * @return bool
      */
-    public function canBePartiallyRefunded()
+    public function canBePartiallyRefunded(): bool
     {
         return $this->canBeRefunded();
     }
@@ -539,7 +539,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountRefunded()
+    public function getAmountRefunded(): float
     {
         if ($this->amountRefunded) {
             return (float)$this->amountRefunded->value;
@@ -555,7 +555,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountRemaining()
+    public function getAmountRemaining(): float
     {
         if ($this->amountRemaining) {
             return (float)$this->amountRemaining->value;
@@ -570,7 +570,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountChargedBack()
+    public function getAmountChargedBack(): float
     {
         if ($this->amountChargedBack) {
             return (float)$this->amountChargedBack->value;
@@ -584,9 +584,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSplitPayments()
+    public function hasSplitPayments(): bool
     {
-        return ! empty($this->routing);
+        return !empty($this->routing);
     }
 
     /**
@@ -597,7 +597,7 @@ class Payment extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
+        if (!isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client, 0, null);
         }
 
@@ -622,7 +622,7 @@ class Payment extends BaseResource
      * @return Refund
      * @throws ApiException
      */
-    public function getRefund($refundId, array $parameters = [])
+    public function getRefund($refundId, array $parameters = []): Refund
     {
         return $this->client->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
     }
@@ -652,7 +652,7 @@ class Payment extends BaseResource
      */
     public function captures(): CaptureCollection
     {
-        if (! isset($this->_links->captures->href)) {
+        if (!isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client, 0, null);
         }
 
@@ -677,7 +677,7 @@ class Payment extends BaseResource
      * @return Capture
      * @throws ApiException
      */
-    public function getCapture($captureId, array $parameters = [])
+    public function getCapture($captureId, array $parameters = []): Capture
     {
         return $this->client->paymentCaptures->getFor(
             $this,
@@ -694,7 +694,7 @@ class Payment extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
+        if (!isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client, 0, null);
         }
 
@@ -721,7 +721,7 @@ class Payment extends BaseResource
      * @return Chargeback
      * @throws ApiException
      */
-    public function getChargeback($chargebackId, array $parameters = [])
+    public function getChargeback($chargebackId, array $parameters = []): Chargeback
     {
         return $this->client->paymentChargebacks->getFor(
             $this,
@@ -738,7 +738,7 @@ class Payment extends BaseResource
      * @return \Mollie\Api\Resources\Refund
      * @throws ApiException
      */
-    public function refund($data)
+    public function refund($data): Refund
     {
         return $this->client->paymentRefunds->createFor($this, $data);
     }
@@ -772,7 +772,7 @@ class Payment extends BaseResource
      *
      * @return array
      */
-    private function getPresetOptions()
+    private function getPresetOptions(): array
     {
         $options = [];
         if ($this->client->usesOAuth()) {
@@ -788,7 +788,7 @@ class Payment extends BaseResource
      * @param array $options
      * @return array
      */
-    private function withPresetOptions(array $options)
+    private function withPresetOptions(array $options): array
     {
         return array_merge($this->getPresetOptions(), $options);
     }
@@ -799,7 +799,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountCaptured()
+    public function getAmountCaptured(): float
     {
         if ($this->amountCaptured) {
             return (float)$this->amountCaptured->value;
@@ -813,7 +813,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getSettlementAmount()
+    public function getSettlementAmount(): float
     {
         if ($this->settlementAmount) {
             return (float)$this->settlementAmount->value;
@@ -828,7 +828,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getApplicationFeeAmount()
+    public function getApplicationFeeAmount(): float
     {
         if ($this->applicationFee) {
             return (float)$this->applicationFee->amount->value;

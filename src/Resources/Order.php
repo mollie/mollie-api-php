@@ -226,7 +226,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isCreated()
+    public function isCreated(): bool
     {
         return $this->status === OrderStatus::CREATED;
     }
@@ -236,7 +236,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
         return $this->status === OrderStatus::PAID;
     }
@@ -246,7 +246,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
         return $this->status === OrderStatus::AUTHORIZED;
     }
@@ -256,20 +256,9 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
         return $this->status === OrderStatus::CANCELED;
-    }
-
-    /**
-     * (Deprecated) Is this order refunded?
-     * @deprecated 2018-11-27
-     *
-     * @return bool
-     */
-    public function isRefunded()
-    {
-        return $this->status === OrderStatus::REFUNDED;
     }
 
     /**
@@ -277,7 +266,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isShipping()
+    public function isShipping(): bool
     {
         return $this->status === OrderStatus::SHIPPING;
     }
@@ -287,7 +276,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
         return $this->status === OrderStatus::COMPLETED;
     }
@@ -297,7 +286,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
         return $this->status === OrderStatus::EXPIRED;
     }
@@ -307,7 +296,7 @@ class Order extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === OrderStatus::PENDING;
     }
@@ -381,7 +370,7 @@ class Order extends BaseResource
      * @return Shipment
      * @throws ApiException
      */
-    public function createShipment(array $options = [])
+    public function createShipment(array $options = []): Shipment
     {
         return $this->client->shipments->createFor($this, $this->withPresetOptions($options));
     }
@@ -393,7 +382,7 @@ class Order extends BaseResource
      *
      * @return Shipment
      */
-    public function shipAll(array $options = [])
+    public function shipAll(array $options = []): Shipment
     {
         $options['lines'] = [];
 
@@ -422,7 +411,7 @@ class Order extends BaseResource
      * @return ShipmentCollection
      * @throws ApiException
      */
-    public function shipments(array $parameters = [])
+    public function shipments(array $parameters = []): ShipmentCollection
     {
         return $this->client->shipments->listFor($this, $this->withPresetOptions($parameters));
     }
@@ -432,7 +421,7 @@ class Order extends BaseResource
      *
      * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->checkout)) {
             return null;
@@ -448,7 +437,7 @@ class Order extends BaseResource
      * @return Refund
      * @throws ApiException
      */
-    public function refund(array $data)
+    public function refund(array $data): Refund
     {
         return $this->client->orderRefunds->createFor($this, $this->withPresetOptions($data));
     }
@@ -459,7 +448,7 @@ class Order extends BaseResource
      * @param  array  $data
      * @return Refund
      */
-    public function refundAll(array $data = [])
+    public function refundAll(array $data = []): Refund
     {
         $data['lines'] = [];
 
@@ -506,7 +495,7 @@ class Order extends BaseResource
      * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createPayment($data, $filters = [])
+    public function createPayment($data, $filters = []): Payment
     {
         return $this->client->orderPayments->createFor($this, $data, $filters);
     }
@@ -519,7 +508,7 @@ class Order extends BaseResource
      */
     public function payments(): ?PaymentCollection
     {
-        if (! isset($this->_embedded, $this->_embedded->payments)) {
+        if (!isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 
@@ -536,7 +525,7 @@ class Order extends BaseResource
      *
      * @return array
      */
-    private function getPresetOptions()
+    private function getPresetOptions(): array
     {
         $options = [];
         if ($this->client->usesOAuth()) {
@@ -552,7 +541,7 @@ class Order extends BaseResource
      * @param array $options
      * @return array
      */
-    private function withPresetOptions(array $options)
+    private function withPresetOptions(array $options): array
     {
         return array_merge($this->getPresetOptions(), $options);
     }

@@ -46,11 +46,8 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function updateResource(string $id, array $body = []): ?BaseResource
     {
-        if (empty($id)) {
-            throw new ApiException("Invalid resource id.");
-        }
-
         $id = urlencode($id);
+
         $response = $this->client->performHttpCall(
             self::REST_UPDATE,
             $this->getPathToSingleResource($id),
@@ -74,7 +71,7 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function readResource(string $id, array $filters): BaseResource
     {
-        if (! $this instanceof SingleResourceEndpointContract && empty($id)) {
+        if (!$this instanceof SingleResourceEndpointContract && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 

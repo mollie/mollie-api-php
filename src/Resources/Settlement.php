@@ -75,7 +75,7 @@ class Settlement extends BaseResource
      *
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return $this->status === SettlementStatus::OPEN;
     }
@@ -85,7 +85,7 @@ class Settlement extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === SettlementStatus::PENDING;
     }
@@ -95,7 +95,7 @@ class Settlement extends BaseResource
      *
      * @return bool
      */
-    public function isPaidout()
+    public function isPaidout(): bool
     {
         return $this->status === SettlementStatus::PAIDOUT;
     }
@@ -105,7 +105,7 @@ class Settlement extends BaseResource
      *
      * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
         return $this->status === SettlementStatus::FAILED;
     }
@@ -136,7 +136,7 @@ class Settlement extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds(int $limit = null, array $parameters = [])
+    public function refunds(int $limit = null, array $parameters = []): RefundCollection
     {
         return $this->client->settlementRefunds->pageForId(
             $this->id,
@@ -154,7 +154,7 @@ class Settlement extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks(int $limit = null, array $parameters = [])
+    public function chargebacks(int $limit = null, array $parameters = []): ChargebackCollection
     {
         return $this->client->settlementChargebacks->pageForId(
             $this->id,
@@ -172,7 +172,7 @@ class Settlement extends BaseResource
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures(int $limit = null, array $parameters = [])
+    public function captures(int $limit = null, array $parameters = []): CaptureCollection
     {
         return $this->client->settlementCaptures->pageForId(
             $this->id,

@@ -7,15 +7,15 @@ class ProfileCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "profiles";
     }
 
     /**
-     * @return BaseResource
+     * @return Profile
      */
-    protected function createResourceObject()
+    protected function createResourceObject(): Profile
     {
         return new Profile($this->client);
     }

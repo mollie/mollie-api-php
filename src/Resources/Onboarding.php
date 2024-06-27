@@ -42,7 +42,7 @@ class Onboarding extends BaseResource
     /**
      * @return bool
      */
-    public function needsData()
+    public function needsData(): bool
     {
         return $this->status === OnboardingStatus::NEEDS_DATA;
     }
@@ -50,7 +50,7 @@ class Onboarding extends BaseResource
     /**
      * @return bool
      */
-    public function isInReview()
+    public function isInReview(): bool
     {
         return $this->status === OnboardingStatus::IN_REVIEW;
     }
@@ -58,7 +58,7 @@ class Onboarding extends BaseResource
     /**
      * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
         return $this->status === OnboardingStatus::COMPLETED;
     }

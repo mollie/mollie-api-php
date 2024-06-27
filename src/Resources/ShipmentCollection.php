@@ -7,7 +7,7 @@ class ShipmentCollection extends BaseCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return 'shipments';
     }

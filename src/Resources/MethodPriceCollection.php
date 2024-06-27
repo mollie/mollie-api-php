@@ -5,9 +5,9 @@ namespace Mollie\Api\Resources;
 class MethodPriceCollection extends BaseCollection
 {
     /**
-     * @return string|null
+     * @return null
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): null
     {
         return null;
     }

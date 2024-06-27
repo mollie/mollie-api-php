@@ -7,15 +7,15 @@ class CaptureCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "captures";
     }
 
     /**
-     * @return BaseResource
+     * @return Capture
      */
-    protected function createResourceObject()
+    protected function createResourceObject(): Capture
     {
         return new Capture($this->client);
     }

@@ -93,7 +93,7 @@ class Refund extends BaseResource
     /**
      * @return bool
      */
-    public function canBeCanceled()
+    public function canBeCanceled(): bool
     {
         return $this->isQueued() || $this->isPending();
     }
@@ -103,7 +103,7 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isQueued()
+    public function isQueued(): bool
     {
         return $this->status === RefundStatus::QUEUED;
     }
@@ -113,7 +113,7 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === RefundStatus::PENDING;
     }
@@ -123,7 +123,7 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isProcessing()
+    public function isProcessing(): bool
     {
         return $this->status === RefundStatus::PROCESSING;
     }
@@ -133,7 +133,7 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isTransferred()
+    public function isTransferred(): bool
     {
         return $this->status === RefundStatus::REFUNDED;
     }
@@ -143,7 +143,7 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
         return $this->status === RefundStatus::FAILED;
     }
@@ -153,25 +153,22 @@ class Refund extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
         return $this->status === RefundStatus::CANCELED;
     }
 
     /**
      * Cancel the refund.
-     * Returns null if successful.
      *
-     * @return null
+     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel()
+    public function cancel(): void
     {
         $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_DELETE,
             $this->_links->self->href
         );
-
-        return null;
     }
 }

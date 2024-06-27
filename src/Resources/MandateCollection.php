@@ -7,34 +7,25 @@ class MandateCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "mandates";
     }
 
     /**
-     * @return BaseResource
+     * @return Mandate
      */
-    protected function createResourceObject()
+    protected function createResourceObject(): Mandate
     {
         return new Mandate($this->client);
     }
 
     /**
      * @param string $status
-     * @return array|\Mollie\Api\Resources\MandateCollection
+     * @return MandateCollection
      */
-    public function whereStatus($status)
+    public function whereStatus($status): self
     {
-        $collection = new self($this->client, 0, $this->_links);
-
-        foreach ($this as $item) {
-            if ($item->status === $status) {
-                $collection[] = $item;
-                $collection->count++;
-            }
-        }
-
-        return $collection;
+        return $this->filter(fn (Mandate $mandate) => $mandate->status === $status);
     }
 }

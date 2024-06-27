@@ -7,15 +7,15 @@ class TerminalCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "terminals";
     }
 
     /**
-     * @return BaseResource
+     * @return Terminal
      */
-    protected function createResourceObject()
+    protected function createResourceObject(): Terminal
     {
         return new Terminal($this->client);
     }

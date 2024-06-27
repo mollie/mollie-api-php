@@ -126,14 +126,7 @@ class Subscription extends BaseResource
             "interval" => $this->interval,
         ];
 
-        $result = $this->client->subscriptions->update($this->customerId, $this->id, $body);
-
-        if (! $result) {
-            return null;
-        }
-
-        /** @var Subscription */
-        return ResourceFactory::createFromApiResult($result, new Subscription($this->client));
+        return $this->client->subscriptions->update($this->customerId, $this->id, $body);
     }
 
     /**
@@ -141,7 +134,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->status === SubscriptionStatus::ACTIVE;
     }
@@ -151,7 +144,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === SubscriptionStatus::PENDING;
     }
@@ -161,7 +154,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
         return $this->status === SubscriptionStatus::CANCELED;
     }
@@ -171,7 +164,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isSuspended()
+    public function isSuspended(): bool
     {
         return $this->status === SubscriptionStatus::SUSPENDED;
     }
@@ -181,7 +174,7 @@ class Subscription extends BaseResource
      *
      * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
         return $this->status === SubscriptionStatus::COMPLETED;
     }
@@ -194,7 +187,7 @@ class Subscription extends BaseResource
      */
     public function cancel(): ?Subscription
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -227,7 +220,7 @@ class Subscription extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
+        if (!isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 

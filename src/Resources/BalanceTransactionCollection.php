@@ -9,7 +9,7 @@ class BalanceTransactionCollection extends CursorCollection
     /**
      * @inheritDoc
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "balance_transactions";
     }
@@ -17,7 +17,7 @@ class BalanceTransactionCollection extends CursorCollection
     /**
      * @inheritDoc
      */
-    protected function createResourceObject()
+    protected function createResourceObject(): BalanceTransaction
     {
         return new BalanceTransaction($this->client);
     }

@@ -50,7 +50,7 @@ class PaymentLink extends BaseResource
      * @var bool
      */
     public $archived;
-    
+
     /**
      * UTC datetime the payment link was updated in ISO-8601 format.
      *
@@ -106,9 +106,9 @@ class PaymentLink extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -116,7 +116,7 @@ class PaymentLink extends BaseResource
      *
      * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->paymentLink)) {
             return null;

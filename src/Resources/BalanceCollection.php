@@ -4,18 +4,12 @@ namespace Mollie\Api\Resources;
 
 class BalanceCollection extends CursorCollection
 {
-    /**
-     * @return string
-     */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): string
     {
         return "balances";
     }
 
-    /**
-     * @return BaseResource
-     */
-    protected function createResourceObject()
+    protected function createResourceObject(): Balance
     {
         return new Balance($this->client);
     }

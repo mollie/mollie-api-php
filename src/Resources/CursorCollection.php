@@ -23,10 +23,7 @@ abstract class CursorCollection extends BaseCollection
         $this->client = $client;
     }
 
-    /**
-     * @return BaseResource
-     */
-    abstract protected function createResourceObject();
+    abstract protected function createResourceObject(): BaseResource;
 
     /**
      * Return the next set of resources when available
@@ -36,7 +33,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function next(): ?CursorCollection
     {
-        if (! $this->hasNext()) {
+        if (!$this->hasNext()) {
             return null;
         }
 
@@ -51,7 +48,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function previous(): ?CursorCollection
     {
-        if (! $this->hasPrevious()) {
+        if (!$this->hasPrevious()) {
             return null;
         }
 
@@ -116,7 +113,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
+                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
                     break;
                 }
 
@@ -125,5 +122,19 @@ abstract class CursorCollection extends BaseCollection
                     : $page->next();
             }
         });
+    }
+
+    public function filter(callable $callback): static
+    {
+        $collection = new static($this->client, 0, $this->_links);
+
+        foreach ($this as $item) {
+            if ($callback($item)) {
+                $collection[] = $item;
+                $collection->count++;
+            }
+        }
+
+        return $collection;
     }
 }

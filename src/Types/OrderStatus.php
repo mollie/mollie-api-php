@@ -43,10 +43,4 @@ class OrderStatus
      * The order is pending.
      */
     public const PENDING = "pending";
-
-    /**
-     * (Deprecated) The order has been refunded.
-     * @deprecated 2018-11-27
-     */
-    public const REFUNDED = "refunded";
 }

@@ -62,7 +62,7 @@ class Mandate extends BaseResource
     /**
      * @return bool
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->status === MandateStatus::VALID;
     }
@@ -70,7 +70,7 @@ class Mandate extends BaseResource
     /**
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
         return $this->status === MandateStatus::PENDING;
     }
@@ -78,7 +78,7 @@ class Mandate extends BaseResource
     /**
      * @return bool
      */
-    public function isInvalid()
+    public function isInvalid(): bool
     {
         return $this->status === MandateStatus::INVALID;
     }
@@ -86,11 +86,11 @@ class Mandate extends BaseResource
     /**
      * Revoke the mandate
      *
-     * @return null|\Mollie\Api\Resources\Mandate
+     * @return null|Mandate
      */
     public function revoke(): ?Mandate
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 

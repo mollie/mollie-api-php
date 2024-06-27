@@ -86,7 +86,7 @@ class Invoice extends BaseResource
     /**
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
         return $this->status == InvoiceStatus::PAID;
     }
@@ -94,7 +94,7 @@ class Invoice extends BaseResource
     /**
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
         return $this->status == InvoiceStatus::OPEN;
     }
@@ -102,7 +102,7 @@ class Invoice extends BaseResource
     /**
      * @return bool
      */
-    public function isOverdue()
+    public function isOverdue(): bool
     {
         return $this->status == InvoiceStatus::OVERDUE;
     }

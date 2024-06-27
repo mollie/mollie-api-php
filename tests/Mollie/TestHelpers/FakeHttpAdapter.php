@@ -31,7 +31,7 @@ class FakeHttpAdapter implements MollieHttpAdapterContract
     /**
      * @param string $method
      * @param string $url
-     * @param string $headers
+     * @param array $headers
      * @param string $body
      * @return ResponseContract
      */

@@ -28,8 +28,16 @@ abstract class BaseCollection extends \ArrayObject
         parent::__construct();
     }
 
-    /**
-     * @return string|null
-     */
-    abstract public function getCollectionResourceName();
+    abstract public function getCollectionResourceName(): ?string;
+
+    public function contains(callable $callback): bool
+    {
+        foreach ($this as $item) {
+            if ($callback($item)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

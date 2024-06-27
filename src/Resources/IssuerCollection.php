@@ -5,9 +5,9 @@ namespace Mollie\Api\Resources;
 class IssuerCollection extends BaseCollection
 {
     /**
-     * @return string|null
+     * @return null
      */
-    public function getCollectionResourceName()
+    public function getCollectionResourceName(): null
     {
         return null;
     }

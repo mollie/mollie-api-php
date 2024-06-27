@@ -194,14 +194,8 @@ class Customer extends BaseResource
      */
     public function hasValidMandate()
     {
-        $mandates = $this->mandates();
-        foreach ($mandates as $mandate) {
-            if ($mandate->isValid()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->mandates()
+            ->contains(fn (Mandate $mandate) => $mandate->isValid());
     }
 
     /**
@@ -211,14 +205,8 @@ class Customer extends BaseResource
      */
     public function hasValidMandateForMethod($method): bool
     {
-        $mandates = $this->mandates();
-        foreach ($mandates as $mandate) {
-            if ($mandate->method === $method && $mandate->isValid()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->mandates()
+            ->contains(fn (Mandate $mandate) => $mandate->isValid() && $mandate->method === $method);
     }
 
     /**

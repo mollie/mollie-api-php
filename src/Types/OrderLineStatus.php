@@ -25,12 +25,6 @@ class OrderLineStatus
     public const CANCELED = "canceled";
 
     /**
-     * (Deprecated) The order line has been refunded.
-     * @deprecated
-     */
-    public const REFUNDED = "refunded";
-
-    /**
      * The order line is shipping.
      */
     public const SHIPPING = "shipping";

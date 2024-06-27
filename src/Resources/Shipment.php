@@ -51,7 +51,7 @@ class Shipment extends BaseResource
      *
      * @return bool
      */
-    public function hasTracking()
+    public function hasTracking(): bool
     {
         return $this->tracking !== null;
     }
@@ -61,9 +61,9 @@ class Shipment extends BaseResource
      *
      * @return bool
      */
-    public function hasTrackingUrl()
+    public function hasTrackingUrl(): bool
     {
-        return $this->hasTracking() && ! empty($this->tracking->url);
+        return $this->hasTracking() && !empty($this->tracking->url);
     }
 
     /**
@@ -71,9 +71,9 @@ class Shipment extends BaseResource
      *
      * @return string|null
      */
-    public function getTrackingUrl()
+    public function getTrackingUrl(): ?string
     {
-        if (! $this->hasTrackingUrl()) {
+        if (!$this->hasTrackingUrl()) {
             return null;
         }
 
@@ -118,13 +118,6 @@ class Shipment extends BaseResource
             "tracking" => $this->tracking,
         ];
 
-        $result = $this->client->shipments->update($this->orderId, $this->id, $body);
-
-        if (! $result) {
-            return null;
-        }
-
-        /** @var Shipment */
-        return ResourceFactory::createFromApiResult($result, new Shipment($this->client));
+        return $this->client->shipments->update($this->orderId, $this->id, $body);
     }
 }

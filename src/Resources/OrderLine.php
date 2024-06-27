@@ -228,7 +228,7 @@ class OrderLine extends BaseResource
      *
      * @return string|null
      */
-    public function getImageUrl()
+    public function getImageUrl(): ?string
     {
         if (empty($this->_links->imageUrl)) {
             return null;
@@ -242,7 +242,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isCreated()
+    public function isCreated(): bool
     {
         return $this->status === OrderLineStatus::CREATED;
     }
@@ -252,7 +252,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
         return $this->status === OrderLineStatus::PAID;
     }
@@ -262,7 +262,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
         return $this->status === OrderLineStatus::AUTHORIZED;
     }
@@ -272,20 +272,9 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
         return $this->status === OrderLineStatus::CANCELED;
-    }
-
-    /**
-     * (Deprecated) Is this order line refunded?
-     * @deprecated 2018-11-27
-     *
-     * @return bool
-     */
-    public function isRefunded()
-    {
-        return $this->status === OrderLineStatus::REFUNDED;
     }
 
     /**
@@ -293,7 +282,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isShipping()
+    public function isShipping(): bool
     {
         return $this->status === OrderLineStatus::SHIPPING;
     }
@@ -303,7 +292,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
         return $this->status === OrderLineStatus::COMPLETED;
     }
@@ -313,7 +302,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isPhysical()
+    public function isPhysical(): bool
     {
         return $this->type === OrderLineType::PHYSICAL;
     }
@@ -323,7 +312,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isDiscount()
+    public function isDiscount(): bool
     {
         return $this->type === OrderLineType::DISCOUNT;
     }
@@ -333,7 +322,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isDigital()
+    public function isDigital(): bool
     {
         return $this->type === OrderLineType::DIGITAL;
     }
@@ -343,7 +332,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isShippingFee()
+    public function isShippingFee(): bool
     {
         return $this->type === OrderLineType::SHIPPING_FEE;
     }
@@ -353,7 +342,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isStoreCredit()
+    public function isStoreCredit(): bool
     {
         return $this->type === OrderLineType::STORE_CREDIT;
     }
@@ -363,7 +352,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isGiftCard()
+    public function isGiftCard(): bool
     {
         return $this->type === OrderLineType::GIFT_CARD;
     }
@@ -373,7 +362,7 @@ class OrderLine extends BaseResource
      *
      * @return bool
      */
-    public function isSurcharge()
+    public function isSurcharge(): bool
     {
         return $this->type === OrderLineType::SURCHARGE;
     }
@@ -381,13 +370,15 @@ class OrderLine extends BaseResource
     /**
      * Update an orderline by supplying one or more parameters in the data array
      *
-     * @return BaseResource
+     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Order
     {
+        /** @var null|Order  */
         $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
 
+        /** @var Order */
         return ResourceFactory::createFromApiResult($result, new Order($this->client));
     }
 
@@ -396,7 +387,7 @@ class OrderLine extends BaseResource
      *
      * @return array
      */
-    public function getUpdateData()
+    public function getUpdateData(): array
     {
         $data = [
             "name" => $this->name,

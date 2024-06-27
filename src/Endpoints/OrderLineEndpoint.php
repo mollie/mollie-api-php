@@ -39,17 +39,27 @@ class OrderLineEndpoint extends EndpointCollection
      * @param string $orderlineId
      * @param array $data
      *
-     * @return null|OrderLine
+     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update(string $orderId, string $orderlineId, array $data = []): ?OrderLine
+    public function update(string $orderId, string $orderlineId, array $data = []): ?Order
     {
         $this->parentId = $orderId;
 
         $this->guardAgainstInvalidId($orderlineId);
 
-        /** @var null|OrderLine */
-        return $this->updateResource($orderlineId, $data);
+        $response = $this->client->performHttpCall(
+            self::REST_UPDATE,
+            $this->getPathToSingleResource(urlencode($orderlineId)),
+            $this->parseRequestBody($data)
+        );
+
+        if ($response->isEmpty()) {
+            return null;
+        }
+
+        /** @var Order */
+        return ResourceFactory::createFromApiResult($response->decode(), new Order($this->client));
     }
 
     /**
@@ -109,7 +119,7 @@ class OrderLineEndpoint extends EndpointCollection
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (!isset($data['lines']) || !is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
         $this->parentId = $orderId;
