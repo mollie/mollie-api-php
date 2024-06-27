@@ -63,7 +63,7 @@ class Shipment extends BaseResource
      */
     public function hasTrackingUrl()
     {
-        return $this->hasTracking() && !empty($this->tracking->url);
+        return $this->hasTracking() && ! empty($this->tracking->url);
     }
 
     /**
@@ -73,7 +73,7 @@ class Shipment extends BaseResource
      */
     public function getTrackingUrl()
     {
-        if (!$this->hasTrackingUrl()) {
+        if (! $this->hasTrackingUrl()) {
             return null;
         }
 
@@ -120,7 +120,7 @@ class Shipment extends BaseResource
 
         $result = $this->client->shipments->update($this->orderId, $this->id, $body);
 
-        if (!$result) {
+        if (! $result) {
             return null;
         }
 

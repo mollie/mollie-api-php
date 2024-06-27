@@ -62,7 +62,7 @@ class Response implements ResponseContract
             return (object)[];
         }
 
-        if (!$this->decoded) {
+        if (! $this->decoded) {
             $this->decoded = @json_decode($body);
 
             if (json_last_error() !== JSON_ERROR_NONE) {

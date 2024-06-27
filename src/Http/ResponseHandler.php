@@ -79,7 +79,7 @@ class ResponseHandler
 
         $field = null;
 
-        if (!empty($body->field)) {
+        if (! empty($body->field)) {
             $field = $body->field;
         }
 

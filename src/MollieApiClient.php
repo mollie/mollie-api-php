@@ -2,6 +2,8 @@
 
 namespace Mollie\Api;
 
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\Contracts\ResponseContract as Response;
 use Mollie\Api\Endpoints\BalanceEndpoint;
 use Mollie\Api\Endpoints\BalanceReportEndpoint;
@@ -19,6 +21,7 @@ use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
+use Mollie\Api\Endpoints\OrderShipmentEndpoint;
 use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
@@ -36,15 +39,12 @@ use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
-use Mollie\Api\Endpoints\OrderShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Contracts\MollieHttpAdapterContract;
-use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
-use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
 
 /**
@@ -263,7 +263,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -283,7 +283,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (!preg_match('/^access_\w+$/', $accessToken)) {
+        if (! preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 

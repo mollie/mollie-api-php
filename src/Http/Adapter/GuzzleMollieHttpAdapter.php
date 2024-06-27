@@ -15,7 +15,6 @@ use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\IsDebuggable;
 use Mollie\Api\Http\PsrResponseHandler;
-use Psr\Http\Message\ResponseInterface;
 
 final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, SupportsDebuggingContract
 {
@@ -85,7 +84,7 @@ final class GuzzleMollieHttpAdapter implements MollieHttpAdapterContract, Suppor
             $response = $this->httpClient->send($request, ['http_errors' => false]);
         } catch (GuzzleException $e) {
             // Prevent sensitive request data from ending up in exception logs unintended
-            if (!$this->debug) {
+            if (! $this->debug) {
                 $request = null;
             }
 

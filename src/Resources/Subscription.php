@@ -128,7 +128,7 @@ class Subscription extends BaseResource
 
         $result = $this->client->subscriptions->update($this->customerId, $this->id, $body);
 
-        if (!$result) {
+        if (! $result) {
             return null;
         }
 
@@ -194,7 +194,7 @@ class Subscription extends BaseResource
      */
     public function cancel(): ?Subscription
     {
-        if (!isset($this->_links->self->href)) {
+        if (! isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -227,7 +227,7 @@ class Subscription extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (!isset($this->_links->payments->href)) {
+        if (! isset($this->_links->payments->href)) {
             return new PaymentCollection($this->client, 0, null);
         }
 
