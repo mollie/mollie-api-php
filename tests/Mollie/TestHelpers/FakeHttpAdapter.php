@@ -15,9 +15,9 @@ class FakeHttpAdapter implements MollieHttpAdapterContract
 
     private string $usedUrl;
 
-    private string $usedHeaders;
+    private array $usedHeaders = [];
 
-    private string $usedBody;
+    private ?string $usedBody = null;
 
     /**
      * FakeHttpAdapter constructor.

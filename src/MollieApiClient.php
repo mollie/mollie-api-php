@@ -127,14 +127,14 @@ class MollieApiClient
     /**
      * @var string
      */
-    protected string $apiKey;
+    protected string $apiKey = '';
 
     /**
      * True if an OAuth access token is set as API key.
      *
-     * @var bool
+     * @var null|bool
      */
-    protected bool $oauthAccess;
+    protected ?bool $oauthAccess = null;
 
     /**
      * @var array
