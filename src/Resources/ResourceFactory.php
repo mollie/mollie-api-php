@@ -37,12 +37,12 @@ class ResourceFactory
      * @param object $resource
      * @param string $key
      * @param array|\ArrayAccess $value
-     * @return boolean
+     * @return bool
      */
     private static function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
         return $key === '_embedded'
-            && !is_null($value)
+            && ! is_null($value)
             && $resource instanceof EmbeddedResourcesContract;
     }
 

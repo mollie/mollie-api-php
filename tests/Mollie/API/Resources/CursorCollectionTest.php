@@ -205,7 +205,7 @@ class CursorCollectionTest extends TestCase
      */
     private function arrayToObject($data)
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return $data;
         }
 

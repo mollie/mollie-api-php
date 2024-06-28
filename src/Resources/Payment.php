@@ -445,7 +445,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isPaid(): bool
     {
-        return !empty($this->paidAt);
+        return ! empty($this->paidAt);
     }
 
     /**
@@ -455,7 +455,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function hasRefunds(): bool
     {
-        return !empty($this->_links->refunds);
+        return ! empty($this->_links->refunds);
     }
 
     /**
@@ -465,7 +465,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function hasChargebacks(): bool
     {
-        return !empty($this->_links->chargebacks);
+        return ! empty($this->_links->chargebacks);
     }
 
     /**
@@ -598,7 +598,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function hasSplitPayments(): bool
     {
-        return !empty($this->routing);
+        return ! empty($this->routing);
     }
 
     /**
@@ -609,7 +609,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function refunds(): RefundCollection
     {
-        if (!isset($this->_links->refunds->href)) {
+        if (! isset($this->_links->refunds->href)) {
             return new RefundCollection($this->client);
         }
 
@@ -664,7 +664,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function captures(): CaptureCollection
     {
-        if (!isset($this->_links->captures->href)) {
+        if (! isset($this->_links->captures->href)) {
             return new CaptureCollection($this->client);
         }
 
@@ -706,7 +706,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (!isset($this->_links->chargebacks->href)) {
+        if (! isset($this->_links->chargebacks->href)) {
             return new ChargebackCollection($this->client);
         }
 
