@@ -14,17 +14,17 @@ class PaymentChargebackEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Chargeback
+    public static function getResourceClass(): string
     {
-        return new Chargeback($this->client);
+        return  Chargeback::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): ChargebackCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new ChargebackCollection($this->client, $count, $_links);
+        return ChargebackCollection::class;
     }
 
     /**

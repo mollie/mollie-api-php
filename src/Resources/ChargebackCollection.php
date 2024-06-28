@@ -7,16 +7,16 @@ class ChargebackCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "chargebacks";
     }
 
     /**
-     * @return Chargeback
+     * @return string
      */
-    protected function createResourceObject(): Chargeback
+    public static function getResourceClass(): string
     {
-        return new Chargeback($this->client);
+        return Chargeback::class;
     }
 }

@@ -7,16 +7,16 @@ class ProfileCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "profiles";
     }
 
     /**
-     * @return Profile
+     * @return string
      */
-    protected function createResourceObject(): Profile
+    public static function getResourceClass(): string
     {
-        return new Profile($this->client);
+        return Profile::class;
     }
 }

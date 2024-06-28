@@ -7,17 +7,17 @@ class MandateCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "mandates";
     }
 
     /**
-     * @return Mandate
+     * @return string
      */
-    protected function createResourceObject(): Mandate
+    public static function getResourceClass(): string
     {
-        return new Mandate($this->client);
+        return Mandate::class;
     }
 
     /**

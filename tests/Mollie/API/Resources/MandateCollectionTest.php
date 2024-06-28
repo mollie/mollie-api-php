@@ -24,13 +24,14 @@ class MandateCollectionTest extends TestCase
 
     public function testWhereStatus()
     {
-        $collection = new MandateCollection($this->client, 6, null);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::INVALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::INVALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::PENDING);
+        $collection = new MandateCollection($this->client, [
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::INVALID),
+            $this->getMandateWithStatus(MandateStatus::INVALID),
+            $this->getMandateWithStatus(MandateStatus::PENDING),
+        ], null);
 
         $valid = $collection->whereStatus(MandateStatus::VALID);
         $invalid = $collection->whereStatus(MandateStatus::INVALID);
@@ -42,13 +43,13 @@ class MandateCollectionTest extends TestCase
         $this->assertInstanceOf(MandateCollection::class, $pending);
 
         $this->assertCount(6, $collection);
-        $this->assertEquals(6, $collection->count);
+        $this->assertEquals(6, $collection->count());
         $this->assertCount(3, $valid);
-        $this->assertEquals(3, $valid->count);
+        $this->assertEquals(3, $valid->count());
         $this->assertCount(2, $invalid);
-        $this->assertEquals(2, $invalid->count);
+        $this->assertEquals(2, $invalid->count());
         $this->assertCount(1, $pending);
-        $this->assertEquals(1, $pending->count);
+        $this->assertEquals(1, $pending->count());
     }
 
     /**

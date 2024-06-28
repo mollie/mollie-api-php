@@ -7,16 +7,16 @@ class PaymentCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "payments";
     }
 
     /**
-     * @return Payment
+     * @return string
      */
-    protected function createResourceObject(): Payment
+    public static function getResourceClass(): string
     {
-        return new Payment($this->client);
+        return Payment::class;
     }
 }

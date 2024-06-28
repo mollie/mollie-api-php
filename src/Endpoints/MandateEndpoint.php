@@ -14,17 +14,17 @@ class MandateEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Mandate
+    public static function getResourceClass(): string
     {
-        return new Mandate($this->client);
+        return  Mandate::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): MandateCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new MandateCollection($this->client, $count, $_links);
+        return MandateCollection::class;
     }
 
     /**

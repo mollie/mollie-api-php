@@ -368,7 +368,7 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $profiles = $this->apiClient->profiles->page();
         $this->assertInstanceOf(ProfileCollection::class, $profiles);
-        $this->assertEquals(2, $profiles->count);
+        $this->assertEquals(2, $profiles->count());
 
         foreach ($profiles as $profile) {
             $this->assertInstanceOf(Profile::class, $profile);

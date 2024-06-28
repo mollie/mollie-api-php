@@ -14,17 +14,17 @@ class SettlementsEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Settlement
+    public static function getResourceClass(): string
     {
-        return new Settlement($this->client);
+        return  Settlement::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): SettlementCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new SettlementCollection($this->client, $count, $_links);
+        return SettlementCollection::class;
     }
 
     /**

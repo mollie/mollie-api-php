@@ -277,7 +277,7 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $payments = $customer->payments();
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
-        $this->assertEquals(3, $payments->count);
+        $this->assertEquals(3, $payments->count());
         $this->assertEquals(3, count($payments));
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/list-customer-payments", "type" => "text/html"];

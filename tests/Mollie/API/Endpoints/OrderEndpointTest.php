@@ -542,7 +542,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $orders = $this->apiClient->orders->page();
 
         $this->assertInstanceOf(OrderCollection::class, $orders);
-        $this->assertEquals(3, $orders->count);
+        $this->assertEquals(3, $orders->count());
         $this->assertEquals(3, count($orders));
 
         $this->assertNull($orders->_links->previous);

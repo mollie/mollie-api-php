@@ -19,17 +19,17 @@ class ProfileEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Profile
+    public static function getResourceClass(): string
     {
-        return new $this->resourceClass($this->client);
+        return $this->resourceClass;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): ProfileCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new ProfileCollection($this->client, $count, $_links);
+        return ProfileCollection::class;
     }
 
     /**

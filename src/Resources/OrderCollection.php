@@ -7,16 +7,16 @@ class OrderCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "orders";
     }
 
     /**
-     * @return Order
+     * @return string
      */
-    protected function createResourceObject(): Order
+    public static function getResourceClass(): string
     {
-        return new Order($this->client);
+        return Order::class;
     }
 }

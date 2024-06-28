@@ -7,7 +7,7 @@ class PermissionCollection extends BaseCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "permissions";
     }

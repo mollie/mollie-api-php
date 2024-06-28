@@ -16,17 +16,17 @@ class PaymentLinkEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): PaymentLink
+    public static function getResourceClass(): string
     {
-        return new PaymentLink($this->client);
+        return  PaymentLink::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): PaymentLinkCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new PaymentLinkCollection($this->client, $count, $_links);
+        return PaymentLinkCollection::class;
     }
 
     /**

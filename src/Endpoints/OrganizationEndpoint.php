@@ -12,9 +12,9 @@ class OrganizationEndpoint extends RestEndpoint
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Organization
+    public static function getResourceClass(): string
     {
-        return new Organization($this->client);
+        return  Organization::class;
     }
 
     /**

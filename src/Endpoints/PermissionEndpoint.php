@@ -13,17 +13,17 @@ class PermissionEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Permission
+    public static function getResourceClass(): string
     {
-        return new Permission($this->client);
+        return  Permission::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): PermissionCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new PermissionCollection($count, $_links);
+        return PermissionCollection::class;
     }
 
     /**

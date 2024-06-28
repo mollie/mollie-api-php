@@ -17,17 +17,17 @@ class SubscriptionEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Subscription
+    public static function getResourceClass(): string
     {
-        return new Subscription($this->client);
+        return  Subscription::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): SubscriptionCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new SubscriptionCollection($this->client, $count, $_links);
+        return SubscriptionCollection::class;
     }
 
     /**

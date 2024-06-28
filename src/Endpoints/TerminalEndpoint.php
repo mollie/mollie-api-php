@@ -16,17 +16,17 @@ class TerminalEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Terminal
+    public static function getResourceClass(): string
     {
-        return new Terminal($this->client);
+        return  Terminal::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): TerminalCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new TerminalCollection($this->client, $count, $_links);
+        return TerminalCollection::class;
     }
 
     /**

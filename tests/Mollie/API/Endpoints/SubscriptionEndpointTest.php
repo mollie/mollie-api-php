@@ -216,7 +216,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
 
-        $this->assertEquals(count($subscriptions), $subscriptions->count);
+        $this->assertEquals(count($subscriptions), $subscriptions->count());
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscriptions->_links->documentation);

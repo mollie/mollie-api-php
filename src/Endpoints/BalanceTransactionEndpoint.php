@@ -16,17 +16,17 @@ class BalanceTransactionEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): BalanceTransactionCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new BalanceTransactionCollection($this->client, $count, $_links);
+        return BalanceTransactionCollection::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): BalanceTransaction
+    public static function getResourceClass(): string
     {
-        return new BalanceTransaction($this->client);
+        return  BalanceTransaction::class;
     }
 
     /**

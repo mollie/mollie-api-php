@@ -13,17 +13,17 @@ class OrderPaymentEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Payment
+    public static function getResourceClass(): string
     {
-        return new Payment($this->client);
+        return  Payment::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): PaymentCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new PaymentCollection($this->client, $count, $_links);
+        return PaymentCollection::class;
     }
 
     /**

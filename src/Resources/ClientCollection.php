@@ -7,16 +7,16 @@ class ClientCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "clients";
     }
 
     /**
-     * @return Client
+     * @return string
      */
-    protected function createResourceObject(): Client
+    public static function getResourceClass(): string
     {
-        return new Client($this->client);
+        return Client::class;
     }
 }

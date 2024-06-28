@@ -7,16 +7,16 @@ class InvoiceCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "invoices";
     }
 
     /**
-     * @return Invoice
+     * @return string
      */
-    protected function createResourceObject(): Invoice
+    public static function getResourceClass(): string
     {
-        return new Invoice($this->client);
+        return Invoice::class;
     }
 }

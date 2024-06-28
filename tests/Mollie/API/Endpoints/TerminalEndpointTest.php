@@ -180,7 +180,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $terminals = $this->apiClient->terminals->page(null, 3);
 
         $this->assertInstanceOf(TerminalCollection::class, $terminals);
-        $this->assertEquals(3, $terminals->count);
+        $this->assertEquals(3, $terminals->count());
         $this->assertEquals(3, count($terminals));
 
         $this->assertLinkObject('https://docs.mollie.com/reference/v2/terminals-api/list-terminals', 'text/html', $terminals->_links->documentation);

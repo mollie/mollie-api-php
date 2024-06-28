@@ -17,17 +17,17 @@ class OrderLineEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): OrderLine
+    public static function getResourceClass(): string
     {
-        return new OrderLine($this->client);
+        return  OrderLine::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): OrderLineCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new OrderLineCollection($count, $_links);
+        return OrderLineCollection::class;
     }
 
     /**
@@ -59,7 +59,7 @@ class OrderLineEndpoint extends EndpointCollection
         }
 
         /** @var Order */
-        return ResourceFactory::createFromApiResult($response->decode(), new Order($this->client));
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), Order::class);
     }
 
     /**
@@ -87,7 +87,7 @@ class OrderLineEndpoint extends EndpointCollection
         );
 
         /** @var Order */
-        return ResourceFactory::createFromApiResult($result->decode(), new Order($this->client));
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), Order::class);
     }
 
     /**

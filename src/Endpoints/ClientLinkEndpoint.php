@@ -10,14 +10,11 @@ class ClientLinkEndpoint extends RestEndpoint
     protected string $resourcePath = "client-links";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
-     *
-     * @return ClientLink
+     * @inheritDoc
      */
-    protected function getResourceObject(): ClientLink
+    public static function getResourceClass(): string
     {
-        return new ClientLink($this->client);
+        return  ClientLink::class;
     }
 
     /**

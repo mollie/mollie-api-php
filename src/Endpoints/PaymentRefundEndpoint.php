@@ -14,17 +14,17 @@ class PaymentRefundEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Refund
+    public static function getResourceClass(): string
     {
-        return new Refund($this->client);
+        return  Refund::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): RefundCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new RefundCollection($this->client, $count, $_links);
+        return RefundCollection::class;
     }
 
     /**

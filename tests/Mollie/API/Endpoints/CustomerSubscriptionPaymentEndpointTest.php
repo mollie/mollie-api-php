@@ -106,7 +106,7 @@ class CustomerSubscriptionPaymentEndpointTest extends BaseEndpointTest
 
         $result = $subscription->payments();
         $this->assertInstanceOf(PaymentCollection::class, $result);
-        $this->assertEquals(1, $result->count);
+        $this->assertEquals(1, $result->count());
         $this->assertEquals('Some subscription 19 sep. 2018', $result[0]->description);
     }
 }

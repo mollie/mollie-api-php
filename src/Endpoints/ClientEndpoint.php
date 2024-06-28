@@ -14,17 +14,17 @@ class ClientEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Client
+    public static function getResourceClass(): string
     {
-        return new Client($this->client);
+        return  Client::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): ClientCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new ClientCollection($this->client, $count, $_links);
+        return ClientCollection::class;
     }
 
     /**

@@ -14,17 +14,17 @@ class PaymentCaptureEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Capture
+    public static function getResourceClass(): string
     {
-        return new Capture($this->client);
+        return  Capture::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): CaptureCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new CaptureCollection($this->client, $count, $_links);
+        return CaptureCollection::class;
     }
 
     /**

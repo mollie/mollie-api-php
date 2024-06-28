@@ -16,17 +16,17 @@ class OrderEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Order
+    public static function getResourceClass(): string
     {
-        return new Order($this->client);
+        return  Order::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): OrderCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new OrderCollection($this->client, $count, $_links);
+        return OrderCollection::class;
     }
 
     /**

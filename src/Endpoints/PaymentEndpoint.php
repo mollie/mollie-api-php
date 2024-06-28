@@ -7,6 +7,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Resources\ResourceFactory;
 
 class PaymentEndpoint extends EndpointCollection
 {
@@ -17,17 +18,17 @@ class PaymentEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Payment
+    public static function getResourceClass(): string
     {
-        return new Payment($this->client);
+        return  Payment::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): PaymentCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new PaymentCollection($this->client, $count, $_links);
+        return PaymentCollection::class;
     }
 
     /**
@@ -163,7 +164,16 @@ class PaymentEndpoint extends EndpointCollection
      */
     public function refund(Payment $payment, $data = []): Refund
     {
-        return (new PaymentRefundEndpoint($this->client))
-            ->createFor($payment, $data);
+        $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
+
+        $body = null;
+        if (($data === null ? 0 : count($data)) > 0) {
+            $body = json_encode($data);
+        }
+
+        $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
+
+        /** @var Refund */
+        return ResourceFactory::createFromApiResult($this->client, $result, Refund::class);
     }
 }

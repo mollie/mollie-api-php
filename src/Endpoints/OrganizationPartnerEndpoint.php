@@ -13,9 +13,9 @@ class OrganizationPartnerEndpoint extends RestEndpoint implements SingleResource
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Partner
+    public static function getResourceClass(): string
     {
-        return new Partner($this->client);
+        return  Partner::class;
     }
 
     /**

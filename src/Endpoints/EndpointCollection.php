@@ -62,23 +62,21 @@ abstract class EndpointCollection extends RestEndpoint
 
     protected function buildResultCollection(object $result): BaseCollection
     {
-        /** @var BaseCollection $collection */
-        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
+        $collectionClass = $this->getResourceCollectionClass();
 
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
-        }
-
-        return $collection;
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            $this->getResourceClass(),
+            $result->_embedded->{$collectionClass::getCollectionResourceName()},
+            $result->_links,
+            $collectionClass
+        );
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Get the collection class that is used by this API endpoint. Every API endpoint uses one type of collection object.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return BaseCollection
+     * @return string
      */
-    abstract protected function getResourceCollectionObject(int $count, object $_links): BaseCollection;
+    abstract protected function getResourceCollectionClass(): string;
 }

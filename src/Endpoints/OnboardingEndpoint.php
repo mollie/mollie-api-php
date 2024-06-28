@@ -13,9 +13,9 @@ class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpointC
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Onboarding
+    public static function getResourceClass(): string
     {
-        return new Onboarding($this->client);
+        return  Onboarding::class;
     }
 
     /**

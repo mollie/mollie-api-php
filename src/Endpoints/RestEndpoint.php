@@ -32,7 +32,7 @@ abstract class RestEndpoint extends BaseEndpoint
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($result->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), $this->getResourceClass());
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class RestEndpoint extends BaseEndpoint
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class RestEndpoint extends BaseEndpoint
             $this->getPathToSingleResource($id) . $this->buildQueryString($filters)
         );
 
-        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class RestEndpoint extends BaseEndpoint
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
     }
 
     protected function guardAgainstInvalidId(string $id): void
@@ -128,8 +128,7 @@ abstract class RestEndpoint extends BaseEndpoint
 
     public function getResourceType(): string
     {
-        $resourceClass = $this->getResourceObject()::class;
-        $classBasename = basename(str_replace("\\", "/", $resourceClass));
+        $classBasename = basename(str_replace("\\", "/", $this->getResourceClass()));
 
         return strtolower($classBasename);
     }
@@ -137,7 +136,7 @@ abstract class RestEndpoint extends BaseEndpoint
     /**
      * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
      *
-     * @return BaseResource
+     * @return string
      */
-    abstract protected function getResourceObject(): BaseResource;
+    abstract public static function getResourceClass(): string;
 }

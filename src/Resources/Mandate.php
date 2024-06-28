@@ -110,6 +110,6 @@ class Mandate extends BaseResource
         /** @var null|Mandate */
         return $result->isEmpty()
             ? null
-            : ResourceFactory::createFromApiResult($result->decode(), new self($this->client));
+            : ResourceFactory::createFromApiResult($this->client, $result->decode(), self::class);
     }
 }

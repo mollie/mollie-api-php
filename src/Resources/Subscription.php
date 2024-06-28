@@ -187,7 +187,7 @@ class Subscription extends BaseResource
      */
     public function cancel(): ?Subscription
     {
-        if (! isset($this->_links->self->href)) {
+        if (!isset($this->_links->self->href)) {
             return $this;
         }
 
@@ -209,7 +209,7 @@ class Subscription extends BaseResource
         }
 
         /** @var Subscription */
-        return ResourceFactory::createFromApiResult($result->decode(), new Subscription($this->client));
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), Subscription::class);
     }
 
     /**
@@ -220,8 +220,8 @@ class Subscription extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->client, 0, null);
+        if (!isset($this->_links->payments->href)) {
+            return new PaymentCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(

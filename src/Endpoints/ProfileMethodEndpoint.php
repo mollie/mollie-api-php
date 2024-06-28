@@ -14,17 +14,17 @@ class ProfileMethodEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Method
+    public static function getResourceClass(): string
     {
-        return new Method($this->client);
+        return Method::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): MethodCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new MethodCollection($count, $_links);
+        return MethodCollection::class;
     }
 
     /**
@@ -48,7 +48,7 @@ class ProfileMethodEndpoint extends EndpointCollection
         );
 
         /** @var Method */
-        return ResourceFactory::createFromApiResult($result->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), $this->getResourceClass());
     }
 
     /**

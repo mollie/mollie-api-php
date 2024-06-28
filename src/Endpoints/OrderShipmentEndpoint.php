@@ -16,17 +16,17 @@ class OrderShipmentEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Shipment
+    public static function getResourceClass(): string
     {
-        return new Shipment($this->client);
+        return  Shipment::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): ShipmentCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new ShipmentCollection($count, $_links);
+        return ShipmentCollection::class;
     }
 
     /**

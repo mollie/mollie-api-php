@@ -24,11 +24,6 @@ class Response implements ResponseContract
      */
     protected ?\stdClass $decoded = null;
 
-    /**
-     * HTTP status code for an empty ok response.
-     */
-    public const HTTP_NO_CONTENT = 204;
-
     public function __construct(
         int $statusCode = 200,
         array $headers = [],
@@ -62,7 +57,7 @@ class Response implements ResponseContract
             return (object)[];
         }
 
-        if (! $this->decoded) {
+        if (!$this->decoded) {
             $this->decoded = @json_decode($body);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
@@ -90,27 +85,5 @@ class Response implements ResponseContract
         }
 
         return $this->reasonPhrase;
-    }
-
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    public function hasHeader(string $name): bool
-    {
-        return isset($this->headers[$name]);
-    }
-
-    public function getHeader(string $name): array
-    {
-        return $this->hasHeader($name)
-            ? $this->headers[$name]
-            : [];
-    }
-
-    public function getHeaderLine(string $name): string
-    {
-        return implode(', ', $this->getHeader($name));
     }
 }

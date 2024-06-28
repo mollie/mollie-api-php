@@ -182,7 +182,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
         $refunds = $order->refunds();
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
-        $this->assertEquals(1, $refunds->count);
+        $this->assertEquals(1, $refunds->count());
         $this->assertCount(1, $refunds);
 
         $this->assertOrderRefund($refunds[0], 're_4qqhO89gsT');

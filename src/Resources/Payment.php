@@ -2,13 +2,16 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
-class Payment extends BaseResource
+class Payment extends BaseResource implements EmbeddedResourcesContract
 {
+    use HasPresetOptions;
+
     /**
      * Id of the payment (on the Mollie platform).
      *
@@ -376,6 +379,15 @@ class Payment extends BaseResource
      */
     public $countryCode;
 
+    public function getEmbeddedResourcesMap(): array
+    {
+        return [
+            'captures' => CaptureCollection::class,
+            'refunds' => RefundCollection::class,
+            'chargebacks' => ChargebackCollection::class,
+        ];
+    }
+
     /**
      * Is this payment canceled?
      *
@@ -433,7 +445,7 @@ class Payment extends BaseResource
      */
     public function isPaid(): bool
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -443,7 +455,7 @@ class Payment extends BaseResource
      */
     public function hasRefunds(): bool
     {
-        return ! empty($this->_links->refunds);
+        return !empty($this->_links->refunds);
     }
 
     /**
@@ -453,7 +465,7 @@ class Payment extends BaseResource
      */
     public function hasChargebacks(): bool
     {
-        return ! empty($this->_links->chargebacks);
+        return !empty($this->_links->chargebacks);
     }
 
     /**
@@ -586,7 +598,7 @@ class Payment extends BaseResource
      */
     public function hasSplitPayments(): bool
     {
-        return ! empty($this->routing);
+        return !empty($this->routing);
     }
 
     /**
@@ -597,8 +609,8 @@ class Payment extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
+        if (!isset($this->_links->refunds->href)) {
+            return new RefundCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
@@ -652,8 +664,8 @@ class Payment extends BaseResource
      */
     public function captures(): CaptureCollection
     {
-        if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->client, 0, null);
+        if (!isset($this->_links->captures->href)) {
+            return new CaptureCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
@@ -694,8 +706,8 @@ class Payment extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+        if (!isset($this->_links->chargebacks->href)) {
+            return new ChargebackCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
@@ -765,32 +777,6 @@ class Payment extends BaseResource
             $this->id,
             $this->withPresetOptions($body)
         );
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions(): array
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test" ? true : false;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @param array $options
-     * @return array
-     */
-    private function withPresetOptions(array $options): array
-    {
-        return array_merge($this->getPresetOptions(), $options);
     }
 
     /**

@@ -2,11 +2,14 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Types\OrderStatus;
 
-class Order extends BaseResource
+class Order extends BaseResource implements EmbeddedResourcesContract
 {
+    use HasPresetOptions;
+
     /**
      * Id of the order.
      *
@@ -220,6 +223,15 @@ class Order extends BaseResource
      * @var \stdClass|null
      */
     public $_embedded;
+
+    public function getEmbeddedResourcesMap(): array
+    {
+        return [
+            'payments' => PaymentCollection::class,
+            'refunds' => RefundCollection::class,
+            'shipments' => ShipmentCollection::class,
+        ];
+    }
 
     /**
      * Is this order created?
@@ -518,31 +530,5 @@ class Order extends BaseResource
             $this->_embedded->payments,
             Payment::class
         );
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions(): array
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test" ? true : false;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @param array $options
-     * @return array
-     */
-    private function withPresetOptions(array $options): array
-    {
-        return array_merge($this->getPresetOptions(), $options);
     }
 }

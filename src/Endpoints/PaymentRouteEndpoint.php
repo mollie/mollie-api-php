@@ -12,9 +12,9 @@ class PaymentRouteEndpoint extends RestEndpoint
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Route
+    public static function getResourceClass(): string
     {
-        return new Route($this->client);
+        return  Route::class;
     }
 
     /**

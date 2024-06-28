@@ -9,21 +9,7 @@ use Mollie\Api\MollieApiClient;
 
 abstract class CursorCollection extends BaseCollection
 {
-    protected MollieApiClient $client;
-
-    /**
-     * @param MollieApiClient $client
-     * @param int $count
-     * @param \stdClass|null $_links
-     */
-    final public function __construct(MollieApiClient $client, int $count, ?\stdClass $_links)
-    {
-        parent::__construct($count, $_links);
-
-        $this->client = $client;
-    }
-
-    abstract protected function createResourceObject(): BaseResource;
+    abstract public static function getResourceClass(): string;
 
     /**
      * Return the next set of resources when available
@@ -67,13 +53,12 @@ abstract class CursorCollection extends BaseCollection
 
         $data = $response->decode();
 
-        $collection = new static($this->client, $data->count, $data->_links);
-
-        foreach ($data->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $data->_embedded->{$this->getCollectionResourceName()},
+            static::getResourceClass(),
+            $data->_links
+        );
     }
 
     /**
@@ -122,19 +107,5 @@ abstract class CursorCollection extends BaseCollection
                     : $page->next();
             }
         });
-    }
-
-    public function filter(callable $callback): static
-    {
-        $collection = new static($this->client, 0, $this->_links);
-
-        foreach ($this as $item) {
-            if ($callback($item)) {
-                $collection[] = $item;
-                $collection->count++;
-            }
-        }
-
-        return $collection;
     }
 }

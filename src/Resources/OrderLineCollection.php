@@ -7,7 +7,7 @@ class OrderLineCollection extends BaseCollection
     /**
      * @return null
      */
-    public function getCollectionResourceName(): null
+    public static function getCollectionResourceName(): null
     {
         return null;
     }

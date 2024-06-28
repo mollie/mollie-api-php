@@ -129,8 +129,8 @@ class Profile extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+        if (!isset($this->_links->chargebacks->href)) {
+            return new ChargebackCollection($this->client);
         }
 
         $result = $this
@@ -155,8 +155,8 @@ class Profile extends BaseResource
      */
     public function methods(): MethodCollection
     {
-        if (! isset($this->_links->methods->href)) {
-            return new MethodCollection(0, null);
+        if (!isset($this->_links->methods->href)) {
+            return new MethodCollection($this->client);
         }
 
         $result = $this
@@ -207,8 +207,8 @@ class Profile extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->client, 0, null);
+        if (!isset($this->_links->payments->href)) {
+            return new PaymentCollection($this->client);
         }
 
         $result = $this
@@ -233,8 +233,8 @@ class Profile extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
+        if (!isset($this->_links->refunds->href)) {
+            return new RefundCollection($this->client);
         }
 
         $result = $this

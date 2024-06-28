@@ -7,16 +7,16 @@ class SubscriptionCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName(): string
+    public static function getCollectionResourceName(): string
     {
         return "subscriptions";
     }
 
     /**
-     * @return Subscription
+     * @return string
      */
-    protected function createResourceObject(): Subscription
+    public static function getResourceClass(): string
     {
-        return new Subscription($this->client);
+        return Subscription::class;
     }
 }

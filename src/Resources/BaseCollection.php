@@ -2,33 +2,29 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
+
 abstract class BaseCollection extends \ArrayObject
 {
-    /**
-     * Total number of retrieved objects.
-     *
-     * @var int
-     */
-    public int $count;
+    protected MollieApiClient $client;
 
     /**
      * @var \stdClass|null
      */
-    public ?\stdClass $_links;
+    public ?\stdClass $_links = null;
 
     /**
-     * @param int $count
+     * @param MollieApiClient $client
+     * @param array|object $items
      * @param \stdClass|null $_links
      */
-    public function __construct(int $count, ?\stdClass $_links)
+    public function __construct(MollieApiClient $client, $items = [], ?\stdClass $_links = null)
     {
-        $this->count = $count;
+        parent::__construct($items);
+
         $this->_links = $_links;
-
-        parent::__construct();
+        $this->client = $client;
     }
-
-    abstract public function getCollectionResourceName(): ?string;
 
     public function contains(callable $callback): bool
     {
@@ -40,4 +36,15 @@ abstract class BaseCollection extends \ArrayObject
 
         return false;
     }
+
+    public function filter(callable $callback): static
+    {
+        $filteredItems = array_filter($this->getArrayCopy(), $callback);
+
+        /** @phpstan-ignore-next-line */
+        return new static($this->client, $filteredItems,  $this->_links);
+    }
+
+
+    abstract public static function getCollectionResourceName(): ?string;
 }

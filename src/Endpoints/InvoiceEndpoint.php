@@ -14,17 +14,17 @@ class InvoiceEndpoint extends EndpointCollection
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): Invoice
+    public static function getResourceClass(): string
     {
-        return new Invoice($this->client);
+        return  Invoice::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function getResourceCollectionObject(int $count, object $_links): InvoiceCollection
+    protected function getResourceCollectionClass(): string
     {
-        return new InvoiceCollection($this->client, $count, $_links);
+        return InvoiceCollection::class;
     }
 
     /**

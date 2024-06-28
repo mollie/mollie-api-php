@@ -15,9 +15,9 @@ class BalanceReportEndpoint extends RestEndpoint
     /**
      * @inheritDoc
      */
-    protected function getResourceObject(): BalanceReport
+    public static function getResourceClass(): string
     {
-        return new BalanceReport($this->client);
+        return BalanceReport::class;
     }
 
     /**
@@ -43,7 +43,7 @@ class BalanceReportEndpoint extends RestEndpoint
         }
 
         /** @var BalanceReport */
-        return ResourceFactory::createFromApiResult($response->decode(), $this->getResourceObject());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
     }
 
     /**

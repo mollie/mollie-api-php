@@ -32,7 +32,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             $this->arrayToObject([
                 'next' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -54,7 +54,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             (object) []
         );
 
@@ -85,7 +85,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             $this->arrayToObject([
                 'previous' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -107,7 +107,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             (object) []
         );
 
@@ -119,7 +119,7 @@ class CursorCollectionTest extends TestCase
     {
         $collection = new OrderCollection(
             $this->createMock(MollieApiClient::class),
-            1,
+            [],
             (object) []
         );
 
@@ -181,7 +181,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            0,
+            [],
             $this->arrayToObject([
                 'next' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -205,7 +205,7 @@ class CursorCollectionTest extends TestCase
      */
     private function arrayToObject($data)
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             return $data;
         }
 

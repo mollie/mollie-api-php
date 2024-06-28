@@ -379,7 +379,7 @@ class OrderLine extends BaseResource
         $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
 
         /** @var Order */
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        return ResourceFactory::createFromApiResult($this->client, $result, Order::class);
     }
 
     /**
