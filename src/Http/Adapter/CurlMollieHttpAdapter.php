@@ -88,7 +88,7 @@ final class CurlMollieHttpAdapter implements MollieHttpAdapterContract
         [$headers, $content, $statusCode] = $this->extractResponseDetails($curl, $response);
         curl_close($curl);
 
-        return new Response($statusCode, $headers, $content, '');
+        return new Response($statusCode, $content, '');
     }
 
     private function initializeCurl(string $url)

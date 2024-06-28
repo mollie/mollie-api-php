@@ -39,7 +39,8 @@ class Client extends BaseResource implements EmbeddedResourcesContract
     public function getEmbeddedResourcesMap(): array
     {
         return [
-            // test if is correct as it's no collection
-        ]
+            'organization' => Organization::class,
+            'onboarding' => Onboarding::class,
+        ];
     }
 }

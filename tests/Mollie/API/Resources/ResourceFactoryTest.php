@@ -3,6 +3,8 @@
 namespace Tests\Mollie\Api\Resources;
 
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\Client;
+use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceFactory;
@@ -32,7 +34,7 @@ class ResourceFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals((object) ["value" => "20.00", "currency" => "EUR"], $payment->amount);
     }
 
-    public function testEmbeddedResourcesAreTypeCasted()
+    public function testEmbeddedCollectionsAreTypeCasted()
     {
         $apiResult = json_decode('{
             "resource":"payment",
@@ -65,6 +67,45 @@ class ResourceFactoryTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertInstanceOf(Payment::class, $payment);
+        /** @phpstan-ignore-next-line */
         $this->assertInstanceOf(RefundCollection::class, $payment->_embedded->refunds);
+    }
+
+    /** @test */
+    public function testEmbeddedResourcesAreTypeCasted()
+    {
+        $apiResult = json_decode('{
+            "resource": "client",
+            "id": "org_1337",
+            "organizationCreatedAt": "2018-03-21T13:13:37+00:00",
+            "commission": {
+                "count": 200,
+                "totalAmount": {
+                    "currency": "EUR",
+                    "value": "10.00"
+                }
+            },
+            "_embedded": {
+                "onboarding": {
+                  "resource": "onboarding",
+                  "name": "Mollie B.V.",
+                  "signedUpAt": "2018-12-20T10:49:08+00:00",
+                  "status": "completed",
+                  "canReceivePayments": true,
+                  "canReceiveSettlements": true
+                }
+            }
+        }');
+
+        /** @var Client $client */
+        $client = ResourceFactory::createFromApiResult(
+            $this->createMock(MollieApiClient::class),
+            $apiResult,
+            Client::class
+        );
+
+        $this->assertInstanceOf(Client::class, $client);
+        /** @phpstan-ignore-next-line */
+        $this->assertInstanceOf(Onboarding::class, $client->_embedded->onboarding);
     }
 }

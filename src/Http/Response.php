@@ -11,8 +11,6 @@ class Response implements ResponseContract
 
     private int $statusCode;
 
-    private array $headers;
-
     private ?string $body = null;
 
     private string $reasonPhrase;
@@ -26,12 +24,10 @@ class Response implements ResponseContract
 
     public function __construct(
         int $statusCode = 200,
-        array $headers = [],
         ?string $body = null,
         string $reasonPhrase = ''
     ) {
         $this->statusCode = $statusCode;
-        $this->headers = $headers;
         $this->body = $body;
         $this->reasonPhrase = $reasonPhrase;
     }

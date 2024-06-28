@@ -12,7 +12,7 @@ class ProfileEndpoint extends EndpointCollection
 {
     protected string $resourcePath = "profiles";
 
-    protected $resourceClass = Profile::class;
+    protected static $resourceClass = Profile::class;
 
     protected static string $resourceIdPrefix = 'pfl_';
 
@@ -21,7 +21,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public static function getResourceClass(): string
     {
-        return $this->resourceClass;
+        return static::$resourceClass;
     }
 
     /**
@@ -96,7 +96,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function getCurrent(array $parameters = []): CurrentProfile
     {
-        $this->resourceClass = CurrentProfile::class;
+        static::$resourceClass = CurrentProfile::class;
 
         /** @var CurrentProfile */
         return $this->readResource('me', $parameters);

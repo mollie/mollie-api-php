@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
+use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\MollieApiClient;
 
 #[\AllowDynamicProperties]
@@ -22,38 +23,77 @@ class ResourceFactory
         $resource = new $resourceClass($client);
 
         foreach ($response as $property => $value) {
-            if ($property === '_embedded' && $resource instanceof EmbeddedResourcesContract) {
-                $resource->_embedded = new \stdClass();
-
-                foreach ($value as $embeddedResourceName => $embeddedResourceData) {
-                    $resource->_embedded->{$embeddedResourceName} = self::createEmbeddedCollection(
-                        $client,
-                        $resource,
-                        $embeddedResourceName,
-                        $embeddedResourceData
-                    );
-                }
-            } else {
-                $resource->{$property} = $value;
-            }
+            $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
+                ? self::parseEmbeddedResources($client, $resource, $value)
+                : $value;
         }
 
         return $resource;
     }
 
     /**
+     * Check if the resource holds embedded resources
+     *
+     * @param object $resource
+     * @param string $key
+     * @param array|\ArrayAccess $value
+     * @return boolean
+     */
+    private static function holdsEmbeddedResources(object $resource, string $key, $value): bool
+    {
+        return $key === '_embedded'
+            && !is_null($value)
+            && $resource instanceof EmbeddedResourcesContract;
+    }
+
+    /**
+     * Parses embedded resources into their respective resource objects or collections.
+     *
      * @param MollieApiClient $client
-     * @param $data
+     * @param object $resource
+     * @param object $embedded
+     * @return object
+     */
+    private static function parseEmbeddedResources(MollieApiClient $client, object $resource, object $embedded): object
+    {
+        $result = new \stdClass();
+
+        foreach ($embedded as $resourceKey => $resourceData) {
+            $collectionOrResourceClass = $resource->getEmbeddedResourcesMap()[$resourceKey] ?? null;
+
+            if (is_null($collectionOrResourceClass)) {
+                throw new EmbeddedResourcesNotParseableException(
+                    "Resource " . $resource::class . " does not have a mapping for embedded resource {$resourceKey}"
+                );
+            }
+
+            $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)
+                ? self::createFromApiResult(
+                    $client,
+                    $resourceData,
+                    $collectionOrResourceClass
+                )
+                : self::createEmbeddedResourceCollection(
+                    $client,
+                    $collectionOrResourceClass,
+                    $resourceData
+                );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param MollieApiClient $client
+     * @param string $collectionClass
+     * @param array|\ArrayObject $data
      * @return BaseCollection
      */
-    private static function createEmbeddedCollection(
+    private static function createEmbeddedResourceCollection(
         MollieApiClient $client,
-        EmbeddedResourcesContract $resource,
-        string $collectionKey,
+        string $collectionClass,
         $data
     ): BaseCollection {
-        $collectionClass = $resource->getEmbeddedResourcesMap()[$collectionKey] ?? BaseCollection::class;
-
         return self::instantiateBaseCollection(
             $client,
             $collectionClass,
@@ -115,6 +155,7 @@ class ResourceFactory
     }
 
     /**
+     * @param MollieApiClient $client
      * @param string $collectionClass
      * @param array $items
      * @param object|null $_links
@@ -134,7 +175,7 @@ class ResourceFactory
     private static function mapToResourceObjects(MollieApiClient $client, $data, string $resourceClass): array
     {
         return array_map(
-            fn (\stdClass $item) => static::createFromApiResult(
+            fn ($item) => static::createFromApiResult(
                 $client,
                 $item,
                 $resourceClass

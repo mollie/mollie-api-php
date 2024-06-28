@@ -41,7 +41,7 @@ class PsrResponseHandler
             return ResponseHandler::noResponse();
         }
 
-        if (! $psrResponse instanceof ResponseInterface) {
+        if (!$psrResponse instanceof ResponseInterface) {
             throw new RuntimeException("Response must be an instance of ResponseInterface.");
         }
 
@@ -49,7 +49,6 @@ class PsrResponseHandler
 
         $response = new Response(
             $code,
-            $psrResponse->getHeaders(),
             $body
         );
 

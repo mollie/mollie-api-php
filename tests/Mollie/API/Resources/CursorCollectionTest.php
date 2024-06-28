@@ -220,7 +220,7 @@ class CursorCollectionTest extends TestCase
 
     private function objectToResponse(object $obj): Response
     {
-        return new Response(200, [], json_encode($obj));
+        return new Response(200, json_encode($obj));
     }
 
     private function arrayToResponse($data): Response
