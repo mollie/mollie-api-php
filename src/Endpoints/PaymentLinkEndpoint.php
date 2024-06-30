@@ -63,6 +63,37 @@ class PaymentLinkEndpoint extends EndpointCollection
     }
 
     /**
+     * Update a Payment Link.
+     *
+     * @param string $paymentLinkId
+     * @param array $data
+     * @return null|PaymentLink
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function update(string $paymentLinkId, array $data): ?PaymentLink
+    {
+        $this->guardAgainstInvalidId($paymentLinkId);
+
+        /** @var null|PaymentLink */
+        return $this->updateResource($paymentLinkId, $data);
+    }
+
+    /**
+     * Delete a Payment Link.
+     *
+     * @param string $paymentLinkId
+     * @param array $data
+     * @return void
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function delete(string $paymentLinkId, array $data = []): void
+    {
+        $this->guardAgainstInvalidId($paymentLinkId);
+
+        $this->deleteResource($paymentLinkId, $data);
+    }
+
+    /**
      * Retrieves a collection of Payment Links from Mollie.
      *
      * @param string $from The first payment link ID you want to include in your list.

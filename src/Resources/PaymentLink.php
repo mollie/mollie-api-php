@@ -108,7 +108,7 @@ class PaymentLink extends BaseResource
      */
     public function isPaid(): bool
     {
-        return ! empty($this->paidAt);
+        return !empty($this->paidAt);
     }
 
     /**
@@ -128,19 +128,17 @@ class PaymentLink extends BaseResource
     /**
      * Persist the current local Payment Link state to the Mollie API.
      *
-     * @return mixed|\Mollie\Api\Resources\BaseResource
+     * @return null|PaymentLink
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?PaymentLink
     {
         $body = $this->withPresetOptions([
             'description' => $this->description,
             'archived' => $this->archived,
         ]);
 
-        $result = $this->client->paymentLinks->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new PaymentLink($this->client));
+        return $this->client->paymentLinks->update($this->id, $body);
     }
 
     /**
