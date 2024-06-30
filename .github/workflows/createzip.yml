@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -38,7 +38,7 @@ jobs:
           sed -i.bak 's/autoload.php/composer-autoload.php/g' build/vendor/scoper-autoload.php
           mv build/vendor/scoper-autoload.php build/vendor/autoload.php
       - name: Install zip
-        uses: montudor/action-zip@v0.1.1
+        uses: montudor/action-zip@v1
       - name: Finally, create a zip file with all built files.
         run: zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
         working-directory: build
