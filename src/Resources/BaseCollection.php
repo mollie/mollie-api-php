@@ -37,7 +37,7 @@ abstract class BaseCollection extends \ArrayObject
         return false;
     }
 
-    public function filter(callable $callback): static
+    public function filter(callable $callback)
     {
         $filteredItems = array_filter($this->getArrayCopy(), $callback);
 
