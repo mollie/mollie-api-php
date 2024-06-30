@@ -5,18 +5,25 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
-use Mollie\Api\Resources\ResourceFactory;
 
-class MethodEndpoint extends CollectionEndpointAbstract
+class MethodEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "methods";
+    protected string $resourcePath = "methods";
 
     /**
-     * @return Method
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Method($this->client);
+        return  Method::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getResourceCollectionClass(): string
+    {
+        return MethodCollection::class;
     }
 
     /**
@@ -25,10 +32,10 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * @deprecated Use allActive() instead
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): MethodCollection
     {
         return $this->allActive($parameters);
     }
@@ -39,12 +46,13 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws ApiException
      */
-    public function allActive(array $parameters = [])
+    public function allActive(array $parameters = []): MethodCollection
     {
-        return parent::rest_list(null, null, $parameters);
+        /** @var MethodCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -52,34 +60,17 @@ class MethodEndpoint extends CollectionEndpointAbstract
      * results are not paginated. Make sure to include the profileId parameter if using an OAuth Access Token.
      *
      * @param array $parameters Query string parameters.
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\MethodCollection
+     * @return MethodCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function allAvailable(array $parameters = [])
+    public function allAvailable(array $parameters = []): MethodCollection
     {
         $url = 'methods/all' . $this->buildQueryString($parameters);
 
         $result = $this->client->performHttpCall('GET', $url);
 
-        return ResourceFactory::createBaseResourceCollection(
-            $this->client,
-            Method::class,
-            $result->_embedded->methods,
-            $result->_links
-        );
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return MethodCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new MethodCollection($count, $_links);
+        /** @var MethodCollection */
+        return $this->buildResultCollection($result->decode());
     }
 
     /**
@@ -89,15 +80,12 @@ class MethodEndpoint extends CollectionEndpointAbstract
      *
      * @param string $methodId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Method
+     * @return Method
      * @throws ApiException
      */
-    public function get($methodId, array $parameters = [])
+    public function get(string $methodId, array $parameters = []): Method
     {
-        if (empty($methodId)) {
-            throw new ApiException("Method ID is empty.");
-        }
-
-        return parent::rest_read($methodId, $parameters);
+        /** @var Method */
+        return $this->readResource($methodId, $parameters);
     }
 }

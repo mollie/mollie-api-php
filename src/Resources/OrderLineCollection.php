@@ -5,9 +5,9 @@ namespace Mollie\Api\Resources;
 class OrderLineCollection extends BaseCollection
 {
     /**
-     * @return string|null
+     * @return null|string
      */
-    public function getCollectionResourceName()
+    public static function getCollectionResourceName(): ?string
     {
         return null;
     }
@@ -19,7 +19,7 @@ class OrderLineCollection extends BaseCollection
      * @param  string $lineId
      * @return OrderLine|null
      */
-    public function get($lineId)
+    public function get($lineId): ?OrderLine
     {
         foreach ($this as $line) {
             if ($line->id === $lineId) {

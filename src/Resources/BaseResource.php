@@ -7,10 +7,7 @@ use Mollie\Api\MollieApiClient;
 #[\AllowDynamicProperties]
 abstract class BaseResource
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
+    protected MollieApiClient $client;
 
     /**
      * Indicates the type of resource.

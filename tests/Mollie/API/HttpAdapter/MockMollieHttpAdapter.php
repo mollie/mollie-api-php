@@ -2,20 +2,42 @@
 
 namespace Tests\Mollie\API\HttpAdapter;
 
-class MockMollieHttpAdapter implements \Mollie\Api\HttpAdapter\MollieHttpAdapterInterface
+use Mollie\Api\Contracts\ResponseContract;
+
+class MockMollieHttpAdapter implements \Mollie\Api\Contracts\MollieHttpAdapterContract
 {
     /**
      * @inheritDoc
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
-        return (object) ['foo' => 'bar'];
+        return new class implements ResponseContract {
+            public function decode(): \stdClass
+            {
+                return (object) ['foo' => 'bar'];
+            }
+
+            public function status(): int
+            {
+                return 200;
+            }
+
+            public function body(): string
+            {
+                return 'foo';
+            }
+
+            public function isEmpty(): bool
+            {
+                return false;
+            }
+        };
     }
 
     /**
      * @inheritDoc
      */
-    public function versionString()
+    public function version(): string
     {
         return 'mock-client/1.0';
     }

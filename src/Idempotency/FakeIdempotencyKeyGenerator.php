@@ -7,14 +7,14 @@ namespace Mollie\Api\Idempotency;
 class FakeIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
 {
     /** @var string */
-    private $fakeKey;
+    private string $fakeKey;
 
-    public function setFakeKey($fakeKey)
+    public function setFakeKey($fakeKey): void
     {
         $this->fakeKey = $fakeKey;
     }
 
-    public function generate()
+    public function generate(): string
     {
         return $this->fakeKey;
     }

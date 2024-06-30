@@ -7,29 +7,24 @@ use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class ClientEndpoint extends CollectionEndpointAbstract
+class ClientEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "clients";
+    protected string $resourcePath = "clients";
 
     /**
-     * @return Client
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Client($this->client);
+        return  Client::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ClientCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new ClientCollection($this->client, $count, $_links);
+        return ClientCollection::class;
     }
 
     /**
@@ -44,13 +39,14 @@ class ClientEndpoint extends CollectionEndpointAbstract
      * @return Client
      * @throws ApiException
      */
-    public function get($clientId, array $parameters = [])
+    public function get(string $clientId, array $parameters = []): Client
     {
         if (empty($clientId)) {
             throw new ApiException("Client ID is empty.");
         }
 
-        return parent::rest_read($clientId, $parameters);
+        /** @var Client */
+        return $this->readResource($clientId, $parameters);
     }
 
     /**
@@ -63,9 +59,10 @@ class ClientEndpoint extends CollectionEndpointAbstract
      * @return ClientCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ClientCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var ClientCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -80,6 +77,6 @@ class ClientEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

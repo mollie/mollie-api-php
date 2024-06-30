@@ -122,7 +122,7 @@ class ClientEndpointTest extends BaseEndpointTest
         $clients = $this->apiClient->clients->page();
 
         $this->assertInstanceOf(ClientCollection::class, $clients);
-        $this->assertEquals(1, $clients->count);
+        $this->assertEquals(1, $clients->count());
         $this->assertCount(1, $clients);
 
         $client = $clients[0];
@@ -156,7 +156,7 @@ class ClientEndpointTest extends BaseEndpointTest
             'application/hal+json',
             $client->_links->onboarding
         );
-        
+
         $this->assertLinkObject(
             'https://docs.mollie.com/reference/v2/clients-api/get-client',
             'text/html',

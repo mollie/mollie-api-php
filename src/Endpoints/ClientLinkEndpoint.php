@@ -5,24 +5,16 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\ClientLink;
 
-class ClientLinkEndpoint extends EndpointAbstract
+class ClientLinkEndpoint extends RestEndpoint
 {
-    protected $resourcePath = "client-links";
+    protected string $resourcePath = "client-links";
 
     /**
-     * @var string
+     * @inheritDoc
      */
-    public const RESOURCE_ID_PREFIX = 'cl_';
-
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
-     *
-     * @return ClientLink
-     */
-    protected function getResourceObject(): ClientLink
+    public static function getResourceClass(): string
     {
-        return new ClientLink($this->client);
+        return  ClientLink::class;
     }
 
     /**
@@ -35,6 +27,7 @@ class ClientLinkEndpoint extends EndpointAbstract
      */
     public function create(array $data = []): ClientLink
     {
-        return $this->rest_create($data, []);
+        /** @var ClientLink */
+        return $this->createResource($data, []);
     }
 }

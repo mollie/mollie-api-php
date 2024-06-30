@@ -6,31 +6,24 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 
-class OrderRefundEndpoint extends CollectionEndpointAbstract
+class OrderRefundEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "orders_refunds";
+    protected string $resourcePath = "orders_refunds";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Refund
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Refund($this->client);
+        return  Refund::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return RefundCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new RefundCollection($this->client, $count, $_links);
+        return RefundCollection::class;
     }
 
     /**
@@ -44,7 +37,7 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @return Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Order $order, array $data, array $filters = [])
+    public function createFor(Order $order, array $data, array $filters = []): Refund
     {
         return $this->createForId($order->id, $data, $filters);
     }
@@ -57,14 +50,15 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @param array $data
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Refund
+     * @return Refund
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($orderId, array $data, array $filters = [])
+    public function createForId(string $orderId, array $data, array $filters = []): Refund
     {
         $this->parentId = $orderId;
 
-        return parent::rest_create($data, $filters);
+        /** @var Refund */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -73,20 +67,21 @@ class OrderRefundEndpoint extends CollectionEndpointAbstract
      * @return RefundCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForId($orderId, array $parameters = [])
+    public function pageForId($orderId, array $parameters = []): RefundCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_list(null, null, $parameters);
+        /** @var RefundCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
-     * @param \Mollie\Api\Resources\Order $order
+     * @param Order $order
      * @param array $parameters
-     * @return \Mollie\Api\Resources\RefundCollection
+     * @return RefundCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageFor(Order $order, array $parameters = [])
+    public function pageFor(Order $order, array $parameters = []): RefundCollection
     {
         return $this->pageForId($order->id, $parameters);
     }

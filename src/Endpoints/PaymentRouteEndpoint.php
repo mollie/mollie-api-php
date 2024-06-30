@@ -4,33 +4,17 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Route;
-use Mollie\Api\Resources\RouteCollection;
 
-class PaymentRouteEndpoint extends CollectionEndpointAbstract
+class PaymentRouteEndpoint extends RestEndpoint
 {
-    protected $resourcePath = "payments_routes";
+    protected string $resourcePath = "payments_routes";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return \Mollie\Api\Resources\Route
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Route($this->client);
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\RouteCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new RouteCollection($this->client, $count, $_links);
+        return  Route::class;
     }
 
     /**
@@ -42,7 +26,7 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
      * @return Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateFor(Payment $payment, $routeId, $releaseDate)
+    public function updateReleaseDateFor(Payment $payment, $routeId, $releaseDate): Route
     {
         return $this->updateReleaseDateForPaymentId($payment->id, $routeId, $releaseDate);
     }
@@ -53,18 +37,17 @@ class PaymentRouteEndpoint extends CollectionEndpointAbstract
      * @param string $releaseDate - UTC datetime in ISO-8601 format when the funds for the following payment will become available on
      * the balance of the connected account
      *
-     * @return \Mollie\Api\Resources\Route
+     * @return Route
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateReleaseDateForPaymentId($paymentId, $routeId, $releaseDate, $testmode = false)
+    public function updateReleaseDateForPaymentId(string $paymentId, string $routeId, string $releaseDate, bool $testmode = false): ?Route
     {
         $this->parentId = $paymentId;
 
-        $params = [
+        /** @var Route */
+        return $this->updateResource($routeId, [
             'releaseDate' => $releaseDate,
             'testmode' => $testmode,
-        ];
-
-        return parent::rest_update($routeId, $params);
+        ]);
     }
 }

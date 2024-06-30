@@ -2,29 +2,29 @@
 
 namespace Tests\Mollie\API\HttpAdapter;
 
-use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
+use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
-class Guzzle6And7MollieHttpAdapterTest extends TestCase
+class GuzzleMollieHttpAdapterTest extends TestCase
 {
     /** @test */
     public function testDebuggingIsSupported()
     {
-        $adapter = Guzzle6And7MollieHttpAdapter::createDefault();
-        $this->assertTrue($adapter->supportsDebugging());
-        $this->assertFalse($adapter->debugging());
+        $adapter = GuzzleMollieHttpAdapter::createDefault();
+        $this->assertTrue($adapter instanceof SupportsDebuggingContract);
+        $this->assertFalse($adapter->debuggingIsActive());
 
         $adapter->enableDebugging();
-        $this->assertTrue($adapter->debugging());
+        $this->assertTrue($adapter->debuggingIsActive());
 
         $adapter->disableDebugging();
-        $this->assertFalse($adapter->debugging());
+        $this->assertFalse($adapter->debuggingIsActive());
     }
 
     /** @test */
@@ -32,17 +32,17 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
     {
         $guzzleClient = $this->createMock(Client::class);
         $guzzleClient
-        ->expects($this->once())
-        ->method('send')
-        ->with($this->isInstanceOf(Request::class))
-        ->willThrowException(
-            new ConnectException(
-                'Mock exception',
-                new Request('POST', 'https://api.mollie.com')
-            )
-        );
+            ->expects($this->once())
+            ->method('send')
+            ->with($this->isInstanceOf(Request::class))
+            ->willThrowException(
+                new ConnectException(
+                    'Mock exception',
+                    new Request('POST', 'https://api.mollie.com')
+                )
+            );
 
-        $adapter = new Guzzle6And7MollieHttpAdapter($guzzleClient);
+        $adapter = new GuzzleMollieHttpAdapter($guzzleClient);
         $adapter->enableDebugging();
 
         try {
@@ -54,8 +54,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = Liberator::liberate($e);
-            $this->assertInstanceOf(RequestInterface::class, $exception->request);
+            $this->assertInstanceOf(RequestInterface::class, $e->getRequest());
         }
     }
 
@@ -74,8 +73,8 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 )
             );
 
-        $adapter = new Guzzle6And7MollieHttpAdapter($guzzleClient);
-        $this->assertFalse($adapter->debugging());
+        $adapter = new GuzzleMollieHttpAdapter($guzzleClient);
+        $this->assertFalse($adapter->debuggingIsActive());
 
         try {
             $adapter->send(
@@ -86,8 +85,7 @@ class Guzzle6And7MollieHttpAdapterTest extends TestCase
                 '{ "foo": "bar" }'
             );
         } catch (ApiException $e) {
-            $exception = Liberator::liberate($e);
-            $this->assertNull($exception->request);
+            $this->assertNull($e->getRequest());
         }
     }
 }

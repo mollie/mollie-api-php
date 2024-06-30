@@ -7,16 +7,16 @@ class PaymentLinkCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public static function getCollectionResourceName(): string
     {
         return "payment_links";
     }
 
     /**
-     * @return BaseResource
+     * @return string
      */
-    protected function createResourceObject()
+    public static function getResourceClass(): string
     {
-        return new PaymentLink($this->client);
+        return PaymentLink::class;
     }
 }

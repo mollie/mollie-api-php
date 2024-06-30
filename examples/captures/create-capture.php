@@ -17,13 +17,14 @@ try {
      *   description   Description of the capture.
      *   metadata      Custom metadata that is stored with the payment.
      */
-    $capture = $mollie->paymentCaptures->createForId('tr_WDqYK6vllg', [
-        "amount" => [
-            "currency" => "EUR",
-            "value" => "5.00",
-        ],
-        "description" => "Order #12345",
-    ]);
+    $capture = $mollie
+        ->paymentCaptures->createForId('tr_WDqYK6vllg', [
+            "amount" => [
+                "currency" => "EUR",
+                "value" => "5.00",
+            ],
+            "description" => "Order #12345",
+        ]);
 
     echo "<p>New capture created " . htmlspecialchars($capture->id) . " (" . htmlspecialchars($capture->description) . ").</p>";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

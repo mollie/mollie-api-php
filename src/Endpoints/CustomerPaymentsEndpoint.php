@@ -2,36 +2,30 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
+class CustomerPaymentsEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "customers_payments";
+    protected string $resourcePath = "customers_payments";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Payment
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Payment($this->client);
+        return  Payment::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new PaymentCollection($this->client, $count, $_links);
+        return PaymentCollection::class;
     }
 
     /**
@@ -42,9 +36,9 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $filters
      *
      * @return Payment
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
-    public function createFor(Customer $customer, array $options = [], array $filters = [])
+    public function createFor(Customer $customer, array $options = [], array $filters = []): Payment
     {
         return $this->createForId($customer->id, $options, $filters);
     }
@@ -56,14 +50,15 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Payment
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return Payment
+     * @throws ApiException
      */
     public function createForId($customerId, array $options = [], array $filters = [])
     {
         $this->parentId = $customerId;
 
-        return parent::rest_create($options, $filters);
+        /** @var Payment */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -73,9 +68,9 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param array $parameters
      *
      * @return PaymentCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
-    public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [])
+    public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
     {
         return $this->listForId($customer->id, $from, $limit, $parameters);
     }
@@ -91,8 +86,13 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Customer $customer,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
@@ -102,14 +102,15 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\PaymentCollection
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return PaymentCollection
+     * @throws ApiException
      */
-    public function listForId($customerId, ?string $from = null, ?int $limit = null, array $parameters = [])
+    public function listForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_list($from, $limit, $parameters);
+        /** @var PaymentCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -123,10 +124,15 @@ class CustomerPaymentsEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $customerId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $customerId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -6,33 +6,24 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
 
-class PermissionEndpoint extends CollectionEndpointAbstract
+class PermissionEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "permissions";
+    protected string $resourcePath = "permissions";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
-     *
-     * @return Permission
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Permission($this->client);
+        return  Permission::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PermissionCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new PermissionCollection($count, $_links);
+        return PermissionCollection::class;
     }
 
     /**
@@ -45,9 +36,10 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      * @return Permission
      * @throws ApiException
      */
-    public function get($permissionId, array $parameters = [])
+    public function get(string $permissionId, array $parameters = []): Permission
     {
-        return $this->rest_read($permissionId, $parameters);
+        /** @var Permission */
+        return $this->readResource($permissionId, $parameters);
     }
 
     /**
@@ -58,8 +50,9 @@ class PermissionEndpoint extends CollectionEndpointAbstract
      * @return PermissionCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): PermissionCollection
     {
-        return parent::rest_list(null, null, $parameters);
+        /** @var PermissionCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 }

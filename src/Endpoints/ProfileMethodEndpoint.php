@@ -7,31 +7,24 @@ use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ResourceFactory;
 
-class ProfileMethodEndpoint extends CollectionEndpointAbstract
+class ProfileMethodEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "profiles_methods";
+    protected string $resourcePath = "profiles_methods";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Method
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Method($this->client);
+        return Method::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return MethodCollection()
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new MethodCollection($count, $_links);
+        return MethodCollection::class;
     }
 
     /**
@@ -40,22 +33,22 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      * @param string $methodId
      * @param array $data
-     * @return \Mollie\Api\Resources\Method
+     *
+     * @return Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($profileId, $methodId, array $data = [])
+    public function createForId(string $profileId, string $methodId, array $data = []): Method
     {
         $this->parentId = $profileId;
-        $resource = $this->getResourcePath() . '/' . urlencode($methodId);
 
-        $body = null;
-        if (count($data) > 0) {
-            $body = json_encode($data);
-        }
+        $result = $this->client->performHttpCall(
+            self::REST_CREATE,
+            $this->getResourcePath() . '/' . urlencode($methodId),
+            $this->parseRequestBody($data)
+        );
 
-        $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Method($this->client));
+        /** @var Method */
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), $this->getResourceClass());
     }
 
     /**
@@ -64,10 +57,11 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param Profile $profile
      * @param string $methodId
      * @param array $data
+     *
      * @return Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor($profile, $methodId, array $data = [])
+    public function createFor(Profile $profile, string $methodId, array $data = []): Method
     {
         return $this->createForId($profile->id, $methodId, $data);
     }
@@ -77,10 +71,11 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      *
      * @param string $methodId
      * @param array $data
-     * @return \Mollie\Api\Resources\Method
+     *
+     * @return Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForCurrentProfile($methodId, array $data = [])
+    public function createForCurrentProfile(string $methodId, array $data = []): Method
     {
         return $this->createForId('me', $methodId, $data);
     }
@@ -91,14 +86,16 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      * @param string $methodId
      * @param array $data
-     * @return mixed
+     *
+     * @return null|Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function deleteForId($profileId, $methodId, array $data = [])
+    public function deleteForId($profileId, $methodId, array $data = []): ?Method
     {
         $this->parentId = $profileId;
 
-        return $this->rest_delete($methodId, $data);
+        /** @var null|Method */
+        return $this->deleteResource($methodId, $data);
     }
 
     /**
@@ -107,9 +104,11 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      * @param Profile $profile
      * @param string $methodId
      * @param array $data
+     *
+     * @return null|Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function deleteFor($profile, $methodId, array $data = [])
+    public function deleteFor($profile, $methodId, array $data = []): ?Method
     {
         return $this->deleteForId($profile->id, $methodId, $data);
     }
@@ -119,10 +118,11 @@ class ProfileMethodEndpoint extends CollectionEndpointAbstract
      *
      * @param string $methodId
      * @param array $data
-     * @return \Mollie\Api\Resources\Method
+     *
+     * @return null|Method
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function deleteForCurrentProfile($methodId, array $data)
+    public function deleteForCurrentProfile($methodId, array $data): ?Method
     {
         return $this->deleteForId('me', $methodId, $data);
     }

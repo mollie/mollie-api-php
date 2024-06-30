@@ -7,36 +7,26 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class CustomerEndpoint extends CollectionEndpointAbstract
+class CustomerEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "customers";
+    protected string $resourcePath = "customers";
+
+    protected static string $resourceIdPrefix = 'cst_';
 
     /**
-     * @var string
+     * @inheritDoc
      */
-    public const RESOURCE_ID_PREFIX = 'cst_';
-
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Customer
-     */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Customer($this->client);
+        return  Customer::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return CustomerCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new CustomerCollection($this->client, $count, $_links);
+        return CustomerCollection::class;
     }
 
     /**
@@ -48,9 +38,10 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * @return Customer
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Customer
     {
-        return $this->rest_create($data, $filters);
+        /** @var Customer */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -63,9 +54,10 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * @return Customer
      * @throws ApiException
      */
-    public function get($customerId, array $parameters = [])
+    public function get(string $customerId, array $parameters = []): Customer
     {
-        return $this->rest_read($customerId, $parameters);
+        /** @var Customer */
+        return $this->readResource($customerId, $parameters);
     }
 
     /**
@@ -74,18 +66,16 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * Will throw an ApiException if the customer id is invalid or the resource cannot be found.
      *
      * @param string $customerId
-     *
      * @param array $data
-     * @return Customer
+     * @return null|Customer
      * @throws ApiException
      */
-    public function update($customerId, array $data = [])
+    public function update(string $customerId, array $data = []): ?Customer
     {
-        if (empty($customerId) || strpos($customerId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$customerId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($customerId);
 
-        return parent::rest_update($customerId, $data);
+        /** @var null|Customer */
+        return $this->updateResource($customerId, $data);
     }
 
     /**
@@ -95,14 +85,14 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * Returns with HTTP status No Content (204) if successful.
      *
      * @param string $customerId
-     *
      * @param array $data
-     * @return null
+     * @return null|Customer
      * @throws ApiException
      */
-    public function delete($customerId, array $data = [])
+    public function delete(string $customerId, array $data = []): ?Customer
     {
-        return $this->rest_delete($customerId, $data);
+        /** @var null|Customer */
+        return $this->deleteResource($customerId, $data);
     }
 
     /**
@@ -115,9 +105,10 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      * @return CustomerCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): CustomerCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var CustomerCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -132,6 +123,6 @@ class CustomerEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

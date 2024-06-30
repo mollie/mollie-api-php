@@ -7,16 +7,16 @@ class SettlementCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public static function getCollectionResourceName(): string
     {
         return "settlements";
     }
 
     /**
-     * @return BaseResource
+     * @return string
      */
-    protected function createResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Settlement($this->client);
+        return Settlement::class;
     }
 }

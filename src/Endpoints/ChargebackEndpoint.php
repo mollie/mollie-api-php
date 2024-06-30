@@ -7,31 +7,24 @@ use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class ChargebackEndpoint extends CollectionEndpointAbstract
+class ChargebackEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "chargebacks";
+    protected string $resourcePath = "chargebacks";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Chargeback
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Chargeback($this->client);
+        return  Chargeback::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ChargebackCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new ChargebackCollection($this->client, $count, $_links);
+        return ChargebackCollection::class;
     }
 
     /**
@@ -44,9 +37,10 @@ class ChargebackEndpoint extends CollectionEndpointAbstract
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ChargebackCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var ChargebackCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -61,6 +55,6 @@ class ChargebackEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -69,7 +69,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
-        $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
+        $this->assertEquals(SubscriptionStatus::ACTIVE, $subscription->status);
         $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
@@ -138,7 +138,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
         $this->assertEquals("test", $subscription->mode);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
-        $this->assertEquals(SubscriptionStatus::STATUS_ACTIVE, $subscription->status);
+        $this->assertEquals(SubscriptionStatus::ACTIVE, $subscription->status);
         $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
         $this->assertEquals("Order 1234", $subscription->description);
         $this->assertNull($subscription->method);
@@ -216,7 +216,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
 
-        $this->assertEquals(count($subscriptions), $subscriptions->count);
+        $this->assertEquals(count($subscriptions), $subscriptions->count());
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions", "type" => "text/html"];
         $this->assertEquals($documentationLink, $subscriptions->_links->documentation);
@@ -282,7 +282,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_wByQa6efm6", $subscription->id);
         $this->assertEquals("test", $subscription->mode);
-        $this->assertEquals(SubscriptionStatus::STATUS_CANCELED, $subscription->status);
+        $this->assertEquals(SubscriptionStatus::CANCELED, $subscription->status);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals("2018-04-24T12:31:32+00:00", $subscription->canceledAt);
 
@@ -347,7 +347,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals("subscription", $subscription->resource);
         $this->assertEquals("sub_DRjwaT5qHx", $subscription->id);
         $this->assertEquals("test", $subscription->mode);
-        $this->assertEquals(SubscriptionStatus::STATUS_CANCELED, $subscription->status);
+        $this->assertEquals(SubscriptionStatus::CANCELED, $subscription->status);
         $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
         $this->assertEquals("2018-04-24T12:31:32+00:00", $subscription->canceledAt);
 

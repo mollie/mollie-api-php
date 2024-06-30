@@ -18,7 +18,10 @@ class OrderLineEndpointTest extends BaseEndpointTest
         $this->guzzleClient = $this->createMock(Client::class);
         $this->apiClient = new MollieApiClient($this->guzzleClient);
 
-        $this->apiClient->orderLines->cancelFor(new Order($this->apiClient), []);
+        $order = new Order($this->apiClient);
+        $order->id = 'ord_pbjz8x';
+
+        $this->apiClient->orderLines->cancelFor($order, []);
     }
 
     public function testUpdateMultipleOrderLines()

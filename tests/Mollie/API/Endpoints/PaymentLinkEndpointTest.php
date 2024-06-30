@@ -348,6 +348,6 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
             )
         );
 
-        $this->assertNull($this->apiClient->paymentLinks->delete('pl_4Y0eZitmBnQ6IDoMqZQKh'));
+        $this->apiClient->paymentLinks->delete('pl_4Y0eZitmBnQ6IDoMqZQKh');
     }
 }

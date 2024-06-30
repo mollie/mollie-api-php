@@ -4,31 +4,17 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Organization;
-use Mollie\Api\Resources\OrganizationCollection;
 
-class OrganizationEndpoint extends CollectionEndpointAbstract
+class OrganizationEndpoint extends RestEndpoint
 {
-    protected $resourcePath = "organizations";
+    protected string $resourcePath = "organizations";
 
     /**
-     * @return Organization
+     * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Organization($this->client);
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return OrganizationCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new OrganizationCollection($this->client, $count, $_links);
+        return  Organization::class;
     }
 
     /**
@@ -38,27 +24,31 @@ class OrganizationEndpoint extends CollectionEndpointAbstract
      *
      * @param string $organizationId
      * @param array $parameters
+     *
      * @return Organization
      * @throws ApiException
      */
-    public function get($organizationId, array $parameters = [])
+    public function get(string $organizationId, array $parameters = []): Organization
     {
         if (empty($organizationId)) {
             throw new ApiException("Organization ID is empty.");
         }
 
-        return parent::rest_read($organizationId, $parameters);
+        /** @var Organization */
+        return $this->readResource($organizationId, $parameters);
     }
 
     /**
      * Retrieve the current organization from Mollie.
      *
      * @param array $parameters
+     *
      * @return Organization
      * @throws ApiException
      */
-    public function current(array $parameters = [])
+    public function current(array $parameters = []): Organization
     {
-        return parent::rest_read('me', $parameters);
+        /** @var Organization */
+        return $this->readResource('me', $parameters);
     }
 }

@@ -37,7 +37,7 @@ try {
     $orderId = 'ord_8wmqcHMN4U';
 
     // cursor paginating backwards through all orders
-    $page = $mollie->orders->page($orderId);
+    $page = $mollie->orders->collect($orderId);
 
     while ($page->hasPrevious()) {
         foreach ($page as $order) {

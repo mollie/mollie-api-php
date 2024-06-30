@@ -1,7 +1,8 @@
 <?php
+
 namespace Mollie\Api\Idempotency;
 
 interface IdempotencyKeyGeneratorContract
 {
-    public function generate();
+    public function generate(): string;
 }

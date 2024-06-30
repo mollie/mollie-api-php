@@ -7,16 +7,16 @@ class RefundCollection extends CursorCollection
     /**
      * @return string
      */
-    public function getCollectionResourceName()
+    public static function getCollectionResourceName(): string
     {
         return "refunds";
     }
 
     /**
-     * @return BaseResource
+     * @return string
      */
-    protected function createResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Refund($this->client);
+        return Refund::class;
     }
 }

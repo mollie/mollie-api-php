@@ -14,7 +14,7 @@ class CurrentProfile extends Profile
      * @return Method
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = [])
+    public function enableMethod($methodId, array $data = []): Method
     {
         return $this->client->profileMethods->createForCurrentProfile($methodId, $data);
     }
@@ -27,7 +27,7 @@ class CurrentProfile extends Profile
      * @return Method
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = [])
+    public function disableMethod($methodId, array $data = []): ?Method
     {
         return $this->client->profileMethods->deleteForCurrentProfile($methodId, $data);
     }

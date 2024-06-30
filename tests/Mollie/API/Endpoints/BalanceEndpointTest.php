@@ -132,7 +132,7 @@ class BalanceEndpointTest extends BaseEndpointTest
         $balances = $this->apiClient->balances->page();
 
         $this->assertInstanceOf(BalanceCollection::class, $balances);
-        $this->assertEquals(2, $balances->count);
+        $this->assertEquals(2, $balances->count());
         $this->assertCount(2, $balances);
 
         $this->assertLinkObject(

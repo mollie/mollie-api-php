@@ -7,38 +7,26 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
 
-class OrderEndpoint extends CollectionEndpointAbstract
+class OrderEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "orders";
+    protected string $resourcePath = "orders";
+
+    protected static string $resourceIdPrefix = 'ord_';
 
     /**
-     * @var string
+     * @inheritDoc
      */
-    public const RESOURCE_ID_PREFIX = 'ord_';
-
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
-     *
-     * @return Order
-     */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new Order($this->client);
+        return  Order::class;
     }
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return OrderCollection
+     * @inheritDoc
      */
-    protected function getResourceCollectionObject($count, $_links)
+    protected function getResourceCollectionClass(): string
     {
-        return new OrderCollection($this->client, $count, $_links);
+        return OrderCollection::class;
     }
 
     /**
@@ -50,9 +38,10 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * @return Order
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Order
     {
-        return $this->rest_create($data, $filters);
+        /** @var Order */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -61,18 +50,17 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * Will throw a ApiException if the order id is invalid or the resource cannot be found.
      *
      * @param string $orderId
-     *
      * @param array $data
-     * @return Order
+     *
+     * @return null|Order
      * @throws ApiException
      */
-    public function update($orderId, array $data = [])
+    public function update(string $orderId, array $data = []): ?Order
     {
-        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($orderId);
 
-        return parent::rest_update($orderId, $data);
+        /** @var null|Order */
+        return $this->updateResource($orderId, $data);
     }
 
     /**
@@ -81,17 +69,17 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * Will throw a ApiException if the order id is invalid or the resource cannot
      * be found.
      *
+     * @param string $orderId
      * @param array $parameters
      * @return Order
      * @throws ApiException
      */
-    public function get($orderId, array $parameters = [])
+    public function get(string $orderId, array $parameters = []): Order
     {
-        if (empty($orderId) || strpos($orderId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order ID: '{$orderId}'. An order ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($orderId);
 
-        return parent::rest_read($orderId, $parameters);
+        /** @var Order */
+        return $this->readResource($orderId, $parameters);
     }
 
     /**
@@ -104,14 +92,15 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * Returns the canceled order with HTTP status 200.
      *
      * @param string $orderId
-     *
      * @param array $parameters
-     * @return Order
+     *
+     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel($orderId, $parameters = [])
+    public function cancel(string $orderId, $parameters = []): ?Order
     {
-        return $this->rest_delete($orderId, $parameters);
+        /** @var null|Order */
+        return $this->deleteResource($orderId, $parameters);
     }
 
     /**
@@ -124,9 +113,10 @@ class OrderEndpoint extends CollectionEndpointAbstract
      * @return OrderCollection
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): OrderCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var OrderCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -141,6 +131,6 @@ class OrderEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

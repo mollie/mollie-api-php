@@ -264,8 +264,3 @@ parameters:
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
 			path: examples/subscriptions/update-subscription.php
-
-		-
-			message: "#^Result of method Mollie\\\\Api\\\\Endpoints\\\\PaymentLinkEndpoint\\:\\:delete\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/PaymentLinkEndpointTest.php

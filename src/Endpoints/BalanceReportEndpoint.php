@@ -8,16 +8,16 @@ use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Resources\ResourceFactory;
 
-class BalanceReportEndpoint extends EndpointAbstract
+class BalanceReportEndpoint extends RestEndpoint
 {
-    protected $resourcePath = "balances_report";
+    protected string $resourcePath = "balances_report";
 
     /**
      * @inheritDoc
      */
-    protected function getResourceObject()
+    public static function getResourceClass(): string
     {
-        return new BalanceReport($this->client);
+        return BalanceReport::class;
     }
 
     /**
@@ -25,19 +25,25 @@ class BalanceReportEndpoint extends EndpointAbstract
      *
      * @param string $balanceId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     *
+     * @return null|BalanceReport
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId(string $balanceId, array $parameters = [])
+    public function getForId(string $balanceId, array $parameters = []): ?BalanceReport
     {
         $this->parentId = $balanceId;
 
-        $result = $this->client->performHttpCall(
+        $response = $this->client->performHttpCall(
             self::REST_READ,
             $this->getResourcePath() . $this->buildQueryString($parameters)
         );
 
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        if ($response->isEmpty()) {
+            return null;
+        }
+
+        /** @var BalanceReport */
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
     }
 
     /**
@@ -45,10 +51,11 @@ class BalanceReportEndpoint extends EndpointAbstract
      * This is the balance of your account’s primary currency, where all payments are settled to by default.
      *
      * @param array $parameters
-     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     *
+     * @return BalanceReport
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForPrimary(array $parameters = [])
+    public function getForPrimary(array $parameters = []): BalanceReport
     {
         return $this->getForId("primary", $parameters);
     }
@@ -57,12 +64,12 @@ class BalanceReportEndpoint extends EndpointAbstract
     /**
      * Retrieve a balance report for the provided balance resource and parameters.
      *
-     * @param \Mollie\Api\Resources\Balance $balance
+     * @param Balance $balance
      * @param array $parameters
-     * @return \Mollie\Api\Resources\BalanceReport|\Mollie\Api\Resources\BaseResource
+     * @return BalanceReport
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Balance $balance, array $parameters = [])
+    public function getFor(Balance $balance, array $parameters = []): BalanceReport
     {
         return $this->getForId($balance->id, $parameters);
     }

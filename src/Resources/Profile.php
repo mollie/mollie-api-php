@@ -82,32 +82,32 @@ class Profile extends BaseResource
     /**
      * @return bool
      */
-    public function isUnverified()
+    public function isUnverified(): bool
     {
-        return $this->status == ProfileStatus::STATUS_UNVERIFIED;
+        return $this->status == ProfileStatus::UNVERIFIED;
     }
 
     /**
      * @return bool
      */
-    public function isVerified()
+    public function isVerified(): bool
     {
-        return $this->status == ProfileStatus::STATUS_VERIFIED;
+        return $this->status == ProfileStatus::VERIFIED;
     }
 
     /**
      * @return bool
      */
-    public function isBlocked()
+    public function isBlocked(): bool
     {
-        return $this->status == ProfileStatus::STATUS_BLOCKED;
+        return $this->status == ProfileStatus::BLOCKED;
     }
 
     /**
-     * @return \Mollie\Api\Resources\Profile
+     * @return null|Profile
      * @throws ApiException
      */
-    public function update()
+    public function update(): ?Profile
     {
         $body = [
             "name" => $this->name,
@@ -118,9 +118,7 @@ class Profile extends BaseResource
             "mode" => $this->mode,
         ];
 
-        $result = $this->client->profiles->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Profile($this->client));
+        return $this->client->profiles->update($this->id, $body);
     }
 
     /**
@@ -129,14 +127,18 @@ class Profile extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+            return new ChargebackCollection($this->client);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href)
+            ->decode();
 
+        /** @var ChargebackCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->chargebacks,
@@ -151,14 +153,18 @@ class Profile extends BaseResource
      * @return MethodCollection
      * @throws ApiException
      */
-    public function methods()
+    public function methods(): MethodCollection
     {
         if (! isset($this->_links->methods->href)) {
-            return new MethodCollection(0, null);
+            return new MethodCollection($this->client);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href)
+            ->decode();
 
+        /** @var MethodCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->methods,
@@ -175,7 +181,7 @@ class Profile extends BaseResource
      * @return Method
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = [])
+    public function enableMethod($methodId, array $data = []): Method
     {
         return $this->client->profileMethods->createFor($this, $methodId, $data);
     }
@@ -188,7 +194,7 @@ class Profile extends BaseResource
      * @return Method
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = [])
+    public function disableMethod($methodId, array $data = []): ?Method
     {
         return $this->client->profileMethods->deleteFor($this, $methodId, $data);
     }
@@ -199,14 +205,18 @@ class Profile extends BaseResource
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function payments()
+    public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->client, 0, null);
+            return new PaymentCollection($this->client);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href)
+            ->decode();
 
+        /** @var PaymentCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->methods,
@@ -221,14 +231,18 @@ class Profile extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
+            return new RefundCollection($this->client);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
+        $result = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href)
+            ->decode();
 
+        /** @var RefundCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->refunds,

@@ -6,6 +6,8 @@ use Mollie\Api\Exceptions\ApiException;
 
 class Customer extends BaseResource
 {
+    use HasPresetOptions;
+
     /**
      * Id of the customer.
      *
@@ -56,10 +58,10 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return \Mollie\Api\Resources\Customer
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return null|Customer
+     * @throws ApiException
      */
-    public function update()
+    public function update(): ?Customer
     {
         $body = [
             "name" => $this->name,
@@ -68,9 +70,8 @@ class Customer extends BaseResource
             "metadata" => $this->metadata,
         ];
 
-        $result = $this->client->customers->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Customer($this->client));
+        /** @var null|Customer */
+        return $this->client->customers->update($this->id, $body);
     }
 
     /**
@@ -195,14 +196,8 @@ class Customer extends BaseResource
      */
     public function hasValidMandate()
     {
-        $mandates = $this->mandates();
-        foreach ($mandates as $mandate) {
-            if ($mandate->isValid()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->mandates()
+            ->contains(fn (Mandate $mandate) => $mandate->isValid());
     }
 
     /**
@@ -210,41 +205,9 @@ class Customer extends BaseResource
      *
      * @return bool
      */
-    public function hasValidMandateForMethod($method)
+    public function hasValidMandateForMethod($method): bool
     {
-        $mandates = $this->mandates();
-        foreach ($mandates as $mandate) {
-            if ($mandate->method === $method && $mandate->isValid()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions()
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test" ? true : false;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @param array $options
-     * @return array
-     */
-    private function withPresetOptions(array $options)
-    {
-        return array_merge($this->getPresetOptions(), $options);
+        return $this->mandates()
+            ->contains(fn (Mandate $mandate) => $mandate->isValid() && $mandate->method === $method);
     }
 }
