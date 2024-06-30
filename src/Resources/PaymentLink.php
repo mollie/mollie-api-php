@@ -108,7 +108,7 @@ class PaymentLink extends BaseResource
      */
     public function isPaid(): bool
     {
-        return !empty($this->paidAt);
+        return ! empty($this->paidAt);
     }
 
     /**

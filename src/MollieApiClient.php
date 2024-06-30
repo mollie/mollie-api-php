@@ -263,7 +263,7 @@ class MollieApiClient
     {
         $apiKey = trim($apiKey);
 
-        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
+        if (! preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
             throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
         }
 
@@ -283,7 +283,7 @@ class MollieApiClient
     {
         $accessToken = trim($accessToken);
 
-        if (!preg_match('/^access_\w+$/', $accessToken)) {
+        if (! preg_match('/^access_\w+$/', $accessToken)) {
             throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
         }
 
