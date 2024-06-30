@@ -42,7 +42,7 @@ class ResourceFactory
     private static function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
         return $key === '_embedded'
-            && ! is_null($value)
+            && !is_null($value)
             && $resource instanceof EmbeddedResourcesContract;
     }
 
@@ -63,7 +63,7 @@ class ResourceFactory
 
             if (is_null($collectionOrResourceClass)) {
                 throw new EmbeddedResourcesNotParseableException(
-                    "Resource " . $resource::class . " does not have a mapping for embedded resource {$resourceKey}"
+                    "Resource " . get_class($resource) . " does not have a mapping for embedded resource {$resourceKey}"
                 );
             }
 

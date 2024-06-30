@@ -5,9 +5,9 @@ namespace Mollie\Api\Resources;
 class OrderLineCollection extends BaseCollection
 {
     /**
-     * @return null
+     * @return null|string
      */
-    public static function getCollectionResourceName(): null
+    public static function getCollectionResourceName(): ?string
     {
         return null;
     }
