@@ -42,7 +42,7 @@ class ResourceFactory
     private static function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
         return $key === '_embedded'
-            && !is_null($value)
+            && ! is_null($value)
             && $resource instanceof EmbeddedResourcesContract;
     }
 
