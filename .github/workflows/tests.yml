@@ -26,7 +26,6 @@ jobs:
         run: |
           composer update --prefer-dist --no-interaction --no-progress
       - name: PHPStan
-        if: ${{ matrix.php >= 7.3 }}
         run: |
           composer require "phpstan/phpstan:1.9.2"
           vendor/bin/phpstan analyse --no-progress
