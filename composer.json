@@ -59,7 +59,7 @@
     "guzzlehttp/guzzle": "^7.6",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^9.6",
-    "spatie/invade": "^2.0"
+    "spatie/invade": "^1.0|^2.0"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
