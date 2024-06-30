@@ -14,7 +14,7 @@ class WalletEndpoint extends BaseEndpoint
      * @return false|string
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function requestApplePayPaymentSession($domain, $validationUrl, $parameters = []): string|false
+    public function requestApplePayPaymentSession($domain, $validationUrl, $parameters = [])
     {
         $body = $this->parseRequestBody(array_merge([
             'domain' => $domain,
