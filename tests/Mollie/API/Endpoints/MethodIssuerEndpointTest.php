@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Mollie\API;
+namespace Tests\Mollie\API\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Issuer;
-use Tests\Mollie\Api\Endpoints\BaseEndpointTest;
 
 class MethodIssuerEndpointTest extends BaseEndpointTest
 {
