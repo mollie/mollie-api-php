@@ -67,11 +67,11 @@ class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
     public function getResourcePath()
     {
         if (is_null($this->customerId)) {
-            throw new ApiException('Missing required parameter customerId.');
+            throw new ApiException('No customerId provided.');
         }
 
         if (is_null($this->subscriptionId)) {
-            throw new ApiException('Missing required parameter subscriptionId.');
+            throw new ApiException('No subscriptionId provided.');
         }
 
         return "customers/{$this->customerId}/subscriptions/{$this->subscriptionId}/payments";
