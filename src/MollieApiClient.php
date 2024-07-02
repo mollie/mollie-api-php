@@ -37,6 +37,7 @@ use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\SubscriptionPaymentEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -154,6 +155,13 @@ class MollieApiClient
      * @var SubscriptionEndpoint
      */
     public $subscriptions;
+
+    /**
+     * RESTful Subscription Payments resource.
+     *
+     * @var SubscriptionPaymentEndpoint
+     */
+    public $subscriptionPayments;
 
     /**
      * RESTful Mandate resource.
@@ -394,6 +402,7 @@ class MollieApiClient
         $this->settlementPayments = new SettlementPaymentEndpoint($this);
         $this->settlementRefunds = new SettlementRefundEndpoint($this);
         $this->subscriptions = new SubscriptionEndpoint($this);
+        $this->subscriptionPayments = new SubscriptionPaymentEndpoint($this);
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
         $this->balances = new BalanceEndpoint($this);
