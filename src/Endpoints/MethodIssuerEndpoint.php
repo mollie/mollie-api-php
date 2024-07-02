@@ -14,8 +14,42 @@ class MethodIssuerEndpoint extends EndpointAbstract
 
     protected $profileId = null;
     protected $methodId = null;
+    protected $issuerId = null;
 
-    
+    /**
+     * @param string $profileId
+     * @param string $methodId
+     * @param string $issuerId
+     * @return Issuer
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function enable(string $profileId, string $methodId, string $issuerId)
+    {
+        $this->profileId = $profileId;
+        $this->methodId = $methodId;
+        $this->issuerId = $issuerId;
+
+        $response = $this->rest_create([], []);
+
+        $this->resetResourceIds();
+
+        return $response;
+    }
+
+    public function disable(string $profileId, string $methodId, string $issuerId)
+    {
+        $this->profileId = $profileId;
+        $this->methodId = $methodId;
+
+        return $this->rest_delete($issuerId);
+    }
+
+    protected function resetResourceIds()
+    {
+        $this->profileId = null;
+        $this->methodId = null;
+        $this->issuerId = null;
+    }
 
     /**
      * @return string
@@ -31,7 +65,13 @@ class MethodIssuerEndpoint extends EndpointAbstract
             throw new ApiException("No methodId provided.");
         }
 
-        return "profiles/{$this->profileId}/methods/{$this->methodId}/issuers";
+        $path = "profiles/{$this->profileId}/methods/{$this->methodId}/issuers";
+
+        if ($this->issuerId) {
+            $path .= "/$this->issuerId";
+        }
+
+        return $path;
     }
 
     /**
