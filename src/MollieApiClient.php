@@ -13,6 +13,7 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
@@ -37,6 +38,7 @@ use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\SubscriptionPaymentEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -100,6 +102,11 @@ class MollieApiClient
     public $profileMethods;
 
     /**
+     * @var \Mollie\Api\Endpoints\MethodIssuerEndpoint
+     */
+    public $methodIssuers;
+
+    /**
      * RESTful Customers resource.
      *
      * @var CustomerEndpoint
@@ -154,6 +161,13 @@ class MollieApiClient
      * @var SubscriptionEndpoint
      */
     public $subscriptions;
+
+    /**
+     * RESTful Subscription Payments resource.
+     *
+     * @var SubscriptionPaymentEndpoint
+     */
+    public $subscriptionPayments;
 
     /**
      * RESTful Mandate resource.
@@ -387,6 +401,7 @@ class MollieApiClient
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
         $this->profileMethods = new ProfileMethodEndpoint($this);
+        $this->methodIssuers = new MethodIssuerEndpoint($this);
         $this->customers = new CustomerEndpoint($this);
         $this->settlements = new SettlementsEndpoint($this);
         $this->settlementCaptures = new SettlementCaptureEndpoint($this);
@@ -394,6 +409,7 @@ class MollieApiClient
         $this->settlementPayments = new SettlementPaymentEndpoint($this);
         $this->settlementRefunds = new SettlementRefundEndpoint($this);
         $this->subscriptions = new SubscriptionEndpoint($this);
+        $this->subscriptionPayments = new SubscriptionPaymentEndpoint($this);
         $this->customerPayments = new CustomerPaymentsEndpoint($this);
         $this->mandates = new MandateEndpoint($this);
         $this->balances = new BalanceEndpoint($this);
