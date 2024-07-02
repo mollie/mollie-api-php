@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Endpoints;
 
-
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Issuer;
 
