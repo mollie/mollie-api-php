@@ -43,6 +43,16 @@ class MethodIssuerEndpointTest extends BaseEndpointTest
     /** @test */
     public function testDisableIssuer()
     {
-        $this->markTestIncomplete('To be implemented');
+        $this->mockApiCall(
+            new Request(
+                'DELETE',
+                'https://api.mollie.com/v2/profiles/pfl_QkEhN94Ba/methods/ideal/issuers/festivalcadeau'
+            ),
+            new Response(204)
+        );
+
+        $response = $this->apiClient->methodIssuers->disable('pfl_QkEhN94Ba', 'ideal', 'festivalcadeau');
+
+        $this->assertNull($response);
     }
 }
