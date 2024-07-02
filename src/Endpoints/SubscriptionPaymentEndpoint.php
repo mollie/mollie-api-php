@@ -19,6 +19,7 @@ class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
     /**
      * Retrieves a collection of Subscription Payments from Mollie.
      *
+     * @param string $customerId
      * @param string $subscriptionId
      * @param null $from The first payment ID you want to include in your list.
      * @param null $limit

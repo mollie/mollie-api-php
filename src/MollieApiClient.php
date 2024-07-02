@@ -13,6 +13,7 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
@@ -99,6 +100,11 @@ class MollieApiClient
      * @var ProfileMethodEndpoint
      */
     public $profileMethods;
+
+    /**
+     * @var \Mollie\Api\Endpoints\MethodIssuerEndpoint
+     */
+    public $methodIssuers;
 
     /**
      * RESTful Customers resource.
@@ -395,6 +401,7 @@ class MollieApiClient
         $this->payments = new PaymentEndpoint($this);
         $this->methods = new MethodEndpoint($this);
         $this->profileMethods = new ProfileMethodEndpoint($this);
+        $this->methodIssuers = new MethodIssuerEndpoint($this);
         $this->customers = new CustomerEndpoint($this);
         $this->settlements = new SettlementsEndpoint($this);
         $this->settlementCaptures = new SettlementCaptureEndpoint($this);
