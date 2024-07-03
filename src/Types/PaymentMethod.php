@@ -123,6 +123,11 @@ class PaymentMethod
     public const MYBANK = "mybank";
 
     /**
+     * @link https://www.mollie.com/en/payments/payconiq
+     */
+    public const PAYCONIQ = "payconiq";
+
+    /**
      * @link https://www.mollie.com/en/payments/paypal
      */
     public const PAYPAL = "paypal";
