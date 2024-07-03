@@ -70,7 +70,7 @@ class PaymentMethod
     public const GIFTCARD = "giftcard";
 
     /**
-     * @deprecated 
+     * @deprecated
      * @link https://www.mollie.com/en/payments/giropay
      */
     public const GIROPAY = "giropay";
