@@ -116,4 +116,18 @@ class MethodEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_read($methodId, $parameters);
     }
+
+    /**
+     * Retrieve a complete, non-paginated collection of active Mollie payment methods.
+     * Note that only Euro supporting methods are included.
+     * For a full list of activated methods regardless the currency use the allActive() method.
+     *
+     * @param array $parameters
+     * @return mixed|\Mollie\Api\Resources\BaseCollection
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function list(array $parameters = [])
+    {
+        return $this->rest_list(null, null, $parameters);
+    }
 }

@@ -10,7 +10,6 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\MethodPrice;
 use Mollie\Api\Resources\MethodPriceCollection;
-use stdClass;
 use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
 use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
@@ -450,17 +449,14 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(MethodCollection::class, $methods);
         $this->assertEquals(3, $methods->count);
         $this->assertCount(3, $methods);
-
-        $documentationLink = (object)[
-            'href' => 'https://docs.mollie.com/reference/v2/methods-api/list-methods',
-            'type' => 'text/html',
-        ];
-        $this->assertEquals($documentationLink, $methods->_links->documentation);
-
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/list-methods',
+            'text/html',
+            $methods->_links->documentation
+        );
         $this->assertFalse(isset($methods->_links->self));
 
         $creditcardMethod = $methods[1];
-
         $this->assertInstanceOf(Method::class, $creditcardMethod);
         $this->assertEquals('creditcard', $creditcardMethod->id);
         $this->assertEquals('Credit card', $creditcardMethod->description);
@@ -468,7 +464,6 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertAmountObject(2000, 'EUR', $creditcardMethod->maximumAmount);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
         $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
-
         $this->assertLinkObject(
             'https://api.mollie.com/v2/methods/creditcard',
             'application/hal+json',
@@ -635,5 +630,161 @@ class MethodEndpointTest extends BaseEndpointTest
             'application/hal+json',
             $creditcardMethod->_links->self
         );
+    }
+
+    public function testListMethods()
+    {
+        $this->mockApiCall(
+            new Request('GET', '/v2/methods'),
+            new Response(
+                200,
+                [],
+                '{
+                    "_embedded": {
+                        "methods": [
+                            {
+                                "resource": "method",
+                                "id": "ideal",
+                                "description": "iDEAL",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/ideal",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "creditcard",
+                                "description": "Credit card",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "2000.00",
+                                    "currency": "EUR"
+                                },
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/creditcard",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "mistercash",
+                                "description": "Bancontact",
+                                "minimumAmount": {
+                                    "value": "0.02",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": {
+                                    "value": "50000.00",
+                                    "currency": "EUR"
+                                },
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/mistercash",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            },
+                            {
+                                "resource": "method",
+                                "id": "giftcard",
+                                "description": "Gift cards",
+                                "minimumAmount": {
+                                    "value": "0.01",
+                                    "currency": "EUR"
+                                },
+                                "maximumAmount": null,
+                                "image": {
+                                    "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
+                                    "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
+                                },
+                                "_links": {
+                                    "self": {
+                                        "href": "https://api.mollie.com/v2/methods/giftcard",
+                                        "type": "application/hal+json"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "count": 4,
+                    "_links": {
+                        "documentation": {
+                            "href": "https://docs.mollie.com/reference/v2/methods-api/list-methods",
+                            "type": "text/html"
+                        },
+                        "self": {
+                            "href": "http://api.mollie.com/v2/methods",
+                            "type": "application/hal+json"
+                        }
+                    }
+                }'
+            )
+        );
+
+        $methods = $this->apiClient->methods->list();
+
+        $this->assertInstanceOf(MethodCollection::class, $methods);
+        $this->assertEquals(4, $methods->count);
+        $this->assertCount(4, $methods);
+
+        $this->assertLinkObject(
+            'https://docs.mollie.com/reference/v2/methods-api/list-methods',
+            'text/html',
+            $methods->_links->documentation
+        );
+
+        $selfLink = (object)[
+            'href' => 'http://api.mollie.com/v2/methods',
+            'type' => 'application/hal+json',
+        ];
+        $this->assertEquals($selfLink, $methods->_links->self);
+        $this->assertLinkObject(
+            'http://api.mollie.com/v2/methods',
+            'application/hal+json',
+            $methods->_links->self
+        );
+
+        $creditcardMethod = $methods[1];
+
+        $this->assertInstanceOf(Method::class, $creditcardMethod);
+        $this->assertEquals('creditcard', $creditcardMethod->id);
+        $this->assertEquals('Credit card', $creditcardMethod->description);
+        $this->assertAmountObject(0.01, 'EUR', $creditcardMethod->minimumAmount);
+        $this->assertAmountObject(2000, 'EUR', $creditcardMethod->maximumAmount);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard.png', $creditcardMethod->image->size1x);
+        $this->assertEquals('https://www.mollie.com/images/payscreen/methods/creditcard%402x.png', $creditcardMethod->image->size2x);
+
+        $selfLink = (object)[
+            'href' => 'https://api.mollie.com/v2/methods/creditcard',
+            'type' => 'application/hal+json',
+        ];
+        $this->assertEquals($selfLink, $creditcardMethod->_links->self);
     }
 }
