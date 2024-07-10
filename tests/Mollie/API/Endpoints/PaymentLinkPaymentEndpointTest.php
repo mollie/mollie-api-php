@@ -80,11 +80,11 @@ class PaymentLinkPaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $response = $this->apiClient->paymentLinkPayments->pageForId('pl_4Y0eZitmBnQ6IDoMqZQKh');
+        $response = $this->apiClient->paymentLinkPayments->pageForId("pl_4Y0eZitmBnQ6IDoMqZQKh");
 
         $this->assertInstanceOf(PaymentCollection::class, $response);
         $this->assertInstanceOf(Payment::class, $response[0]);
-        $this->assertEquals($response[0]->id, 'tr_7UhSN1zuXS');
+        $this->assertEquals($response[0]->id, "tr_7UhSN1zuXS");
         // Not necessary to test all fields...
     }
 }
