@@ -6,6 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Resources\ResourceFactory;
+use Mollie\Api\Types\PaymentMethodStatus;
 
 class MethodEndpoint extends CollectionEndpointAbstract
 {
@@ -44,7 +45,22 @@ class MethodEndpoint extends CollectionEndpointAbstract
      */
     public function allActive(array $parameters = [])
     {
-        return parent::rest_list(null, null, $parameters);
+        $url = 'methods/all' . $this->buildQueryString($parameters);
+
+        $result = $this->client->performHttpCall('GET', $url);
+
+        $data = array_filter($result->_embedded->methods, function ($method) {
+            return $method->status === PaymentMethodStatus::ACTIVATED;
+        });
+
+        unset($result->_links->self); // Remove incorrect self link
+
+        return ResourceFactory::createBaseResourceCollection(
+            $this->client,
+            Method::class,
+            $data,
+            $result->_links
+        );
     }
 
     /**
