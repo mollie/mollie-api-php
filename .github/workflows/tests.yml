@@ -27,7 +27,7 @@ jobs:
           composer update --prefer-dist --no-interaction --no-progress
       - name: PHPStan
         run: |
-          composer require "phpstan/phpstan:1.9.2"
+          composer require "phpstan/phpstan" --dev
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
         run: vendor/bin/paratest --verbose
