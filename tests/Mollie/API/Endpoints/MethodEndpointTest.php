@@ -41,6 +41,7 @@ class MethodEndpointTest extends BaseEndpointTest
                         "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                         "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
                     },
+                    "status": "activated",
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/ideal",
@@ -113,7 +114,7 @@ class MethodEndpointTest extends BaseEndpointTest
                             }
                         }
                     ],
-
+                    "status": "activated",
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/ideal",
@@ -202,6 +203,7 @@ class MethodEndpointTest extends BaseEndpointTest
                              "variable": "0"
                          }
                      ],
+                     "status": "activated",
                      "_links": {
                          "self": {
                              "href": "https://api.mollie.com/v2/methods/ideal",
@@ -290,6 +292,7 @@ class MethodEndpointTest extends BaseEndpointTest
                         "size2x": "https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png",
                         "svg": "https://www.mollie.com/external/icons/payment-methods/creditcard.svg"
                     },
+                    "status": "activated",
                     "_links": {
                         "self": {
                             "href": "https://api.mollie.com/v2/methods/creditcard",
@@ -508,6 +511,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                         "variable": "0"
                                     }
                                 ],
+                                "status": "activated",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/ideal",
@@ -531,6 +535,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
                                 },
+                                "status": "activated",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/creditcard",
@@ -554,6 +559,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
                                 },
+                                "status": "rejected",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/mistercash",
@@ -574,6 +580,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
                                 },
+                                "status": "pending",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/giftcard",
@@ -655,6 +662,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "value": "50000.00",
                                     "currency": "EUR"
                                 },
+                                "status": "activated",
                                 "image": {
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/ideal.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/ideal%402x.png"
@@ -682,6 +690,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/creditcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/creditcard%402x.png"
                                 },
+                                "status": "activated",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/creditcard",
@@ -705,6 +714,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/mistercash.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/mistercash%402x.png"
                                 },
+                                "status": "activated",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/mistercash",
@@ -725,6 +735,7 @@ class MethodEndpointTest extends BaseEndpointTest
                                     "size1x": "https://www.mollie.com/images/payscreen/methods/giftcard.png",
                                     "size2x": "https://www.mollie.com/images/payscreen/methods/giftcard%402x.png"
                                 },
+                                "status": "activated",
                                 "_links": {
                                     "self": {
                                         "href": "https://api.mollie.com/v2/methods/giftcard",
