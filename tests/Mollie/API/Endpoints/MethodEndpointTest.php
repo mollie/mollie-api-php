@@ -269,29 +269,30 @@ class MethodEndpointTest extends BaseEndpointTest
     public function testGetTranslatedMethod()
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/methods/sofort?locale=de_DE'),
+            new Request('GET', '/v2/methods/creditcard?locale=de_DE'),
             new Response(
                 200,
                 [],
                 '{
                     "resource": "method",
-                    "id": "sofort",
-                    "description": "SOFORT \u00dcberweisung",
+                    "id": "creditcard",
+                    "description": "Karte",
                     "minimumAmount": {
                         "value": "0.01",
                         "currency": "EUR"
                     },
                     "maximumAmount": {
-                        "value": "50000.00",
+                        "value": "10000.00",
                         "currency": "EUR"
                     },
                     "image": {
-                        "size1x": "https://www.mollie.com/images/payscreen/methods/sofort.png",
-                        "size2x": "https://www.mollie.com/images/payscreen/methods/sofort%402x.png"
+                        "size1x": "https://www.mollie.com/external/icons/payment-methods/creditcard.png",
+                        "size2x": "https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png",
+                        "svg": "https://www.mollie.com/external/icons/payment-methods/creditcard.svg"
                     },
                     "_links": {
                         "self": {
-                            "href": "https://api.mollie.com/v2/methods/sofort",
+                            "href": "https://api.mollie.com/v2/methods/creditcard",
                             "type": "application/hal+json"
                         },
                         "documentation": {
@@ -303,16 +304,16 @@ class MethodEndpointTest extends BaseEndpointTest
             )
         );
 
-        $method = $this->apiClient->methods->get('sofort', ['locale' => 'de_DE']);
+        $method = $this->apiClient->methods->get('creditcard', ['locale' => 'de_DE']);
 
         $this->assertInstanceOf(Method::class, $method);
-        $this->assertEquals('sofort', $method->id);
-        $this->assertEquals('SOFORT Überweisung', $method->description);
+        $this->assertEquals('creditcard', $method->id);
+        $this->assertEquals('Karte', $method->description);
         $this->assertAmountObject(0.01, 'EUR', $method->minimumAmount);
-        $this->assertAmountObject(50000, 'EUR', $method->maximumAmount);
+        $this->assertAmountObject(10000, 'EUR', $method->maximumAmount);
 
         $this->assertLinkObject(
-            'https://api.mollie.com/v2/methods/sofort',
+            'https://api.mollie.com/v2/methods/creditcard',
             'application/hal+json',
             $method->_links->self
         );
