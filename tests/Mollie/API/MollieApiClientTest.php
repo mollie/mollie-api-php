@@ -298,6 +298,22 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($mollieClient->getIdempotencyKey());
     }
 
+    /** @test */
+    public function testUsesTestmodeApiKeyWorks()
+    {
+        $mollieClient = new MollieApiClient;
+        $this->assertFalse($mollieClient->usesTestmodeApiKey());
+
+        $mollieClient->setAccessToken('access_foobarfoobarfoobarfoobarfoobar');
+        $this->assertFalse($mollieClient->usesTestmodeApiKey());
+
+        $mollieClient->setApiKey('live_foobarfoobarfoobarfoobarfoobar');
+        $this->assertFalse($mollieClient->usesTestmodeApiKey());
+
+        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $this->assertTrue($mollieClient->usesTestmodeApiKey());
+    }
+
     /**
      * @param $httpMethod
      * @return void

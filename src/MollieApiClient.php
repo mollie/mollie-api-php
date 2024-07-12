@@ -522,6 +522,20 @@ class MollieApiClient
     }
 
     /**
+     * Returns true if the API key is a test key. Returns false if Oauth is used.
+     *
+     * @return bool
+     */
+    public function usesTestmodeApiKey()
+    {
+        if ($this->usesOAuth()) {
+            return false;
+        }
+
+        return strpos($this->apiKey, 'test_') === 0;
+    }
+
+    /**
      * @param string $versionString
      *
      * @return MollieApiClient

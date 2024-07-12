@@ -45,12 +45,15 @@ class MethodEndpoint extends CollectionEndpointAbstract
      */
     public function allActive(array $parameters = [])
     {
-        $url = 'methods/all' . $this->buildQueryString($parameters);
+        $url = "methods/all" . $this->buildQueryString($parameters);
+        $result = $this->client->performHttpCall("GET", $url);
 
-        $result = $this->client->performHttpCall('GET', $url);
+        $allowedStatuses = $this->isUsingTestmode($parameters)
+            ? [PaymentMethodStatus::ACTIVATED, PaymentMethodStatus::PENDING_REVIEW]
+            : [PaymentMethodStatus::ACTIVATED];
 
-        $data = array_filter($result->_embedded->methods, function ($method) {
-            return $method->status === PaymentMethodStatus::ACTIVATED;
+        $data = array_filter($result->_embedded->methods, function ($method) use ($allowedStatuses) {
+            return in_array($method->status, $allowedStatuses);
         });
 
         unset($result->_links->self); // Remove incorrect self link
@@ -129,5 +132,25 @@ class MethodEndpoint extends CollectionEndpointAbstract
     public function list(array $parameters = [])
     {
         return $this->rest_list(null, null, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return bool
+     */
+    protected function isUsingTestmode(array $parameters): bool
+    {
+        if ($this->client->usesOAuth()) {
+            if (
+                array_key_exists("testmode", $parameters)
+                && is_bool($parameters["testmode"])
+            ) {
+                return $parameters["testmode"];
+            }
+
+            return false;
+        }
+
+        return $this->client->usesTestmodeApiKey();
     }
 }
