@@ -16,7 +16,7 @@ class MandateEndpoint extends EndpointCollection
      */
     public static function getResourceClass(): string
     {
-        return  Mandate::class;
+        return Mandate::class;
     }
 
     /**
