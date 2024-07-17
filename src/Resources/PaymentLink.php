@@ -159,6 +159,24 @@ class PaymentLink extends BaseResource
     }
 
     /**
+     * Retrieve a paginated list of payments associated with this payment link.
+     *
+     * @param string|null $from
+     * @param int|null $limit
+     * @param array $filters
+     * @return mixed|\Mollie\Api\Resources\BaseCollection
+     */
+    public function payments(string $from = null, int $limit = null, array $filters = [])
+    {
+        return $this->client->paymentLinkPayments->pageFor(
+            $this,
+            $from,
+            $limit,
+            $this->withPresetOptions($filters)
+        );
+    }
+
+    /**
      * When accessed by oAuth we want to pass the testmode by default
      *
      * @return array

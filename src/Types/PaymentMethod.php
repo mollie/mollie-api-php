@@ -70,6 +70,7 @@ class PaymentMethod
     public const GIFTCARD = "giftcard";
 
     /**
+     * @deprecated
      * @link https://www.mollie.com/en/payments/giropay
      */
     public const GIROPAY = "giropay";
@@ -122,6 +123,11 @@ class PaymentMethod
     public const MYBANK = "mybank";
 
     /**
+     * @link https://www.mollie.com/en/payments/payconiq
+     */
+    public const PAYCONIQ = "payconiq";
+
+    /**
      * @link https://www.mollie.com/en/payments/paypal
      */
     public const PAYPAL = "paypal";
@@ -156,6 +162,11 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/riverty
      */
     public const RIVERTY = "riverty";
+
+    /**
+     * @link https://www.mollie.com/en/payments/trustly
+     */
+    public const TRUSTLY = "trustly";
 
     /**
      * @link https://www.mollie.com/en/payments/twint
