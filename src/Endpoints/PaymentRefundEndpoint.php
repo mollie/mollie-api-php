@@ -73,8 +73,8 @@ class PaymentRefundEndpoint extends EndpointCollection
      * Create an iterator for iterating over refunds for the given payment, retrieved from Mollie.
      *
      * @param Payment $payment
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
+     * @param string|null $from The first resource ID you want to include in your list.
+     * @param int|null $limit
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *
@@ -109,8 +109,8 @@ class PaymentRefundEndpoint extends EndpointCollection
      * Create an iterator for iterating over refunds for the given payment id, retrieved from Mollie.
      *
      * @param string $paymentId
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
+     * @param string|null $from The first resource ID you want to include in your list.
+     * @param int|null $limit
      * @param array $parameters
      * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
      *

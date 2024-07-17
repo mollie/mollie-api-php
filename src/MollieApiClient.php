@@ -16,6 +16,7 @@ use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
+use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
 use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
@@ -28,6 +29,7 @@ use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
 use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentLinkEndpoint;
+use Mollie\Api\Endpoints\PaymentLinkPaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PaymentRouteEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
@@ -40,6 +42,7 @@ use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementRefundEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\SubscriptionPaymentEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
@@ -59,6 +62,7 @@ use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
  * @property InvoiceEndpoint $invoices
  * @property MandateEndpoint $mandates
  * @property MethodEndpoint $methods
+ * @property MethodIssuerEndpoint $methodIssuers
  * @property OnboardingEndpoint $onboarding
  * @property OrderEndpoint $orders
  * @property OrderLineEndpoint $orderLines
@@ -70,6 +74,7 @@ use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
  * @property PaymentCaptureEndpoint $paymentCaptures
  * @property PaymentChargebackEndpoint $paymentChargebacks
  * @property PaymentLinkEndpoint $paymentLinks
+ * @property PaymentLinkPaymentEndpoint $paymentLinkPayments
  * @property PaymentRefundEndpoint $paymentRefunds
  * @property PaymentRouteEndpoint $paymentRoutes
  * @property PermissionEndpoint $permissions
@@ -83,6 +88,7 @@ use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
  * @property SettlementRefundEndpoint $settlementRefunds
  * @property OrderShipmentEndpoint $shipments
  * @property SubscriptionEndpoint $subscriptions
+ * @property SubscriptionPaymentEndpoint $subscriptionPayments
  * @property TerminalEndpoint $terminals
  * @property WalletEndpoint $wallets
  */
@@ -182,6 +188,7 @@ class MollieApiClient
             'invoices' => InvoiceEndpoint::class,
             'mandates' => MandateEndpoint::class,
             'methods' => MethodEndpoint::class,
+            'methodIssuers' => MethodIssuerEndpoint::class,
             'onboarding' => OnboardingEndpoint::class,
             'orderLines' => OrderLineEndpoint::class,
             'orderPayments' => OrderPaymentEndpoint::class,
@@ -192,6 +199,7 @@ class MollieApiClient
             'paymentCaptures' => PaymentCaptureEndpoint::class,
             'paymentChargebacks' => PaymentChargebackEndpoint::class,
             'paymentLinks' => PaymentLinkEndpoint::class,
+            'paymentLinkPayments' => PaymentLinkPaymentEndpoint::class,
             'paymentRefunds' => PaymentRefundEndpoint::class,
             'paymentRoutes' => PaymentRouteEndpoint::class,
             'payments' => PaymentEndpoint::class,
@@ -206,6 +214,7 @@ class MollieApiClient
             'settlements' => SettlementsEndpoint::class,
             'shipments' => OrderShipmentEndpoint::class,
             'subscriptions' => SubscriptionEndpoint::class,
+            'subscriptionPayments' => SubscriptionPaymentEndpoint::class,
             'terminals' => TerminalEndpoint::class,
             'wallets' => WalletEndpoint::class,
         ];

@@ -33,6 +33,7 @@ class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpointC
     }
 
     /**
+     * @deprecated 2023-05-01 For an alternative, see https://docs.mollie.com/reference/create-client-link .
      * Submit data that will be prefilled in the merchant’s onboarding.
      * Please note that the data you submit will only be processed when the onboarding status is needs-data.
      *
@@ -58,10 +59,6 @@ class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpointC
      */
     private function create(array $body, array $filters): void
     {
-        $this->client->performHttpCall(
-            self::REST_CREATE,
-            $this->getResourcePath() . $this->buildQueryString($filters),
-            $this->parseRequestBody($body)
-        );
+        $this->createResource($body, $filters);
     }
 }
