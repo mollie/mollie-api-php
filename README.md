@@ -32,7 +32,7 @@ The easiest way to install the Mollie API client is by using [Composer](http://g
 composer require mollie/mollie-api-php
 ```
 
-To work with the most recent API version, ensure that you are using a version of this API client that is equal to or greater than 2.0.0. If you prefer to continue using the v1 API, make sure your client version is below 2.0.0. For guidance on transitioning from v1 to v2, please refer to the [migration notes](https://docs.mollie.com/migrating-v1-to-v2).
+To work with the most recent API version, ensure that you are using a version of this API client that is equal to or greater than 2.0.0. If you prefer to continue using the v1 API, make sure your client version is below 2.0.0. For guidance on transitioning from v1 to v2, please refer to the [migration notes](https://docs.mollie.com/docs/migrating-from-v1-to-v2).
 
 ### Manual Installation ###
 If you're not familiar with using composer we've added a ZIP file to the releases containing the API client and all the packages normally installed by composer.
