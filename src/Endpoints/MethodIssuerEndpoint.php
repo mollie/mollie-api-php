@@ -40,6 +40,7 @@ class MethodIssuerEndpoint extends RestEndpoint
         $this->methodId = $methodId;
         $this->issuerId = $issuerId;
 
+        /** @var Issuer */
         $response = $this->createResource([], []);
 
         $this->resetResourceIds();

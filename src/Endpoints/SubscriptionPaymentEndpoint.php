@@ -57,6 +57,7 @@ class SubscriptionPaymentEndpoint extends EndpointCollection
         $this->customerId = $customerId;
         $this->subscriptionId = $subscriptionId;
 
+        /** @var PaymentCollection */
         return $this->fetchCollection($from, $limit, $parameters);
     }
 
