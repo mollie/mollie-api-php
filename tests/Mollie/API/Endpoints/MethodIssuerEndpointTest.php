@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Mollie\API\Endpoints;
+namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;

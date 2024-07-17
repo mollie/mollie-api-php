@@ -17,12 +17,12 @@ class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
     protected $subscriptionId = null;
 
     /**
-     * Retrieves a collection of Subscription Payments from Mollie.
+     * Retrieves a paginated collection of Subscription Payments from Mollie.
      *
      * @param string $customerId
      * @param string $subscriptionId
-     * @param null $from The first payment ID you want to include in your list.
-     * @param null $limit
+     * @param string|null $from The first payment ID you want to include in your list.
+     * @param int|null $limit The maximum amount of results you want to retrieve per page.
      * @param array $parameters
      *
      * @return PaymentCollection
@@ -31,8 +31,8 @@ class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
     public function pageForIds(
         string $customerId,
         string $subscriptionId,
-        $from = null,
-        $limit = null,
+        ?string $from = null,
+        ?int $limit = null,
         array $parameters = []
     ) {
         $this->customerId = $customerId;
