@@ -9,23 +9,26 @@ use Mollie\Api\Resources\MandateCollection;
 
 class MandateEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "customers_mandates";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Mandate::class;
-    }
+    public static string $resource = Mandate::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return MandateCollection::class;
-    }
+    public static string $resourceCollection = MandateCollection::class;
 
     /**
      * @param Customer $customer

@@ -10,21 +10,30 @@ use Mollie\Api\Resources\PaymentCollection;
 
 class SubscriptionPaymentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "customers_subscriptions_payments";
+
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Payment::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = PaymentCollection::class;
 
     protected $customerId = null;
 
     protected $subscriptionId = null;
-
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
-
-    public static function getResourceClass(): string
-    {
-        return Payment::class;
-    }
 
     /**
      * Retrieves a paginated collection of Subscription Payments from Mollie.

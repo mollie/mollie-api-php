@@ -10,25 +10,34 @@ use Mollie\Api\Resources\SubscriptionCollection;
 
 class SubscriptionEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "customers_subscriptions";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'sub_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Subscription::class;
-    }
+    public static string $resource = Subscription::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return SubscriptionCollection::class;
-    }
+    public static string $resourceCollection = SubscriptionCollection::class;
 
     /**
      * Create a subscription for a Customer

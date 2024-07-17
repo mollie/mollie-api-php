@@ -7,15 +7,19 @@ use Mollie\Api\Resources\ClientLink;
 
 class ClientLinkEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "client-links";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  ClientLink::class;
-    }
+    public static string $resource = ClientLink::class;
 
     /**
      * Creates a client link in Mollie.

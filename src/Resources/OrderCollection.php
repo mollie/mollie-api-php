@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class OrderCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public static function getCollectionResourceName(): string
-    {
-        return "orders";
-    }
+    public static string $collectionName = "orders";
 
     /**
-     * @return string
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Order::class;
-    }
+    public static string $resource = Order::class;
 }

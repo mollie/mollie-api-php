@@ -11,17 +11,26 @@ use Mollie\Api\Resources\PaymentLink;
 
 class PaymentLinkPaymentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = 'payment-links_payments';
 
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Payment::class;
 
-    public static function getResourceClass(): string
-    {
-        return Payment::class;
-    }
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = PaymentCollection::class;
 
     public function pageForId(string $paymentLinkId, string $from = null, int $limit = null, array $filters = [])
     {

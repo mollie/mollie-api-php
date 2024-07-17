@@ -8,23 +8,26 @@ use Mollie\Api\Resources\PaymentCollection;
 
 class SettlementPaymentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "settlements_payments";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Payment::class;
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Retrieves a collection of Payments from Mollie.

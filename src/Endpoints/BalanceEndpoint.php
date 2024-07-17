@@ -9,25 +9,34 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceEndpoint extends EndpointCollection
 {
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Balance::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = BalanceCollection::class;
+
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'bal_';
 
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "balances";
-
-    /**
-     * @inheritDoc
-     */
-    protected function getResourceCollectionClass(): string
-    {
-        return BalanceCollection::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getResourceClass(): string
-    {
-        return  Balance::class;
-    }
 
     /**
      * Retrieve a single balance from Mollie.

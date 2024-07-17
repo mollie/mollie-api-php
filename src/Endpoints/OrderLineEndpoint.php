@@ -5,30 +5,31 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
-use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-class OrderLineEndpoint extends EndpointCollection
+class OrderLineEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "orders_lines";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'odl_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  OrderLine::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function getResourceCollectionClass(): string
-    {
-        return OrderLineCollection::class;
-    }
+    public static string $resource = OrderLine::class;
 
     /**
      * Update a specific OrderLine resource.
@@ -119,9 +120,10 @@ class OrderLineEndpoint extends EndpointCollection
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (!isset($data['lines']) || !is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
+
         $this->parentId = $orderId;
 
         $this->client->performHttpCall(

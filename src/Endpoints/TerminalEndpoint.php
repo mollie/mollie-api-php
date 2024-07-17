@@ -9,25 +9,34 @@ use Mollie\Api\Resources\TerminalCollection;
 
 class TerminalEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "terminals";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'term_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Terminal::class;
-    }
+    public static string $resource = Terminal::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return TerminalCollection::class;
-    }
+    public static string $resourceCollection = TerminalCollection::class;
 
     /**
      * Retrieve terminal from Mollie.

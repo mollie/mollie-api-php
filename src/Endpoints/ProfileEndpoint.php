@@ -10,27 +10,34 @@ use Mollie\Api\Resources\ProfileCollection;
 
 class ProfileEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "profiles";
 
-    protected static $resourceClass = Profile::class;
-
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'pfl_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return static::$resourceClass;
-    }
+    public static string $resource = Profile::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return ProfileCollection::class;
-    }
+    public static string $resourceCollection = ProfileCollection::class;
 
     /**
      * Creates a Profile in Mollie.
@@ -96,7 +103,7 @@ class ProfileEndpoint extends EndpointCollection
      */
     public function getCurrent(array $parameters = []): CurrentProfile
     {
-        static::$resourceClass = CurrentProfile::class;
+        static::$resource = CurrentProfile::class;
 
         /** @var CurrentProfile */
         return $this->readResource('me', $parameters);

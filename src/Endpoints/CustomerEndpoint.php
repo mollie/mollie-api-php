@@ -9,25 +9,34 @@ use Mollie\Api\Resources\LazyCollection;
 
 class CustomerEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "customers";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'cst_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Customer::class;
-    }
+    public static string $resource = Customer::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return CustomerCollection::class;
-    }
+    public static string $resourceCollection = CustomerCollection::class;
 
     /**
      * Creates a customer in Mollie.

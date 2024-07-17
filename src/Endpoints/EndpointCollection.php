@@ -7,9 +7,17 @@ use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceFactory;
+use RuntimeException;
 
 abstract class EndpointCollection extends RestEndpoint
 {
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = '';
+
     /**
      * Get a collection of objects from the REST API.
      *
@@ -66,7 +74,7 @@ abstract class EndpointCollection extends RestEndpoint
 
         return ResourceFactory::createBaseResourceCollection(
             $this->client,
-            $this->getResourceClass(),
+            static::getResourceClass(),
             $result->_embedded->{$collectionClass::getCollectionResourceName()},
             $result->_links,
             $collectionClass
@@ -78,5 +86,12 @@ abstract class EndpointCollection extends RestEndpoint
      *
      * @return string
      */
-    abstract protected function getResourceCollectionClass(): string;
+    private function getResourceCollectionClass(): string
+    {
+        if (!isset(static::$resourceCollection)) {
+            throw new RuntimeException("The resource collection class is not set on the endpoint.");
+        }
+
+        return static::$resourceCollection;
+    }
 }

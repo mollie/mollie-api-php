@@ -4,12 +4,15 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\InteractsWithResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceFactory;
 use RuntimeException;
 
 abstract class RestEndpoint extends BaseEndpoint
 {
+    use InteractsWithResource;
+
     /**
      * Resource id prefix.
      * Used to validate resource id's.
@@ -32,7 +35,7 @@ abstract class RestEndpoint extends BaseEndpoint
             $this->parseRequestBody($body)
         );
 
-        return ResourceFactory::createFromApiResult($this->client, $result->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), static::getResourceClass());
     }
 
     /**
@@ -58,7 +61,7 @@ abstract class RestEndpoint extends BaseEndpoint
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
     }
 
     /**
@@ -71,7 +74,7 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function readResource(string $id, array $filters): BaseResource
     {
-        if (! $this instanceof SingleResourceEndpointContract && empty($id)) {
+        if (!$this instanceof SingleResourceEndpointContract && empty($id)) {
             throw new ApiException("Invalid resource id.");
         }
 
@@ -81,7 +84,7 @@ abstract class RestEndpoint extends BaseEndpoint
             $this->getPathToSingleResource($id) . $this->buildQueryString($filters)
         );
 
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
     }
 
     /**
@@ -110,7 +113,7 @@ abstract class RestEndpoint extends BaseEndpoint
             return null;
         }
 
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
     }
 
     protected function guardAgainstInvalidId(string $id): void
@@ -128,15 +131,8 @@ abstract class RestEndpoint extends BaseEndpoint
 
     public function getResourceType(): string
     {
-        $classBasename = basename(str_replace("\\", "/", $this->getResourceClass()));
+        $classBasename = basename(str_replace("\\", "/", static::getResourceClass()));
 
         return strtolower($classBasename);
     }
-
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return string
-     */
-    abstract public static function getResourceClass(): string;
 }

@@ -11,23 +11,26 @@ use Mollie\Api\Resources\LazyCollection;
 
 class BalanceTransactionEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "balances_transactions";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return BalanceTransactionCollection::class;
-    }
+    public static string $resource = BalanceTransaction::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  BalanceTransaction::class;
-    }
+    public static string $resourceCollection = BalanceTransactionCollection::class;
 
     /**
      * List the transactions for a specific Balance.

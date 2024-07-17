@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class RefundCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public static function getCollectionResourceName(): string
-    {
-        return "refunds";
-    }
+    public static string $collectionName = "refunds";
 
     /**
-     * @return string
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Refund::class;
-    }
+    public static string $resource = Refund::class;
 }

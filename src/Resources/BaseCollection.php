@@ -9,6 +9,13 @@ abstract class BaseCollection extends \ArrayObject
     protected MollieApiClient $client;
 
     /**
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
+     */
+    public static string $collectionName = '';
+
+    /**
      * @var \stdClass|null
      */
     public ?\stdClass $_links = null;
@@ -45,6 +52,12 @@ abstract class BaseCollection extends \ArrayObject
         return new static($this->client, $filteredItems,  $this->_links);
     }
 
+    public static function getCollectionResourceName(): string
+    {
+        if (empty(static::$collectionName)) {
+            throw new \RuntimeException('Collection name not set');
+        }
 
-    abstract public static function getCollectionResourceName(): ?string;
+        return static::$collectionName;
+    }
 }

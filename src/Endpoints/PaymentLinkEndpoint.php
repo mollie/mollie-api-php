@@ -9,25 +9,34 @@ use Mollie\Api\Resources\PaymentLinkCollection;
 
 class PaymentLinkEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payment-links";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'pl_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  PaymentLink::class;
-    }
+    public static string $resource = PaymentLink::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentLinkCollection::class;
-    }
+    public static string $resourceCollection = PaymentLinkCollection::class;
 
     /**
      * Creates a payment link in Mollie.

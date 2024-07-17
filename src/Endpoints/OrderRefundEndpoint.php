@@ -8,23 +8,26 @@ use Mollie\Api\Resources\RefundCollection;
 
 class OrderRefundEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "orders_refunds";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Refund::class;
-    }
+    public static string $resource = Refund::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return RefundCollection::class;
-    }
+    public static string $resourceCollection = RefundCollection::class;
 
     /**
      * Refund some order lines. You can provide an empty array for the

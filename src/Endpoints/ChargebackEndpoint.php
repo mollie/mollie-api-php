@@ -9,23 +9,26 @@ use Mollie\Api\Resources\LazyCollection;
 
 class ChargebackEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "chargebacks";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Chargeback::class;
-    }
+    public static string $resource = Chargeback::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return ChargebackCollection::class;
-    }
+    public static string $resourceCollection = ChargebackCollection::class;
 
     /**
      * Retrieves a collection of Chargebacks from Mollie.

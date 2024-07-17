@@ -8,23 +8,26 @@ use Mollie\Api\Resources\PaymentCollection;
 
 class OrderPaymentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "orders_payments";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Payment::class;
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Creates a payment in Mollie for a specific order.

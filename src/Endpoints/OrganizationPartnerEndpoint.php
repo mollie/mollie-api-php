@@ -8,15 +8,19 @@ use Mollie\Api\Resources\Partner;
 
 class OrganizationPartnerEndpoint extends RestEndpoint implements SingleResourceEndpointContract
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "organizations/me/partner";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Partner::class;
-    }
+    public static string $resource = Partner::class;
 
     /**
      * Retrieve details about the partner status of the currently authenticated organization.

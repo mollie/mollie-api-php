@@ -4,13 +4,17 @@ namespace Mollie\Api\Resources;
 
 class BalanceCollection extends CursorCollection
 {
-    public static function getCollectionResourceName(): string
-    {
-        return "balances";
-    }
+    /**
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
+     */
+    public static string $collectionName = "balances";
 
-    public static function getResourceClass(): string
-    {
-        return Balance::class;
-    }
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Balance::class;
 }

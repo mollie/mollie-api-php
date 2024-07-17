@@ -7,15 +7,19 @@ use Mollie\Api\Resources\Route;
 
 class PaymentRouteEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payments_routes";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Route::class;
-    }
+    public static string $resource = Route::class;
 
     /**
      * @param Payment $payment

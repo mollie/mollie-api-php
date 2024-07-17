@@ -9,23 +9,26 @@ use Mollie\Api\Resources\LazyCollection;
 
 class InvoiceEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "invoices";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Invoice::class;
-    }
+    public static string $resource = Invoice::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return InvoiceCollection::class;
-    }
+    public static string $resourceCollection = InvoiceCollection::class;
 
     /**
      * Retrieve an Invoice from Mollie.

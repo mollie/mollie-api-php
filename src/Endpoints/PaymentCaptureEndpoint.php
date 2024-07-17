@@ -9,23 +9,26 @@ use Mollie\Api\Resources\Payment;
 
 class PaymentCaptureEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payments_captures";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Capture::class;
-    }
+    public static string $resource = Capture::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return CaptureCollection::class;
-    }
+    public static string $resourceCollection = CaptureCollection::class;
 
     /**
      * Creates a payment capture in Mollie.

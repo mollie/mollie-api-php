@@ -8,23 +8,26 @@ use Mollie\Api\Resources\PermissionCollection;
 
 class PermissionEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "permissions";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Permission::class;
-    }
+    public static string $resource = Permission::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PermissionCollection::class;
-    }
+    public static string $resourceCollection = PermissionCollection::class;
 
     /**
      * Retrieve a single Permission from Mollie.

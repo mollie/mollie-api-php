@@ -9,23 +9,26 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class ProfileMethodEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "profiles_methods";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Method::class;
-    }
+    public static string $resource = Method::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return MethodCollection::class;
-    }
+    public static string $resourceCollection = MethodCollection::class;
 
     /**
      * Enable a method for the provided Profile ID.
@@ -48,7 +51,7 @@ class ProfileMethodEndpoint extends EndpointCollection
         );
 
         /** @var Method */
-        return ResourceFactory::createFromApiResult($this->client, $result->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), static::getResourceClass());
     }
 
     /**

@@ -9,25 +9,34 @@ use Mollie\Api\Resources\ShipmentCollection;
 
 class OrderShipmentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "orders_shipments";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'shp_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Shipment::class;
-    }
+    public static string $resource = Shipment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return ShipmentCollection::class;
-    }
+    public static string $resourceCollection = ShipmentCollection::class;
 
     /**
      * Create a shipment for some order lines. You can provide an empty array for the

@@ -16,6 +16,11 @@ abstract class BaseEndpoint
 
     protected MollieApiClient $client;
 
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath;
 
     protected ?string $parentId;

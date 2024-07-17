@@ -10,23 +10,26 @@ use Mollie\Api\Resources\LazyCollection;
 
 class SettlementCaptureEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "settlements_captures";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Capture::class;
-    }
+    public static string $resource = Capture::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return CaptureCollection::class;
-    }
+    public static string $resourceCollection = CaptureCollection::class;
 
     /**
      * Retrieves a collection of Settlement Captures from Mollie.

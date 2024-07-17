@@ -5,11 +5,12 @@ namespace Mollie\Api\Resources;
 use Generator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\ResponseStatusCode;
+use Mollie\Api\InteractsWithResource;
 use Mollie\Api\MollieApiClient;
 
 abstract class CursorCollection extends BaseCollection
 {
-    abstract public static function getResourceClass(): string;
+    use InteractsWithResource;
 
     /**
      * Return the next set of resources when available
@@ -19,7 +20,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function next(): ?CursorCollection
     {
-        if (! $this->hasNext()) {
+        if (!$this->hasNext()) {
             return null;
         }
 
@@ -34,7 +35,7 @@ abstract class CursorCollection extends BaseCollection
      */
     final public function previous(): ?CursorCollection
     {
-        if (! $this->hasPrevious()) {
+        if (!$this->hasPrevious()) {
             return null;
         }
 
@@ -55,7 +56,7 @@ abstract class CursorCollection extends BaseCollection
 
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
-            $data->_embedded->{$this->getCollectionResourceName()},
+            $data->_embedded->{static::getCollectionResourceName()},
             static::getResourceClass(),
             $data->_links
         );
@@ -98,7 +99,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
+                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
                     break;
                 }
 

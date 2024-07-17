@@ -9,25 +9,34 @@ use Mollie\Api\Resources\OrderCollection;
 
 class OrderEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "orders";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'ord_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Order::class;
-    }
+    public static string $resource = Order::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return OrderCollection::class;
-    }
+    public static string $resourceCollection = OrderCollection::class;
 
     /**
      * Creates a order in Mollie.

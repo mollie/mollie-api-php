@@ -8,15 +8,19 @@ use Mollie\Api\Resources\Onboarding;
 
 class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpointContract
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "onboarding/me";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Onboarding::class;
-    }
+    public static string $resource = Onboarding::class;
 
     /**
      * Retrieve the organization's onboarding status from Mollie.

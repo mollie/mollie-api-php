@@ -10,15 +10,19 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class BalanceReportEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "balances_report";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return BalanceReport::class;
-    }
+    public static string $resource = BalanceReport::class;
 
     /**
      * Retrieve a balance report for the provided balance id and parameters.
@@ -43,7 +47,7 @@ class BalanceReportEndpoint extends RestEndpoint
         }
 
         /** @var BalanceReport */
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), $this->getResourceClass());
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
     }
 
     /**

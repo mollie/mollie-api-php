@@ -7,15 +7,19 @@ use Mollie\Api\Resources\Organization;
 
 class OrganizationEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "organizations";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Organization::class;
-    }
+    public static string $resource = Organization::class;
 
     /**
      * Retrieve an organization from Mollie.

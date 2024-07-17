@@ -5,14 +5,6 @@ namespace Mollie\Api\Resources;
 class OrderLineCollection extends BaseCollection
 {
     /**
-     * @return null|string
-     */
-    public static function getCollectionResourceName(): ?string
-    {
-        return null;
-    }
-
-    /**
      * Get a specific order line.
      * Returns null if the order line cannot be found.
      *

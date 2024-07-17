@@ -9,23 +9,26 @@ use Mollie\Api\Resources\SettlementCollection;
 
 class SettlementsEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "settlements";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Settlement::class;
-    }
+    public static string $resource = Settlement::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return SettlementCollection::class;
-    }
+    public static string $resourceCollection = SettlementCollection::class;
 
     /**
      * Retrieve a single settlement from Mollie.

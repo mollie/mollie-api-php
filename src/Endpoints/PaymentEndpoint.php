@@ -11,25 +11,34 @@ use Mollie\Api\Resources\ResourceFactory;
 
 class PaymentEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payments";
 
+    /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
+     */
     protected static string $resourceIdPrefix = 'tr_';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Payment::class;
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Creates a payment in Mollie.

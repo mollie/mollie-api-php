@@ -9,23 +9,26 @@ use Mollie\Api\Resources\RefundCollection;
 
 class PaymentRefundEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payments_refunds";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Refund::class;
-    }
+    public static string $resource = Refund::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return RefundCollection::class;
-    }
+    public static string $resourceCollection = RefundCollection::class;
 
     /**
      * @param Payment $payment

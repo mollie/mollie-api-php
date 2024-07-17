@@ -10,23 +10,26 @@ use Mollie\Api\Resources\PaymentCollection;
 
 class CustomerPaymentsEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "customers_payments";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Payment::class;
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return PaymentCollection::class;
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Create a subscription for a Customer

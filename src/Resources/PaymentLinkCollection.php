@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class PaymentLinkCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public static function getCollectionResourceName(): string
-    {
-        return "payment_links";
-    }
+    public static string $collectionName = "payment_links";
 
     /**
-     * @return string
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return PaymentLink::class;
-    }
+    public static string $resource = PaymentLink::class;
 }

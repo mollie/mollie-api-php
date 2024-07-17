@@ -8,23 +8,26 @@ use Mollie\Api\Resources\MethodCollection;
 
 class MethodEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "methods";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Method::class;
-    }
+    public static string $resource = Method::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return MethodCollection::class;
-    }
+    public static string $resourceCollection = MethodCollection::class;
 
     /**
      * Retrieve all active methods. In test mode, this includes pending methods. The results are not paginated.

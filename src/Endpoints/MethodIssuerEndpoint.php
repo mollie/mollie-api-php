@@ -9,16 +9,23 @@ use Mollie\Api\Resources\Issuer;
 
 class MethodIssuerEndpoint extends RestEndpoint
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = 'profiles_methods_issuers';
+
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Issuer::class;
 
     protected $profileId = null;
     protected $methodId = null;
     protected $issuerId = null;
-
-    public static function getResourceClass(): string
-    {
-        return Issuer::class;
-    }
 
     /**
      * @param string $profileId

@@ -9,23 +9,26 @@ use Mollie\Api\Resources\LazyCollection;
 
 class ClientEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "clients";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Client::class;
-    }
+    public static string $resource = Client::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return ClientCollection::class;
-    }
+    public static string $resourceCollection = ClientCollection::class;
 
     /**
      * Retrieve a client from Mollie.

@@ -5,20 +5,18 @@ namespace Mollie\Api\Resources;
 class MandateCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public static function getCollectionResourceName(): string
-    {
-        return "mandates";
-    }
+    public static string $collectionName = "mandates";
 
     /**
-     * @return string
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Mandate::class;
-    }
+    public static string $resource = Mandate::class;
 
     /**
      * @param string $status

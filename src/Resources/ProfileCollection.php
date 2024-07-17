@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class ProfileCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public static function getCollectionResourceName(): string
-    {
-        return "profiles";
-    }
+    public static string $collectionName = "profiles";
 
     /**
-     * @return string
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return Profile::class;
-    }
+    public static string $resource = Profile::class;
 }

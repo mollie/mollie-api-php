@@ -9,23 +9,26 @@ use Mollie\Api\Resources\Payment;
 
 class PaymentChargebackEndpoint extends EndpointCollection
 {
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
     protected string $resourcePath = "payments_chargebacks";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    public static function getResourceClass(): string
-    {
-        return  Chargeback::class;
-    }
+    public static string $resource = Chargeback::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionClass(): string
-    {
-        return ChargebackCollection::class;
-    }
+    public static string $resourceCollection = ChargebackCollection::class;
 
     /**
      * @param Payment $payment
