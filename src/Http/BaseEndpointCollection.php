@@ -74,27 +74,6 @@ abstract class BaseEndpointCollection
     }
 
     /**
-     * Create a generator for iterating over a resource's collection using REST API calls.
-     *
-     * This function fetches paginated data from a RESTful resource endpoint and returns a generator
-     * that allows you to iterate through the items in the collection one by one. It supports forward
-     * and backward iteration, pagination, and filtering.
-     *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $filters
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     * @return LazyCollection
-     */
-    protected function createIterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
-    {
-        /** @var CursorCollection $page */
-        $page = $this->fetchCollection($from, $limit, $filters);
-
-        return $page->getAutoIterator($iterateBackwards);
-    }
-
-    /**
      * @param array $filters
      * @return string
      */
