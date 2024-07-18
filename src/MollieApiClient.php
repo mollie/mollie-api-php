@@ -48,7 +48,12 @@ use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
+use Mollie\Api\Http\EndpointCollection\BalanceEndpointCollection;
+use Mollie\Api\Http\EndpointCollection\PaymentEndpointCollection;
+use Mollie\Api\Contracts\HasBody;
+use Mollie\Api\Http\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
+use Mollie\Api\Http\Request;
 
 /**
  * @property BalanceEndpoint $balances
@@ -177,7 +182,11 @@ class MollieApiClient
     private function initializeEndpoints(): void
     {
         $endpointClasses = [
-            'balances' => BalanceEndpoint::class,
+            'balances' => BalanceEndpointCollection::class,
+            'payments' => PaymentEndpointCollection::class,
+            'paymentRefunds' => PaymentRefundEndpointCollection::class,
+
+            // 'balances' => BalanceEndpoint::class,
             'balanceReports' => BalanceReportEndpoint::class,
             'balanceTransactions' => BalanceTransactionEndpoint::class,
             'chargebacks' => ChargebackEndpoint::class,
@@ -200,9 +209,9 @@ class MollieApiClient
             'paymentChargebacks' => PaymentChargebackEndpoint::class,
             'paymentLinks' => PaymentLinkEndpoint::class,
             'paymentLinkPayments' => PaymentLinkPaymentEndpoint::class,
-            'paymentRefunds' => PaymentRefundEndpoint::class,
+            // 'paymentRefunds' => PaymentRefundEndpoint::class,
             'paymentRoutes' => PaymentRouteEndpoint::class,
-            'payments' => PaymentEndpoint::class,
+            // 'payments' => PaymentEndpoint::class,
             'permissions' => PermissionEndpoint::class,
             'profiles' => ProfileEndpoint::class,
             'profileMethods' => ProfileMethodEndpoint::class,
