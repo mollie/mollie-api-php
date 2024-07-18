@@ -21,7 +21,7 @@ try {
     /*
      * Get the all payments for this API key ordered by newest.
      */
-    $payments = $mollie->payments->page();
+    $payments = $mollie->payments->collect();
 
     echo "<ul>";
     foreach ($payments as $payment) {

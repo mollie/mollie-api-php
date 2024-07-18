@@ -58,7 +58,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(Terminal::class, $terminal);
         $this->assertEquals('term_7MgL4wea46qkRcoTZjWEH', $terminal->id);
         $this->assertEquals('pfl_QkEhN94Ba', $terminal->profileId);
-        $this->assertEquals(TerminalStatus::STATUS_ACTIVE, $terminal->status);
+        $this->assertEquals(TerminalStatus::ACTIVE, $terminal->status);
         $this->assertEquals('PAX', $terminal->brand);
         $this->assertEquals('A920', $terminal->model);
         $this->assertEquals('1234567890', $terminal->serialNumber);
@@ -180,7 +180,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $terminals = $this->apiClient->terminals->page(null, 3);
 
         $this->assertInstanceOf(TerminalCollection::class, $terminals);
-        $this->assertEquals(3, $terminals->count);
+        $this->assertEquals(3, $terminals->count());
         $this->assertEquals(3, count($terminals));
 
         $this->assertLinkObject('https://docs.mollie.com/reference/v2/terminals-api/list-terminals', 'text/html', $terminals->_links->documentation);

@@ -36,7 +36,7 @@ try {
 
 
     // cursor paginating through all orders
-    $page = $mollie->orders->page();
+    $page = $mollie->orders->collect();
 
     while ($page->hasNext()) {
         foreach ($page as $order) {

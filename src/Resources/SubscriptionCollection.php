@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class SubscriptionCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public function getCollectionResourceName()
-    {
-        return "subscriptions";
-    }
+    public static string $collectionName = "subscriptions";
 
     /**
-     * @return BaseResource
+     * Resource class name.
+     *
+     * @var string
      */
-    protected function createResourceObject()
-    {
-        return new Subscription($this->client);
-    }
+    public static string $resource = Subscription::class;
 }

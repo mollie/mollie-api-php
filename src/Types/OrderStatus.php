@@ -7,46 +7,40 @@ class OrderStatus
     /**
      * The order has just been created.
      */
-    public const STATUS_CREATED = "created";
+    public const CREATED = "created";
 
     /**
      * The order has been paid.
      */
-    public const STATUS_PAID = "paid";
+    public const PAID = "paid";
 
     /**
      * The order has been authorized.
      */
-    public const STATUS_AUTHORIZED = "authorized";
+    public const AUTHORIZED = "authorized";
 
     /**
      * The order has been canceled.
      */
-    public const STATUS_CANCELED = "canceled";
+    public const CANCELED = "canceled";
 
     /**
      * The order is shipping.
      */
-    public const STATUS_SHIPPING = "shipping";
+    public const SHIPPING = "shipping";
 
     /**
      * The order is completed.
      */
-    public const STATUS_COMPLETED = "completed";
+    public const COMPLETED = "completed";
 
     /**
      * The order is expired.
      */
-    public const STATUS_EXPIRED = "expired";
+    public const EXPIRED = "expired";
 
     /**
      * The order is pending.
      */
-    public const STATUS_PENDING = "pending";
-
-    /**
-     * (Deprecated) The order has been refunded.
-     * @deprecated 2018-11-27
-     */
-    public const STATUS_REFUNDED = "refunded";
+    public const PENDING = "pending";
 }

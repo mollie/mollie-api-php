@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Http\Adapter;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\TransferException;
@@ -8,7 +8,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
-class Guzzle6And7RetryMiddlewareFactory
+class GuzzleRetryMiddlewareFactory
 {
     /**
      * The maximum number of retries
@@ -25,7 +25,7 @@ class Guzzle6And7RetryMiddlewareFactory
      *
      * @return callable
      */
-    public function retry($delay = true)
+    public function retry(bool $delay = true): callable
     {
         return Middleware::retry(
             $this->newRetryDecider(),
@@ -39,7 +39,7 @@ class Guzzle6And7RetryMiddlewareFactory
      *
      * @return callable
      */
-    private function getRetryDelay()
+    private function getRetryDelay(): callable
     {
         return function ($numberOfRetries) {
             return static::DELAY_INCREASE_MS * $numberOfRetries;
@@ -51,7 +51,7 @@ class Guzzle6And7RetryMiddlewareFactory
      *
      * @return callable
      */
-    private function getZeroRetryDelay()
+    private function getZeroRetryDelay(): callable
     {
         return function ($numberOfRetries) {
             return 0;
@@ -61,7 +61,7 @@ class Guzzle6And7RetryMiddlewareFactory
     /**
      * @return callable
      */
-    private function newRetryDecider()
+    private function newRetryDecider(): callable
     {
         return function (
             $retries,

@@ -36,77 +36,77 @@ class OrderTest extends \PHPUnit\Framework\TestCase
     public function dpTestOrderStatuses()
     {
         return [
-            [OrderStatus::STATUS_CREATED, "isCreated", true],
-            [OrderStatus::STATUS_CREATED, "isPaid", false],
-            [OrderStatus::STATUS_CREATED, "isAuthorized", false],
-            [OrderStatus::STATUS_CREATED, "isCanceled", false],
-            [OrderStatus::STATUS_CREATED, "isShipping", false],
-            [OrderStatus::STATUS_CREATED, "isCompleted", false],
-            [OrderStatus::STATUS_CREATED, "isExpired", false],
-            [OrderStatus::STATUS_CREATED, "isPending", false],
+            [OrderStatus::CREATED, "isCreated", true],
+            [OrderStatus::CREATED, "isPaid", false],
+            [OrderStatus::CREATED, "isAuthorized", false],
+            [OrderStatus::CREATED, "isCanceled", false],
+            [OrderStatus::CREATED, "isShipping", false],
+            [OrderStatus::CREATED, "isCompleted", false],
+            [OrderStatus::CREATED, "isExpired", false],
+            [OrderStatus::CREATED, "isPending", false],
 
-            [OrderStatus::STATUS_PAID, "isCreated", false],
-            [OrderStatus::STATUS_PAID, "isPaid", true],
-            [OrderStatus::STATUS_PAID, "isAuthorized", false],
-            [OrderStatus::STATUS_PAID, "isCanceled", false],
-            [OrderStatus::STATUS_PAID, "isShipping", false],
-            [OrderStatus::STATUS_PAID, "isCompleted", false],
-            [OrderStatus::STATUS_PAID, "isExpired", false],
-            [OrderStatus::STATUS_PAID, "isPending", false],
+            [OrderStatus::PAID, "isCreated", false],
+            [OrderStatus::PAID, "isPaid", true],
+            [OrderStatus::PAID, "isAuthorized", false],
+            [OrderStatus::PAID, "isCanceled", false],
+            [OrderStatus::PAID, "isShipping", false],
+            [OrderStatus::PAID, "isCompleted", false],
+            [OrderStatus::PAID, "isExpired", false],
+            [OrderStatus::PAID, "isPending", false],
 
-            [OrderStatus::STATUS_AUTHORIZED, "isCreated", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isPaid", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isAuthorized", true],
-            [OrderStatus::STATUS_AUTHORIZED, "isCanceled", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isShipping", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isCompleted", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isExpired", false],
-            [OrderStatus::STATUS_AUTHORIZED, "isPending", false],
+            [OrderStatus::AUTHORIZED, "isCreated", false],
+            [OrderStatus::AUTHORIZED, "isPaid", false],
+            [OrderStatus::AUTHORIZED, "isAuthorized", true],
+            [OrderStatus::AUTHORIZED, "isCanceled", false],
+            [OrderStatus::AUTHORIZED, "isShipping", false],
+            [OrderStatus::AUTHORIZED, "isCompleted", false],
+            [OrderStatus::AUTHORIZED, "isExpired", false],
+            [OrderStatus::AUTHORIZED, "isPending", false],
 
-            [OrderStatus::STATUS_CANCELED, "isCreated", false],
-            [OrderStatus::STATUS_CANCELED, "isPaid", false],
-            [OrderStatus::STATUS_CANCELED, "isAuthorized", false],
-            [OrderStatus::STATUS_CANCELED, "isCanceled", true],
-            [OrderStatus::STATUS_CANCELED, "isShipping", false],
-            [OrderStatus::STATUS_CANCELED, "isCompleted", false],
-            [OrderStatus::STATUS_CANCELED, "isExpired", false],
-            [OrderStatus::STATUS_CANCELED, "isPending", false],
+            [OrderStatus::CANCELED, "isCreated", false],
+            [OrderStatus::CANCELED, "isPaid", false],
+            [OrderStatus::CANCELED, "isAuthorized", false],
+            [OrderStatus::CANCELED, "isCanceled", true],
+            [OrderStatus::CANCELED, "isShipping", false],
+            [OrderStatus::CANCELED, "isCompleted", false],
+            [OrderStatus::CANCELED, "isExpired", false],
+            [OrderStatus::CANCELED, "isPending", false],
 
-            [OrderStatus::STATUS_SHIPPING, "isCreated", false],
-            [OrderStatus::STATUS_SHIPPING, "isPaid", false],
-            [OrderStatus::STATUS_SHIPPING, "isAuthorized", false],
-            [OrderStatus::STATUS_SHIPPING, "isCanceled", false],
-            [OrderStatus::STATUS_SHIPPING, "isShipping", true],
-            [OrderStatus::STATUS_SHIPPING, "isCompleted", false],
-            [OrderStatus::STATUS_SHIPPING, "isExpired", false],
-            [OrderStatus::STATUS_SHIPPING, "isPending", false],
+            [OrderStatus::SHIPPING, "isCreated", false],
+            [OrderStatus::SHIPPING, "isPaid", false],
+            [OrderStatus::SHIPPING, "isAuthorized", false],
+            [OrderStatus::SHIPPING, "isCanceled", false],
+            [OrderStatus::SHIPPING, "isShipping", true],
+            [OrderStatus::SHIPPING, "isCompleted", false],
+            [OrderStatus::SHIPPING, "isExpired", false],
+            [OrderStatus::SHIPPING, "isPending", false],
 
-            [OrderStatus::STATUS_COMPLETED, "isCreated", false],
-            [OrderStatus::STATUS_COMPLETED, "isPaid", false],
-            [OrderStatus::STATUS_COMPLETED, "isAuthorized", false],
-            [OrderStatus::STATUS_COMPLETED, "isCanceled", false],
-            [OrderStatus::STATUS_COMPLETED, "isShipping", false],
-            [OrderStatus::STATUS_COMPLETED, "isCompleted", true],
-            [OrderStatus::STATUS_COMPLETED, "isExpired", false],
-            [OrderStatus::STATUS_COMPLETED, "isPending", false],
+            [OrderStatus::COMPLETED, "isCreated", false],
+            [OrderStatus::COMPLETED, "isPaid", false],
+            [OrderStatus::COMPLETED, "isAuthorized", false],
+            [OrderStatus::COMPLETED, "isCanceled", false],
+            [OrderStatus::COMPLETED, "isShipping", false],
+            [OrderStatus::COMPLETED, "isCompleted", true],
+            [OrderStatus::COMPLETED, "isExpired", false],
+            [OrderStatus::COMPLETED, "isPending", false],
 
-            [OrderStatus::STATUS_EXPIRED, "isCreated", false],
-            [OrderStatus::STATUS_EXPIRED, "isPaid", false],
-            [OrderStatus::STATUS_EXPIRED, "isAuthorized", false],
-            [OrderStatus::STATUS_EXPIRED, "isCanceled", false],
-            [OrderStatus::STATUS_EXPIRED, "isShipping", false],
-            [OrderStatus::STATUS_EXPIRED, "isCompleted", false],
-            [OrderStatus::STATUS_EXPIRED, "isExpired", true],
-            [OrderStatus::STATUS_EXPIRED, "isPending", false],
+            [OrderStatus::EXPIRED, "isCreated", false],
+            [OrderStatus::EXPIRED, "isPaid", false],
+            [OrderStatus::EXPIRED, "isAuthorized", false],
+            [OrderStatus::EXPIRED, "isCanceled", false],
+            [OrderStatus::EXPIRED, "isShipping", false],
+            [OrderStatus::EXPIRED, "isCompleted", false],
+            [OrderStatus::EXPIRED, "isExpired", true],
+            [OrderStatus::EXPIRED, "isPending", false],
 
-            [OrderStatus::STATUS_PENDING, "isCreated", false],
-            [OrderStatus::STATUS_PENDING, "isPaid", false],
-            [OrderStatus::STATUS_PENDING, "isAuthorized", false],
-            [OrderStatus::STATUS_PENDING, "isCanceled", false],
-            [OrderStatus::STATUS_PENDING, "isShipping", false],
-            [OrderStatus::STATUS_PENDING, "isCompleted", false],
-            [OrderStatus::STATUS_PENDING, "isExpired", false],
-            [OrderStatus::STATUS_PENDING, "isPending", true],
+            [OrderStatus::PENDING, "isCreated", false],
+            [OrderStatus::PENDING, "isPaid", false],
+            [OrderStatus::PENDING, "isAuthorized", false],
+            [OrderStatus::PENDING, "isCanceled", false],
+            [OrderStatus::PENDING, "isShipping", false],
+            [OrderStatus::PENDING, "isCompleted", false],
+            [OrderStatus::PENDING, "isExpired", false],
+            [OrderStatus::PENDING, "isPending", true],
         ];
     }
 
@@ -167,8 +167,8 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("https://shop.lego.com/nl-NL/Bugatti-Chiron-42083", $line->productUrl);
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$', $line->imageUrl);
         $this->assertEquals("5702016116977", $line->sku);
-        $this->assertEquals(OrderLineType::TYPE_PHYSICAL, $line->type);
-        $this->assertEquals(OrderLineStatus::STATUS_CREATED, $line->status);
+        $this->assertEquals(OrderLineType::PHYSICAL, $line->type);
+        $this->assertEquals(OrderLineStatus::CREATED, $line->status);
         $this->assertEquals(2, $line->quantity);
         $this->assertAmountObject("399.00", "EUR", $line->unitPrice);
         $this->assertEquals("21.00", $line->vatRate);
@@ -235,8 +235,8 @@ class OrderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("https://shop.lego.com/nl-NL/Bugatti-Chiron-42083", $line->productUrl);
         $this->assertEquals('https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$', $line->imageUrl);
         $this->assertEquals("5702016116977", $line->sku);
-        $this->assertEquals(OrderLineType::TYPE_PHYSICAL, $line->type);
-        $this->assertEquals(OrderLineStatus::STATUS_CREATED, $line->status);
+        $this->assertEquals(OrderLineType::PHYSICAL, $line->type);
+        $this->assertEquals(OrderLineStatus::CREATED, $line->status);
         $this->assertEquals(2, $line->quantity);
         $this->assertAmountObject("399.00", "EUR", $line->unitPrice);
         $this->assertEquals("21.00", $line->vatRate);

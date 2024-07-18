@@ -542,7 +542,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $orders = $this->apiClient->orders->page();
 
         $this->assertInstanceOf(OrderCollection::class, $orders);
-        $this->assertEquals(3, $orders->count);
+        $this->assertEquals(3, $orders->count());
         $this->assertEquals(3, count($orders));
 
         $this->assertNull($orders->_links->previous);
@@ -615,12 +615,12 @@ class OrderEndpointTest extends BaseEndpointTest
                 [],
                 $this->getOrderResponseFixture(
                     'ord_pbjz1x',
-                    OrderStatus::STATUS_CANCELED
+                    OrderStatus::CANCELED
                 )
             )
         );
         $order = $this->apiClient->orders->cancel('ord_pbjz1x');
-        $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
+        $this->assertOrder($order, 'ord_pbjz1x', OrderStatus::CANCELED);
     }
 
     public function testCancelOrderOnResource()
@@ -632,13 +632,13 @@ class OrderEndpointTest extends BaseEndpointTest
                 [],
                 $this->getOrderResponseFixture(
                     'ord_pbjz1x',
-                    OrderStatus::STATUS_CANCELED
+                    OrderStatus::CANCELED
                 )
             )
         );
         $order = $this->getOrder('ord_pbjz1x');
         $canceledOrder = $order->cancel();
-        $this->assertOrder($canceledOrder, 'ord_pbjz1x', OrderStatus::STATUS_CANCELED);
+        $this->assertOrder($canceledOrder, 'ord_pbjz1x', OrderStatus::CANCELED);
     }
 
     public function testCancelOrderLines()
@@ -741,7 +741,7 @@ class OrderEndpointTest extends BaseEndpointTest
                 [],
                 $this->getOrderResponseFixture(
                     "ord_pbjz8x",
-                    OrderStatus::STATUS_CREATED,
+                    OrderStatus::CREATED,
                     "16738"
                 )
             )
@@ -767,7 +767,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $order->webhookUrl = "https://example.org/updated-webhook";
         $order = $order->update();
 
-        $this->assertOrder($order, "ord_pbjz8x", OrderStatus::STATUS_CREATED, "16738");
+        $this->assertOrder($order, "ord_pbjz8x", OrderStatus::CREATED, "16738");
     }
 
     public function testUpdateOrderLine()
@@ -828,7 +828,7 @@ class OrderEndpointTest extends BaseEndpointTest
         $this->assertOrder($result, 'ord_pbjz8x');
     }
 
-    protected function assertOrder($order, $order_id, $order_status = OrderStatus::STATUS_CREATED, $orderNumber = "1337")
+    protected function assertOrder($order, $order_id, $order_status = OrderStatus::CREATED, $orderNumber = "1337")
     {
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals('order', $order->resource);
@@ -902,8 +902,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $line1->productUrl = "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083";
         $line1->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$';
         $line1->sku = "5702016116977";
-        $line1->type = OrderLineType::TYPE_PHYSICAL;
-        $line1->status = OrderLineStatus::STATUS_CREATED;
+        $line1->type = OrderLineType::PHYSICAL;
+        $line1->status = OrderLineStatus::CREATED;
         $line1->isCancelable = true;
         $line1->quantity = 2;
         $line1->unitPrice = $this->createAmountObject("399.00", "EUR");
@@ -922,8 +922,8 @@ class OrderEndpointTest extends BaseEndpointTest
         $line2->productUrl = "https://shop.lego.com/nl-NL/Porsche-911-GT3-RS-42056";
         $line2->imageUrl = 'https://sh-s7-live-s.legocdn.com/is/image/LEGO/42056?$PDPDefault$';
         $line2->sku = "5702015594028";
-        $line2->type = OrderLineType::TYPE_DIGITAL;
-        $line2->status = OrderLineStatus::STATUS_CREATED;
+        $line2->type = OrderLineType::DIGITAL;
+        $line2->status = OrderLineStatus::CREATED;
         $line2->isCancelable = true;
         $line2->quantity = 1;
         $line2->unitPrice = $this->createAmountObject("329.99", "EUR");
@@ -943,7 +943,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED, $orderNumber = '1337')
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED, $orderNumber = '1337')
     {
         return str_replace(
             [
@@ -1083,7 +1083,7 @@ class OrderEndpointTest extends BaseEndpointTest
         );
     }
 
-    protected function getShipment($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPING)
+    protected function getShipment($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::SHIPPING)
     {
         $shipmentJson = $this->getShipmentResponseFixture(
             $shipmentId,
@@ -1094,7 +1094,7 @@ class OrderEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($shipmentJson), new Shipment($this->apiClient));
     }
 
-    protected function getShipmentResponseFixture($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::STATUS_SHIPPING)
+    protected function getShipmentResponseFixture($shipmentId, $orderId, $orderlineStatus = OrderLineStatus::SHIPPING)
     {
         return str_replace(
             [

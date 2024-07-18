@@ -2,29 +2,25 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Partner;
-use Mollie\Api\Resources\ResourceFactory;
 
-class OrganizationPartnerEndpoint extends EndpointAbstract
+class OrganizationPartnerEndpoint extends RestEndpoint implements SingleResourceEndpointContract
 {
-    protected $resourcePath = "organizations/me/partner";
-
-    protected function getResourceCollectionObject($count, $links)
-    {
-        throw new \BadMethodCallException('not implemented');
-    }
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "organizations/me/partner";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Resource class name.
      *
-     * @return BaseResource
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Partner($this->client);
-    }
+    public static string $resource = Partner::class;
 
     /**
      * Retrieve details about the partner status of the currently authenticated organization.
@@ -34,25 +30,9 @@ class OrganizationPartnerEndpoint extends EndpointAbstract
      * @return Partner
      * @throws ApiException
      */
-    public function get()
+    public function get(): Partner
     {
-        return $this->rest_read('', []);
-    }
-
-    /**
-     * @param string $id
-     * @param array $filters
-     *
-     * @return mixed
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    protected function rest_read($id, array $filters)
-    {
-        $result = $this->client->performHttpCall(
-            self::REST_READ,
-            $this->getResourcePath() . $this->buildQueryString($filters)
-        );
-
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        /** @var Partner */
+        return $this->readResource('', []);
     }
 }

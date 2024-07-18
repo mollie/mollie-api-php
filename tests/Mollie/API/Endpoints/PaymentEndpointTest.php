@@ -104,12 +104,12 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals('My first API payment', $payment->description);
         $this->assertNull($payment->method);
         $this->assertEquals((object)["order_id" => "1234"], $payment->metadata);
-        $this->assertEquals(PaymentStatus::STATUS_OPEN, $payment->status);
+        $this->assertEquals(PaymentStatus::OPEN, $payment->status);
         $this->assertFalse($payment->isCancelable);
         $this->assertEquals("2018-03-13T14:17:29+00:00", $payment->expiresAt);
         $this->assertNull($payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
-        $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
+        $this->assertEquals(SequenceType::ONEOFF, $payment->sequenceType);
         $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
         $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
@@ -314,7 +314,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals('My first API payment', $payment->description);
         $this->assertEquals("ideal", $payment->method);
         $this->assertEquals((object)["order_id" => "1234"], $payment->metadata);
-        $this->assertEquals(PaymentStatus::STATUS_PAID, $payment->status);
+        $this->assertEquals(PaymentStatus::PAID, $payment->status);
 
         $amountRefunded = new Stdclass();
         $amountRefunded->value = '0.00';
@@ -334,7 +334,7 @@ class PaymentEndpointTest extends BaseEndpointTest
 
         $this->assertEquals($details, $payment->details);
         $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
-        $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
+        $this->assertEquals(SequenceType::ONEOFF, $payment->sequenceType);
         $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
         $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
 
@@ -478,7 +478,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $payments = $this->apiClient->payments->page(null, 3);
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
-        $this->assertEquals(3, $payments->count);
+        $this->assertEquals(3, $payments->count());
         $this->assertEquals(3, count($payments));
 
         $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/payments-api/list-payments", "type" => "text/html"];

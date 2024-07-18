@@ -3,31 +3,14 @@
 namespace Mollie\Api\Resources;
 
 use Generator;
+use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\ResponseStatusCode;
+use Mollie\Api\InteractsWithResource;
 use Mollie\Api\MollieApiClient;
 
 abstract class CursorCollection extends BaseCollection
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
-
-    /**
-     * @param MollieApiClient $client
-     * @param int $count
-     * @param \stdClass|null $_links
-     */
-    final public function __construct(MollieApiClient $client, $count, $_links)
-    {
-        parent::__construct($count, $_links);
-
-        $this->client = $client;
-    }
-
-    /**
-     * @return BaseResource
-     */
-    abstract protected function createResourceObject();
+    use InteractsWithResource;
 
     /**
      * Return the next set of resources when available
@@ -35,21 +18,13 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function next()
+    final public function next(): ?CursorCollection
     {
-        if (! $this->hasNext()) {
+        if (!$this->hasNext()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
-
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+        return $this->fetchCollection($this->_links->next->href);
     }
 
     /**
@@ -58,21 +33,33 @@ abstract class CursorCollection extends BaseCollection
      * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function previous()
+    final public function previous(): ?CursorCollection
     {
-        if (! $this->hasPrevious()) {
+        if (!$this->hasPrevious()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
+        return $this->fetchCollection($this->_links->previous->href);
+    }
 
-        $collection = new static($this->client, $result->count, $result->_links);
+    private function fetchCollection(string $url): CursorCollection
+    {
+        $response = $this
+            ->client
+            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $url);
 
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
+        if ($response->status() !== ResponseStatusCode::HTTP_OK) {
+            throw new ApiException($response->body(), $response->status());
         }
 
-        return $collection;
+        $data = $response->decode();
+
+        return ResourceFactory::createCursorResourceCollection(
+            $this->client,
+            $data->_embedded->{static::getCollectionResourceName()},
+            static::getResourceClass(),
+            $data->_links
+        );
     }
 
     /**
@@ -80,7 +67,7 @@ abstract class CursorCollection extends BaseCollection
      *
      * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return isset($this->_links->next->href);
     }
@@ -90,7 +77,7 @@ abstract class CursorCollection extends BaseCollection
      *
      * @return bool
      */
-    public function hasPrevious()
+    public function hasPrevious(): bool
     {
         return isset($this->_links->previous->href);
     }
@@ -112,7 +99,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
+                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
                     break;
                 }
 

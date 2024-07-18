@@ -21,7 +21,7 @@ try {
      * Retrieve the last created customer for this example.
      * If no customers are created yet, run create-customer example.
      */
-    $customer = $mollie->customers->page(null, 1)[0];
+    $customer = $mollie->customers->collect(null, 1)[0];
 
     /*
      * Get the all payments for this API key ordered by newest.

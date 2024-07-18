@@ -4,8 +4,8 @@ namespace Tests\Mollie\API\HttpAdapter;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Mollie\Api\Exceptions\UnrecognizedClientException;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
-use Mollie\Api\HttpAdapter\MollieHttpAdapterPicker;
+use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
+use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use PHPUnit\Framework\TestCase;
 
 class MollieHttpAdapterPickerTest extends TestCase
@@ -17,7 +17,7 @@ class MollieHttpAdapterPickerTest extends TestCase
 
         $adapter = $picker->pickHttpAdapter(null);
 
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $adapter);
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class MollieHttpAdapterPickerTest extends TestCase
 
         $adapter = $picker->pickHttpAdapter($guzzleClient);
 
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $adapter);
+        $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $adapter);
     }
 
     /** @test */

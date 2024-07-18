@@ -7,32 +7,28 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 
-class SettlementsEndpoint extends CollectionEndpointAbstract
+class SettlementsEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "settlements";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "settlements";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
+     * Resource class name.
      *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Settlement($this->client);
-    }
+    public static string $resource = Settlement::class;
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new SettlementCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = SettlementCollection::class;
 
     /**
      * Retrieve a single settlement from Mollie.
@@ -41,12 +37,14 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      *
      * @param string $settlementId
      * @param array $parameters
+     *
      * @return Settlement
      * @throws ApiException
      */
-    public function get($settlementId, array $parameters = [])
+    public function get(string $settlementId, array $parameters = []): Settlement
     {
-        return parent::rest_read($settlementId, $parameters);
+        /** @var Settlement */
+        return $this->readResource($settlementId, $parameters);
     }
 
     /**
@@ -55,9 +53,10 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return Settlement
      * @throws ApiException
      */
-    public function next()
+    public function next(): Settlement
     {
-        return parent::rest_read("next", []);
+        /** @var Settlement */
+        return $this->readResource("next", []);
     }
 
     /**
@@ -66,9 +65,10 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return Settlement
      * @throws ApiException
      */
-    public function open()
+    public function open(): Settlement
     {
-        return parent::rest_read("open", []);
+        /** @var Settlement */
+        return $this->readResource("open", []);
     }
 
     /**
@@ -81,9 +81,10 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      * @return SettlementCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SettlementCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var SettlementCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -98,6 +99,6 @@ class SettlementsEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

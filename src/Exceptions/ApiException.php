@@ -3,63 +3,66 @@
 namespace Mollie\Api\Exceptions;
 
 use DateTime;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 class ApiException extends \Exception
 {
     /**
      * @var string
      */
-    protected $field;
+    protected ?string $field = null;
 
     /**
      * @var string
      */
-    protected $plainMessage;
+    protected string $plainMessage;
 
     /**
-     * @var \Psr\Http\Message\RequestInterface|null
+     * @var RequestInterface|null
      */
-    protected $request;
+    protected ?RequestInterface $request;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface|null
+     * @var ResponseInterface|null
      */
-    protected $response;
+    protected ?ResponseInterface $response;
 
     /**
      * ISO8601 representation of the moment this exception was thrown
      *
      * @var \DateTimeImmutable
      */
-    protected $raisedAt;
+    protected \DateTimeImmutable $raisedAt;
 
     /**
      * @var array
      */
-    protected $links = [];
+    protected array $links = [];
 
     /**
      * @param string $message
      * @param int $code
      * @param string|null $field
-     * @param \Psr\Http\Message\RequestInterface|null $request
-     * @param \Psr\Http\Message\ResponseInterface|null $response
-     * @param \Throwable|null $previous
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @param RequestInterface|null $request
+     * @param ResponseInterface|null $response
+     * @param Throwable|null $previous
+     * @throws ApiException
      */
     public function __construct(
-        $message = "",
-        $code = 0,
-        $field = null,
-        $request = null,
-        $response = null,
-        $previous = null
+        string $message = "",
+        int $code = 0,
+        ?string $field = null,
+        ?RequestInterface $request = null,
+        ?ResponseInterface $response = null,
+        ?Throwable $previous = null
     ) {
         $this->plainMessage = $message;
 
         $this->raisedAt = new \DateTimeImmutable();
 
-        $formattedRaisedAt = $this->raisedAt->format(DateTime::ISO8601);
+        $formattedRaisedAt = $this->raisedAt->format(DateTime::ATOM);
         $message = "[{$formattedRaisedAt}] " . $message;
 
         if (! empty($field)) {
@@ -96,13 +99,13 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Throwable|null $previous
-     * @return \Mollie\Api\Exceptions\ApiException
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @param ResponseInterface $response
+     * @param ?RequestInterface $request
+     * @param Throwable|null $previous
+     * @return ApiException
+     * @throws ApiException
      */
-    public static function createFromResponse($response, $request = null, $previous = null)
+    public static function createFromResponse(ResponseInterface $response, ?RequestInterface $request = null, ?Throwable $previous = null): self
     {
         $object = static::parseResponseBody($response);
 
@@ -124,7 +127,7 @@ class ApiException extends \Exception
     /**
      * @return string|null
      */
-    public function getField()
+    public function getField(): ?string
     {
         return $this->field;
     }
@@ -132,7 +135,7 @@ class ApiException extends \Exception
     /**
      * @return string|null
      */
-    public function getDocumentationUrl()
+    public function getDocumentationUrl(): ?string
     {
         return $this->getUrl('documentation');
     }
@@ -140,15 +143,15 @@ class ApiException extends \Exception
     /**
      * @return string|null
      */
-    public function getDashboardUrl()
+    public function getDashboardUrl(): ?string
     {
         return $this->getUrl('dashboard');
     }
 
     /**
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ResponseInterface|null
      */
-    public function getResponse()
+    public function getResponse(): ?ResponseInterface
     {
         return $this->response;
     }
@@ -156,25 +159,25 @@ class ApiException extends \Exception
     /**
      * @return bool
      */
-    public function hasResponse()
+    public function hasResponse(): bool
     {
-        return $this->response !== null;
+        return ! ! $this->response;
     }
 
     /**
      * @param string $key
      * @return bool
      */
-    public function hasLink($key)
+    public function hasLink($key): bool
     {
         return array_key_exists($key, $this->links);
     }
 
     /**
      * @param string $key
-     * @return mixed|null
+     * @return \stdClass|null
      */
-    public function getLink($key)
+    public function getLink($key): ?\stdClass
     {
         if ($this->hasLink($key)) {
             return $this->links[$key];
@@ -185,9 +188,9 @@ class ApiException extends \Exception
 
     /**
      * @param string $key
-     * @return null
+     * @return string|null
      */
-    public function getUrl($key)
+    public function getUrl($key): ?string
     {
         if ($this->hasLink($key)) {
             return $this->getLink($key)->href;
@@ -197,9 +200,9 @@ class ApiException extends \Exception
     }
 
     /**
-     * @return \Psr\Http\Message\RequestInterface
+     * @return null|RequestInterface
      */
-    public function getRequest()
+    public function getRequest(): ?RequestInterface
     {
         return $this->request;
     }
@@ -209,17 +212,17 @@ class ApiException extends \Exception
      *
      * @return \DateTimeImmutable
      */
-    public function getRaisedAt()
+    public function getRaisedAt(): \DateTimeImmutable
     {
         return $this->raisedAt;
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      * @return \stdClass
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws ApiException
      */
-    protected static function parseResponseBody($response)
+    protected static function parseResponseBody($response): \stdClass
     {
         $body = (string) $response->getBody();
 
@@ -237,7 +240,7 @@ class ApiException extends \Exception
      *
      * @return string
      */
-    public function getPlainMessage()
+    public function getPlainMessage(): string
     {
         return $this->plainMessage;
     }

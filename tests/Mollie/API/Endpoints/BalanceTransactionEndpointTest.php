@@ -336,7 +336,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
     {
         $this->assertInstanceOf(BalanceTransactionCollection::class, $transactions);
         $this->assertCount(2, $transactions);
-        $this->assertEquals(2, $transactions->count);
+        $this->assertEquals(2, $transactions->count());
         $this->assertLinkObject(
             "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH/transactions?limit=5",
             "application/hal+json",

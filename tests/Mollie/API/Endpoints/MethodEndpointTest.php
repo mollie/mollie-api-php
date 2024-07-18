@@ -449,7 +449,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $methods = $this->apiClient->methods->allActive();
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
-        $this->assertEquals(4, $methods->count);
+        $this->assertEquals(4, $methods->count());
         $this->assertCount(4, $methods);
 
         $documentationLink = (object)[
@@ -610,7 +610,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $methods = $this->apiClient->methods->allAvailable(['include' => 'pricing']);
 
         $this->assertInstanceOf(MethodCollection::class, $methods);
-        $this->assertEquals(4, $methods->count);
+        $this->assertEquals(4, $methods->count());
         $this->assertCount(4, $methods);
 
         $this->assertLinkObject(

@@ -8,9 +8,28 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
+class SubscriptionPaymentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "customers_subscriptions_payments";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "customers_subscriptions_payments";
+
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Payment::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = PaymentCollection::class;
 
     protected $customerId = null;
 
@@ -38,33 +57,11 @@ class SubscriptionPaymentEndpoint extends CollectionEndpointAbstract
         $this->customerId = $customerId;
         $this->subscriptionId = $subscriptionId;
 
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var PaymentCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Payment
-     */
-    protected function getResourceObject()
-    {
-        return new Payment($this->client);
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentCollection
-     */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentCollection($this->client, $count, $_links);
-    }
-
-    public function getResourcePath()
+    public function getResourcePath(): string
     {
         if (is_null($this->customerId)) {
             throw new ApiException('No customerId provided.');

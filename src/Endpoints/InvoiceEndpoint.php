@@ -7,32 +7,28 @@ use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class InvoiceEndpoint extends CollectionEndpointAbstract
+class InvoiceEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "invoices";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "invoices";
 
     /**
-     * Get the object that is used by this API. Every API uses one type of object.
+     * Resource class name.
      *
-     * @return \Mollie\Api\Resources\BaseResource
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Invoice($this->client);
-    }
+    public static string $resource = Invoice::class;
 
     /**
-     * Get the collection object that is used by this API. Every API uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new InvoiceCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = InvoiceCollection::class;
 
     /**
      * Retrieve an Invoice from Mollie.
@@ -45,9 +41,10 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @return Invoice
      * @throws ApiException
      */
-    public function get($invoiceId, array $parameters = [])
+    public function get(string $invoiceId, array $parameters = []): Invoice
     {
-        return $this->rest_read($invoiceId, $parameters);
+        /** @var Invoice */
+        return $this->readResource($invoiceId, $parameters);
     }
 
     /**
@@ -60,9 +57,10 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      * @return InvoiceCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): InvoiceCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var InvoiceCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -70,10 +68,10 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      *
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection
+     * @return InvoiceCollection
      * @throws ApiException
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): InvoiceCollection
     {
         return $this->page(null, null, $parameters);
     }
@@ -90,6 +88,6 @@ class InvoiceEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

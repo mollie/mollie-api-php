@@ -12,7 +12,7 @@ try {
     /*
      * Get the all the settlements for this account.
      */
-    $settlements = $mollie->settlements->page();
+    $settlements = $mollie->settlements->collect();
     echo '<ul>';
     foreach ($settlements as $settlement) {
         echo '<li><b>Settlement ' . htmlspecialchars($settlement->reference) . ':</b> (' . htmlspecialchars($settlement->createdAt) . ')';

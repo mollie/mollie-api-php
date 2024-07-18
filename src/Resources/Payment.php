@@ -2,13 +2,16 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
-class Payment extends BaseResource
+class Payment extends BaseResource implements EmbeddedResourcesContract
 {
+    use HasPresetOptions;
+
     /**
      * Id of the payment (on the Mollie platform).
      *
@@ -88,7 +91,7 @@ class Payment extends BaseResource
      *
      * @var string
      */
-    public $status = PaymentStatus::STATUS_OPEN;
+    public $status = PaymentStatus::OPEN;
 
     /**
      * UTC datetime the payment was created in ISO-8601 format.
@@ -376,14 +379,23 @@ class Payment extends BaseResource
      */
     public $countryCode;
 
+    public function getEmbeddedResourcesMap(): array
+    {
+        return [
+            'captures' => CaptureCollection::class,
+            'refunds' => RefundCollection::class,
+            'chargebacks' => ChargebackCollection::class,
+        ];
+    }
+
     /**
      * Is this payment canceled?
      *
      * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
-        return $this->status === PaymentStatus::STATUS_CANCELED;
+        return $this->status === PaymentStatus::CANCELED;
     }
 
     /**
@@ -391,9 +403,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
-        return $this->status === PaymentStatus::STATUS_EXPIRED;
+        return $this->status === PaymentStatus::EXPIRED;
     }
 
     /**
@@ -401,9 +413,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isOpen()
+    public function isOpen(): bool
     {
-        return $this->status === PaymentStatus::STATUS_OPEN;
+        return $this->status === PaymentStatus::OPEN;
     }
 
     /**
@@ -411,9 +423,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === PaymentStatus::STATUS_PENDING;
+        return $this->status === PaymentStatus::PENDING;
     }
 
     /**
@@ -421,9 +433,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
-        return $this->status === PaymentStatus::STATUS_AUTHORIZED;
+        return $this->status === PaymentStatus::AUTHORIZED;
     }
 
     /**
@@ -431,7 +443,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
         return ! empty($this->paidAt);
     }
@@ -441,7 +453,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasRefunds()
+    public function hasRefunds(): bool
     {
         return ! empty($this->_links->refunds);
     }
@@ -451,7 +463,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasChargebacks()
+    public function hasChargebacks(): bool
     {
         return ! empty($this->_links->chargebacks);
     }
@@ -461,9 +473,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
-        return $this->status === PaymentStatus::STATUS_FAILED;
+        return $this->status === PaymentStatus::FAILED;
     }
 
     /**
@@ -473,9 +485,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSequenceTypeFirst()
+    public function hasSequenceTypeFirst(): bool
     {
-        return $this->sequenceType === SequenceType::SEQUENCETYPE_FIRST;
+        return $this->sequenceType === SequenceType::FIRST;
     }
 
     /**
@@ -485,9 +497,9 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSequenceTypeRecurring()
+    public function hasSequenceTypeRecurring(): bool
     {
-        return $this->sequenceType === SequenceType::SEQUENCETYPE_RECURRING;
+        return $this->sequenceType === SequenceType::RECURRING;
     }
 
     /**
@@ -495,7 +507,7 @@ class Payment extends BaseResource
      *
      * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->checkout)) {
             return null;
@@ -509,7 +521,7 @@ class Payment extends BaseResource
      *
      * @return string|null
      */
-    public function getMobileAppCheckoutUrl()
+    public function getMobileAppCheckoutUrl(): ?string
     {
         if (empty($this->_links->mobileAppCheckout)) {
             return null;
@@ -521,7 +533,7 @@ class Payment extends BaseResource
     /**
      * @return bool
      */
-    public function canBeRefunded()
+    public function canBeRefunded(): bool
     {
         return $this->amountRemaining !== null;
     }
@@ -529,7 +541,7 @@ class Payment extends BaseResource
     /**
      * @return bool
      */
-    public function canBePartiallyRefunded()
+    public function canBePartiallyRefunded(): bool
     {
         return $this->canBeRefunded();
     }
@@ -539,7 +551,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountRefunded()
+    public function getAmountRefunded(): float
     {
         if ($this->amountRefunded) {
             return (float)$this->amountRefunded->value;
@@ -555,7 +567,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountRemaining()
+    public function getAmountRemaining(): float
     {
         if ($this->amountRemaining) {
             return (float)$this->amountRemaining->value;
@@ -570,7 +582,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountChargedBack()
+    public function getAmountChargedBack(): float
     {
         if ($this->amountChargedBack) {
             return (float)$this->amountChargedBack->value;
@@ -584,7 +596,7 @@ class Payment extends BaseResource
      *
      * @return bool
      */
-    public function hasSplitPayments()
+    public function hasSplitPayments(): bool
     {
         return ! empty($this->routing);
     }
@@ -595,17 +607,18 @@ class Payment extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
+            return new RefundCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->refunds->href
-        );
+        )->decode();
 
+        /** @var RefundCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->refunds,
@@ -621,7 +634,7 @@ class Payment extends BaseResource
      * @return Refund
      * @throws ApiException
      */
-    public function getRefund($refundId, array $parameters = [])
+    public function getRefund($refundId, array $parameters = []): Refund
     {
         return $this->client->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
     }
@@ -629,12 +642,18 @@ class Payment extends BaseResource
     /**
      * @param array $parameters
      *
-     * @return Refund
+     * @return RefundCollection
      * @throws ApiException
      */
-    public function listRefunds(array $parameters = [])
+    public function listRefunds(array $parameters = []): RefundCollection
     {
-        return $this->client->paymentRefunds->listFor($this, $this->withPresetOptions($parameters));
+        return $this
+            ->client
+            ->paymentRefunds
+            ->listFor(
+                $this,
+                $this->withPresetOptions($parameters)
+            );
     }
 
     /**
@@ -643,17 +662,18 @@ class Payment extends BaseResource
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures()
+    public function captures(): CaptureCollection
     {
         if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->client, 0, null);
+            return new CaptureCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->captures->href
-        );
+        )->decode();
 
+        /** @var CaptureCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->captures,
@@ -669,7 +689,7 @@ class Payment extends BaseResource
      * @return Capture
      * @throws ApiException
      */
-    public function getCapture($captureId, array $parameters = [])
+    public function getCapture($captureId, array $parameters = []): Capture
     {
         return $this->client->paymentCaptures->getFor(
             $this,
@@ -684,17 +704,18 @@ class Payment extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+            return new ChargebackCollection($this->client);
         }
 
         $result = $this->client->performHttpCallToFullUrl(
             MollieApiClient::HTTP_GET,
             $this->_links->chargebacks->href
-        );
+        )->decode();
 
+        /** @var ChargebackCollection */
         return ResourceFactory::createCursorResourceCollection(
             $this->client,
             $result->_embedded->chargebacks,
@@ -712,7 +733,7 @@ class Payment extends BaseResource
      * @return Chargeback
      * @throws ApiException
      */
-    public function getChargeback($chargebackId, array $parameters = [])
+    public function getChargeback($chargebackId, array $parameters = []): Chargeback
     {
         return $this->client->paymentChargebacks->getFor(
             $this,
@@ -729,16 +750,16 @@ class Payment extends BaseResource
      * @return \Mollie\Api\Resources\Refund
      * @throws ApiException
      */
-    public function refund($data)
+    public function refund($data): Refund
     {
         return $this->client->paymentRefunds->createFor($this, $data);
     }
 
     /**
-     * @return \Mollie\Api\Resources\Payment
+     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Payment
     {
         $body = [
             "description" => $this->description,
@@ -751,38 +772,11 @@ class Payment extends BaseResource
             "dueDate" => $this->dueDate,
         ];
 
-        $result = $this->client->payments->update(
+        /** @var null|Payment */
+        return $this->client->payments->update(
             $this->id,
             $this->withPresetOptions($body)
         );
-
-        return ResourceFactory::createFromApiResult($result, new Payment($this->client));
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions()
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test" ? true : false;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @param array $options
-     * @return array
-     */
-    private function withPresetOptions(array $options)
-    {
-        return array_merge($this->getPresetOptions(), $options);
     }
 
     /**
@@ -791,7 +785,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getAmountCaptured()
+    public function getAmountCaptured(): float
     {
         if ($this->amountCaptured) {
             return (float)$this->amountCaptured->value;
@@ -805,7 +799,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getSettlementAmount()
+    public function getSettlementAmount(): float
     {
         if ($this->settlementAmount) {
             return (float)$this->settlementAmount->value;
@@ -820,7 +814,7 @@ class Payment extends BaseResource
      *
      * @return float
      */
-    public function getApplicationFeeAmount()
+    public function getApplicationFeeAmount(): float
     {
         if ($this->applicationFee) {
             return (float)$this->applicationFee->amount->value;

@@ -5,10 +5,9 @@ namespace Mollie\Api\Resources;
 class PermissionCollection extends BaseCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public function getCollectionResourceName()
-    {
-        return "permissions";
-    }
+    public static string $collectionName = "permissions";
 }

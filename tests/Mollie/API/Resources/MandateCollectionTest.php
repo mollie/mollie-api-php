@@ -24,17 +24,18 @@ class MandateCollectionTest extends TestCase
 
     public function testWhereStatus()
     {
-        $collection = new MandateCollection($this->client, 6, null);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_VALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_INVALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_INVALID);
-        $collection[] = $this->getMandateWithStatus(MandateStatus::STATUS_PENDING);
+        $collection = new MandateCollection($this->client, [
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::VALID),
+            $this->getMandateWithStatus(MandateStatus::INVALID),
+            $this->getMandateWithStatus(MandateStatus::INVALID),
+            $this->getMandateWithStatus(MandateStatus::PENDING),
+        ], null);
 
-        $valid = $collection->whereStatus(MandateStatus::STATUS_VALID);
-        $invalid = $collection->whereStatus(MandateStatus::STATUS_INVALID);
-        $pending = $collection->whereStatus(MandateStatus::STATUS_PENDING);
+        $valid = $collection->whereStatus(MandateStatus::VALID);
+        $invalid = $collection->whereStatus(MandateStatus::INVALID);
+        $pending = $collection->whereStatus(MandateStatus::PENDING);
 
         $this->assertInstanceOf(MandateCollection::class, $collection);
         $this->assertInstanceOf(MandateCollection::class, $valid);
@@ -42,13 +43,13 @@ class MandateCollectionTest extends TestCase
         $this->assertInstanceOf(MandateCollection::class, $pending);
 
         $this->assertCount(6, $collection);
-        $this->assertEquals(6, $collection->count);
+        $this->assertEquals(6, $collection->count());
         $this->assertCount(3, $valid);
-        $this->assertEquals(3, $valid->count);
+        $this->assertEquals(3, $valid->count());
         $this->assertCount(2, $invalid);
-        $this->assertEquals(2, $invalid->count);
+        $this->assertEquals(2, $invalid->count());
         $this->assertCount(1, $pending);
-        $this->assertEquals(1, $pending->count);
+        $this->assertEquals(1, $pending->count());
     }
 
     /**

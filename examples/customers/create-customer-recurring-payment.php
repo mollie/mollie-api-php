@@ -13,8 +13,8 @@ try {
      * Retrieve the last created customer for this example.
      * If no customers are created yet, run the create-customer example.
      */
-    $customer = $mollie->customers->page(null, 1)[0];
-    
+    $customer = $mollie->customers->collect(null, 1)[0];
+
     /*
      * Generate a unique order id for this example.
      */
@@ -43,9 +43,9 @@ try {
         ],
 
         // Flag this payment as a recurring payment.
-        "sequenceType" => \Mollie\Api\Types\SequenceType::SEQUENCETYPE_RECURRING,
+        "sequenceType" => \Mollie\Api\Types\SequenceType::RECURRING,
     ]);
-    
+
     /*
      * In this example we store the order with its payment status in a database.
      */

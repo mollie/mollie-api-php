@@ -9,35 +9,36 @@ use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\ResourceFactory;
 
-class PaymentEndpoint extends CollectionEndpointAbstract
+class PaymentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "payments";
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'tr_';
+    protected string $resourcePath = "payments";
 
     /**
-     * @return Payment
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Payment($this->client);
-    }
+    protected static string $resourceIdPrefix = 'tr_';
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Resource class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentCollection($this->client, $count, $_links);
-    }
+    public static string $resource = Payment::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Creates a payment in Mollie.
@@ -48,9 +49,10 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * @return Payment
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Payment
     {
-        return $this->rest_create($data, $filters);
+        /** @var Payment */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -59,18 +61,17 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
      * @param string $paymentId
-     *
      * @param array $data
-     * @return Payment
+     *
+     * @return null|Payment
      * @throws ApiException
      */
-    public function update($paymentId, array $data = [])
+    public function update($paymentId, array $data = []): ?Payment
     {
-        if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentId);
 
-        return parent::rest_update($paymentId, $data);
+        /** @var null|Payment */
+        return $this->updateResource($paymentId, $data);
     }
 
     /**
@@ -80,16 +81,16 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      *
      * @param string $paymentId
      * @param array $parameters
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function get($paymentId, array $parameters = [])
+    public function get($paymentId, array $parameters = []): Payment
     {
-        if (empty($paymentId) || strpos($paymentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentId}'. A payment ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentId);
 
-        return parent::rest_read($paymentId, $parameters);
+        /** @var Payment */
+        return $this->readResource($paymentId, $parameters);
     }
 
     /**
@@ -99,14 +100,14 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Returns with HTTP status No Content (204) if successful.
      *
      * @param string $paymentId
-     *
      * @param array $data
+     *
      * @return Payment
      * @throws ApiException
      */
-    public function delete($paymentId, array $data = [])
+    public function delete(string $paymentId, array $data = []): ?Payment
     {
-        return $this->rest_delete($paymentId, $data);
+        return $this->cancel($paymentId, $data);
     }
 
     /**
@@ -116,14 +117,15 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * Returns with HTTP status No Content (204) if successful.
      *
      * @param string $paymentId
-     *
      * @param array $data
-     * @return Payment
+     *
+     * @return null|Payment
      * @throws ApiException
      */
-    public function cancel($paymentId, array $data = [])
+    public function cancel(string $paymentId, array $data = []): ?Payment
     {
-        return $this->rest_delete($paymentId, $data);
+        /** @var null|Payment */
+        return $this->deleteResource($paymentId, $data);
     }
 
     /**
@@ -136,9 +138,10 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * @return PaymentCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var PaymentCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -153,7 +156,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -168,7 +171,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      * @return Refund
      * @throws ApiException
      */
-    public function refund(Payment $payment, $data = [])
+    public function refund(Payment $payment, $data = []): Refund
     {
         $resource = "{$this->getResourcePath()}/" . urlencode($payment->id) . "/refunds";
 
@@ -179,6 +182,7 @@ class PaymentEndpoint extends CollectionEndpointAbstract
 
         $result = $this->client->performHttpCall(self::REST_CREATE, $resource, $body);
 
-        return ResourceFactory::createFromApiResult($result, new Refund($this->client));
+        /** @var Refund */
+        return ResourceFactory::createFromApiResult($this->client, $result, Refund::class);
     }
 }

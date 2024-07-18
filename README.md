@@ -394,7 +394,11 @@ To disable debugging again:
 $mollie->disableDebugging();
 ```
 
-Please note that debugging is only available when using the default Guzzle http adapter (`Guzzle6And7MollieHttpAdapter`).
+Please note that debugging is only available when using the default Guzzle http adapter (`GuzzleMollieHttpAdapter`).
+
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## API documentation ##
 For an in-depth understanding of our API, please explore the [Mollie Developer Portal](https://www.mollie.com/developers). Our API documentation is available in English.

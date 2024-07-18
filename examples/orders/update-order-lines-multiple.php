@@ -20,7 +20,7 @@ try {
     $addOrderLine = [
         "operation" => \Mollie\Api\Types\OrderLineUpdateOperationType::ADD,
         "data" => [
-            "type" => \Mollie\Api\Types\OrderLineType::TYPE_DIGITAL,
+            "type" => \Mollie\Api\Types\OrderLineType::DIGITAL,
             "name" => "Adding new orderline",
             "quantity" => 2,
             "sku" => "12345679",
@@ -60,7 +60,6 @@ try {
     ];
 
     $order = $mollie->orderLines->updateMultiple('ord_pbjz8x', $operations);
-
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     /*
      * When updating order lines for orders that used a pay after delivery method such as Klarna Pay Later, the

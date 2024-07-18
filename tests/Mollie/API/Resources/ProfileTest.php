@@ -26,17 +26,17 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
     public function dpTestProfileStatusses()
     {
         return [
-            [ProfileStatus::STATUS_BLOCKED, "isBlocked", true],
-            [ProfileStatus::STATUS_BLOCKED, "isVerified", false],
-            [ProfileStatus::STATUS_BLOCKED, "isUnverified", false],
+            [ProfileStatus::BLOCKED, "isBlocked", true],
+            [ProfileStatus::BLOCKED, "isVerified", false],
+            [ProfileStatus::BLOCKED, "isUnverified", false],
 
-            [ProfileStatus::STATUS_VERIFIED, "isBlocked", false],
-            [ProfileStatus::STATUS_VERIFIED, "isVerified", true],
-            [ProfileStatus::STATUS_VERIFIED, "isUnverified", false],
+            [ProfileStatus::VERIFIED, "isBlocked", false],
+            [ProfileStatus::VERIFIED, "isVerified", true],
+            [ProfileStatus::VERIFIED, "isUnverified", false],
 
-            [ProfileStatus::STATUS_UNVERIFIED, "isBlocked", false],
-            [ProfileStatus::STATUS_UNVERIFIED, "isVerified", false],
-            [ProfileStatus::STATUS_UNVERIFIED, "isUnverified", true],
+            [ProfileStatus::UNVERIFIED, "isBlocked", false],
+            [ProfileStatus::UNVERIFIED, "isVerified", false],
+            [ProfileStatus::UNVERIFIED, "isUnverified", true],
         ];
     }
 }

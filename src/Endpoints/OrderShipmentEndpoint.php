@@ -7,38 +7,36 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 
-class ShipmentEndpoint extends CollectionEndpointAbstract
+class OrderShipmentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "orders_shipments";
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'shp_';
+    protected string $resourcePath = "orders_shipments";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Resource id prefix.
+     * Used to validate resource id's.
      *
-     * @return Shipment
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Shipment($this->client);
-    }
+    protected static string $resourceIdPrefix = 'shp_';
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
+     * Resource class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ShipmentCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new ShipmentCollection($count, $_links);
-    }
+    public static string $resource = Shipment::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = ShipmentCollection::class;
 
     /**
      * Create a shipment for some order lines. You can provide an empty array for the
@@ -51,7 +49,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Order $order, array $options = [], array $filters = [])
+    public function createFor(Order $order, array $options = [], array $filters = []): Shipment
     {
         return $this->createForId($order->id, $options, $filters);
     }
@@ -67,11 +65,12 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($orderId, array $options = [], array $filters = [])
+    public function createForId(string $orderId, array $options = [], array $filters = []): Shipment
     {
         $this->parentId = $orderId;
 
-        return parent::rest_create($options, $filters);
+        /** @var Shipment */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -84,7 +83,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Order $order, $shipmentId, array $parameters = [])
+    public function getFor(Order $order, string $shipmentId, array $parameters = []): Shipment
     {
         return $this->getForId($order->id, $shipmentId, $parameters);
     }
@@ -96,14 +95,15 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $shipmentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\Shipment
+     * @return Shipment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($orderId, $shipmentId, array $parameters = [])
+    public function getForId(string $orderId, string $shipmentId, array $parameters = []): Shipment
     {
         $this->parentId = $orderId;
 
-        return parent::rest_read($shipmentId, $parameters);
+        /** @var Shipment */
+        return $this->readResource($shipmentId, $parameters);
     }
 
     /**
@@ -113,20 +113,19 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      *
      * @param string $shipmentId
      * @param string $orderId
-     *
      * @param array $data
-     * @return Shipment
+     *
+     * @return null|Shipment
      * @throws ApiException
      */
-    public function update($orderId, $shipmentId, array $data = [])
+    public function update(string $orderId, $shipmentId, array $data = []): ?Shipment
     {
-        if (empty($shipmentId) || strpos($shipmentId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$shipmentId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($shipmentId);
 
         $this->parentId = $orderId;
 
-        return parent::rest_update($shipmentId, $data);
+        /** @var null|Shipment */
+        return $this->updateResource($shipmentId, $data);
     }
 
     /**
@@ -138,7 +137,7 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @return ShipmentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Order $order, array $parameters = [])
+    public function listFor(Order $order, array $parameters = []): ShipmentCollection
     {
         return $this->listForId($order->id, $parameters);
     }
@@ -149,13 +148,14 @@ class ShipmentEndpoint extends CollectionEndpointAbstract
      * @param string $orderId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\ShipmentCollection
+     * @return ShipmentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($orderId, array $parameters = [])
+    public function listForId(string $orderId, array $parameters = []): ShipmentCollection
     {
         $this->parentId = $orderId;
 
-        return parent::rest_list(null, null, $parameters);
+        /** @var ShipmentCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 }

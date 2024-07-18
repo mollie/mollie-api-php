@@ -50,7 +50,7 @@ class PaymentLink extends BaseResource
      * @var bool
      */
     public $archived;
-    
+
     /**
      * UTC datetime the payment link was updated in ISO-8601 format.
      *
@@ -106,7 +106,7 @@ class PaymentLink extends BaseResource
      *
      * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
         return ! empty($this->paidAt);
     }
@@ -116,7 +116,7 @@ class PaymentLink extends BaseResource
      *
      * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->paymentLink)) {
             return null;
@@ -128,19 +128,17 @@ class PaymentLink extends BaseResource
     /**
      * Persist the current local Payment Link state to the Mollie API.
      *
-     * @return mixed|\Mollie\Api\Resources\BaseResource
+     * @return null|PaymentLink
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?PaymentLink
     {
         $body = $this->withPresetOptions([
             'description' => $this->description,
             'archived' => $this->archived,
         ]);
 
-        $result = $this->client->paymentLinks->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new PaymentLink($this->client));
+        return $this->client->paymentLinks->update($this->id, $body);
     }
 
     /**

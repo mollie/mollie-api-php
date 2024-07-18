@@ -2,29 +2,25 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Onboarding;
-use Mollie\Api\Resources\ResourceFactory;
 
-class OnboardingEndpoint extends EndpointAbstract
+class OnboardingEndpoint extends RestEndpoint implements SingleResourceEndpointContract
 {
-    protected $resourcePath = "onboarding/me";
-
-    protected function getResourceCollectionObject($count, $links)
-    {
-        throw new \BadMethodCallException('not implemented');
-    }
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "onboarding/me";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Resource class name.
      *
-     * @return BaseResource
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Onboarding($this->client);
-    }
+    public static string $resource = Onboarding::class;
 
     /**
      * Retrieve the organization's onboarding status from Mollie.
@@ -34,9 +30,10 @@ class OnboardingEndpoint extends EndpointAbstract
      * @return Onboarding
      * @throws ApiException
      */
-    public function get()
+    public function get(): Onboarding
     {
-        return $this->rest_read('', []);
+        /** @var Onboarding */
+        return $this->readResource('', []);
     }
 
     /**
@@ -46,44 +43,26 @@ class OnboardingEndpoint extends EndpointAbstract
      *
      * Information that the merchant has entered in their dashboard will not be overwritten.
      *
-     * Will throw an ApiException if the resource cannot be found.
-     * @throws ApiException
-     */
-    public function submit(array $parameters = [])
-    {
-        return $this->rest_create($parameters, []);
-    }
-
-    /**
-     * @param string $id
-     * @param array $filters
+     * Will throw a ApiException if the resource cannot be found.
      *
-     * @return mixed
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @return void
+     * @throws ApiException
+     * @deprecated use ClientLinkEndpoint create() method
      */
-    protected function rest_read($id, array $filters)
+    public function submit(array $parameters = []): void
     {
-        $result = $this->client->performHttpCall(
-            self::REST_READ,
-            $this->getResourcePath() . $this->buildQueryString($filters)
-        );
-
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
+        $this->create($parameters, []);
     }
 
     /**
      * @param array $body
      * @param array $filters
      *
-     * @return mixed
+     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    protected function rest_create(array $body, array $filters)
+    private function create(array $body, array $filters): void
     {
-        $this->client->performHttpCall(
-            self::REST_CREATE,
-            $this->getResourcePath() . $this->buildQueryString($filters),
-            $this->parseRequestBody($body)
-        );
+        $this->createResource($body, $filters);
     }
 }

@@ -7,42 +7,38 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 
-class MandateEndpoint extends CollectionEndpointAbstract
+class MandateEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "customers_mandates";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "customers_mandates";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Resource class name.
      *
-     * @return Mandate
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Mandate($this->client);
-    }
+    public static string $resource = Mandate::class;
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return MandateCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new MandateCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = MandateCollection::class;
 
     /**
      * @param Customer $customer
      * @param array $options
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Mandate
+     * @return Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Customer $customer, array $options = [], array $filters = [])
+    public function createFor(Customer $customer, array $options = [], array $filters = []): Mandate
     {
         return $this->createForId($customer->id, $options, $filters);
     }
@@ -52,14 +48,15 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param array $options
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Mandate
+     * @return Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($customerId, array $options = [], array $filters = [])
+    public function createForId(string $customerId, array $options = [], array $filters = []): Mandate
     {
         $this->parentId = $customerId;
 
-        return parent::rest_create($options, $filters);
+        /** @var Mandate */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -67,10 +64,10 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param string $mandateId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\Mandate
+     * @return Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Customer $customer, $mandateId, array $parameters = [])
+    public function getFor(Customer $customer, $mandateId, array $parameters = []): Mandate
     {
         return $this->getForId($customer->id, $mandateId, $parameters);
     }
@@ -80,14 +77,15 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param string $mandateId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\Mandate
+     * @return Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($customerId, $mandateId, array $parameters = [])
+    public function getForId(string $customerId, $mandateId, array $parameters = [])
     {
         $this->parentId = $customerId;
 
-        return parent::rest_read($mandateId, $parameters);
+        /** @var Mandate */
+        return $this->readResource($mandateId, $parameters);
     }
 
     /**
@@ -96,10 +94,10 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\MandateCollection
+     * @return MandateCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
+    public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
     {
         return $this->listForId($customer->id, $from, $limit, $parameters);
     }
@@ -115,25 +113,31 @@ class MandateEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Customer $customer,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
      * @param string $customerId
-     * @param string|null $from
-     * @param int|null $limit
+     * @param ?string $from
+     * @param ?int $limit
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\MandateCollection
+     * @return MandateCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
+    public function listForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_list($from, $limit, $parameters);
+        /** @var MandateCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -147,11 +151,16 @@ class MandateEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $customerId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $customerId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -159,10 +168,10 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param string $mandateId
      * @param array $data
      *
-     * @return null
+     * @return null|Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function revokeFor(Customer $customer, $mandateId, $data = [])
+    public function revokeFor(Customer $customer, string $mandateId, array $data = []): ?Mandate
     {
         return $this->revokeForId($customer->id, $mandateId, $data);
     }
@@ -172,13 +181,14 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param string $mandateId
      * @param array $data
      *
-     * @return null
+     * @return null|Mandate
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function revokeForId($customerId, $mandateId, $data = [])
+    public function revokeForId(string $customerId, string $mandateId, array $data = []): ?Mandate
     {
         $this->parentId = $customerId;
 
-        return parent::rest_delete($mandateId, $data);
+        /** @var null|Mandate */
+        return $this->deleteResource($mandateId, $data);
     }
 }

@@ -5,33 +5,38 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
-use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\LazyCollection;
 
-class BalanceEndpoint extends CollectionEndpointAbstract
+class BalanceEndpoint extends EndpointCollection
 {
     /**
+     * Resource class name.
+     *
      * @var string
      */
-    const RESOURCE_ID_PREFIX = 'bal_';
-
-    protected $resourcePath = "balances";
+    public static string $resource = Balance::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new BalanceCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = BalanceCollection::class;
 
     /**
-     * @inheritDoc
+     * Resource id prefix.
+     * Used to validate resource id's.
+     *
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Balance($this->client);
-    }
+    protected static string $resourceIdPrefix = 'bal_';
+
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "balances";
 
     /**
      * Retrieve a single balance from Mollie.
@@ -40,16 +45,15 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      *
      * @param string $balanceId
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
+     * @return Balance
      * @throws ApiException
      */
-    public function get(string $balanceId, array $parameters = [])
+    public function get(string $balanceId, array $parameters = []): Balance
     {
-        if (empty($balanceId) || strpos($balanceId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid balance ID: '{$balanceId}'. A balance ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($balanceId);
 
-        return parent::rest_read($balanceId, $parameters);
+        /** @var Balance */
+        return $this->readResource($balanceId, $parameters);
     }
 
     /**
@@ -58,12 +62,13 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
      *
      * @param array $parameters
-     * @return \Mollie\Api\Resources\Balance|\Mollie\Api\Resources\BaseResource
+     * @return \Mollie\Api\Resources\Balance
      * @throws ApiException
      */
-    public function primary(array $parameters = [])
+    public function primary(array $parameters = []): Balance
     {
-        return parent::rest_read("primary", $parameters);
+        /** @var Balance */
+        return $this->readResource("primary", $parameters);
     }
 
     /**
@@ -73,12 +78,13 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      * @param int|null $limit
      * @param array $parameters
      *
-     * @return BaseCollection|BalanceCollection
+     * @return BalanceCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): BalanceCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var BalanceCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -93,6 +99,6 @@ class BalanceEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

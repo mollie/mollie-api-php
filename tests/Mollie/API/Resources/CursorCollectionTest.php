@@ -2,6 +2,7 @@
 
 namespace Tests\Mollie\API\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\OrderCollection;
@@ -15,7 +16,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
-            ->willReturn($this->arrayToObject([
+            ->willReturn($this->arrayToResponse([
                 'count' => 1,
                 '_links' => [
                     'self' => [
@@ -31,7 +32,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             $this->arrayToObject([
                 'next' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -53,7 +54,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             (object) []
         );
 
@@ -67,7 +68,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient->expects($this->once())
             ->method('performHttpCallToFullUrl')
             ->willReturn(
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -84,7 +85,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             $this->arrayToObject([
                 'previous' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -106,7 +107,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient = $this->createMock(MollieApiClient::class);
         $collection = new OrderCollection(
             $mockedClient,
-            1,
+            [],
             (object) []
         );
 
@@ -118,7 +119,7 @@ class CursorCollectionTest extends TestCase
     {
         $collection = new OrderCollection(
             $this->createMock(MollieApiClient::class),
-            1,
+            [],
             (object) []
         );
 
@@ -131,7 +132,7 @@ class CursorCollectionTest extends TestCase
         $mockedClient->expects($this->exactly(3))
             ->method('performHttpCallToFullUrl')
             ->willReturnOnConsecutiveCalls(
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -147,7 +148,7 @@ class CursorCollectionTest extends TestCase
                         ],
                     ],
                 ]),
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -163,7 +164,7 @@ class CursorCollectionTest extends TestCase
                         ],
                     ],
                 ]),
-                $this->arrayToObject([
+                $this->arrayToResponse([
                     'count' => 1,
                     '_links' => [
                         'self' => [
@@ -180,7 +181,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new OrderCollection(
             $mockedClient,
-            0,
+            [],
             $this->arrayToObject([
                 'next' => [
                     'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
@@ -215,5 +216,17 @@ class CursorCollectionTest extends TestCase
         }
 
         return $obj;
+    }
+
+    private function objectToResponse(object $obj): Response
+    {
+        return new Response(200, json_encode($obj));
+    }
+
+    private function arrayToResponse($data): Response
+    {
+        $obj = $this->arrayToObject($data);
+
+        return $this->objectToResponse($obj);
     }
 }

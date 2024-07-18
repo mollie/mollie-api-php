@@ -1,20 +1,20 @@
 <?php
 
-namespace Mollie\Api\HttpAdapter;
+namespace Mollie\Api\Contracts;
 
-interface MollieHttpAdapterInterface
+interface MollieHttpAdapterContract
 {
     /**
      * Send a request to the specified Mollie api url.
      *
-     * @param string $httpMethod
+     * @param string $method
      * @param string $url
      * @param string|array $headers
-     * @param string $httpBody
-     * @return \stdClass|null
+     * @param ?string $body
+     * @return ResponseContract
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function send($httpMethod, $url, $headers, $httpBody);
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract;
 
     /**
      * The version number for the underlying http client, if available.
@@ -22,5 +22,5 @@ interface MollieHttpAdapterInterface
      *
      * @return string|null
      */
-    public function versionString();
+    public function version(): ?string;
 }

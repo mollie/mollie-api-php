@@ -7,32 +7,28 @@ use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 
-class PaymentChargebackEndpoint extends CollectionEndpointAbstract
+class PaymentChargebackEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "payments_chargebacks";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "payments_chargebacks";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
+     * Resource class name.
      *
-     * @return Chargeback
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Chargeback($this->client);
-    }
+    public static string $resource = Chargeback::class;
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ChargebackCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new ChargebackCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = ChargebackCollection::class;
 
     /**
      * @param Payment $payment
@@ -42,7 +38,7 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Payment $payment, $chargebackId, array $parameters = [])
+    public function getFor(Payment $payment, string $chargebackId, array $parameters = []): Chargeback
     {
         return $this->getForId($payment->id, $chargebackId, $parameters);
     }
@@ -55,22 +51,24 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @return Chargeback
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getForId($paymentId, $chargebackId, array $parameters = [])
+    public function getForId(string $paymentId, string $chargebackId, array $parameters = []): Chargeback
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_read($chargebackId, $parameters);
+        /** @var Chargeback */
+        return $this->readResource($chargebackId, $parameters);
     }
 
     /**
      * @param Payment $payment
      * @param array $parameters
      *
-     * @return Chargeback
+     * @return ChargebackCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Payment $payment, array $parameters = [])
+    public function listFor(Payment $payment, array $parameters = []): ChargebackCollection
     {
+        /** @var ChargebackCollection */
         return $this->listForId($payment->id, $parameters);
     }
 
@@ -85,8 +83,13 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorFor(Payment $payment, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Payment $payment,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($payment->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
@@ -94,14 +97,15 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      * @param string $paymentId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseCollection|\Mollie\Api\Resources\Chargeback
+     * @return ChargebackCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId($paymentId, array $parameters = [])
+    public function listForId(string $paymentId, array $parameters = []): ChargebackCollection
     {
         $this->parentId = $paymentId;
 
-        return parent::rest_list(null, null, $parameters);
+        /** @var ChargebackCollection */
+        return $this->fetchCollection(null, null, $parameters);
     }
 
     /**
@@ -115,10 +119,15 @@ class PaymentChargebackEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $paymentId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $paymentId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $paymentId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

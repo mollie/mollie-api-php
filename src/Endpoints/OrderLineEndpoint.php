@@ -5,75 +5,73 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderLine;
-use Mollie\Api\Resources\OrderLineCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-class OrderLineEndpoint extends CollectionEndpointAbstract
+class OrderLineEndpoint extends RestEndpoint
 {
-    protected $resourcePath = "orders_lines";
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'odl_';
+    protected string $resourcePath = "orders_lines";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
+     * Resource id prefix.
+     * Used to validate resource id's.
      *
-     * @return OrderLine
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new OrderLine($this->client);
-    }
+    protected static string $resourceIdPrefix = 'odl_';
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
+     * Resource class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return OrderLineCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new OrderLineCollection($count, $_links);
-    }
+    public static string $resource = OrderLine::class;
 
     /**
      * Update a specific OrderLine resource.
      *
      * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
      *
-     * @param string|null $orderId
+     * @param string $orderId
      * @param string $orderlineId
-     *
      * @param array $data
      *
-     * @return \Mollie\Api\Resources\BaseResource|null
+     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update($orderId, $orderlineId, array $data = [])
+    public function update(string $orderId, string $orderlineId, array $data = []): ?Order
     {
         $this->parentId = $orderId;
 
-        if (empty($orderlineId) || strpos($orderlineId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid order line ID: '{$orderlineId}'. An order line ID should start with '".self::RESOURCE_ID_PREFIX."'.");
+        $this->guardAgainstInvalidId($orderlineId);
+
+        $response = $this->client->performHttpCall(
+            self::REST_UPDATE,
+            $this->getPathToSingleResource(urlencode($orderlineId)),
+            $this->parseRequestBody($data)
+        );
+
+        if ($response->isEmpty()) {
+            return null;
         }
 
-        return parent::rest_update($orderlineId, $data);
+        /** @var Order */
+        return ResourceFactory::createFromApiResult($this->client, $response->decode(), Order::class);
     }
 
     /**
      * @param string $orderId
      * @param array $operations
      * @param array $parameters
-     * @return Order|\Mollie\Api\Resources\BaseResource
+     *
+     * @return Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function updateMultiple(string $orderId, array $operations, array $parameters = [])
+    public function updateMultiple(string $orderId, array $operations, array $parameters = []): Order
     {
         if (empty($orderId)) {
             throw new ApiException("Invalid resource id.");
@@ -89,43 +87,43 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
             $this->parseRequestBody($parameters)
         );
 
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        /** @var Order */
+        return ResourceFactory::createFromApiResult($this->client, $result->decode(), Order::class);
     }
 
     /**
      * Cancel lines for the provided order.
      * The data array must contain a lines array.
      * You can pass an empty lines array if you want to cancel all eligible lines.
-     * Returns null if successful.
      *
      * @param Order $order
      * @param array $data
      *
-     * @return null
+     * @return void
      * @throws ApiException
      */
-    public function cancelFor(Order $order, array $data)
+    public function cancelFor(Order $order, array $data): void
     {
-        return $this->cancelForId($order->id, $data);
+        $this->cancelForId($order->id, $data);
     }
 
     /**
      * Cancel lines for the provided order id.
      * The data array must contain a lines array.
      * You can pass an empty lines array if you want to cancel all eligible lines.
-     * Returns null if successful.
      *
      * @param string $orderId
      * @param array $data
      *
-     * @return null
+     * @return void
      * @throws ApiException
      */
-    public function cancelForId($orderId, array $data)
+    public function cancelForId(string $orderId, array $data): void
     {
-        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+        if (!isset($data['lines']) || !is_array($data['lines'])) {
             throw new ApiException("A lines array is required.");
         }
+
         $this->parentId = $orderId;
 
         $this->client->performHttpCall(
@@ -133,7 +131,5 @@ class OrderLineEndpoint extends CollectionEndpointAbstract
             "{$this->getResourcePath()}",
             $this->parseRequestBody($data)
         );
-
-        return null;
     }
 }

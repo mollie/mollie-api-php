@@ -2,66 +2,54 @@
 
 namespace Tests\Mollie\TestHelpers;
 
-use Mollie\Api\HttpAdapter\MollieHttpAdapterInterface;
+use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\ResponseContract;
+use Mollie\Api\Http\PsrResponseHandler;
 
-class FakeHttpAdapter implements MollieHttpAdapterInterface
+class FakeHttpAdapter implements MollieHttpAdapterContract
 {
-    /**
-     * @var \stdClass|null
-     */
-    private $response;
+    private Response $response;
 
-    /**
-     * @var string
-     */
-    private $usedMethod;
+    private string $usedMethod;
 
-    /**
-     * @var string
-     */
-    private $usedUrl;
+    private string $usedUrl;
 
-    /**
-     * @var string
-     */
-    private $usedHeaders;
+    private array $usedHeaders = [];
 
-    /**
-     * @var string
-     */
-    private $usedBody;
-
+    private ?string $usedBody = null;
 
     /**
      * FakeHttpAdapter constructor.
-     * @param \stdClass|null|\GuzzleHttp\Psr7\Response $response
+     * @paramResponse $response
      */
-    public function __construct($response)
+    public function __construct(Response $response)
     {
         $this->response = $response;
     }
 
     /**
-     * @param string $httpMethod
+     * @param string $method
      * @param string $url
-     * @param string $headers
-     * @param string $httpBody
-     * @return \stdClass|void|null
+     * @param array $headers
+     * @param string $body
+     * @return ResponseContract
      */
-    public function send($httpMethod, $url, $headers, $httpBody)
+    public function send(string $method, string $url, $headers, ?string $body): ResponseContract
     {
-        $this->usedMethod = $httpMethod;
+        $this->usedMethod = $method;
         $this->usedUrl = $url;
         $this->usedHeaders = $headers;
-        $this->usedBody = $httpBody;
+        $this->usedBody = $body;
 
-        return $this->response;
+        return PsrResponseHandler::create()
+            ->handle(null, $this->response, 200, $body);
     }
 
     /**
      * @return string
      */
-    public function versionString()
+    public function version(): string
     {
         return 'fake';
     }

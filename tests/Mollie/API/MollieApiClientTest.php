@@ -2,14 +2,14 @@
 
 namespace Tests\Mollie\Api;
 
-use Eloquent\Liberator\Liberator;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Mollie\Api\Contracts\MollieHttpAdapterContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
-use Mollie\Api\HttpAdapter\CurlMollieHttpAdapter;
-use Mollie\Api\HttpAdapter\Guzzle6And7MollieHttpAdapter;
+use Mollie\Api\Http\Adapter\CurlMollieHttpAdapter;
+use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use Tests\Mollie\TestHelpers\FakeHttpAdapter;
@@ -24,7 +24,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
     /**
      * @var MollieApiClient
      */
-    private $mollieApiClient;
+    private MollieApiClient $mollieApiClient;
 
     protected function setUp(): void
     {
@@ -50,7 +50,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             (object)['resource' => 'payment'],
-            $parsedResponse
+            $parsedResponse->decode()
         );
     }
 
@@ -79,7 +79,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
             ->willReturn($response);
 
         try {
-            $parsedResponse = $this->mollieApiClient->performHttpCall('GET', '');
+            $this->mollieApiClient->performHttpCall('GET', '');
         } catch (ApiException $e) {
             $this->assertEquals('recurringType', $e->getField());
             $this->assertEquals('https://docs.mollie.com/guides/handling-errors', $e->getDocumentationUrl());
@@ -119,16 +119,19 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
     public function testCanBeSerializedAndUnserialized()
     {
-        $this->mollieApiClient->setApiEndpoint("https://mymollieproxy.local");
-        $serialized = \serialize($this->mollieApiClient);
+        $client = new FakeMollieApiClient($this->createMock(Client::class));
+
+        $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $client->setApiEndpoint("https://mymollieproxy.local");
+        $serialized = \serialize($client);
 
         $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
-        /** @var MollieApiClient $client_copy */
-        $client_copy = Liberator::liberate(unserialize($serialized));
+        /** @var FakeMollieApiClient $client_copy */
+        $client_copy = unserialize($serialized);
 
-        $this->assertEmpty($client_copy->apiKey, "API key should not have been remembered");
-        $this->assertInstanceOf(Guzzle6And7MollieHttpAdapter::class, $client_copy->httpClient, "A Guzzle client should have been set.");
+        $this->assertEmpty($client_copy->getApiKey(), "API key should not have been remembered");
+        $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $client_copy->getHttpClient(), "A Guzzle client should have been set.");
         $this->assertNull($client_copy->usesOAuth());
         $this->assertEquals("https://mymollieproxy.local", $client_copy->getApiEndpoint(), "The API endpoint should be remembered");
 
@@ -159,7 +162,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             (object)['resource' => 'payment'],
-            $parsedResponse
+            $parsedResponse->decode()
         );
     }
 
@@ -318,5 +321,18 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
         $this->assertEquals('idempotentFooBar', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);
+    }
+}
+
+class FakeMollieApiClient extends MollieApiClient
+{
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
+    }
+
+    public function getHttpClient(): MollieHttpAdapterContract
+    {
+        return $this->httpClient;
     }
 }

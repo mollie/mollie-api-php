@@ -374,7 +374,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $refunds = $this->getPayment()->refunds();
 
         $this->assertInstanceOf(RefundCollection::class, $refunds);
-        $this->assertEquals(1, $refunds->count);
+        $this->assertEquals(1, $refunds->count());
         $this->assertCount(1, $refunds);
 
         $refund = $refunds[0];
@@ -494,7 +494,7 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $this->assertInstanceOf(RefundCollection::class, $refunds);
 
         /** @var RefundCollection $refunds */
-        $this->assertEquals(2, $refunds->count);
+        $this->assertEquals(2, $refunds->count());
         $this->assertCount(2, $refunds);
 
         $refund = $refunds[0];

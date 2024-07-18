@@ -118,7 +118,7 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
 
         $captures = $this->getPayment('tr_WDqYK6vllg')->captures();
 
-        $this->assertEquals(1, $captures->count);
+        $this->assertEquals(1, $captures->count());
 
         $this->assertLinkObject(
             'https://docs.mollie.com/reference/v2/captures-api/list-captures',

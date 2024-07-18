@@ -11,7 +11,6 @@ class OrderLineCollectionTest extends \PHPUnit\Framework\TestCase
     public function testCanGetOrderLine()
     {
         $mockApi = $this->createMock(MollieApiClient::class);
-        $lines = new OrderLineCollection(3, null);
 
         $line1 = new OrderLine($mockApi);
         $line1->id = 'odl_aaaaaaaaaaa1';
@@ -22,9 +21,11 @@ class OrderLineCollectionTest extends \PHPUnit\Framework\TestCase
         $line3 = new OrderLine($mockApi);
         $line3->id = 'odl_aaaaaaaaaaa3';
 
-        $lines[] = $line1;
-        $lines[] = $line2;
-        $lines[] = $line3;
+        $lines = new OrderLineCollection($mockApi, [
+            $line1,
+            $line2,
+            $line3,
+        ], null);
 
         $this->assertNull($lines->get('odl_not_existent'));
 
