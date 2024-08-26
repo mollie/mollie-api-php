@@ -5,7 +5,6 @@ namespace Mollie\Api;
 use Mollie\Api\Contracts\MollieHttpAdapterContract;
 use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\Contracts\ResponseContract as Response;
-use Mollie\Api\Endpoints\BalanceEndpoint;
 use Mollie\Api\Endpoints\BalanceReportEndpoint;
 use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
@@ -27,10 +26,8 @@ use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
-use Mollie\Api\Endpoints\PaymentEndpoint;
 use Mollie\Api\Endpoints\PaymentLinkEndpoint;
 use Mollie\Api\Endpoints\PaymentLinkPaymentEndpoint;
-use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\Endpoints\PaymentRouteEndpoint;
 use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
@@ -50,13 +47,11 @@ use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Http\EndpointCollection\BalanceEndpointCollection;
 use Mollie\Api\Http\EndpointCollection\PaymentEndpointCollection;
-use Mollie\Api\Contracts\HasBody;
 use Mollie\Api\Http\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
-use Mollie\Api\Http\Request;
 
 /**
- * @property BalanceEndpoint $balances
+ * @property BalanceEndpointCollection $balances
  * @property BalanceReportEndpoint $balanceReports
  * @property BalanceTransactionEndpoint $balanceTransactions
  * @property ChargebackEndpoint $chargebacks
@@ -75,12 +70,12 @@ use Mollie\Api\Http\Request;
  * @property OrderRefundEndpoint $orderRefunds
  * @property OrganizationEndpoint $organizations
  * @property OrganizationPartnerEndpoint $organizationPartners
- * @property PaymentEndpoint $payments
+ * @property PaymentEndpointCollection $payments
  * @property PaymentCaptureEndpoint $paymentCaptures
  * @property PaymentChargebackEndpoint $paymentChargebacks
  * @property PaymentLinkEndpoint $paymentLinks
  * @property PaymentLinkPaymentEndpoint $paymentLinkPayments
- * @property PaymentRefundEndpoint $paymentRefunds
+ * @property PaymentRefundEndpointCollection $paymentRefunds
  * @property PaymentRouteEndpoint $paymentRoutes
  * @property PermissionEndpoint $permissions
  * @property ProfileEndpoint $profiles

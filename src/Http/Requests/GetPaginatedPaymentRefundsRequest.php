@@ -2,22 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Request;
-use Mollie\Api\MollieApiClient;
-
-class GetPaginatedPaymentRefundsRequest extends Request
+class GetPaginatedPaymentRefundsRequest extends PaginatedRequest
 {
-    use IsPaginatedRequest;
-
-    /**
-     * Define the HTTP method.
-     */
-    protected string $method = MollieApiClient::HTTP_GET;
-
     /**
      * The resource class the request should be casted to.
-     *
-     * @var string
      */
     public static string $targetResourceClass = \Mollie\Api\Resources\RefundCollection::class;
 
@@ -27,8 +15,9 @@ class GetPaginatedPaymentRefundsRequest extends Request
         string $paymentId,
         array $filters = []
     ) {
+        parent::__construct(filters: $filters);
+
         $this->paymentId = $paymentId;
-        $this->filters = $filters;
     }
 
     public function resolveResourcePath(): string

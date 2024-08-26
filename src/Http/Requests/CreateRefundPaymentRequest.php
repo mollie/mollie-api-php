@@ -2,20 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\HasBody;
-use Mollie\Api\Http\Request;
-use Mollie\Api\MollieApiClient;
-
-class RefundPaymentRequest extends Request implements HasBody
+class CreateRefundPaymentRequest extends JsonPostRequest
 {
-    use HasJsonBody;
-
-    protected string $method = MollieApiClient::HTTP_POST;
-
     /**
      * The resource class the request should be casted to.
-     *
-     * @var string
      */
     public static string $targetResourceClass = \Mollie\Api\Resources\Refund::class;
 
@@ -25,8 +15,9 @@ class RefundPaymentRequest extends Request implements HasBody
         string $paymentId,
         array $data
     ) {
+        parent::__construct(data: $data);
+
         $this->paymentId = $paymentId;
-        $this->body = $data;
     }
 
     public function resolveResourcePath(): string

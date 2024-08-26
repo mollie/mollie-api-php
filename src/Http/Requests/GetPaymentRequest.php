@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\Request;
 use Mollie\Api\MollieApiClient;
 
 class GetPaymentRequest extends Request
@@ -27,8 +27,6 @@ class GetPaymentRequest extends Request
         string $paymentId,
         array $filters = []
     ) {
-        // add guard method
-
         $this->paymentId = $paymentId;
         $this->filters = $filters;
     }

@@ -2,19 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\BalanceCollection;
 
-class GetPaginatedBalancesRequest extends Request
+class GetPaginatedBalancesRequest extends PaginatedRequest
 {
-    use IsPaginatedRequest;
-
-    /**
-     * Define the HTTP method.
-     */
-    protected string $method = MollieApiClient::HTTP_GET;
-
     /**
      * The resource class the request should be casted to.
      *

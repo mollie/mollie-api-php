@@ -2,8 +2,15 @@
 
 namespace Mollie\Api\Http\Requests;
 
-trait IsPaginatedRequest
+use Mollie\Api\MollieApiClient;
+
+abstract class PaginatedRequest extends Request
 {
+    /**
+     * Define the HTTP method.
+     */
+    protected string $method = MollieApiClient::HTTP_GET;
+
     public ?string $from = null;
 
     public ?int $limit = null;
@@ -11,13 +18,13 @@ trait IsPaginatedRequest
     public array $filters = [];
 
     public function __construct(
+        array $filters = [],
         ?string $from = null,
         ?int $limit = null,
-        array $filters = []
     ) {
+        $this->filters = $filters;
         $this->from = $from;
         $this->limit = $limit;
-        $this->filters = $filters;
     }
 
     public function getQuery(): array

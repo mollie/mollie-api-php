@@ -2,11 +2,10 @@
 
 namespace Mollie\Api\Http\EndpointCollection;
 
-use Mollie\Api\Http\BaseEndpointCollection;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Resources\RefundCollection;
 
-class PaymentRefundEndpointCollection extends BaseEndpointCollection
+class PaymentRefundEndpointCollection extends Endpoint
 {
     /**
      * @param string $paymentId

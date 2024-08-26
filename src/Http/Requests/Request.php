@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Http;
+namespace Mollie\Api\Http\Requests;
 
 use LogicException;
 

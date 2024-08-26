@@ -13,6 +13,13 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     use HasPresetOptions;
 
     /**
+     * Resource id prefix. Used to validate resource id's.
+     *
+     * @var string
+     */
+    public static string $resourceIdPrefix = 'tr_';
+
+    /**
      * Id of the payment (on the Mollie platform).
      *
      * @var string
