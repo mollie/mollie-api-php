@@ -2,29 +2,25 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Response;
 
 #[\AllowDynamicProperties]
 class ResourceFactory
 {
     /**
      * Create resource object from Api result
-     *
-     * @param MollieApiClient $client
-     * @param object $response
-     * @param string $resourceClass
-     * @return BaseResource
      */
-    public static function createFromApiResult(MollieApiClient $client, object $response, string $resourceClass): BaseResource
+    public static function createFromApiResult(Connector $connector, ?Response $response, string $resourceClass): BaseResource
     {
         /** @var BaseResource $resource */
-        $resource = new $resourceClass($client);
+        $resource = new $resourceClass($connector, $response);
 
-        foreach ($response as $property => $value) {
+        foreach ($response->json() as $property => $value) {
             $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
-                ? self::parseEmbeddedResources($client, $resource, $value)
+                ? self::parseEmbeddedResources($connector, $resource, $value)
                 : $value;
         }
 
@@ -34,10 +30,7 @@ class ResourceFactory
     /**
      * Check if the resource holds embedded resources
      *
-     * @param object $resource
-     * @param string $key
-     * @param array|\ArrayAccess $value
-     * @return bool
+     * @param  array|\ArrayAccess  $value
      */
     private static function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
@@ -48,33 +41,29 @@ class ResourceFactory
 
     /**
      * Parses embedded resources into their respective resource objects or collections.
-     *
-     * @param MollieApiClient $client
-     * @param object $resource
-     * @param object $embedded
-     * @return object
      */
-    private static function parseEmbeddedResources(MollieApiClient $client, object $resource, object $embedded): object
+    private static function parseEmbeddedResources(Connector $connector, object $resource, object $embedded): object
     {
-        $result = new \stdClass();
+        $result = new \stdClass;
 
         foreach ($embedded as $resourceKey => $resourceData) {
             $collectionOrResourceClass = $resource->getEmbeddedResourcesMap()[$resourceKey] ?? null;
 
             if (is_null($collectionOrResourceClass)) {
                 throw new EmbeddedResourcesNotParseableException(
-                    "Resource " . get_class($resource) . " does not have a mapping for embedded resource {$resourceKey}"
+                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
                 );
             }
 
             $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)
                 ? self::createFromApiResult(
-                    $client,
+                    $connector,
+                    null,
                     $resourceData,
                     $collectionOrResourceClass
                 )
                 : self::createEmbeddedResourceCollection(
-                    $client,
+                    $connector,
                     $collectionOrResourceClass,
                     $resourceData
                 );
@@ -84,99 +73,63 @@ class ResourceFactory
     }
 
     /**
-     * @param MollieApiClient $client
-     * @param string $collectionClass
-     * @param array|\ArrayObject $data
-     * @return BaseCollection
+     * @param  array|\ArrayObject  $data
      */
     private static function createEmbeddedResourceCollection(
-        MollieApiClient $client,
+        Connector $connector,
         string $collectionClass,
         $data
     ): BaseCollection {
         return self::instantiateBaseCollection(
-            $client,
+            $connector,
             $collectionClass,
             self::mapToResourceObjects(
-                $client,
+                $connector,
                 $data,
                 $collectionClass::getResourceClass()
             ),
-            null
         );
     }
 
     /**
-     * @param MollieApiClient $client
-     * @param string $resourceClass
-     * @param null|array|\ArrayObject $data
-     * @param object|null $_links
-     * @param string|null $resourceCollectionClass
-     * @return BaseCollection
+     * @param  null|array|\ArrayObject  $data
      */
     public static function createBaseResourceCollection(
-        MollieApiClient $client,
+        Connector $connector,
         string $resourceClass,
         $data = null,
+        ?Response $response = null,
         ?object $_links = null,
         ?string $resourceCollectionClass = null
     ): BaseCollection {
         return self::instantiateBaseCollection(
-            $client,
+            $connector,
             self::determineCollectionClass($resourceClass, $resourceCollectionClass),
-            self::mapToResourceObjects($client, $data ?? [], $resourceClass),
-            $_links
-        );
-    }
-
-    /**
-     * @param MollieApiClient $client
-     * @param array|\ArrayObject $data
-     * @param string $resourceClass
-     * @param null $_links
-     * @param null $resourceCollectionClass
-     * @return CursorCollection
-     */
-    public static function createCursorResourceCollection(
-        MollieApiClient $client,
-        $data,
-        string $resourceClass,
-        ?object $_links = null,
-        ?string $resourceCollectionClass = null
-    ): CursorCollection {
-        /** @var CursorCollection */
-        return self::createBaseResourceCollection(
-            $client,
-            $resourceClass,
-            $data,
+            self::mapToResourceObjects($connector, $data ?? [], $resourceClass, $response),
             $_links,
-            $resourceCollectionClass
+            $response
         );
     }
 
-    /**
-     * @param MollieApiClient $client
-     * @param string $collectionClass
-     * @param array $items
-     * @param object|null $_links
-     * @return BaseCollection
-     */
-    private static function instantiateBaseCollection(MollieApiClient $client, string $collectionClass, array $items, ?object $_links): BaseCollection
-    {
-        return new $collectionClass($client, $items, $_links);
+    private static function instantiateBaseCollection(
+        Connector $connector,
+        string $collectionClass,
+        array $items,
+        ?object $_links = null,
+        ?Response $response = null
+    ): BaseCollection {
+        return new $collectionClass($connector, $response, $items, $_links);
     }
 
     /**
-     * @param MollieApiClient $client
-     * @param array|\ArrayObject $data
-     * @param string $resourceClass
-     * @return array
+     * @param  array|\ArrayObject  $data
      */
-    private static function mapToResourceObjects(MollieApiClient $client, $data, string $resourceClass): array
+    private static function mapToResourceObjects(Connector $connector, $data, string $resourceClass, ?Response $response = null): array
     {
         return array_map(
             fn ($item) => static::createFromApiResult(
-                $client,
+                $connector,
+                $response,
                 $item,
                 $resourceClass
             ),
@@ -186,6 +139,6 @@ class ResourceFactory
 
     private static function determineCollectionClass(string $resourceClass, ?string $resourceCollectionClass): string
     {
-        return $resourceCollectionClass ?: $resourceClass . 'Collection';
+        return $resourceCollectionClass ?: $resourceClass.'Collection';
     }
 }

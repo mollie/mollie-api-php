@@ -4,7 +4,7 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
@@ -14,8 +14,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Resource id prefix. Used to validate resource id's.
-     *
-     * @var string
      */
     public static string $resourceIdPrefix = 'tr_';
 
@@ -89,6 +87,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * method.
      *
      * @see Method
+     *
      * @var string|null
      */
     public $method;
@@ -104,6 +103,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $createdAt;
@@ -112,6 +112,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the payment was paid in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $paidAt;
@@ -120,6 +121,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the payment was canceled in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $canceledAt;
@@ -144,6 +146,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * UTC due date for the banktransfer payment in ISO-8601 format.
      *
      * @example "2021-01-19"
+     *
      * @var string|null
      */
     public $dueDate;
@@ -153,7 +156,9 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Please note: the payment instructions will be sent immediately when creating the payment.
      *
      * @example "user@mollie.com"
+     *
      * @var string|null
+     *
      * @deprecated 2024-06-01 The billingEmail field is deprecated. Use the "billingAddress" field instead.
      */
     public $billingEmail;
@@ -162,6 +167,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The profile ID this payment belongs to.
      *
      * @example pfl_xH2kP6Nc6X
+     *
      * @var string
      */
     public $profileId;
@@ -198,6 +204,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The mandate ID this payment is performed with.
      *
      * @example mdt_pXm1g3ND
+     *
      * @var string|null
      */
     public $mandateId;
@@ -206,6 +213,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The subscription ID this payment belongs to.
      *
      * @example sub_rVKGtNd6s3
+     *
      * @var string|null
      */
     public $subscriptionId;
@@ -214,6 +222,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The order ID this payment belongs to.
      *
      * @example ord_pbjz8x
+     *
      * @var string|null
      */
     public $orderId;
@@ -243,6 +252,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The settlement ID this payment belongs to.
      *
      * @example stl_jDk30akdN
+     *
      * @var string|null
      */
     public $settlementId;
@@ -318,7 +328,9 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * will be added to the date and time the payment became authorized.
      *
      * Possible values: ... hours ... days
+     *
      * @example 8 hours
+     *
      * @var string|null
      */
     public $captureDelay;
@@ -328,6 +340,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * ISO-8601 format. This parameter is omitted if the payment is not authorized (yet).
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $captureBefore;
@@ -355,6 +368,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * parameter is omitted if the payment is not authorized (yet).
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $authorizedAt;
@@ -364,6 +378,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * parameter is omitted if the payment did not expire (yet).
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiredAt;
@@ -373,6 +388,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * be available here as well.
      *
      * @example cst_XPn78q9CfT
+     *
      * @var string|null
      */
     public $customerId;
@@ -397,8 +413,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment canceled?
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -407,8 +421,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment expired?
-     *
-     * @return bool
      */
     public function isExpired(): bool
     {
@@ -417,8 +429,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment still open / ongoing?
-     *
-     * @return bool
      */
     public function isOpen(): bool
     {
@@ -427,8 +437,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment pending?
-     *
-     * @return bool
      */
     public function isPending(): bool
     {
@@ -437,8 +445,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment authorized?
-     *
-     * @return bool
      */
     public function isAuthorized(): bool
     {
@@ -447,8 +453,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment paid for?
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {
@@ -457,8 +461,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Does the payment have refunds
-     *
-     * @return bool
      */
     public function hasRefunds(): bool
     {
@@ -467,8 +469,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Does this payment has chargebacks
-     *
-     * @return bool
      */
     public function hasChargebacks(): bool
     {
@@ -477,8 +477,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this payment failing?
-     *
-     * @return bool
      */
     public function isFailed(): bool
     {
@@ -489,8 +487,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Check whether 'sequenceType' is set to 'first'. If a 'first' payment has been
      * completed successfully, the consumer's account may be charged automatically
      * using recurring payments.
-     *
-     * @return bool
      */
     public function hasSequenceTypeFirst(): bool
     {
@@ -501,8 +497,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Check whether 'sequenceType' is set to 'recurring'. This type of payment is
      * processed without involving
      * the consumer.
-     *
-     * @return bool
      */
     public function hasSequenceTypeRecurring(): bool
     {
@@ -511,8 +505,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Get the checkout URL where the customer can complete the payment.
-     *
-     * @return string|null
      */
     public function getCheckoutUrl(): ?string
     {
@@ -525,8 +517,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Get the mobile checkout URL where the customer can complete the payment.
-     *
-     * @return string|null
      */
     public function getMobileAppCheckoutUrl(): ?string
     {
@@ -537,17 +527,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
         return $this->_links->mobileAppCheckout->href;
     }
 
-    /**
-     * @return bool
-     */
     public function canBeRefunded(): bool
     {
         return $this->amountRemaining !== null;
     }
 
-    /**
-     * @return bool
-     */
     public function canBePartiallyRefunded(): bool
     {
         return $this->canBeRefunded();
@@ -555,13 +539,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Get the amount that is already refunded
-     *
-     * @return float
      */
     public function getAmountRefunded(): float
     {
         if ($this->amountRefunded) {
-            return (float)$this->amountRefunded->value;
+            return (float) $this->amountRefunded->value;
         }
 
         return 0.0;
@@ -571,13 +553,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Get the remaining amount that can be refunded. For some payment methods this
      * amount can be higher than the payment amount. This is possible to reimburse
      * the costs for a return shipment to your customer for example.
-     *
-     * @return float
      */
     public function getAmountRemaining(): float
     {
         if ($this->amountRemaining) {
-            return (float)$this->amountRemaining->value;
+            return (float) $this->amountRemaining->value;
         }
 
         return 0.0;
@@ -586,13 +566,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Get the total amount that was charged back for this payment. Only available when the
      * total charged back amount is not zero.
-     *
-     * @return float
      */
     public function getAmountChargedBack(): float
     {
         if ($this->amountChargedBack) {
-            return (float)$this->amountChargedBack->value;
+            return (float) $this->amountChargedBack->value;
         }
 
         return 0.0;
@@ -600,8 +578,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Does the payment have split payments
-     *
-     * @return bool
      */
     public function hasSplitPayments(): bool
     {
@@ -611,51 +587,39 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Retrieves all refunds associated with this payment
      *
-     * @return RefundCollection
      * @throws ApiException
      */
     public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client);
+            return new RefundCollection($this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_GET,
-            $this->_links->refunds->href
-        )->decode();
-
-        /** @var RefundCollection */
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->refunds,
-            Refund::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send(new DynamicGetRequest(
+                $this->_links->refunds->href,
+                RefundCollection::class
+            ));
     }
 
     /**
-     * @param string $refundId
-     * @param array $parameters
+     * @param  string  $refundId
      *
-     * @return Refund
      * @throws ApiException
      */
     public function getRefund($refundId, array $parameters = []): Refund
     {
-        return $this->client->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
+        return $this->connector->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
     }
 
     /**
-     * @param array $parameters
-     *
-     * @return RefundCollection
      * @throws ApiException
      */
     public function listRefunds(array $parameters = []): RefundCollection
     {
         return $this
-            ->client
+            ->connector
             ->paymentRefunds
             ->listFor(
                 $this,
@@ -666,39 +630,30 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Retrieves all captures associated with this payment
      *
-     * @return CaptureCollection
      * @throws ApiException
      */
     public function captures(): CaptureCollection
     {
         if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->client);
+            return new CaptureCollection($this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_GET,
-            $this->_links->captures->href
-        )->decode();
-
-        /** @var CaptureCollection */
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->captures,
-            Capture::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send(new DynamicGetRequest(
+                $this->_links->captures->href,
+                CaptureCollection::class
+            ));
     }
 
     /**
-     * @param string $captureId
-     * @param array $parameters
+     * @param  string  $captureId
      *
-     * @return Capture
      * @throws ApiException
      */
     public function getCapture($captureId, array $parameters = []): Capture
     {
-        return $this->client->paymentCaptures->getFor(
+        return $this->connector->paymentCaptures->getFor(
             $this,
             $captureId,
             $this->withPresetOptions($parameters)
@@ -708,41 +663,32 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Retrieves all chargebacks associated with this payment
      *
-     * @return ChargebackCollection
      * @throws ApiException
      */
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client);
+            return new ChargebackCollection($this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_GET,
-            $this->_links->chargebacks->href
-        )->decode();
-
-        /** @var ChargebackCollection */
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->chargebacks,
-            Chargeback::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send(new DynamicGetRequest(
+                $this->_links->chargebacks->href,
+                ChargebackCollection::class
+            ));
     }
 
     /**
      * Retrieves a specific chargeback for this payment.
      *
-     * @param string $chargebackId
-     * @param array $parameters
+     * @param  string  $chargebackId
      *
-     * @return Chargeback
      * @throws ApiException
      */
     public function getChargeback($chargebackId, array $parameters = []): Chargeback
     {
-        return $this->client->paymentChargebacks->getFor(
+        return $this->connector->paymentChargebacks->getFor(
             $this,
             $chargebackId,
             $this->withPresetOptions($parameters)
@@ -752,35 +698,33 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Issue a refund for this payment.
      *
-     * @param array $data
+     * @param  array  $data
      *
-     * @return \Mollie\Api\Resources\Refund
      * @throws ApiException
      */
     public function refund($data): Refund
     {
-        return $this->client->paymentRefunds->createFor($this, $data);
+        return $this->connector->paymentRefunds->createFor($this, $data);
     }
 
     /**
-     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(): ?Payment
     {
         $body = [
-            "description" => $this->description,
-            "cancelUrl" => $this->cancelUrl,
-            "redirectUrl" => $this->redirectUrl,
-            "webhookUrl" => $this->webhookUrl,
-            "metadata" => $this->metadata,
-            "restrictPaymentMethodsToCountry" => $this->restrictPaymentMethodsToCountry,
-            "locale" => $this->locale,
-            "dueDate" => $this->dueDate,
+            'description' => $this->description,
+            'cancelUrl' => $this->cancelUrl,
+            'redirectUrl' => $this->redirectUrl,
+            'webhookUrl' => $this->webhookUrl,
+            'metadata' => $this->metadata,
+            'restrictPaymentMethodsToCountry' => $this->restrictPaymentMethodsToCountry,
+            'locale' => $this->locale,
+            'dueDate' => $this->dueDate,
         ];
 
         /** @var null|Payment */
-        return $this->client->payments->update(
+        return $this->connector->payments->update(
             $this->id,
             $this->withPresetOptions($body)
         );
@@ -789,13 +733,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
-     *
-     * @return float
      */
     public function getAmountCaptured(): float
     {
         if ($this->amountCaptured) {
-            return (float)$this->amountCaptured->value;
+            return (float) $this->amountCaptured->value;
         }
 
         return 0.0;
@@ -803,13 +745,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * The amount that has been settled.
-     *
-     * @return float
      */
     public function getSettlementAmount(): float
     {
         if ($this->settlementAmount) {
-            return (float)$this->settlementAmount->value;
+            return (float) $this->settlementAmount->value;
         }
 
         return 0.0;
@@ -818,13 +758,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * The total amount that is already captured for this payment. Only available
      * when this payment supports captures.
-     *
-     * @return float
      */
     public function getApplicationFeeAmount(): float
     {
         if ($this->applicationFee) {
-            return (float)$this->applicationFee->amount->value;
+            return (float) $this->applicationFee->amount->value;
         }
 
         return 0.0;

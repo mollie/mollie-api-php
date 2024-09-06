@@ -2,15 +2,13 @@
 
 namespace Mollie\Api\Idempotency;
 
+use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 use Mollie\Api\Exceptions\IncompatiblePlatform;
 
 class DefaultIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
 {
     const DEFAULT_LENGTH = 16;
 
-    /**
-     * @var int
-     */
     protected int $length;
 
     public function __construct($length = self::DEFAULT_LENGTH)
@@ -20,7 +18,6 @@ class DefaultIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
 
     /**
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @return string
      */
     public function generate(): string
     {

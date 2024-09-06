@@ -2,14 +2,17 @@
 
 namespace Mollie\Api;
 
-use Mollie\Api\Contracts\MollieHttpAdapterContract;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HttpAdapterContract;
+use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
-use Mollie\Api\Contracts\ResponseContract as Response;
-use Mollie\Api\Endpoints\BalanceReportEndpoint;
-use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
-use Mollie\Api\Endpoints\ChargebackEndpoint;
-use Mollie\Api\Endpoints\ClientEndpoint;
-use Mollie\Api\Endpoints\ClientLinkEndpoint;
+use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
+use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
+use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
+use Mollie\Api\EndpointCollection\ClientEndpointCollection;
+use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -42,21 +45,26 @@ use Mollie\Api\Endpoints\SubscriptionEndpoint;
 use Mollie\Api\Endpoints\SubscriptionPaymentEndpoint;
 use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\IncompatiblePlatform;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
-use Mollie\Api\Http\EndpointCollection\BalanceEndpointCollection;
-use Mollie\Api\Http\EndpointCollection\PaymentEndpointCollection;
-use Mollie\Api\Http\EndpointCollection\PaymentRefundEndpointCollection;
-use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
+use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
+use Mollie\Api\Resources\BalanceTransactionCollection;
+use Mollie\Api\Traits\HandlesAuthentication;
+use Mollie\Api\Traits\HandlesDebugging;
+use Mollie\Api\Traits\HandlesIdempotency;
+use Mollie\Api\Traits\HandlesTestmode;
+use Mollie\Api\Traits\HandlesVersions;
+use Mollie\Api\Traits\HasEndpoints;
+use Mollie\Api\Traits\HasRequestProperties;
+use Mollie\Api\Traits\Initializable;
+use Mollie\Api\Traits\SendsRequests;
 
 /**
  * @property BalanceEndpointCollection $balances
- * @property BalanceReportEndpoint $balanceReports
- * @property BalanceTransactionEndpoint $balanceTransactions
- * @property ChargebackEndpoint $chargebacks
- * @property ClientEndpoint $clients
- * @property ClientLinkEndpoint $clientLinks
+ * @property BalanceReportEndpointCollection $balanceReports
+ * @property BalanceTransactionCollection $balanceTransactions
+ * @property ChargebackEndpointCollection $chargebacks
+ * @property ClientEndpointCollection $clients
+ * @property ClientLinkEndpointCollection $clientLinks
  * @property CustomerPaymentsEndpoint $customerPayments
  * @property CustomerEndpoint $customers
  * @property InvoiceEndpoint $invoices
@@ -91,71 +99,43 @@ use Mollie\Api\Idempotency\IdempotencyKeyGeneratorContract;
  * @property SubscriptionPaymentEndpoint $subscriptionPayments
  * @property TerminalEndpoint $terminals
  * @property WalletEndpoint $wallets
+ * @property HttpAdapterContract $httpClient
  */
-class MollieApiClient
+class MollieApiClient implements Connector
 {
-    use HandlesIdempotency;
+    use HandlesAuthentication;
     use HandlesDebugging;
+    use HandlesIdempotency;
+    use HandlesTestmode;
+    use HandlesVersions;
+    use HasEndpoints;
+    use HasRequestProperties;
+    use Initializable;
+    use SendsRequests;
 
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = "3.0.0";
+    public const CLIENT_VERSION = '3.0.0';
 
     /**
      * Endpoint of the remote API.
      */
-    public const API_ENDPOINT = "https://api.mollie.com";
+    public const API_ENDPOINT = 'https://api.mollie.com';
 
     /**
      * Version of the remote API.
      */
-    public const API_VERSION = "v2";
+    public const API_VERSION = 'v2';
 
     /**
-     * HTTP Methods
+     * Http client used to perform requests.
      */
-    public const HTTP_GET = "GET";
-    public const HTTP_POST = "POST";
-    public const HTTP_DELETE = "DELETE";
-    public const HTTP_PATCH = "PATCH";
+    protected HttpAdapterContract $httpClient;
 
     /**
-     * @var MollieHttpAdapterContract
-     */
-    protected MollieHttpAdapterContract $httpClient;
-
-    /**
-     * @var string
-     */
-    protected string $apiEndpoint = self::API_ENDPOINT;
-
-    /**
-     * @var string
-     */
-    protected string $apiKey = '';
-
-    /**
-     * True if an OAuth access token is set as API key.
+     * @param  \GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\HttpAdapterContract|null  $client
      *
-     * @var null|bool
-     */
-    protected ?bool $oauthAccess = null;
-
-    /**
-     * @var array
-     */
-    protected array $versionStrings = [];
-
-    /**
-     * @var array
-     */
-    protected array $endpoints = [];
-
-    /**
-     * @param \GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\MollieHttpAdapterContract|null $client
-     * @param MollieHttpAdapterPickerContract|null $adapterPicker,
-     * @param IdempotencyKeyGeneratorContract|null $idempotencyKeyGenerator,
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function __construct(
@@ -166,292 +146,48 @@ class MollieApiClient
         $adapterPicker = $adapterPicker ?: new MollieHttpAdapterPicker;
         $this->httpClient = $adapterPicker->pickHttpAdapter($client);
 
-        $compatibilityChecker = new CompatibilityChecker;
-        $compatibilityChecker->checkCompatibility();
+        CompatibilityChecker::make()->checkCompatibility();
 
-        $this->initializeEndpoints();
-        $this->initializeVersionStrings();
-        $this->initializeIdempotencyKeyGenerator($idempotencyKeyGenerator);
+        $this->idempotencyKeyGenerator = $idempotencyKeyGenerator ?? new DefaultIdempotencyKeyGenerator;
+
+        $this->initializeTraits();
     }
 
-    private function initializeEndpoints(): void
+    protected function defaultHeaders(): array
     {
-        $endpointClasses = [
-            'balances' => BalanceEndpointCollection::class,
-            'payments' => PaymentEndpointCollection::class,
-            'paymentRefunds' => PaymentRefundEndpointCollection::class,
-
-            // 'balances' => BalanceEndpoint::class,
-            'balanceReports' => BalanceReportEndpoint::class,
-            'balanceTransactions' => BalanceTransactionEndpoint::class,
-            'chargebacks' => ChargebackEndpoint::class,
-            'clients' => ClientEndpoint::class,
-            'clientLinks' => ClientLinkEndpoint::class,
-            'customerPayments' => CustomerPaymentsEndpoint::class,
-            'customers' => CustomerEndpoint::class,
-            'invoices' => InvoiceEndpoint::class,
-            'mandates' => MandateEndpoint::class,
-            'methods' => MethodEndpoint::class,
-            'methodIssuers' => MethodIssuerEndpoint::class,
-            'onboarding' => OnboardingEndpoint::class,
-            'orderLines' => OrderLineEndpoint::class,
-            'orderPayments' => OrderPaymentEndpoint::class,
-            'orderRefunds' => OrderRefundEndpoint::class,
-            'orders' => OrderEndpoint::class,
-            'organizationPartners' => OrganizationPartnerEndpoint::class,
-            'organizations' => OrganizationEndpoint::class,
-            'paymentCaptures' => PaymentCaptureEndpoint::class,
-            'paymentChargebacks' => PaymentChargebackEndpoint::class,
-            'paymentLinks' => PaymentLinkEndpoint::class,
-            'paymentLinkPayments' => PaymentLinkPaymentEndpoint::class,
-            // 'paymentRefunds' => PaymentRefundEndpoint::class,
-            'paymentRoutes' => PaymentRouteEndpoint::class,
-            // 'payments' => PaymentEndpoint::class,
-            'permissions' => PermissionEndpoint::class,
-            'profiles' => ProfileEndpoint::class,
-            'profileMethods' => ProfileMethodEndpoint::class,
-            'refunds' => RefundEndpoint::class,
-            'settlementCaptures' => SettlementCaptureEndpoint::class,
-            'settlementChargebacks' => SettlementChargebackEndpoint::class,
-            'settlementPayments' => SettlementPaymentEndpoint::class,
-            'settlementRefunds' => SettlementRefundEndpoint::class,
-            'settlements' => SettlementsEndpoint::class,
-            'shipments' => OrderShipmentEndpoint::class,
-            'subscriptions' => SubscriptionEndpoint::class,
-            'subscriptionPayments' => SubscriptionPaymentEndpoint::class,
-            'terminals' => TerminalEndpoint::class,
-            'wallets' => WalletEndpoint::class,
+        return [
+            'X-Mollie-Client-Info' => php_uname(),
+            'Accept' => 'application/json',
         ];
-
-        foreach ($endpointClasses as $name => $class) {
-            $this->endpoints[$name] = $class;
-        }
     }
 
-    private function initializeVersionStrings(): void
+    public function getHttpClient(): HttpAdapterContract
     {
-        $this->addVersionString("Mollie/" . self::CLIENT_VERSION);
-        $this->addVersionString("PHP/" . phpversion());
-
-        if ($clientVersion = $this->httpClient->version()) {
-            $this->addVersionString($clientVersion);
-        }
+        return $this->httpClient;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return self
-     */
-    public function setApiEndpoint($url): self
+    public function resolveBaseUrl(): string
     {
-        $this->apiEndpoint = rtrim(trim($url), '/');
-
-        return $this;
+        return rtrim($this->apiEndpoint, '/').'/'.self::API_VERSION;
     }
 
-    /**
-     * @return string
-     */
-    public function getApiEndpoint(): string
-    {
-        return $this->apiEndpoint;
-    }
-
-    /**
-     * @return array
-     */
-    public function getVersionStrings(): array
-    {
-        return $this->versionStrings;
-    }
-
-    /**
-     * @param string $apiKey The Mollie API key, starting with 'test_' or 'live_'
-     *
-     * @return MollieApiClient
-     * @throws ApiException
-     */
-    public function setApiKey(string $apiKey): self
-    {
-        $apiKey = trim($apiKey);
-
-        if (!preg_match('/^(live|test)_\w{30,}$/', $apiKey)) {
-            throw new ApiException("Invalid API key: '{$apiKey}'. An API key must start with 'test_' or 'live_' and must be at least 30 characters long.");
-        }
-
-        $this->apiKey = $apiKey;
-        $this->oauthAccess = false;
-
-        return $this;
-    }
-
-    /**
-     * @param string $accessToken OAuth access token, starting with 'access_'
-     *
-     * @return MollieApiClient
-     * @throws ApiException
-     */
-    public function setAccessToken(string $accessToken): self
-    {
-        $accessToken = trim($accessToken);
-
-        if (!preg_match('/^access_\w+$/', $accessToken)) {
-            throw new ApiException("Invalid OAuth access token: '{$accessToken}'. An access token must start with 'access_'.");
-        }
-
-        $this->apiKey = $accessToken;
-        $this->oauthAccess = true;
-
-        return $this;
-    }
-
-    /**
-     * Returns null if no API key has been set yet.
-     *
-     * @return bool|null
-     */
-    public function usesOAuth(): ?bool
-    {
-        return $this->oauthAccess;
-    }
-
-    /**
-     * @param string $versionString
-     *
-     * @return MollieApiClient
-     */
-    public function addVersionString($versionString): self
-    {
-        $this->versionStrings[] = str_replace([" ", "\t", "\n", "\r"], '-', $versionString);
-
-        return $this;
-    }
-
-    /**
-     * Perform an HTTP call. This method is used by the resource-specific classes.
-     *
-     * @param string $method
-     * @param string $path
-     * @param string|null $body
-     *
-     * @return Response
-     * @throws ApiException
-     */
-    public function performHttpCall(string $method, string $path, ?string $body = null): Response
-    {
-        $url = $this->buildApiUrl($path);
-
-        return $this->performHttpCallToFullUrl($method, $url, $body);
-    }
-
-    /**
-     * Perform an HTTP call to a full URL. This method is used by the resource-specific classes.
-     *
-     * @param string $method
-     * @param string $url
-     * @param string|null $body
-     *
-     * @return Response
-     * @throws ApiException
-     */
-    public function performHttpCallToFullUrl(string $method, string $url, ?string $body = null): Response
-    {
-        $this->ensureApiKeyIsSet();
-
-        $headers = $this->prepareHeaders($method, $body);
-        $response = $this->httpClient->send($method, $url, $headers, $body);
-
-        $this->resetIdempotencyKey();
-
-        return $response;
-    }
-
-    /**
-     * Build the full API URL for a given method.
-     *
-     * @param string $path
-     * @return string
-     */
-    private function buildApiUrl(string $path): string
-    {
-        return rtrim($this->apiEndpoint, '/') . '/' . self::API_VERSION . '/' . ltrim($path, '/');
-    }
-
-    /**
-     * Ensure that the API key is set.
-     *
-     * @throws ApiException
-     */
-    protected function ensureApiKeyIsSet(): void
-    {
-        if (empty($this->apiKey)) {
-            throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
-        }
-    }
-
-    /**
-     * Prepare the headers for the HTTP request.
-     *
-     * @param string $method
-     * @param string|null $body
-     * @return array
-     */
-    protected function prepareHeaders(string $method, ?string $body): array
-    {
-        $userAgent = implode(' ', $this->versionStrings)
-            . ($this->usesOAuth() ? " OAuth/2.0" : "");
-
-        $headers = [
-            'Accept' => "application/json",
-            'Authorization' => "Bearer {$this->apiKey}",
-            'User-Agent' => $userAgent,
-        ];
-
-        if ($body !== null) {
-            $headers['Content-Type'] = "application/json";
-        }
-
-        if (function_exists("php_uname")) {
-            $headers['X-Mollie-Client-Info'] = php_uname();
-        }
-
-        return $this->applyIdempotencyKey($headers, $method);
-    }
-
-    /**
-     * Magic getter to access the endpoints.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function __get(string $name)
-    {
-        if (isset($this->endpoints[$name])) {
-            return new $this->endpoints[$name]($this);
-        }
-
-        throw new \Exception("Undefined endpoint: $name");
-    }
-
-    /**
-     * @return array
-     */
     public function __serialize(): array
     {
-        return ['apiEndpoint' => $this->apiEndpoint];
+        return [
+            'apiEndpoint' => $this->apiEndpoint,
+            'httpClient' => $this->httpClient,
+            'idempotencyKeyGenerator' => $this->idempotencyKeyGenerator,
+            'testmode' => $this->testmode,
+            'versionStrings' => $this->versionStrings,
+        ];
     }
 
-    /**
-     * @param array $data
-     * @return void
-     * @throws IncompatiblePlatform
-     */
     public function __unserialize(array $data): void
     {
-        $this->__construct();
         $this->apiEndpoint = $data['apiEndpoint'];
+        $this->httpClient = $data['httpClient'];
+        $this->idempotencyKeyGenerator = $data['idempotencyKeyGenerator'];
+        $this->testmode = $data['testmode'];
+        $this->versionStrings = $data['versionStrings'];
     }
 }

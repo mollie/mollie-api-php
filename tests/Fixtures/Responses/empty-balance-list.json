@@ -1,0 +1,18 @@
+{
+  "count": 2,
+  "_embedded": {
+    "balances": []
+  },
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/balances-api/list-balances",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "https://api.mollie.com/v2/balances?limit=5",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": null
+  }
+}

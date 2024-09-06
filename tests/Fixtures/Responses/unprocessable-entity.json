@@ -1,0 +1,5 @@
+{
+  "status": 422,
+  "title": "Unprocessable Entity",
+  "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?"
+}

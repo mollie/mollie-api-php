@@ -9,49 +9,26 @@ use Throwable;
 
 class ApiException extends \Exception
 {
-    /**
-     * @var string
-     */
     protected ?string $field = null;
 
-    /**
-     * @var string
-     */
     protected string $plainMessage;
 
-    /**
-     * @var RequestInterface|null
-     */
     protected ?RequestInterface $request;
 
-    /**
-     * @var ResponseInterface|null
-     */
     protected ?ResponseInterface $response;
 
     /**
      * ISO8601 representation of the moment this exception was thrown
-     *
-     * @var \DateTimeImmutable
      */
     protected \DateTimeImmutable $raisedAt;
 
-    /**
-     * @var array
-     */
     protected array $links = [];
 
     /**
-     * @param string $message
-     * @param int $code
-     * @param string|null $field
-     * @param RequestInterface|null $request
-     * @param ResponseInterface|null $response
-     * @param Throwable|null $previous
      * @throws ApiException
      */
     public function __construct(
-        string $message = "",
+        string $message = '',
         int $code = 0,
         ?string $field = null,
         ?RequestInterface $request = null,
@@ -60,13 +37,13 @@ class ApiException extends \Exception
     ) {
         $this->plainMessage = $message;
 
-        $this->raisedAt = new \DateTimeImmutable();
+        $this->raisedAt = new \DateTimeImmutable;
 
         $formattedRaisedAt = $this->raisedAt->format(DateTime::ATOM);
-        $message = "[{$formattedRaisedAt}] " . $message;
+        $message = "[{$formattedRaisedAt}] ".$message;
 
         if (! empty($field)) {
-            $this->field = (string)$field;
+            $this->field = (string) $field;
             $message .= ". Field: {$this->field}";
         }
 
@@ -98,75 +75,33 @@ class ApiException extends \Exception
         parent::__construct($message, $code, $previous);
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @param ?RequestInterface $request
-     * @param Throwable|null $previous
-     * @return ApiException
-     * @throws ApiException
-     */
-    public static function createFromResponse(ResponseInterface $response, ?RequestInterface $request = null, ?Throwable $previous = null): self
-    {
-        $object = static::parseResponseBody($response);
-
-        $field = null;
-        if (! empty($object->field)) {
-            $field = $object->field;
-        }
-
-        return new self(
-            "Error executing API call ({$object->status}: {$object->title}): {$object->detail}",
-            $response->getStatusCode(),
-            $field,
-            $request,
-            $response,
-            $previous
-        );
-    }
-
-    /**
-     * @return string|null
-     */
     public function getField(): ?string
     {
         return $this->field;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDocumentationUrl(): ?string
     {
         return $this->getUrl('documentation');
     }
 
-    /**
-     * @return string|null
-     */
     public function getDashboardUrl(): ?string
     {
         return $this->getUrl('dashboard');
     }
 
-    /**
-     * @return ResponseInterface|null
-     */
     public function getResponse(): ?ResponseInterface
     {
         return $this->response;
     }
 
-    /**
-     * @return bool
-     */
     public function hasResponse(): bool
     {
-        return ! ! $this->response;
+        return (bool) $this->response;
     }
 
     /**
-     * @param string $key
-     * @return bool
+     * @param  string  $key
      */
     public function hasLink($key): bool
     {
@@ -174,8 +109,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param string $key
-     * @return \stdClass|null
+     * @param  string  $key
      */
     public function getLink($key): ?\stdClass
     {
@@ -187,8 +121,7 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param string $key
-     * @return string|null
+     * @param  string  $key
      */
     public function getUrl($key): ?string
     {
@@ -199,9 +132,6 @@ class ApiException extends \Exception
         return null;
     }
 
-    /**
-     * @return null|RequestInterface
-     */
     public function getRequest(): ?RequestInterface
     {
         return $this->request;
@@ -209,8 +139,6 @@ class ApiException extends \Exception
 
     /**
      * Get the ISO8601 representation of the moment this exception was thrown
-     *
-     * @return \DateTimeImmutable
      */
     public function getRaisedAt(): \DateTimeImmutable
     {
@@ -218,8 +146,8 @@ class ApiException extends \Exception
     }
 
     /**
-     * @param ResponseInterface $response
-     * @return \stdClass
+     * @param  ResponseInterface  $response
+     *
      * @throws ApiException
      */
     protected static function parseResponseBody($response): \stdClass
@@ -237,8 +165,6 @@ class ApiException extends \Exception
 
     /**
      * Retrieve the plain exception message.
-     *
-     * @return string
      */
     public function getPlainMessage(): string
     {

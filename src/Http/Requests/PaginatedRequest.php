@@ -2,36 +2,27 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Query\PaginatedQuery;
+use Mollie\Api\Http\Request;
+use Mollie\Api\Types\Method;
 
 abstract class PaginatedRequest extends Request
 {
     /**
      * Define the HTTP method.
      */
-    protected string $method = MollieApiClient::HTTP_GET;
+    protected static string $method = Method::GET;
 
-    public ?string $from = null;
-
-    public ?int $limit = null;
-
-    public array $filters = [];
+    private ?PaginatedQuery $query = null;
 
     public function __construct(
-        array $filters = [],
-        ?string $from = null,
-        ?int $limit = null,
+        ?PaginatedQuery $query = null
     ) {
-        $this->filters = $filters;
-        $this->from = $from;
-        $this->limit = $limit;
+        $this->query = $query;
     }
 
-    public function getQuery(): array
+    protected function defaultQuery(): array
     {
-        return array_merge([
-            'from' => $this->from,
-            'limit' => $this->limit,
-        ], $this->filters);
+        return $this->query?->toArray() ?? [];
     }
 }

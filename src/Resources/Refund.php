@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Types\RefundStatus;
 
 class Refund extends BaseResource
@@ -25,6 +25,7 @@ class Refund extends BaseResource
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -90,9 +91,6 @@ class Refund extends BaseResource
      */
     public $metadata;
 
-    /**
-     * @return bool
-     */
     public function canBeCanceled(): bool
     {
         return $this->isQueued() || $this->isPending();
@@ -100,8 +98,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund queued?
-     *
-     * @return bool
      */
     public function isQueued(): bool
     {
@@ -110,8 +106,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund pending?
-     *
-     * @return bool
      */
     public function isPending(): bool
     {
@@ -120,8 +114,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund processing?
-     *
-     * @return bool
      */
     public function isProcessing(): bool
     {
@@ -130,8 +122,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund transferred to consumer?
-     *
-     * @return bool
      */
     public function isTransferred(): bool
     {
@@ -140,8 +130,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund failed?
-     *
-     * @return bool
      */
     public function isFailed(): bool
     {
@@ -150,8 +138,6 @@ class Refund extends BaseResource
 
     /**
      * Is this refund canceled?
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -161,14 +147,14 @@ class Refund extends BaseResource
     /**
      * Cancel the refund.
      *
-     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel(): void
     {
-        $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_DELETE,
-            $this->_links->self->href
-        );
+        $this
+            ->connector
+            ->send(new DynamicDeleteRequest(
+                $this->_links->self->href
+            ));
     }
 }

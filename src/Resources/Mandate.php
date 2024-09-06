@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Types\MandateStatus;
 
 class Mandate extends BaseResource
@@ -59,25 +59,16 @@ class Mandate extends BaseResource
      */
     public $_links;
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool
     {
         return $this->status === MandateStatus::VALID;
     }
 
-    /**
-     * @return bool
-     */
     public function isPending(): bool
     {
         return $this->status === MandateStatus::PENDING;
     }
 
-    /**
-     * @return bool
-     */
     public function isInvalid(): bool
     {
         return $this->status === MandateStatus::INVALID;
@@ -85,8 +76,6 @@ class Mandate extends BaseResource
 
     /**
      * Revoke the mandate
-     *
-     * @return null|Mandate
      */
     public function revoke(): ?Mandate
     {
@@ -94,22 +83,16 @@ class Mandate extends BaseResource
             return $this;
         }
 
-        $body = null;
-        if ($this->client->usesOAuth()) {
-            $body = json_encode([
-                "testmode" => $this->mode === "test" ? true : false,
-            ]);
-        }
+        $body = [
+            'testmode' => $this->mode === 'test' ? true : false,
+        ];
 
-        $result = $this->client->performHttpCallToFullUrl(
-            MollieApiClient::HTTP_DELETE,
-            $this->_links->self->href,
-            $body
-        );
-
-        /** @var null|Mandate */
-        return $result->isEmpty()
-            ? null
-            : ResourceFactory::createFromApiResult($this->client, $result->decode(), self::class);
+        return $this
+            ->connector
+            ->send(new DynamicDeleteRequest(
+                $this->_links->self->href,
+                self::class,
+                $this->mode === 'test'
+            ));
     }
 }

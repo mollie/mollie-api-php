@@ -5,21 +5,24 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Types\Method;
 
 abstract class BaseEndpoint
 {
-    public const REST_CREATE = MollieApiClient::HTTP_POST;
-    public const REST_UPDATE = MollieApiClient::HTTP_PATCH;
-    public const REST_READ = MollieApiClient::HTTP_GET;
-    public const REST_LIST = MollieApiClient::HTTP_GET;
-    public const REST_DELETE = MollieApiClient::HTTP_DELETE;
+    public const REST_CREATE = Method::POST;
+
+    public const REST_UPDATE = Method::PATCH;
+
+    public const REST_READ = Method::GET;
+
+    public const REST_LIST = Method::GET;
+
+    public const REST_DELETE = Method::DELETE;
 
     protected MollieApiClient $client;
 
     /**
      * The resource path.
-     *
-     * @var string
      */
     protected string $resourcePath;
 
@@ -30,37 +33,32 @@ abstract class BaseEndpoint
         $this->client = $api;
     }
 
-    /**
-     * @param array $filters
-     * @return string
-     */
     protected function buildQueryString(array $filters): string
     {
         if (empty($filters)) {
-            return "";
+            return '';
         }
 
         foreach ($filters as $key => $value) {
             if ($value === true) {
-                $filters[$key] = "true";
+                $filters[$key] = 'true';
             }
 
             if ($value === false) {
-                $filters[$key] = "false";
+                $filters[$key] = 'false';
             }
         }
 
-        return "?" . http_build_query($filters, "", "&");
+        return '?'.http_build_query($filters, '', '&');
     }
 
     /**
-     * @return string
      * @throws ApiException
      */
     public function getResourcePath(): string
     {
-        if (strpos($this->resourcePath, "_") !== false) {
-            [$parentResource, $childResource] = explode("_", $this->resourcePath, 2);
+        if (strpos($this->resourcePath, '_') !== false) {
+            [$parentResource, $childResource] = explode('_', $this->resourcePath, 2);
 
             $this->guardAgainstMissingParentId($parentResource);
 
@@ -79,10 +77,6 @@ abstract class BaseEndpoint
         return "{$this->getResourcePath()}/{$id}";
     }
 
-    /**
-     * @param array $body
-     * @return null|string
-     */
     protected function parseRequestBody(array $body): ?string
     {
         if (empty($body)) {

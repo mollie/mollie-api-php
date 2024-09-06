@@ -1,0 +1,109 @@
+<?php
+
+namespace Mollie\Api;
+
+use Mollie\Api\Helpers\Arr;
+use ReflectionClass;
+use ReflectionProperty;
+
+class Helpers
+{
+    /**
+     * Returns all traits used by a class, its parent classes and trait of their traits.
+     *
+     * @param  object|class-string  $class
+     * @return array<class-string, class-string>
+     */
+    public static function classUsesRecursive(object|string $class): array
+    {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+
+        $results = [];
+
+        foreach (array_reverse(class_parents($class)) + [$class => $class] as $class) {
+            $results += static::traitUsesRecursive($class);
+        }
+
+        return array_unique($results);
+    }
+
+    /**
+     * Returns all traits used by a trait and its traits.
+     *
+     * @param  class-string  $trait
+     * @return array<class-string, class-string>
+     */
+    public static function traitUsesRecursive(string $trait): array
+    {
+        /** @var array<class-string, class-string> $traits */
+        $traits = class_uses($trait) ?: [];
+
+        foreach ($traits as $trait) {
+            $traits += static::traitUsesRecursive($trait);
+        }
+
+        return $traits;
+    }
+
+    /**
+     * Get the properties of a class.
+     *
+     * @param  int  $flag
+     * @return ReflectionProperty[]
+     */
+    public static function getProperties(string|object $class, $flag = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE): array
+    {
+        $reflection = new ReflectionClass($class);
+
+        return $reflection->getProperties($flag);
+    }
+
+    /**
+     * Filter out the properties that are not part of the given class.
+     */
+    public static function filterByProperties(string|object $class, array $array): array
+    {
+        $properties = array_map(
+            fn (ReflectionProperty $prop) => $prop->getName(),
+            static::getProperties($class)
+        );
+
+        // Filter out the properties that are not part of the CreatePaymentData object
+        return array_filter(
+            $array,
+            fn ($key) => ! in_array($key, $properties, true),
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+
+    /**
+     * Compose a value to a new form if it is truthy.
+     *
+     * @param  mixed  $value
+     * @param  string|callable  $composable
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public static function compose($value, $composable, $default = null)
+    {
+        $composable = is_callable($composable)
+            ? $composable
+            : fn ($value) => new $composable($value);
+
+        return (bool) $value ? $composable($value) : $default;
+    }
+
+    /**
+     * Extract a boolean value if not already a boolean.
+     *
+     * @param  mixed  $value
+     */
+    public static function extractBool($value, string $key, bool $default = false): bool
+    {
+        return is_bool($value)
+            ? $value
+            : Arr::get($value, $key, $default);
+    }
+}

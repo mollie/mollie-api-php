@@ -58,135 +58,129 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return null|Customer
      * @throws ApiException
      */
     public function update(): ?Customer
     {
         $body = [
-            "name" => $this->name,
-            "email" => $this->email,
-            "locale" => $this->locale,
-            "metadata" => $this->metadata,
+            'name' => $this->name,
+            'email' => $this->email,
+            'locale' => $this->locale,
+            'metadata' => $this->metadata,
         ];
 
         /** @var null|Customer */
-        return $this->client->customers->update($this->id, $body);
+        return $this->connector->customers->update($this->id, $body);
     }
 
     /**
-     * @param array $options
-     * @param array $filters
-     *
      * @return Payment
+     *
      * @throws ApiException
      */
     public function createPayment(array $options = [], array $filters = [])
     {
-        return $this->client->customerPayments->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->customerPayments->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
      * Get all payments for this customer
      *
      * @return PaymentCollection
+     *
      * @throws ApiException
      */
     public function payments()
     {
-        return $this->client->customerPayments->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->customerPayments->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
-     * @param array $options
-     * @param array $filters
-     *
      * @return Subscription
+     *
      * @throws ApiException
      */
     public function createSubscription(array $options = [], array $filters = [])
     {
-        return $this->client->subscriptions->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->subscriptions->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
-     * @param string $subscriptionId
-     * @param array $parameters
-     *
+     * @param  string  $subscriptionId
      * @return Subscription
+     *
      * @throws ApiException
      */
     public function getSubscription($subscriptionId, array $parameters = [])
     {
-        return $this->client->subscriptions->getFor($this, $subscriptionId, $this->withPresetOptions($parameters));
+        return $this->connector->subscriptions->getFor($this, $subscriptionId, $this->withPresetOptions($parameters));
     }
 
     /**
-     * @param string $subscriptionId
-     *
+     * @param  string  $subscriptionId
      * @return null
+     *
      * @throws ApiException
      */
     public function cancelSubscription($subscriptionId)
     {
-        return $this->client->subscriptions->cancelFor($this, $subscriptionId, $this->getPresetOptions());
+        return $this->connector->subscriptions->cancelFor($this, $subscriptionId, $this->getPresetOptions());
     }
 
     /**
      * Get all subscriptions for this customer
      *
      * @return SubscriptionCollection
+     *
      * @throws ApiException
      */
     public function subscriptions()
     {
-        return $this->client->subscriptions->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->subscriptions->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
-     * @param array $options
-     * @param array $filters
-     *
      * @return Mandate
+     *
      * @throws ApiException
      */
     public function createMandate(array $options = [], array $filters = [])
     {
-        return $this->client->mandates->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->mandates->createFor($this, $this->withPresetOptions($options), $filters);
     }
 
     /**
-     * @param string $mandateId
-     * @param array $parameters
-     *
+     * @param  string  $mandateId
      * @return Mandate
+     *
      * @throws ApiException
      */
     public function getMandate($mandateId, array $parameters = [])
     {
-        return $this->client->mandates->getFor($this, $mandateId, $parameters);
+        return $this->connector->mandates->getFor($this, $mandateId, $parameters);
     }
 
     /**
-     * @param string $mandateId
-     *
+     * @param  string  $mandateId
      * @return null
+     *
      * @throws ApiException
      */
     public function revokeMandate($mandateId)
     {
-        return $this->client->mandates->revokeFor($this, $mandateId, $this->getPresetOptions());
+        return $this->connector->mandates->revokeFor($this, $mandateId, $this->getPresetOptions());
     }
 
     /**
      * Get all mandates for this customer
      *
      * @return MandateCollection
+     *
      * @throws ApiException
      */
     public function mandates()
     {
-        return $this->client->mandates->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->mandates->listFor($this, null, null, $this->getPresetOptions());
     }
 
     /**
@@ -202,8 +196,6 @@ class Customer extends BaseResource
 
     /**
      * Helper function to check for specific payment method mandate with status valid
-     *
-     * @return bool
      */
     public function hasValidMandateForMethod($method): bool
     {

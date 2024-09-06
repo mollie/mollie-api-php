@@ -4,7 +4,7 @@ namespace Tests\Mollie\Api\Endpoints;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class ClientLinkEndpointTest extends BaseEndpointTest
 {
@@ -17,8 +17,8 @@ class ClientLinkEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/client-links",
+                'POST',
+                '/v2/client-links',
                 [],
                 '{
                     "owner": {
@@ -46,26 +46,26 @@ class ClientLinkEndpointTest extends BaseEndpointTest
         );
 
         $clientLink = $this->apiClient->clientLinks->create([
-            "owner" => [
-                "email" => "foo@test.com",
-                "givenName" => "foo",
-                "familyName" => "bar",
-                "locale" => "nl_NL",
+            'owner' => [
+                'email' => 'foo@test.com',
+                'givenName' => 'foo',
+                'familyName' => 'bar',
+                'locale' => 'nl_NL',
             ],
-            "name" => "Foo Company",
-            "address" => [
-                "streetAndNumber" => "Keizersgracht 313",
-                "postalCode" => "1016 EE",
-                "city" => "Amsterdam",
-                "country" => "nl",
+            'name' => 'Foo Company',
+            'address' => [
+                'streetAndNumber' => 'Keizersgracht 313',
+                'postalCode' => '1016 EE',
+                'city' => 'Amsterdam',
+                'country' => 'nl',
             ],
-            "registrationNumber" => "30204462",
-            "vatNumber" => "NL123456789B01",
+            'registrationNumber' => '30204462',
+            'vatNumber' => 'NL123456789B01',
         ]);
 
         $this->assertEquals($clientLink->id, $client_link_id);
-        $this->assertLinkObject("https://my.mollie.com/dashboard/client-link/finalize/{$client_link_id}", "text/html", $clientLink->_links->clientLink);
-        $this->assertLinkObject("https://docs.mollie.com/reference/v2/clients-api/create-client-link", "text/html", $clientLink->_links->documentation);
+        $this->assertLinkObject("https://my.mollie.com/dashboard/client-link/finalize/{$client_link_id}", 'text/html', $clientLink->_links->clientLink);
+        $this->assertLinkObject('https://docs.mollie.com/reference/v2/clients-api/create-client-link', 'text/html', $clientLink->_links->documentation);
 
         $redirectLink = $clientLink->getRedirectUrl($app_id, $state, $scopes, $approval_prompt);
         $this->assertEquals("https://my.mollie.com/dashboard/client-link/finalize/{$client_link_id}?{$expected_url_query}", $redirectLink);
@@ -75,7 +75,7 @@ class ClientLinkEndpointTest extends BaseEndpointTest
     {
         return str_replace(
             [
-                "<<client_link_id>>",
+                '<<client_link_id>>',
             ],
             [
                 $client_link_id,

@@ -10,20 +10,20 @@ use Mollie\Api\Types\OrderStatus;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class OrderPaymentEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
     public function testCreateOrderPayment()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_stTC2WHAuS/payments",
+                'POST',
+                '/v2/orders/ord_stTC2WHAuS/payments',
                 [],
                 '{
                     "method": "banktransfer",
@@ -153,7 +153,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
     protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
-            "<<order_id>>",
+            '<<order_id>>',
             $order_id,
             '{
              "resource": "order",
@@ -171,7 +171,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
                  "value": "0.00",
                  "currency": "EUR"
              },
-             "status": "' . $order_status . '",
+             "status": "'.$order_status.'",
              "metadata": {
                  "order_id": "1337",
                  "description": "Lego cars"

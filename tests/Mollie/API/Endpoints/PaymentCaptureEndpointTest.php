@@ -6,14 +6,13 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\Payment;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class PaymentCaptureEndpointTest extends BaseEndpointTest
 {
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
-
 
     public function testCreateCaptureForPaymentResource()
     {
@@ -33,8 +32,8 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
             $this->getPayment('tr_WDqYK6vllg'),
             [
                 'amount' => [
-                    "value" => "1027.99",
-                    "currency" => "EUR",
+                    'value' => '1027.99',
+                    'currency' => 'EUR',
                 ],
             ]
         );
@@ -96,7 +95,7 @@ class PaymentCaptureEndpointTest extends BaseEndpointTest
                 '{
                     "_embedded": {
                         "captures": [
-                            ' . $this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT') . '
+                            '.$this->getCaptureFixture('tr_WDqYK6vllg', 'cpt_4qqhO89gsT').'
                         ]
                     },
                     "count": 1,

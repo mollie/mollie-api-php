@@ -1,0 +1,51 @@
+<?php
+
+namespace Tests\Http\Adapter;
+
+use Mollie\Api\Contracts\HttpAdapterContract;
+use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Traits\HasDefaultFactories;
+use Tests\Fixtures\MockResponse;
+
+class MockMollieHttpAdapter implements HttpAdapterContract
+{
+    use HasDefaultFactories;
+
+    /**
+     * @var array<string, MockResponse>
+     */
+    private array $expectedResponses;
+
+    public function __construct(array $expectedResponses = [])
+    {
+        $this->expectedResponses = $expectedResponses;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sendRequest(PendingRequest $pendingRequest): Response
+    {
+        if (! Arr::has($this->expectedResponses, $pendingRequest->getRequest()::class)) {
+            throw new \RuntimeException('The request class '.$pendingRequest->getRequest()::class.' is not expected.');
+        }
+
+        $mockedResponse = $this->expectedResponses[$pendingRequest->getRequest()::class];
+
+        return new Response(
+            $mockedResponse->createPsrResponse(),
+            $pendingRequest->createPsrRequest(),
+            $pendingRequest,
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function version(): string
+    {
+        return 'mock-client/2.0';
+    }
+}

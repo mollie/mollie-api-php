@@ -11,11 +11,12 @@ use stdClass;
 
 class CursorCollectionTest extends TestCase
 {
-    public function testCanGetNextCollectionResultWhenNextLinkIsAvailable()
+    /** @test */
+    public function can_get_next_collection_result_when_next_link_is_available()
     {
         $mockedClient = $this->createMock(MollieApiClient::class);
         $mockedClient->expects($this->once())
-            ->method('performHttpCallToFullUrl')
+            ->method('send')
             ->willReturn($this->arrayToResponse([
                 'count' => 1,
                 '_links' => [
@@ -200,7 +201,7 @@ class CursorCollectionTest extends TestCase
     /**
      * Convert an array to an object recursively.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return mixed
      */
     private function arrayToObject($data)
@@ -209,7 +210,7 @@ class CursorCollectionTest extends TestCase
             return $data;
         }
 
-        $obj = new stdClass();
+        $obj = new stdClass;
 
         foreach ($data as $key => $value) {
             $obj->$key = $this->arrayToObject($value);

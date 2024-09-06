@@ -9,20 +9,20 @@ use Mollie\Api\Resources\Shipment;
 use Mollie\Api\Resources\ShipmentCollection;
 use Mollie\Api\Types\OrderLineStatus;
 use Mollie\Api\Types\OrderStatus;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class ShipmentEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
     public function testCreateShipment()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_pbjz8x/shipments",
+                'POST',
+                '/v2/orders/ord_pbjz8x/shipments',
                 [],
                 '{
                     "lines": [
@@ -39,7 +39,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+                $this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x')
             )
         );
 
@@ -63,8 +63,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_pbjz8x/shipments",
+                'POST',
+                '/v2/orders/ord_pbjz8x/shipments',
                 [],
                 '{
                     "lines": []
@@ -73,7 +73,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+                $this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x')
             )
         );
 
@@ -87,18 +87,18 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U"
+                'GET',
+                '/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U'
             ),
             new Response(
                 200,
                 [],
-                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+                $this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x')
             )
         );
 
         $order = $this->getOrder('ord_pbjz8x');
-        $shipment = $this->apiClient->shipments->getFor($order, "shp_3wmsgCJN4U");
+        $shipment = $this->apiClient->shipments->getFor($order, 'shp_3wmsgCJN4U');
 
         $this->assertShipment($shipment, 'shp_3wmsgCJN4U', 'ord_pbjz8x');
     }
@@ -107,13 +107,13 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U"
+                'GET',
+                '/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U'
             ),
             new Response(
                 200,
                 [],
-                $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x")
+                $this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x')
             )
         );
 
@@ -127,8 +127,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/orders/ord_pbjz8x/shipments"
+                'GET',
+                '/v2/orders/ord_pbjz8x/shipments'
             ),
             new Response(
                 200,
@@ -137,8 +137,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
                     "count": 2,
                     "_embedded": {
                         "shipments": [
-                            ' . $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x") . ',
-                            ' . $this->getShipmentResponseFixture("shp_kjh234CASX", "ord_pbjz8x") . '
+                            '.$this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x').',
+                            '.$this->getShipmentResponseFixture('shp_kjh234CASX', 'ord_pbjz8x').'
                         ]
                     },
                     "_links": {
@@ -167,8 +167,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/orders/ord_pbjz8x/shipments"
+                'GET',
+                '/v2/orders/ord_pbjz8x/shipments'
             ),
             new Response(
                 200,
@@ -177,8 +177,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
                     "count": 2,
                     "_embedded": {
                         "shipments": [
-                            ' . $this->getShipmentResponseFixture("shp_3wmsgCJN4U", "ord_pbjz8x") . ',
-                            ' . $this->getShipmentResponseFixture("shp_kjh234CASX", "ord_pbjz8x") . '
+                            '.$this->getShipmentResponseFixture('shp_3wmsgCJN4U', 'ord_pbjz8x').',
+                            '.$this->getShipmentResponseFixture('shp_kjh234CASX', 'ord_pbjz8x').'
                         ]
                     },
                     "_links": {
@@ -208,8 +208,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "PATCH",
-                "/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U",
+                'PATCH',
+                '/v2/orders/ord_pbjz8x/shipments/shp_3wmsgCJN4U',
                 [],
                 '{
                      "tracking": {
@@ -223,8 +223,8 @@ class ShipmentEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 $this->getShipmentResponseFixture(
-                    "shp_3wmsgCJN4U",
-                    "ord_pbjz8x",
+                    'shp_3wmsgCJN4U',
+                    'ord_pbjz8x',
                     OrderLineStatus::SHIPPING,
                     '"tracking": {
                          "carrier": "PostNL",
@@ -256,7 +256,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
     protected function assertShipment($shipment, $shipment_id, $order_id)
     {
         $this->assertInstanceOf(Shipment::class, $shipment);
-        $this->assertEquals("shipment", $shipment->resource);
+        $this->assertEquals('shipment', $shipment->resource);
         $this->assertEquals($shipment_id, $shipment->id);
         $this->assertEquals($order_id, $shipment->orderId);
         $this->assertEquals('2018-08-02T09:29:56+00:00', $shipment->createdAt);
@@ -329,7 +329,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
     protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
-            "<<order_id>>",
+            '<<order_id>>',
             $order_id,
             '{
              "resource": "order",
@@ -346,7 +346,7 @@ class ShipmentEndpointTest extends BaseEndpointTest
                  "value": "0.00",
                  "currency": "EUR"
              },
-             "status": "' . $order_status . '",
+             "status": "'.$order_status.'",
              "metadata": {
                  "order_id": "1337",
                  "description": "Lego cars"
@@ -469,10 +469,10 @@ class ShipmentEndpointTest extends BaseEndpointTest
     {
         return str_replace(
             [
-                "<<order_id>>",
-                "<<shipment_id>>",
-                "<<orderline_status>>",
-                "<<tracking_info>>",
+                '<<order_id>>',
+                '<<shipment_id>>',
+                '<<orderline_status>>',
+                '<<tracking_info>>',
             ],
             [
                 $order_id,

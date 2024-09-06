@@ -4,34 +4,29 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\InteractsWithResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceFactory;
+use Mollie\Api\Traits\InteractsWithResource as TraitsInteractsWithResource;
 use RuntimeException;
 
 abstract class RestEndpoint extends BaseEndpoint
 {
-    use InteractsWithResource;
+    use TraitsInteractsWithResource;
 
     /**
      * Resource id prefix.
      * Used to validate resource id's.
-     *
-     * @var string
      */
     protected static string $resourceIdPrefix;
 
     /**
-     * @param array $body
-     * @param array $filters
-     * @return BaseResource
      * @throws ApiException
      */
     protected function createResource(array $body, array $filters): BaseResource
     {
         $result = $this->client->performHttpCall(
             self::REST_CREATE,
-            $this->getResourcePath() . $this->buildQueryString($filters),
+            $this->getResourcePath().$this->buildQueryString($filters),
             $this->parseRequestBody($body)
         );
 
@@ -41,10 +36,7 @@ abstract class RestEndpoint extends BaseEndpoint
     /**
      * Sends a PATCH request to a single Mollie API object.
      *
-     * @param string $id
-     * @param array $body
      *
-     * @return null|BaseResource
      * @throws ApiException
      */
     protected function updateResource(string $id, array $body = []): ?BaseResource
@@ -67,21 +59,20 @@ abstract class RestEndpoint extends BaseEndpoint
     /**
      * Retrieves a single object from the REST API.
      *
-     * @param string $id Id of the object to retrieve.
-     * @param array $filters
-     * @return BaseResource
+     * @param  string  $id  Id of the object to retrieve.
+     *
      * @throws ApiException
      */
     protected function readResource(string $id, array $filters): BaseResource
     {
-        if (!$this instanceof SingleResourceEndpointContract && empty($id)) {
-            throw new ApiException("Invalid resource id.");
+        if (! $this instanceof SingleResourceEndpointContract && empty($id)) {
+            throw new ApiException('Invalid resource id.');
         }
 
         $id = urlencode($id);
         $response = $this->client->performHttpCall(
             self::REST_READ,
-            $this->getPathToSingleResource($id) . $this->buildQueryString($filters)
+            $this->getPathToSingleResource($id).$this->buildQueryString($filters)
         );
 
         return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
@@ -90,16 +81,13 @@ abstract class RestEndpoint extends BaseEndpoint
     /**
      * Sends a DELETE request to a single Mollie API object.
      *
-     * @param string $id
-     * @param array $body
      *
-     * @return null|BaseResource
      * @throws ApiException
      */
     protected function deleteResource(string $id, array $body = []): ?BaseResource
     {
         if (empty($id)) {
-            throw new ApiException("Invalid resource id.");
+            throw new ApiException('Invalid resource id.');
         }
 
         $id = urlencode($id);
@@ -119,19 +107,19 @@ abstract class RestEndpoint extends BaseEndpoint
     protected function guardAgainstInvalidId(string $id): void
     {
         if (empty(static::$resourceIdPrefix)) {
-            throw new RuntimeException("Resource ID prefix is not set.");
+            throw new RuntimeException('Resource ID prefix is not set.');
         }
 
         if (empty($id) || strpos($id, static::$resourceIdPrefix) !== 0) {
             $resourceType = $this->getResourceType();
 
-            throw new ApiException("Invalid {$resourceType} ID: '{$id}'. A resource ID should start with '" . static::$resourceIdPrefix . "'.");
+            throw new ApiException("Invalid {$resourceType} ID: '{$id}'. A resource ID should start with '".static::$resourceIdPrefix."'.");
         }
     }
 
     public function getResourceType(): string
     {
-        $classBasename = basename(str_replace("\\", "/", static::getResourceClass()));
+        $classBasename = basename(str_replace('\\', '/', static::getResourceClass()));
 
         return strtolower($classBasename);
     }

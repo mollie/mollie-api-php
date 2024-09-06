@@ -9,20 +9,20 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Types\OrderStatus;
 use Mollie\Api\Types\RefundStatus;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class OrderRefundEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
     public function testCreatePartialOrderRefund()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_stTC2WHAuS/refunds",
+                'POST',
+                '/v2/orders/ord_stTC2WHAuS/refunds',
                 [],
                 '{
                      "lines": [
@@ -58,8 +58,8 @@ class OrderRefundEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_stTC2WHAuS/refunds",
+                'POST',
+                '/v2/orders/ord_stTC2WHAuS/refunds',
                 [],
                 '{
                      "lines": []
@@ -83,8 +83,8 @@ class OrderRefundEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/orders/ord_stTC2WHAuS/refunds"
+                'GET',
+                '/v2/orders/ord_stTC2WHAuS/refunds'
             ),
             new Response(
                 200,
@@ -195,9 +195,9 @@ class OrderRefundEndpointTest extends BaseEndpointTest
         $this->assertAmountObject('698.00', 'EUR', $refund->amount);
 
         $this->assertEquals($refund_status, $refund->status);
-        $this->assertEquals("2018-03-19T12:33:37+00:00", $refund->createdAt);
-        $this->assertEquals("Item not in stock, refunding", $refund->description);
-        $this->assertEquals("tr_WDqYK6vllg", $refund->paymentId);
+        $this->assertEquals('2018-03-19T12:33:37+00:00', $refund->createdAt);
+        $this->assertEquals('Item not in stock, refunding', $refund->description);
+        $this->assertEquals('tr_WDqYK6vllg', $refund->paymentId);
 
         $this->assertLinkObject(
             "https://api.mollie.com/v2/payments/tr_WDqYK6vllg/refunds/{$refund_id}",
@@ -215,7 +215,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
     protected function getOrderRefundResponseFixture($refund_id, $order_id)
     {
         return str_replace(
-            ["<<refund_id>>", "<<order_id>>"],
+            ['<<refund_id>>', '<<order_id>>'],
             [$refund_id, $order_id],
             '{
                     "resource": "refund",
@@ -293,7 +293,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
     protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
-            "<<order_id>>",
+            '<<order_id>>',
             $order_id,
             '{
              "resource": "order",
@@ -311,7 +311,7 @@ class OrderRefundEndpointTest extends BaseEndpointTest
                  "value": "0.00",
                  "currency": "EUR"
              },
-             "status": "' . $order_status . '",
+             "status": "'.$order_status.'",
              "metadata": {
                  "order_id": "1337",
                  "description": "Lego cars"

@@ -2,35 +2,36 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Http\Response;
 
 abstract class BaseCollection extends \ArrayObject
 {
-    protected MollieApiClient $client;
+    protected Connector $connector;
+
+    protected ?Response $response = null;
 
     /**
      * The name of the collection resource in Mollie's API.
-     *
-     * @var string
      */
     public static string $collectionName = '';
 
-    /**
-     * @var \stdClass|null
-     */
     public ?\stdClass $_links = null;
 
     /**
-     * @param MollieApiClient $client
-     * @param array|object $items
-     * @param \stdClass|null $_links
+     * @param  array|object  $items
      */
-    public function __construct(MollieApiClient $client, $items = [], ?\stdClass $_links = null)
+    public function __construct(Connector $connector, Response $response, $items = [], ?\stdClass $_links = null)
     {
         parent::__construct($items);
 
         $this->_links = $_links;
-        $this->client = $client;
+        $this->connector = $connector;
+    }
+
+    public function getResponse(): ?Response
+    {
+        return $this->response;
     }
 
     public function contains(callable $callback): bool
@@ -49,7 +50,7 @@ abstract class BaseCollection extends \ArrayObject
         $filteredItems = array_filter($this->getArrayCopy(), $callback);
 
         /** @phpstan-ignore-next-line */
-        return new static($this->client, $filteredItems,  $this->_links);
+        return new static($this->connector, $filteredItems,  $this->_links);
     }
 
     public static function getCollectionResourceName(): string

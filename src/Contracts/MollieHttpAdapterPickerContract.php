@@ -5,9 +5,7 @@ namespace Mollie\Api\Contracts;
 interface MollieHttpAdapterPickerContract
 {
     /**
-     * @param \GuzzleHttp\ClientInterface|MollieHttpAdapterContract $httpClient
-     *
-     * @return MollieHttpAdapterContract
+     * @param  \GuzzleHttp\ClientInterface|HttpAdapterContract  $httpClient
      */
-    public function pickHttpAdapter($httpClient): MollieHttpAdapterContract;
+    public function pickHttpAdapter($httpClient): HttpAdapterContract;
 }

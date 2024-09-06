@@ -14,6 +14,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * Id of the order.
      *
      * @example ord_8wmqcHMN4U
+     *
      * @var string
      */
     public $id;
@@ -22,6 +23,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * The profile ID this order belongs to.
      *
      * @example pfl_xH2kP6Nc6X
+     *
      * @var string
      */
     public $profileId;
@@ -70,7 +72,9 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * The date of birth of your customer, if available.
+     *
      * @example 1976-08-21
+     *
      * @var string|null
      */
     public $consumerDateOfBirth;
@@ -93,6 +97,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * The payment method last used when paying for the order.
      *
      * @see Method
+     *
      * @var string
      */
     public $method;
@@ -144,6 +149,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the order was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $createdAt;
@@ -152,6 +158,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the order the order will expire in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiresAt;
@@ -160,6 +167,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime if the order is expired, the time of expiration will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiredAt;
@@ -168,6 +176,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime if the order has been paid, the time of payment will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $paidAt;
@@ -176,6 +185,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime if the order has been authorized, the time of authorization will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $authorizedAt;
@@ -184,6 +194,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime if the order has been canceled, the time of cancellation will be present in ISO 8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $canceledAt;
@@ -192,6 +203,7 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime if the order is completed, the time of completion will be present in ISO 8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $completedAt;
@@ -235,8 +247,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order created?
-     *
-     * @return bool
      */
     public function isCreated(): bool
     {
@@ -245,8 +255,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order paid for?
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {
@@ -255,8 +263,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order authorized?
-     *
-     * @return bool
      */
     public function isAuthorized(): bool
     {
@@ -265,8 +271,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order canceled?
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -275,8 +279,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order shipping?
-     *
-     * @return bool
      */
     public function isShipping(): bool
     {
@@ -285,8 +287,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order completed?
-     *
-     * @return bool
      */
     public function isCompleted(): bool
     {
@@ -295,8 +295,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order expired?
-     *
-     * @return bool
      */
     public function isExpired(): bool
     {
@@ -305,8 +303,6 @@ class Order extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * Is this order completed?
-     *
-     * @return bool
      */
     public function isPending(): bool
     {
@@ -321,11 +317,12 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * be found.
      *
      * @return Order
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()
     {
-        return $this->client->orders->cancel($this->id, $this->getPresetOptions());
+        return $this->connector->orders->cancel($this->id, $this->getPresetOptions());
     }
 
     /**
@@ -334,40 +331,36 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * You can pass an empty lines array if you want to cancel all eligible lines.
      * Returns null if successful.
      *
-     * @param  array $data
-     * @return void
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancelLines(array $data): void
     {
-        $this->client->orderLines->cancelFor($this, $data);
+        $this->connector->orderLines->cancelFor($this, $data);
     }
 
     /**
      * Cancels all eligible lines for this order.
      * Returns null if successful.
      *
-     * @param  array $data
-     * @return void
+     * @param  array  $data
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancelAllLines($data = []): void
     {
         $data['lines'] = [];
 
-        $this->client->orderLines->cancelFor($this, $data);
+        $this->connector->orderLines->cancelFor($this, $data);
     }
 
     /**
      * Get the line value objects
-     *
-     * @return OrderLineCollection
      */
     public function lines(): OrderLineCollection
     {
         /** @var OrderLineCollection */
         return ResourceFactory::createBaseResourceCollection(
-            $this->client,
+            $this->connector,
             OrderLine::class,
             $this->lines
         );
@@ -377,22 +370,16 @@ class Order extends BaseResource implements EmbeddedResourcesContract
      * Create a shipment for some order lines. You can provide an empty array for the
      * "lines" option to include all unshipped lines for this order.
      *
-     * @param array $options
      *
-     * @return Shipment
      * @throws ApiException
      */
     public function createShipment(array $options = []): Shipment
     {
-        return $this->client->shipments->createFor($this, $this->withPresetOptions($options));
+        return $this->connector->shipments->createFor($this, $this->withPresetOptions($options));
     }
 
     /**
      * Create a shipment for all unshipped order lines.
-     *
-     * @param array $options
-     *
-     * @return Shipment
      */
     public function shipAll(array $options = []): Shipment
     {
@@ -404,34 +391,29 @@ class Order extends BaseResource implements EmbeddedResourcesContract
     /**
      * Retrieve a specific shipment for this order.
      *
-     * @param string $shipmentId
-     * @param array $parameters
-     *
+     * @param  string  $shipmentId
      * @return Shipment
+     *
      * @throws ApiException
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
-        return $this->client->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
+        return $this->connector->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
     }
 
     /**
      * Get all shipments for this order.
      *
-     * @param array $parameters
      *
-     * @return ShipmentCollection
      * @throws ApiException
      */
     public function shipments(array $parameters = []): ShipmentCollection
     {
-        return $this->client->shipments->listFor($this, $this->withPresetOptions($parameters));
+        return $this->connector->shipments->listFor($this, $this->withPresetOptions($parameters));
     }
 
     /**
      * Get the checkout URL where the customer can complete the payment.
-     *
-     * @return string|null
      */
     public function getCheckoutUrl(): ?string
     {
@@ -445,20 +427,15 @@ class Order extends BaseResource implements EmbeddedResourcesContract
     /**
      * Refund specific order lines.
      *
-     * @param  array  $data
-     * @return Refund
      * @throws ApiException
      */
     public function refund(array $data): Refund
     {
-        return $this->client->orderRefunds->createFor($this, $this->withPresetOptions($data));
+        return $this->connector->orderRefunds->createFor($this, $this->withPresetOptions($data));
     }
 
     /**
      * Refund all eligible order lines.
-     *
-     * @param  array  $data
-     * @return Refund
      */
     public function refundAll(array $data = []): Refund
     {
@@ -470,53 +447,49 @@ class Order extends BaseResource implements EmbeddedResourcesContract
     /**
      * Retrieves all refunds associated with this order
      *
-     * @return RefundCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function refunds(): RefundCollection
     {
-        return $this->client->orderRefunds->pageFor($this);
+        return $this->connector->orderRefunds->pageFor($this);
     }
 
     /**
      * Saves the order's updated billingAddress and/or shippingAddress.
      *
-     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(): ?Order
     {
         $body = [
-            "billingAddress" => $this->billingAddress,
-            "shippingAddress" => $this->shippingAddress,
-            "orderNumber" => $this->orderNumber,
-            "redirectUrl" => $this->redirectUrl,
-            "cancelUrl" => $this->cancelUrl,
-            "webhookUrl" => $this->webhookUrl,
+            'billingAddress' => $this->billingAddress,
+            'shippingAddress' => $this->shippingAddress,
+            'orderNumber' => $this->orderNumber,
+            'redirectUrl' => $this->redirectUrl,
+            'cancelUrl' => $this->cancelUrl,
+            'webhookUrl' => $this->webhookUrl,
         ];
 
         /** @var null|Order */
-        return $this->client->orders->update($this->id, $body);
+        return $this->connector->orders->update($this->id, $body);
     }
 
     /**
      * Create a new payment for this Order.
      *
-     * @param array $data
-     * @param array $filters
-     * @return Payment
+     * @param  array  $data
+     * @param  array  $filters
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function createPayment($data, $filters = []): Payment
     {
-        return $this->client->orderPayments->createFor($this, $data, $filters);
+        return $this->connector->orderPayments->createFor($this, $data, $filters);
     }
 
     /**
      * Retrieve the payments for this order.
      * Requires the order to be retrieved using the embed payments parameter.
-     *
-     * @return null|PaymentCollection
      */
     public function payments(): ?PaymentCollection
     {
@@ -525,10 +498,10 @@ class Order extends BaseResource implements EmbeddedResourcesContract
         }
 
         /** @var PaymentCollection */
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
+        return ResourceFactory::createBaseResourceCollection(
+            $this->connector,
+            Payment::class,
             $this->_embedded->payments,
-            Payment::class
         );
     }
 }

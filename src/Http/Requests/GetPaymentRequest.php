@@ -2,49 +2,53 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Requests\Request;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Query\GetPaymentQuery;
+use Mollie\Api\Http\Request;
+use Mollie\Api\Resources\Payment;
+use Mollie\Api\Rules\Id;
+use Mollie\Api\Types\Method;
 
 class GetPaymentRequest extends Request
 {
     /**
      * Define the HTTP method.
      */
-    protected string $method = MollieApiClient::HTTP_GET;
+    protected static string $method = Method::GET;
 
     /**
      * The resource class the request should be casted to.
-     *
-     * @var string
      */
     public static string $targetResourceClass = \Mollie\Api\Resources\Payment::class;
 
-    public string $paymentId;
+    private string $id;
 
-    public array $filters;
+    private GetPaymentQuery $query;
 
     public function __construct(
-        string $paymentId,
-        array $filters = []
+        string $id,
+        GetPaymentQuery $query,
     ) {
-        $this->paymentId = $paymentId;
-        $this->filters = $filters;
+        $this->id = $id;
+        $this->query = $query;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return $this->query->toArray();
+    }
+
+    public function rules(): array
+    {
+        return [
+            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
+        ];
     }
 
     /**
      * Resolve the resource path.
-     *
-     * @return string
      */
     public function resolveResourcePath(): string
     {
-        $id = urlencode($this->paymentId);
-
-        return "payments/{$id}";
-    }
-
-    public function getQuery(): array
-    {
-        return $this->filters;
+        return "payments/{$this->id}";
     }
 }

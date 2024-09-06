@@ -23,6 +23,7 @@ class PaymentLink extends BaseResource
      * The profile ID this payment link belongs to.
      *
      * @example pfl_QkEhN94Ba
+     *
      * @var string
      */
     public $profileId;
@@ -31,6 +32,7 @@ class PaymentLink extends BaseResource
      * UTC datetime the payment link was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $createdAt;
@@ -39,6 +41,7 @@ class PaymentLink extends BaseResource
      * UTC datetime the payment was paid in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $paidAt;
@@ -55,6 +58,7 @@ class PaymentLink extends BaseResource
      * UTC datetime the payment link was updated in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $updatedAt;
@@ -63,6 +67,7 @@ class PaymentLink extends BaseResource
      * UTC datetime - the expiry date of the payment link in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiresAt;
@@ -103,8 +108,6 @@ class PaymentLink extends BaseResource
 
     /**
      * Is this payment paid for?
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {
@@ -113,8 +116,6 @@ class PaymentLink extends BaseResource
 
     /**
      * Get the checkout URL where the customer can complete the payment.
-     *
-     * @return string|null
      */
     public function getCheckoutUrl(): ?string
     {
@@ -128,75 +129,58 @@ class PaymentLink extends BaseResource
     /**
      * Persist the current local Payment Link state to the Mollie API.
      *
-     * @return null|PaymentLink
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(): ?PaymentLink
     {
-        $body = $this->withPresetOptions([
+        $body = $this->withTestmode([
             'description' => $this->description,
             'archived' => $this->archived,
         ]);
 
-        return $this->client->paymentLinks->update($this->id, $body);
+        return $this->connector->paymentLinks->update($this->id, $body);
     }
 
     /**
      * Archive this Payment Link.
      *
      * @return \Mollie\Api\Resources\PaymentLink
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function archive()
     {
-        $data = $this->withPresetOptions([
+        $data = $this->withTestmode([
             'archived' => true,
         ]);
 
-        return $this->client->paymentLinks->update($this->id, $data);
+        return $this->connector->paymentLinks->update($this->id, $data);
     }
 
     /**
      * Retrieve a paginated list of payments associated with this payment link.
      *
-     * @param string|null $from
-     * @param int|null $limit
-     * @param array $filters
      * @return mixed|\Mollie\Api\Resources\BaseCollection
      */
-    public function payments(string $from = null, int $limit = null, array $filters = [])
+    public function payments(?string $from = null, ?int $limit = null, array $filters = [])
     {
-        return $this->client->paymentLinkPayments->pageFor(
+        return $this->connector->paymentLinkPayments->pageFor(
             $this,
             $from,
             $limit,
-            $this->withPresetOptions($filters)
+            $this->withTestmode($filters)
         );
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions()
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test";
-        }
-
-        return $options;
     }
 
     /**
      * Apply the preset options.
      *
-     * @param array $options
      * @return array
      */
-    private function withPresetOptions(array $options)
+    private function withTestmode(array $options)
     {
-        return array_merge($this->getPresetOptions(), $options);
+        return array_merge([
+            'testmode' => $this->mode === 'test',
+        ], $options);
     }
 }

@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Subscription;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class CustomerSubscriptionPaymentEndpointTest extends BaseEndpointTest
 {

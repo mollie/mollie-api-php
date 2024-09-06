@@ -3,24 +3,21 @@
 namespace Mollie\Api\Resources;
 
 use Generator;
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Http\ResponseStatusCode;
-use Mollie\Api\InteractsWithResource;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Traits\InteractsWithResource as TraitsInteractsWithResource;
 
 abstract class CursorCollection extends BaseCollection
 {
-    use InteractsWithResource;
+    use TraitsInteractsWithResource;
 
     /**
      * Return the next set of resources when available
      *
-     * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function next(): ?CursorCollection
     {
-        if (!$this->hasNext()) {
+        if (! $this->hasNext()) {
             return null;
         }
 
@@ -30,12 +27,11 @@ abstract class CursorCollection extends BaseCollection
     /**
      * Return the previous set of resources when available
      *
-     * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     final public function previous(): ?CursorCollection
     {
-        if (!$this->hasPrevious()) {
+        if (! $this->hasPrevious()) {
             return null;
         }
 
@@ -44,28 +40,13 @@ abstract class CursorCollection extends BaseCollection
 
     private function fetchCollection(string $url): CursorCollection
     {
-        $response = $this
-            ->client
-            ->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $url);
-
-        if ($response->status() !== ResponseStatusCode::HTTP_OK) {
-            throw new ApiException($response->body(), $response->status());
-        }
-
-        $data = $response->decode();
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $data->_embedded->{static::getCollectionResourceName()},
-            static::getResourceClass(),
-            $data->_links
-        );
+        return $this
+            ->connector
+            ->send(new DynamicGetRequest($url, static::class));
     }
 
     /**
      * Determine whether the collection has a next page available.
-     *
-     * @return bool
      */
     public function hasNext(): bool
     {
@@ -74,8 +55,6 @@ abstract class CursorCollection extends BaseCollection
 
     /**
      * Determine whether the collection has a previous page available.
-     *
-     * @return bool
      */
     public function hasPrevious(): bool
     {
@@ -84,10 +63,6 @@ abstract class CursorCollection extends BaseCollection
 
     /**
      * Iterate over a CursorCollection and yield its elements.
-     *
-     * @param bool $iterateBackwards
-     *
-     * @return LazyCollection
      */
     public function getAutoIterator(bool $iterateBackwards = false): LazyCollection
     {
@@ -99,7 +74,7 @@ abstract class CursorCollection extends BaseCollection
                     yield $item;
                 }
 
-                if (($iterateBackwards && !$page->hasPrevious()) || !$page->hasNext()) {
+                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
                     break;
                 }
 

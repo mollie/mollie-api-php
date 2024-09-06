@@ -25,6 +25,7 @@ class OrderLine extends BaseResource
      * The ID of the order this line belongs to.
      *
      * @example ord_kEn1PlbGa
+     *
      * @var string
      */
     public $orderId;
@@ -33,6 +34,7 @@ class OrderLine extends BaseResource
      * The type of product bought.
      *
      * @example physical
+     *
      * @var string
      */
     public $type;
@@ -41,6 +43,7 @@ class OrderLine extends BaseResource
      * A description of the order line.
      *
      * @example LEGO 4440 Forest Police Station
+     *
      * @var string
      */
     public $name;
@@ -156,6 +159,7 @@ class OrderLine extends BaseResource
      * passed.
      *
      * @example "21.00"
+     *
      * @var string
      */
     public $vatRate;
@@ -200,6 +204,7 @@ class OrderLine extends BaseResource
      * The order line's date and time of creation, in ISO 8601 format.
      *
      * @example 2018-08-02T09:29:56+00:00
+     *
      * @var string
      */
     public $createdAt;
@@ -225,8 +230,6 @@ class OrderLine extends BaseResource
 
     /**
      * Get the image URL of the product sold.
-     *
-     * @return string|null
      */
     public function getImageUrl(): ?string
     {
@@ -239,8 +242,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line created?
-     *
-     * @return bool
      */
     public function isCreated(): bool
     {
@@ -249,8 +250,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line paid for?
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {
@@ -259,8 +258,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line authorized?
-     *
-     * @return bool
      */
     public function isAuthorized(): bool
     {
@@ -269,8 +266,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line canceled?
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -279,8 +274,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line shipping?
-     *
-     * @return bool
      */
     public function isShipping(): bool
     {
@@ -289,8 +282,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line completed?
-     *
-     * @return bool
      */
     public function isCompleted(): bool
     {
@@ -299,8 +290,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for a physical product?
-     *
-     * @return bool
      */
     public function isPhysical(): bool
     {
@@ -309,8 +298,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for applying a discount?
-     *
-     * @return bool
      */
     public function isDiscount(): bool
     {
@@ -319,8 +306,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for a digital product?
-     *
-     * @return bool
      */
     public function isDigital(): bool
     {
@@ -329,8 +314,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for applying a shipping fee?
-     *
-     * @return bool
      */
     public function isShippingFee(): bool
     {
@@ -339,8 +322,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for store credit?
-     *
-     * @return bool
      */
     public function isStoreCredit(): bool
     {
@@ -349,8 +330,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for a gift card?
-     *
-     * @return bool
      */
     public function isGiftCard(): bool
     {
@@ -359,8 +338,6 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line for a surcharge?
-     *
-     * @return bool
      */
     public function isSurcharge(): bool
     {
@@ -370,27 +347,21 @@ class OrderLine extends BaseResource
     /**
      * Update an orderline by supplying one or more parameters in the data array
      *
-     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(): ?Order
     {
         /** @var null|Order */
-        $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
-
-        /** @var Order */
-        return ResourceFactory::createFromApiResult($this->client, $result, Order::class);
+        return $this->connector->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
     }
 
     /**
      * Get sanitized array of order line data
-     *
-     * @return array
      */
     public function getUpdateData(): array
     {
         $data = [
-            "name" => $this->name,
+            'name' => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
             'metadata' => $this->metadata,

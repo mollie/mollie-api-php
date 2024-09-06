@@ -7,20 +7,20 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Payment;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class PaymentChargebackEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
     public function testListChargebacksOnPaymentResource()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+                'GET',
+                '/v2/payments/tr_44aKxzEbr8/chargebacks'
             ),
             new Response(
                 200,
@@ -108,27 +108,27 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         $this->assertCount(2, $chargebacks);
 
         $this->assertLinkObject(
-            "https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks",
-            "text/html",
+            'https://docs.mollie.com/reference/v2/chargebacks-api/list-chargebacks',
+            'text/html',
             $chargebacks->_links->documentation
         );
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks",
-            "application/hal+json",
+            'https://api.mollie.com/v2/payments/tr_44aKxzEbr8/chargebacks',
+            'application/hal+json',
             $chargebacks->_links->self
         );
 
-        $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
-        $this->assertChargeback($chargebacks[1], 'tr_44aKxzEbr8', 'chb_6cqlwf', "-0.37");
+        $this->assertChargeback($chargebacks[0], 'tr_44aKxzEbr8', 'chb_n9z0tp', '-13.00');
+        $this->assertChargeback($chargebacks[1], 'tr_44aKxzEbr8', 'chb_6cqlwf', '-0.37');
     }
 
     public function testGetChargebackOnPaymentResource()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp"
+                'GET',
+                '/v2/payments/tr_44aKxzEbr8/chargebacks/chb_n9z0tp'
             ),
             new Response(
                 200,
@@ -164,17 +164,17 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
             )
         );
 
-        $chargeback = $this->getPayment()->getChargeback("chb_n9z0tp");
+        $chargeback = $this->getPayment()->getChargeback('chb_n9z0tp');
 
-        $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', "-13.00");
+        $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', '-13.00');
     }
 
     public function testPaymentChargebacksListForIdPaymentChargebackEndpoint()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+                'GET',
+                '/v2/payments/tr_44aKxzEbr8/chargebacks'
             ),
             new Response(
                 200,
@@ -242,8 +242,8 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payments/tr_44aKxzEbr8/chargebacks"
+                'GET',
+                '/v2/payments/tr_44aKxzEbr8/chargebacks'
             ),
             new Response(
                 200,
@@ -310,30 +310,30 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
     protected function assertChargeback($chargeback, $paymentId, $chargebackId, $amount)
     {
         $this->assertInstanceOf(Chargeback::class, $chargeback);
-        $this->assertEquals("chargeback", $chargeback->resource);
+        $this->assertEquals('chargeback', $chargeback->resource);
         $this->assertEquals($chargebackId, $chargeback->id);
 
-        $this->assertAmountObject($amount, "EUR", $chargeback->amount);
-        $this->assertAmountObject($amount, "EUR", $chargeback->settlementAmount);
+        $this->assertAmountObject($amount, 'EUR', $chargeback->amount);
+        $this->assertAmountObject($amount, 'EUR', $chargeback->settlementAmount);
 
-        $this->assertEquals("2018-03-28T11:44:32+00:00", $chargeback->createdAt);
+        $this->assertEquals('2018-03-28T11:44:32+00:00', $chargeback->createdAt);
         $this->assertEquals($paymentId, $chargeback->paymentId);
 
         $this->assertLinkObject(
             "https://api.mollie.com/v2/payments/{$paymentId}/chargebacks/{$chargebackId}",
-            "application/hal+json",
+            'application/hal+json',
             $chargeback->_links->self
         );
 
         $this->assertLinkObject(
             "https://api.mollie.com/v2/payments/{$paymentId}",
-            "application/hal+json",
+            'application/hal+json',
             $chargeback->_links->payment
         );
 
         $this->assertLinkObject(
-            "https://docs.mollie.com/reference/v2/chargebacks-api/get-chargeback",
-            "text/html",
+            'https://docs.mollie.com/reference/v2/chargebacks-api/get-chargeback',
+            'text/html',
             $chargeback->_links->documentation
         );
     }

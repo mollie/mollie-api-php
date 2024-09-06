@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Contracts;
 
-use Mollie\Api\Http\Requests\Request;
+use Closure;
 
 interface Rule
 {
-    public function validate(Request $request): void;
+    public function validate($value, $context, Closure $fail): void;
 }

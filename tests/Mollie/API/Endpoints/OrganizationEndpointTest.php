@@ -5,7 +5,7 @@ namespace Tests\Mollie\Api\Endpoints;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Organization;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class OrganizationEndpointTest extends BaseEndpointTest
 {
@@ -14,7 +14,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
     public function testGetOrganization()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/organizations/org_12345678"),
+            new Request('GET', '/v2/organizations/org_12345678'),
             new Response(
                 200,
                 [],
@@ -54,7 +54,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
     public function testGetCurrentOrganization()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/organizations/me"),
+            new Request('GET', '/v2/organizations/me'),
             new Response(
                 200,
                 [],

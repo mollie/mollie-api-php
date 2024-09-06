@@ -25,6 +25,7 @@ class Settlement extends BaseResource
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -33,6 +34,7 @@ class Settlement extends BaseResource
      * The date on which the settlement was settled, in ISO 8601 format. When requesting the open settlement or next settlement the return value is null.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $settledAt;
@@ -72,8 +74,6 @@ class Settlement extends BaseResource
 
     /**
      * Is this settlement still open?
-     *
-     * @return bool
      */
     public function isOpen(): bool
     {
@@ -82,8 +82,6 @@ class Settlement extends BaseResource
 
     /**
      * Is this settlement pending?
-     *
-     * @return bool
      */
     public function isPending(): bool
     {
@@ -92,8 +90,6 @@ class Settlement extends BaseResource
 
     /**
      * Is this settlement paid out?
-     *
-     * @return bool
      */
     public function isPaidout(): bool
     {
@@ -102,8 +98,6 @@ class Settlement extends BaseResource
 
     /**
      * Has this settlement failed?
-     *
-     * @return bool
      */
     public function isFailed(): bool
     {
@@ -113,14 +107,11 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of payments associated with this settlement.
      *
-     * @param int|null $limit
-     * @param array $parameters
-     * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function payments(int $limit = null, array $parameters = []): PaymentCollection
+    public function payments(?int $limit = null, array $parameters = []): PaymentCollection
     {
-        return $this->client->settlementPayments->pageForId(
+        return $this->connector->settlementPayments->pageForId(
             $this->id,
             null,
             $limit,
@@ -131,14 +122,11 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of refunds associated with this settlement.
      *
-     * @param int|null $limit
-     * @param array $parameters
-     * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds(int $limit = null, array $parameters = []): RefundCollection
+    public function refunds(?int $limit = null, array $parameters = []): RefundCollection
     {
-        return $this->client->settlementRefunds->pageForId(
+        return $this->connector->settlementRefunds->pageForId(
             $this->id,
             null,
             $limit,
@@ -149,14 +137,11 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of chargebacks associated with this settlement.
      *
-     * @param int|null $limit
-     * @param array $parameters
-     * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks(int $limit = null, array $parameters = []): ChargebackCollection
+    public function chargebacks(?int $limit = null, array $parameters = []): ChargebackCollection
     {
-        return $this->client->settlementChargebacks->pageForId(
+        return $this->connector->settlementChargebacks->pageForId(
             $this->id,
             null,
             $limit,
@@ -167,14 +152,11 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of cap associated with this settlement.
      *
-     * @param int|null $limit
-     * @param array $parameters
-     * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures(int $limit = null, array $parameters = []): CaptureCollection
+    public function captures(?int $limit = null, array $parameters = []): CaptureCollection
     {
-        return $this->client->settlementCaptures->pageForId(
+        return $this->connector->settlementCaptures->pageForId(
             $this->id,
             null,
             $limit,
