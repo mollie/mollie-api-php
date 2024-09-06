@@ -8,8 +8,9 @@ use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceFactory;
+use PHPUnit\Framework\TestCase;
 
-class ResourceFactoryTest extends \PHPUnit\Framework\TestCase
+class ResourceFactoryTest extends TestCase
 {
     public function testCreateFromApiResponseWorks()
     {

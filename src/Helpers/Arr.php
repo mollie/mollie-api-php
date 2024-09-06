@@ -6,8 +6,11 @@ class Arr
 {
     /**
      * Get all values for the given keys or return the default value.
+     *
+     * @param  mixed  $default
+     * @return mixed
      */
-    public static function get(array $array, string $keys, mixed $default = null): mixed
+    public static function get(array $array, string $keys, $default = null)
     {
         $keys = explode('.', $keys);
         $value = $array;

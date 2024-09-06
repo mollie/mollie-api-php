@@ -61,7 +61,7 @@ class Address implements DataProvider
         $this->country = $country;
     }
 
-    public function data(): mixed
+    public function data(): array
     {
         return array_filter([
             'title' => $this->title,

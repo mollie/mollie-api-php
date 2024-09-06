@@ -4,14 +4,14 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Helpers;
 use Mollie\Api\Http\Payload\Address;
-use Mollie\Api\Http\Payload\CreatePayment;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Payload\Metadata;
 
 class CreatePaymentPayloadFactory extends Factory
 {
-    public function create(): CreatePayment
+    public function create(): CreatePaymentPayload
     {
-        return new CreatePayment(
+        return new CreatePaymentPayload(
             $this->get('description'),
             MoneyFactory::new($this->get('amount'))->create(),
             $this->get('redirectUrl'),
@@ -43,7 +43,7 @@ class CreatePaymentPayloadFactory extends Factory
             $this->get('mandateId'),
             $this->get('customerId'),
             $this->get('profileId'),
-            $this->get('additional') ?? Helpers::filterByProperties(CreatePayment::class, $this->data),
+            $this->get('additional') ?? Helpers::filterByProperties(CreatePaymentPayload::class, $this->data),
             $this->get('testmode')
         );
     }

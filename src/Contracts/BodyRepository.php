@@ -7,9 +7,15 @@ use Psr\Http\Message\StreamInterface;
 
 interface BodyRepository
 {
-    public function set(mixed $value): static;
+    /**
+     * @param  mixed  $value
+     */
+    public function set($value): static;
 
-    public function all(): mixed;
+    /**
+     * @return mixed
+     */
+    public function all();
 
     public function remove(string $key): static;
 

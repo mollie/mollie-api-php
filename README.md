@@ -93,165 +93,11 @@ With the `MollieApiClient` you can now access any of the following endpoints by 
 
 Find our full documentation online on [docs.mollie.com](https://docs.mollie.com).
 
-### Orders ###
-#### Creating Orders ####
-**[Create Order reference](https://docs.mollie.com/reference/v2/orders-api/create-order)**
-
-```php
-$order = $mollie->orders->create([
-    "amount" => [
-        "value" => "1027.99",
-        "currency" => "EUR",
-    ],
-    "billingAddress" => [
-        "streetAndNumber" => "Keizersgracht 313",
-        "postalCode" => "1016 EE",
-        "city" => "Amsterdam",
-        "country" => "nl",
-        "givenName" => "Luke",
-        "familyName" => "Skywalker",
-        "email" => "luke@skywalker.com",
-    ],
-    "shippingAddress" => [
-        "streetAndNumber" => "Keizersgracht 313",
-        "postalCode" => "1016 EE",
-        "city" => "Amsterdam",
-        "country" => "nl",
-        "givenName" => "Luke",
-        "familyName" => "Skywalker",
-        "email" => "luke@skywalker.com",
-    ],
-    "metadata" => [
-        "some" => "data",
-    ],
-    "consumerDateOfBirth" => "1958-01-31",
-    "locale" => "en_US",
-    "orderNumber" => "1234",
-    "redirectUrl" => "https://your_domain.com/return?some_other_info=foo",
-    "webhookUrl" => "https://your_domain.com/webhook",
-    "method" => "ideal",
-    "lines" => [
-        [
-            "sku" => "5702016116977",
-            "name" => "LEGO 42083 Bugatti Chiron",
-            "productUrl" => "https://shop.lego.com/nl-NL/Bugatti-Chiron-42083",
-            "imageUrl" => 'https://sh-s7-live-s.legocdn.com/is/image//LEGO/42083_alt1?$main$',
-            "quantity" => 2,
-            "vatRate" => "21.00",
-            "unitPrice" => [
-                "currency" => "EUR",
-                "value" => "399.00",
-            ],
-            "totalAmount" => [
-                "currency" => "EUR",
-                "value" => "698.00",
-            ],
-            "discountAmount" => [
-                "currency" => "EUR",
-                "value" => "100.00",
-            ],
-            "vatAmount" => [
-                "currency" => "EUR",
-                "value" => "121.14",
-            ],
-        ],
-        // more order line items
-    ],
-]);
-```
-
-_After creation, the order id is available in the `$order->id` property. You should store this id with your order._
-
-After storing the order id you can send the customer off to complete the order payment using `$order->getCheckoutUrl()`.
-
-```php
-header("Location: " . $order->getCheckoutUrl(), true, 303);
-```
-
-_This header location should always be a GET, thus we enforce 303 http response code_
-
-For an order create example, see [Example - New Order](https://github.com/mollie/mollie-api-php/blob/master/examples/orders/create-order.php).
-
-#### Updating Orders ####
-**[Update Order Documentation](https://docs.mollie.com/reference/v2/orders-api/update-order)**
-
-```php
-$order = $mollie->orders->get("ord_kEn1PlbGa");
-$order->billingAddress->organizationName = "Mollie B.V.";
-$order->billingAddress->streetAndNumber = "Keizersgracht 126";
-$order->billingAddress->city = "Amsterdam";
-$order->billingAddress->region = "Noord-Holland";
-$order->billingAddress->postalCode = "1234AB";
-$order->billingAddress->country = "NL";
-$order->billingAddress->title = "Dhr";
-$order->billingAddress->givenName = "Piet";
-$order->billingAddress->familyName = "Mondriaan";
-$order->billingAddress->email = "piet@mondriaan.com";
-$order->billingAddress->phone = "+31208202070";
-$order->update();
-```
-
-#### Refunding Orders ####
-##### Complete #####
-```php
-$order = $mollie->orders->get('ord_8wmqcHMN4U');
-$refund = $order->refundAll();
-
-echo 'Refund ' . $refund->id . ' was created for order ' . $order->id;
-```
-
-##### Partially #####
-When executing a partial refund you have to list all order line items that should be refunded.
-
-```php
-$order = $mollie->orders->get('ord_8wmqcHMN4U');
-$refund = $order->refund([
-    'lines' => [
-        [
-            'id' => 'odl_dgtxyl',
-            'quantity' => 1,
-        ],
-    ],
-    "description" => "Required quantity not in stock, refunding one photo book.",
-]);
-```
-
-#### Cancel Orders ####
-**[Cancel Order Documentation](https://docs.mollie.com/reference/v2/orders-api/cancel-order)**
-
-_When canceling an order it is crucial to check if the order is cancelable before executing the cancel action. For more information see the [possible order statuses](https://docs.mollie.com/orders/status-changes#possible-statuses-for-orders)._
-
-```php
-$order = $mollie->orders->get("ord_pbjz8x");
-
-if ($order->isCancelable) {
-    $canceledOrder = $order->cancel();
-    echo "Your order " . $order->id . " has been canceled.";
-} else {
-    echo "Unable to cancel your order " . $order->id . ".";
-}
-```
-
-#### Order webhook ####
-When the order status changes, the `webhookUrl` you specified during order creation will be called. You can use the `id` from the POST parameters to check the status and take appropriate actions. For more details, refer to [Example - Webhook](https://github.com/mollie/mollie-api-php/blob/master/examples/orders/webhook.php).
-
-### Payments ###
-#### Payment Reception Process ####
-**[Payment Reception Process documentation](https://docs.mollie.com/payments/accepting-payments#working-with-the-payments-api)**
-
-To ensure a successful payment reception, you should follow these steps:
-
-1. Utilize the Mollie API client to initiate a payment. Specify the desired amount, currency, description, and optionally, a payment method. It's crucial to define a unique redirect URL where the customer should be directed after completing the payment.
-
-2. Immediately upon payment completion, our platform will initiate an asynchronous request to the configured webhook. This enables you to retrieve payment details, ensuring you know precisely when to commence processing the customer's order.
-
-3. The customer is redirected to the URL from step (1) and should be pleased to find that the order has been paid and is now in the processing stage.
-
-
 #### Creating Payments ####
 **[Create Payment Documentation](https://docs.mollie.com/reference/v2/payments-api/create-payment)**
 
 ```php
+// old way of creating a payment
 $payment = $mollie->payments->create([
     "amount" => [
         "currency" => "EUR",
@@ -261,6 +107,32 @@ $payment = $mollie->payments->create([
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
 ]);
+
+// newish way
+use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
+
+$payload = new CreatePaymentPayload(
+    description: 'My first API payment',
+    amount: new Money('EUR', '10.00'),
+    redirectUrl: 'https://webshop.example.org/order/12345/',
+    webhookUrl: 'https://webshop.example.org/mollie-webhook/'
+);
+
+$payment = $mollie->payments->create($payload);
+
+
+// newest ;-)
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+
+$payload = new CreatePaymentPayload(
+    description: 'My first API payment',
+    amount: new Money('EUR', '10.00'),
+    redirectUrl: 'https://webshop.example.org/order/12345/',
+    webhookUrl: 'https://webshop.example.org/mollie-webhook/'
+);
+
+$payment = $mollie->send($payload);
 ```
 _After creation, the payment id is available in the `$payment->id` property. You should store this id with your order._
 

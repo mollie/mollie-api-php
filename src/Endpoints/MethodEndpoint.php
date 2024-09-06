@@ -3,6 +3,7 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 
@@ -10,22 +11,16 @@ class MethodEndpoint extends EndpointCollection
 {
     /**
      * The resource path.
-     *
-     * @var string
      */
-    protected string $resourcePath = "methods";
+    protected string $resourcePath = 'methods';
 
     /**
      * Resource class name.
-     *
-     * @var string
      */
     public static string $resource = Method::class;
 
     /**
      * The resource collection class name.
-     *
-     * @var string
      */
     public static string $resourceCollection = MethodCollection::class;
 
@@ -33,9 +28,7 @@ class MethodEndpoint extends EndpointCollection
      * Retrieve all active methods. In test mode, this includes pending methods. The results are not paginated.
      *
      * @deprecated Use allActive() instead
-     * @param array $parameters
      *
-     * @return MethodCollection
      * @throws ApiException
      */
     public function all(array $parameters = []): MethodCollection
@@ -47,9 +40,7 @@ class MethodEndpoint extends EndpointCollection
      * Retrieve all active methods for the organization. In test mode, this includes pending methods.
      * The results are not paginated.
      *
-     * @param array $parameters
      *
-     * @return MethodCollection
      * @throws ApiException
      */
     public function allActive(array $parameters = []): MethodCollection
@@ -62,18 +53,20 @@ class MethodEndpoint extends EndpointCollection
      * Retrieve all available methods for the organization, including activated and not yet activated methods. The
      * results are not paginated. Make sure to include the profileId parameter if using an OAuth Access Token.
      *
-     * @param array $parameters Query string parameters.
-     * @return MethodCollection
+     * @param  array  $parameters  Query string parameters.
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function allAvailable(array $parameters = []): MethodCollection
     {
-        $url = 'methods/all' . $this->buildQueryString($parameters);
+        $url = 'methods/all'.$this->buildQueryString($parameters);
 
-        $result = $this->client->performHttpCall('GET', $url);
-
-        /** @var MethodCollection */
-        return $this->buildResultCollection($result->decode());
+        return $this
+            ->client
+            ->send(new DynamicGetRequest(
+                $url,
+                MethodCollection::class,
+            ));
     }
 
     /**
@@ -81,9 +74,6 @@ class MethodEndpoint extends EndpointCollection
      *
      * Will throw a ApiException if the method id is invalid or the resource cannot be found.
      *
-     * @param string $methodId
-     * @param array $parameters
-     * @return Method
      * @throws ApiException
      */
     public function get(string $methodId, array $parameters = []): Method

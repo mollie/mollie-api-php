@@ -15,14 +15,17 @@ class JsonBodyRepository implements JsonBodyRepositoryContract
         $this->set($data);
     }
 
-    public function set(mixed $value): static
+    /**
+     * @param  mixed  $value
+     */
+    public function set($value): static
     {
         $this->store = $value;
 
         return $this;
     }
 
-    public function all(): mixed
+    public function all(): array
     {
         return $this->store;
     }

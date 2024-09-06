@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Payload;
 
-class CreatePayment extends DataBag
+class CreatePaymentPayload extends DataBag
 {
     public string $description;
 
@@ -111,7 +111,7 @@ class CreatePayment extends DataBag
         $this->testmode = $testmode;
     }
 
-    public function data(): mixed
+    public function data(): array
     {
         return array_merge([
             'description' => $this->description,

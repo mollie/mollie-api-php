@@ -11,23 +11,17 @@ class OrderLineEndpoint extends RestEndpoint
 {
     /**
      * The resource path.
-     *
-     * @var string
      */
-    protected string $resourcePath = "orders_lines";
+    protected string $resourcePath = 'orders_lines';
 
     /**
      * Resource id prefix.
      * Used to validate resource id's.
-     *
-     * @var string
      */
     protected static string $resourceIdPrefix = 'odl_';
 
     /**
      * Resource class name.
-     *
-     * @var string
      */
     public static string $resource = OrderLine::class;
 
@@ -36,11 +30,7 @@ class OrderLineEndpoint extends RestEndpoint
      *
      * Will throw an ApiException if the order line id is invalid or the resource cannot be found.
      *
-     * @param string $orderId
-     * @param string $orderlineId
-     * @param array $data
      *
-     * @return null|Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(string $orderId, string $orderlineId, array $data = []): ?Order
@@ -60,21 +50,16 @@ class OrderLineEndpoint extends RestEndpoint
         }
 
         /** @var Order */
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), Order::class);
+        return ResourceFactory::createFromApiResult($this->client, $response, Order::class);
     }
 
     /**
-     * @param string $orderId
-     * @param array $operations
-     * @param array $parameters
-     *
-     * @return Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function updateMultiple(string $orderId, array $operations, array $parameters = []): Order
     {
         if (empty($orderId)) {
-            throw new ApiException("Invalid resource id.");
+            throw new ApiException('Invalid resource id.');
         }
 
         $this->parentId = $orderId;
@@ -88,7 +73,7 @@ class OrderLineEndpoint extends RestEndpoint
         );
 
         /** @var Order */
-        return ResourceFactory::createFromApiResult($this->client, $result->decode(), Order::class);
+        return ResourceFactory::createFromApiResult($this->client, $result, Order::class);
     }
 
     /**
@@ -96,10 +81,7 @@ class OrderLineEndpoint extends RestEndpoint
      * The data array must contain a lines array.
      * You can pass an empty lines array if you want to cancel all eligible lines.
      *
-     * @param Order $order
-     * @param array $data
      *
-     * @return void
      * @throws ApiException
      */
     public function cancelFor(Order $order, array $data): void
@@ -112,16 +94,13 @@ class OrderLineEndpoint extends RestEndpoint
      * The data array must contain a lines array.
      * You can pass an empty lines array if you want to cancel all eligible lines.
      *
-     * @param string $orderId
-     * @param array $data
      *
-     * @return void
      * @throws ApiException
      */
     public function cancelForId(string $orderId, array $data): void
     {
-        if (!isset($data['lines']) || !is_array($data['lines'])) {
-            throw new ApiException("A lines array is required.");
+        if (! isset($data['lines']) || ! is_array($data['lines'])) {
+            throw new ApiException('A lines array is required.');
         }
 
         $this->parentId = $orderId;

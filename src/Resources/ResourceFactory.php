@@ -13,12 +13,17 @@ class ResourceFactory
     /**
      * Create resource object from Api result
      */
-    public static function createFromApiResult(Connector $connector, ?Response $response, string $resourceClass): BaseResource
+    public static function createFromApiResult(Connector $connector, $data, string $resourceClass, ?Response $response = null): BaseResource
     {
+        if ($data instanceof Response) {
+            $response = $data;
+            $data = $response->json();
+        }
+
         /** @var BaseResource $resource */
         $resource = new $resourceClass($connector, $response);
 
-        foreach ($response->json() as $property => $value) {
+        foreach ($data as $property => $value) {
             $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
                 ? self::parseEmbeddedResources($connector, $resource, $value)
                 : $value;
@@ -58,7 +63,6 @@ class ResourceFactory
             $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)
                 ? self::createFromApiResult(
                     $connector,
-                    null,
                     $resourceData,
                     $collectionOrResourceClass
                 )
@@ -98,9 +102,9 @@ class ResourceFactory
         Connector $connector,
         string $resourceClass,
         $data = null,
-        ?Response $response = null,
         ?object $_links = null,
-        ?string $resourceCollectionClass = null
+        ?string $resourceCollectionClass = null,
+        ?Response $response = null,
     ): BaseCollection {
         return self::instantiateBaseCollection(
             $connector,
@@ -118,7 +122,7 @@ class ResourceFactory
         ?object $_links = null,
         ?Response $response = null
     ): BaseCollection {
-        return new $collectionClass($connector, $response, $items, $_links);
+        return new $collectionClass($connector, $items, $_links, $response);
     }
 
     /**
@@ -129,9 +133,9 @@ class ResourceFactory
         return array_map(
             fn ($item) => static::createFromApiResult(
                 $connector,
-                $response,
                 $item,
-                $resourceClass
+                $resourceClass,
+                $response,
             ),
             (array) $data
         );

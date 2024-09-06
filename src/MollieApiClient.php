@@ -11,16 +11,16 @@ use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
+use Mollie\Api\EndpointCollection\OrderEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
-use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
-use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
@@ -49,11 +49,13 @@ use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\HandlesAuthentication;
+use Mollie\Api\Traits\HandlesAutoHydration;
 use Mollie\Api\Traits\HandlesDebugging;
 use Mollie\Api\Traits\HandlesIdempotency;
 use Mollie\Api\Traits\HandlesTestmode;
 use Mollie\Api\Traits\HandlesVersions;
 use Mollie\Api\Traits\HasEndpoints;
+use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\Initializable;
 use Mollie\Api\Traits\SendsRequests;
@@ -66,13 +68,13 @@ use Mollie\Api\Traits\SendsRequests;
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks
  * @property CustomerPaymentsEndpoint $customerPayments
- * @property CustomerEndpoint $customers
+ * @property CustomerEndpointCollection $customers
  * @property InvoiceEndpoint $invoices
  * @property MandateEndpoint $mandates
  * @property MethodEndpoint $methods
  * @property MethodIssuerEndpoint $methodIssuers
  * @property OnboardingEndpoint $onboarding
- * @property OrderEndpoint $orders
+ * @property OrderEndpointCollection $orders
  * @property OrderLineEndpoint $orderLines
  * @property OrderPaymentEndpoint $orderPayments
  * @property OrderRefundEndpoint $orderRefunds
@@ -104,11 +106,13 @@ use Mollie\Api\Traits\SendsRequests;
 class MollieApiClient implements Connector
 {
     use HandlesAuthentication;
+    use HandlesAutoHydration;
     use HandlesDebugging;
     use HandlesIdempotency;
     use HandlesTestmode;
     use HandlesVersions;
     use HasEndpoints;
+    use HasMiddleware;
     use HasRequestProperties;
     use Initializable;
     use SendsRequests;

@@ -2,13 +2,14 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Contracts\ArrayRepository;
 use Mollie\Api\Repositories\ArrayStore;
 
 trait HasQuery
 {
-    protected ?ArrayStore $queryStore;
+    protected ArrayRepository $queryStore;
 
-    public function query(): ArrayStore
+    public function query(): ArrayRepository
     {
         return $this->queryStore ??= new ArrayStore($this->defaultQuery());
     }

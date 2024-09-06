@@ -6,16 +6,16 @@ use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
+use Mollie\Api\EndpointCollection\OrderEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
-use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
 use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
-use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
@@ -59,19 +59,14 @@ trait HasEndpoints
         }
 
         $endpointClasses = [
-            // new
             'balances' => BalanceEndpointCollection::class,
             'balanceReports' => BalanceEndpointCollection::class,
             'balanceTransactions' => BalanceTransactionCollection::class,
             'chargebacks' => ChargebackEndpointCollection::class,
             'clients' => ClientEndpointCollection::class,
             'clientLinks' => ClientLinkEndpointCollection::class,
-            'payments' => PaymentEndpointCollection::class,
-            'paymentRefunds' => PaymentRefundEndpointCollection::class,
-
-            // old
             'customerPayments' => CustomerPaymentsEndpoint::class,
-            'customers' => CustomerEndpoint::class,
+            'customers' => CustomerEndpointCollection::class,
             'invoices' => InvoiceEndpoint::class,
             'mandates' => MandateEndpoint::class,
             'methods' => MethodEndpoint::class,
@@ -80,9 +75,11 @@ trait HasEndpoints
             'orderLines' => OrderLineEndpoint::class,
             'orderPayments' => OrderPaymentEndpoint::class,
             'orderRefunds' => OrderRefundEndpoint::class,
-            'orders' => OrderEndpoint::class,
+            'orders' => OrderEndpointCollection::class,
             'organizationPartners' => OrganizationPartnerEndpoint::class,
             'organizations' => OrganizationEndpoint::class,
+            'payments' => PaymentEndpointCollection::class,
+            'paymentRefunds' => PaymentRefundEndpointCollection::class,
             'paymentCaptures' => PaymentCaptureEndpoint::class,
             'paymentChargebacks' => PaymentChargebackEndpoint::class,
             'paymentLinks' => PaymentLinkEndpoint::class,

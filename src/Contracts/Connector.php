@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Contracts;
 
+use Mollie\Api\Helpers\MiddlewareHandlers;
 use Mollie\Api\Http\Request;
 
-interface Connector extends Authenticatable, IdempotencyContract, SupportsDebuggingContract
+interface Connector extends Authenticatable, Hydratable, IdempotencyContract, SupportsDebuggingContract
 {
     public function send(Request $request): ?object;
 
@@ -13,6 +14,8 @@ interface Connector extends Authenticatable, IdempotencyContract, SupportsDebugg
     public function headers(): ArrayRepository;
 
     public function query(): ArrayRepository;
+
+    public function middleware(): MiddlewareHandlers;
 
     public function addVersionString($versionString): self;
 

@@ -44,7 +44,7 @@ class DataCollection implements Arrayable, DataProvider, DataResolver
         return new static((array) $subject);
     }
 
-    public function data(): mixed
+    public function data(): array
     {
         return $this->toArray();
     }

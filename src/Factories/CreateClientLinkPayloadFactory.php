@@ -2,15 +2,15 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreateClientLink;
+use Mollie\Api\Http\Payload\CreateClientLinkPayload;
 use Mollie\Api\Http\Payload\Owner;
 use Mollie\Api\Http\Payload\OwnerAddress;
 
 class CreateClientLinkPayloadFactory extends Factory
 {
-    public function create(): CreateClientLink
+    public function create(): CreateClientLinkPayload
     {
-        return new CreateClientLink(
+        return new CreateClientLinkPayload(
             Owner::fromArray($this->get('owner')),
             $this->get('name'),
             OwnerAddress::fromArray($this->get('address')),

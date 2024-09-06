@@ -8,10 +8,11 @@ use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaymentQueryFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentPayloadFactory;
+use Mollie\Api\Helpers;
 use Mollie\Api\Helpers\Arr;
-use Mollie\Api\Http\Payload\CreatePayment;
-use Mollie\Api\Http\Payload\CreateRefundPayment;
-use Mollie\Api\Http\Payload\UpdatePayment;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Query\GetPaymentQuery;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
@@ -48,14 +49,14 @@ class PaymentEndpointCollection extends EndpointCollection
     /**
      * Creates a payment in Mollie.
      *
-     * @param  CreatePayment|array  $data  An array containing details on the payment.
+     * @param  CreatePaymentPayload|array  $data  An array containing details on the payment.
      * @param  CreatePaymentQuery|array|string  $query  An array of strings or a single string containing the details to include.
      *
      * @throws ApiException
      */
     public function create($data = [], $query = []): Payment
     {
-        if (! $data instanceof CreatePayment) {
+        if (! $data instanceof CreatePaymentPayload) {
             $data = CreatePaymentPayloadFactory::new($data)
                 ->create();
         }
@@ -74,13 +75,13 @@ class PaymentEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
      * @param  string  $id
-     * @param  array|UpdatePayment  $data
+     * @param  array|UpdatePaymentPayload  $data
      *
      * @throws ApiException
      */
     public function update($id, $data = []): ?Payment
     {
-        if (! $data instanceof UpdatePayment) {
+        if (! $data instanceof UpdatePaymentPayload) {
             $data = UpdatePaymentPayloadFactory::new($data)
                 ->create();
         }
@@ -115,9 +116,7 @@ class PaymentEndpointCollection extends EndpointCollection
      */
     public function cancel(string $id, $data = []): ?Payment
     {
-        $testmode = is_bool($data)
-            ? $data
-            : Arr::get($data, 'testmode', false);
+        $testmode = Helpers::extractBool($data, 'testmode', false);
 
         /** @var null|Payment */
         return $this->send(new CancelPaymentRequest($id, $testmode));
@@ -129,13 +128,13 @@ class PaymentEndpointCollection extends EndpointCollection
      * The $data parameter may either be an array of endpoint
      * parameters, or an instance of CreateRefundPaymentData.
      *
-     * @param  array|CreateRefundPayment  $payload
+     * @param  array|CreateRefundPaymentPayload  $payload
      *
      * @throws ApiException
      */
     public function refund(Payment $payment, $payload = []): Refund
     {
-        if (! $payload instanceof CreateRefundPayment) {
+        if (! $payload instanceof CreateRefundPaymentPayload) {
             $payload = CreateRefundPaymentPayloadFactory::new($payload)
                 ->create();
         }

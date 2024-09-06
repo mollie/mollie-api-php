@@ -3,8 +3,10 @@
 namespace Mollie\Api\Helpers;
 
 use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\MockClient;
 
 class MiddlewareHandlersTest extends TestCase
 {
@@ -21,7 +23,9 @@ class MiddlewareHandlersTest extends TestCase
             return $pendingRequest;
         });
 
-        $result = $middlewareHandlers->executeOnRequest(new PendingRequest);
+        $result = $middlewareHandlers->executeOnRequest(
+            new PendingRequest(new MockClient, new DynamicGetRequest(''))
+        );
 
         $this->assertEquals('Bar', $result->headers()->get('Foo'));
     }
@@ -39,6 +43,42 @@ class MiddlewareHandlersTest extends TestCase
             return $response;
         });
 
-        $result = $middlewareHandlers->executeOnRequest(new PendingRequest);
+        // Create a mock response
+        $responseMock = $this->createMock(Response::class);
+        $responseMock->method('successful')->willReturn(true);
+
+        $result = $middlewareHandlers->executeOnResponse($responseMock);
+
+        $this->assertTrue($result->successful());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_merge_middleware_handlers(): void
+    {
+        $middlewareHandlers1 = new MiddlewareHandlers;
+        $middlewareHandlers2 = new MiddlewareHandlers;
+
+        $middlewareHandlers1->onRequest(function (PendingRequest $pendingRequest) {
+            $pendingRequest->headers()->add('Request-One', 'One');
+
+            return $pendingRequest;
+        });
+
+        $middlewareHandlers2->onRequest(function (PendingRequest $pendingRequest) {
+            $pendingRequest->headers()->add('Request-Two', 'Two');
+
+            return $pendingRequest;
+        });
+
+        $middlewareHandlers1->merge($middlewareHandlers2);
+
+        $result = $middlewareHandlers1->executeOnRequest(
+            new PendingRequest(new MockClient, new DynamicGetRequest(''))
+        );
+
+        $this->assertEquals('One', $result->headers()->get('Request-One'));
+        $this->assertEquals('Two', $result->headers()->get('Request-Two'));
     }
 }

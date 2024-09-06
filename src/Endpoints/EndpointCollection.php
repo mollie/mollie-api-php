@@ -3,6 +3,7 @@
 namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
@@ -13,33 +14,30 @@ abstract class EndpointCollection extends RestEndpoint
 {
     /**
      * The resource collection class name.
-     *
-     * @var string
      */
     public static string $resourceCollection = '';
 
     /**
      * Get a collection of objects from the REST API.
      *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $filters
+     * @param  string  $from  The first resource ID you want to include in your list.
      *
-     * @return BaseCollection
      * @throws ApiException
      */
     protected function fetchCollection(?string $from = null, ?int $limit = null, array $filters = []): BaseCollection
     {
-        $apiPath = $this->getResourcePath() . $this->buildQueryString(
+        $apiPath = $this->getResourcePath().$this->buildQueryString(
             $this->getMergedFilters($filters, $from, $limit)
         );
 
-        $result = $this->client->performHttpCall(
-            self::REST_LIST,
-            $apiPath
-        );
+        $response = $this
+            ->client
+            ->send(new DynamicGetRequest(
+                $apiPath,
+                $this->getResourceCollectionClass(),
+            ));
 
-        return $this->buildResultCollection($result->decode());
+        return $this->buildResultCollection($response->json());
     }
 
     /**
@@ -49,11 +47,8 @@ abstract class EndpointCollection extends RestEndpoint
      * that allows you to iterate through the items in the collection one by one. It supports forward
      * and backward iteration, pagination, and filtering.
      *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $filters
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     * @return LazyCollection
+     * @param  string  $from  The first resource ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     protected function createIterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
@@ -65,7 +60,7 @@ abstract class EndpointCollection extends RestEndpoint
 
     protected function getMergedFilters(array $filters = [], ?string $from = null, ?int $limit = null): array
     {
-        return array_merge(["from" => $from, "limit" => $limit], $filters);
+        return array_merge(['from' => $from, 'limit' => $limit], $filters);
     }
 
     protected function buildResultCollection(object $result): BaseCollection
@@ -83,13 +78,11 @@ abstract class EndpointCollection extends RestEndpoint
 
     /**
      * Get the collection class that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @return string
      */
     private function getResourceCollectionClass(): string
     {
-        if (!isset(static::$resourceCollection)) {
-            throw new RuntimeException("The resource collection class is not set on the endpoint.");
+        if (! isset(static::$resourceCollection)) {
+            throw new RuntimeException('The resource collection class is not set on the endpoint.');
         }
 
         return static::$resourceCollection;

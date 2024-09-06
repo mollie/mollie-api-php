@@ -8,6 +8,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Tests\Fixtures\MockResponse;
+use Tests\Fixtures\SequenceMockResponse;
 
 class MockMollieHttpAdapter implements HttpAdapterContract
 {
@@ -33,6 +34,10 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         }
 
         $mockedResponse = $this->expectedResponses[$pendingRequest->getRequest()::class];
+
+        if ($mockedResponse instanceof SequenceMockResponse) {
+            $mockedResponse = $mockedResponse->pop();
+        }
 
         return new Response(
             $mockedResponse->createPsrResponse(),

@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Helpers;
 
+use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 
@@ -17,7 +18,7 @@ class MiddlewareHandlers
         $this->onResponse = new Handlers;
     }
 
-    public function onRequest(callable $callback): static
+    public function onRequest(callable $callback, string $priority = MiddlewarePriority::MEDIUM): static
     {
         $this->onRequest->add(static function (PendingRequest $pendingRequest) use ($callback): PendingRequest {
             $result = $callback($pendingRequest);
@@ -27,18 +28,21 @@ class MiddlewareHandlers
             }
 
             return $pendingRequest;
-        });
+        }, $priority);
 
         return $this;
     }
 
-    public function onResponse(callable $callback): static
+    public function onResponse(callable $callback, string $priority = MiddlewarePriority::MEDIUM): static
     {
-        $this->onResponse->add(static function (Response $response) use ($callback): Response {
+        $this->onResponse->add(static function (Response $response) use ($callback) {
             $result = $callback($response);
 
-            return $result instanceof Response ? $result : $response;
-        });
+            return $result instanceof Response
+                || $result instanceof ViableResponse
+                ? $result
+                : $response;
+        }, $priority);
 
         return $this;
     }
@@ -48,8 +52,30 @@ class MiddlewareHandlers
         return $this->onRequest->execute($pendingRequest);
     }
 
-    public function executeOnResponse(Response $response): Response
+    /**
+     * @return Response|ViableResponse
+     */
+    public function executeOnResponse(Response $response)
     {
         return $this->onResponse->execute($response);
+    }
+
+    public function merge(MiddlewareHandlers $handlers): static
+    {
+        $onRequestHandlers = array_merge(
+            $this->onRequest->getHandlers(),
+            $handlers->onRequest->getHandlers(),
+        );
+
+        $this->onRequest->setHandlers($onRequestHandlers);
+
+        $onResponseHandlers = array_merge(
+            $this->onResponse->getHandlers(),
+            $handlers->onResponse->getHandlers(),
+        );
+
+        $this->onResponse->setHandlers($onResponseHandlers);
+
+        return $this;
     }
 }

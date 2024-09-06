@@ -2,14 +2,14 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreateRefundPayment;
+use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Payload\Metadata;
 
 class CreateRefundPaymentPayloadFactory extends Factory
 {
-    public function create(): CreateRefundPayment
+    public function create(): CreateRefundPaymentPayload
     {
-        return new CreateRefundPayment(
+        return new CreateRefundPaymentPayload(
             $this->get('description'),
             MoneyFactory::new($this->data['amount'])->create(),
             $this->mapIfNotNull('metadata', Metadata::class),

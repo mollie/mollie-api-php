@@ -2,10 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use ArrayObject;
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Http\Response;
 
-abstract class BaseCollection extends \ArrayObject
+abstract class BaseCollection extends ArrayObject implements HasResponse
 {
     protected Connector $connector;
 
@@ -21,12 +23,13 @@ abstract class BaseCollection extends \ArrayObject
     /**
      * @param  array|object  $items
      */
-    public function __construct(Connector $connector, Response $response, $items = [], ?\stdClass $_links = null)
+    public function __construct(Connector $connector, $items = [], ?\stdClass $_links = null, ?Response $response = null)
     {
         parent::__construct($items);
 
         $this->_links = $_links;
         $this->connector = $connector;
+        $this->response = $response;
     }
 
     public function getResponse(): ?Response

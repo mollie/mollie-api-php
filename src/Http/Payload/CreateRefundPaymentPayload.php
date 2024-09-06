@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Payload;
 
 use Mollie\Api\Traits\Makeable;
 
-class CreateRefundPayment extends DataBag
+class CreateRefundPaymentPayload extends DataBag
 {
     use Makeable;
 
@@ -39,7 +39,7 @@ class CreateRefundPayment extends DataBag
         $this->testmode = $testmode;
     }
 
-    public function data(): mixed
+    public function data(): array
     {
         return [
             'description' => $this->description,

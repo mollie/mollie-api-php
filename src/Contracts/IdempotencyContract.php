@@ -6,5 +6,7 @@ interface IdempotencyContract
 {
     public function getIdempotencyKey(): ?string;
 
+    public function resetIdempotencyKey(): self;
+
     public function getIdempotencyKeyGenerator(): ?IdempotencyKeyGeneratorContract;
 }

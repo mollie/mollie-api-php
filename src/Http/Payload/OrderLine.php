@@ -65,7 +65,7 @@ class OrderLine extends DataBag
         $this->productUrl = $productUrl;
     }
 
-    public function data(): mixed
+    public function data(): array
     {
         return [
             'description' => $this->description,

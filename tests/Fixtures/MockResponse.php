@@ -13,17 +13,17 @@ class MockResponse
 
     private int $status;
 
-    private array $headers;
+    private string $resourceId;
 
     private string $body;
 
     public function __construct(
         int $status = 200,
         string $body = '',
-        array $headers = [],
+        string $resourceId = '',
     ) {
         $this->status = $status;
-        $this->headers = $headers;
+        $this->resourceId = $resourceId;
         $this->body = $body;
     }
 
@@ -58,7 +58,13 @@ class MockResponse
             $body.'.json',
         ], DIRECTORY_SEPARATOR);
 
-        return file_get_contents($path);
+        $contents = file_get_contents($path);
+
+        if (! empty($this->resourceId)) {
+            $contents = str_replace('{{ RESOURCE_ID }}', $this->resourceId, $contents);
+        }
+
+        return $contents;
     }
 
     public function assertResponseBodyEquals(ResponseInterface $response): void

@@ -21,7 +21,11 @@ class ArrayStore implements ArrayRepository
         return $this;
     }
 
-    public function get(string $key, mixed $default = null): mixed
+    /**
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
     {
         return $this->store[$key] ?? $default;
     }
@@ -54,7 +58,7 @@ class ArrayStore implements ArrayRepository
 
     public function all(): array
     {
-        return array_filter($this->store, fn ($value) => ! empty($value));
+        return $this->store;
     }
 
     public function isEmpty(): bool

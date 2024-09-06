@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateClientLink;
+use Mollie\Api\Http\Payload\CreateClientLinkPayload;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\ClientLink;
 use Mollie\Api\Types\Method;
@@ -19,9 +19,9 @@ class CreateClientLinkRequest extends Request
      */
     public static string $targetResourceClass = ClientLink::class;
 
-    private CreateClientLink $payload;
+    private CreateClientLinkPayload $payload;
 
-    public function __construct(CreateClientLink $payload)
+    public function __construct(CreateClientLinkPayload $payload)
     {
         $this->payload = $payload;
     }

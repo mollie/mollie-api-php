@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Http\PendingRequest;
 
+use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\Http\PendingRequest;
@@ -20,12 +21,22 @@ class AuthenticateRequest
          * Remove testmode parameter from the request if authenticated via ApiKey.
          */
         if ($authenticator instanceof ApiKeyAuthenticator) {
-            $pendingRequest->query()->remove('testmode');
-            $pendingRequest->body()?->remove('testmode');
+            $this->removeTestmode($pendingRequest);
         }
 
         $authenticator->authenticate($pendingRequest);
 
         return $pendingRequest;
+    }
+
+    private function removeTestmode(PendingRequest $pendingRequest): void
+    {
+        if ($pendingRequest->query()->has('testmode')) {
+            $pendingRequest->query()->remove('testmode');
+        }
+
+        if ($pendingRequest->getRequest() instanceof HasPayload) {
+            $pendingRequest->body()?->remove('testmode');
+        }
     }
 }

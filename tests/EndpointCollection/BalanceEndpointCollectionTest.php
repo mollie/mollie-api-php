@@ -101,7 +101,7 @@ class BalanceEndpointCollectionTest extends TestCase
     public function testGetBalance()
     {
         $client = new MockClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance-get'),
+            GetBalanceRequest::class => new MockResponse(200, 'balance'),
         ]);
 
         /** @var Balance $balance */
@@ -125,7 +125,7 @@ class BalanceEndpointCollectionTest extends TestCase
     public function testGetPrimaryBalance()
     {
         $client = new MockClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance-get'),
+            GetBalanceRequest::class => new MockResponse(200, 'balance'),
         ]);
 
         /** @var Balance $balance */

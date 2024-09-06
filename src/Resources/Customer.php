@@ -8,6 +8,8 @@ class Customer extends BaseResource
 {
     use HasPresetOptions;
 
+    public static string $resourceIdPrefix = 'cst_';
+
     /**
      * Id of the customer.
      *

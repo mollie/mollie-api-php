@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmode;
-use Mollie\Api\Http\Payload\CreateRefundPayment;
+use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Rules\Id;
@@ -27,11 +27,11 @@ class CreateRefundPaymentRequest extends Request implements HasPayload, Supports
 
     private string $paymentId;
 
-    private CreateRefundPayment $payload;
+    private CreateRefundPaymentPayload $payload;
 
     public function __construct(
         string $identifier,
-        CreateRefundPayment $payload
+        CreateRefundPaymentPayload $payload
     ) {
         $this->paymentId = $identifier;
         $this->payload = $payload;

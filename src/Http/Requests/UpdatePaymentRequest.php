@@ -2,24 +2,30 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Payload\UpdatePayment;
+use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdatePaymentRequest extends Request
+class UpdatePaymentRequest extends Request implements HasPayload
 {
     use HasJsonPayload;
 
     protected static string $method = Method::PATCH;
 
+    /**
+     * The resource class the request should be casted to.
+     */
+    public static string $targetResourceClass = Payment::class;
+
     private string $id;
 
-    private UpdatePayment $payload;
+    private UpdatePaymentPayload $payload;
 
-    public function __construct(string $id, UpdatePayment $payload)
+    public function __construct(string $id, UpdatePaymentPayload $payload)
     {
         $this->id = $id;
         $this->payload = $payload;

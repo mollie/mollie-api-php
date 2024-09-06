@@ -12,7 +12,7 @@ class PaymentRoute extends DataBag
         public readonly ?DateTime $delayUntil = null,
     ) {}
 
-    public function data(): mixed
+    public function data(): array
     {
         return [
             'amount' => $this->amount,

@@ -6,7 +6,11 @@ interface ArrayRepository
 {
     public function set(array $data): static;
 
-    public function get(string $key, mixed $default = null): mixed;
+    /**
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public function get(string $key, $default = null);
 
     public function has(string $key): bool;
 

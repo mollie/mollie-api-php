@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Payload;
 
-class UpdatePayment extends DataBag
+class UpdatePaymentPayload extends DataBag
 {
     public ?string $description;
 

@@ -4,5 +4,8 @@ namespace Mollie\Api\Contracts;
 
 interface DataResolver
 {
-    public function resolve(): mixed;
+    /**
+     * @return mixed
+     */
+    public function resolve();
 }

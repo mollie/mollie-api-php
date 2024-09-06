@@ -4,8 +4,11 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Contracts\SingleResourceEndpointContract;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\DynamicPatchRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Traits\InteractsWithResource as TraitsInteractsWithResource;
 use RuntimeException;
 
@@ -24,13 +27,15 @@ abstract class RestEndpoint extends BaseEndpoint
      */
     protected function createResource(array $body, array $filters): BaseResource
     {
-        $result = $this->client->performHttpCall(
-            self::REST_CREATE,
-            $this->getResourcePath().$this->buildQueryString($filters),
-            $this->parseRequestBody($body)
-        );
-
-        return ResourceFactory::createFromApiResult($this->client, $result->decode(), static::getResourceClass());
+        return $this
+            ->client
+            ->send(new DynamicPostRequest(
+                $this->getResourcePath(),
+                static::getResourceClass(),
+                $body,
+                $filters
+            ))
+            ->toResource();
     }
 
     /**
@@ -43,17 +48,14 @@ abstract class RestEndpoint extends BaseEndpoint
     {
         $id = urlencode($id);
 
-        $response = $this->client->performHttpCall(
-            self::REST_UPDATE,
-            $this->getPathToSingleResource($id),
-            $this->parseRequestBody($body)
-        );
-
-        if ($response->isEmpty()) {
-            return null;
-        }
-
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
+        return $this
+            ->client
+            ->send(new DynamicPatchRequest(
+                $this->getPathToSingleResource($id),
+                static::getResourceClass(),
+                $body
+            ))
+            ->toResource();
     }
 
     /**
@@ -69,13 +71,14 @@ abstract class RestEndpoint extends BaseEndpoint
             throw new ApiException('Invalid resource id.');
         }
 
-        $id = urlencode($id);
-        $response = $this->client->performHttpCall(
-            self::REST_READ,
-            $this->getPathToSingleResource($id).$this->buildQueryString($filters)
-        );
-
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
+        return $this
+            ->client
+            ->send(new DynamicGetRequest(
+                $this->getPathToSingleResource($id),
+                static::getResourceClass(),
+                $filters
+            ))
+            ->toResource();
     }
 
     /**
@@ -90,18 +93,15 @@ abstract class RestEndpoint extends BaseEndpoint
             throw new ApiException('Invalid resource id.');
         }
 
-        $id = urlencode($id);
-        $response = $this->client->performHttpCall(
-            self::REST_DELETE,
-            $this->getPathToSingleResource($id),
-            $this->parseRequestBody($body)
-        );
-
-        if ($response->isEmpty()) {
-            return null;
-        }
-
-        return ResourceFactory::createFromApiResult($this->client, $response->decode(), static::getResourceClass());
+        return $this
+            ->client
+            ->send(new DynamicDeleteRequest(
+                $this->getPathToSingleResource($id),
+                static::getResourceClass(),
+                null,
+                $body
+            ))
+            ->toResource();
     }
 
     protected function guardAgainstInvalidId(string $id): void

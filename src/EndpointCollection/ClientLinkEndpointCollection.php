@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateClientLinkPayloadFactory;
-use Mollie\Api\Http\Payload\CreateClientLink;
+use Mollie\Api\Http\Payload\CreateClientLinkPayload;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
 
@@ -19,7 +19,7 @@ class ClientLinkEndpointCollection extends EndpointCollection
      */
     public function create($data = []): ClientLink
     {
-        if (! $data instanceof CreateClientLink) {
+        if (! $data instanceof CreateClientLinkPayload) {
             $data = CreateClientLinkPayloadFactory::new($data)
                 ->create();
         }

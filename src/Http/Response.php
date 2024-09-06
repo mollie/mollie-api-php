@@ -4,6 +4,7 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Traits\HandlesResourceCreation;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -12,6 +13,8 @@ use Throwable;
 
 class Response
 {
+    use HandlesResourceCreation;
+
     protected ResponseInterface $psrResponse;
 
     protected RequestInterface $psrRequest;
@@ -35,6 +38,14 @@ class Response
         $this->psrRequest = $psrRequest;
         $this->pendingRequest = $pendingRequest;
         $this->senderException = $senderException;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function toResource()
+    {
+        return $this->createResource($this->getRequest(), $this);
     }
 
     /**

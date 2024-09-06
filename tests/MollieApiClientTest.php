@@ -3,22 +3,24 @@
 namespace Tests;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\Http\Adapter\CurlMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
-use Mollie\Api\Http\Payload\CreatePayment;
+use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response as HttpResponse;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\Mollie\TestHelpers\FakeHttpAdapter;
 
 class MollieApiClientTest extends TestCase
 {
@@ -132,7 +134,7 @@ class MollieApiClientTest extends TestCase
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
 
-        $response = $client->send(new CreatePaymentRequest(new CreatePayment(
+        $response = $client->send(new CreatePaymentRequest(new CreatePaymentPayload(
             'test',
             new Money('EUR', '100.00'),
         )));
@@ -167,96 +169,110 @@ class MollieApiClientTest extends TestCase
         /** @var HttpResponse $response */
         $response = $client->send(new DynamicGetRequest(''));
 
-        $this->assertEquals(false, $response->getPendingRequest()->headers()->get('Content-Type'));
+        $this->assertFalse($response->getPendingRequest()->headers()->has('Content-Type'));
     }
 
-    public function testIfNoIdempotencyKeyIsSetNoReferenceIsIncludedInTheRequestHeaders()
+    /** @test */
+    public function no_idempotency_is_set_on_if_no_key_nor_generator_are_set()
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
-        $fakeAdapter = new FakeHttpAdapter($response);
+        $client = new MockClient([
+            DynamicDeleteRequest::class => new MockResponse(204, ''),
+        ]);
 
-        $mollieClient = new MollieApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
+        $client->clearIdempotencyKeyGenerator();
 
-        // ... Not setting an idempotency key here
+        /** @var HttpResponse $response */
+        $response = $client->send(new DynamicDeleteRequest(''));
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
-
-        $this->assertFalse(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
+        $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
-    public function testIdempotencyKeyIsUsedOnMutatingRequests()
+    /**
+     * @dataProvider providesMutatingRequests
+     *
+     * @test
+     */
+    public function idempotency_key_is_used_on_mutating_requests($request, $response)
     {
-        $this->assertIdempotencyKeyIsUsedForMethod('POST');
-        $this->assertIdempotencyKeyIsUsedForMethod('PATCH');
-        $this->assertIdempotencyKeyIsUsedForMethod('DELETE');
+        $client = new MockClient([
+            $request::class => $response,
+        ]);
+
+        $client->setIdempotencyKey('idempotentFooBar');
+
+        $response = $client->send($request);
+
+        $this->assertTrue($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
+        $this->assertEquals('idempotentFooBar', $response->getPendingRequest()->headers()->get(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
+    }
+
+    public static function providesMutatingRequests(): array
+    {
+        return [
+            'delete' => [
+                new DynamicDeleteRequest(''),
+                new MockResponse(204, ''),
+            ],
+            'post' => [
+                new CreatePaymentRequest(new CreatePaymentPayload(
+                    'test',
+                    new Money('EUR', '100.00'),
+                )),
+                new MockResponse(200, 'payment'),
+            ],
+            'patch' => [
+                new UpdatePaymentRequest('tr_payment-id', new UpdatePaymentPayload(
+                    'test',
+                )),
+                new MockResponse(200, 'payment'),
+            ],
+        ];
     }
 
     public function testIdempotencyKeyIsNotUsedOnGetRequests()
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
-        $fakeAdapter = new FakeHttpAdapter($response);
+        $client = new MockClient([
+            DynamicGetRequest::class => new MockResponse(204),
+        ]);
 
-        $mollieClient = new MollieApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
-        $mollieClient->setIdempotencyKey('idempotentFooBar');
+        $client->setIdempotencyKey('idempotentFooBar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
+        $response = $client->send(new DynamicGetRequest(''));
 
-        $this->assertFalse(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
+        $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
     public function testIdempotencyKeyResetsAfterEachRequest()
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
-        $fakeAdapter = new FakeHttpAdapter($response);
+        $client = new MockClient([
+            DynamicDeleteRequest::class => new MockResponse(204),
+        ]);
 
-        $mollieClient = new MollieApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
-        $mollieClient->setIdempotencyKey('idempotentFooBar');
-        $this->assertEquals('idempotentFooBar', $mollieClient->getIdempotencyKey());
+        $client->setIdempotencyKey('idempotentFooBar');
 
-        $mollieClient->performHttpCallToFullUrl('POST', '');
+        $this->assertEquals('idempotentFooBar', $client->getIdempotencyKey());
 
-        $this->assertNull($mollieClient->getIdempotencyKey());
+        $client->send(new DynamicDeleteRequest(''));
+
+        $this->assertNull($client->getIdempotencyKey());
     }
 
     public function testItUsesTheIdempotencyKeyGenerator()
     {
-        $response = new Response(200, [], '{"resource": "payment"}');
-        $fakeAdapter = new FakeHttpAdapter($response);
+        $client = new MockClient([
+            DynamicDeleteRequest::class => new MockResponse(204),
+        ]);
+
         $fakeIdempotencyKeyGenerator = new FakeIdempotencyKeyGenerator;
         $fakeIdempotencyKeyGenerator->setFakeKey('fake-idempotency-key');
 
-        $mollieClient = new MollieApiClient($fakeAdapter, null, $fakeIdempotencyKeyGenerator);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
-        $this->assertNull($mollieClient->getIdempotencyKey());
+        $client->setIdempotencyKeyGenerator($fakeIdempotencyKeyGenerator);
 
-        $mollieClient->performHttpCallToFullUrl('POST', '');
+        $this->assertNull($client->getIdempotencyKey());
 
-        $this->assertEquals('fake-idempotency-key', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);
-        $this->assertNull($mollieClient->getIdempotencyKey());
-    }
+        $response = $client->send(new DynamicDeleteRequest(''));
 
-    /**
-     * @return void
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
-     */
-    private function assertIdempotencyKeyIsUsedForMethod($httpMethod)
-    {
-        $response = new Response(200, [], '{"resource": "payment"}');
-        $fakeAdapter = new FakeHttpAdapter($response);
-
-        $mollieClient = new MollieApiClient($fakeAdapter);
-        $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
-        $mollieClient->setIdempotencyKey('idempotentFooBar');
-
-        $mollieClient->performHttpCallToFullUrl($httpMethod, '');
-
-        $this->assertTrue(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
-        $this->assertEquals('idempotentFooBar', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);
+        $this->assertEquals('fake-idempotency-key', $response->getPendingRequest()->headers()->get(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
+        $this->assertNull($client->getIdempotencyKey());
     }
 }

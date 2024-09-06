@@ -22,6 +22,13 @@ abstract class Request implements ValidatableDataProvider
      */
     public static string $targetResourceClass;
 
+    public static bool $shouldAutoHydrate = false;
+
+    public static function hydrate(bool $shouldAutoHydrate = true): void
+    {
+        self::$shouldAutoHydrate = $shouldAutoHydrate;
+    }
+
     /**
      * Get the method of the request.
      */

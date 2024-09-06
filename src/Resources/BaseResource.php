@@ -3,10 +3,12 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 
 #[\AllowDynamicProperties]
-abstract class BaseResource
+abstract class BaseResource implements HasResponse
 {
     protected Connector $connector;
 
@@ -27,8 +29,13 @@ abstract class BaseResource
         $this->response = $response;
     }
 
-    public function getResponse(): Response
+    public function getResponse(): ?Response
     {
         return $this->response;
+    }
+
+    public function getPendingRequest(): ?PendingRequest
+    {
+        return $this->response?->getPendingRequest();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Payload;
 
-class CreateClientLink extends DataBag
+class CreateClientLinkPayload extends DataBag
 {
     public Owner $owner;
 

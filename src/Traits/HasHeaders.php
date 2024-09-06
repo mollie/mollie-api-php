@@ -2,13 +2,14 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Contracts\ArrayRepository;
 use Mollie\Api\Repositories\ArrayStore;
 
 trait HasHeaders
 {
-    protected ?ArrayStore $headers;
+    protected ArrayRepository $headers;
 
-    public function headers(): ArrayStore
+    public function headers(): ArrayRepository
     {
         return $this->headers ??= new ArrayStore($this->defaultHeaders());
     }

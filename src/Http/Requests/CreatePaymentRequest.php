@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\CreatePayment;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Payment;
@@ -24,11 +24,11 @@ class CreatePaymentRequest extends Request implements HasPayload
      */
     public static string $targetResourceClass = Payment::class;
 
-    private CreatePayment $payload;
+    private CreatePaymentPayload $payload;
 
     private ?CreatePaymentQuery $query = null;
 
-    public function __construct(CreatePayment $payload, ?CreatePaymentQuery $query = null)
+    public function __construct(CreatePaymentPayload $payload, ?CreatePaymentQuery $query = null)
     {
         $this->payload = $payload;
         $this->query = $query;

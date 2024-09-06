@@ -4,13 +4,13 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Helpers;
 use Mollie\Api\Http\Payload\Metadata;
-use Mollie\Api\Http\Payload\UpdatePayment;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 
 class UpdatePaymentPayloadFactory extends Factory
 {
-    public function create(): UpdatePayment
+    public function create(): UpdatePaymentPayload
     {
-        return new UpdatePayment(
+        return new UpdatePaymentPayload(
             $this->get('description'),
             $this->get('redirectUrl'),
             $this->get('cancelUrl'),
@@ -19,7 +19,7 @@ class UpdatePaymentPayloadFactory extends Factory
             $this->get('method'),
             $this->get('locale'),
             $this->get('restrictPaymentMethodsToCountry'),
-            $this->get('additional') ?? Helpers::filterByProperties(UpdatePayment::class, $this->data),
+            $this->get('additional') ?? Helpers::filterByProperties(UpdatePaymentPayload::class, $this->data),
             $this->get('testmode')
         );
     }

@@ -4,5 +4,8 @@ namespace Mollie\Api\Contracts;
 
 interface DataProvider
 {
-    public function data(): mixed;
+    /**
+     * @return mixed
+     */
+    public function data();
 }

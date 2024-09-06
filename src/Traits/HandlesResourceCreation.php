@@ -13,7 +13,10 @@ use Mollie\Api\Resources\ResourceFactory;
 
 trait HandlesResourceCreation
 {
-    protected function createResource(Request $request, Response $response): mixed
+    /**
+     * @return mixed
+     */
+    protected function createResource(Request $request, Response $response)
     {
         $targetResourceClass = $request->getTargetResourceClass();
 
@@ -24,7 +27,7 @@ trait HandlesResourceCreation
         }
 
         if ($this->isResourceTarget($targetResourceClass)) {
-            return ResourceFactory::createFromApiResult($this, $response, $targetResourceClass);
+            return ResourceFactory::createFromApiResult($response->getConnector(), $response, $targetResourceClass);
         }
 
         return $response;
@@ -45,12 +48,12 @@ trait HandlesResourceCreation
         $result = $response->json();
 
         return ResourceFactory::createBaseResourceCollection(
-            $this,
+            $response->getConnector(),
             ($targetCollectionClass)::getResourceClass(),
             $result->_embedded->{$targetCollectionClass::getCollectionResourceName()},
-            $response,
             $result->_links,
-            $targetCollectionClass
+            $targetCollectionClass,
+            $response,
         );
     }
 

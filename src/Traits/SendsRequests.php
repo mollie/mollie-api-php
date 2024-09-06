@@ -11,20 +11,14 @@ use Mollie\Api\MollieApiClient;
  */
 trait SendsRequests
 {
-    use HandlesResourceCreation;
-
-    public function send(Request $request): ?object
+    public function send(Request $request): object
     {
         $pendingRequest = new PendingRequest($this, $request);
 
-        // Execute request middleware
-        $pendingRequest->executeRequestHandlers();
+        $pendingRequest = $pendingRequest->executeRequestHandlers();
 
         $response = $this->httpClient->sendRequest($pendingRequest);
 
-        // Execute response middleware
-        $response = $pendingRequest->executeResponseHandlers($response);
-
-        return $this->createResource($request, $response);
+        return $pendingRequest->executeResponseHandlers($response);
     }
 }

@@ -4,9 +4,13 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\BodyRepository;
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Helpers\MiddlewarePriority;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
+use Mollie\Api\Http\Middleware\EvaluateHydrationSetting;
 use Mollie\Api\Http\Middleware\GuardResponse;
+use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\Middleware\ThrowExceptionIfRequestFailed;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
@@ -47,6 +51,8 @@ class PendingRequest
         $this->method = $request->getMethod();
         $this->url = Url::join($connector->resolveBaseUrl(), $request->resolveResourcePath());
 
+        $this->middleware()->merge($connector->middleware());
+
         $this
             ->tap(new MergeRequestProperties)
             ->tap(new ValidateProperties)
@@ -56,10 +62,13 @@ class PendingRequest
 
         $this
             ->middleware()
+            ->onRequest(new EvaluateHydrationSetting)
             ->onRequest(new ApplyIdempotencyKey)
             ->onResponse(new ResetIdempotencyKey)
-            ->onResponse(new GuardResponse)
-            ->onResponse(new ThrowExceptionIfRequestFailed);
+            ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
+            ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH)
+            ->onResponse(new Hydrate, MiddlewarePriority::LOW);
+
     }
 
     public function setPayload(BodyRepository $bodyRepository): static
@@ -99,7 +108,10 @@ class PendingRequest
         return $this->middleware()->executeOnRequest($this);
     }
 
-    public function executeResponseHandlers(Response $response): Response
+    /**
+     * @return Response|HasResponse
+     */
+    public function executeResponseHandlers(Response $response)
     {
         return $this->middleware()->executeOnResponse($response);
     }
