@@ -104,7 +104,7 @@ class ResourceFactory
         $data = null,
         ?object $_links = null,
         ?string $resourceCollectionClass = null,
-        ?Response $response = null,
+        ?Response $response = null
     ): BaseCollection {
         return self::instantiateBaseCollection(
             $connector,
