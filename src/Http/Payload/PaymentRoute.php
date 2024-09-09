@@ -2,15 +2,16 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use DateTime;
+use DateTimeInterface;
 
 class PaymentRoute extends DataBag
 {
     public function __construct(
         public readonly Money $amount,
         public readonly string $organizationId,
-        public readonly ?DateTime $delayUntil = null,
-    ) {}
+        public readonly ?DateTimeInterface $delayUntil = null,
+    ) {
+    }
 
     public function data(): array
     {

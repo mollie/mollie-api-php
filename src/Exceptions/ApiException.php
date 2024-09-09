@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Exceptions;
 
-use DateTime;
+use DateTimeImmutable;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -37,9 +37,9 @@ class ApiException extends \Exception
     ) {
         $this->plainMessage = $message;
 
-        $this->raisedAt = new \DateTimeImmutable;
+        $this->raisedAt = new DateTimeImmutable;
 
-        $formattedRaisedAt = $this->raisedAt->format(DateTime::ATOM);
+        $formattedRaisedAt = $this->raisedAt->format(DateTimeImmutable::ATOM);
         $message = "[{$formattedRaisedAt}] ".$message;
 
         if (! empty($field)) {
@@ -140,7 +140,7 @@ class ApiException extends \Exception
     /**
      * Get the ISO8601 representation of the moment this exception was thrown
      */
-    public function getRaisedAt(): \DateTimeImmutable
+    public function getRaisedAt(): DateTimeImmutable
     {
         return $this->raisedAt;
     }

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use DateTime;
+use DateTimeInterface;
 use Mollie\Api\Rules\Matches;
 
 class RecurringBillingCycle extends DataBag
@@ -20,14 +20,14 @@ class RecurringBillingCycle extends DataBag
 
     public ?int $times;
 
-    public ?DateTime $startDate;
+    public ?DateTimeInterface $startDate;
 
     public function __construct(
         string $interval,
         ?string $description = null,
         ?Money $amount = null,
         ?int $times = null,
-        ?DateTime $startDate = null,
+        ?DateTimeInterface $startDate = null,
     ) {
         $this->interval = $interval;
         $this->description = $description;

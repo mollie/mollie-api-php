@@ -2,21 +2,21 @@
 
 namespace Mollie\Api\Http\Query;
 
-use DateTime;
+use DateTimeInterface;
 
 class GetBalanceReportQuery extends Query
 {
-    public DateTime $from;
+    public DateTimeInterface $from;
 
-    public DateTime $until;
+    public DateTimeInterface $until;
 
     public ?string $grouping;
 
     public ?bool $testmode;
 
     public function __construct(
-        DateTime $from,
-        DateTime $until,
+        DateTimeInterface $from,
+        DateTimeInterface $until,
         ?string $grouping = null,
         ?bool $testmode = null
     ) {

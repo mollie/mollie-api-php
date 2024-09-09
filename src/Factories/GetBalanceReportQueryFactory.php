@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTime;
+use DateTimeImmutable;
 use Mollie\Api\Http\Query\GetBalanceReportQuery;
 
 class GetBalanceReportQueryFactory extends Factory
@@ -14,8 +14,8 @@ class GetBalanceReportQueryFactory extends Factory
         }
 
         return new GetBalanceReportQuery(
-            DateTime::createFromFormat('Y-m-d', $this->get('from')),
-            DateTime::createFromFormat('Y-m-d', $this->get('until')),
+            DateTimeImmutable::createFromFormat('Y-m-d', $this->get('from')),
+            DateTimeImmutable::createFromFormat('Y-m-d', $this->get('until')),
             $this->get('grouping'),
             $this->get('testmode')
         );

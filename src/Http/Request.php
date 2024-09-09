@@ -4,11 +4,13 @@ namespace Mollie\Api\Http;
 
 use LogicException;
 use Mollie\Api\Contracts\ValidatableDataProvider;
+use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\HasRules;
 
 abstract class Request implements ValidatableDataProvider
 {
+    use HasMiddleware;
     use HasRequestProperties;
     use HasRules;
 

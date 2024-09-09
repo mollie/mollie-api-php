@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTime;
+use DateTimeImmutable;
 use Mollie\Api\Helpers;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Http\Payload\DataCollection;
@@ -22,7 +22,7 @@ class PaymentRouteCollectionFactory extends Factory
                 Arr::get($item, 'destination.organizationId'),
                 Helpers::compose(
                     Arr::get($item, 'delayUntil'),
-                    fn ($value) => DateTime::createFromFormat('Y-m-d', $value)
+                    fn ($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value)
                 )
             );
         }, $this->data);

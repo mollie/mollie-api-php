@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTime;
+use DateTimeImmutable;
 use Mollie\Api\Http\Payload\RecurringBillingCycle;
 
 class RecurringBillingCycleFactory extends Factory
@@ -14,7 +14,7 @@ class RecurringBillingCycleFactory extends Factory
             $this->get('descriptipn'),
             $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->get('times'),
-            $this->mapIfNotNull('startDate', fn (string $item) => DateTime::createFromFormat('Y-m-d', $item)),
+            $this->mapIfNotNull('startDate', fn (string $item) => DateTimeImmutable::createFromFormat('Y-m-d', $item)),
         );
     }
 }

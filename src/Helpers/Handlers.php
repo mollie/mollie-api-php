@@ -13,9 +13,18 @@ class Handlers
      */
     protected array $handlers = [];
 
-    public function add(callable $handler, string $priority): void
+    public function add(callable $handler, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): void
     {
-        $this->handlers[] = new Handler($handler, $priority);
+        if (in_array($name, [MiddlewarePriority::HIGH, MiddlewarePriority::MEDIUM, MiddlewarePriority::LOW])) {
+            $priority = $name;
+            $name = null;
+        }
+
+        if (is_string($name) && $this->handlerExists($name)) {
+            throw new \InvalidArgumentException("Handler with name '{$name}' already exists.");
+        }
+
+        $this->handlers[] = new Handler($handler, $name, $priority);
     }
 
     public function setHandlers(array $handlers): void
@@ -69,5 +78,14 @@ class Handlers
         }
 
         return array_merge($highPriority, $mediumPriority, $lowPriority);
+    }
+
+    private function handlerExists(string $name): bool
+    {
+        foreach ($this->handlers as $handler) {
+            if ($handler->name() === $name) {
+                return true;
+            }
+        }
     }
 }

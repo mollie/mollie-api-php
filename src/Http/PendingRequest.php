@@ -51,7 +51,7 @@ class PendingRequest
         $this->method = $request->getMethod();
         $this->url = Url::join($connector->resolveBaseUrl(), $request->resolveResourcePath());
 
-        $this->middleware()->merge($connector->middleware());
+        $this->middleware()->merge($request->middleware(), $connector->middleware());
 
         $this
             ->tap(new MergeRequestProperties)
@@ -62,12 +62,12 @@ class PendingRequest
 
         $this
             ->middleware()
-            ->onRequest(new EvaluateHydrationSetting)
-            ->onRequest(new ApplyIdempotencyKey)
-            ->onResponse(new ResetIdempotencyKey)
+            ->onRequest(new EvaluateHydrationSetting, 'hydration')
+            ->onRequest(new ApplyIdempotencyKey, 'idempotency')
+            ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
             ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH)
-            ->onResponse(new Hydrate, MiddlewarePriority::LOW);
+            ->onResponse(new Hydrate, 'hydration', MiddlewarePriority::LOW);
 
     }
 

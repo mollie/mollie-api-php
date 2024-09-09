@@ -18,7 +18,7 @@ class MiddlewareHandlers
         $this->onResponse = new Handlers;
     }
 
-    public function onRequest(callable $callback, string $priority = MiddlewarePriority::MEDIUM): static
+    public function onRequest(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): static
     {
         $this->onRequest->add(static function (PendingRequest $pendingRequest) use ($callback): PendingRequest {
             $result = $callback($pendingRequest);
@@ -28,12 +28,12 @@ class MiddlewareHandlers
             }
 
             return $pendingRequest;
-        }, $priority);
+        }, $name, $priority);
 
         return $this;
     }
 
-    public function onResponse(callable $callback, string $priority = MiddlewarePriority::MEDIUM): static
+    public function onResponse(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): static
     {
         $this->onResponse->add(static function (Response $response) use ($callback) {
             $result = $callback($response);
@@ -42,7 +42,7 @@ class MiddlewareHandlers
                 || $result instanceof ViableResponse
                 ? $result
                 : $response;
-        }, $priority);
+        }, $name, $priority);
 
         return $this;
     }
@@ -60,21 +60,27 @@ class MiddlewareHandlers
         return $this->onResponse->execute($response);
     }
 
-    public function merge(MiddlewareHandlers $handlers): static
+    /**
+     * @param  array<MiddlewareHandlers>  ...$handlers
+     */
+    public function merge(...$handlersCollection): static
     {
-        $onRequestHandlers = array_merge(
-            $this->onRequest->getHandlers(),
-            $handlers->onRequest->getHandlers(),
-        );
+        /** @var MiddlewareHandlers $handlers */
+        foreach ($handlersCollection as $handlers) {
+            $onRequestHandlers = array_merge(
+                $this->onRequest->getHandlers(),
+                $handlers->onRequest->getHandlers()
+            );
 
-        $this->onRequest->setHandlers($onRequestHandlers);
+            $this->onRequest->setHandlers($onRequestHandlers);
 
-        $onResponseHandlers = array_merge(
-            $this->onResponse->getHandlers(),
-            $handlers->onResponse->getHandlers(),
-        );
+            $onResponseHandlers = array_merge(
+                $this->onResponse->getHandlers(),
+                $handlers->onResponse->getHandlers()
+            );
 
-        $this->onResponse->setHandlers($onResponseHandlers);
+            $this->onResponse->setHandlers($onResponseHandlers);
+        }
 
         return $this;
     }

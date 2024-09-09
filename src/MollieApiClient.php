@@ -13,6 +13,7 @@ use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
 use Mollie\Api\EndpointCollection\OrderEndpointCollection;
+use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
@@ -25,7 +26,6 @@ use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
 use Mollie\Api\Endpoints\OrderShipmentEndpoint;
-use Mollie\Api\Endpoints\OrganizationEndpoint;
 use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
 use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
 use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
@@ -78,7 +78,7 @@ use Mollie\Api\Traits\SendsRequests;
  * @property OrderLineEndpoint $orderLines
  * @property OrderPaymentEndpoint $orderPayments
  * @property OrderRefundEndpoint $orderRefunds
- * @property OrganizationEndpoint $organizations
+ * @property OrganizationEndpointCollection $organizations
  * @property OrganizationPartnerEndpoint $organizationPartners
  * @property PaymentEndpointCollection $payments
  * @property PaymentCaptureEndpoint $paymentCaptures
