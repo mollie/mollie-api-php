@@ -6,11 +6,21 @@ use DateTimeInterface;
 
 class PaymentRoute extends DataBag
 {
+    public Money $amount;
+
+    public string $organizationId;
+
+    public ?DateTimeInterface $delayUntil;
+
     public function __construct(
-        public readonly Money $amount,
-        public readonly string $organizationId,
-        public readonly ?DateTimeInterface $delayUntil = null
-    ) {}
+        Money $amount,
+        string $organizationId,
+        ?DateTimeInterface $delayUntil = null
+    ) {
+        $this->amount = $amount;
+        $this->organizationId = $organizationId;
+        $this->delayUntil = $delayUntil;
+    }
 
     public function data(): array
     {
