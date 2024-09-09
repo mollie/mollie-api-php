@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class ClientEndpointTest extends BaseEndpointTest
 {
@@ -15,7 +15,7 @@ class ClientEndpointTest extends BaseEndpointTest
     public function testGetClient()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/clients/org_1337"),
+            new Request('GET', '/v2/clients/org_1337'),
             new Response(
                 200,
                 [],
@@ -60,7 +60,7 @@ class ClientEndpointTest extends BaseEndpointTest
     public function testGetClientsPage()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/clients", [], ''),
+            new Request('GET', '/v2/clients', [], ''),
             new Response(
                 200,
                 [],
@@ -122,7 +122,7 @@ class ClientEndpointTest extends BaseEndpointTest
         $clients = $this->apiClient->clients->page();
 
         $this->assertInstanceOf(ClientCollection::class, $clients);
-        $this->assertEquals(1, $clients->count);
+        $this->assertEquals(1, $clients->count());
         $this->assertCount(1, $clients);
 
         $client = $clients[0];
@@ -156,7 +156,7 @@ class ClientEndpointTest extends BaseEndpointTest
             'application/hal+json',
             $client->_links->onboarding
         );
-        
+
         $this->assertLinkObject(
             'https://docs.mollie.com/reference/v2/clients-api/get-client',
             'text/html',

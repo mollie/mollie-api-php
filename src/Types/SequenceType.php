@@ -9,7 +9,7 @@ class SequenceType
      *
      * @see https://docs.mollie.com/guides/recurring
      */
-    public const SEQUENCETYPE_ONEOFF = "oneoff";
-    public const SEQUENCETYPE_FIRST = "first";
-    public const SEQUENCETYPE_RECURRING = "recurring";
+    public const ONEOFF = "oneoff";
+    public const FIRST = "first";
+    public const RECURRING = "recurring";
 }

@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Resources;
 
-class Client extends BaseResource
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
+
+class Client extends BaseResource implements EmbeddedResourcesContract
 {
     /**
      * The unique identifier of the client, which corresponds to the ID of the organization
@@ -33,4 +35,12 @@ class Client extends BaseResource
      * @var \stdClass|null
      */
     public $commission;
+
+    public function getEmbeddedResourcesMap(): array
+    {
+        return [
+            'organization' => Organization::class,
+            'onboarding' => Onboarding::class,
+        ];
+    }
 }

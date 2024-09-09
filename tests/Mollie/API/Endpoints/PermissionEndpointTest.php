@@ -6,32 +6,32 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class PermissionEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
     /**
-     * @param string $permissionId
+     * @param  string  $permissionId
      *
      * @dataProvider dpTestGetPermissionIds
      */
     public function testGetPermissionIds($permissionId)
     {
         $this->mockApiCall(
-            new Request('GET', '/v2/permissions/' . $permissionId),
+            new Request('GET', '/v2/permissions/'.$permissionId),
             new Response(
                 200,
                 [],
                 '{
                   "resource": "permission",
-                  "id": "' . $permissionId . '",
+                  "id": "'.$permissionId.'",
                   "description": "Some dummy permission description",
                   "granted": true,
                   "_links": {
                     "self": {
-                        "href": "https://api.mollie.com/v2/permissions/' . $permissionId . '",
+                        "href": "https://api.mollie.com/v2/permissions/'.$permissionId.'",
                         "type": "application/hal+json"
                     },
                     "documentation": {
@@ -86,7 +86,7 @@ class PermissionEndpointTest extends BaseEndpointTest
         $this->assertTrue($permission->granted);
 
         $this->assertLinkObject(
-            'https://api.mollie.com/v2/permissions/' . $permissionId,
+            'https://api.mollie.com/v2/permissions/'.$permissionId,
             'application/hal+json',
             $permission->_links->self
         );

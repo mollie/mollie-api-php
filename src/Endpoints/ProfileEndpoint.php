@@ -8,38 +8,36 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 
-class ProfileEndpoint extends CollectionEndpointAbstract
+class ProfileEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "profiles";
-
-    protected $resourceClass = Profile::class;
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'pfl_';
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Profile
-     */
-    protected function getResourceObject()
-    {
-        return new $this->resourceClass($this->client);
-    }
+    protected string $resourcePath = "profiles";
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * Resource id prefix.
+     * Used to validate resource id's.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return ProfileCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new ProfileCollection($this->client, $count, $_links);
-    }
+    protected static string $resourceIdPrefix = 'pfl_';
+
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Profile::class;
+
+    /**
+     * The resource collection class name.
+     *
+     * @var string
+     */
+    public static string $resourceCollection = ProfileCollection::class;
 
     /**
      * Creates a Profile in Mollie.
@@ -50,9 +48,10 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return Profile
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): Profile
     {
-        return $this->rest_create($data, $filters);
+        /** @var Profile */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -66,13 +65,14 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return Profile
      * @throws ApiException
      */
-    public function get($profileId, array $parameters = [])
+    public function get($profileId, array $parameters = []): Profile
     {
         if ($profileId === 'me') {
             return $this->getCurrent($parameters);
         }
 
-        return $this->rest_read($profileId, $parameters);
+        /** @var Profile */
+        return $this->readResource($profileId, $parameters);
     }
 
     /**
@@ -81,18 +81,16 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
      * @param string $profileId
-     *
      * @param array $data
-     * @return Profile
+     * @return null|Profile
      * @throws ApiException
      */
-    public function update($profileId, array $data = [])
+    public function update(string $profileId, array $data = []): ?Profile
     {
-        if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($profileId);
 
-        return parent::rest_update($profileId, $data);
+        /** @var null|Profile */
+        return $this->updateResource($profileId, $data);
     }
 
     /**
@@ -103,11 +101,12 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return CurrentProfile
      * @throws ApiException
      */
-    public function getCurrent(array $parameters = [])
+    public function getCurrent(array $parameters = []): CurrentProfile
     {
-        $this->resourceClass = CurrentProfile::class;
+        static::$resource = CurrentProfile::class;
 
-        return $this->rest_read('me', $parameters);
+        /** @var CurrentProfile */
+        return $this->readResource('me', $parameters);
     }
 
     /**
@@ -119,12 +118,13 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @param string $profileId
      *
      * @param array $data
-     * @return Profile
+     * @return null|Profile
      * @throws ApiException
      */
-    public function delete($profileId, array $data = [])
+    public function delete($profileId, array $data = []): ?Profile
     {
-        return $this->rest_delete($profileId, $data);
+        /** @var null|Profile */
+        return $this->deleteResource($profileId, $data);
     }
 
     /**
@@ -137,9 +137,10 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      * @return ProfileCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): ProfileCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var ProfileCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -152,8 +153,12 @@ class ProfileEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+    public function iterator(
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

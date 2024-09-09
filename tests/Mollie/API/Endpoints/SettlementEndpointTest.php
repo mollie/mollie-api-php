@@ -203,7 +203,7 @@ class SettlementEndpointTest extends BaseEndpointTest
         $this->assertEquals("1234567.1234.12", $settlement->reference);
         $this->assertEquals("2018-04-30T04:00:02+00:00", $settlement->createdAt);
         $this->assertEquals("2018-05-01T04:00:02+00:00", $settlement->settledAt);
-        $this->assertEquals(SettlementStatus::STATUS_PENDING, $settlement->status);
+        $this->assertEquals(SettlementStatus::PENDING, $settlement->status);
         $this->assertEquals((object) ["value" => "1980.98", "currency" => "EUR"], $settlement->amount);
         $this->assertNotEmpty($settlement->periods);
         $this->assertEquals("inv_VseyTUhJSy", $settlement->invoiceId);

@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Profile;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class ProfileMethodEndpointTest extends BaseEndpointTest
 {
@@ -17,8 +17,8 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact"
+                'POST',
+                '/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact'
             ),
             new Response(
                 201,
@@ -57,14 +57,14 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://www.mollie.com/external/icons/payment-methods/bancontact.svg', $method->image->svg);
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/methods/bancontact",
-            "application/hal+json",
+            'https://api.mollie.com/v2/methods/bancontact',
+            'application/hal+json',
             $method->_links->self
         );
 
         $this->assertLinkObject(
-            "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
-            "text/html",
+            'https://docs.mollie.com/reference/v2/profiles-api/activate-method',
+            'text/html',
             $method->_links->documentation
         );
     }
@@ -73,8 +73,8 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "DELETE",
-                "/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact"
+                'DELETE',
+                '/v2/profiles/pfl_v9hTwCvYqw/methods/bancontact'
             ),
             new Response(204)
         );
@@ -89,8 +89,8 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/profiles/me/methods/bancontact"
+                'POST',
+                '/v2/profiles/me/methods/bancontact'
             ),
             new Response(
                 201,
@@ -129,14 +129,14 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('https://www.mollie.com/external/icons/payment-methods/bancontact.svg', $method->image->svg);
 
         $this->assertLinkObject(
-            "https://api.mollie.com/v2/methods/bancontact",
-            "application/hal+json",
+            'https://api.mollie.com/v2/methods/bancontact',
+            'application/hal+json',
             $method->_links->self
         );
 
         $this->assertLinkObject(
-            "https://docs.mollie.com/reference/v2/profiles-api/activate-method",
-            "text/html",
+            'https://docs.mollie.com/reference/v2/profiles-api/activate-method',
+            'text/html',
             $method->_links->documentation
         );
     }
@@ -145,8 +145,8 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
     {
         $this->mockApiCall(
             new Request(
-                "DELETE",
-                "/v2/profiles/me/methods/bancontact"
+                'DELETE',
+                '/v2/profiles/me/methods/bancontact'
             ),
             new Response(204)
         );

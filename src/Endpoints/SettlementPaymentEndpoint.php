@@ -6,25 +6,28 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class SettlementPaymentEndpoint extends CollectionEndpointAbstract
+class SettlementPaymentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "settlements_payments";
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = "settlements_payments";
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Payment($this->client);
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Retrieves a collection of Payments from Mollie.
@@ -34,14 +37,15 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
      * @param int $limit
      * @param array $parameters
      *
-     * @return mixed
+     * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForId($settlementId, $from = null, $limit = null, array $parameters = [])
+    public function pageForId($settlementId, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
     {
         $this->parentId = $settlementId;
 
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var PaymentCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -55,10 +59,15 @@ class SettlementPaymentEndpoint extends CollectionEndpointAbstract
      *
      * @return LazyCollection
      */
-    public function iteratorForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $settlementId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }

@@ -1,0 +1,15 @@
+{
+  "count": 1,
+  "_links": {
+    "self": {
+      "href": "https:\/\/api.mollie.com\/v2\/orders?from={{ RESOURCE_ID }}"
+    }
+  },
+  "_embedded": {
+    "orders": [
+      {
+        "id": "{{ RESOURCE_ID }}"
+      }
+    ]
+  }
+}

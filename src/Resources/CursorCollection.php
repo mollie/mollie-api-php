@@ -3,104 +3,66 @@
 namespace Mollie\Api\Resources;
 
 use Generator;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Traits\InteractsWithResource as TraitsInteractsWithResource;
 
 abstract class CursorCollection extends BaseCollection
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
-
-    /**
-     * @param MollieApiClient $client
-     * @param int $count
-     * @param \stdClass|null $_links
-     */
-    final public function __construct(MollieApiClient $client, $count, $_links)
-    {
-        parent::__construct($count, $_links);
-
-        $this->client = $client;
-    }
-
-    /**
-     * @return BaseResource
-     */
-    abstract protected function createResourceObject();
+    use TraitsInteractsWithResource;
 
     /**
      * Return the next set of resources when available
      *
-     * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function next()
+    final public function next(): ?CursorCollection
     {
         if (! $this->hasNext()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
-
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+        return $this->fetchCollection($this->_links->next->href);
     }
 
     /**
      * Return the previous set of resources when available
      *
-     * @return CursorCollection|null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function previous()
+    final public function previous(): ?CursorCollection
     {
         if (! $this->hasPrevious()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
+        return $this->fetchCollection($this->_links->previous->href);
+    }
 
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+    private function fetchCollection(string $url): CursorCollection
+    {
+        return $this
+            ->connector
+            ->send(new DynamicGetRequest($url, static::class));
     }
 
     /**
      * Determine whether the collection has a next page available.
-     *
-     * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return isset($this->_links->next->href);
     }
 
     /**
      * Determine whether the collection has a previous page available.
-     *
-     * @return bool
      */
-    public function hasPrevious()
+    public function hasPrevious(): bool
     {
         return isset($this->_links->previous->href);
     }
 
     /**
      * Iterate over a CursorCollection and yield its elements.
-     *
-     * @param bool $iterateBackwards
-     *
-     * @return LazyCollection
      */
     public function getAutoIterator(bool $iterateBackwards = false): LazyCollection
     {

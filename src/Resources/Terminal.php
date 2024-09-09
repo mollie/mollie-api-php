@@ -134,24 +134,24 @@ class Terminal extends BaseResource
     /**
      * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === TerminalStatus::STATUS_PENDING;
+        return $this->status === TerminalStatus::PENDING;
     }
 
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
-        return $this->status === TerminalStatus::STATUS_ACTIVE;
+        return $this->status === TerminalStatus::ACTIVE;
     }
 
     /**
      * @return bool
      */
-    public function isInactive()
+    public function isInactive(): bool
     {
-        return $this->status === TerminalStatus::STATUS_INACTIVE;
+        return $this->status === TerminalStatus::INACTIVE;
     }
 }

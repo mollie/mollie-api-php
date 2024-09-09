@@ -6,51 +6,40 @@ use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 
-class OrderPaymentEndpoint extends CollectionEndpointAbstract
+class OrderPaymentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "orders_payments";
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'tr_';
+    protected string $resourcePath = "orders_payments";
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one
-     * type of object.
+     * Resource class name.
      *
-     * @return \Mollie\Api\Resources\Payment
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Payment($this->client);
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API
-     * endpoint uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return \Mollie\Api\Resources\PaymentCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     /**
      * Creates a payment in Mollie for a specific order.
      *
-     * @param \Mollie\Api\Resources\Order $order
+     * @param Order $order
      * @param array $data An array containing details on the order payment.
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Payment
+     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Order $order, array $data, array $filters = [])
+    public function createFor(Order $order, array $data, array $filters = []): Payment
     {
         return $this->createForId($order->id, $data, $filters);
     }
@@ -62,13 +51,14 @@ class OrderPaymentEndpoint extends CollectionEndpointAbstract
      * @param array $data An array containing details on the order payment.
      * @param array $filters
      *
-     * @return \Mollie\Api\Resources\Payment
+     * @return Payment
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId($orderId, array $data, array $filters = [])
+    public function createForId(string $orderId, array $data, array $filters = []): Payment
     {
         $this->parentId = $orderId;
 
-        return $this->rest_create($data, $filters);
+        /** @var Payment */
+        return $this->createResource($data, $filters);
     }
 }

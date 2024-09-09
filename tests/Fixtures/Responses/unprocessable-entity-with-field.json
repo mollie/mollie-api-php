@@ -1,0 +1,12 @@
+{
+  "status": 422,
+  "title": "Unprocessable Entity",
+  "detail": "Non-existent parameter \"recurringType\" for this API call. Did you mean: \"sequenceType\"?",
+  "field": "recurringType",
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/guides/handling-errors",
+      "type": "text/html"
+    }
+  }
+}

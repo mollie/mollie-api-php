@@ -7,36 +7,30 @@ class OrderLineStatus
     /**
      * The order line has just been created.
      */
-    public const STATUS_CREATED = "created";
+    public const CREATED = "created";
 
     /**
      * The order line has been paid.
      */
-    public const STATUS_PAID = "paid";
+    public const PAID = "paid";
 
     /**
      * The order line has been authorized.
      */
-    public const STATUS_AUTHORIZED = "authorized";
+    public const AUTHORIZED = "authorized";
 
     /**
      * The order line has been canceled.
      */
-    public const STATUS_CANCELED = "canceled";
-
-    /**
-     * (Deprecated) The order line has been refunded.
-     * @deprecated
-     */
-    public const STATUS_REFUNDED = "refunded";
+    public const CANCELED = "canceled";
 
     /**
      * The order line is shipping.
      */
-    public const STATUS_SHIPPING = "shipping";
+    public const SHIPPING = "shipping";
 
     /**
      * The order line is completed.
      */
-    public const STATUS_COMPLETED = "completed";
+    public const COMPLETED = "completed";
 }

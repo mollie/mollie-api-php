@@ -5,18 +5,16 @@ namespace Mollie\Api\Resources;
 class ChargebackCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public function getCollectionResourceName()
-    {
-        return "chargebacks";
-    }
+    public static string $collectionName = "chargebacks";
 
     /**
-     * @return BaseResource
+     * Resource class name.
+     *
+     * @var string
      */
-    protected function createResourceObject()
-    {
-        return new Chargeback($this->client);
-    }
+    public static string $resource = Chargeback::class;
 }

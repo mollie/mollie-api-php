@@ -2,15 +2,17 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Response;
 
 #[\AllowDynamicProperties]
-abstract class BaseResource
+abstract class BaseResource implements HasResponse
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
+    protected Connector $connector;
+
+    protected ?Response $response;
 
     /**
      * Indicates the type of resource.
@@ -21,11 +23,21 @@ abstract class BaseResource
      */
     public $resource;
 
-    /**
-     * @param MollieApiClient $client
-     */
-    public function __construct(MollieApiClient $client)
+    public function __construct(Connector $connector, ?Response $response = null)
     {
-        $this->client = $client;
+        $this->connector = $connector;
+        $this->response = $response;
+    }
+
+    public function getResponse(): ?Response
+    {
+        return $this->response;
+    }
+
+    public function getPendingRequest(): ?PendingRequest
+    {
+        return $this->response
+            ? $this->response->getPendingRequest()
+            : null;
     }
 }

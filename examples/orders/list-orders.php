@@ -16,7 +16,7 @@ try {
      * See: https://docs.mollie.com/reference/v2/orders-api/list-orders
      */
     echo '<ul>';
-    $latestOrders = $mollie->orders->page();
+    $latestOrders = $mollie->orders->collect();
     printOrders($latestOrders);
 
     $previousOrders = $latestOrders->next();
@@ -29,7 +29,7 @@ try {
 function printOrders($orders)
 {
     if (empty($orders)) {
-        return ;
+        return;
     }
 
     foreach ($orders as $order) {
@@ -42,7 +42,7 @@ function printOrders($orders)
         echo '<td>' . htmlspecialchars($order->amount->currency) . str_replace('.', ',', htmlspecialchars($order->amount->value)) . '</td>';
         echo '</tr>';
         echo '</table>';
-        echo '<a href="'. $order->getCheckoutUrl() .'" target="_blank">Click here to pay</a>';
+        echo '<a href="' . $order->getCheckoutUrl() . '" target="_blank">Click here to pay</a>';
         echo '</li>';
     }
 }

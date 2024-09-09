@@ -2,15 +2,19 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Types\OrderStatus;
 
-class Order extends BaseResource
+class Order extends BaseResource implements EmbeddedResourcesContract
 {
+    use HasPresetOptions;
+
     /**
      * Id of the order.
      *
      * @example ord_8wmqcHMN4U
+     *
      * @var string
      */
     public $id;
@@ -19,6 +23,7 @@ class Order extends BaseResource
      * The profile ID this order belongs to.
      *
      * @example pfl_xH2kP6Nc6X
+     *
      * @var string
      */
     public $profileId;
@@ -67,7 +72,9 @@ class Order extends BaseResource
 
     /**
      * The date of birth of your customer, if available.
+     *
      * @example 1976-08-21
+     *
      * @var string|null
      */
     public $consumerDateOfBirth;
@@ -90,6 +97,7 @@ class Order extends BaseResource
      * The payment method last used when paying for the order.
      *
      * @see Method
+     *
      * @var string
      */
     public $method;
@@ -141,6 +149,7 @@ class Order extends BaseResource
      * UTC datetime the order was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $createdAt;
@@ -149,6 +158,7 @@ class Order extends BaseResource
      * UTC datetime the order the order will expire in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiresAt;
@@ -157,6 +167,7 @@ class Order extends BaseResource
      * UTC datetime if the order is expired, the time of expiration will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $expiredAt;
@@ -165,6 +176,7 @@ class Order extends BaseResource
      * UTC datetime if the order has been paid, the time of payment will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $paidAt;
@@ -173,6 +185,7 @@ class Order extends BaseResource
      * UTC datetime if the order has been authorized, the time of authorization will be present in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $authorizedAt;
@@ -181,6 +194,7 @@ class Order extends BaseResource
      * UTC datetime if the order has been canceled, the time of cancellation will be present in ISO 8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $canceledAt;
@@ -189,6 +203,7 @@ class Order extends BaseResource
      * UTC datetime if the order is completed, the time of completion will be present in ISO 8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $completedAt;
@@ -221,95 +236,77 @@ class Order extends BaseResource
      */
     public $_embedded;
 
+    public function getEmbeddedResourcesMap(): array
+    {
+        return [
+            'payments' => PaymentCollection::class,
+            'refunds' => RefundCollection::class,
+            'shipments' => ShipmentCollection::class,
+        ];
+    }
+
     /**
      * Is this order created?
-     *
-     * @return bool
      */
-    public function isCreated()
+    public function isCreated(): bool
     {
-        return $this->status === OrderStatus::STATUS_CREATED;
+        return $this->status === OrderStatus::CREATED;
     }
 
     /**
      * Is this order paid for?
-     *
-     * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return $this->status === OrderStatus::STATUS_PAID;
+        return $this->status === OrderStatus::PAID;
     }
 
     /**
      * Is this order authorized?
-     *
-     * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
-        return $this->status === OrderStatus::STATUS_AUTHORIZED;
+        return $this->status === OrderStatus::AUTHORIZED;
     }
 
     /**
      * Is this order canceled?
-     *
-     * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
-        return $this->status === OrderStatus::STATUS_CANCELED;
-    }
-
-    /**
-     * (Deprecated) Is this order refunded?
-     * @deprecated 2018-11-27
-     *
-     * @return bool
-     */
-    public function isRefunded()
-    {
-        return $this->status === OrderStatus::STATUS_REFUNDED;
+        return $this->status === OrderStatus::CANCELED;
     }
 
     /**
      * Is this order shipping?
-     *
-     * @return bool
      */
-    public function isShipping()
+    public function isShipping(): bool
     {
-        return $this->status === OrderStatus::STATUS_SHIPPING;
+        return $this->status === OrderStatus::SHIPPING;
     }
 
     /**
      * Is this order completed?
-     *
-     * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
-        return $this->status === OrderStatus::STATUS_COMPLETED;
+        return $this->status === OrderStatus::COMPLETED;
     }
 
     /**
      * Is this order expired?
-     *
-     * @return bool
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
-        return $this->status === OrderStatus::STATUS_EXPIRED;
+        return $this->status === OrderStatus::EXPIRED;
     }
 
     /**
      * Is this order completed?
-     *
-     * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === OrderStatus::STATUS_PENDING;
+        return $this->status === OrderStatus::PENDING;
     }
 
     /**
@@ -320,11 +317,12 @@ class Order extends BaseResource
      * be found.
      *
      * @return Order
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()
     {
-        return $this->client->orders->cancel($this->id, $this->getPresetOptions());
+        return $this->connector->orders->cancel($this->id, $this->getPresetOptions());
     }
 
     /**
@@ -333,39 +331,36 @@ class Order extends BaseResource
      * You can pass an empty lines array if you want to cancel all eligible lines.
      * Returns null if successful.
      *
-     * @param  array $data
-     * @return null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelLines(array $data)
+    public function cancelLines(array $data): void
     {
-        return $this->client->orderLines->cancelFor($this, $data);
+        $this->connector->orderLines->cancelFor($this, $data);
     }
 
     /**
      * Cancels all eligible lines for this order.
      * Returns null if successful.
      *
-     * @param  array|null $data
-     * @return null
+     * @param  array  $data
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelAllLines($data = [])
+    public function cancelAllLines($data = []): void
     {
         $data['lines'] = [];
 
-        return $this->client->orderLines->cancelFor($this, $data);
+        $this->connector->orderLines->cancelFor($this, $data);
     }
 
     /**
      * Get the line value objects
-     *
-     * @return OrderLineCollection
      */
-    public function lines()
+    public function lines(): OrderLineCollection
     {
+        /** @var OrderLineCollection */
         return ResourceFactory::createBaseResourceCollection(
-            $this->client,
+            $this->connector,
             OrderLine::class,
             $this->lines
         );
@@ -375,24 +370,18 @@ class Order extends BaseResource
      * Create a shipment for some order lines. You can provide an empty array for the
      * "lines" option to include all unshipped lines for this order.
      *
-     * @param array $options
      *
-     * @return Shipment
      * @throws ApiException
      */
-    public function createShipment(array $options = [])
+    public function createShipment(array $options = []): Shipment
     {
-        return $this->client->shipments->createFor($this, $this->withPresetOptions($options));
+        return $this->connector->shipments->createFor($this, $this->withPresetOptions($options));
     }
 
     /**
      * Create a shipment for all unshipped order lines.
-     *
-     * @param array $options
-     *
-     * @return Shipment
      */
-    public function shipAll(array $options = [])
+    public function shipAll(array $options = []): Shipment
     {
         $options['lines'] = [];
 
@@ -402,36 +391,31 @@ class Order extends BaseResource
     /**
      * Retrieve a specific shipment for this order.
      *
-     * @param string $shipmentId
-     * @param array $parameters
-     *
+     * @param  string  $shipmentId
      * @return Shipment
+     *
      * @throws ApiException
      */
     public function getShipment($shipmentId, array $parameters = [])
     {
-        return $this->client->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
+        return $this->connector->shipments->getFor($this, $shipmentId, $this->withPresetOptions($parameters));
     }
 
     /**
      * Get all shipments for this order.
      *
-     * @param array $parameters
      *
-     * @return ShipmentCollection
      * @throws ApiException
      */
-    public function shipments(array $parameters = [])
+    public function shipments(array $parameters = []): ShipmentCollection
     {
-        return $this->client->shipments->listFor($this, $this->withPresetOptions($parameters));
+        return $this->connector->shipments->listFor($this, $this->withPresetOptions($parameters));
     }
 
     /**
      * Get the checkout URL where the customer can complete the payment.
-     *
-     * @return string|null
      */
-    public function getCheckoutUrl()
+    public function getCheckoutUrl(): ?string
     {
         if (empty($this->_links->checkout)) {
             return null;
@@ -443,22 +427,17 @@ class Order extends BaseResource
     /**
      * Refund specific order lines.
      *
-     * @param  array  $data
-     * @return Refund
      * @throws ApiException
      */
-    public function refund(array $data)
+    public function refund(array $data): Refund
     {
-        return $this->client->orderRefunds->createFor($this, $this->withPresetOptions($data));
+        return $this->connector->orderRefunds->createFor($this, $this->withPresetOptions($data));
     }
 
     /**
      * Refund all eligible order lines.
-     *
-     * @param  array  $data
-     * @return Refund
      */
-    public function refundAll(array $data = [])
+    public function refundAll(array $data = []): Refund
     {
         $data['lines'] = [];
 
@@ -468,91 +447,61 @@ class Order extends BaseResource
     /**
      * Retrieves all refunds associated with this order
      *
-     * @return RefundCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
-        return $this->client->orderRefunds->pageFor($this);
+        return $this->connector->orderRefunds->pageFor($this);
     }
 
     /**
      * Saves the order's updated billingAddress and/or shippingAddress.
      *
-     * @return \Mollie\Api\Resources\Order
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Order
     {
         $body = [
-            "billingAddress" => $this->billingAddress,
-            "shippingAddress" => $this->shippingAddress,
-            "orderNumber" => $this->orderNumber,
-            "redirectUrl" => $this->redirectUrl,
-            "cancelUrl" => $this->cancelUrl,
-            "webhookUrl" => $this->webhookUrl,
+            'billingAddress' => $this->billingAddress,
+            'shippingAddress' => $this->shippingAddress,
+            'orderNumber' => $this->orderNumber,
+            'redirectUrl' => $this->redirectUrl,
+            'cancelUrl' => $this->cancelUrl,
+            'webhookUrl' => $this->webhookUrl,
         ];
 
-        $result = $this->client->orders->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        /** @var null|Order */
+        return $this->connector->orders->update($this->id, $body);
     }
 
     /**
      * Create a new payment for this Order.
      *
-     * @param array $data
-     * @param array $filters
-     * @return \Mollie\Api\Resources\Payment
+     * @param  array  $data
+     * @param  array  $filters
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createPayment($data, $filters = [])
+    public function createPayment($data, $filters = []): Payment
     {
-        return $this->client->orderPayments->createFor($this, $data, $filters);
+        return $this->connector->orderPayments->createFor($this, $data, $filters);
     }
 
     /**
      * Retrieve the payments for this order.
      * Requires the order to be retrieved using the embed payments parameter.
-     *
-     * @return null|\Mollie\Api\Resources\PaymentCollection
      */
-    public function payments()
+    public function payments(): ?PaymentCollection
     {
         if (! isset($this->_embedded, $this->_embedded->payments)) {
             return null;
         }
 
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
+        /** @var PaymentCollection */
+        return ResourceFactory::createBaseResourceCollection(
+            $this->connector,
+            Payment::class,
             $this->_embedded->payments,
-            Payment::class
         );
-    }
-
-    /**
-     * When accessed by oAuth we want to pass the testmode by default
-     *
-     * @return array
-     */
-    private function getPresetOptions()
-    {
-        $options = [];
-        if ($this->client->usesOAuth()) {
-            $options["testmode"] = $this->mode === "test" ? true : false;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @param array $options
-     * @return array
-     */
-    private function withPresetOptions(array $options)
-    {
-        return array_merge($this->getPresetOptions(), $options);
     }
 }

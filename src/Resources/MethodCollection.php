@@ -5,10 +5,9 @@ namespace Mollie\Api\Resources;
 class MethodCollection extends BaseCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
+     *
+     * @var string
      */
-    public function getCollectionResourceName()
-    {
-        return "methods";
-    }
+    public static string $collectionName = "methods";
 }

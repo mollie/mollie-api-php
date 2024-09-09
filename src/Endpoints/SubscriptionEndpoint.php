@@ -5,53 +5,39 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
-use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
 
-class SubscriptionEndpoint extends CollectionEndpointAbstract
+class SubscriptionEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "customers_subscriptions";
+    /**
+     * The resource path.
+     */
+    protected string $resourcePath = 'customers_subscriptions';
 
     /**
-     * @var string
+     * Resource id prefix.
+     * Used to validate resource id's.
      */
-    public const RESOURCE_ID_PREFIX = 'sub_';
+    protected static string $resourceIdPrefix = 'sub_';
 
     /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Subscription
+     * Resource class name.
      */
-    protected function getResourceObject()
-    {
-        return new Subscription($this->client);
-    }
+    public static string $resource = Subscription::class;
 
     /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
-     *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return SubscriptionCollection
+     * The resource collection class name.
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new SubscriptionCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = SubscriptionCollection::class;
 
     /**
      * Create a subscription for a Customer
      *
-     * @param Customer $customer
-     * @param array $options
-     * @param array $filters
      *
-     * @return Subscription
      * @throws ApiException
      */
-    public function createFor(Customer $customer, array $options = [], array $filters = [])
+    public function createFor(Customer $customer, array $options = [], array $filters = []): Subscription
     {
         return $this->createForId($customer->id, $options, $filters);
     }
@@ -59,18 +45,15 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     /**
      * Create a subscription for a Customer
      *
-     * @param string $customerId
-     * @param array $options
-     * @param array $filters
      *
-     * @return Subscription
      * @throws ApiException
      */
-    public function createForId($customerId, array $options = [], array $filters = [])
+    public function createForId(string $customerId, array $options = [], array $filters = []): Subscription
     {
         $this->parentId = $customerId;
 
-        return parent::rest_create($options, $filters);
+        /** @var Subscription */
+        return $this->createResource($options, $filters);
     }
 
     /**
@@ -78,63 +61,45 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      *
      * Will throw an ApiException if the subscription id is invalid or the resource cannot be found.
      *
-     * @param string $subscriptionId
-     * @param string $customerId
      *
-     * @param array $data
      *
-     * @return Subscription
      * @throws ApiException
      */
-    public function update($customerId, $subscriptionId, array $data = [])
+    public function update(string $customerId, string $subscriptionId, array $data = []): ?Subscription
     {
-        if (empty($subscriptionId) || strpos($subscriptionId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid subscription ID: '{$subscriptionId}'. An subscription ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($subscriptionId);
 
         $this->parentId = $customerId;
 
-        return parent::rest_update($subscriptionId, $data);
+        /** @var null|Subscription */
+        return $this->updateResource($subscriptionId, $data);
     }
 
     /**
-     * @param Customer $customer
-     * @param string $subscriptionId
-     * @param array $parameters
-     *
-     * @return Subscription
      * @throws ApiException
      */
-    public function getFor(Customer $customer, $subscriptionId, array $parameters = [])
+    public function getFor(Customer $customer, string $subscriptionId, array $parameters = []): Subscription
     {
         return $this->getForId($customer->id, $subscriptionId, $parameters);
     }
 
     /**
-     * @param string $customerId
-     * @param string $subscriptionId
-     * @param array $parameters
-     *
-     * @return Subscription
      * @throws ApiException
      */
-    public function getForId($customerId, $subscriptionId, array $parameters = [])
+    public function getForId(string $customerId, string $subscriptionId, array $parameters = []): Subscription
     {
         $this->parentId = $customerId;
 
-        return parent::rest_read($subscriptionId, $parameters);
+        /** @var Subscription */
+        return $this->readResource($subscriptionId, $parameters);
     }
 
     /**
-     * @param Customer $customer
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
+     * @param  string  $from  The first resource ID you want to include in your list.
      *
-     * @return SubscriptionCollection
      * @throws ApiException
      */
-    public function listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])
+    public function listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
     {
         return $this->listForId($customer->id, $from, $limit, $parameters);
     }
@@ -142,118 +107,97 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
     /**
      * Create an iterator for iterating over subscriptions for the given customer, retrieved from Mollie.
      *
-     * @param Customer $customer
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     *
-     * @return LazyCollection
+     * @param  string  $from  The first resource ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorFor(
+        Customer $customer,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
-     * @param string $customerId
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
+     * @param  string  $customerId
+     * @param  string  $from  The first resource ID you want to include in your list.
      *
-     * @return SubscriptionCollection
      * @throws ApiException
      */
-    public function listForId($customerId, $from = null, $limit = null, array $parameters = [])
+    public function listForId($customerId, ?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
     {
         $this->parentId = $customerId;
 
-        return parent::rest_list($from, $limit, $parameters);
+        /** @var SubscriptionCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
      * Create an iterator for iterating over subscriptions for the given customer id, retrieved from Mollie.
      *
-     * @param string $customerId
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     *
-     * @return LazyCollection
+     * @param  string  $from  The first resource ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForId(string $customerId, ?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
-    {
+    public function iteratorForId(
+        string $customerId,
+        ?string $from = null,
+        ?int $limit = null,
+        array $parameters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
         $this->parentId = $customerId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
-     * @param Customer $customer
-     * @param string $subscriptionId
-     * @param array $data
-     *
-     * @return null
      * @throws ApiException
      */
-    public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
+    public function cancelFor(Customer $customer, string $subscriptionId, array $data = []): ?Subscription
     {
         return $this->cancelForId($customer->id, $subscriptionId, $data);
     }
 
     /**
-     * @param string $customerId
-     * @param string $subscriptionId
-     * @param array $data
-     *
-     * @return null
      * @throws ApiException
      */
-    public function cancelForId($customerId, $subscriptionId, array $data = [])
+    public function cancelForId(string $customerId, string $subscriptionId, array $data = []): ?Subscription
     {
         $this->parentId = $customerId;
 
-        return parent::rest_delete($subscriptionId, $data);
+        /** @var null|Subscription */
+        return $this->deleteResource($subscriptionId, $data);
     }
 
     /**
      * Retrieves a collection of Subscriptions from Mollie.
      *
-     * @param string $from The first payment ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
+     * @param  string  $from  The first payment ID you want to include in your list.
      *
-     * @return SubscriptionCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(?string $from = null, ?int $limit = null, array $parameters = []): SubscriptionCollection
     {
-        $filters = array_merge(["from" => $from, "limit" => $limit], $parameters);
+        $apiPath = 'subscriptions'.$this->buildQueryString(
+            $this->getMergedFilters($parameters, $from, $limit)
+        );
 
-        $apiPath = 'subscriptions' . $this->buildQueryString($filters);
+        $result = $this->client->performHttpCall(
+            self::REST_LIST,
+            $apiPath
+        );
 
-        $result = $this->client->performHttpCall(self::REST_LIST, $apiPath);
-
-        /** @var SubscriptionCollection $collection */
-        $collection = $this->getResourceCollectionObject($result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->getResourceObject());
-        }
-
-        return $collection;
+        /** @var SubscriptionCollection */
+        return $this->buildResultCollection($result->json());
     }
 
     /**
      * Create an iterator for iterating over subscriptions retrieved from Mollie.
      *
-     * @param string $from The first resource ID you want to include in your list.
-     * @param int $limit
-     * @param array $parameters
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
-     *
-     * @return LazyCollection
+     * @param  string  $from  The first resource ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {

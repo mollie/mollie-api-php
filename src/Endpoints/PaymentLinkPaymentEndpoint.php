@@ -9,31 +9,34 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\PaymentLink;
 
-class PaymentLinkPaymentEndpoint extends CollectionEndpointAbstract
+class PaymentLinkPaymentEndpoint extends EndpointCollection
 {
-    protected $resourcePath = 'payment-links_payments';
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = 'payment-links_payments';
 
     /**
-     * @inheritDoc
+     * Resource class name.
+     *
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentCollection($this->client, $count, $_links);
-    }
+    public static string $resource = Payment::class;
 
     /**
-     * @inheritDoc
+     * The resource collection class name.
+     *
+     * @var string
      */
-    protected function getResourceObject()
-    {
-        return new Payment($this->client);
-    }
+    public static string $resourceCollection = PaymentCollection::class;
 
     public function pageForId(string $paymentLinkId, string $from = null, int $limit = null, array $filters = [])
     {
         $this->parentId = $paymentLinkId;
 
-        return $this->rest_list($from, $limit, $filters);
+        return $this->fetchCollection($from, $limit, $filters);
     }
 
     public function pageFor(PaymentLink $paymentLink, string $from = null, int $limit = null, array $filters = [])
@@ -61,7 +64,7 @@ class PaymentLinkPaymentEndpoint extends CollectionEndpointAbstract
     ): LazyCollection {
         $this->parentId = $paymentLinkId;
 
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 
     /**

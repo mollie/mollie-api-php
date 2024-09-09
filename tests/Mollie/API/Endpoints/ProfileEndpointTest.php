@@ -77,7 +77,7 @@ class ProfileEndpointTest extends BaseEndpointTest
         $this->assertEquals("info@mywebsite.com", $profile->email);
         $this->assertEquals("31123456789", $profile->phone);
         $this->assertEquals(5399, $profile->categoryCode);
-        $this->assertEquals(ProfileStatus::STATUS_VERIFIED, $profile->status);
+        $this->assertEquals(ProfileStatus::VERIFIED, $profile->status);
         $this->assertEquals((object) ["status" => "pending"], $profile->review);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut", "type" => "application/hal+json"];
@@ -229,7 +229,7 @@ class ProfileEndpointTest extends BaseEndpointTest
         $this->assertEquals("info@mywebsite.com", $profile->email);
         $this->assertEquals("31123456789", $profile->phone);
         $this->assertEquals(5399, $profile->categoryCode);
-        $this->assertEquals(ProfileStatus::STATUS_VERIFIED, $profile->status);
+        $this->assertEquals(ProfileStatus::VERIFIED, $profile->status);
         $this->assertEquals((object) ["status" => "pending"], $profile->review);
 
         $selfLink = (object)["href" => "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut", "type" => "application/hal+json"];
@@ -368,7 +368,7 @@ class ProfileEndpointTest extends BaseEndpointTest
 
         $profiles = $this->apiClient->profiles->page();
         $this->assertInstanceOf(ProfileCollection::class, $profiles);
-        $this->assertEquals(2, $profiles->count);
+        $this->assertEquals(2, $profiles->count());
 
         foreach ($profiles as $profile) {
             $this->assertInstanceOf(Profile::class, $profile);

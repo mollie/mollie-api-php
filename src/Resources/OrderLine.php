@@ -25,6 +25,7 @@ class OrderLine extends BaseResource
      * The ID of the order this line belongs to.
      *
      * @example ord_kEn1PlbGa
+     *
      * @var string
      */
     public $orderId;
@@ -33,6 +34,7 @@ class OrderLine extends BaseResource
      * The type of product bought.
      *
      * @example physical
+     *
      * @var string
      */
     public $type;
@@ -41,6 +43,7 @@ class OrderLine extends BaseResource
      * A description of the order line.
      *
      * @example LEGO 4440 Forest Police Station
+     *
      * @var string
      */
     public $name;
@@ -156,6 +159,7 @@ class OrderLine extends BaseResource
      * passed.
      *
      * @example "21.00"
+     *
      * @var string
      */
     public $vatRate;
@@ -187,7 +191,7 @@ class OrderLine extends BaseResource
      * @var string|null
      */
     public $productUrl;
-    
+
     /**
      * During creation of the order you can set custom metadata on order lines that is stored with
      * the order, and given back whenever you retrieve that order line.
@@ -200,6 +204,7 @@ class OrderLine extends BaseResource
      * The order line's date and time of creation, in ISO 8601 format.
      *
      * @example 2018-08-02T09:29:56+00:00
+     *
      * @var string
      */
     public $createdAt;
@@ -225,10 +230,8 @@ class OrderLine extends BaseResource
 
     /**
      * Get the image URL of the product sold.
-     *
-     * @return string|null
      */
-    public function getImageUrl()
+    public function getImageUrl(): ?string
     {
         if (empty($this->_links->imageUrl)) {
             return null;
@@ -239,167 +242,126 @@ class OrderLine extends BaseResource
 
     /**
      * Is this order line created?
-     *
-     * @return bool
      */
-    public function isCreated()
+    public function isCreated(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_CREATED;
+        return $this->status === OrderLineStatus::CREATED;
     }
 
     /**
      * Is this order line paid for?
-     *
-     * @return bool
      */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_PAID;
+        return $this->status === OrderLineStatus::PAID;
     }
 
     /**
      * Is this order line authorized?
-     *
-     * @return bool
      */
-    public function isAuthorized()
+    public function isAuthorized(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_AUTHORIZED;
+        return $this->status === OrderLineStatus::AUTHORIZED;
     }
 
     /**
      * Is this order line canceled?
-     *
-     * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_CANCELED;
-    }
-
-    /**
-     * (Deprecated) Is this order line refunded?
-     * @deprecated 2018-11-27
-     *
-     * @return bool
-     */
-    public function isRefunded()
-    {
-        return $this->status === OrderLineStatus::STATUS_REFUNDED;
+        return $this->status === OrderLineStatus::CANCELED;
     }
 
     /**
      * Is this order line shipping?
-     *
-     * @return bool
      */
-    public function isShipping()
+    public function isShipping(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_SHIPPING;
+        return $this->status === OrderLineStatus::SHIPPING;
     }
 
     /**
      * Is this order line completed?
-     *
-     * @return bool
      */
-    public function isCompleted()
+    public function isCompleted(): bool
     {
-        return $this->status === OrderLineStatus::STATUS_COMPLETED;
+        return $this->status === OrderLineStatus::COMPLETED;
     }
 
     /**
      * Is this order line for a physical product?
-     *
-     * @return bool
      */
-    public function isPhysical()
+    public function isPhysical(): bool
     {
-        return $this->type === OrderLineType::TYPE_PHYSICAL;
+        return $this->type === OrderLineType::PHYSICAL;
     }
 
     /**
      * Is this order line for applying a discount?
-     *
-     * @return bool
      */
-    public function isDiscount()
+    public function isDiscount(): bool
     {
-        return $this->type === OrderLineType::TYPE_DISCOUNT;
+        return $this->type === OrderLineType::DISCOUNT;
     }
 
     /**
      * Is this order line for a digital product?
-     *
-     * @return bool
      */
-    public function isDigital()
+    public function isDigital(): bool
     {
-        return $this->type === OrderLineType::TYPE_DIGITAL;
+        return $this->type === OrderLineType::DIGITAL;
     }
 
     /**
      * Is this order line for applying a shipping fee?
-     *
-     * @return bool
      */
-    public function isShippingFee()
+    public function isShippingFee(): bool
     {
-        return $this->type === OrderLineType::TYPE_SHIPPING_FEE;
+        return $this->type === OrderLineType::SHIPPING_FEE;
     }
 
     /**
      * Is this order line for store credit?
-     *
-     * @return bool
      */
-    public function isStoreCredit()
+    public function isStoreCredit(): bool
     {
-        return $this->type === OrderLineType::TYPE_STORE_CREDIT;
+        return $this->type === OrderLineType::STORE_CREDIT;
     }
 
     /**
      * Is this order line for a gift card?
-     *
-     * @return bool
      */
-    public function isGiftCard()
+    public function isGiftCard(): bool
     {
-        return $this->type === OrderLineType::TYPE_GIFT_CARD;
+        return $this->type === OrderLineType::GIFT_CARD;
     }
 
     /**
      * Is this order line for a surcharge?
-     *
-     * @return bool
      */
-    public function isSurcharge()
+    public function isSurcharge(): bool
     {
-        return $this->type === OrderLineType::TYPE_SURCHARGE;
+        return $this->type === OrderLineType::SURCHARGE;
     }
 
     /**
      * Update an orderline by supplying one or more parameters in the data array
      *
-     * @return BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): ?Order
     {
-        $result = $this->client->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
-
-        return ResourceFactory::createFromApiResult($result, new Order($this->client));
+        /** @var null|Order */
+        return $this->connector->orderLines->update($this->orderId, $this->id, $this->getUpdateData());
     }
 
     /**
      * Get sanitized array of order line data
-     *
-     * @return array
      */
-    public function getUpdateData()
+    public function getUpdateData(): array
     {
         $data = [
-            "name" => $this->name,
+            'name' => $this->name,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
             'metadata' => $this->metadata,

@@ -10,20 +10,20 @@ use Mollie\Api\Types\OrderStatus;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use Tests\Mollie\TestHelpers\AmountObjectTestHelpers;
-use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
+use Tests\Fixtures\Traits\AmountObjectTestHelpers;
+use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
 class OrderPaymentEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
     public function testCreateOrderPayment()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/orders/ord_stTC2WHAuS/payments",
+                'POST',
+                '/v2/orders/ord_stTC2WHAuS/payments',
                 [],
                 '{
                     "method": "banktransfer",
@@ -99,7 +99,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals('test', $payment->mode);
         $this->assertAmountObject(698, 'EUR', $payment->amount);
         $this->assertEquals('open', $payment->status);
-        $this->assertEquals(PaymentStatus::STATUS_OPEN, $payment->status);
+        $this->assertEquals(PaymentStatus::OPEN, $payment->status);
         $this->assertEquals('Order #1337 (Lego cars)', $payment->description);
         $this->assertEquals('2018-12-01T17:09:02+00:00', $payment->createdAt);
         $this->assertEquals(PaymentMethod::BANKTRANSFER, $payment->method);
@@ -108,7 +108,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
         $this->assertTrue($payment->isCancelable);
         $this->assertEquals('nl_NL', $payment->locale);
         $this->assertEquals('pfl_URR55HPMGx', $payment->profileId);
-        $this->assertEquals(SequenceType::SEQUENCETYPE_ONEOFF, $payment->sequenceType);
+        $this->assertEquals(SequenceType::ONEOFF, $payment->sequenceType);
         $this->assertAmountObject(698, 'EUR', $payment->settlementAmount);
 
         $this->assertLinkObject(
@@ -150,10 +150,10 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
         return $this->copy(json_decode($orderJson), new Order($this->apiClient));
     }
 
-    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::STATUS_CREATED)
+    protected function getOrderResponseFixture($order_id, $order_status = OrderStatus::CREATED)
     {
         return str_replace(
-            "<<order_id>>",
+            '<<order_id>>',
             $order_id,
             '{
              "resource": "order",
@@ -171,7 +171,7 @@ class OrderPaymentEndpointTest extends BaseEndpointTest
                  "value": "0.00",
                  "currency": "EUR"
              },
-             "status": "' . $order_status . '",
+             "status": "'.$order_status.'",
              "metadata": {
                  "order_id": "1337",
                  "description": "Lego cars"

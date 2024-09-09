@@ -7,9 +7,21 @@ namespace Mollie\Api\Endpoints;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Issuer;
 
-class MethodIssuerEndpoint extends EndpointAbstract
+class MethodIssuerEndpoint extends RestEndpoint
 {
-    protected $resourcePath = 'profiles_methods_issuers';
+    /**
+     * The resource path.
+     *
+     * @var string
+     */
+    protected string $resourcePath = 'profiles_methods_issuers';
+
+    /**
+     * Resource class name.
+     *
+     * @var string
+     */
+    public static string $resource = Issuer::class;
 
     protected $profileId = null;
     protected $methodId = null;
@@ -28,7 +40,8 @@ class MethodIssuerEndpoint extends EndpointAbstract
         $this->methodId = $methodId;
         $this->issuerId = $issuerId;
 
-        $response = $this->rest_create([], []);
+        /** @var Issuer */
+        $response = $this->createResource([], []);
 
         $this->resetResourceIds();
 
@@ -40,7 +53,7 @@ class MethodIssuerEndpoint extends EndpointAbstract
         $this->profileId = $profileId;
         $this->methodId = $methodId;
 
-        return $this->rest_delete($issuerId);
+        return $this->deleteResource($issuerId);
     }
 
     protected function resetResourceIds()
@@ -54,13 +67,13 @@ class MethodIssuerEndpoint extends EndpointAbstract
      * @return string
      * @throws ApiException
      */
-    public function getResourcePath()
+    public function getResourcePath(): string
     {
-        if (! $this->profileId) {
+        if (!$this->profileId) {
             throw new ApiException("No profileId provided.");
         }
 
-        if (! $this->methodId) {
+        if (!$this->methodId) {
             throw new ApiException("No methodId provided.");
         }
 
@@ -71,15 +84,5 @@ class MethodIssuerEndpoint extends EndpointAbstract
         }
 
         return $path;
-    }
-
-    /**
-     * Get the object that is used by this API endpoint. Every API endpoint uses one type of object.
-     *
-     * @return Issuer
-     */
-    protected function getResourceObject()
-    {
-        return new Issuer($this->client);
     }
 }

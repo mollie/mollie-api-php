@@ -7,69 +7,36 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
 
-class PaymentLinkEndpoint extends CollectionEndpointAbstract
+class PaymentLinkEndpoint extends EndpointCollection
 {
-    protected $resourcePath = "payment-links";
-
     /**
+     * The resource path.
+     *
      * @var string
      */
-    public const RESOURCE_ID_PREFIX = 'pl_';
+    protected string $resourcePath = "payment-links";
 
     /**
-     * Update a Payment Link.
+     * Resource id prefix.
+     * Used to validate resource id's.
      *
-     * @param string $paymentLinkId
-     * @param array $data
-     * @return PaymentLink
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @var string
      */
-    public function update(string $paymentLinkId, array $data)
-    {
-        if (empty($paymentLinkId) || strpos($paymentLinkId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentLinkId}'. A Payment Link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
-
-        return $this->rest_update($paymentLinkId, $data);
-    }
+    protected static string $resourceIdPrefix = 'pl_';
 
     /**
-     * Delete a Payment Link.
+     * Resource class name.
      *
-     * @param string $paymentLinkId
-     * @param array $data
-     * @return void
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @var string
      */
-    public function delete(string $paymentLinkId, array $data = [])
-    {
-        if (empty($paymentLinkId) || strpos($paymentLinkId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment ID: '{$paymentLinkId}'. A Payment Link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
-
-        $this->rest_delete($paymentLinkId, $data);
-    }
+    public static string $resource = PaymentLink::class;
 
     /**
-     * @return PaymentLink
-     */
-    protected function getResourceObject()
-    {
-        return new PaymentLink($this->client);
-    }
-
-    /**
-     * Get the collection object that is used by this API endpoint. Every API endpoint uses one type of collection object.
+     * The resource collection class name.
      *
-     * @param int $count
-     * @param \stdClass $_links
-     *
-     * @return PaymentLinkCollection
+     * @var string
      */
-    protected function getResourceCollectionObject($count, $_links)
-    {
-        return new PaymentLinkCollection($this->client, $count, $_links);
-    }
+    public static string $resourceCollection = PaymentLinkCollection::class;
 
     /**
      * Creates a payment link in Mollie.
@@ -80,9 +47,10 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLink
      * @throws ApiException
      */
-    public function create(array $data = [], array $filters = [])
+    public function create(array $data = [], array $filters = []): PaymentLink
     {
-        return $this->rest_create($data, $filters);
+        /** @var PaymentLink */
+        return $this->createResource($data, $filters);
     }
 
     /**
@@ -95,13 +63,43 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLink
      * @throws ApiException
      */
-    public function get($paymentLinkId, array $parameters = [])
+    public function get(string $paymentLinkId, array $parameters = []): PaymentLink
     {
-        if (empty($paymentLinkId) || strpos($paymentLinkId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid payment link ID: '{$paymentLinkId}'. A payment link ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
-        }
+        $this->guardAgainstInvalidId($paymentLinkId);
 
-        return parent::rest_read($paymentLinkId, $parameters);
+        /** @var PaymentLink */
+        return $this->readResource($paymentLinkId, $parameters);
+    }
+
+    /**
+     * Update a Payment Link.
+     *
+     * @param string $paymentLinkId
+     * @param array $data
+     * @return null|PaymentLink
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function update(string $paymentLinkId, array $data): ?PaymentLink
+    {
+        $this->guardAgainstInvalidId($paymentLinkId);
+
+        /** @var null|PaymentLink */
+        return $this->updateResource($paymentLinkId, $data);
+    }
+
+    /**
+     * Delete a Payment Link.
+     *
+     * @param string $paymentLinkId
+     * @param array $data
+     * @return void
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function delete(string $paymentLinkId, array $data = []): void
+    {
+        $this->guardAgainstInvalidId($paymentLinkId);
+
+        $this->deleteResource($paymentLinkId, $data);
     }
 
     /**
@@ -114,9 +112,10 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      * @return PaymentLinkCollection
      * @throws ApiException
      */
-    public function page($from = null, $limit = null, array $parameters = [])
+    public function page(string $from = null, int $limit = null, array $parameters = []): PaymentLinkCollection
     {
-        return $this->rest_list($from, $limit, $parameters);
+        /** @var PaymentLinkCollection */
+        return $this->fetchCollection($from, $limit, $parameters);
     }
 
     /**
@@ -131,6 +130,6 @@ class PaymentLinkEndpoint extends CollectionEndpointAbstract
      */
     public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
     {
-        return $this->rest_iterator($from, $limit, $parameters, $iterateBackwards);
+        return $this->createIterator($from, $limit, $parameters, $iterateBackwards);
     }
 }
