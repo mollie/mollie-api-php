@@ -54,8 +54,7 @@
     "composer/ca-bundle": "^1.4",
     "nyholm/psr7": "^1.8",
     "psr/http-factory": "^1.1",
-    "psr/http-message": "^2.0",
-    "saloonphp/saloon": "^3.10"
+    "psr/http-message": "^2.0"
   },
   "require-dev": {
     "brianium/paratest": "^6.11",
