@@ -50,10 +50,10 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract, SupportsDebug
     public function factories(): Factories
     {
         return new Factories(
-            requestFactory: $this->requestFactory,
-            responseFactory: $this->responseFactory,
-            streamFactory: $this->streamFactory,
-            uriFactory: $this->uriFactory,
+            $this->requestFactory,
+            $this->responseFactory,
+            $this->streamFactory,
+            $this->uriFactory,
         );
     }
 

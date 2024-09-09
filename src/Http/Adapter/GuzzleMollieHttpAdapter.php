@@ -53,10 +53,10 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
         $factory = new HttpFactory;
 
         return new Factories(
-            requestFactory: $factory,
-            responseFactory: $factory,
-            streamFactory: $factory,
-            uriFactory: $factory,
+            $factory,
+            $factory,
+            $factory,
+            $factory,
         );
     }
 

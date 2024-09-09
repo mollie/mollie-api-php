@@ -18,10 +18,10 @@ trait HasDefaultFactories
         $httpFactory = new Psr17Factory;
 
         return static::$factories = new Factories(
-            requestFactory: $httpFactory,
-            responseFactory: $httpFactory,
-            streamFactory: $httpFactory,
-            uriFactory: $httpFactory,
+            $httpFactory,
+            $httpFactory,
+            $httpFactory,
+            $httpFactory,
         );
     }
 }
