@@ -14,7 +14,7 @@ class Helpers
      * @param  object|class-string  $class
      * @return array<class-string, class-string>
      */
-    public static function classUsesRecursive(object|string $class): array
+    public static function classUsesRecursive($class): array
     {
         if (is_object($class)) {
             $class = get_class($class);
@@ -50,10 +50,11 @@ class Helpers
     /**
      * Get the properties of a class.
      *
+     * @param  string|class-string  $class
      * @param  int  $flag
      * @return ReflectionProperty[]
      */
-    public static function getProperties(string|object $class, $flag = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE): array
+    public static function getProperties($class, $flag = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE): array
     {
         $reflection = new ReflectionClass($class);
 
@@ -62,8 +63,10 @@ class Helpers
 
     /**
      * Filter out the properties that are not part of the given class.
+     *
+     * @param  string|class-string  $class
      */
-    public static function filterByProperties(string|object $class, array $array): array
+    public static function filterByProperties($class, array $array): array
     {
         $properties = array_map(
             fn (ReflectionProperty $prop) => $prop->getName(),

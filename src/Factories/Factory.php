@@ -15,7 +15,7 @@ abstract class Factory implements FactoryContract
         $this->data = $data;
     }
 
-    public static function new(array $data): static
+    public static function new(array $data): self
     {
         return new static($data);
     }

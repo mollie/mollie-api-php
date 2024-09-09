@@ -7,9 +7,13 @@ use Mollie\Api\Contracts\Rule;
 
 class Matches implements Rule
 {
+    private string $pattern;
+
     public function __construct(
-        private string $pattern
-    ) {}
+        string $pattern
+    ) {
+        $this->pattern = $pattern;
+    }
 
     public static function pattern(string $pattern): self
     {
