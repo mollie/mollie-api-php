@@ -36,6 +36,8 @@ abstract class BaseResource implements HasResponse
 
     public function getPendingRequest(): ?PendingRequest
     {
-        return $this->response?->getPendingRequest();
+        return $this->response
+            ? $this->response->getPendingRequest()
+            : null;
     }
 }
