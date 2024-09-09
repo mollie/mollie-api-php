@@ -18,7 +18,7 @@ class JsonBodyRepository implements JsonBodyRepositoryContract
     /**
      * @param  mixed  $value
      */
-    public function set($value): static
+    public function set($value): self
     {
         $this->store = $value;
 
@@ -30,7 +30,7 @@ class JsonBodyRepository implements JsonBodyRepositoryContract
         return $this->store;
     }
 
-    public function remove(string $key): static
+    public function remove(string $key): self
     {
         unset($this->store[$key]);
 

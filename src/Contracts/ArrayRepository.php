@@ -4,7 +4,7 @@ namespace Mollie\Api\Contracts;
 
 interface ArrayRepository
 {
-    public function set(array $data): static;
+    public function set(array $data): self;
 
     /**
      * @param  mixed  $default
@@ -14,11 +14,11 @@ interface ArrayRepository
 
     public function has(string $key): bool;
 
-    public function add(string $key, $value): static;
+    public function add(string $key, $value): self;
 
-    public function merge(array ...$data): static;
+    public function merge(array ...$data): self;
 
-    public function remove(string $key): static;
+    public function remove(string $key): self;
 
     public function all(): array;
 

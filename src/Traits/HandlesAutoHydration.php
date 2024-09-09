@@ -27,7 +27,7 @@ trait HandlesAutoHydration
     {
         (is_callable(static::$hydrationSettingResolver)
             ? static::$hydrationSettingResolver
-            : static function () {
+            : self function () {
                 return (bool) static::$hydrationSettingResolver;
             })();
     }

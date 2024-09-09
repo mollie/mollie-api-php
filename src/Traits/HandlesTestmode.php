@@ -6,14 +6,14 @@ trait HandlesTestmode
 {
     protected bool $testmode = false;
 
-    public function enableTestmode(): static
+    public function enableTestmode(): self
     {
         $this->testmode = true;
 
         return $this;
     }
 
-    public function disableTestmode(): static
+    public function disableTestmode(): self
     {
         $this->testmode = false;
 

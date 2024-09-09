@@ -71,7 +71,7 @@ class PendingRequest
 
     }
 
-    public function setPayload(BodyRepository $bodyRepository): static
+    public function setPayload(BodyRepository $bodyRepository): self
     {
         $this->body = $bodyRepository;
 
@@ -116,7 +116,7 @@ class PendingRequest
         return $this->middleware()->executeOnResponse($response);
     }
 
-    protected function tap(callable $callable): static
+    protected function tap(callable $callable): self
     {
         $callable($this);
 

@@ -4,7 +4,7 @@ namespace Mollie\Api\Contracts;
 
 interface Factory
 {
-    public static function new(array $data): static;
+    public static function new(array $data): self;
 
     /**
      * @return mixed

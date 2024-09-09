@@ -18,7 +18,7 @@ class MiddlewareHandlers
         $this->onResponse = new Handlers;
     }
 
-    public function onRequest(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): static
+    public function onRequest(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
     {
         $this->onRequest->add(static function (PendingRequest $pendingRequest) use ($callback): PendingRequest {
             $result = $callback($pendingRequest);
@@ -33,7 +33,7 @@ class MiddlewareHandlers
         return $this;
     }
 
-    public function onResponse(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): static
+    public function onResponse(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
     {
         $this->onResponse->add(static function (Response $response) use ($callback) {
             $result = $callback($response);
@@ -63,7 +63,7 @@ class MiddlewareHandlers
     /**
      * @param  array<MiddlewareHandlers>  ...$handlers
      */
-    public function merge(...$handlersCollection): static
+    public function merge(...$handlersCollection): self
     {
         /** @var MiddlewareHandlers $handlers */
         foreach ($handlersCollection as $handlers) {

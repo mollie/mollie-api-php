@@ -14,7 +14,7 @@ class ArrayStore implements ArrayRepository
         $this->store = $data;
     }
 
-    public function set(array $data): static
+    public function set(array $data): self
     {
         $this->store = $data;
 
@@ -30,7 +30,7 @@ class ArrayStore implements ArrayRepository
         return $this->store[$key] ?? $default;
     }
 
-    public function add(string $key, $value): static
+    public function add(string $key, $value): self
     {
         $this->store[$key] = $value;
 
@@ -42,14 +42,14 @@ class ArrayStore implements ArrayRepository
         return Arr::has($this->store, $key);
     }
 
-    public function merge(array ...$data): static
+    public function merge(array ...$data): self
     {
         $this->store = array_merge($this->store, ...$data);
 
         return $this;
     }
 
-    public function remove(string $key): static
+    public function remove(string $key): self
     {
         unset($this->store[$key]);
 

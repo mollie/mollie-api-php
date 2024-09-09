@@ -27,7 +27,7 @@ class DataCollection implements Arrayable, DataProvider, DataResolver
         $this->items = $items;
     }
 
-    public static function wrap(object $subject): static
+    public static function wrap(object $subject): self
     {
         if ($subject instanceof static) {
             return $subject;
@@ -54,12 +54,12 @@ class DataCollection implements Arrayable, DataProvider, DataResolver
         return $this->items;
     }
 
-    public function map(callable $callback): static
+    public function map(callable $callback): self
     {
         return new static(array_map($callback, $this->items));
     }
 
-    public function filter(): static
+    public function filter(): self
     {
         return new static(array_filter($this->items));
     }

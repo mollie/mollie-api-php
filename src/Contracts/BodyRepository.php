@@ -10,14 +10,14 @@ interface BodyRepository
     /**
      * @param  mixed  $value
      */
-    public function set($value): static;
+    public function set($value): self;
 
     /**
      * @return mixed
      */
     public function all();
 
-    public function remove(string $key): static;
+    public function remove(string $key): self;
 
     public function isEmpty(): bool;
 
