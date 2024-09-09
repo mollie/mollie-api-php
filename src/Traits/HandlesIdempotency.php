@@ -9,8 +9,6 @@ use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
  */
 trait HandlesIdempotency
 {
-    const IDEMPOTENCY_KEY_HEADER = 'Idempotency-Key';
-
     protected ?IdempotencyKeyGeneratorContract $idempotencyKeyGenerator;
 
     /**
