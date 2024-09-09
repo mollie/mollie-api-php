@@ -21,8 +21,8 @@ trait ManagesPsrRequests
         $factories = $this->factoryCollection;
 
         $request = $factories->requestFactory->createRequest(
-            method: $this->method(),
-            uri: $this->getUri(),
+            $this->method(),
+            $this->getUri(),
         );
 
         foreach ($this->headers()->all() as $headerName => $headerValue) {
