@@ -32,7 +32,9 @@ class Validator
 
         // Validate properties with rules
         foreach ($propsWithRules as $key => $value) {
-            $rules[$key]->validate($value, $provider, static fn (string $message) => throw new RequestValidationException($message));
+            $rules[$key]->validate($value, $provider, static function (string $message) {
+                throw new RequestValidationException($message);
+            });
         }
     }
 
