@@ -33,7 +33,10 @@ trait HandlesResourceCreation
         return $response;
     }
 
-    private function unwrapIterator(Request $request, BaseCollection $collection): BaseCollection|LazyCollection
+    /**
+     * @return BaseCollection|LazyCollection
+     */
+    private function unwrapIterator(Request $request, BaseCollection $collection)
     {
         if ($request instanceof IsIteratable && $request->iteratorEnabled()) {
             /** @var CursorCollection $collection */
