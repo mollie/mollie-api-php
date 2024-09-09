@@ -39,7 +39,7 @@ class UpdatePaymentPayload extends DataBag
         ?string $locale = null,
         ?string $restrictPaymentMethodsToCountry = null,
         ?bool $testmode = null,
-        array $additional = [],
+        array $additional = []
     ) {
         $this->description = $description;
         $this->redirectUrl = $redirectUrl;

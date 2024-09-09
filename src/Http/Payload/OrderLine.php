@@ -48,7 +48,7 @@ class OrderLine extends DataBag
         ?Money $vatAmount = null,
         ?string $sku = null,
         ?string $imageUrl = null,
-        ?string $productUrl = null,
+        ?string $productUrl = null
     ) {
         $this->description = $description;
         $this->quantity = $quantity;

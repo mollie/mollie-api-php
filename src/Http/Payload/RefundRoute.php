@@ -10,7 +10,7 @@ class RefundRoute extends DataBag
 
     public function __construct(
         Money $amount,
-        string $organizationId,
+        string $organizationId
     ) {
         $this->amount = $amount;
         $this->organizationId = $organizationId;

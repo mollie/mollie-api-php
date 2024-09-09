@@ -10,7 +10,7 @@ class ApplicationFee extends DataBag
 
     public function __construct(
         Money $amount,
-        string $description,
+        string $description
     ) {
         $this->amount = $amount;
         $this->description = $description;

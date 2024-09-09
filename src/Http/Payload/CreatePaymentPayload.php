@@ -84,7 +84,7 @@ class CreatePaymentPayload extends DataBag
         ?string $customerId = null,
         ?string $profileId = null,
         ?bool $testmode = null,
-        array $additional = [],
+        array $additional = []
     ) {
         $this->description = $description;
         $this->amount = $amount;

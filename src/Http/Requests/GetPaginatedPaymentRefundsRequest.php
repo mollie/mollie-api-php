@@ -17,7 +17,7 @@ class GetPaginatedPaymentRefundsRequest extends PaginatedRequest
 
     public function __construct(
         string $paymentId,
-        ?GetPaginatedPaymentRefundQuery $query = null,
+        ?GetPaginatedPaymentRefundQuery $query = null
     ) {
         parent::__construct($query);
 

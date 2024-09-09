@@ -26,7 +26,7 @@ class GetPaymentRequest extends Request
 
     public function __construct(
         string $id,
-        GetPaymentQuery $query,
+        GetPaymentQuery $query
     ) {
         $this->id = $id;
         $this->query = $query;

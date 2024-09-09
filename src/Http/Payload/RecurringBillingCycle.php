@@ -27,7 +27,7 @@ class RecurringBillingCycle extends DataBag
         ?string $description = null,
         ?Money $amount = null,
         ?int $times = null,
-        ?DateTimeInterface $startDate = null,
+        ?DateTimeInterface $startDate = null
     ) {
         $this->interval = $interval;
         $this->description = $description;

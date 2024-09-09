@@ -10,7 +10,7 @@ class BearerTokenAuthenticator implements Authenticator
     protected string $token;
 
     public function __construct(
-        string $token,
+        string $token
     ) {
         $this->token = trim($token);
     }

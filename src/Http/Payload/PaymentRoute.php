@@ -9,9 +9,8 @@ class PaymentRoute extends DataBag
     public function __construct(
         public readonly Money $amount,
         public readonly string $organizationId,
-        public readonly ?DateTimeInterface $delayUntil = null,
-    ) {
-    }
+        public readonly ?DateTimeInterface $delayUntil = null
+    ) {}
 
     public function data(): array
     {

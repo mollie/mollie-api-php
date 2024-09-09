@@ -23,7 +23,7 @@ class DynamicDeleteRequest extends DynamicRequest implements HasPayload
         string $url,
         string $resourceClass = '',
         ?bool $testmode = null,
-        array $body = [],
+        array $body = []
     ) {
         parent::__construct($url, $resourceClass);
 
