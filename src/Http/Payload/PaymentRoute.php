@@ -20,7 +20,9 @@ class PaymentRoute extends DataBag
                 'type' => 'organization',
                 'organizationId' => $this->organizationId,
             ],
-            'delayUntil' => $this->delayUntil?->format('Y-m-d'),
+            'delayUntil' => $this->delayUntil
+                ? $this->delayUntil->format('Y-m-d')
+                : null,
         ];
     }
 }

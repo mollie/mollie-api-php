@@ -23,6 +23,8 @@ abstract class PaginatedRequest extends Request
 
     protected function defaultQuery(): array
     {
-        return $this->query?->toArray() ?? [];
+        return $this->query
+            ? $this->query->toArray()
+            : [];
     }
 }

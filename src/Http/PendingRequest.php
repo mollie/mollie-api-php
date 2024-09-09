@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http;
 
-use Mollie\Api\Contracts\BodyRepository;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Helpers\MiddlewarePriority;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
@@ -32,7 +32,7 @@ class PendingRequest
 
     protected Request $request;
 
-    protected ?BodyRepository $body = null;
+    protected ?PayloadRepository $payload = null;
 
     protected string $method;
 
@@ -71,16 +71,16 @@ class PendingRequest
 
     }
 
-    public function setPayload(BodyRepository $bodyRepository): self
+    public function setPayload(PayloadRepository $bodyRepository): self
     {
-        $this->body = $bodyRepository;
+        $this->payload = $bodyRepository;
 
         return $this;
     }
 
-    public function body(): ?BodyRepository
+    public function payload(): ?PayloadRepository
     {
-        return $this->body;
+        return $this->payload;
     }
 
     public function url(): string

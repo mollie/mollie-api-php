@@ -2,15 +2,15 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Repositories\JsonBodyRepository;
+use Mollie\Api\Repositories\JsonPayloadRepository;
 
 trait HasJsonPayload
 {
-    public ?JsonBodyRepository $body = null;
+    public ?JsonPayloadRepository $body = null;
 
-    public function payload(): JsonBodyRepository
+    public function payload(): JsonPayloadRepository
     {
-        return $this->body ??= new JsonBodyRepository($this->defaultPayload());
+        return $this->body ??= new JsonPayloadRepository($this->defaultPayload());
     }
 
     protected function defaultPayload(): array

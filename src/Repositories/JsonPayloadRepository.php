@@ -2,11 +2,11 @@
 
 namespace Mollie\Api\Repositories;
 
-use Mollie\Api\Contracts\JsonBodyRepository as JsonBodyRepositoryContract;
+use Mollie\Api\Contracts\JsonPayloadRepository as JsonBodyRepositoryContract;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
-class JsonBodyRepository implements JsonBodyRepositoryContract
+class JsonPayloadRepository implements JsonBodyRepositoryContract
 {
     private array $store = [];
 

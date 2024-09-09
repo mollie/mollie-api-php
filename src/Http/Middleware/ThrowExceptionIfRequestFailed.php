@@ -27,13 +27,13 @@ class ThrowExceptionIfRequestFailed
             $message .= ". Documentation: {$body->_links->documentation->href}";
         }
 
-        if ($response->getPendingRequest()->body()) {
+        if ($response->getPendingRequest()->payload()) {
             $streamFactory = $response
                 ->getPendingRequest()
                 ->getFactoryCollection()
                 ->streamFactory;
 
-            $message .= ". Request body: {$response->getPendingRequest()->body()->toStream($streamFactory)->getContents()}";
+            $message .= ". Request body: {$response->getPendingRequest()->payload()->toStream($streamFactory)->getContents()}";
         }
 
         throw new ApiException(

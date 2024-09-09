@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Contracts\BodyRepository;
+use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Helpers\Factories;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\PendingRequest;
@@ -29,8 +29,8 @@ trait ManagesPsrRequests
             $request = $request->withHeader($headerName, $headerValue);
         }
 
-        if ($this->body() instanceof BodyRepository) {
-            $request = $request->withBody($this->body()->toStream($factories->streamFactory));
+        if ($this->payload() instanceof PayloadRepository) {
+            $request = $request->withBody($this->payload()->toStream($factories->streamFactory));
         }
 
         return $request;

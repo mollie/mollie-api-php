@@ -36,7 +36,7 @@ class AuthenticateRequest
         }
 
         if ($pendingRequest->getRequest() instanceof HasPayload) {
-            $pendingRequest->body()?->remove('testmode');
+            $pendingRequest->payload()->remove('testmode');
         }
     }
 }

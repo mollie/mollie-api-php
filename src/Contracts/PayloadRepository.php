@@ -5,7 +5,7 @@ namespace Mollie\Api\Contracts;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
-interface BodyRepository
+interface PayloadRepository
 {
     /**
      * @param  mixed  $value

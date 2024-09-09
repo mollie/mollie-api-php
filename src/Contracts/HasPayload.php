@@ -4,5 +4,5 @@ namespace Mollie\Api\Contracts;
 
 interface HasPayload
 {
-    public function payload(): BodyRepository;
+    public function payload(): PayloadRepository;
 }
