@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
+      - name: Remove PHP CS Fixer dependency to prevent unnecessary collisions
+        run: |
+          composer remove --dev friendsofphp/php-cs-fixer
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
