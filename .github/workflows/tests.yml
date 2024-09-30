@@ -31,7 +31,7 @@ jobs:
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
-          composer require "phpstan/phpstan:1.11.5"
+          composer require "phpstan/phpstan:1.12.5"
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
