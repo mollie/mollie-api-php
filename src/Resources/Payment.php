@@ -146,6 +146,7 @@ class Payment extends BaseResource
      *
      * @example "user@mollie.com"
      * @var string|null
+     * @deprecated 2024-06-01 The billingEmail field is deprecated. Use the "billingAddress" field instead.
      */
     public $billingEmail;
 
@@ -208,6 +209,27 @@ class Payment extends BaseResource
      * @var string|null
      */
     public $orderId;
+
+    /**
+     * The lines contain the actual items the customer bought.
+     *
+     * @var array|object[]|null
+     */
+    public $lines;
+
+    /**
+     * The person and the address the order is billed to.
+     *
+     * @var \stdClass|null
+     */
+    public $billingAddress;
+
+    /**
+     * The person and the address the order is shipped to.
+     *
+     * @var \stdClass|null
+     */
+    public $shippingAddress;
 
     /**
      * The settlement ID this payment belongs to.
@@ -731,7 +753,10 @@ class Payment extends BaseResource
             "dueDate" => $this->dueDate,
         ];
 
-        $result = $this->client->payments->update($this->id, $body);
+        $result = $this->client->payments->update(
+            $this->id,
+            $this->withPresetOptions($body)
+        );
 
         return ResourceFactory::createFromApiResult($result, new Payment($this->client));
     }
