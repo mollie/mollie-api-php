@@ -57,7 +57,7 @@
     "eloquent/liberator": "^2.0||^3.0",
     "friendsofphp/php-cs-fixer": "^3.0",
     "guzzlehttp/guzzle": "^6.3 || ^7.0",
-    "phpstan/phpstan": "^1.4",
+    "phpstan/phpstan": "^1.12",
     "phpunit/phpunit": "^8.5 || ^9.5"
   },
   "suggest": {

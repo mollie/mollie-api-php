@@ -22,13 +22,16 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           tools: composer:v2
           coverage: none
+      - name: Remove PHP CS Fixer dependency to prevent unnecessary dependency collisions
+        run: |
+          composer remove --dev friendsofphp/php-cs-fixer
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
-          composer require "phpstan/phpstan:1.9.2"
+          composer require "phpstan/phpstan:1.12.5"
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
