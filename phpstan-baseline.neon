@@ -223,6 +223,26 @@ parameters:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
+			path: examples/sessions/cancel-session.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sessions/create-session.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sessions/list-sessions.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sessions/update-session.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
 			path: examples/settlements/list-settlements.php
 
 		-
