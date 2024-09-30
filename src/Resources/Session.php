@@ -95,6 +95,7 @@ class Session extends BaseResource
     /**
      * The person and the address the payment is shipped to.
      *
+     * @deprecated
      * @var \stdClass
      */
     public $shippingAddress;
@@ -102,7 +103,9 @@ class Session extends BaseResource
     /**
      * The person and the address the payment is billed to.
      *
+     * @deprecated
      * @var \stdClass
+     *
      */
     public $billingAddress;
 
