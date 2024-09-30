@@ -22,12 +22,12 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           tools: composer:v2
           coverage: none
+      - name: Remove PHP CS Fixer dependency to prevent unnecessary installation collisions
+        run: |
+          composer remove --dev friendsofphp/php-cs-fixer
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
-      - name: Remove PHP CS Fixer dependency to prevent unnecessary collisions
-        run: |
-          composer remove --dev friendsofphp/php-cs-fixer
       - name: PHPStan
         if: ${{ matrix.php >= 7.3 }}
         run: |
