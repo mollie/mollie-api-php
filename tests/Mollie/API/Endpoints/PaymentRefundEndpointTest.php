@@ -516,6 +516,27 @@ class PaymentRefundEndpointTest extends BaseEndpointTest
         $this->assertEquals($paymentLink, $refund->_links->payment);
     }
 
+    public function testCancelRefundForPayment()
+    {
+        $this->mockApiCall(
+            new Request(
+                "DELETE",
+                "/v2/payments/tr_44aKxzEbr8/refunds/re_4qqhO89gsT",
+                [],
+                '{"testmode":true}'
+            ),
+            new Response(204)
+        );
+
+        $response = $this->apiClient->paymentRefunds->cancelForPayment(
+            $this->getPayment(),
+            "re_4qqhO89gsT",
+            [ 'testmode' => true ]
+        );
+
+        $this->assertNull($response);
+    }
+
     /**
      * @return Payment
      */
