@@ -1,7 +1,10 @@
 name: Installable Plugin
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - "*"
+#  release:
+#    types: [published]
 jobs:
   build:
     name: Upload Release Asset
@@ -43,13 +46,13 @@ jobs:
         run: zip -r mollie-api-php.zip examples src vendor composer.json LICENSE README.md
         working-directory: build
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: mollie-api-php
           path: build/mollie-api-php.zip
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: build/mollie-api-php.zip application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Upload to release
+#        uses: JasonEtco/upload-to-release@master
+#        with:
+#          args: build/mollie-api-php.zip application/zip
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
