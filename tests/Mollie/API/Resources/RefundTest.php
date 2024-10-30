@@ -2,12 +2,95 @@
 
 namespace Tests\Mollie\Api\Resources;
 
+use Mollie\Api\Endpoints\PaymentRefundEndpoint;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
 
 class RefundTest extends \PHPUnit\Framework\TestCase
 {
+    public function testCancelRefundUsingOauthTestmode()
+    {
+        $endpoint = $this->createMock(PaymentRefundEndpoint::class);
+        $endpoint->expects($this->once())
+            ->method('cancelForId')
+            ->with(
+                $this->equalTo('tr_abc'),  // paymentId
+                $this->equalTo('re_123'),   // refundId
+                $this->equalTo(['testmode' => true])
+            );
+
+        $apiClient = $this->createMock(MollieApiClient::class);
+        $apiClient->paymentRefunds = $endpoint;
+        $apiClient->expects($this->once())
+            ->method('usesOAuth')
+            ->willReturn(true);
+
+        $refund = new Refund($apiClient);
+        $refund->id = 're_123';
+        $refund->paymentId = 'tr_abc';
+        $refund->mode = 'test';
+
+        $response = $refund->cancel();
+
+        $this->assertNull($response);
+    }
+
+    public function testCancelRefundUsingOauthLivemode()
+    {
+        $endpoint = $this->createMock(PaymentRefundEndpoint::class);
+        $endpoint->expects($this->once())
+            ->method('cancelForId')
+            ->with(
+                $this->equalTo('tr_abc'),  // paymentId
+                $this->equalTo('re_123'),   // refundId
+                $this->equalTo(['testmode' => false])
+            );
+
+        $apiClient = $this->createMock(MollieApiClient::class);
+        $apiClient->paymentRefunds = $endpoint;
+        $apiClient->expects($this->once())
+            ->method('usesOAuth')
+            ->willReturn(true);
+
+        $refund = new Refund($apiClient);
+        $refund->id = 're_123';
+        $refund->paymentId = 'tr_abc';
+        $refund->mode = 'live';
+
+        $response = $refund->cancel();
+
+        $this->assertNull($response);
+    }
+
+    public function testCancelRefundWithoutOauth()
+    {
+        $endpoint = $this->createMock(PaymentRefundEndpoint::class);
+        $endpoint->expects($this->once())
+            ->method('cancelForId')
+            ->with(
+                $this->equalTo('tr_abc'),  // paymentId
+                $this->equalTo('re_123'),   // refundId
+                $this->equalTo([])
+            );
+
+        $apiClient = $this->createMock(MollieApiClient::class);
+        $apiClient->paymentRefunds = $endpoint;
+        $apiClient->expects($this->once())
+            ->method('usesOAuth')
+            ->willReturn(false);
+
+        $refund = new Refund($apiClient);
+        $refund->id = 're_123';
+        $refund->paymentId = 'tr_abc';
+        $refund->mode = 'test';
+
+        $response = $refund->cancel();
+
+        $this->assertNull($response);
+    }
+
+
     /**
      * @param string $status
      * @param string $function

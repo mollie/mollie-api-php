@@ -154,4 +154,47 @@ class PaymentRefundEndpoint extends CollectionEndpointAbstract
 
         return parent::rest_create($data, $filters);
     }
+
+    /**
+     * @param \Mollie\Api\Resources\Payment $payment
+     * @param string $refundId
+     * @param array $parameters
+     * @return null
+     *
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function cancelForPayment(Payment $payment, string $refundId, array $parameters = [])
+    {
+        $this->parentId = $payment->id;
+
+        return $this->cancelForId($payment->id, $refundId, $parameters);
+    }
+
+    /**
+     * @param string $paymentId
+     * @param string $refundId
+     * @param array $parameters
+     * @return null
+     *
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function cancelForId(string $paymentId, string $refundId, array $parameters = [])
+    {
+        $this->parentId = $paymentId;
+
+        $body = null;
+        if (count($parameters) > 0) {
+            $body = json_encode($parameters);
+        }
+
+        $this->client->performHttpCall(
+            EndpointAbstract::REST_DELETE,
+            $this->getResourcePath() . '/' . $refundId,
+            $body
+        );
+
+        $this->getResourcePath();
+
+        return null;
+    }
 }
