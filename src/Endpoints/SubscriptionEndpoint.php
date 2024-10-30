@@ -194,7 +194,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $subscriptionId
      * @param array $data
      *
-     * @return null
+     * @return Subscription
      * @throws ApiException
      */
     public function cancelFor(Customer $customer, $subscriptionId, array $data = [])
@@ -207,7 +207,7 @@ class SubscriptionEndpoint extends CollectionEndpointAbstract
      * @param string $subscriptionId
      * @param array $data
      *
-     * @return null
+     * @return Subscription
      * @throws ApiException
      */
     public function cancelForId($customerId, $subscriptionId, array $data = [])
