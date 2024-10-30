@@ -1,7 +1,10 @@
 name: Installable Plugin
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - "*"
+#  release:
+#    types: [published]
 jobs:
   build:
     name: Upload Release Asset
