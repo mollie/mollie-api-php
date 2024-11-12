@@ -87,5 +87,7 @@ class Handlers
                 return true;
             }
         }
+
+        return false;
     }
 }
