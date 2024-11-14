@@ -11,7 +11,7 @@ use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CreateRefundPaymentRequest extends Request implements HasPayload, SupportsTestmode
+class CreatePaymentRefundRequest extends Request implements HasPayload, SupportsTestmode
 {
     use HasJsonPayload;
 

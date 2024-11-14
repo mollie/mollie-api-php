@@ -7,7 +7,6 @@ use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
-use Mollie\Api\EndpointCollection\OrderEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
@@ -17,6 +16,7 @@ use Mollie\Api\Endpoints\MandateEndpoint;
 use Mollie\Api\Endpoints\MethodEndpoint;
 use Mollie\Api\Endpoints\MethodIssuerEndpoint;
 use Mollie\Api\Endpoints\OnboardingEndpoint;
+use Mollie\Api\Endpoints\OrderEndpoint;
 use Mollie\Api\Endpoints\OrderLineEndpoint;
 use Mollie\Api\Endpoints\OrderPaymentEndpoint;
 use Mollie\Api\Endpoints\OrderRefundEndpoint;
@@ -75,7 +75,7 @@ trait HasEndpoints
             'orderLines' => OrderLineEndpoint::class,
             'orderPayments' => OrderPaymentEndpoint::class,
             'orderRefunds' => OrderRefundEndpoint::class,
-            'orders' => OrderEndpointCollection::class,
+            'orders' => OrderEndpoint::class,
             'organizationPartners' => OrganizationPartnerEndpoint::class,
             'organizations' => OrganizationEndpointCollection::class,
             'payments' => PaymentEndpointCollection::class,

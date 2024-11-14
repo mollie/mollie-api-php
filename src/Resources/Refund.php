@@ -7,12 +7,23 @@ use Mollie\Api\Types\RefundStatus;
 
 class Refund extends BaseResource
 {
+    use HasPresetOptions;
+
+    public static string $resourceIdPrefix = 're_';
+
     /**
      * Id of the payment method.
      *
      * @var string
      */
     public $id;
+
+    /**
+     * Mode of the refund, either "live" or "test".
+     *
+     * @var string
+     */
+    public $mode;
 
     /**
      * The $amount that was refunded.

@@ -2,16 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
-/**
- * @method Refund[]|RefundCollection all($from = null, $limit = 50, array $filters = [])
- * @method Refund get($refundId, array $filters = [])
- * @method Refund create(array $data = [], array $filters = [])
- * @method Refund delete($refundId)
- */
 class Chargeback extends BaseResource
 {
     /**
-     * Always 'chargeback'
+     * Always 'chargeback'.
      *
      * @var string
      */
@@ -47,11 +41,18 @@ class Chargeback extends BaseResource
     public $paymentId;
 
     /**
-     * The settlement amount
+     * The settlement amount.
      *
      * @var \stdClass
      */
     public $settlementAmount;
+
+    /**
+     * The identifier referring to the settlement this payment was settled with.
+     *
+     * @var string|null
+     */
+    public $settlementId;
 
     /**
      * The chargeback reason

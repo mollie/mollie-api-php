@@ -27,6 +27,7 @@ class Id implements Rule
         }
 
         if (strpos($id, $this->prefix) !== 0) {
+            // @todo: message is wrong for child endpoints e.g. PaymentRefundsEndpointCollection
             $resourceType = $this->getResourceType($context);
 
             $fail("Invalid {$resourceType} ID: '{$id}'. A resource ID should start with '".$this->prefix."'.");

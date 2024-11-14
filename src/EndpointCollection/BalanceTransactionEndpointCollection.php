@@ -20,9 +20,9 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listFor(Balance $balance, $query = []): BalanceTransactionCollection
+    public function pageFor(Balance $balance, $query = []): BalanceTransactionCollection
     {
-        return $this->listForId($balance->id, $query);
+        return $this->pageForId($balance->id, $query);
     }
 
     /**
@@ -42,10 +42,10 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForPrimary($query = []): BalanceTransactionCollection
+    public function pageForPrimary($query = []): BalanceTransactionCollection
     {
         /** @var BalanceTransactionCollection */
-        return $this->listForId('primary', $query);
+        return $this->pageForId('primary', $query);
     }
 
     /**
@@ -66,7 +66,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function listForId(string $balanceId, $query = []): BalanceTransactionCollection
+    public function pageForId(string $balanceId, $query = []): BalanceTransactionCollection
     {
         if (! $query instanceof PaginatedQuery) {
             $query = PaginatedQueryFactory::new($query)

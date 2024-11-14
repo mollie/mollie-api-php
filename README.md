@@ -121,7 +121,6 @@ $payload = new CreatePaymentPayload(
 
 $payment = $mollie->payments->create($payload);
 
-
 // newest ;-)
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 

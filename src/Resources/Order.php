@@ -11,6 +11,12 @@ class Order extends BaseResource implements EmbeddedResourcesContract
     use HasPresetOptions;
 
     /**
+     * Resource id prefix.
+     * Used to validate resource id's.
+     */
+    public static string $resourceIdPrefix = 'ord_';
+
+    /**
      * Id of the order.
      *
      * @example ord_8wmqcHMN4U

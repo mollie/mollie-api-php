@@ -17,7 +17,7 @@ use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Query\GetPaymentQuery;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
-use Mollie\Api\Http\Requests\CreateRefundPaymentRequest;
+use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
@@ -139,7 +139,7 @@ class PaymentEndpointCollection extends EndpointCollection
                 ->create();
         }
 
-        return $this->send(new CreateRefundPaymentRequest(
+        return $this->send(new CreatePaymentRefundRequest(
             $payment->id,
             $payload
         ));

@@ -19,6 +19,7 @@
  * - paymentRefunds
  * - profiles
  * - refunds
+ * - sessions
  * - settlementCaptures
  * - settlementChargebacks
  * - settlementPayments

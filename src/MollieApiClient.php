@@ -36,6 +36,7 @@ use Mollie\Api\Endpoints\PermissionEndpoint;
 use Mollie\Api\Endpoints\ProfileEndpoint;
 use Mollie\Api\Endpoints\ProfileMethodEndpoint;
 use Mollie\Api\Endpoints\RefundEndpoint;
+use Mollie\Api\Endpoints\SessionEndpoint;
 use Mollie\Api\Endpoints\SettlementCaptureEndpoint;
 use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
 use Mollie\Api\Endpoints\SettlementPaymentEndpoint;

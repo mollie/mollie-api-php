@@ -1,32 +1,32 @@
 <?php
 
-namespace Mollie\Api\EndpointCollection;
+namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Order;
 use Mollie\Api\Resources\OrderCollection;
 
-class OrderEndpointCollection extends EndpointCollection
+class OrderEndpoint extends EndpointCollection
 {
-    /**
-     * The resource path.
-     */
-    protected string $resourcePath = 'orders';
+    protected $resourcePath = "orders";
 
     /**
-     * Resource id prefix.
-     * Used to validate resource id's.
+     * @var string
      */
-    protected static string $resourceIdPrefix = 'ord_';
+    public const RESOURCE_ID_PREFIX = 'ord_';
 
     /**
      * Resource class name.
+     *
+     * @var string
      */
     public static string $resource = Order::class;
 
     /**
      * The resource collection class name.
+     *
+     * @var string
      */
     public static string $resourceCollection = OrderCollection::class;
 
