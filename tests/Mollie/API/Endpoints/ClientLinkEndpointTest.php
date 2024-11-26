@@ -13,7 +13,7 @@ class ClientLinkEndpointTest extends BaseEndpointTest
     /**
      * @dataProvider clientCreateData
      */
-    public function testCreateClientLink(string $client_link_id, string $app_id, string $state, array $scopes, string $approval_prompt, string $expected_url_query)
+    public function test_create_client_link(string $client_link_id, string $app_id, string $state, array $scopes, string $approval_prompt, string $expected_url_query)
     {
         $this->mockApiCall(
             new Request(

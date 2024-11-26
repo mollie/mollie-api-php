@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
@@ -20,7 +20,7 @@ try {
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
 
@@ -33,15 +33,15 @@ try {
      *   metadata      Custom metadata that is stored with the payment.
      */
     $payment = $mollie->payments->create([
-        "amount" => [
-            "currency" => "EUR",
-            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
+        'amount' => [
+            'currency' => 'EUR',
+            'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
         ],
-        "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/return.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
-        "metadata" => [
-            "order_id" => $orderId,
+        'description' => "Order #{$orderId}",
+        'redirectUrl' => "{$protocol}://{$hostname}{$path}/return.php?order_id={$orderId}",
+        'webhookUrl' => "{$protocol}://{$hostname}{$path}/webhook.php",
+        'metadata' => [
+            'order_id' => $orderId,
         ],
     ]);
 
@@ -54,7 +54,7 @@ try {
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header("Location: " . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

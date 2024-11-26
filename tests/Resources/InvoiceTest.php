@@ -16,7 +16,7 @@ class InvoiceTest extends TestCase
      *
      * @dataProvider dpTestInvoiceStatuses
      */
-    public function testInvoiceStatuses($status, $function, $expected_boolean)
+    public function test_invoice_statuses($status, $function, $expected_boolean)
     {
         $invoice = new Invoice($this->createMock(MollieApiClient::class));
         $invoice->status = $status;

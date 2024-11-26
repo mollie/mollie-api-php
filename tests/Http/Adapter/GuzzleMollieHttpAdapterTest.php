@@ -17,7 +17,7 @@ use Tests\Fixtures\MockClient;
 class GuzzleMollieHttpAdapterTest extends TestCase
 {
     /** @test */
-    public function testDebuggingIsSupported()
+    public function test_debugging_is_supported()
     {
         $adapter = GuzzleMollieHttpAdapter::createDefault();
         $this->assertTrue($adapter instanceof SupportsDebuggingContract);
@@ -31,7 +31,7 @@ class GuzzleMollieHttpAdapterTest extends TestCase
     }
 
     /** @test */
-    public function whenDebuggingAnApiExceptionIncludesTheRequest()
+    public function when_debugging_an_api_exception_includes_the_request()
     {
         $guzzleClient = $this->createMock(Client::class);
         $guzzleClient
@@ -59,7 +59,7 @@ class GuzzleMollieHttpAdapterTest extends TestCase
     }
 
     /** @test */
-    public function whenNotDebuggingAnApiExceptionIsExcludedFromTheRequest()
+    public function when_not_debugging_an_api_exception_is_excluded_from_the_request()
     {
         $guzzleClient = $this->createMock(Client::class);
         $guzzleClient

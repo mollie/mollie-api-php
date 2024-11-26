@@ -2,21 +2,20 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetPaginatedChargebackQuery extends PaginatedQuery
+class GetPaginatedChargebackQuery extends Query
 {
+    private PaginatedQuery $paginatedQuery;
+
     public bool $includePayment = false;
 
     public ?string $profileId = null;
 
     public function __construct(
+        PaginatedQuery $paginatedQuery,
         bool $includePayment = false,
-        ?string $profileId = null,
-        ?string $from = null,
-        ?int $limit = null,
-        ?bool $testmode = null
+        ?string $profileId = null
     ) {
-        parent::__construct($from, $limit, $testmode);
-
+        $this->paginatedQuery = $paginatedQuery;
         $this->includePayment = $includePayment;
         $this->profileId = $profileId;
     }
@@ -24,7 +23,7 @@ class GetPaginatedChargebackQuery extends PaginatedQuery
     public function toArray(): array
     {
         return array_merge(
-            parent::toArray(),
+            $this->paginatedQuery->toArray(),
             [
                 'include' => $this->includePayment ? 'payment' : null,
                 'profileId' => $this->profileId,

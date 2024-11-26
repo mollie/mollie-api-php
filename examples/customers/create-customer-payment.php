@@ -7,13 +7,13 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Retrieve the last created customer for this example.
      * If no customers are created yet, run create-customer example.
      */
-    $customer = $mollie->customers->collect(null, 1)[0];
+    $customer = $mollie->customers->page(null, 1)[0];
 
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
@@ -24,7 +24,7 @@ try {
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
     $hostname = $_SERVER['HTTP_HOST'];
 
     /**
@@ -33,15 +33,15 @@ try {
      * @see https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
     $payment = $customer->createPayment([
-        "amount" => [
-            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR",
+        'amount' => [
+            'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
+            'currency' => 'EUR',
         ],
-        "description" => "Order #{$orderId}",
-        "redirectUrl" => "{$protocol}://{$hostname}/payments/return.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}/payments/webhook.php",
-        "metadata" => [
-            "order_id" => $orderId,
+        'description' => "Order #{$orderId}",
+        'redirectUrl' => "{$protocol}://{$hostname}/payments/return.php?order_id={$orderId}",
+        'webhookUrl' => "{$protocol}://{$hostname}/payments/webhook.php",
+        'metadata' => [
+            'order_id' => $orderId,
         ],
     ]);
 
@@ -54,7 +54,7 @@ try {
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header("Location: " . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

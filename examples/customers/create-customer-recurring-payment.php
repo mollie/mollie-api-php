@@ -7,7 +7,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Retrieve the last created customer for this example.
@@ -23,7 +23,7 @@ try {
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
     $hostname = $_SERVER['HTTP_HOST'];
 
     /**
@@ -32,18 +32,18 @@ try {
      * @See: https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
     $payment = $customer->createPayment([
-        "amount" => [
-            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR",
+        'amount' => [
+            'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
+            'currency' => 'EUR',
         ],
-        "description" => "On-demand payment - Order #{$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}/payments/webhook.php",
-        "metadata" => [
-            "order_id" => $orderId,
+        'description' => "On-demand payment - Order #{$orderId}",
+        'webhookUrl' => "{$protocol}://{$hostname}/payments/webhook.php",
+        'metadata' => [
+            'order_id' => $orderId,
         ],
 
         // Flag this payment as a recurring payment.
-        "sequenceType" => \Mollie\Api\Types\SequenceType::RECURRING,
+        'sequenceType' => \Mollie\Api\Types\SequenceType::RECURRING,
     ]);
 
     /*
@@ -55,8 +55,8 @@ try {
      * The payment will be either pending or paid immediately. The customer
      * does not have to perform any payment steps.
      */
-    echo "<p>Selected mandate is '" . htmlspecialchars($payment->mandateId) . "' (" . htmlspecialchars($payment->method) . ").</p>\n";
-    echo "<p>The payment status is '" . htmlspecialchars($payment->status) . "'.</p>\n";
+    echo "<p>Selected mandate is '".htmlspecialchars($payment->mandateId)."' (".htmlspecialchars($payment->method).").</p>\n";
+    echo "<p>The payment status is '".htmlspecialchars($payment->status)."'.</p>\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

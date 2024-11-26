@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Capture parameters:
@@ -19,14 +19,14 @@ try {
      */
     $capture = $mollie
         ->paymentCaptures->createForId('tr_WDqYK6vllg', [
-            "amount" => [
-                "currency" => "EUR",
-                "value" => "5.00",
+            'amount' => [
+                'currency' => 'EUR',
+                'value' => '5.00',
             ],
-            "description" => "Order #12345",
+            'description' => 'Order #12345',
         ]);
 
-    echo "<p>New capture created " . htmlspecialchars($capture->id) . " (" . htmlspecialchars($capture->description) . ").</p>";
+    echo '<p>New capture created '.htmlspecialchars($capture->id).' ('.htmlspecialchars($capture->description).').</p>';
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

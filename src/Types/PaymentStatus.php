@@ -7,12 +7,12 @@ class PaymentStatus
     /**
      * The payment has just been created, no action has happened on it yet.
      */
-    public const OPEN = "open";
+    public const OPEN = 'open';
 
     /**
      * The payment has just been started, no final confirmation yet.
      */
-    public const PENDING = "pending";
+    public const PENDING = 'pending';
 
     /**
      * The payment is authorized, but captures still need to be created in order to receive the money.
@@ -22,25 +22,25 @@ class PaymentStatus
      *
      * @see https://docs.mollie.com/reference/v2/shipments-api/create-shipment
      */
-    public const AUTHORIZED = "authorized";
+    public const AUTHORIZED = 'authorized';
 
     /**
      * The customer has canceled the payment.
      */
-    public const CANCELED = "canceled";
+    public const CANCELED = 'canceled';
 
     /**
      * The payment has expired due to inaction of the customer.
      */
-    public const EXPIRED = "expired";
+    public const EXPIRED = 'expired';
 
     /**
      * The payment has been paid.
      */
-    public const PAID = "paid";
+    public const PAID = 'paid';
 
     /**
      * The payment has failed.
      */
-    public const FAILED = "failed";
+    public const FAILED = 'failed';
 }

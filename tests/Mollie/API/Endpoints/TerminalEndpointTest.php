@@ -13,7 +13,7 @@ class TerminalEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testGetTerminal()
+    public function test_get_terminal()
     {
         $this->mockApiCall(
             new Request(
@@ -74,7 +74,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $this->assertLinkObject('https://docs.mollie.com/reference/v2/terminals-api/get-terminal', 'text/html', $terminal->_links->documentation);
     }
 
-    public function testListTerminal()
+    public function test_list_terminal()
     {
         $this->mockApiCall(
             new Request(
@@ -190,7 +190,7 @@ class TerminalEndpointTest extends BaseEndpointTest
         $this->assertNull($terminals->_links->previous);
     }
 
-    public function testIterateTerminal()
+    public function test_iterate_terminal()
     {
         $this->mockApiCall(
             new Request(

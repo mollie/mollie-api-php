@@ -13,6 +13,7 @@ class Capture extends BaseResource
 
     /**
      * Id of the capture
+     *
      * @var string
      */
     public $id;

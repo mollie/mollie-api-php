@@ -12,7 +12,7 @@ use Tests\Mollie\Api\Endpoints\BaseEndpointTest;
 class SubscriptionPaymentEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testListSubscriptionPayments(): void
+    public function test_list_subscription_payments(): void
     {
         $this->mockApiCall(
             new Request(

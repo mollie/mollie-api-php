@@ -6,12 +6,19 @@ use Mollie\Api\Http\Query\GetPaginatedClientQuery;
 
 class GetPaginatedClientQueryFactory extends Factory
 {
+    private PaginatedQueryFactory $paginatedQueryFactory;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->paginatedQueryFactory = new PaginatedQueryFactory($attributes);
+    }
+
     public function create(): GetPaginatedClientQuery
     {
         return new GetPaginatedClientQuery(
-            $this->get('embed', $this->get('filters.embed', [])),
-            $this->get('from'),
-            $this->get('limit'),
+            $this->paginatedQueryFactory->create(),
+            $this->get('embed', [])
         );
     }
 }

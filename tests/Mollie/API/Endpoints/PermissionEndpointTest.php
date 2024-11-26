@@ -17,7 +17,7 @@ class PermissionEndpointTest extends BaseEndpointTest
      *
      * @dataProvider dpTestGetPermissionIds
      */
-    public function testGetPermissionIds($permissionId)
+    public function test_get_permission_ids($permissionId)
     {
         $this->mockApiCall(
             new Request('GET', '/v2/permissions/'.$permissionId),
@@ -98,7 +98,7 @@ class PermissionEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testListPermissions()
+    public function test_list_permissions()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/permissions'),

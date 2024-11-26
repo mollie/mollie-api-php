@@ -10,7 +10,7 @@ use Mollie\Api\Resources\Settlement;
 
 class SettlementPaymentsEndpointTest extends BaseEndpointTest
 {
-    public function testListSettlementPayments()
+    public function test_list_settlement_payments()
     {
         $this->mockApiCall(
             new Request(
@@ -85,6 +85,6 @@ class SettlementPaymentsEndpointTest extends BaseEndpointTest
 
         $payment = $payments[0];
         $this->assertInstanceOf(Payment::class, $payment);
-        $this->assertEquals("tr_7UhSN1zuXS", $payment->id);
+        $this->assertEquals('tr_7UhSN1zuXS', $payment->id);
     }
 }

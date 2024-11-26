@@ -6,8 +6,6 @@ class MethodCollection extends BaseCollection
 {
     /**
      * The name of the collection resource in Mollie's API.
-     *
-     * @var string
      */
-    public static string $collectionName = "methods";
+    public static string $collectionName = 'methods';
 }

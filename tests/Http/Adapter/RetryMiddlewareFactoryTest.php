@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class RetryMiddlewareFactoryTest extends TestCase
 {
-    public function testRetriesConnectException()
+    public function test_retries_connect_exception()
     {
         $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 
@@ -33,7 +33,7 @@ class RetryMiddlewareFactoryTest extends TestCase
         $this->assertEquals(200, $finalResponse->getStatusCode());
     }
 
-    public function testRetryLimit()
+    public function test_retry_limit()
     {
         $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 
@@ -58,7 +58,7 @@ class RetryMiddlewareFactoryTest extends TestCase
         $client->request('GET', '/')->getStatusCode();
     }
 
-    public function testRetryDelay()
+    public function test_retry_delay()
     {
         $middlewareFactory = new GuzzleRetryMiddlewareFactory;
 

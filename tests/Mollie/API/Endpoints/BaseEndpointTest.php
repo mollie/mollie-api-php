@@ -27,9 +27,9 @@ abstract class BaseEndpointTest extends TestCase
         $this->apiClient = new MollieApiClient($this->guzzleClient);
 
         if (! $oAuthClient) {
-            $this->apiClient->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+            $this->apiClient->setApiKey('test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM');
         } else {
-            $this->apiClient->setAccessToken("access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ");
+            $this->apiClient->setAccessToken('access_Wwvu7egPcJLLJ9Kb7J632x8wJ2zMeJ');
         }
 
         $this->guzzleClient
@@ -37,12 +37,12 @@ abstract class BaseEndpointTest extends TestCase
             ->method('send')
             ->with($this->isInstanceOf(Request::class))
             ->willReturnCallback(function (Request $request) use ($expectedRequest, $response) {
-                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod(), "HTTP method must be identical");
+                $this->assertEquals($expectedRequest->getMethod(), $request->getMethod(), 'HTTP method must be identical');
 
                 $this->assertEquals(
                     $expectedRequest->getUri()->getPath(),
                     $request->getUri()->getPath(),
-                    "URI path must be identical"
+                    'URI path must be identical'
                 );
 
                 $this->assertEquals(
@@ -58,7 +58,7 @@ abstract class BaseEndpointTest extends TestCase
                     $this->assertJsonStringEqualsJsonString(
                         $expectedBody,
                         $requestBody,
-                        "HTTP body must be identical"
+                        'HTTP body must be identical'
                     );
                 }
 

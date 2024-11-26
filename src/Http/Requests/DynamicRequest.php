@@ -2,9 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Request;
-
-abstract class DynamicRequest extends Request
+abstract class DynamicRequest extends ResourceHydratableRequest
 {
     private string $url;
 

@@ -11,12 +11,12 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Retrieve the payment's current state.
      */
-    $payment = $mollie->payments->get($_POST["id"]);
+    $payment = $mollie->payments->get($_POST['id']);
     $orderId = $payment->metadata->order_id;
 
     /*
@@ -61,5 +61,5 @@ try {
          */
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

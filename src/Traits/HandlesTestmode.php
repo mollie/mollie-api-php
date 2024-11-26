@@ -4,19 +4,17 @@ namespace Mollie\Api\Traits;
 
 trait HandlesTestmode
 {
-    protected bool $testmode = false;
+    protected ?bool $testmode = null;
 
-    public function enableTestmode(): self
+    public function test(bool $testmode = true): self
     {
-        $this->testmode = true;
+        $this->testmode = $testmode;
 
         return $this;
     }
 
-    public function disableTestmode(): self
+    public function getTestmode(): ?bool
     {
-        $this->testmode = false;
-
-        return $this;
+        return $this->testmode;
     }
 }

@@ -21,7 +21,7 @@ class BalanceEndpointCollectionTest extends TestCase
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testListBalances()
+    public function test_list_balances()
     {
         $client = new MockClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
@@ -86,7 +86,7 @@ class BalanceEndpointCollectionTest extends TestCase
         );
     }
 
-    public function testIterateBalances()
+    public function test_iterate_balances()
     {
         $client = new MockClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
@@ -98,7 +98,7 @@ class BalanceEndpointCollectionTest extends TestCase
         }
     }
 
-    public function testGetBalance()
+    public function test_get_balance()
     {
         $client = new MockClient([
             GetBalanceRequest::class => new MockResponse(200, 'balance'),
@@ -122,7 +122,7 @@ class BalanceEndpointCollectionTest extends TestCase
         );
     }
 
-    public function testGetPrimaryBalance()
+    public function test_get_primary_balance()
     {
         $client = new MockClient([
             GetBalanceRequest::class => new MockResponse(200, 'balance'),

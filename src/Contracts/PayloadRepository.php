@@ -19,6 +19,8 @@ interface PayloadRepository
 
     public function remove(string $key): self;
 
+    public function add(string $key, $value): self;
+
     public function isEmpty(): bool;
 
     public function isNotEmpty(): bool;

@@ -8,8 +8,7 @@ class OrderLineCollection extends BaseCollection
      * Get a specific order line.
      * Returns null if the order line cannot be found.
      *
-     * @param  string $lineId
-     * @return OrderLine|null
+     * @param  string  $lineId
      */
     public function get($lineId): ?OrderLine
     {

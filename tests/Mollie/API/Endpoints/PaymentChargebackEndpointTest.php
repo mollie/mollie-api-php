@@ -15,7 +15,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testListChargebacksOnPaymentResource()
+    public function test_list_chargebacks_on_payment_resource()
     {
         $this->mockApiCall(
             new Request(
@@ -123,7 +123,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         $this->assertChargeback($chargebacks[1], 'tr_44aKxzEbr8', 'chb_6cqlwf', '-0.37');
     }
 
-    public function testGetChargebackOnPaymentResource()
+    public function test_get_chargeback_on_payment_resource()
     {
         $this->mockApiCall(
             new Request(
@@ -169,7 +169,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         $this->assertChargeback($chargeback, 'tr_44aKxzEbr8', 'chb_n9z0tp', '-13.00');
     }
 
-    public function testPaymentChargebacksListForIdPaymentChargebackEndpoint()
+    public function test_payment_chargebacks_list_for_id_payment_chargeback_endpoint()
     {
         $this->mockApiCall(
             new Request(
@@ -238,7 +238,7 @@ class PaymentChargebackEndpointTest extends BaseEndpointTest
         $this->assertEquals($chargebacks[0]->paymentId, 'tr_44aKxzEbr8');
     }
 
-    public function testPaymentChargebacksListForPaymentChargebackEndpoint()
+    public function test_payment_chargebacks_list_for_payment_chargeback_endpoint()
     {
         $this->mockApiCall(
             new Request(

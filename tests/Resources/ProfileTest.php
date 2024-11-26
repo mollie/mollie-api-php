@@ -15,7 +15,7 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestProfileStatusses
      */
-    public function testProfileStatusses($status, $function, $expected_boolean)
+    public function test_profile_statusses($status, $function, $expected_boolean)
     {
         $profile = new Profile($this->createMock(MollieApiClient::class));
         $profile->status = $status;

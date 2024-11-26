@@ -4,6 +4,7 @@ namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
@@ -16,7 +17,7 @@ trait HandlesResourceCreation
     /**
      * @return mixed
      */
-    protected function createResource(Request $request, Response $response)
+    protected function createResource(ResourceHydratableRequest $request, Response $response)
     {
         $targetResourceClass = $request->getTargetResourceClass();
 

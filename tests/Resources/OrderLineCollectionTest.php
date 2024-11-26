@@ -8,7 +8,7 @@ use Mollie\Api\Resources\OrderLineCollection;
 
 class OrderLineCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCanGetOrderLine()
+    public function test_can_get_order_line()
     {
         $mockApi = $this->createMock(MollieApiClient::class);
 

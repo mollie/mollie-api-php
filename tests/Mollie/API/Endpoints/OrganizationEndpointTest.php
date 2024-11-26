@@ -11,7 +11,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testGetOrganization()
+    public function test_get_organization()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/organizations/org_12345678'),
@@ -51,7 +51,7 @@ class OrganizationEndpointTest extends BaseEndpointTest
         $this->assertOrganization($organization);
     }
 
-    public function testGetCurrentOrganization()
+    public function test_get_current_organization()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/organizations/me'),

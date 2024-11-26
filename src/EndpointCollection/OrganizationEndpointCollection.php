@@ -4,8 +4,10 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Helpers;
+use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
+use Mollie\Api\Resources\Partner;
 
 class OrganizationEndpointCollection extends EndpointCollection
 {
@@ -23,7 +25,7 @@ class OrganizationEndpointCollection extends EndpointCollection
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 
         /** @var Organization */
-        return $this->send(new GetOrganizationRequest($id, $testmode));
+        return $this->send((new GetOrganizationRequest($id))->test($testmode));
     }
 
     /**
@@ -37,5 +39,15 @@ class OrganizationEndpointCollection extends EndpointCollection
     {
         /** @var Organization */
         return $this->get('me', $testmode);
+    }
+
+    /**
+     * Retrieve the partner status of the current organization.
+     *
+     * @throws ApiException
+     */
+    public function partnerStatus(): Partner
+    {
+        return $this->send(new GetOrganizationPartnerStatusRequest);
     }
 }

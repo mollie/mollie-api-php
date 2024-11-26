@@ -13,7 +13,7 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testEnableProfileMethod()
+    public function test_enable_profile_method()
     {
         $this->mockApiCall(
             new Request(
@@ -69,7 +69,7 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testDisableProfileMethod()
+    public function test_disable_profile_method()
     {
         $this->mockApiCall(
             new Request(
@@ -85,7 +85,7 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         $this->assertNull($result);
     }
 
-    public function testEnableCurrentProfileMethod()
+    public function test_enable_current_profile_method()
     {
         $this->mockApiCall(
             new Request(
@@ -141,7 +141,7 @@ class ProfileMethodEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testDisableCurrentProfileMethod()
+    public function test_disable_current_profile_method()
     {
         $this->mockApiCall(
             new Request(

@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Http\Query;
 
-use Mollie\Api\Rules\Included;
-
 class SortablePaginatedQuery extends PaginatedQuery
 {
     public ?string $sort = null;
@@ -12,9 +10,8 @@ class SortablePaginatedQuery extends PaginatedQuery
         ?string $from = null,
         ?int $limit = null,
         ?string $sort = null,
-        ?bool $testmode = null
     ) {
-        parent::__construct($from, $limit, $testmode);
+        parent::__construct($from, $limit);
 
         $this->sort = $sort;
     }
@@ -27,12 +24,5 @@ class SortablePaginatedQuery extends PaginatedQuery
                 'sort' => $this->sort,
             ]
         );
-    }
-
-    public function rules(): array
-    {
-        return [
-            'sort' => Included::in(['asc', 'desc']),
-        ];
     }
 }

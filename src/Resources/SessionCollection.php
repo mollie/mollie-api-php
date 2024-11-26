@@ -9,7 +9,7 @@ class SessionCollection extends CursorCollection
      */
     public function getCollectionResourceName()
     {
-        return "sessions";
+        return 'sessions';
     }
 
     /**

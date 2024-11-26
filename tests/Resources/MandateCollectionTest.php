@@ -22,7 +22,7 @@ class MandateCollectionTest extends TestCase
         $this->client = $this->createMock(MollieApiClient::class);
     }
 
-    public function testWhereStatus()
+    public function test_where_status()
     {
         $collection = new MandateCollection($this->client, [
             $this->getMandateWithStatus(MandateStatus::VALID),

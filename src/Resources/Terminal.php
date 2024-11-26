@@ -6,6 +6,8 @@ use Mollie\Api\Types\TerminalStatus;
 
 class Terminal extends BaseResource
 {
+    public static string $resourceIdPrefix = 'term_';
+
     /**
      * @var string
      */
@@ -15,6 +17,7 @@ class Terminal extends BaseResource
      * Id of the terminal (on the Mollie platform).
      *
      * @example term_7MgL4wea46qkRcoTZjWEH
+     *
      * @var string
      */
     public $id;
@@ -23,6 +26,7 @@ class Terminal extends BaseResource
      * The profile ID this terminal belongs to.
      *
      * @example pfl_QkEhN94Ba
+     *
      * @var string
      */
     public $profileId;
@@ -33,6 +37,7 @@ class Terminal extends BaseResource
      * active means payments are accepted, and inactive means it is deactivated.
      *
      * @example active
+     *
      * @var string
      */
     public $status;
@@ -62,6 +67,7 @@ class Terminal extends BaseResource
      * The currency which is set for the terminal, in ISO 4217 format.
      *
      * @example EUR
+     *
      * @var string
      */
     public $currency;
@@ -78,6 +84,7 @@ class Terminal extends BaseResource
      * The timezone of the terminal.
      *
      * @example Europe/Brussels
+     *
      * @var string
      */
     public $timezone;
@@ -86,6 +93,7 @@ class Terminal extends BaseResource
      * This will be a full locale provided by the user.
      *
      * @example nl_NL
+     *
      * @var string
      */
     public $locale;
@@ -94,6 +102,7 @@ class Terminal extends BaseResource
      * UTC datetime the terminal was created, in ISO 8601 format.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -102,6 +111,7 @@ class Terminal extends BaseResource
      * UTC datetime the terminal was last updated, in ISO 8601 format.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $updatedAt;
@@ -111,6 +121,7 @@ class Terminal extends BaseResource
      * This parameter is omitted if the terminal is not disabled yet.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $disabledAt;
@@ -120,6 +131,7 @@ class Terminal extends BaseResource
      * This parameter is omitted if the terminal is not active yet.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $activatedAt;
@@ -131,25 +143,16 @@ class Terminal extends BaseResource
      */
     public $_links;
 
-    /**
-     * @return bool
-     */
     public function isPending(): bool
     {
         return $this->status === TerminalStatus::PENDING;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->status === TerminalStatus::ACTIVE;
     }
 
-    /**
-     * @return bool
-     */
     public function isInactive(): bool
     {
         return $this->status === TerminalStatus::INACTIVE;

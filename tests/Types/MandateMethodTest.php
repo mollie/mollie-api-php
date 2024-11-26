@@ -14,7 +14,7 @@ class MandateMethodTest extends TestCase
      *
      * @dataProvider dpTestGetForFirstPaymentMethod
      */
-    public function testGetForFirstPaymentMethod($firstPaymentMethod, $expectedMethod)
+    public function test_get_for_first_payment_method($firstPaymentMethod, $expectedMethod)
     {
         $actualMethod = MandateMethod::getForFirstPaymentMethod($firstPaymentMethod);
         $this->assertEquals($expectedMethod, $actualMethod);

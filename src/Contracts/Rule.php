@@ -6,5 +6,5 @@ use Closure;
 
 interface Rule
 {
-    public function validate($value, $context, Closure $fail): void;
+    public function validate($value, Closure $fail, $context): void;
 }

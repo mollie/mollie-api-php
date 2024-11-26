@@ -8,28 +8,28 @@ use PHPUnit\Framework\TestCase;
 
 class ShipmentTest extends TestCase
 {
-    public function testHasTrackingReturnsTrueIfObjectNotNull()
+    public function test_has_tracking_returns_true_if_object_not_null()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = $this->getTrackingDummy();
         $this->assertTrue($shipment->hasTracking());
     }
 
-    public function testHasTrackingReturnsFalseIfObjectIsNull()
+    public function test_has_tracking_returns_false_if_object_is_null()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = null;
         $this->assertFalse($shipment->hasTracking());
     }
 
-    public function testHasTrackingUrlReturnsFalseIfTrackingIsNotSet()
+    public function test_has_tracking_url_returns_false_if_tracking_is_not_set()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = null;
         $this->assertFalse($shipment->hasTrackingUrl());
     }
 
-    public function testHasTrackingUrlReturnsTrueIfUrlIsSet()
+    public function test_has_tracking_url_returns_true_if_url_is_set()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = $this->getTrackingDummy([
@@ -38,7 +38,7 @@ class ShipmentTest extends TestCase
         $this->assertTrue($shipment->hasTrackingUrl());
     }
 
-    public function testHasTrackingUrlReturnsFalseIfUrlIsNotSet()
+    public function test_has_tracking_url_returns_false_if_url_is_not_set()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = $this->getTrackingDummy([
@@ -47,7 +47,7 @@ class ShipmentTest extends TestCase
         $this->assertFalse($shipment->hasTrackingUrl());
     }
 
-    public function testGetTrackingUrlReturnsNullIfNotAvailable()
+    public function test_get_tracking_url_returns_null_if_not_available()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
 
@@ -60,7 +60,7 @@ class ShipmentTest extends TestCase
         $this->assertNull($shipment->getTrackingUrl());
     }
 
-    public function testGetTrackingUrlReturnsUrlIfAvailable()
+    public function test_get_tracking_url_returns_url_if_available()
     {
         $shipment = new Shipment($this->createMock(MollieApiClient::class));
         $shipment->tracking = $this->getTrackingDummy([

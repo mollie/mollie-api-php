@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase
 {
-    public function testJoin()
+    public function test_join()
     {
         $baseUrl = 'https://example.com';
         $endpoint = '/api/v1/users';
@@ -18,7 +18,7 @@ class UrlTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testIsValid()
+    public function test_is_valid()
     {
         $validUrl = 'https://example.com';
         $invalidUrl = 'example.com';
@@ -27,7 +27,7 @@ class UrlTest extends TestCase
         $this->assertFalse(Url::isValid($invalidUrl));
     }
 
-    public function testParseQuery()
+    public function test_parse_query()
     {
         $query = 'param1=value1&param2=value2';
 

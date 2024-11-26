@@ -11,12 +11,12 @@ use Mollie\Api\Types\ProfileStatus;
 
 class ProfileEndpointTest extends BaseEndpointTest
 {
-    public function testGetProfile()
+    public function test_get_profile()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/profiles/pfl_ahe8z8OPut",
+                'GET',
+                '/v2/profiles/pfl_ahe8z8OPut',
                 [],
                 ''
             ),
@@ -70,41 +70,41 @@ class ProfileEndpointTest extends BaseEndpointTest
         $profile = $this->apiClient->profiles->get('pfl_ahe8z8OPut');
 
         $this->assertInstanceOf(Profile::class, $profile);
-        $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
-        $this->assertEquals("live", $profile->mode);
-        $this->assertEquals("My website name", $profile->name);
-        $this->assertEquals("http://www.mywebsite.com", $profile->website);
-        $this->assertEquals("info@mywebsite.com", $profile->email);
-        $this->assertEquals("31123456789", $profile->phone);
+        $this->assertEquals('pfl_ahe8z8OPut', $profile->id);
+        $this->assertEquals('live', $profile->mode);
+        $this->assertEquals('My website name', $profile->name);
+        $this->assertEquals('http://www.mywebsite.com', $profile->website);
+        $this->assertEquals('info@mywebsite.com', $profile->email);
+        $this->assertEquals('31123456789', $profile->phone);
         $this->assertEquals(5399, $profile->categoryCode);
         $this->assertEquals(ProfileStatus::VERIFIED, $profile->status);
-        $this->assertEquals((object) ["status" => "pending"], $profile->review);
+        $this->assertEquals((object) ['status' => 'pending'], $profile->review);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $profile->_links->self);
 
-        $chargebacksLink = (object)["href" => "https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $chargebacksLink = (object) ['href' => 'https://api.mollie.com/v2/chargebacks?profileId=pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($chargebacksLink, $profile->_links->chargebacks);
 
-        $methodsLink = (object)["href" => "https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $methodsLink = (object) ['href' => 'https://api.mollie.com/v2/methods?profileId=pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($methodsLink, $profile->_links->methods);
 
-        $paymentsLink = (object)["href" => "https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $paymentsLink = (object) ['href' => 'https://api.mollie.com/v2/payments?profileId=pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($paymentsLink, $profile->_links->payments);
 
-        $refundsLink = (object)["href" => "https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $refundsLink = (object) ['href' => 'https://api.mollie.com/v2/refunds?profileId=pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($refundsLink, $profile->_links->refunds);
 
-        $checkoutPreviewLink = (object)["href" => "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut", "type" => "text/html"];
+        $checkoutPreviewLink = (object) ['href' => 'https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut', 'type' => 'text/html'];
         $this->assertEquals($checkoutPreviewLink, $profile->_links->checkoutPreviewUrl);
     }
 
-    public function testGetProfileUsingMe()
+    public function test_get_profile_using_me()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/profiles/me",
+                'GET',
+                '/v2/profiles/me',
                 [],
                 ''
             ),
@@ -158,17 +158,17 @@ class ProfileEndpointTest extends BaseEndpointTest
         $profile = $this->apiClient->profiles->get('me');
 
         $this->assertInstanceOf(CurrentProfile::class, $profile);
-        $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
+        $this->assertEquals('pfl_ahe8z8OPut', $profile->id);
 
         // No need to test it all again...
     }
 
-    public function testGetCurrentProfile()
+    public function test_get_current_profile()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/profiles/me",
+                'GET',
+                '/v2/profiles/me',
                 [],
                 ''
             ),
@@ -222,41 +222,41 @@ class ProfileEndpointTest extends BaseEndpointTest
         $profile = $this->apiClient->profiles->getCurrent();
 
         $this->assertInstanceOf(CurrentProfile::class, $profile);
-        $this->assertEquals("pfl_ahe8z8OPut", $profile->id);
-        $this->assertEquals("live", $profile->mode);
-        $this->assertEquals("My website name", $profile->name);
-        $this->assertEquals("http://www.mywebsite.com", $profile->website);
-        $this->assertEquals("info@mywebsite.com", $profile->email);
-        $this->assertEquals("31123456789", $profile->phone);
+        $this->assertEquals('pfl_ahe8z8OPut', $profile->id);
+        $this->assertEquals('live', $profile->mode);
+        $this->assertEquals('My website name', $profile->name);
+        $this->assertEquals('http://www.mywebsite.com', $profile->website);
+        $this->assertEquals('info@mywebsite.com', $profile->email);
+        $this->assertEquals('31123456789', $profile->phone);
         $this->assertEquals(5399, $profile->categoryCode);
         $this->assertEquals(ProfileStatus::VERIFIED, $profile->status);
-        $this->assertEquals((object) ["status" => "pending"], $profile->review);
+        $this->assertEquals((object) ['status' => 'pending'], $profile->review);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/profiles/pfl_ahe8z8OPut', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $profile->_links->self);
 
-        $chargebacksLink = (object)["href" => "https://api.mollie.com/v2/chargebacks", "type" => "application/hal+json"];
+        $chargebacksLink = (object) ['href' => 'https://api.mollie.com/v2/chargebacks', 'type' => 'application/hal+json'];
         $this->assertEquals($chargebacksLink, $profile->_links->chargebacks);
 
-        $methodsLink = (object)["href" => "https://api.mollie.com/v2/methods", "type" => "application/hal+json"];
+        $methodsLink = (object) ['href' => 'https://api.mollie.com/v2/methods', 'type' => 'application/hal+json'];
         $this->assertEquals($methodsLink, $profile->_links->methods);
 
-        $paymentsLink = (object)["href" => "https://api.mollie.com/v2/payments", "type" => "application/hal+json"];
+        $paymentsLink = (object) ['href' => 'https://api.mollie.com/v2/payments', 'type' => 'application/hal+json'];
         $this->assertEquals($paymentsLink, $profile->_links->payments);
 
-        $refundsLink = (object)["href" => "https://api.mollie.com/v2/refunds", "type" => "application/hal+json"];
+        $refundsLink = (object) ['href' => 'https://api.mollie.com/v2/refunds', 'type' => 'application/hal+json'];
         $this->assertEquals($refundsLink, $profile->_links->refunds);
 
-        $checkoutPreviewLink = (object)["href" => "https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut", "type" => "text/html"];
+        $checkoutPreviewLink = (object) ['href' => 'https://www.mollie.com/payscreen/preview/pfl_ahe8z8OPut', 'type' => 'text/html'];
         $this->assertEquals($checkoutPreviewLink, $profile->_links->checkoutPreviewUrl);
     }
 
-    public function testListProfiles()
+    public function test_list_profiles()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/profiles",
+                'GET',
+                '/v2/profiles',
                 [],
                 ''
             ),
@@ -374,14 +374,14 @@ class ProfileEndpointTest extends BaseEndpointTest
             $this->assertInstanceOf(Profile::class, $profile);
         }
 
-        $selfLink = (object)["href" => "https://api.mollie.nl/v2/profiles?limit=50", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.nl/v2/profiles?limit=50', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $profiles->_links->self);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/profiles-api/list-profiles", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/profiles-api/list-profiles', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $profiles->_links->documentation);
     }
 
-    public function testUpdateProfile()
+    public function test_update_profile()
     {
         $expectedWebsiteName = 'Mollie';
         $expectedEmail = 'mollie@mollie.com';
@@ -396,10 +396,10 @@ class ProfileEndpointTest extends BaseEndpointTest
                     "resource": "profile",
                     "id": "pfl_ahe8z8OPut",
                     "mode": "live",
-                    "name": "' . $expectedWebsiteName . '",
+                    "name": "'.$expectedWebsiteName.'",
                     "website": "http://www.mywebsite.com",
-                    "email": "' . $expectedEmail . '",
-                    "phone": "' . $expectedPhone . '",
+                    "email": "'.$expectedEmail.'",
+                    "phone": "'.$expectedPhone.'",
                     "categoryCode": 5399,
                     "status": "verified",
                     "review": {

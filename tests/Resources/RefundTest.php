@@ -15,7 +15,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestRefundStatuses
      */
-    public function testRefundStatuses($status, $function, $expected_boolean)
+    public function test_refund_statuses($status, $function, $expected_boolean)
     {
         $refund = new Refund($this->createMock(MollieApiClient::class));
         $refund->status = $status;
@@ -29,7 +29,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestRefundCanBeCanceled
      */
-    public function testRefundCanBeCanceled($status, $expected_boolean)
+    public function test_refund_can_be_canceled($status, $expected_boolean)
     {
         $refund = new Refund($this->createMock(MollieApiClient::class));
         $refund->status = $status;

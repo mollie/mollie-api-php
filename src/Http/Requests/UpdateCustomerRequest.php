@@ -4,13 +4,11 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Http\Payload\UpdateCustomerPayload;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Customer;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdateCustomerRequest extends Request implements HasPayload
+class UpdateCustomerRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;
 
@@ -34,20 +32,6 @@ class UpdateCustomerRequest extends Request implements HasPayload
     protected function defaultPayload(): array
     {
         return $this->payload->toArray();
-    }
-
-    protected function defaultQuery(): array
-    {
-        return [
-            'testmode' => false,
-        ];
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Customer::$resourceIdPrefix),
-        ];
     }
 
     public function resolveResourcePath(): string

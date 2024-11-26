@@ -27,7 +27,7 @@ class BalanceEndpointCollection extends EndpointCollection
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 
         /** @var Balance */
-        return $this->send(new GetBalanceRequest($id, $testmode));
+        return $this->send((new GetBalanceRequest($id))->test($testmode));
     }
 
     /**
@@ -48,13 +48,15 @@ class BalanceEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): BalanceCollection
     {
+        $testmode = Helpers::extractBool($filters, 'testmode', false);
+
         $query = GetPaginatedBalanceQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
             'filters' => $filters,
         ])->create();
 
-        return $this->send(new GetPaginatedBalanceRequest($query));
+        return $this->send((new GetPaginatedBalanceRequest($query))->test($testmode));
     }
 
     /**
@@ -65,6 +67,8 @@ class BalanceEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
+        $testmode = Helpers::extractBool($filters, 'testmode', false);
+
         $query = GetPaginatedBalanceQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -75,6 +79,7 @@ class BalanceEndpointCollection extends EndpointCollection
             (new GetPaginatedBalanceRequest($query))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
+                ->test($testmode)
         );
     }
 }

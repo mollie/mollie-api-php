@@ -3,6 +3,7 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\GetBalanceReportQueryFactory;
+use Mollie\Api\Helpers;
 use Mollie\Api\Http\Query\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
@@ -19,11 +20,13 @@ class BalanceReportEndpointCollection extends EndpointCollection
      */
     public function getForId(string $balanceId, $query = []): ?BalanceReport
     {
+        $testmode = Helpers::extractBool($query, 'testmode', false);
+
         $query = GetBalanceReportQueryFactory::new($query)
             ->create();
 
         /** @var BalanceReport */
-        return $this->send(new GetBalanceReportRequest($balanceId, $query));
+        return $this->send((new GetBalanceReportRequest($balanceId, $query))->test($testmode));
     }
 
     /**

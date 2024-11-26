@@ -23,22 +23,93 @@ This change should not have any impact on your code, but if you have a type hint
 - `Mollie\Api\Resources\OrganizationCollection`
 - `Mollie\Api\Resources\RouteCollection`
 
-
 ### Removed deprecations
 The following was removed due to a deprecation
 - `Mollie\Api\Types\OrderStatus::REFUNDED`
 - `Mollie\Api\Types\OrderLineStatus::REFUNDED`
+- all Orders related endpoints
+  - properties starting with `orders` prefix or related to any `Order*Endpoint`
+    - `orderPayments`
+    - `orderRefunds`
+    - `orderLines`
+    - `orderPayments`
+  - Shipments endpoint (all properties prefixed with `shipments` / `Shipment*Endpoint`)
 
-### Standardisation of function names
-Accross the codebase we have had inconsistent namings like `listFor()` as well as `pageFor()` and `page()`. Those have been standardized. The following method names were changed.
+### Removed non-valid method params
+**Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection**
+- `createFor()` and `createForId()` removed third argument `$filters`
 
-**Mollie\Api\Endpoints\BalanceTransactionEndpointCollection**
-- `balanceTransactions->listFor()` into `balanceTransactions->page()`
+**Mollie\Api\EndpointCollection\InvoiceEndpointCollection**
+- `get()` removed second argument `$parameters`
+
+**Mollie\Api\EndpointCollection\MandateEndpointCollection**
+- `createFor()` and `createForId()` removed third argument `$filters`
+
+**Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection**
+- `createFor()` and `createForId()` removed third argument `$filters`
+
+### Removed methods
+**Mollie\Api\EndpointCollection\InvoiceEndpointCollection**
+- `all()` was removed -> use `page()` instead
+
+### change of function names
+Accross the codebase we have had inconsistent namings like `listFor()` as well as `pageFor()` and `page()`. Those have been standardized. Endpoints that return a paginated response use the `page*()` naming while non-paginated endpoints use `list*()`. The following method names were changed.
+
+**Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection**
+- `balanceTransactions->listFor()` into `balanceTransactions->pageFor()`
 - `balanceTransactions->listForId()` into `balanceTransactions->pageForId()`
 
-**Mollie\Api\Endpoints\PaymentRefundEndpointCollection**
+**Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection**
+- `customerPayments->listFor()` into `customerPayments->pageFor()`
+- `customerPayments->listForId()` into `customerPayments->pageForId()`
+
+**Mollie\Api\EndpointCollection\MandateEndpointCollection**
+- `mandates->listFor()` into `mandates->pageFor()`
+- `mandates->listForId()` into `mandates->pageForId()`
+
+**Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection**
 - `paymentRefunds->listFor()` into `paymentRefunds->pageFor()`
 - `paymentRefunds->listForId()` into `paymentRefunds->pageForId()`
+
+**Mollie\Api\EndpointCollection\MethodEndpointCollection**
+- `methods->allAvailable()` has been renamed into `methods->all()` now returns all available methods (both enabled and disabled) - previously returned only all enabled methods
+- former `methods->all()` has been renamed to `methods->allEnabled()`
+- `methods->allActive()` is deprecated
+
+The reasoning behind this change is to make the method names more intuitive:
+- `all()` returns ALL methods (both enabled and disabled)
+- `allEnabled()` returns only the enabled methods (previously called `allActive()`)
+- The `allActive()` method is deprecated and will be removed in v4
+
+**Mollie\Api\EndpointCollection\OnboardingEndpointCollection**
+- `get()` was changed into `status()`
+- depricated `submit()` and `create()` were removed -> use `ClientLinkEndpointCollection@create()` instead
+
+**Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection**
+- `paymentCaptures->listFor()` into `paymentCaptures->pageFor()`
+- `paymentCaptures->listForId()` into `paymentCaptures->pageForId()`
+
+**Mollie\Api\EndpointCollection\PaymentChargebackEndpointCollection**
+- `listFor()` into `pageFor()`
+- `listForId()` into `pageForId()`
+
+**Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection**
+- `pageFor(Payment $payment, array $parameters = [])` changed to `pageFor(Payment $payment, ?string $from = null, ?int $limit = null, array $filters = [])`
+- `pageForId(string $paymentId, array $parameters = [])` changed to `pageForId(string $paymentId, ?string $from = null, ?int $limit = null, array $filters = [])`
+
+**Mollie\Api\EndpointCollection\SubscriptionEndpointCollection**
+- `listFor` changed to `pageFor`
+- `listForId` changed to `pageForId`
+- `page` which previously returned all subscriptions, was renamed into `allFor`
+- `allForId` and `iteratorForAll` were added to return all subscriptions
+
+### Renamed methods
+**Mollie\Api\EndpointCollection\PermissionEndpointCollection**
+- `all()` was renamed to `list()` to maintain consistency with other non-paginated endpoints
+
+### Removed non-valid method params
+**Mollie\Api\EndpointCollection\PermissionEndpointCollection**
+- `get()` second argument changed from `array $parameters` to `array|bool $testmode` to match API documentation
 
 # Changelog
 ### Type cast embeded Resources
@@ -167,3 +238,35 @@ With this you get a `Response` and can also inspect its status, body or any othe
 ## Some Context...
 ..on how the new request cycle works
 <img width="1190" alt="Screenshot 2024-09-09 at 11 03 17" src="https://github.com/user-attachments/assets/89c8ba43-bde5-4619-82e9-7f1ef752d7de">
+
+### Added contractId parameter for Method Issuers
+The `enable()` method on the `MethodIssuerEndpointCollection` now supports an optional `contractId` parameter when enabling voucher issuers. This parameter can be used when an intermediary party (contractor) is involved([1](https://docs.mollie.com/reference/enable-method-issuer)).
+
+```php
+// Enable a method issuer with a contract ID
+$issuer = $mollie->methodIssuers->enable(
+    profileId: 'pfl_...',
+    methodId: 'voucher',
+    issuerId: 'issuer_id',
+    contractId: 'contract_123' // Optional parameter
+);
+```
+
+The contract ID can be updated as long as it hasn't been approved yet by repeating the API call with a different contract ID.
+
+### Added optional testmode parameter
+The following methods now accept an optional `testmode` parameter:
+
+**Mollie\Api\EndpointCollection\PaymentLinkEndpointCollection**
+- `get(string $paymentLinkId, ?bool $testmode = null)`
+- `update(string $paymentLinkId, $payload = [], ?bool $testmode = null)`
+- `delete(string $paymentLinkId, ?bool $testmode = null)`
+
+This parameter can be used when working with organization-level credentials such as OAuth access tokens to specify whether the operation should be performed in test mode. For API key credentials, this parameter can be omitted as the mode is determined by the key type.
+
+```php
+// Example with testmode parameter
+$paymentLink = $mollie->paymentLinks->get('pl_...', testmode: true);
+$paymentLink = $mollie->paymentLinks->update('pl_...', ['description' => 'Updated'], testmode: true);
+$mollie->paymentLinks->delete('pl_...', testmode: true);
+```

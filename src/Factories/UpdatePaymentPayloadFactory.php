@@ -20,7 +20,6 @@ class UpdatePaymentPayloadFactory extends Factory
             $this->get('locale'),
             $this->get('restrictPaymentMethodsToCountry'),
             $this->get('additional') ?? Helpers::filterByProperties(UpdatePaymentPayload::class, $this->data),
-            $this->get('testmode')
         );
     }
 }

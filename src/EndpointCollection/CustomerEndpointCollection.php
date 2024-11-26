@@ -17,6 +17,7 @@ use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use Mollie\Api\Resources\LazyCollection;
+use Symfony\Component\Console\Helper\Helper;
 
 class CustomerEndpointCollection extends EndpointCollection
 {
@@ -24,17 +25,19 @@ class CustomerEndpointCollection extends EndpointCollection
      * Creates a customer in Mollie.
      *
      * @param  array|CreateCustomerPayload  $data  An array containing details on the customer.
-     *
+     * @param  array|bool|null  $testmode
      * @throws ApiException
      */
-    public function create($data = []): Customer
+    public function create($data = [], $testmode = []): Customer
     {
+        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+
         if (! $data instanceof CreateCustomerPayload) {
             $data = CreateCustomerPayloadFactory::new($data)->create();
         }
 
         /** @var Customer */
-        return $this->send(new CreateCustomerRequest($data));
+        return $this->send((new CreateCustomerRequest($data))->test($testmode));
     }
 
     /**
@@ -49,7 +52,7 @@ class CustomerEndpointCollection extends EndpointCollection
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 
         /** @var Customer */
-        return $this->send(new GetCustomerRequest($id, $testmode));
+        return $this->send((new GetCustomerRequest($id))->test($testmode));
     }
 
     /**
@@ -84,7 +87,7 @@ class CustomerEndpointCollection extends EndpointCollection
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 
         /** @var null|Customer */
-        return $this->send(new DeleteCustomerRequest($id, $testmode));
+        return $this->send((new DeleteCustomerRequest($id))->test($testmode));
     }
 
     /**
@@ -96,6 +99,8 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): CustomerCollection
     {
+        $testmode = Helpers::extractBool($filters, 'testmode', false);
+
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -103,7 +108,7 @@ class CustomerEndpointCollection extends EndpointCollection
         ])->create();
 
         /** @var CustomerCollection */
-        return $this->send(new GetPaginatedCustomerRequest($query));
+        return $this->send((new GetPaginatedCustomerRequest($query))->test($testmode));
     }
 
     /**
@@ -114,6 +119,8 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
+        $testmode = Helpers::extractBool($filters, 'testmode', false);
+
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -124,6 +131,7 @@ class CustomerEndpointCollection extends EndpointCollection
             (new GetPaginatedCustomerRequest($query))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
+                ->test($testmode)
         );
     }
 }

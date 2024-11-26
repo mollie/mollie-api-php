@@ -2,13 +2,12 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Query\GetPaymentQuery;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Payment;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Types\Method;
 
-class GetPaymentRequest extends Request
+class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.
@@ -18,7 +17,7 @@ class GetPaymentRequest extends Request
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = \Mollie\Api\Resources\Payment::class;
+    public static string $targetResourceClass = Payment::class;
 
     private string $id;
 
@@ -35,13 +34,6 @@ class GetPaymentRequest extends Request
     protected function defaultQuery(): array
     {
         return $this->query->toArray();
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-        ];
     }
 
     /**

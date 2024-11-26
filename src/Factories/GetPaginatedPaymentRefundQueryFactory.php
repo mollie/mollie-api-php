@@ -9,10 +9,8 @@ class GetPaginatedPaymentRefundQueryFactory extends Factory
     public function create(): GetPaginatedPaymentRefundQuery
     {
         return new GetPaginatedPaymentRefundQuery(
-            $this->has('includePayment') || $this->get('filters.include') === 'payment',
-            $this->get('from'),
-            $this->get('limit'),
-            $this->get('testmode', $this->get('filters.testmode'))
+            PaginatedQueryFactory::new($this->data)->create(),
+            $this->get('includePayment', false)
         );
     }
 }

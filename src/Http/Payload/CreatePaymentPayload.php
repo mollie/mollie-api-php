@@ -52,8 +52,6 @@ class CreatePaymentPayload extends DataBag
 
     public ?string $profileId;
 
-    public ?bool $testmode;
-
     /**
      * Method specific data.
      *
@@ -83,7 +81,6 @@ class CreatePaymentPayload extends DataBag
         ?string $mandateId = null,
         ?string $customerId = null,
         ?string $profileId = null,
-        ?bool $testmode = null,
         array $additional = []
     ) {
         $this->description = $description;
@@ -108,7 +105,6 @@ class CreatePaymentPayload extends DataBag
         $this->customerId = $customerId;
         $this->profileId = $profileId;
         $this->additional = $additional;
-        $this->testmode = $testmode;
     }
 
     public function data(): array

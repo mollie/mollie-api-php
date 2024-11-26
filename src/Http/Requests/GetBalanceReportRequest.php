@@ -2,12 +2,12 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Query\GetBalanceReportQuery;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Types\Method;
 
-class GetBalanceReportRequest extends Request
+class GetBalanceReportRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.

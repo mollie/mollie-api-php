@@ -10,7 +10,6 @@ class GetPaymentRefundQueryFactory extends Factory
     {
         return new GetPaymentRefundQuery(
             $this->get('include', []),
-            $this->get('testmode')
         );
     }
 }

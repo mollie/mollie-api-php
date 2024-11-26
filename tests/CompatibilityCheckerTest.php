@@ -23,7 +23,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    public function testCheckCompatibilityThrowsExceptionOnPhpVersion()
+    public function test_check_compatibility_throws_exception_on_php_version()
     {
         $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
         $this->checker->expects($this->once())
@@ -36,7 +36,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
         $this->checker->checkCompatibility();
     }
 
-    public function testCheckCompatibilityThrowsExceptionOnJsonExtension()
+    public function test_check_compatibility_throws_exception_on_json_extension()
     {
         $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
         $this->checker->expects($this->once())

@@ -12,7 +12,7 @@ class LazyCollectionTest extends TestCase
      */
     private $collection;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -23,7 +23,7 @@ class LazyCollectionTest extends TestCase
         });
     }
 
-    public function testCanCreateACollectionFromGeneratorFunction()
+    public function test_can_create_a_collection_from_generator_function()
     {
         $this->assertEquals(3, $this->collection->count());
         $this->assertEquals(1, $this->collection->get(0));
@@ -31,7 +31,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals(3, $this->collection->get(2));
     }
 
-    public function testFilter()
+    public function test_filter()
     {
         $filtered = $this->collection->filter(function ($value) {
             return $value > 1;
@@ -40,12 +40,12 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals(2, $filtered->count());
     }
 
-    public function testAll()
+    public function test_all()
     {
         $this->assertEquals([1, 2, 3], $this->collection->all());
     }
 
-    public function testFirst()
+    public function test_first()
     {
         $this->assertEquals(1, $this->collection->first());
         $this->assertEquals(3, $this->collection->first(function ($value) {
@@ -53,7 +53,7 @@ class LazyCollectionTest extends TestCase
         }));
     }
 
-    public function testMap()
+    public function test_map()
     {
         $mapped = $this->collection->map(function ($value) {
             return $value * 2;
@@ -66,14 +66,14 @@ class LazyCollectionTest extends TestCase
         });
     }
 
-    public function testTake()
+    public function test_take()
     {
         $taken = $this->collection->take(2);
 
         $this->assertEquals(2, $taken->count());
     }
 
-    public function testEvery()
+    public function test_every()
     {
         $this->assertTrue($this->collection->every(function ($value) {
             return $value > 0;
@@ -84,7 +84,7 @@ class LazyCollectionTest extends TestCase
         }));
     }
 
-    public function testChainedUsage()
+    public function test_chained_usage()
     {
         $result = $this->collection
             ->filter(function ($value) {

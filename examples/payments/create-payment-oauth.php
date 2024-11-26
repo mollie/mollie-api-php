@@ -6,7 +6,7 @@ try {
     /*
      * Initialize the Mollie API library with your OAuth access token.
      */
-    require "../initialize_with_oauth.php";
+    require '../initialize_with_oauth.php';
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
      * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -15,8 +15,8 @@ try {
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
-    $hostname = $_SERVER['HTTP_HOST'] ?: "my.app";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
+    $hostname = $_SERVER['HTTP_HOST'] ?: 'my.app';
     $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
     /*
      * Since unlike an API key the OAuth access token does NOT belong to a profile, we need to retrieve a profile
@@ -31,17 +31,17 @@ try {
      * @See https://docs.mollie.com/reference/v2/payments-api/create-payment
      */
     $payment = $mollie->payments->create([
-        "amount" => [
-            "value" => "10.00",
-            "currency" => "EUR",
+        'amount' => [
+            'value' => '10.00',
+            'currency' => 'EUR',
         ],
-        "description" => "My first API payment",
-        "redirectUrl" => "{$protocol}://{$hostname}{$path}/return.php?order_id={$orderId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
-        "metadata" => [
-            "order_id" => $orderId,
+        'description' => 'My first API payment',
+        'redirectUrl' => "{$protocol}://{$hostname}{$path}/return.php?order_id={$orderId}",
+        'webhookUrl' => "{$protocol}://{$hostname}{$path}/webhook.php",
+        'metadata' => [
+            'order_id' => $orderId,
         ],
-        "profileId" => $profile->id, // This is specifically necessary for payment resources via OAuth access.
+        'profileId' => $profile->id, // This is specifically necessary for payment resources via OAuth access.
     ]);
 
     /*
@@ -53,12 +53,12 @@ try {
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    if (PHP_SAPI === "cli") {
-        echo "Redirect to: " . $payment->getCheckoutUrl() . PHP_EOL;
+    if (PHP_SAPI === 'cli') {
+        echo 'Redirect to: '.$payment->getCheckoutUrl().PHP_EOL;
 
         return;
     }
-    header("Location: " . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

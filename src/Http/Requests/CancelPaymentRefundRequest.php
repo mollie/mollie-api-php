@@ -2,23 +2,26 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Resources\Payment;
-use Mollie\Api\Rules\Id;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method;
 
-class CancelPaymentRefundRequest extends SimpleRequest
+class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::DELETE;
 
-    public function rules(): array
+    protected string $paymentId;
+
+    protected string $id;
+
+    public function __construct(string $paymentId, string $id)
     {
-        return [
-            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-        ];
+        $this->paymentId = $paymentId;
+        $this->id = $id;
     }
 
     public function resolveResourcePath(): string
     {
-        return "payments/{$this->id}";
+        return "payments/{$this->paymentId}/refunds/{$this->id}";
     }
 }

@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 
 class WalletEndpointTest extends BaseEndpointTest
 {
-    public function testRequestApplePayPaymentSession()
+    public function test_request_apple_pay_payment_session()
     {
         $responseBody = '{
             "epochTimestamp": 1555507053169,
@@ -22,8 +22,8 @@ class WalletEndpointTest extends BaseEndpointTest
 
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/wallets/applepay/sessions",
+                'POST',
+                '/v2/wallets/applepay/sessions',
                 [],
                 '{
                     "domain": "pay.mywebshop.com",

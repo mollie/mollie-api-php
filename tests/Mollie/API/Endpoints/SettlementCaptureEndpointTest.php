@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Mollie\Api\Endpoints;
@@ -12,7 +13,7 @@ use Mollie\Api\Resources\Settlement;
 class SettlementCaptureEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testListSettlementCaptures()
+    public function test_list_settlement_captures()
     {
         $this->mockApiCall(
             new Request(
@@ -93,6 +94,6 @@ class SettlementCaptureEndpointTest extends BaseEndpointTest
 
         $capture = $captures[0];
         $this->assertInstanceOf(Capture::class, $capture);
-        $this->assertEquals("cpt_4qqhO89gsT", $capture->id);
+        $this->assertEquals('cpt_4qqhO89gsT', $capture->id);
     }
 }

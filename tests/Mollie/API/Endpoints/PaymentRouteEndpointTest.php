@@ -8,12 +8,12 @@ use Mollie\Api\Resources\Route;
 
 class PaymentRouteEndpointTest extends BaseEndpointTest
 {
-    public function testUpdateReleaseDateForPaymentId()
+    public function test_update_release_date_for_payment_id()
     {
         $this->mockApiCall(
             new Request(
-                "PATCH",
-                "/v2/payments/tr_2qkhcMzypH/routes/rt_9dk4al1n",
+                'PATCH',
+                '/v2/payments/tr_2qkhcMzypH/routes/rt_9dk4al1n',
                 [],
                 '{
                     "releaseDate": "2021-09-14",
@@ -44,6 +44,6 @@ class PaymentRouteEndpointTest extends BaseEndpointTest
 
         $this->assertInstanceOf(Route::class, $route);
         $this->assertEquals('rt_9dk4al1n', $route->id);
-        $this->assertEquals("2021-09-14", $route->releaseDate);
+        $this->assertEquals('2021-09-14', $route->releaseDate);
     }
 }

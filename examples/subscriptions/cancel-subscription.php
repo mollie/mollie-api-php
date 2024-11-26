@@ -7,7 +7,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Retrieve the last created customer for this example.
@@ -30,7 +30,7 @@ try {
     /*
      * The subscription status should now be canceled
      */
-    echo "<p>The subscription status is now: '" . htmlspecialchars($canceledSubscription->status) . "'.</p>\n";
+    echo "<p>The subscription status is now: '".htmlspecialchars($canceledSubscription->status)."'.</p>\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

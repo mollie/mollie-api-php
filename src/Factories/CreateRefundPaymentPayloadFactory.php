@@ -19,7 +19,6 @@ class CreateRefundPaymentPayloadFactory extends Factory
                     'routingReversals',
                     fn (array $items) => RefundRouteCollectionFactory::new($items)->create()
                 ),
-            $this->get('testmode')
         );
     }
 }

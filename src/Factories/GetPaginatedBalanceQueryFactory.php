@@ -8,14 +8,9 @@ class GetPaginatedBalanceQueryFactory extends Factory
 {
     public function create(): GetPaginatedBalanceQuery
     {
-        $testmode = $this->get('filters.testmode');
-        $currency = $this->get('filters.currency');
-
         return new GetPaginatedBalanceQuery(
-            $this->get('currency', $currency),
-            $this->get('from'),
-            $this->get('limit'),
-            $this->get('testmode', $testmode)
+            SortablePaginatedQueryFactory::new($this->data)->create(),
+            $this->get('currency')
         );
     }
 }

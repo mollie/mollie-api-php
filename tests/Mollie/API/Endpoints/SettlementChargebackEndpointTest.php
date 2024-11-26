@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Mollie\Api\Endpoints;
@@ -11,7 +12,7 @@ use Mollie\Api\Resources\Settlement;
 
 class SettlementChargebackEndpointTest extends BaseEndpointTest
 {
-    public function testListSettlementChargebacks()
+    public function test_list_settlement_chargebacks()
     {
         $this->mockApiCall(
             new Request(
@@ -83,6 +84,6 @@ class SettlementChargebackEndpointTest extends BaseEndpointTest
 
         $chargeback = $chargebacks[0];
         $this->assertInstanceOf(Chargeback::class, $chargeback);
-        $this->assertEquals("chb_n9z0tp", $chargeback->id);
+        $this->assertEquals('chb_n9z0tp', $chargeback->id);
     }
 }

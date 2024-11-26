@@ -2,21 +2,20 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
-use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Query\Query;
 use Mollie\Api\Types\Method;
 
-abstract class PaginatedRequest extends Request
+abstract class PaginatedRequest extends ResourceHydratableRequest
 {
     /**
      * Define the HTTP method.
      */
     protected static string $method = Method::GET;
 
-    private ?PaginatedQuery $query = null;
+    private ?Query $query = null;
 
     public function __construct(
-        ?PaginatedQuery $query = null
+        ?Query $query = null
     ) {
         $this->query = $query;
     }

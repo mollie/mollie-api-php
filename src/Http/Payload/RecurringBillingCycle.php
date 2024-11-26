@@ -3,7 +3,6 @@
 namespace Mollie\Api\Http\Payload;
 
 use DateTimeInterface;
-use Mollie\Api\Rules\Matches;
 
 class RecurringBillingCycle extends DataBag
 {
@@ -44,13 +43,6 @@ class RecurringBillingCycle extends DataBag
             'amount' => $this->amount,
             'times' => $this->times,
             'startDate' => $this->startDate->format('Y-m-d'),
-        ];
-    }
-
-    public function rules(): array
-    {
-        return [
-            'interval' => Matches::pattern('/^\d+ (months|weeks|days)$/'),
         ];
     }
 }

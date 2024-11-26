@@ -2,19 +2,20 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Http\Query\GetPaginatedPaymentRefundQuery;
-use Mollie\Api\Resources\Payment;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\IsIteratableRequest;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Resources\RefundCollection;
 
-class GetPaginatedPaymentRefundsRequest extends PaginatedRequest implements IsIteratable
+class GetPaginatedPaymentRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = \Mollie\Api\Resources\RefundCollection::class;
+    public static string $targetResourceClass = RefundCollection::class;
 
     private string $paymentId;
 
@@ -25,13 +26,6 @@ class GetPaginatedPaymentRefundsRequest extends PaginatedRequest implements IsIt
         parent::__construct($query);
 
         $this->paymentId = $paymentId;
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-        ];
     }
 
     public function resolveResourcePath(): string

@@ -3,26 +3,20 @@
 namespace Mollie\Api\Http;
 
 use LogicException;
-use Mollie\Api\Contracts\ValidatableDataProvider;
+use Mollie\Api\Traits\HandlesTestmode;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
-use Mollie\Api\Traits\HasRules;
 
-abstract class Request implements ValidatableDataProvider
+abstract class Request
 {
     use HasMiddleware;
+    use HandlesTestmode;
     use HasRequestProperties;
-    use HasRules;
 
     /**
      * Define the HTTP method.
      */
     protected static string $method;
-
-    /**
-     * The resource class the request should be casted to.
-     */
-    public static string $targetResourceClass;
 
     public static bool $shouldAutoHydrate = false;
 
@@ -41,15 +35,6 @@ abstract class Request implements ValidatableDataProvider
         }
 
         return static::$method;
-    }
-
-    public function getTargetResourceClass(): string
-    {
-        if (empty(static::$targetResourceClass)) {
-            throw new \RuntimeException('Resource class is not set.');
-        }
-
-        return static::$targetResourceClass;
     }
 
     /**

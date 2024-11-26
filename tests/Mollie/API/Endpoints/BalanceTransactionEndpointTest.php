@@ -18,7 +18,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testGetBalanceTransactionsThroughEndpoint()
+    public function test_get_balance_transactions_through_endpoint()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH/transactions'),
@@ -98,7 +98,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
         $this->assertTransactions($transactions);
     }
 
-    public function testIteratorForBalanceTransactionsThroughEndpoint()
+    public function test_iterator_for_balance_transactions_through_endpoint()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH/transactions'),
@@ -178,7 +178,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
         }
     }
 
-    public function testGetPrimaryBalanceTransactionsThroughBalanceTransactionEndpoint()
+    public function test_get_primary_balance_transactions_through_balance_transaction_endpoint()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/balances/primary/transactions'),
@@ -255,7 +255,7 @@ class BalanceTransactionEndpointTest extends BaseEndpointTest
         $this->assertTransactions($transactions);
     }
 
-    public function testIteratorForPrimaryBalanceTransactionsThroughBalanceTransactionEndpoint()
+    public function test_iterator_for_primary_balance_transactions_through_balance_transaction_endpoint()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/balances/primary/transactions'),

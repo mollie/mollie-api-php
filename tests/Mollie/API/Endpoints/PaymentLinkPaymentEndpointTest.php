@@ -12,12 +12,12 @@ use Mollie\Api\Resources\PaymentCollection;
 class PaymentLinkPaymentEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testGetPaymentsPageForPaymentLink()
+    public function test_get_payments_page_for_payment_link()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh/payments"
+                'GET',
+                '/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh/payments'
             ),
             new Response(
                 200,
@@ -80,11 +80,11 @@ class PaymentLinkPaymentEndpointTest extends BaseEndpointTest
             )
         );
 
-        $response = $this->apiClient->paymentLinkPayments->pageForId("pl_4Y0eZitmBnQ6IDoMqZQKh");
+        $response = $this->apiClient->paymentLinkPayments->pageForId('pl_4Y0eZitmBnQ6IDoMqZQKh');
 
         $this->assertInstanceOf(PaymentCollection::class, $response);
         $this->assertInstanceOf(Payment::class, $response[0]);
-        $this->assertEquals($response[0]->id, "tr_7UhSN1zuXS");
+        $this->assertEquals($response[0]->id, 'tr_7UhSN1zuXS');
         // Not necessary to test all fields...
     }
 }

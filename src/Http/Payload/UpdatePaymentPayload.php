@@ -27,8 +27,6 @@ class UpdatePaymentPayload extends DataBag
      */
     public array $additional = [];
 
-    public ?bool $testmode;
-
     public function __construct(
         ?string $description = null,
         ?string $redirectUrl = null,
@@ -38,7 +36,6 @@ class UpdatePaymentPayload extends DataBag
         ?string $method = null,
         ?string $locale = null,
         ?string $restrictPaymentMethodsToCountry = null,
-        ?bool $testmode = null,
         array $additional = []
     ) {
         $this->description = $description;
@@ -50,7 +47,6 @@ class UpdatePaymentPayload extends DataBag
         $this->locale = $locale;
         $this->restrictPaymentMethodsToCountry = $restrictPaymentMethodsToCountry;
         $this->additional = $additional;
-        $this->testmode = $testmode;
     }
 
     public function data(): array
@@ -64,7 +60,6 @@ class UpdatePaymentPayload extends DataBag
             'method' => $this->method,
             'locale' => $this->locale,
             'restrictPaymentMethodsToCountry' => $this->restrictPaymentMethodsToCountry,
-            'testmode' => $this->testmode,
         ], $this->additional);
     }
 }

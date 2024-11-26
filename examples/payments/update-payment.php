@@ -9,7 +9,7 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Payment parameters:
@@ -19,13 +19,12 @@ try {
      *   metadata      Custom metadata that is stored with the payment.
      */
 
-
-    $payment = $mollie->payments->get("tr_7UhSN1zuXS");
+    $payment = $mollie->payments->get('tr_7UhSN1zuXS');
     $newOrderId = 98765;
-    $payment->description = "Order #".$newOrderId;
-    $payment->redirectUrl = "https://example.org/webshop/order/98765/";
-    $payment->webhookUrl = "https://example.org/webshop/payments/webhook/";
-    $payment->metadata = ["order_id" => $newOrderId];
+    $payment->description = 'Order #'.$newOrderId;
+    $payment->redirectUrl = 'https://example.org/webshop/order/98765/';
+    $payment->webhookUrl = 'https://example.org/webshop/payments/webhook/';
+    $payment->metadata = ['order_id' => $newOrderId];
 
     $payment = $payment->update();
     /*
@@ -37,7 +36,7 @@ try {
      * Send the customer off to complete the payment.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header("Location: " . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

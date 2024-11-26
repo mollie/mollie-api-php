@@ -7,6 +7,8 @@ use Mollie\Api\Types\SettlementStatus;
 
 class Settlement extends BaseResource
 {
+    public static string $resourceIdPrefix = 'stl_';
+
     /**
      * Id of the settlement.
      *

@@ -3,13 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Helpers\Arr;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Client;
-use Mollie\Api\Rules\Included;
-use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Types\Method;
 
-class GetClientRequest extends Request
+class GetClientRequest extends ResourceHydratableRequest
 {
     /**
      * Define the HTTP method.
@@ -35,13 +32,6 @@ class GetClientRequest extends Request
     {
         return [
             'embed' => Arr::join($this->embed),
-        ];
-    }
-
-    public function rules(): array
-    {
-        return [
-            'embed' => Included::in(ClientQuery::class),
         ];
     }
 

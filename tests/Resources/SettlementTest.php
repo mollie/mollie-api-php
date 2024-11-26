@@ -15,7 +15,7 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestSettlementStatuses
      */
-    public function testSettlementStatuses($status, $function, $expected_boolean)
+    public function test_settlement_statuses($status, $function, $expected_boolean)
     {
         $settlement = new Settlement($this->createMock(MollieApiClient::class));
         $settlement->status = $status;

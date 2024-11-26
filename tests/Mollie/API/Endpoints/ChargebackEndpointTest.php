@@ -14,7 +14,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testListChargebacks()
+    public function test_list_chargebacks()
     {
         $this->mockApiCall(
             new Request(
@@ -129,7 +129,7 @@ class ChargebackEndpointTest extends BaseEndpointTest
         $this->assertChargeback($chargebacks[1], 'tr_nQKWJbDj7j', 'chb_6cqlwf', '-0.37', null);
     }
 
-    public function testIterateChargebacks()
+    public function test_iterate_chargebacks()
     {
         $this->mockApiCall(
             new Request(

@@ -4,7 +4,7 @@ namespace Tests\Resources;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\LazyCollection;
-use Mollie\Api\Resources\OrderCollection;
+use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Tests\Fixtures\MockClient;
@@ -17,15 +17,15 @@ class CursorCollectionTest extends TestCase
     public function can_get_next_collection_result_when_next_link_is_available()
     {
         $client = new MockClient([
-            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection', 'ord_stTC2WHAuS'),
+            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection', 'tr_stTC2WHAuS'),
         ]);
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             $this->arrayToObject([
                 'next' => [
-                    'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                    'href' => 'https://api.mollie.com/v2/payments?from=tr_stTC2WHAuS',
                 ],
             ])
         );
@@ -34,16 +34,16 @@ class CursorCollectionTest extends TestCase
 
         $nextPage = $collection->next();
 
-        $this->assertEquals('ord_stTC2WHAuS', $nextPage[0]->id);
+        $this->assertEquals('tr_stTC2WHAuS', $nextPage[0]->id);
 
         $this->assertFalse($nextPage->hasNext());
     }
 
-    public function testWillReturnNullIfNoNextResultIsAvailable()
+    public function test_will_return_null_if_no_next_result_is_available()
     {
         $client = new MockClient;
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             (object) []
@@ -53,18 +53,18 @@ class CursorCollectionTest extends TestCase
         $this->assertNull($collection->next());
     }
 
-    public function testCanGetPreviousCollectionResultWhenPreviousLinkIsAvailable()
+    public function test_can_get_previous_collection_result_when_previous_link_is_available()
     {
         $client = new MockClient([
             DynamicGetRequest::class => new MockResponse(200, 'cursor-collection', 'ord_stTC2WHAuS'),
         ]);
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             $this->arrayToObject([
                 'previous' => [
-                    'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                    'href' => 'https://api.mollie.com/v2/payments?from=tr_stTC2WHAuS',
                 ],
             ])
         );
@@ -73,16 +73,16 @@ class CursorCollectionTest extends TestCase
 
         $previousPage = $collection->previous();
 
-        $this->assertEquals('ord_stTC2WHAuS', $previousPage[0]->id);
+        $this->assertEquals('tr_stTC2WHAuS', $previousPage[0]->id);
 
         $this->assertFalse($previousPage->hasPrevious());
     }
 
-    public function testWillReturnNullIfNoPreviousResultIsAvailable()
+    public function test_will_return_null_if_no_previous_result_is_available()
     {
         $client = new MockClient;
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             (object) []
@@ -92,11 +92,11 @@ class CursorCollectionTest extends TestCase
         $this->assertNull($collection->previous());
     }
 
-    public function testAutoPaginatorReturnsLazyCollection()
+    public function test_auto_paginator_returns_lazy_collection()
     {
         $client = new MockClient;
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             (object) []
@@ -105,22 +105,22 @@ class CursorCollectionTest extends TestCase
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
 
-    public function testAutoPaginatorCanHandleConsecutiveCalls()
+    public function test_auto_paginator_can_handle_consecutive_calls()
     {
         $client = new MockClient([
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'cursor-collection-next', 'ord_stTC2WHAuF'),
-                new MockResponse(200, 'cursor-collection-next', 'ord_stTC2WHAuS'),
-                new MockResponse(200, 'cursor-collection', 'ord_stTC2WHAuB')
+                new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuF'),
+                new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuS'),
+                new MockResponse(200, 'cursor-collection', 'tr_stTC2WHAuB')
             ),
         ]);
 
-        $collection = new OrderCollection(
+        $collection = new PaymentCollection(
             $client,
             [],
             $this->arrayToObject([
                 'next' => [
-                    'href' => 'https://api.mollie.com/v2/orders?from=ord_stTC2WHAuS',
+                    'href' => 'https://api.mollie.com/v2/payments?from=tr_stTC2WHAuS',
                 ],
             ])
         );
@@ -130,7 +130,7 @@ class CursorCollectionTest extends TestCase
             $orderIds[] = $order->id;
         }
 
-        $this->assertEquals(['ord_stTC2WHAuF', 'ord_stTC2WHAuS', 'ord_stTC2WHAuB'], $orderIds);
+        $this->assertEquals(['tr_stTC2WHAuF', 'tr_stTC2WHAuS', 'tr_stTC2WHAuB'], $orderIds);
     }
 
     /**

@@ -8,16 +8,12 @@ class PaginatedQuery extends Query
 
     public ?int $limit = null;
 
-    public ?bool $testmode = null;
-
     public function __construct(
         ?string $from = null,
         ?int $limit = null,
-        ?bool $testmode = null
     ) {
         $this->from = $from;
         $this->limit = $limit;
-        $this->testmode = $testmode;
     }
 
     public function toArray(): array
@@ -25,7 +21,6 @@ class PaginatedQuery extends Query
         return [
             'from' => $this->from,
             'limit' => $this->limit,
-            'testmode' => $this->testmode,
         ];
     }
 }

@@ -6,6 +6,7 @@ class Permission extends BaseResource
 {
     /**
      * @var string
+     *
      * @example payments.read
      */
     public $id;

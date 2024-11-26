@@ -7,12 +7,12 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
 
@@ -34,16 +34,16 @@ try {
      * @See: https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription
      */
     $subscription = $customer->createSubscription([
-        "amount" => [
-            "value" => "10.00", // You must send the correct number of decimals, thus we enforce the use of strings
-            "currency" => "EUR",
+        'amount' => [
+            'value' => '10.00', // You must send the correct number of decimals, thus we enforce the use of strings
+            'currency' => 'EUR',
         ],
-        "times" => 12,
-        "interval" => "1 month",
-        "description" => "Subscription #{$subscriptionId}",
-        "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
-        "metadata" => [
-            "subscription_id" => $subscriptionId,
+        'times' => 12,
+        'interval' => '1 month',
+        'description' => "Subscription #{$subscriptionId}",
+        'webhookUrl' => "{$protocol}://{$hostname}{$path}/webhook.php",
+        'metadata' => [
+            'subscription_id' => $subscriptionId,
         ],
     ]);
 
@@ -52,10 +52,10 @@ try {
      * a pending or valid mandate. If the customer has no mandates an error is returned. You
      * should then set up a "first payment" for the customer.
      */
-    echo "<p>The subscription status is '" . htmlspecialchars($subscription->status) . "'.</p>\n";
-    echo "<p>";
-    echo '<a href="' . $protocol . '://' . $hostname . $path . '/17-cancel-subscription.php?subscription_id=' . $subscription->id . '">18-cancel-subscription</a><br>';
-    echo "</p>";
+    echo "<p>The subscription status is '".htmlspecialchars($subscription->status)."'.</p>\n";
+    echo '<p>';
+    echo '<a href="'.$protocol.'://'.$hostname.$path.'/17-cancel-subscription.php?subscription_id='.$subscription->id.'">18-cancel-subscription</a><br>';
+    echo '</p>';
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

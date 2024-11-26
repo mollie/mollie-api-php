@@ -2,14 +2,12 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Query\GetPaymentRefundQuery;
-use Mollie\Api\Http\Request;
-use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Types\Method;
 
-class GetPaymentRefundRequest extends Request
+class GetPaymentRefundRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.
@@ -37,14 +35,6 @@ class GetPaymentRefundRequest extends Request
     protected function defaultQuery(): array
     {
         return $this->query->toArray();
-    }
-
-    public function rules(): array
-    {
-        return [
-            'paymentId' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-            'refundId' => Id::startsWithPrefix(Refund::$resourceIdPrefix),
-        ];
     }
 
     /**

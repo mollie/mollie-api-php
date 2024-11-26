@@ -15,6 +15,7 @@ class ClientLink extends BaseResource
      * Id of the client link.
      *
      * @example csr_vZCnNQsV2UtfXxYifWKWH
+     *
      * @var string
      */
     public $id;

@@ -7,7 +7,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Retrieve a capture with ID 'cpt_4qqhO89gsT' for payment with
@@ -19,9 +19,9 @@ try {
     $payment = $mollie->payments->get('tr_WDqYK6vllg');
     $capture = $payment->getCapture('cpt_4qqhO89gsT');
 
-    $amount = $capture->amount->currency . ' ' . $capture->amount->value;
+    $amount = $capture->amount->currency.' '.$capture->amount->value;
 
-    echo 'Captured ' . $amount;
+    echo 'Captured '.$amount;
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

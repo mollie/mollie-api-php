@@ -13,12 +13,12 @@ use stdClass;
 
 class CustomerPaymentEndpointTest extends BaseEndpointTest
 {
-    public function testCreateCustomerPayment()
+    public function test_create_customer_payment()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/customers/cst_FhQJRw4s2n/payments",
+                'POST',
+                '/v2/customers/cst_FhQJRw4s2n/payments',
                 [],
                 '{
                     "amount":{
@@ -84,59 +84,59 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $customer = $this->getCustomer();
 
         $payment = $customer->createPayment([
-            "amount" => [
-                "currency" => "EUR",
-                "value" => "20.00",
+            'amount' => [
+                'currency' => 'EUR',
+                'value' => '20.00',
             ],
-            "description" => "My first API payment",
-            "redirectUrl" => "https://example.org/redirect",
-            "webhookUrl" => "https://example.org/webhook",
-            "metadata" => [
-                "order_id" => "1234",
+            'description' => 'My first API payment',
+            'redirectUrl' => 'https://example.org/redirect',
+            'webhookUrl' => 'https://example.org/webhook',
+            'metadata' => [
+                'order_id' => '1234',
             ],
         ]);
 
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('tr_44aKxzEbr8', $payment->id);
         $this->assertEquals('test', $payment->mode);
-        $this->assertEquals("2018-03-13T14:02:29+00:00", $payment->createdAt);
+        $this->assertEquals('2018-03-13T14:02:29+00:00', $payment->createdAt);
 
-        $amount = new Stdclass();
+        $amount = new Stdclass;
         $amount->value = '20.00';
-        $amount->currency = "EUR";
+        $amount->currency = 'EUR';
         $this->assertEquals($amount, $payment->amount);
 
         $this->assertEquals('My first API payment', $payment->description);
         $this->assertNull($payment->method);
-        $this->assertEquals((object)["order_id" => "1234"], $payment->metadata);
+        $this->assertEquals((object) ['order_id' => '1234'], $payment->metadata);
         $this->assertEquals(PaymentStatus::OPEN, $payment->status);
         $this->assertFalse($payment->isCancelable);
-        $this->assertEquals("2018-03-13T14:17:29+00:00", $payment->expiresAt);
+        $this->assertEquals('2018-03-13T14:17:29+00:00', $payment->expiresAt);
         $this->assertNull($payment->details);
-        $this->assertEquals("pfl_2A1gacu42V", $payment->profileId);
+        $this->assertEquals('pfl_2A1gacu42V', $payment->profileId);
         $this->assertEquals(SequenceType::ONEOFF, $payment->sequenceType);
-        $this->assertEquals("https://example.org/redirect", $payment->redirectUrl);
-        $this->assertEquals("https://example.org/webhook", $payment->webhookUrl);
+        $this->assertEquals('https://example.org/redirect', $payment->redirectUrl);
+        $this->assertEquals('https://example.org/webhook', $payment->webhookUrl);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/payments/tr_44aKxzEbr8", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/payments/tr_44aKxzEbr8', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $payment->_links->self);
 
-        $checkoutLink = (object)["href" => "https://www.mollie.com/payscreen/select-method/44aKxzEbr8", "type" => "text/html"];
+        $checkoutLink = (object) ['href' => 'https://www.mollie.com/payscreen/select-method/44aKxzEbr8', 'type' => 'text/html'];
         $this->assertEquals($checkoutLink, $payment->_links->checkout);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $payment->_links->customer);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/create-payment", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/customers-api/create-payment', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
-    public function testListCustomerPayments()
+    public function test_list_customer_payments()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/customers/cst_FhQJRw4s2n/payments?testmode=true",
+                'GET',
+                '/v2/customers/cst_FhQJRw4s2n/payments?testmode=true',
                 [],
                 ''
             ),
@@ -280,10 +280,10 @@ class CustomerPaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals(3, $payments->count());
         $this->assertEquals(3, count($payments));
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/customers-api/list-customer-payments", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/customers-api/list-customer-payments', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $payments->_links->documentation);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_TkNdP8yPrH/payments?limit=50", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_TkNdP8yPrH/payments?limit=50', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $payments->_links->self);
     }
 

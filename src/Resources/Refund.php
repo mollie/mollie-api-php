@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
 use Mollie\Api\Types\RefundStatus;
 
 class Refund extends BaseResource
@@ -164,8 +164,9 @@ class Refund extends BaseResource
     {
         $this
             ->connector
-            ->send(new DynamicDeleteRequest(
-                $this->_links->self->href
-            ));
+            ->send((new CancelPaymentRefundRequest(
+                $this->paymentId,
+                $this->id
+            ))->test($this->mode === 'test'));
     }
 }

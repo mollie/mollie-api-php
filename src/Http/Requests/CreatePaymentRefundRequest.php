@@ -3,15 +3,12 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Contracts\SupportsTestmode;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
-use Mollie\Api\Http\Request;
-use Mollie\Api\Resources\Payment;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CreatePaymentRefundRequest extends Request implements HasPayload, SupportsTestmode
+class CreatePaymentRefundRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -40,13 +37,6 @@ class CreatePaymentRefundRequest extends Request implements HasPayload, Supports
     protected function defaultPayload(): array
     {
         return $this->payload->toArray();
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-        ];
     }
 
     public function resolveResourcePath(): string

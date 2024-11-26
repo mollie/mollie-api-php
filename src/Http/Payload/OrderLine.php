@@ -2,11 +2,6 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Rules\Included;
-use Mollie\Api\Rules\Max;
-use Mollie\Api\Rules\Min;
-use Mollie\Api\Types\OrderLineType;
-
 class OrderLine extends DataBag
 {
     public string $description;
@@ -81,15 +76,6 @@ class OrderLine extends DataBag
             'sku' => $this->sku,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
-        ];
-    }
-
-    public function rules(): array
-    {
-        return [
-            'type' => Included::in(OrderLineType::class),
-            'quantity' => Min::value(1),
-            'sku' => Max::value(64),
         ];
     }
 }

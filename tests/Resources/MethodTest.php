@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class MethodTest extends TestCase
 {
-    public function testIssuersNullWorks()
+    public function test_issuers_null_works()
     {
         $method = new Method($this->createMock(MollieApiClient::class));
         $this->assertNull($method->issuers);

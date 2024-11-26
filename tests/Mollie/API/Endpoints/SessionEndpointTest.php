@@ -12,15 +12,15 @@ use Tests\Mollie\TestHelpers\LinkObjectTestHelpers;
 
 class SessionEndpointTest extends BaseEndpointTest
 {
-    use LinkObjectTestHelpers;
     use AmountObjectTestHelpers;
+    use LinkObjectTestHelpers;
 
-    public function testCreateSession()
+    public function test_create_session()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/sessions",
+                'POST',
+                '/v2/sessions',
                 [],
                 '{
                     "paymentData": {
@@ -41,40 +41,40 @@ class SessionEndpointTest extends BaseEndpointTest
             new Response(
                 201,
                 [],
-                $this->getSessionResponseFixture("sess_pbjz8x")
+                $this->getSessionResponseFixture('sess_pbjz8x')
             )
         );
 
         $session = $this->apiClient->sessions->create([
-            "paymentData" => [
-                "amount" => [
-                    "value" => "10.00",
-                    "currency" => "EUR",
+            'paymentData' => [
+                'amount' => [
+                    'value' => '10.00',
+                    'currency' => 'EUR',
                 ],
-                "description" => "Order #12345",
+                'description' => 'Order #12345',
             ],
-            "method" => "paypal",
-            "methodDetails" => [
-                "checkoutFlow" => "express",
+            'method' => 'paypal',
+            'methodDetails' => [
+                'checkoutFlow' => 'express',
             ],
-            "returnUrl" => "https://example.org/redirect",
-            "cancelUrl" => "https://example.org/cancel",
+            'returnUrl' => 'https://example.org/redirect',
+            'cancelUrl' => 'https://example.org/cancel',
         ]);
 
         $this->assertSession($session, 'sess_pbjz8x');
     }
 
-    public function testGetSession()
+    public function test_get_session()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/sessions/sess_pbjz8x"
+                'GET',
+                '/v2/sessions/sess_pbjz8x'
             ),
             new Response(
                 200,
                 [],
-                $this->getSessionResponseFixture("sess_pbjz8x")
+                $this->getSessionResponseFixture('sess_pbjz8x')
             )
         );
 
@@ -83,10 +83,10 @@ class SessionEndpointTest extends BaseEndpointTest
         $this->assertSession($session, 'sess_pbjz8x');
     }
 
-    public function testListSessions()
+    public function test_list_sessions()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/sessions"),
+            new Request('GET', '/v2/sessions'),
             new Response(
                 200,
                 [],
@@ -94,9 +94,9 @@ class SessionEndpointTest extends BaseEndpointTest
                    "count": 3,
                    "_embedded": {
                        "sessions": [
-                           ' . $this->getSessionResponseFixture("sess_pbjz1x") . ',
-                           ' . $this->getSessionResponseFixture("sess_pbjz2y") . ',
-                           ' . $this->getSessionResponseFixture("sess_pbjz3z") . '
+                           '.$this->getSessionResponseFixture('sess_pbjz1x').',
+                           '.$this->getSessionResponseFixture('sess_pbjz2y').',
+                           '.$this->getSessionResponseFixture('sess_pbjz3z').'
                        ]
                    },
                    "_links": {
@@ -126,20 +126,20 @@ class SessionEndpointTest extends BaseEndpointTest
 
         $this->assertNull($sessions->_links->previous);
         $selfLink = $this->createLinkObject(
-            "https://api.mollie.com/v2/sessions",
-            "application/hal+json"
+            'https://api.mollie.com/v2/sessions',
+            'application/hal+json'
         );
         $this->assertEquals($selfLink, $sessions->_links->self);
 
         $nextLink = $this->createLinkObject(
-            "https://api.mollie.com/v2/sessions?from=sess_stTC2WHAuS",
-            "application/hal+json"
+            'https://api.mollie.com/v2/sessions?from=sess_stTC2WHAuS',
+            'application/hal+json'
         );
         $this->assertEquals($nextLink, $sessions->_links->next);
 
         $documentationLink = $this->createLinkObject(
-            "https://docs.mollie.com/reference/v2/sessions-api/list-sessions",
-            "text/html"
+            'https://docs.mollie.com/reference/v2/sessions-api/list-sessions',
+            'text/html'
         );
         $this->assertEquals($documentationLink, $sessions->_links->documentation);
 
@@ -148,10 +148,10 @@ class SessionEndpointTest extends BaseEndpointTest
         $this->assertSession($sessions[2], 'sess_pbjz3z');
     }
 
-    public function testIterateSessions()
+    public function test_iterate_sessions()
     {
         $this->mockApiCall(
-            new Request("GET", "/v2/sessions"),
+            new Request('GET', '/v2/sessions'),
             new Response(
                 200,
                 [],
@@ -159,9 +159,9 @@ class SessionEndpointTest extends BaseEndpointTest
                    "count": 3,
                    "_embedded": {
                        "sessions": [
-                           ' . $this->getSessionResponseFixture("sess_pbjz1x") . ',
-                           ' . $this->getSessionResponseFixture("sess_pbjz2y") . ',
-                           ' . $this->getSessionResponseFixture("sess_pbjz3z") . '
+                           '.$this->getSessionResponseFixture('sess_pbjz1x').',
+                           '.$this->getSessionResponseFixture('sess_pbjz2y').',
+                           '.$this->getSessionResponseFixture('sess_pbjz3z').'
                        ]
                    },
                    "_links": {
@@ -185,10 +185,10 @@ class SessionEndpointTest extends BaseEndpointTest
         }
     }
 
-    public function testCancelSession()
+    public function test_cancel_session()
     {
         $this->mockApiCall(
-            new Request("DELETE", "/v2/sessions/sess_pbjz1x"),
+            new Request('DELETE', '/v2/sessions/sess_pbjz1x'),
             new Response(
                 200,
                 [],
@@ -203,12 +203,12 @@ class SessionEndpointTest extends BaseEndpointTest
     }
 
     /** @test */
-    public function testUpdateSession()
+    public function test_update_session()
     {
         $this->mockApiCall(
             new Request(
-                "PATCH",
-                "/v2/sessions/sess_pbjz8x",
+                'PATCH',
+                '/v2/sessions/sess_pbjz8x',
                 [],
                 '{
                     "billingAddress": {
@@ -240,7 +240,7 @@ class SessionEndpointTest extends BaseEndpointTest
                 200,
                 [],
                 $this->getSessionResponseFixture(
-                    "sess_pbjz8x",
+                    'sess_pbjz8x',
                     SessionStatus::STATUS_CREATED
                 )
             )
@@ -251,20 +251,20 @@ class SessionEndpointTest extends BaseEndpointTest
         /** @var Session $session */
         $session = $this->copy(json_decode($sessionJSON), new Session($this->apiClient));
 
-        $session->billingAddress->organizationName = "Organization Name LTD.";
-        $session->billingAddress->streetAndNumber = "Keizersgracht 313";
-        $session->billingAddress->city = "Amsterdam";
-        $session->billingAddress->region = "Noord-Holland";
-        $session->billingAddress->postalCode = "1234AB";
-        $session->billingAddress->country = "NL";
-        $session->billingAddress->title = "Dhr";
-        $session->billingAddress->givenName = "Piet";
-        $session->billingAddress->familyName = "Mondriaan";
-        $session->billingAddress->email = "piet@mondriaan.com";
-        $session->billingAddress->phone = "+31208202070";
+        $session->billingAddress->organizationName = 'Organization Name LTD.';
+        $session->billingAddress->streetAndNumber = 'Keizersgracht 313';
+        $session->billingAddress->city = 'Amsterdam';
+        $session->billingAddress->region = 'Noord-Holland';
+        $session->billingAddress->postalCode = '1234AB';
+        $session->billingAddress->country = 'NL';
+        $session->billingAddress->title = 'Dhr';
+        $session->billingAddress->givenName = 'Piet';
+        $session->billingAddress->familyName = 'Mondriaan';
+        $session->billingAddress->email = 'piet@mondriaan.com';
+        $session->billingAddress->phone = '+31208202070';
         $session = $session->update();
 
-        $this->assertSession($session, "sess_pbjz8x", SessionStatus::STATUS_CREATED);
+        $this->assertSession($session, 'sess_pbjz8x', SessionStatus::STATUS_CREATED);
     }
 
     protected function assertSession($session, $session_id, $sessionStatus = SessionStatus::STATUS_CREATED)
@@ -278,15 +278,15 @@ class SessionEndpointTest extends BaseEndpointTest
 
         $this->assertEquals($sessionStatus, $session->status);
 
-        $this->assertEquals("https://example.org/redirect", $session->getRedirectUrl());
+        $this->assertEquals('https://example.org/redirect', $session->getRedirectUrl());
         /**
          * @todo check how the links will be returned
          */
         // $this->assertEquals("https://example.org/cancel", $session->cancelUrl);
 
-        $links = (object)[
+        $links = (object) [
             'self' => $this->createLinkObject(
-                'https://api.mollie.com/v2/sessions/' . $session_id,
+                'https://api.mollie.com/v2/sessions/'.$session_id,
                 'application/hal+json'
             ),
             'redirect' => $this->createLinkObject(
@@ -301,8 +301,8 @@ class SessionEndpointTest extends BaseEndpointTest
     {
         return str_replace(
             [
-                "<<session_id>>",
-                "<<session_status>>",
+                '<<session_id>>',
+                '<<session_status>>',
             ],
             [
                 $session_id,

@@ -12,6 +12,7 @@ class Session extends BaseResource
      * The session's unique identifier,
      *
      * @example sess_dfsklg13jO
+     *
      * @var string
      */
     public $id;
@@ -27,6 +28,7 @@ class Session extends BaseResource
      * UTC datetime indicating the time at which the Session failed in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $failedAt;
@@ -96,6 +98,7 @@ class Session extends BaseResource
      * The person and the address the payment is shipped to.
      *
      * @deprecated
+     *
      * @var \stdClass
      */
     public $shippingAddress;
@@ -104,13 +107,14 @@ class Session extends BaseResource
      * The person and the address the payment is billed to.
      *
      * @deprecated
-     * @var \stdClass
      *
+     * @var \stdClass
      */
     public $billingAddress;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
+     *
      * @var \stdClass
      */
     public $_links;
@@ -139,6 +143,7 @@ class Session extends BaseResource
      * Saves the session's updatable properties.
      *
      * @return \Mollie\Api\Resources\Session
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
@@ -157,6 +162,7 @@ class Session extends BaseResource
      * Cancels this session.
      *
      * @return Session
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel()

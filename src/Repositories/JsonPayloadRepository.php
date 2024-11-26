@@ -30,6 +30,13 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
         return $this->store;
     }
 
+    public function add(string $key, $value): self
+    {
+        $this->store[$key] = $value;
+
+        return $this;
+    }
+
     public function remove(string $key): self
     {
         unset($this->store[$key]);

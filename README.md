@@ -1,4 +1,4 @@
-<p align="center">
+****<p align="center">
   <img src="https://github.com/mollie/mollie-api-php/assets/7265703/140510a5-ede5-41bf-9d77-0d09b906e8f4" width="128" height="128"/>
 </p>
 

@@ -24,7 +24,7 @@ use Tests\Fixtures\MockResponse;
 
 class MollieApiClientTest extends TestCase
 {
-    public function testSendReturnsBodyAsObject()
+    public function test_send_returns_body_as_object()
     {
         $client = new MockClient([
             DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
@@ -38,7 +38,7 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    public function testSendCreatesApiExceptionCorrectly()
+    public function test_send_creates_api_exception_correctly()
     {
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
@@ -60,7 +60,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    public function testSendCreatesApiExceptionWithoutFieldAndDocumentationUrl()
+    public function test_send_creates_api_exception_without_field_and_documentation_url()
     {
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
@@ -81,7 +81,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    public function testCanBeSerializedAndUnserialized()
+    public function test_can_be_serialized_and_unserialized()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
 
@@ -104,7 +104,7 @@ class MollieApiClientTest extends TestCase
         // no need to assert them all.
     }
 
-    public function testEnablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    public function test_enabling_debugging_throws_an_exception_if_http_adapter_does_not_support_it()
     {
         $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
@@ -112,7 +112,7 @@ class MollieApiClientTest extends TestCase
         $client->enableDebugging();
     }
 
-    public function testDisablingDebuggingThrowsAnExceptionIfHttpAdapterDoesNotSupportIt()
+    public function test_disabling_debugging_throws_an_exception_if_http_adapter_does_not_support_it()
     {
         $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
@@ -126,7 +126,7 @@ class MollieApiClientTest extends TestCase
      *
      * @throws ApiException
      */
-    public function testCorrectRequestHeaders()
+    public function test_correct_request_headers()
     {
         $client = new MockClient([
             CreatePaymentRequest::class => new MockResponse(200, '{"resource": "payment"}'),
@@ -160,7 +160,7 @@ class MollieApiClientTest extends TestCase
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
-    public function testNoContentTypeWithoutProvidedBody()
+    public function test_no_content_type_without_provided_body()
     {
         $client = new MockClient([
             DynamicGetRequest::class => new MockResponse(204, ''),
@@ -229,7 +229,7 @@ class MollieApiClientTest extends TestCase
         ];
     }
 
-    public function testIdempotencyKeyIsNotUsedOnGetRequests()
+    public function test_idempotency_key_is_not_used_on_get_requests()
     {
         $client = new MockClient([
             DynamicGetRequest::class => new MockResponse(204),
@@ -242,7 +242,7 @@ class MollieApiClientTest extends TestCase
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
-    public function testIdempotencyKeyResetsAfterEachRequest()
+    public function test_idempotency_key_resets_after_each_request()
     {
         $client = new MockClient([
             DynamicDeleteRequest::class => new MockResponse(204),
@@ -257,7 +257,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNull($client->getIdempotencyKey());
     }
 
-    public function testItUsesTheIdempotencyKeyGenerator()
+    public function test_it_uses_the_idempotency_key_generator()
     {
         $client = new MockClient([
             DynamicDeleteRequest::class => new MockResponse(204),

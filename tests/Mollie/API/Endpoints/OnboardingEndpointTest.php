@@ -11,7 +11,7 @@ use Mollie\Api\Types\OnboardingStatus;
 
 final class OnboardingEndpointTest extends BaseEndpointTest
 {
-    public function testGetWorks()
+    public function test_get_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/onboarding/me'),
@@ -50,27 +50,27 @@ final class OnboardingEndpointTest extends BaseEndpointTest
         $onboarding = $this->apiClient->onboarding->get();
 
         $this->assertInstanceOf(Onboarding::class, $onboarding);
-        $this->assertEquals("onboarding", $onboarding->resource);
-        $this->assertEquals("Mollie B.V.", $onboarding->name);
+        $this->assertEquals('onboarding', $onboarding->resource);
+        $this->assertEquals('Mollie B.V.', $onboarding->name);
         $this->assertEquals(OnboardingStatus::COMPLETED, $onboarding->status);
-        $this->assertEquals("2018-12-20T10:49:08+00:00", $onboarding->signedUpAt);
+        $this->assertEquals('2018-12-20T10:49:08+00:00', $onboarding->signedUpAt);
         $this->assertEquals(true, $onboarding->canReceivePayments);
         $this->assertEquals(true, $onboarding->canReceiveSettlements);
 
-        $selfLink = (object)['href' => 'https://api.mollie.com/v2/onboarding/me', 'type' => 'application/hal+json'];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/onboarding/me', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $onboarding->_links->self);
 
-        $dashboardLink = (object)['href' => 'https://www.mollie.com/dashboard/onboarding', 'type' => 'text/html'];
+        $dashboardLink = (object) ['href' => 'https://www.mollie.com/dashboard/onboarding', 'type' => 'text/html'];
         $this->assertEquals($dashboardLink, $onboarding->_links->dashboard);
 
-        $organizationLink = (object)['href' => 'https://api.mollie.com/v2/organization/org_12345', 'type' => 'application/hal+json'];
+        $organizationLink = (object) ['href' => 'https://api.mollie.com/v2/organization/org_12345', 'type' => 'application/hal+json'];
         $this->assertEquals($organizationLink, $onboarding->_links->organization);
 
-        $documentationLink = (object)['href' => 'https://docs.mollie.com/reference/v2/onboarding-api/get-onboarding-status', 'type' => 'text/html'];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/onboarding-api/get-onboarding-status', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $onboarding->_links->documentation);
     }
 
-    public function testSubmitWorks()
+    public function test_submit_works()
     {
         $this->mockApiCall(
             new Request('POST', '/v2/onboarding/me'),

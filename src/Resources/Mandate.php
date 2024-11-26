@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Types\MandateStatus;
 
 class Mandate extends BaseResource
@@ -79,20 +79,17 @@ class Mandate extends BaseResource
      */
     public function revoke(): ?Mandate
     {
-        if (! isset($this->_links->self->href)) {
+        if (! isset($this->id, $this->customerId)) {
             return $this;
         }
 
-        $body = [
-            'testmode' => $this->mode === 'test' ? true : false,
-        ];
-
         return $this
             ->connector
-            ->send(new DynamicDeleteRequest(
-                $this->_links->self->href,
-                self::class,
+            ->send((new RevokeMandateRequest(
+                $this->customerId,
+                $this->id,
                 $this->mode === 'test'
-            ));
+            ))->test($this->mode === 'test'))
+            ->toResource();
     }
 }

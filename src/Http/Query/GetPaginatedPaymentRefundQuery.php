@@ -2,25 +2,24 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetPaginatedPaymentRefundQuery extends PaginatedQuery
+class GetPaginatedPaymentRefundQuery extends Query
 {
+    private PaginatedQuery $paginatedQuery;
+
     public bool $includePayment = false;
 
     public function __construct(
-        bool $includePayment = false,
-        ?string $from = null,
-        ?int $limit = null,
-        ?bool $testmode = null
+        PaginatedQuery $paginatedQuery,
+        bool $includePayment = false
     ) {
-        parent::__construct($from, $limit, $testmode);
-
+        $this->paginatedQuery = $paginatedQuery;
         $this->includePayment = $includePayment;
     }
 
     public function toArray(): array
     {
         return array_merge(
-            parent::toArray(),
+            $this->paginatedQuery->toArray(),
             [
                 'include' => $this->includePayment ? 'payment' : null,
             ]

@@ -15,7 +15,7 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestSubscriptionStatuses
      */
-    public function testSubscriptionStatuses($status, $function, $expected_boolean)
+    public function test_subscription_statuses($status, $function, $expected_boolean)
     {
         $subscription = new Subscription($this->createMock(MollieApiClient::class));
         $subscription->status = $status;

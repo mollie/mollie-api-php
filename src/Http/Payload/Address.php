@@ -63,7 +63,7 @@ class Address implements DataProvider
 
     public function data(): array
     {
-        return array_filter([
+        return [
             'title' => $this->title,
             'givenName' => $this->givenName,
             'familyName' => $this->familyName,
@@ -76,6 +76,6 @@ class Address implements DataProvider
             'city' => $this->city,
             'region' => $this->region,
             'country' => $this->country,
-        ]);
+        ];
     }
 }

@@ -13,7 +13,7 @@ use Mollie\Api\Resources\Settlement;
 class SettlementRefundEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testListSettlementRefunds()
+    public function test_list_settlement_refunds()
     {
         $this->mockApiCall(
             new Request(
@@ -87,6 +87,6 @@ class SettlementRefundEndpointTest extends BaseEndpointTest
 
         $refund = $refunds[0];
         $this->assertInstanceOf(Refund::class, $refund);
-        $this->assertEquals("re_3aKhkUNigy", $refund->id);
+        $this->assertEquals('re_3aKhkUNigy', $refund->id);
     }
 }

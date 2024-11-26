@@ -12,7 +12,7 @@ use Mollie\Api\Types\MandateStatus;
 
 class MandateEndpointTest extends BaseEndpointTest
 {
-    public function testCreateWorks()
+    public function test_create_works()
     {
         $this->mockApiCall(
             new Request('POST', '/v2/customers/cst_FhQJRw4s2n/mandates'),
@@ -54,32 +54,32 @@ class MandateEndpointTest extends BaseEndpointTest
 
         /** @var Mandate $mandate */
         $mandate = $customer->createMandate([
-            "consumerName" => "John Doe",
-            "method" => "directdebit",
-            "consumerBic" => "INGBNL2A",
-            "consumerAccount" => "NL55INGB0000000000",
+            'consumerName' => 'John Doe',
+            'method' => 'directdebit',
+            'consumerBic' => 'INGBNL2A',
+            'consumerAccount' => 'NL55INGB0000000000',
         ]);
 
         $this->assertInstanceOf(Mandate::class, $mandate);
-        $this->assertEquals("mandate", $mandate->resource);
+        $this->assertEquals('mandate', $mandate->resource);
         $this->assertEquals(MandateStatus::VALID, $mandate->status);
-        $this->assertEquals("directdebit", $mandate->method);
-        $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
+        $this->assertEquals('directdebit', $mandate->method);
+        $this->assertEquals((object) ['consumerName' => 'John Doe', 'consumerAccount' => 'NL55INGB0000000000', 'consumerBic' => 'INGBNL2A'], $mandate->details);
         $this->assertNull($mandate->mandateReference);
-        $this->assertEquals("2018-05-07", $mandate->signatureDate);
-        $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
+        $this->assertEquals('2018-05-07', $mandate->signatureDate);
+        $this->assertEquals('2018-05-07T10:49:08+00:00', $mandate->createdAt);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $mandate->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $mandate->_links->customer);
 
-        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/create-mandate", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://mollie.com/en/docs/reference/customers/create-mandate', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $mandate->_links->documentation);
     }
 
-    public function testGetWorks()
+    public function test_get_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h'),
@@ -120,28 +120,28 @@ class MandateEndpointTest extends BaseEndpointTest
         $customer = $this->getCustomer();
 
         /** @var Mandate $mandate */
-        $mandate = $customer->getMandate("mdt_AcQl5fdL4h");
+        $mandate = $customer->getMandate('mdt_AcQl5fdL4h');
 
         $this->assertInstanceOf(Mandate::class, $mandate);
-        $this->assertEquals("mandate", $mandate->resource);
+        $this->assertEquals('mandate', $mandate->resource);
         $this->assertEquals(MandateStatus::VALID, $mandate->status);
         $this->assertEquals(MandateMethod::DIRECTDEBIT, $mandate->method);
-        $this->assertEquals((object) ["consumerName" => "John Doe", "consumerAccount" => "NL55INGB0000000000", "consumerBic" => "INGBNL2A"], $mandate->details);
+        $this->assertEquals((object) ['consumerName' => 'John Doe', 'consumerAccount' => 'NL55INGB0000000000', 'consumerBic' => 'INGBNL2A'], $mandate->details);
         $this->assertNull($mandate->mandateReference);
-        $this->assertEquals("2018-05-07", $mandate->signatureDate);
-        $this->assertEquals("2018-05-07T10:49:08+00:00", $mandate->createdAt);
+        $this->assertEquals('2018-05-07', $mandate->signatureDate);
+        $this->assertEquals('2018-05-07T10:49:08+00:00', $mandate->createdAt);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/mandates/mdt_AcQl5fdL4h', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $mandate->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $mandate->_links->customer);
 
-        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/create-mandate", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://mollie.com/en/docs/reference/customers/create-mandate', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $mandate->_links->documentation);
     }
 
-    public function testListWorks()
+    public function test_list_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
@@ -203,21 +203,21 @@ class MandateEndpointTest extends BaseEndpointTest
         /** @var Mandate $mandate */
         foreach ($mandates as $mandate) {
             $this->assertInstanceOf(Mandate::class, $mandate);
-            $this->assertEquals("mandate", $mandate->resource);
+            $this->assertEquals('mandate', $mandate->resource);
             $this->assertEquals(MandateStatus::VALID, $mandate->status);
 
-            $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+            $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
             $this->assertEquals($customerLink, $mandate->_links->customer);
         }
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_vzEExMcxj7/mandates?limit=50', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $mandates->_links->self);
 
-        $documentationLink = (object)["href" => "https://mollie.com/en/docs/reference/customers/list-mandates", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://mollie.com/en/docs/reference/customers/list-mandates', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $mandates->_links->documentation);
     }
 
-    public function testCustomerHasValidMandateWhenTrue()
+    public function test_customer_has_valid_mandate_when_true()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
@@ -275,7 +275,7 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertTrue($customer->hasValidMandate());
     }
 
-    public function testCustomerHasValidMandateWhenFalse()
+    public function test_customer_has_valid_mandate_when_false()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
@@ -308,7 +308,7 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertFalse($customer->hasValidMandate());
     }
 
-    public function testCustomerHasValidMandateForMethodWhenFalse()
+    public function test_customer_has_valid_mandate_for_method_when_false()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),
@@ -341,7 +341,7 @@ class MandateEndpointTest extends BaseEndpointTest
         $this->assertFalse($customer->hasValidMandateForMethod('directdebit'));
     }
 
-    public function testCustomerHasValidMandateForMethodWhenTrue()
+    public function test_customer_has_valid_mandate_for_method_when_true()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/mandates'),

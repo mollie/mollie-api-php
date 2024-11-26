@@ -2,15 +2,22 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Customer;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Types\Method;
 
-class GetCustomerRequest extends SimpleRequest
+class GetCustomerRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;
 
     public static string $targetResourceClass = Customer::class;
+
+    private string $id;
+
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * Resolve the resource path.
@@ -18,12 +25,5 @@ class GetCustomerRequest extends SimpleRequest
     public function resolveResourcePath(): string
     {
         return "customers/{$this->id}";
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Customer::$resourceIdPrefix),
-        ];
     }
 }

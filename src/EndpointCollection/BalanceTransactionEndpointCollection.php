@@ -20,9 +20,9 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageFor(Balance $balance, $query = []): BalanceTransactionCollection
+    public function pageFor(Balance $balance, $query = [], ?bool $testmode = null): BalanceTransactionCollection
     {
-        return $this->pageForId($balance->id, $query);
+        return $this->pageForId($balance->id, $query, $testmode);
     }
 
     /**
@@ -30,9 +30,9 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false): LazyCollection
+    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
     {
-        return $this->iteratorForId($balance->id, $parameters, $iterateBackwards);
+        return $this->iteratorForId($balance->id, $parameters, $iterateBackwards, $testmode);
     }
 
     /**
@@ -42,10 +42,10 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForPrimary($query = []): BalanceTransactionCollection
+    public function pageForPrimary($query = [], ?bool $testmode = null): BalanceTransactionCollection
     {
         /** @var BalanceTransactionCollection */
-        return $this->pageForId('primary', $query);
+        return $this->pageForId('primary', $query, $testmode);
     }
 
     /**
@@ -54,7 +54,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      * @param  array|PaginatedQuery  $query
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForPrimary($query = [], bool $iterateBackwards = false): LazyCollection
+    public function iteratorForPrimary($query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
     {
         return $this->iteratorForId('primary', $query, $iterateBackwards);
     }
@@ -63,10 +63,11 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      * List the transactions for a specific Balance ID.
      *
      * @param  array|PaginatedQuery  $query
+     * @param  bool|null  $testmode
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForId(string $balanceId, $query = []): BalanceTransactionCollection
+    public function pageForId(string $balanceId, $query = [], bool $testmode = false): BalanceTransactionCollection
     {
         if (! $query instanceof PaginatedQuery) {
             $query = PaginatedQueryFactory::new($query)
@@ -74,7 +75,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
         }
 
         /** @var BalanceTransactionCollection */
-        return $this->send(new GetPaginatedBalanceTransactionRequest($balanceId, $query));
+        return $this->send((new GetPaginatedBalanceTransactionRequest($balanceId, $query))->test($testmode));
     }
 
     /**
@@ -83,7 +84,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      * @param  array|PaginatedQuery  $query
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForId(string $balanceId, $query = [], bool $iterateBackwards = false): LazyCollection
+    public function iteratorForId(string $balanceId, $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
     {
         if (! $query instanceof PaginatedQuery) {
             $query = PaginatedQueryFactory::new($query)
@@ -94,6 +95,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
             (new GetPaginatedBalanceTransactionRequest($balanceId, $query))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
+                ->test($testmode)
         );
     }
 }

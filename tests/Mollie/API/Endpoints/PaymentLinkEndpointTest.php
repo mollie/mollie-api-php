@@ -11,12 +11,12 @@ use Mollie\Api\Resources\PaymentLink;
 class PaymentLinkEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testListPaymentLinks()
+    public function test_list_payment_links()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payment-links",
+                'GET',
+                '/v2/payment-links',
                 [],
                 ''
             ),
@@ -81,12 +81,12 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
     }
 
     /** @test */
-    public function testIteratePaymentLinks()
+    public function test_iterate_payment_links()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payment-links",
+                'GET',
+                '/v2/payment-links',
                 [],
                 ''
             ),
@@ -142,18 +142,18 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
         );
         foreach ($this->apiClient->paymentLinks->iterator() as $paymentLink) {
             $this->assertInstanceOf(PaymentLink::class, $paymentLink);
-            $this->assertEquals("payment-link", $paymentLink->resource);
+            $this->assertEquals('payment-link', $paymentLink->resource);
             // No need to test all attributes as these are mapped dynamically.
         }
     }
 
     /** @test */
-    public function testGetPaymentLink()
+    public function test_get_payment_link()
     {
         $this->mockApiCall(
             new Request(
-                "GET",
-                "/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh?testmode=true",
+                'GET',
+                '/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh?testmode=true',
                 [],
                 ''
             ),
@@ -193,20 +193,20 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
             )
         );
 
-        $paymentLink = $this->apiClient->paymentLinks->get("pl_4Y0eZitmBnQ6IDoMqZQKh", ["testmode" => true]);
+        $paymentLink = $this->apiClient->paymentLinks->get('pl_4Y0eZitmBnQ6IDoMqZQKh', ['testmode' => true]);
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
-        $this->assertEquals("payment-link", $paymentLink->resource);
-        $this->assertEquals("pl_4Y0eZitmBnQ6IDoMqZQKh", $paymentLink->id);
+        $this->assertEquals('payment-link', $paymentLink->resource);
+        $this->assertEquals('pl_4Y0eZitmBnQ6IDoMqZQKh', $paymentLink->id);
         // No need to test all attributes as these are mapped dynamically.
     }
 
     /** @test */
-    public function testCreatePaymentLink()
+    public function test_create_payment_link()
     {
         $this->mockApiCall(
             new Request(
-                "POST",
-                "/v2/payment-links",
+                'POST',
+                '/v2/payment-links',
                 [],
                 '{
                     "description": "Bicycle tires",
@@ -256,14 +256,14 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
         );
 
         $paymentLink = $this->apiClient->paymentLinks->create([
-            "description" => "Bicycle tires",
-            "amount" => [
-                "currency" => "EUR",
-                "value" => "24.95",
+            'description' => 'Bicycle tires',
+            'amount' => [
+                'currency' => 'EUR',
+                'value' => '24.95',
             ],
-            "webhookUrl" => "https://webshop.example.org/payment-links/webhook/",
-            "redirectUrl" => "https://webshop.example.org/thanks",
-            "expiresAt" => "2023-06-06T11:00:00+00:00",
+            'webhookUrl' => 'https://webshop.example.org/payment-links/webhook/',
+            'redirectUrl' => 'https://webshop.example.org/thanks',
+            'expiresAt' => '2023-06-06T11:00:00+00:00',
         ]);
 
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
@@ -273,12 +273,12 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
     }
 
     /** @test */
-    public function testUpdatePaymentLink()
+    public function test_update_payment_link()
     {
         $this->mockApiCall(
             new Request(
-                "PATCH",
-                "/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh",
+                'PATCH',
+                '/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh',
                 [],
                 '{
                     "description":"Bicycle tires",
@@ -334,12 +334,12 @@ class PaymentLinkEndpointTest extends BaseEndpointTest
     }
 
     /** @test */
-    public function testDeletePaymentLink()
+    public function test_delete_payment_link()
     {
         $this->mockApiCall(
             new Request(
-                "DELETE",
-                "/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh"
+                'DELETE',
+                '/v2/payment-links/pl_4Y0eZitmBnQ6IDoMqZQKh'
             ),
             new Response(
                 204,

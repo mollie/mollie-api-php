@@ -5,6 +5,8 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Contracts\PayloadRepository;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Helpers\MiddlewarePriority;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
@@ -13,11 +15,12 @@ use Mollie\Api\Http\Middleware\GuardResponse;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\Middleware\ThrowExceptionIfRequestFailed;
+use Mollie\Api\Http\PendingRequest\AddTestmodeIfEnabled;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
 use Mollie\Api\Http\PendingRequest\MergeRequestProperties;
+use Mollie\Api\Http\PendingRequest\RemoveTestmodeFromApiAuthenticatedRequests;
 use Mollie\Api\Http\PendingRequest\SetBody;
 use Mollie\Api\Http\PendingRequest\SetUserAgent;
-use Mollie\Api\Http\PendingRequest\ValidateProperties;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\ManagesPsrRequests;
@@ -55,20 +58,36 @@ class PendingRequest
 
         $this
             ->tap(new MergeRequestProperties)
-            ->tap(new ValidateProperties)
+            ->tap(new AddTestmodeIfEnabled)
             ->tap(new SetBody)
             ->tap(new SetUserAgent)
-            ->tap(new AuthenticateRequest);
+            ->tap(new AuthenticateRequest)
+            ->tap(new RemoveTestmodeFromApiAuthenticatedRequests);
 
         $this
             ->middleware()
+
+            /** On request */
             ->onRequest(new EvaluateHydrationSetting, 'hydration')
             ->onRequest(new ApplyIdempotencyKey, 'idempotency')
+
+            /** On response */
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
             ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH)
             ->onResponse(new Hydrate, 'hydration', MiddlewarePriority::LOW);
 
+    }
+
+    public function setTestmode(bool $testmode): self
+    {
+        if ($this->request instanceof SupportsTestmodeInQuery) {
+            $this->query()->add('testmode', $testmode);
+        } elseif ($this->request instanceof SupportsTestmodeInPayload) {
+            $this->payload()->add('testmode', $testmode);
+        }
+
+        return $this;
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self

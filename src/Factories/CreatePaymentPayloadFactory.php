@@ -44,7 +44,6 @@ class CreatePaymentPayloadFactory extends Factory
             $this->get('customerId'),
             $this->get('profileId'),
             $this->get('additional') ?? Helpers::filterByProperties(CreatePaymentPayload::class, $this->data),
-            $this->get('testmode')
         );
     }
 }

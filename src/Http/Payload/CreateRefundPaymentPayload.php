@@ -21,22 +21,18 @@ class CreateRefundPaymentPayload extends DataBag
      */
     public ?DataCollection $routingReversals = null;
 
-    public ?bool $testmode = null;
-
     public function __construct(
         string $description,
         Money $amount,
         ?Metadata $metadata = null,
         ?bool $reverseRouting = null,
         ?DataCollection $routingReversals = null,
-        ?bool $testmode = null
     ) {
         $this->description = $description;
         $this->amount = $amount;
         $this->metadata = $metadata;
         $this->reverseRouting = $reverseRouting;
         $this->routingReversals = $routingReversals;
-        $this->testmode = $testmode;
     }
 
     public function data(): array
@@ -47,7 +43,6 @@ class CreateRefundPaymentPayload extends DataBag
             'metadata' => $this->metadata,
             'reverseRouting' => $this->reverseRouting,
             'routingReversals' => $this->routingReversals,
-            'testmode' => $this->testmode,
         ];
     }
 }

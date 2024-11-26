@@ -8,6 +8,7 @@ class MethodPrice extends BaseResource
      * The area or product-type where the pricing is applied for, translated in the optional locale passed.
      *
      * @example "The Netherlands"
+     *
      * @var string
      */
     public $description;

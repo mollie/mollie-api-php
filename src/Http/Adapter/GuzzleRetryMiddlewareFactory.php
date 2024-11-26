@@ -21,9 +21,7 @@ class GuzzleRetryMiddlewareFactory
     public const DELAY_INCREASE_MS = 1000;
 
     /**
-     * @param bool $delay default to true, can be false to speed up tests
-     *
-     * @return callable
+     * @param  bool  $delay  default to true, can be false to speed up tests
      */
     public function retry(bool $delay = true): callable
     {
@@ -36,8 +34,6 @@ class GuzzleRetryMiddlewareFactory
     /**
      * Returns a method that takes the number of retries and returns the number of milliseconds
      * to wait
-     *
-     * @return callable
      */
     private function getRetryDelay(): callable
     {
@@ -48,8 +44,6 @@ class GuzzleRetryMiddlewareFactory
 
     /**
      * Returns a method that returns zero milliseconds to wait
-     *
-     * @return callable
      */
     private function getZeroRetryDelay(): callable
     {
@@ -58,16 +52,13 @@ class GuzzleRetryMiddlewareFactory
         };
     }
 
-    /**
-     * @return callable
-     */
     private function newRetryDecider(): callable
     {
         return function (
             $retries,
             Request $request,
-            Response $response = null,
-            TransferException $exception = null
+            ?Response $response = null,
+            ?TransferException $exception = null
         ) {
             if ($retries >= static::MAX_RETRIES) {
                 return false;

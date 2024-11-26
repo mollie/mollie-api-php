@@ -19,7 +19,7 @@ class MethodEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testGetMethod()
+    public function test_get_method()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods/ideal'),
@@ -79,7 +79,7 @@ class MethodEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testGetMethodWithIncludeIssuers()
+    public function test_get_method_with_include_issuers()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods/ideal?include=issuers'),
@@ -169,7 +169,7 @@ class MethodEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testGetMethodWithIncludePricing()
+    public function test_get_method_with_include_pricing()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods/ideal?include=pricing'),
@@ -267,7 +267,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals('0', $method_price->variable);
     }
 
-    public function testGetTranslatedMethod()
+    public function test_get_translated_method()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods/sofort?locale=de_DE'),
@@ -330,7 +330,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $method->_links->documentation);
     }
 
-    public function testListAllActiveMethods()
+    public function test_list_all_active_methods()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods'),
@@ -481,7 +481,7 @@ class MethodEndpointTest extends BaseEndpointTest
         $this->assertEquals($selfLink, $creditcardMethod->_links->self);
     }
 
-    public function testListAllAvailableMethods()
+    public function test_list_all_available_methods()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/methods/all?include=pricing'),

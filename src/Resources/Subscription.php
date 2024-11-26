@@ -2,12 +2,14 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\SubscriptionStatus;
 
 class Subscription extends BaseResource
 {
+    public static string $resourceIdPrefix = 'sub_';
+
     /**
      * @var string
      */
@@ -182,11 +184,10 @@ class Subscription extends BaseResource
 
         return $this
             ->connector
-            ->send(new DynamicDeleteRequest(
-                $this->_links->self->href,
-                self::class,
-                $this->mode === 'test'
-            ));
+            ->send((new CancelSubscriptionRequest(
+                $this->customerId,
+                $this->id
+            ))->test($this->mode === 'test'));
     }
 
     /**

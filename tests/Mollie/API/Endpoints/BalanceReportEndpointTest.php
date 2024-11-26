@@ -16,7 +16,7 @@ class BalanceReportEndpointTest extends BaseEndpointTest
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function testCanGetReportThroughBalanceReportEndpoint()
+    public function test_can_get_report_through_balance_report_endpoint()
     {
         $this->mockApiCall(
             new Request(
@@ -42,7 +42,7 @@ class BalanceReportEndpointTest extends BaseEndpointTest
         $this->assertBalanceReport($report);
     }
 
-    public function testCanGetPrimaryBalanceReportThroughBalanceReportEndpoint()
+    public function test_can_get_primary_balance_report_through_balance_report_endpoint()
     {
         $this->mockApiCall(
             new Request(

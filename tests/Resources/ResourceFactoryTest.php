@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ResourceFactoryTest extends TestCase
 {
-    public function testCreateFromApiResponseWorks()
+    public function test_create_from_api_response_works()
     {
         $apiResult = json_decode('{
             "resource":"payment",
@@ -35,7 +35,7 @@ class ResourceFactoryTest extends TestCase
         $this->assertEquals((object) ['value' => '20.00', 'currency' => 'EUR'], $payment->amount);
     }
 
-    public function testEmbeddedCollectionsAreTypeCasted()
+    public function test_embedded_collections_are_type_casted()
     {
         $apiResult = json_decode('{
             "resource":"payment",
@@ -73,7 +73,7 @@ class ResourceFactoryTest extends TestCase
     }
 
     /** @test */
-    public function testEmbeddedResourcesAreTypeCasted()
+    public function test_embedded_resources_are_type_casted()
     {
         $apiResult = json_decode('{
             "resource": "client",

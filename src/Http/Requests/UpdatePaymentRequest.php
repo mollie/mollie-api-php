@@ -3,14 +3,13 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Payload\UpdatePaymentPayload;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\Payment;
-use Mollie\Api\Rules\Id;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdatePaymentRequest extends Request implements HasPayload
+class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInQuery
 {
     use HasJsonPayload;
 
@@ -34,13 +33,6 @@ class UpdatePaymentRequest extends Request implements HasPayload
     protected function defaultPayload(): array
     {
         return $this->payload->toArray();
-    }
-
-    public function rules(): array
-    {
-        return [
-            'id' => Id::startsWithPrefix(Payment::$resourceIdPrefix),
-        ];
     }
 
     public function resolveResourcePath(): string

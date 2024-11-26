@@ -17,26 +17,8 @@ class AuthenticateRequest
             throw new ApiException('You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.');
         }
 
-        /**
-         * Remove testmode parameter from the request if authenticated via ApiKey.
-         */
-        if ($authenticator instanceof ApiKeyAuthenticator) {
-            $this->removeTestmode($pendingRequest);
-        }
-
         $authenticator->authenticate($pendingRequest);
 
         return $pendingRequest;
-    }
-
-    private function removeTestmode(PendingRequest $pendingRequest): void
-    {
-        if ($pendingRequest->query()->has('testmode')) {
-            $pendingRequest->query()->remove('testmode');
-        }
-
-        if ($pendingRequest->getRequest() instanceof HasPayload) {
-            $pendingRequest->payload()->remove('testmode');
-        }
     }
 }

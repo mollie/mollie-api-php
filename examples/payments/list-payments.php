@@ -9,12 +9,12 @@ try {
      *
      * See: https://www.mollie.com/dashboard/developers/api-keys
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Determine the url parts to these example files.
      */
-    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+    $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? 'https' : 'http';
     $hostname = $_SERVER['HTTP_HOST'];
     $path = dirname($_SERVER['REQUEST_URI'] ?? $_SERVER['PHP_SELF']);
 
@@ -23,30 +23,30 @@ try {
      */
     $payments = $mollie->payments->collect();
 
-    echo "<ul>";
+    echo '<ul>';
     foreach ($payments as $payment) {
-        echo "<li>";
-        echo "<strong style='font-family: monospace'>" . htmlspecialchars($payment->id) . "</strong><br />";
-        echo htmlspecialchars($payment->description) . "<br />";
-        echo htmlspecialchars($payment->amount->currency) . " " . htmlspecialchars($payment->amount->value) . "<br />";
+        echo '<li>';
+        echo "<strong style='font-family: monospace'>".htmlspecialchars($payment->id).'</strong><br />';
+        echo htmlspecialchars($payment->description).'<br />';
+        echo htmlspecialchars($payment->amount->currency).' '.htmlspecialchars($payment->amount->value).'<br />';
 
-        echo "Status: " . htmlspecialchars($payment->status) . "<br />";
+        echo 'Status: '.htmlspecialchars($payment->status).'<br />';
 
         if ($payment->hasRefunds()) {
-            echo "Payment has been (partially) refunded.<br />";
+            echo 'Payment has been (partially) refunded.<br />';
         }
 
         if ($payment->hasChargebacks()) {
-            echo "Payment has been charged back.<br />";
+            echo 'Payment has been charged back.<br />';
         }
 
         if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-            echo " (<a href=\"{$protocol}://{$hostname}{$path}/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+            echo " (<a href=\"{$protocol}://{$hostname}{$path}/refund-payment.php?payment_id=".htmlspecialchars($payment->id).'">refund</a>)';
         }
 
-        echo "</li>";
+        echo '</li>';
     }
-    echo "</ul>";
+    echo '</ul>';
 
     /**
      * Get the next set of Payments if applicable
@@ -54,31 +54,31 @@ try {
     $nextPayments = $payments->next();
 
     if (! empty($nextPayments)) {
-        echo "<ul>";
+        echo '<ul>';
         foreach ($nextPayments as $payment) {
-            echo "<li>";
-            echo "<strong style='font-family: monospace'>" . htmlspecialchars($payment->id) . "</strong><br />";
-            echo htmlspecialchars($payment->description) . "<br />";
-            echo htmlspecialchars($payment->amount->currency) . " " . htmlspecialchars($payment->amount->value) . "<br />";
+            echo '<li>';
+            echo "<strong style='font-family: monospace'>".htmlspecialchars($payment->id).'</strong><br />';
+            echo htmlspecialchars($payment->description).'<br />';
+            echo htmlspecialchars($payment->amount->currency).' '.htmlspecialchars($payment->amount->value).'<br />';
 
-            echo "Status: " . htmlspecialchars($payment->status) . "<br />";
+            echo 'Status: '.htmlspecialchars($payment->status).'<br />';
 
             if ($payment->hasRefunds()) {
-                echo "Payment has been (partially) refunded.<br />";
+                echo 'Payment has been (partially) refunded.<br />';
             }
 
             if ($payment->hasChargebacks()) {
-                echo "Payment has been charged back.<br />";
+                echo 'Payment has been charged back.<br />';
             }
 
             if ($payment->canBeRefunded() && $payment->amountRemaining->currency === 'EUR' && $payment->amountRemaining->value >= '2.00') {
-                echo " (<a href=\"{$protocol}://{$hostname}{$path}/refund-payment.php?payment_id=" . htmlspecialchars($payment->id) . "\">refund</a>)";
+                echo " (<a href=\"{$protocol}://{$hostname}{$path}/refund-payment.php?payment_id=".htmlspecialchars($payment->id).'">refund</a>)';
             }
 
-            echo "</li>";
+            echo '</li>';
         }
-        echo "</ul>";
+        echo '</ul>';
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

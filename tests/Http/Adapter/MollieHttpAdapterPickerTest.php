@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class MollieHttpAdapterPickerTest extends TestCase
 {
     /** @test */
-    public function createsAGuzzleAdapterIfNullIsPassedAndGuzzleIsDetected()
+    public function creates_a_guzzle_adapter_if_null_is_passed_and_guzzle_is_detected()
     {
         $picker = new MollieHttpAdapterPicker;
 
@@ -21,7 +21,7 @@ class MollieHttpAdapterPickerTest extends TestCase
     }
 
     /** @test */
-    public function returnsTheAdapterThatWasPassedIn()
+    public function returns_the_adapter_that_was_passed_in()
     {
         $picker = new MollieHttpAdapterPicker;
         $mockAdapter = new MockMollieHttpAdapter;
@@ -33,7 +33,7 @@ class MollieHttpAdapterPickerTest extends TestCase
     }
 
     /** @test */
-    public function wrapsAGuzzleClientIntoAnAdapter()
+    public function wraps_a_guzzle_client_into_an_adapter()
     {
         $picker = new MollieHttpAdapterPicker;
         $guzzleClient = new GuzzleClient;
@@ -44,7 +44,7 @@ class MollieHttpAdapterPickerTest extends TestCase
     }
 
     /** @test */
-    public function throwsAnExceptionWhenReceivingAnUnrecognizedClient()
+    public function throws_an_exception_when_receiving_an_unrecognized_client()
     {
         $this->expectExceptionObject(new UnrecognizedClientException('The provided http client or adapter was not recognized'));
         $picker = new MollieHttpAdapterPicker;

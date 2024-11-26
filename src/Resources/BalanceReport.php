@@ -17,6 +17,7 @@ class BalanceReport extends BaseResource
      * The ID of the balance this report was generated for.
      *
      * @example bal_gVMhHKqSSRYJyPsuoPNFH
+     *
      * @var string
      */
     public $balanceId;
@@ -27,6 +28,7 @@ class BalanceReport extends BaseResource
      *
      *
      * @example Europe/Amsterdam
+     *
      * @var string
      */
     public $timeZone;
@@ -38,6 +40,7 @@ class BalanceReport extends BaseResource
      *
      *
      * @example 2020-01-01
+     *
      * @var string
      */
     public $from;

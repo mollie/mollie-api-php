@@ -11,7 +11,7 @@ use Mollie\Api\Resources\Issuer;
 class MethodIssuerEndpointTest extends BaseEndpointTest
 {
     /** @test */
-    public function testEnableIssuer()
+    public function test_enable_issuer()
     {
         $this->mockApiCall(
             new Request(
@@ -40,7 +40,7 @@ class MethodIssuerEndpointTest extends BaseEndpointTest
     }
 
     /** @test */
-    public function testDisableIssuer()
+    public function test_disable_issuer()
     {
         $this->mockApiCall(
             new Request(

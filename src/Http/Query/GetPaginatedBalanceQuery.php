@@ -2,25 +2,24 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetPaginatedBalanceQuery extends PaginatedQuery
+class GetPaginatedBalanceQuery extends Query
 {
+    private SortablePaginatedQuery $paginatedQuery;
+
     public ?string $currency;
 
     public function __construct(
-        ?string $currency = null,
-        ?string $from = null,
-        ?int $limit = null,
-        ?bool $testmode = null
+        SortablePaginatedQuery $paginatedQuery,
+        ?string $currency = null
     ) {
-        parent::__construct($from, $limit, $testmode);
-
+        $this->paginatedQuery = $paginatedQuery;
         $this->currency = $currency;
     }
 
     public function toArray(): array
     {
         return array_merge(
-            parent::toArray(),
+            $this->paginatedQuery->toArray(),
             [
                 'currency' => $this->currency,
             ]

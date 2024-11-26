@@ -15,7 +15,7 @@ class PaymentEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testCreatePayment()
+    public function test_create_payment()
     {
         $this->mockApiCall(
             new Request(
@@ -96,7 +96,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals('test', $payment->mode);
         $this->assertEquals('2018-03-13T14:02:29+00:00', $payment->createdAt);
 
-        $amount = new Stdclass();
+        $amount = new Stdclass;
         $amount->value = '20.00';
         $amount->currency = 'EUR';
         $this->assertEquals($amount, $payment->amount);
@@ -123,7 +123,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
-    public function testUpdatePayment()
+    public function test_update_payment()
     {
         $this->mockApiCall(
             new Request(
@@ -234,7 +234,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         );
     }
 
-    public function testGetPayment()
+    public function test_get_payment()
     {
         $this->mockApiCall(
             new Request(
@@ -306,7 +306,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals('test', $payment->mode);
         $this->assertEquals('2018-03-13T14:02:29+00:00', $payment->createdAt);
 
-        $amount = new Stdclass();
+        $amount = new Stdclass;
         $amount->value = '20.00';
         $amount->currency = 'EUR';
         $this->assertEquals($amount, $payment->amount);
@@ -316,12 +316,12 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals((object) ['order_id' => '1234'], $payment->metadata);
         $this->assertEquals(PaymentStatus::PAID, $payment->status);
 
-        $amountRefunded = new Stdclass();
+        $amountRefunded = new Stdclass;
         $amountRefunded->value = '0.00';
         $amountRefunded->currency = 'EUR';
         $this->assertEquals($amountRefunded, $payment->amountRefunded);
 
-        $amountRemaining = new Stdclass();
+        $amountRemaining = new Stdclass;
         $amountRemaining->value = '20.00';
         $amountRemaining->currency = 'EUR';
         $this->assertEquals($amountRemaining, $payment->amountRemaining);
@@ -345,7 +345,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals($documentationLink, $payment->_links->documentation);
     }
 
-    public function testListPayment()
+    public function test_list_payment()
     {
         $this->mockApiCall(
             new Request(
@@ -493,7 +493,7 @@ class PaymentEndpointTest extends BaseEndpointTest
         $this->assertEquals($nextLink, $payments->_links->next);
     }
 
-    public function testIteratePayment()
+    public function test_iterate_payment()
     {
         $this->mockApiCall(
             new Request(

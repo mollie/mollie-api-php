@@ -12,7 +12,7 @@ class ClientEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testGetClient()
+    public function test_get_client()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/clients/org_1337'),
@@ -57,7 +57,7 @@ class ClientEndpointTest extends BaseEndpointTest
         $this->assertClient($client);
     }
 
-    public function testGetClientsPage()
+    public function test_get_clients_page()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/clients', [], ''),

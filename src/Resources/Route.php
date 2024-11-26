@@ -4,6 +4,8 @@ namespace Mollie\Api\Resources;
 
 class Route extends BaseResource
 {
+    public static string $resourceIdPrefix = 'rt_';
+
     /**
      * Id of the payment method.
      *
@@ -29,6 +31,7 @@ class Route extends BaseResource
      * A UTC date. The settlement of a routed payment can be delayed on payment level, by specifying a release Date
      *
      * @example "2013-12-25"
+     *
      * @var string
      */
     public $releaseDate;

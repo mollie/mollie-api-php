@@ -17,7 +17,6 @@ class GetBalanceReportQueryFactory extends Factory
             DateTimeImmutable::createFromFormat('Y-m-d', $this->get('from')),
             DateTimeImmutable::createFromFormat('Y-m-d', $this->get('until')),
             $this->get('grouping'),
-            $this->get('testmode')
         );
     }
 }

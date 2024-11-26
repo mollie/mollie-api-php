@@ -6,21 +6,16 @@ class MandateCollection extends CursorCollection
 {
     /**
      * The name of the collection resource in Mollie's API.
-     *
-     * @var string
      */
-    public static string $collectionName = "mandates";
+    public static string $collectionName = 'mandates';
 
     /**
      * Resource class name.
-     *
-     * @var string
      */
     public static string $resource = Mandate::class;
 
     /**
-     * @param string $status
-     * @return MandateCollection
+     * @param  string  $status
      */
     public function whereStatus($status): self
     {

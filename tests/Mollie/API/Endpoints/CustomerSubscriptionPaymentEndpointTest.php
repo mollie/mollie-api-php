@@ -12,7 +12,7 @@ class CustomerSubscriptionPaymentEndpointTest extends BaseEndpointTest
 {
     use LinkObjectTestHelpers;
 
-    public function testListWorks()
+    public function test_list_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_8wmqcHMN4U/subscriptions/sub_8JfGzs6v3K/payments?testmode=true'),

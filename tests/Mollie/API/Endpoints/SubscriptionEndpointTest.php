@@ -11,7 +11,7 @@ use Mollie\Api\Types\SubscriptionStatus;
 
 class SubscriptionEndpointTest extends BaseEndpointTest
 {
-    public function testCreateWorks()
+    public function test_create_works()
     {
         $this->mockApiCall(
             new Request('POST', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
@@ -56,38 +56,38 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         /** @var Subscription $subscription */
         $subscription = $customer->createSubscription([
-            "amount" => [
-                "value" => "10.00",
-                "currency" => "EUR",
+            'amount' => [
+                'value' => '10.00',
+                'currency' => 'EUR',
             ],
-            "interval" => "1 month",
-            "description" => "Order 1234",
+            'interval' => '1 month',
+            'description' => 'Order 1234',
         ]);
 
         $this->assertInstanceOf(Subscription::class, $subscription);
-        $this->assertEquals("subscription", $subscription->resource);
-        $this->assertEquals("sub_wByQa6efm6", $subscription->id);
-        $this->assertEquals("test", $subscription->mode);
-        $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
+        $this->assertEquals('subscription', $subscription->resource);
+        $this->assertEquals('sub_wByQa6efm6', $subscription->id);
+        $this->assertEquals('test', $subscription->mode);
+        $this->assertEquals('2018-04-24T11:41:55+00:00', $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::ACTIVE, $subscription->status);
-        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
-        $this->assertEquals("Order 1234", $subscription->description);
+        $this->assertEquals((object) ['value' => '10.00', 'currency' => 'EUR'], $subscription->amount);
+        $this->assertEquals('Order 1234', $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
-        $this->assertEquals("1 month", $subscription->interval);
-        $this->assertEquals("2018-04-24", $subscription->startDate);
+        $this->assertEquals('1 month', $subscription->interval);
+        $this->assertEquals('2018-04-24', $subscription->startDate);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $subscription->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
     }
 
-    public function testGetWorks()
+    public function test_get_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
@@ -131,32 +131,32 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $customer = $this->getCustomer();
 
         /** @var Subscription $subscription */
-        $subscription = $customer->getSubscription("sub_wByQa6efm6");
+        $subscription = $customer->getSubscription('sub_wByQa6efm6');
 
         $this->assertInstanceOf(Subscription::class, $subscription);
-        $this->assertEquals("subscription", $subscription->resource);
-        $this->assertEquals("sub_wByQa6efm6", $subscription->id);
-        $this->assertEquals("test", $subscription->mode);
-        $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
+        $this->assertEquals('subscription', $subscription->resource);
+        $this->assertEquals('sub_wByQa6efm6', $subscription->id);
+        $this->assertEquals('test', $subscription->mode);
+        $this->assertEquals('2018-04-24T11:41:55+00:00', $subscription->createdAt);
         $this->assertEquals(SubscriptionStatus::ACTIVE, $subscription->status);
-        $this->assertEquals((object)["value" => "10.00", "currency" => "EUR"], $subscription->amount);
-        $this->assertEquals("Order 1234", $subscription->description);
+        $this->assertEquals((object) ['value' => '10.00', 'currency' => 'EUR'], $subscription->amount);
+        $this->assertEquals('Order 1234', $subscription->description);
         $this->assertNull($subscription->method);
         $this->assertNull($subscription->times);
-        $this->assertEquals("1 month", $subscription->interval);
-        $this->assertEquals("2018-04-24", $subscription->startDate);
+        $this->assertEquals('1 month', $subscription->interval);
+        $this->assertEquals('2018-04-24', $subscription->startDate);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $subscription->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
     }
 
-    public function testListWorks()
+    public function test_list_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/customers/cst_FhQJRw4s2n/subscriptions'),
@@ -218,20 +218,20 @@ class SubscriptionEndpointTest extends BaseEndpointTest
 
         $this->assertEquals(count($subscriptions), $subscriptions->count());
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/subscriptions-api/list-subscriptions', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $subscriptions->_links->documentation);
 
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions?limit=50", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions?limit=50', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $subscriptions->_links->self);
 
         foreach ($subscriptions as $subscription) {
             $this->assertInstanceOf(Subscription::class, $subscription);
-            $this->assertEquals("subscription", $subscription->resource);
+            $this->assertEquals('subscription', $subscription->resource);
             $this->assertNotEmpty($subscription->createdAt);
         }
     }
 
-    public function testCancelViaCustomerResourceWorks()
+    public function test_cancel_via_customer_resource_works()
     {
         $this->mockApiCall(
             new Request('DELETE', '/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6'),
@@ -276,28 +276,27 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $customer = $this->getCustomer();
 
         /** @var Subscription $subscription */
-        $subscription = $customer->cancelSubscription("sub_wByQa6efm6");
+        $subscription = $customer->cancelSubscription('sub_wByQa6efm6');
 
         $this->assertInstanceOf(Subscription::class, $subscription);
-        $this->assertEquals("subscription", $subscription->resource);
-        $this->assertEquals("sub_wByQa6efm6", $subscription->id);
-        $this->assertEquals("test", $subscription->mode);
+        $this->assertEquals('subscription', $subscription->resource);
+        $this->assertEquals('sub_wByQa6efm6', $subscription->id);
+        $this->assertEquals('test', $subscription->mode);
         $this->assertEquals(SubscriptionStatus::CANCELED, $subscription->status);
-        $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
-        $this->assertEquals("2018-04-24T12:31:32+00:00", $subscription->canceledAt);
+        $this->assertEquals('2018-04-24T11:41:55+00:00', $subscription->createdAt);
+        $this->assertEquals('2018-04-24T12:31:32+00:00', $subscription->canceledAt);
 
-
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n/subscriptions/sub_wByQa6efm6', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $subscription->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_FhQJRw4s2n", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_FhQJRw4s2n', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
     }
 
-    public function testCancelOnSubscriptionResourceWorks($value = '')
+    public function test_cancel_on_subscription_resource_works($value = '')
     {
         $this->mockApiCall(
             new Request('DELETE', '/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx'),
@@ -344,25 +343,24 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $subscription = $subscription->cancel();
 
         $this->assertInstanceOf(Subscription::class, $subscription);
-        $this->assertEquals("subscription", $subscription->resource);
-        $this->assertEquals("sub_DRjwaT5qHx", $subscription->id);
-        $this->assertEquals("test", $subscription->mode);
+        $this->assertEquals('subscription', $subscription->resource);
+        $this->assertEquals('sub_DRjwaT5qHx', $subscription->id);
+        $this->assertEquals('test', $subscription->mode);
         $this->assertEquals(SubscriptionStatus::CANCELED, $subscription->status);
-        $this->assertEquals("2018-04-24T11:41:55+00:00", $subscription->createdAt);
-        $this->assertEquals("2018-04-24T12:31:32+00:00", $subscription->canceledAt);
+        $this->assertEquals('2018-04-24T11:41:55+00:00', $subscription->createdAt);
+        $this->assertEquals('2018-04-24T12:31:32+00:00', $subscription->canceledAt);
 
-
-        $selfLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx", "type" => "application/hal+json"];
+        $selfLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx', 'type' => 'application/hal+json'];
         $this->assertEquals($selfLink, $subscription->_links->self);
 
-        $customerLink = (object)["href" => "https://api.mollie.com/v2/customers/cst_VhjQebNW5j", "type" => "application/hal+json"];
+        $customerLink = (object) ['href' => 'https://api.mollie.com/v2/customers/cst_VhjQebNW5j', 'type' => 'application/hal+json'];
         $this->assertEquals($customerLink, $subscription->_links->customer);
 
-        $documentationLink = (object)["href" => "https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription", "type" => "text/html"];
+        $documentationLink = (object) ['href' => 'https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription', 'type' => 'text/html'];
         $this->assertEquals($documentationLink, $subscription->_links->documentation);
     }
 
-    public function testThatUpdateSubscriptionWorks()
+    public function test_that_update_subscription_works()
     {
         $expectedAmountValue = '12.00';
         $expectedAmountCurrency = 'EUR';
@@ -381,14 +379,14 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                     "createdAt": "2018-07-17T07:45:52+00:00",
                     "status": "active",
                     "amount": {
-                        "value": "' . $expectedAmountValue . '",
-                        "currency": "' . $expectedAmountCurrency . '"
+                        "value": "'.$expectedAmountValue.'",
+                        "currency": "'.$expectedAmountCurrency.'"
                     },
                     "description": "Mollie Recurring subscription #1",
                     "method": null,
                     "times": 42,
                     "interval": "15 days",
-                    "startDate": "' . $expectedStartDate . '",
+                    "startDate": "'.$expectedStartDate.'",
                     "webhookUrl": "https://example.org/webhook",
                     "_links": {
                         "self": {
@@ -409,7 +407,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         );
 
         $subscription = $this->getSubscription();
-        $expectedAmountObject = (object)[
+        $expectedAmountObject = (object) [
             'value' => $expectedAmountValue,
             'currency' => $expectedAmountCurrency,
         ];
@@ -422,7 +420,7 @@ class SubscriptionEndpointTest extends BaseEndpointTest
         $this->assertEquals($expectedAmountObject, $updatedSubscription->amount);
     }
 
-    public function testListPageOfRootSubscriptionsWorks()
+    public function test_list_page_of_root_subscriptions_works()
     {
         $this->mockApiCall(
             new Request('GET', '/v2/subscriptions'),

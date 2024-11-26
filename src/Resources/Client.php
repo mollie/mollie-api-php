@@ -17,6 +17,7 @@ class Client extends BaseResource implements EmbeddedResourcesContract
      * UTC datetime the order was created in ISO-8601 format.
      *
      * @example "2018-03-21T13:13:37+00:00"
+     *
      * @var string|null
      */
     public $organizationCreatedAt;

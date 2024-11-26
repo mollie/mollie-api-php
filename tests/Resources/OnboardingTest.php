@@ -15,7 +15,7 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider dpTestOnboardingStatuses
      */
-    public function testOnboardingStatuses($status, $function, $expected_boolean)
+    public function test_onboarding_statuses($status, $function, $expected_boolean)
     {
         $orderLine = new Onboarding($this->createMock(MollieApiClient::class));
         $orderLine->status = $status;

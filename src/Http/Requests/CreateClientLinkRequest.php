@@ -2,13 +2,16 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Http\Payload\CreateClientLinkPayload;
-use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\ClientLink;
+use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CreateClientLinkRequest extends Request
+class CreateClientLinkRequest extends ResourceHydratableRequest implements HasPayload
 {
+    use HasJsonPayload;
+
     /**
      * Define the HTTP method.
      */
@@ -33,7 +36,6 @@ class CreateClientLinkRequest extends Request
 
     public function resolveResourcePath(): string
     {
-
         return 'client-links';
     }
 }
