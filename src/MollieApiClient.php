@@ -42,6 +42,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Resources\BalanceTransactionCollection;
@@ -166,7 +167,7 @@ class MollieApiClient implements Connector
 
     public function resolveBaseUrl(): string
     {
-        return rtrim($this->apiEndpoint, '/').'/'.self::API_VERSION;
+        return Url::join($this->apiEndpoint, self::API_VERSION);
     }
 
     public function __serialize(): array
