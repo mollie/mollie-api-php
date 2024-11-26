@@ -2,8 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
 class Balance extends BaseResource
 {
+    use HasMode;
+
     /**
      * Resource id prefix. Used to validate resource id's.
      */

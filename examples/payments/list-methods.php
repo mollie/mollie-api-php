@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to get the currently activated payment methods for the Payments API.
  */

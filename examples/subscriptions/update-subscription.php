@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Updating an existing subscription via the Mollie API.
  */

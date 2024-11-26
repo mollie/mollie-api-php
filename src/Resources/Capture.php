@@ -2,8 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
 class Capture extends BaseResource
 {
+    use HasMode;
+
     /**
      * Always 'capture' for this object
      *

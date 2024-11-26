@@ -1,4 +1,5 @@
 <?php
+
 /*
  * List the Mollie invoices.
  */

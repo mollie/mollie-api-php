@@ -18,6 +18,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
      * @param  string|null  $from  The first payment ID you want to include in your list.
      * @param  int|null  $limit  The maximum amount of results you want to retrieve per page.
      * @param  bool|array  $testmode
+     *
      * @throws ApiException
      */
     public function pageFor(Subscription $subscription, ?string $from = null, ?int $limit = null, $testmode = []): PaymentCollection
@@ -31,6 +32,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
      * @param  string|null  $from  The first payment ID you want to include in your list.
      * @param  int|null  $limit  The maximum amount of results you want to retrieve per page.
      * @param  bool|array  $testmode
+     *
      * @throws ApiException
      */
     public function pageForIds(

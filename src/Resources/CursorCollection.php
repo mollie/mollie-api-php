@@ -4,12 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Generator;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Traits\InteractsWithResource;
 
 abstract class CursorCollection extends BaseCollection
 {
-    use InteractsWithResource;
-
     /**
      * Return the next set of resources when available
      *

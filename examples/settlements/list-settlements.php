@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Using OAuth access token to list settlements of an account.
  */

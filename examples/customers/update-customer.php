@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Updating an existing customer via the Mollie API.
  */

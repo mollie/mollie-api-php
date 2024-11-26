@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to show a return page to the customer.
  *

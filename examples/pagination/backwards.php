@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to use pagination with the Mollie API.
  *

@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 
 class GetPaymentLinkRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

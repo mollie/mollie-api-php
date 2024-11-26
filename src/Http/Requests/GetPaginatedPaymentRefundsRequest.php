@@ -3,10 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
-use Mollie\Api\Http\Query\GetPaginatedPaymentRefundQuery;
-use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Http\Query\GetPaginatedPaymentRefundQuery;
 use Mollie\Api\Resources\RefundCollection;
+use Mollie\Api\Traits\IsIteratableRequest;
 
 class GetPaginatedPaymentRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {

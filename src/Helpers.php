@@ -73,7 +73,6 @@ class Helpers
             static::getProperties($class)
         );
 
-        // Filter out the properties that are not part of the CreatePaymentData object
         return array_filter(
             $array,
             fn ($key) => ! in_array($key, $properties, true),

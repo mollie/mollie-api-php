@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to prepare an iDEAL payment with the Mollie API.
  */

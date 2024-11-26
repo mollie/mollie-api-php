@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Create a customer mandate via the Mollie API.
  */

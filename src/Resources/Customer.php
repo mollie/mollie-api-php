@@ -3,10 +3,11 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Traits\HasMode;
 
 class Customer extends BaseResource
 {
-    use HasPresetOptions;
+    use HasMode;
 
     public static string $resourceIdPrefix = 'cst_';
 
@@ -82,7 +83,12 @@ class Customer extends BaseResource
      */
     public function createPayment(array $options = [], array $filters = [])
     {
-        return $this->connector->customerPayments->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->customerPayments->createFor(
+            $this,
+            $options,
+            $filters,
+            $this->isInTestmode()
+        );
     }
 
     /**
@@ -94,7 +100,7 @@ class Customer extends BaseResource
      */
     public function payments()
     {
-        return $this->connector->customerPayments->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->customerPayments->pageFor($this, null, null, $this->withMode());
     }
 
     /**
@@ -104,7 +110,7 @@ class Customer extends BaseResource
      */
     public function createSubscription(array $options = [], array $filters = [])
     {
-        return $this->connector->subscriptions->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->subscriptions->createFor($this, $options, $this->isInTestmode());
     }
 
     /**
@@ -113,9 +119,9 @@ class Customer extends BaseResource
      *
      * @throws ApiException
      */
-    public function getSubscription($subscriptionId, array $parameters = [])
+    public function getSubscription($subscriptionId)
     {
-        return $this->connector->subscriptions->getFor($this, $subscriptionId, $this->withPresetOptions($parameters));
+        return $this->connector->subscriptions->getFor($this, $subscriptionId, $this->isInTestmode());
     }
 
     /**
@@ -126,7 +132,7 @@ class Customer extends BaseResource
      */
     public function cancelSubscription($subscriptionId)
     {
-        return $this->connector->subscriptions->cancelFor($this, $subscriptionId, $this->getPresetOptions());
+        return $this->connector->subscriptions->cancelFor($this, $subscriptionId, $this->isInTestmode());
     }
 
     /**
@@ -138,7 +144,7 @@ class Customer extends BaseResource
      */
     public function subscriptions()
     {
-        return $this->connector->subscriptions->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->subscriptions->pageFor($this, null, null, $this->withMode());
     }
 
     /**
@@ -146,9 +152,9 @@ class Customer extends BaseResource
      *
      * @throws ApiException
      */
-    public function createMandate(array $options = [], array $filters = [])
+    public function createMandate(array $options = [])
     {
-        return $this->connector->mandates->createFor($this, $this->withPresetOptions($options), $filters);
+        return $this->connector->mandates->createFor($this, $options, $this->isInTestmode());
     }
 
     /**
@@ -159,7 +165,7 @@ class Customer extends BaseResource
      */
     public function getMandate($mandateId, array $parameters = [])
     {
-        return $this->connector->mandates->getFor($this, $mandateId, $parameters);
+        return $this->connector->mandates->getFor($this, $mandateId, $this->withMode($parameters));
     }
 
     /**
@@ -170,7 +176,7 @@ class Customer extends BaseResource
      */
     public function revokeMandate($mandateId)
     {
-        return $this->connector->mandates->revokeFor($this, $mandateId, $this->getPresetOptions());
+        return $this->connector->mandates->revokeFor($this, $mandateId, $this->withMode());
     }
 
     /**
@@ -182,7 +188,7 @@ class Customer extends BaseResource
      */
     public function mandates()
     {
-        return $this->connector->mandates->listFor($this, null, null, $this->getPresetOptions());
+        return $this->connector->mandates->pageFor($this, null, null, $this->withMode());
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Delete a customer from the Mollie API.
  */

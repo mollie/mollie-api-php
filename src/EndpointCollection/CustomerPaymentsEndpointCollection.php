@@ -3,9 +3,12 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaginatedCustomerPaymentsQueryFactory;
 use Mollie\Api\Helpers;
 use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\Customer;
@@ -18,30 +21,37 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     /**
      * Create a subscription for a Customer
      *
-     * @param  array  $payload
      *
      * @throws ApiException
      */
-    public function createFor(Customer $customer, array $payload = []): Payment
+    public function createFor(Customer $customer, array $payload = [], array $query = [], bool $testmode = false): Payment
     {
-        return $this->createForId($customer->id, $payload, $testmode);
+        return $this->createForId($customer->id, $payload, $query, $testmode);
     }
 
     /**
      * Create a subscription for a Customer ID
      *
      * @param  string  $customerId
-     * @param  array|  $payload
+     * @param  array|CreatePaymentPayload  $payload
+     * @param  array|CreatePaymentQuery  $query
      *
      * @throws ApiException
      */
-    public function createForId($customerId, array $payload = []): Payment
+    public function createForId($customerId, $payload = [], $query = [], bool $testmode = false): Payment
     {
-        $testmode = Helpers::extractBool($payload, 'testmode', false);
-        $profileId = Arr::get($payload, 'profileId');
+        if (! $payload instanceof CreatePaymentPayload) {
+            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $payload = CreatePaymentPayloadFactory::new($payload)
+                ->create();
+        }
+
+        if (! $query instanceof CreatePaymentQuery) {
+            $query = CreatePaymentQuery::fromArray(Arr::wrap($query));
+        }
 
         /** @var Payment */
-        return $this->send((new CreateCustomerPaymentRequest($customerId, $profileId))->test($testmode));
+        return $this->send((new CreateCustomerPaymentRequest($customerId, $payload, $query))->test($testmode));
     }
 
     /**
@@ -49,9 +59,9 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): PaymentCollection
+    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
-        return $this->pageForId($customer->id, $from, $limit, $parameters);
+        return $this->pageForId($customer->id, $from, $limit, $filters);
     }
 
     /**

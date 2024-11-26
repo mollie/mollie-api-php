@@ -6,10 +6,12 @@ use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\MollieApiClient;
 
 #[\AllowDynamicProperties]
 abstract class BaseResource implements HasResponse
 {
+    /** @var MollieApiClient */
     protected Connector $connector;
 
     protected ?Response $response;

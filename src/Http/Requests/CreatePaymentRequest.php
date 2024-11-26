@@ -3,12 +3,12 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 
 class CreatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInQuery
 {

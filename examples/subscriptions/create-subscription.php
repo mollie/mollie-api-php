@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to create a regular subscription.
  */

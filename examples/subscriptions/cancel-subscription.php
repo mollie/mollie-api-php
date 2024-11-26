@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to cancel a subscription.
  */

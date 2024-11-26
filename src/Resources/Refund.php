@@ -3,11 +3,12 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\RefundStatus;
 
 class Refund extends BaseResource
 {
-    use HasPresetOptions;
+    use HasMode;
 
     public static string $resourceIdPrefix = 're_';
 
@@ -167,6 +168,6 @@ class Refund extends BaseResource
             ->send((new CancelPaymentRefundRequest(
                 $this->paymentId,
                 $this->id
-            ))->test($this->mode === 'test'));
+            ))->test($this->isInTestmode()));
     }
 }

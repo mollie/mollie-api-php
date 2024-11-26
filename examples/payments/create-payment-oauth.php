@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Example 10 -  Using OAuth access token to prepare a new payment.
  */

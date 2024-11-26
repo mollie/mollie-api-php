@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Make sure to disable the display of errors in production code!
  */

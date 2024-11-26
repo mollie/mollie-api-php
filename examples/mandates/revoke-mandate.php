@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Revoke a customer mandate
  */

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to create a new client link in the Mollie API.
  */

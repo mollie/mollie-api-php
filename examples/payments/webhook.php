@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to verify Mollie API Payments in a webhook.
  *

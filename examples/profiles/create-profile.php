@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Create a profile via the Mollie API.
  */

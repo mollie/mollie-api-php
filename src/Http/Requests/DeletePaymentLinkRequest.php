@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Types\Method;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Types\Method;
 
 class DeletePaymentLinkRequest extends SimpleRequest implements SupportsTestmodeInQuery
 {

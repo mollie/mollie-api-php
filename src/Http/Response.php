@@ -3,7 +3,6 @@
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\SupportsResourceHydration;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Traits\HandlesResourceCreation;

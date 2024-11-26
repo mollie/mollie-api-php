@@ -2,9 +2,7 @@
 
 namespace Mollie\Api\Http\PendingRequest;
 
-use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\Http\PendingRequest;
 
 class AuthenticateRequest

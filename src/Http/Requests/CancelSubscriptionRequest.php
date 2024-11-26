@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 
 class CancelSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

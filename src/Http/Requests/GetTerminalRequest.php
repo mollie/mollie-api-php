@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Resources\Terminal;
 
 class GetTerminalRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

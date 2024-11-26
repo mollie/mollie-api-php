@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Delete a profile via the Mollie API.
  */

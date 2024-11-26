@@ -3,10 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Resources\SubscriptionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 
 class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {

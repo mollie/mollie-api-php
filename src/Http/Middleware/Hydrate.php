@@ -12,7 +12,7 @@ class Hydrate
 
     public function __invoke(Response $response)
     {
-        if (! $response->getRequest()::$shouldAutoHydrate || !$response->getRequest() instanceof ResourceHydratableRequest) {
+        if (! $response->getRequest()::$shouldAutoHydrate || ! $response->getRequest() instanceof ResourceHydratableRequest) {
             return $response;
         }
 

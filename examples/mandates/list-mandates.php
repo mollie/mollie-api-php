@@ -1,4 +1,5 @@
 <?php
+
 /*
  * List all customer mandates
  */

@@ -17,7 +17,6 @@ use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use Mollie\Api\Resources\LazyCollection;
-use Symfony\Component\Console\Helper\Helper;
 
 class CustomerEndpointCollection extends EndpointCollection
 {
@@ -26,6 +25,7 @@ class CustomerEndpointCollection extends EndpointCollection
      *
      * @param  array|CreateCustomerPayload  $data  An array containing details on the customer.
      * @param  array|bool|null  $testmode
+     *
      * @throws ApiException
      */
     public function create($data = [], $testmode = []): Customer

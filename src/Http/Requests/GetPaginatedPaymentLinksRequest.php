@@ -3,10 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\PaymentLinkCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 
 class GetPaginatedPaymentLinksRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {

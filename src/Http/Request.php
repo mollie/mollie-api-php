@@ -9,8 +9,8 @@ use Mollie\Api\Traits\HasRequestProperties;
 
 abstract class Request
 {
-    use HasMiddleware;
     use HandlesTestmode;
+    use HasMiddleware;
     use HasRequestProperties;
 
     /**

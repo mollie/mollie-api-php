@@ -4,7 +4,7 @@ namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
 
-trait IsDebuggable
+trait IsDebuggableAdapter
 {
     /**
      * @var bool

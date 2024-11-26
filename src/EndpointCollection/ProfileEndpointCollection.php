@@ -67,6 +67,7 @@ class ProfileEndpointCollection extends EndpointCollection
     public function getCurrent($testmode = []): CurrentProfile
     {
         GetProfileRequest::$targetResourceClass = CurrentProfile::class;
+
         /** @var CurrentProfile */
         return $this->get('me', $testmode);
     }

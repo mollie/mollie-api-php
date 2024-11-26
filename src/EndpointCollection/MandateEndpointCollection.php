@@ -8,9 +8,9 @@ use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Helpers;
 use Mollie\Api\Http\Payload\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
-use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
+use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
@@ -22,20 +22,18 @@ class MandateEndpointCollection extends EndpointCollection
      * Creates a mandate for a specific customer.
      *
      * @param  array  $payload
-     * @param  array  $filters
      *
      * @throws ApiException
      */
-    public function createFor(Customer $customer, $payload = []): Mandate
+    public function createFor(Customer $customer, $payload = [], bool $testmode = false): Mandate
     {
-        return $this->createForId($customer->id, $payload);
+        return $this->createForId($customer->id, $payload, $testmode);
     }
 
     /**
      * Creates a mandate for a specific customer ID.
      *
      * @param  array  $payload
-     * @param  array  $filters
      *
      * @throws ApiException
      */
@@ -82,7 +80,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function revokeFor(Customer $customer, string $mandateId, array $data = []): void
+    public function revokeFor(Customer $customer, string $mandateId, $data = []): void
     {
         $this->revokeForId($customer->id, $mandateId, $data);
     }
@@ -94,7 +92,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function revokeForId(string $customerId, string $mandateId, array $testmode = []): void
+    public function revokeForId(string $customerId, string $mandateId, $testmode = []): void
     {
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 

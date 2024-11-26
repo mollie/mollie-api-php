@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to update an session with the Mollie API
  */

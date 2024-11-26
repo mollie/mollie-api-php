@@ -4,13 +4,18 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\Payload\Metadata;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\UpdatePaymentRequest;
+use Mollie\Api\Traits\HasMode;
+use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
 class Payment extends BaseResource implements EmbeddedResourcesContract
 {
-    use HasPresetOptions;
+    use HasMode;
 
     /**
      * Resource id prefix. Used to validate resource id's.
@@ -610,7 +615,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function getRefund($refundId, array $parameters = []): Refund
     {
-        return $this->connector->paymentRefunds->getFor($this, $refundId, $this->withPresetOptions($parameters));
+        return $this->connector->paymentRefunds->getFor($this, $refundId, $parameters, $this->isInTestmode());
     }
 
     /**
@@ -621,9 +626,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
         return $this
             ->connector
             ->paymentRefunds
-            ->listFor(
+            ->pageFor(
                 $this,
-                $this->withPresetOptions($parameters)
+                null,
+                null,
+                $this->withMode($parameters),
             );
     }
 
@@ -656,7 +663,8 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
         return $this->connector->paymentCaptures->getFor(
             $this,
             $captureId,
-            $this->withPresetOptions($parameters)
+            $parameters,
+            $this->isInTestmode()
         );
     }
 
@@ -691,7 +699,8 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
         return $this->connector->paymentChargebacks->getFor(
             $this,
             $chargebackId,
-            $this->withPresetOptions($parameters)
+            $parameters,
+            $this->isInTestmode()
         );
     }
 
@@ -712,22 +721,26 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function update(): ?Payment
     {
-        $body = [
-            'description' => $this->description,
-            'cancelUrl' => $this->cancelUrl,
-            'redirectUrl' => $this->redirectUrl,
-            'webhookUrl' => $this->webhookUrl,
-            'metadata' => $this->metadata,
-            'restrictPaymentMethodsToCountry' => $this->restrictPaymentMethodsToCountry,
-            'locale' => $this->locale,
-            'dueDate' => $this->dueDate,
-        ];
+        $additional = [];
+        if ($this->method === PaymentMethod::BANKTRANSFER) {
+            $additional['dueDate'] = $this->dueDate;
+        }
 
-        /** @var null|Payment */
-        return $this->connector->payments->update(
-            $this->id,
-            $this->withPresetOptions($body)
+        $payload = new UpdatePaymentPayload(
+            $this->description,
+            $this->redirectUrl,
+            $this->cancelUrl,
+            $this->webhookUrl,
+            new Metadata($this->metadata),
+            $this->method,
+            $this->locale,
+            $this->restrictPaymentMethodsToCountry,
+            $additional
         );
+
+        return $this
+            ->connector
+            ->send((new UpdatePaymentRequest($this->id, $payload))->test($this->isInTestmode()));
     }
 
     /**

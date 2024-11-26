@@ -1,4 +1,5 @@
 <?php
+
 /*
  * List sessions using the Mollie API.
  */

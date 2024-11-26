@@ -107,7 +107,7 @@ class PaymentChargebackEndpointCollection extends EndpointCollection
 
         return $this->send(
             (new GetPaginatedPaymentChargebacksRequest($paymentId, $query))
-            ->useIterator()
+                ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)
         );

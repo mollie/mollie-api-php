@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
 class BalanceTransaction extends BaseResource
 {
+    use HasMode;
+
     /**
      * Indicates this is a balance transaction resource. The value will always be "balance_transaction" here.
      *

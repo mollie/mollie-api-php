@@ -54,9 +54,9 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     /**
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function getFor(Payment $payment, string $refundId, array $parameters = []): Refund
+    public function getFor(Payment $payment, string $refundId, array $parameters = [], bool $testmode = false): Refund
     {
-        return $this->getForId($payment->id, $refundId, $parameters);
+        return $this->getForId($payment->id, $refundId, $parameters, $testmode);
     }
 
     /**

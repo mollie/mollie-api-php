@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to create a new customer in the Mollie API.
  */

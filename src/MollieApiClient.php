@@ -12,39 +12,36 @@ use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
-use Mollie\Api\EndpointCollection\CustomerPaymentsEndpoint;
+use Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection;
+use Mollie\Api\EndpointCollection\InvoiceEndpointCollection;
+use Mollie\Api\EndpointCollection\MandateEndpointCollection;
+use Mollie\Api\EndpointCollection\MethodEndpointCollection;
+use Mollie\Api\EndpointCollection\MethodIssuerEndpointCollection;
+use Mollie\Api\EndpointCollection\OnboardingEndpointCollection;
 use Mollie\Api\EndpointCollection\OrderEndpointCollection;
+use Mollie\Api\EndpointCollection\OrderShipmentEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
+use Mollie\Api\EndpointCollection\OrganizationPartnerEndpoint;
+use Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentLinkPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
-use Mollie\Api\Endpoints\InvoiceEndpoint;
-use Mollie\Api\Endpoints\MandateEndpoint;
-use Mollie\Api\Endpoints\MethodEndpoint;
-use Mollie\Api\Endpoints\MethodIssuerEndpoint;
-use Mollie\Api\Endpoints\OnboardingEndpoint;
-use Mollie\Api\Endpoints\OrderLineEndpoint;
-use Mollie\Api\Endpoints\OrderPaymentEndpoint;
-use Mollie\Api\Endpoints\OrderRefundEndpoint;
-use Mollie\Api\Endpoints\OrderShipmentEndpoint;
-use Mollie\Api\Endpoints\OrganizationPartnerEndpoint;
-use Mollie\Api\Endpoints\PaymentCaptureEndpoint;
-use Mollie\Api\Endpoints\PaymentChargebackEndpoint;
-use Mollie\Api\Endpoints\PaymentLinkEndpoint;
-use Mollie\Api\Endpoints\PaymentLinkPaymentEndpoint;
-use Mollie\Api\Endpoints\PaymentRouteEndpoint;
-use Mollie\Api\Endpoints\PermissionEndpoint;
-use Mollie\Api\Endpoints\ProfileEndpoint;
-use Mollie\Api\Endpoints\ProfileMethodEndpoint;
-use Mollie\Api\Endpoints\RefundEndpoint;
-use Mollie\Api\Endpoints\SettlementCaptureEndpoint;
-use Mollie\Api\Endpoints\SettlementChargebackEndpoint;
-use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
-use Mollie\Api\Endpoints\SettlementRefundEndpoint;
-use Mollie\Api\Endpoints\SettlementsEndpoint;
-use Mollie\Api\Endpoints\SubscriptionEndpoint;
-use Mollie\Api\Endpoints\SubscriptionPaymentEndpoint;
-use Mollie\Api\Endpoints\TerminalEndpoint;
-use Mollie\Api\Endpoints\WalletEndpoint;
+use Mollie\Api\EndpointCollection\PaymentRouteEndpointCollection;
+use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
+use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
+use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
+use Mollie\Api\EndpointCollection\RefundEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementPaymentEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementsEndpointCollection;
+use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
+use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
+use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
+use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Resources\BalanceTransactionCollection;
@@ -67,40 +64,37 @@ use Mollie\Api\Traits\SendsRequests;
  * @property ChargebackEndpointCollection $chargebacks
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks
- * @property CustomerPaymentsEndpoint $customerPayments
+ * @property CustomerPaymentsEndpointCollection $customerPayments
  * @property CustomerEndpointCollection $customers
- * @property InvoiceEndpoint $invoices
- * @property MandateEndpoint $mandates
- * @property MethodEndpoint $methods
- * @property MethodIssuerEndpoint $methodIssuers
- * @property OnboardingEndpoint $onboarding
+ * @property InvoiceEndpointCollection $invoices
+ * @property MandateEndpointCollection $mandates
+ * @property MethodEndpointCollection $methods
+ * @property MethodIssuerEndpointCollection $methodIssuers
+ * @property OnboardingEndpointCollection $onboarding
  * @property OrderEndpointCollection $orders
- * @property OrderLineEndpoint $orderLines
- * @property OrderPaymentEndpoint $orderPayments
- * @property OrderRefundEndpoint $orderRefunds
  * @property OrganizationEndpointCollection $organizations
  * @property OrganizationPartnerEndpoint $organizationPartners
  * @property PaymentEndpointCollection $payments
- * @property PaymentCaptureEndpoint $paymentCaptures
- * @property PaymentChargebackEndpoint $paymentChargebacks
- * @property PaymentLinkEndpoint $paymentLinks
- * @property PaymentLinkPaymentEndpoint $paymentLinkPayments
+ * @property PaymentCaptureEndpointCollection $paymentCaptures
+ * @property PaymentChargebackEndpointCollection $paymentChargebacks
+ * @property PaymentLinkEndpointCollection $paymentLinks
+ * @property PaymentLinkPaymentEndpointCollection $paymentLinkPayments
  * @property PaymentRefundEndpointCollection $paymentRefunds
- * @property PaymentRouteEndpoint $paymentRoutes
- * @property PermissionEndpoint $permissions
- * @property ProfileEndpoint $profiles
- * @property ProfileMethodEndpoint $profileMethods
- * @property RefundEndpoint $refunds
- * @property SettlementsEndpoint $settlements
- * @property SettlementCaptureEndpoint $settlementCaptures
- * @property SettlementChargebackEndpoint $settlementChargebacks
- * @property SettlementPaymentEndpoint $settlementPayments
- * @property SettlementRefundEndpoint $settlementRefunds
- * @property OrderShipmentEndpoint $shipments
- * @property SubscriptionEndpoint $subscriptions
- * @property SubscriptionPaymentEndpoint $subscriptionPayments
- * @property TerminalEndpoint $terminals
- * @property WalletEndpoint $wallets
+ * @property PaymentRouteEndpointCollection $paymentRoutes
+ * @property PermissionEndpointCollection $permissions
+ * @property ProfileEndpointCollection $profiles
+ * @property ProfileMethodEndpointCollection $profileMethods
+ * @property RefundEndpointCollection $refunds
+ * @property SettlementsEndpointCollection $settlements
+ * @property SettlementCaptureEndpointCollection $settlementCaptures
+ * @property SettlementChargebackEndpointCollection $settlementChargebacks
+ * @property SettlementPaymentEndpointCollection $settlementPayments
+ * @property SettlementRefundEndpointCollection $settlementRefunds
+ * @property OrderShipmentEndpointCollection $shipments
+ * @property SubscriptionEndpointCollection $subscriptions
+ * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
+ * @property TerminalEndpointCollection $terminals
+ * @property WalletEndpointCollection $wallets
  * @property HttpAdapterContract $httpClient
  */
 class MollieApiClient implements Connector

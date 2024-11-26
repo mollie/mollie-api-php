@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to retrieve your customers' payments history.
  */

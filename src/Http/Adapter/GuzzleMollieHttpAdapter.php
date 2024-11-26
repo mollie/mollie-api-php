@@ -17,14 +17,14 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Helpers\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Traits\IsDebuggable;
+use Mollie\Api\Traits\IsDebuggableAdapter;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebuggingContract
 {
-    use IsDebuggable;
+    use IsDebuggableAdapter;
 
     /**
      * Default response timeout (in seconds).

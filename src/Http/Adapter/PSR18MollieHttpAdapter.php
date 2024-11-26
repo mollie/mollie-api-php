@@ -8,7 +8,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Helpers\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Traits\IsDebuggable;
+use Mollie\Api\Traits\IsDebuggableAdapter;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -18,7 +18,7 @@ use Psr\Http\Message\UriFactoryInterface;
 
 final class PSR18MollieHttpAdapter implements HttpAdapterContract, SupportsDebuggingContract
 {
-    use IsDebuggable;
+    use IsDebuggableAdapter;
 
     private ClientInterface $httpClient;
 

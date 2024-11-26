@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Retrieve a payment capture using the Mollie API.
  */

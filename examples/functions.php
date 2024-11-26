@@ -1,4 +1,5 @@
 <?php
+
 /*
  * NOTE: The examples are using a text file as a database.
  * Please use a real database like MySQL in production code.

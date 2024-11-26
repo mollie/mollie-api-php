@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Cancel an session using the Mollie API.
  */

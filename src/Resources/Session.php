@@ -2,11 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\SessionStatus;
 
 class Session extends BaseResource
 {
-    use HasPresetOptions;
+    use HasMode;
 
     /**
      * The session's unique identifier,
@@ -153,9 +154,7 @@ class Session extends BaseResource
             'shippingAddress' => $this->shippingAddress,
         ];
 
-        $result = $this->client->sessions->update($this->id, $this->withPresetOptions($body));
-
-        return ResourceFactory::createFromApiResult($result, new Session($this->client));
+        return $this->connector->sessions->update($this->id, $this->withMode($body));
     }
 
     /**
@@ -167,7 +166,7 @@ class Session extends BaseResource
      */
     public function cancel()
     {
-        return $this->client->sessions->cancel($this->id, $this->getPresetOptions());
+        return $this->connector->sessions->cancel($this->id, $this->withMode());
     }
 
     /**

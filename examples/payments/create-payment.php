@@ -1,4 +1,5 @@
 <?php
+
 /*
  * How to prepare a new payment with the Mollie API.
  */

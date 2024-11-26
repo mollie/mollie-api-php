@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Request;
 use Mollie\Api\Contracts\SupportsResourceHydration;
+use Mollie\Api\Http\Request;
 
 abstract class ResourceHydratableRequest extends Request implements SupportsResourceHydration
 {

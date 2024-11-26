@@ -1,4 +1,5 @@
 <?php
+
 /*
  * List captures for a payment using the Mollie API.
  */
