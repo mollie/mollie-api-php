@@ -1,0 +1,14 @@
+{
+  "id": "csr_ayCz46QLwCbxpTaSYQQZH",
+  "resource": "client-link",
+  "_links": {
+    "clientLink": {
+      "href": "https://my.mollie.com/dashboard/client-link/csr_ayCz46QLwCbxpTaSYQQZH",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

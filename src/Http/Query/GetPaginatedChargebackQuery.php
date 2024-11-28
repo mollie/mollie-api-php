@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Types\PaymentIncludesQuery;
+
 class GetPaginatedChargebackQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
@@ -25,7 +27,7 @@ class GetPaginatedChargebackQuery extends Query
         return array_merge(
             $this->paginatedQuery->toArray(),
             [
-                'include' => $this->includePayment ? 'payment' : null,
+                'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
                 'profileId' => $this->profileId,
             ]
         );

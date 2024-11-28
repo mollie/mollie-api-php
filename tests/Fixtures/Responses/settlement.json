@@ -1,0 +1,125 @@
+{
+  "resource": "settlement",
+  "id": "{{ RESOURCE_ID }}",
+  "reference": "1234567.2404.03",
+  "status": "paidout",
+  "amount": {
+    "currency": "EUR",
+    "value": "39.75"
+  },
+  "balanceId": "bal_3kUf4yU2nT",
+  "periods": {
+    "2024": {
+      "04": {
+        "revenue": [
+          {
+            "description": "iDEAL",
+            "method": "ideal",
+            "count": 6,
+            "amountNet": {
+              "currency": "EUR",
+              "value": "86.1000"
+            },
+            "amountVat": null,
+            "amountGross": {
+              "currency": "EUR",
+              "value": "86.1000"
+            }
+          },
+          {
+            "description": "Refunds iDEAL",
+            "method": "refund",
+            "count": 2,
+            "amountNet": {
+              "currency": "EUR",
+              "value": "-43.2000"
+            },
+            "amountVat": null,
+            "amountGross": {
+              "currency": "EUR",
+              "value": "-43.2000"
+            }
+          }
+        ],
+        "costs": [
+          {
+            "description": "iDEAL",
+            "method": "ideal",
+            "count": 6,
+            "rate": {
+              "fixed": {
+                "currency": "EUR",
+                "value": "0.3500"
+              },
+              "percentage": null
+            },
+            "amountNet": {
+              "currency": "EUR",
+              "value": "2.1000"
+            },
+            "amountVat": {
+              "currency": "EUR",
+              "value": "0.4410"
+            },
+            "amountGross": {
+              "currency": "EUR",
+              "value": "2.5410"
+            }
+          },
+          {
+            "description": "Refunds iDEAL",
+            "method": "refund",
+            "count": 2,
+            "rate": {
+              "fixed": {
+                "currency": "EUR",
+                "value": "0.2500"
+              },
+              "percentage": null
+            },
+            "amountNet": {
+              "currency": "EUR",
+              "value": "0.5000"
+            },
+            "amountVat": {
+              "currency": "EUR",
+              "value": "0.1050"
+            },
+            "amountGross": {
+              "currency": "EUR",
+              "value": "0.6050"
+            }
+          }
+        ],
+        "invoiceId": "inv_FrvewDA3Pr"
+      }
+    }
+  },
+  "settledAt": "2024-04-06T09:41:44.0Z",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "payments": {
+      "href": "https://api.mollie.com/v2/settlements/{{ RESOURCE_ID }}/payments",
+      "type": "application/hal+json"
+    },
+    "refunds": {
+      "href": "https://api.mollie.com/v2/settlements/{{ RESOURCE_ID }}/refunds",
+      "type": "application/hal+json"
+    },
+    "chargebacks": {
+      "href": "https://api.mollie.com/v2/settlements/{{ RESOURCE_ID }}/chargebacks",
+      "type": "application/hal+json"
+    },
+    "captures": {
+      "href": "https://api.mollie.com/v2/settlements/{{ RESOURCE_ID }}/captures",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

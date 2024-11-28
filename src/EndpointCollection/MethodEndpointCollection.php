@@ -3,12 +3,12 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetAllMethodsQueryFactory as GetAllPaymentMethodsQueryFactory;
-use Mollie\Api\Factories\GetEnabledMethodsQueryFactory as GetEnabledPaymentMethodsQueryFactory;
+use Mollie\Api\Factories\GetAllPaymentMethodsQueryFactory;
+use Mollie\Api\Factories\GetEnabledPaymentMethodsQueryFactory;
 use Mollie\Api\Factories\GetPaymentMethodQueryFactory;
 use Mollie\Api\Helpers;
 use Mollie\Api\Http\Query\GetAllMethodsQuery as GetAllPaymentMethodsQuery;
-use Mollie\Api\Http\Query\GetEnabledMethodsQuery as GetEnabledPaymentMethodsQuery;
+use Mollie\Api\Http\Query\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Http\Query\GetPaymentMethodQuery;
 use Mollie\Api\Http\Requests\GetAllMethodsRequest as GetAllPaymentMethodsRequest;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest as GetEnabledPaymentMethodsRequest;

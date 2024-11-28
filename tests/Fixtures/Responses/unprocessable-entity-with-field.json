@@ -5,7 +5,7 @@
   "field": "recurringType",
   "_links": {
     "documentation": {
-      "href": "https://docs.mollie.com/guides/handling-errors",
+      "href": "...",
       "type": "text/html"
     }
   }

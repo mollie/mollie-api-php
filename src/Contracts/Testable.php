@@ -4,5 +4,5 @@ namespace Mollie\Api\Contracts;
 
 interface Testable
 {
-    public function getTestmode(): bool;
+    public function getTestmode(): ?bool;
 }

@@ -3,7 +3,9 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Factories\GetClientQueryFactory;
 use Mollie\Api\Factories\GetPaginatedClientQueryFactory;
+use Mollie\Api\Http\Query\GetClientQuery;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\Client;
@@ -18,13 +20,19 @@ class ClientEndpointCollection extends EndpointCollection
      * Will throw an ApiException if the client id is invalid or the resource cannot be found.
      * The client id corresponds to the organization id, for example "org_1337".
      *
+     * @param  string  $id  The client ID.
+     * @param  GetClientQuery|array  $query  The query parameters.
      *
      * @throws ApiException
      */
-    public function get(string $id, array $embed = []): Client
+    public function get(string $id, $query = []): Client
     {
+        if (!$query instanceof GetClientQuery) {
+            $query = GetClientQueryFactory::new($query)->create();
+        }
+
         /** @var Client */
-        return $this->send(new GetClientRequest($id, $embed));
+        return $this->send(new GetClientRequest($id, $query));
     }
 
     /**

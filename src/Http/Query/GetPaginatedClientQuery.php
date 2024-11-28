@@ -3,19 +3,22 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
-
+use Mollie\Api\Types\ClientQuery;
 class GetPaginatedClientQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
 
-    public array $embed = [];
+    private bool $embedOrganization;
+    private bool $embedOnboarding;
 
     public function __construct(
         PaginatedQuery $paginatedQuery,
-        array $embed = []
+        bool $embedOrganization = false,
+        bool $embedOnboarding = false,
     ) {
         $this->paginatedQuery = $paginatedQuery;
-        $this->embed = $embed;
+        $this->embedOrganization = $embedOrganization;
+        $this->embedOnboarding = $embedOnboarding;
     }
 
     public function toArray(): array
@@ -23,7 +26,10 @@ class GetPaginatedClientQuery extends Query
         return array_merge(
             $this->paginatedQuery->toArray(),
             [
-                'embed' => Arr::join($this->embed),
+                'embed' => Arr::join([
+                    $this->embedOrganization ? ClientQuery::EMBED_ORGANIZATION : null,
+                    $this->embedOnboarding ? ClientQuery::EMBED_ONBOARDING : null,
+                ]),
             ]
         );
     }

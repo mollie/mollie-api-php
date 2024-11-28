@@ -20,7 +20,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageFor(Balance $balance, $query = [], ?bool $testmode = null): BalanceTransactionCollection
+    public function pageFor(Balance $balance, $query = [], bool $testmode = false): BalanceTransactionCollection
     {
         return $this->pageForId($balance->id, $query, $testmode);
     }
@@ -30,7 +30,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
+    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
     {
         return $this->iteratorForId($balance->id, $parameters, $iterateBackwards, $testmode);
     }
@@ -42,7 +42,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForPrimary($query = [], ?bool $testmode = null): BalanceTransactionCollection
+    public function pageForPrimary($query = [], bool $testmode = false): BalanceTransactionCollection
     {
         /** @var BalanceTransactionCollection */
         return $this->pageForId('primary', $query, $testmode);

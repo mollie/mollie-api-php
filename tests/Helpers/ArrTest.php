@@ -57,4 +57,13 @@ class ArrTest extends TestCase
 
         $this->assertEquals($array, Arr::wrap($array));
     }
+
+    /** @test */
+    public function includes(): void
+    {
+        $array = ['includes' => ['payment']];
+
+        $this->assertTrue(Arr::includes($array, 'includes', 'payment'));
+        $this->assertFalse(Arr::includes($array, 'includes', 'refund'));
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Types\PaymentIncludesQuery;
+
 class GetPaginatedPaymentRefundQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
@@ -21,7 +23,7 @@ class GetPaginatedPaymentRefundQuery extends Query
         return array_merge(
             $this->paginatedQuery->toArray(),
             [
-                'include' => $this->includePayment ? 'payment' : null,
+                'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
             ]
         );
     }

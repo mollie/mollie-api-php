@@ -22,15 +22,15 @@
   "webhookUrl": "https://example.org/webhook",
   "_links": {
     "self": {
-      "href": "https://api.mollie.com/v2/payments/tr_44aKxzEbr8",
+      "href": "...",
       "type": "application/hal+json"
     },
     "checkout": {
-      "href": "https://www.mollie.com/payscreen/select-method/44aKxzEbr8",
+      "href": "...",
       "type": "text/html"
     },
     "documentation": {
-      "href": "https://docs.mollie.com/reference/v2/payments-api/create-payment",
+      "href": "...",
       "type": "text/html"
     }
   }

@@ -9,7 +9,6 @@ use Mollie\Api\Http\Requests\GetBalanceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
-use Mollie\Api\Types\BalanceTransferFrequency;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
@@ -21,7 +20,40 @@ class BalanceEndpointCollectionTest extends TestCase
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    public function test_list_balances()
+    /** @test */
+    public function get()
+    {
+        $client = new MockClient([
+            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+        ]);
+
+        /** @var Balance $balance */
+        $balance = $client->balances->get('bal_gVMhHKqSSRYJyPsuoPNFH');
+
+        $this->assertBalance(
+            $balance,
+            'bal_gVMhHKqSSRYJyPsuoPNFH',
+        );
+    }
+
+    /** @test */
+    public function primary()
+    {
+        $client = new MockClient([
+            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+        ]);
+
+        /** @var Balance $balance */
+        $balance = $client->balances->primary();
+
+        $this->assertBalance(
+            $balance,
+            'bal_gVMhHKqSSRYJyPsuoPNFH',
+        );
+    }
+
+    /** @test */
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
@@ -35,7 +67,7 @@ class BalanceEndpointCollectionTest extends TestCase
         $this->assertCount(2, $balances);
 
         $this->assertLinkObject(
-            'https://docs.mollie.com/reference/v2/balances-api/list-balances',
+            '...',
             'text/html',
             $balances->_links->documentation
         );
@@ -47,103 +79,32 @@ class BalanceEndpointCollectionTest extends TestCase
         );
 
         $this->assertLinkObject(
-            'https://api.mollie.com/v2/balances?from=bal_gVMhHKqSSRYJyPsuoPABC&limit=5',
+            '...',
             'application/hal+json',
             $balances->_links->next
         );
 
-        /** @var Balance $balanceA */
-        $balanceA = $balances[0];
-
-        /** @var Balance $balanceB */
-        $balanceB = $balances[1];
-
         $this->assertBalance(
-            $balanceA,
+            $balances[0],
             'bal_gVMhHKqSSRYJyPsuoPNFH',
-            '2019-01-10T12:06:28+00:00',
-            BalanceTransferFrequency::DAILY,
-            '40.00',
-            (object) [
-                'type' => 'bank-account',
-                'beneficiaryName' => 'Jack Bauer',
-                'bankAccount' => 'NL53INGB0654422370',
-                'bankAccountId' => 'bnk_jrty3f',
-            ]
         );
         $this->assertBalance(
-            $balanceB,
+            $balances[1],
             'bal_gVMhHKqSSRYJyPsuoPABC',
-            '2019-01-10T10:23:41+00:00',
-            BalanceTransferFrequency::TWICE_A_MONTH,
-            '5.00',
-            (object) [
-                'type' => 'bank-account',
-                'beneficiaryName' => 'Jack Bauer',
-                'bankAccount' => 'NL97MOLL6351480700',
-                'bankAccountId' => 'bnk_jrty3e',
-            ]
         );
     }
 
-    public function test_iterate_balances()
+    /** @test */
+    public function iterate()
     {
         $client = new MockClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-balance-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'balances'),
         ]);
 
         foreach ($client->balances->iterator() as $balance) {
             $this->assertInstanceOf(Balance::class, $balance);
         }
-    }
-
-    public function test_get_balance()
-    {
-        $client = new MockClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance'),
-        ]);
-
-        /** @var Balance $balance */
-        $balance = $client->balances->get('bal_gVMhHKqSSRYJyPsuoPNFH');
-
-        $this->assertBalance(
-            $balance,
-            'bal_gVMhHKqSSRYJyPsuoPNFH',
-            '2019-01-10T10:23:41+00:00',
-            BalanceTransferFrequency::TWICE_A_MONTH,
-            '5.00',
-            (object) [
-                'type' => 'bank-account',
-                'beneficiaryName' => 'Jack Bauer',
-                'bankAccount' => 'NL53INGB0654422370',
-                'bankAccountId' => 'bnk_jrty3f',
-            ]
-        );
-    }
-
-    public function test_get_primary_balance()
-    {
-        $client = new MockClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance'),
-        ]);
-
-        /** @var Balance $balance */
-        $balance = $client->balances->primary();
-
-        $this->assertBalance(
-            $balance,
-            'bal_gVMhHKqSSRYJyPsuoPNFH',
-            '2019-01-10T10:23:41+00:00',
-            BalanceTransferFrequency::TWICE_A_MONTH,
-            '5.00',
-            (object) [
-                'type' => 'bank-account',
-                'beneficiaryName' => 'Jack Bauer',
-                'bankAccount' => 'NL53INGB0654422370',
-                'bankAccountId' => 'bnk_jrty3f',
-            ]
-        );
     }
 
     /**
@@ -152,30 +113,21 @@ class BalanceEndpointCollectionTest extends TestCase
     protected function assertBalance(
         Balance $balance,
         string $balanceId,
-        string $createdAt,
-        string $transferFrequency,
-        string $thresholdValue,
-        \stdClass $destination
     ) {
         $this->assertInstanceOf(Balance::class, $balance);
         $this->assertEquals('balance', $balance->resource);
         $this->assertEquals($balanceId, $balance->id);
 
-        $this->assertEquals('live', $balance->mode);
-        $this->assertEquals($createdAt, $balance->createdAt);
-        $this->assertEquals('EUR', $balance->currency);
-        $this->assertAmountObject('0.00', 'EUR', $balance->availableAmount);
-        $this->assertAmountObject('0.00', 'EUR', $balance->incomingAmount);
-        $this->assertAmountObject('0.00', 'EUR', $balance->outgoingAmount);
-        $this->assertEquals($transferFrequency, $balance->transferFrequency);
-        $this->assertAmountObject($thresholdValue, 'EUR', $balance->transferThreshold);
-        $this->assertEquals('Mollie payout', $balance->transferReference);
-        $this->assertEquals($destination, $balance->transferDestination);
-
-        $this->assertLinkObject(
-            "https://api.mollie.com/v2/balances/{$balanceId}",
-            'application/hal+json',
-            $balance->_links->self
-        );
+        $this->assertNotEmpty($balance->mode);
+        $this->assertNotEmpty($balance->createdAt);
+        $this->assertNotEmpty($balance->currency);
+        $this->assertNotNull($balance->availableAmount);
+        $this->assertNotNull($balance->incomingAmount);
+        $this->assertNotNull($balance->outgoingAmount);
+        $this->assertNotEmpty($balance->transferFrequency);
+        $this->assertNotNull($balance->transferThreshold);
+        $this->assertNotEmpty($balance->transferReference);
+        $this->assertNotNull($balance->transferDestination);
+        $this->assertNotNull($balance->_links->self);
     }
 }

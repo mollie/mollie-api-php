@@ -2,20 +2,20 @@
 
 namespace Mollie\Api\Http\Query;
 
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaginatedPaymentChargebacksQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
 
-    public array $include = [];
+    public bool $includePayment = false;
 
     public function __construct(
         PaginatedQuery $paginatedQuery,
-        array $include = []
+        bool $includePayment = false
     ) {
         $this->paginatedQuery = $paginatedQuery;
-        $this->include = $include;
+        $this->includePayment = $includePayment;
     }
 
     public function toArray(): array
@@ -23,7 +23,7 @@ class GetPaginatedPaymentChargebacksQuery extends Query
         return array_merge(
             $this->paginatedQuery->toArray(),
             [
-                'include' => Arr::join($this->include),
+                'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : [],
             ]
         );
     }

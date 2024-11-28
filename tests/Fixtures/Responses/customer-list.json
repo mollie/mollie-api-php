@@ -1,0 +1,36 @@
+{
+  "count": 5,
+  "_embedded": {
+    "customers": [
+      {
+        "resource": "customer",
+        "id": "cst_8wmqcHMN4U",
+        "mode": "live",
+        "name": "John Doe",
+        "email": "customer@example.org",
+        "createdAt": "2023-04-06T13:10:19.0Z",
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/customers?from=cst_stTC2WHAuS&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

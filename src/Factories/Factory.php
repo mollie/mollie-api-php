@@ -49,6 +49,15 @@ abstract class Factory implements FactoryContract
     }
 
     /**
+     * @param  string|array<string>  $key
+     * @param  mixed  $value
+     */
+    protected function includes($key, $value, $backupKey = 'filters.'): bool
+    {
+        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
+    }
+
+    /**
      * Map a value to a new form if it is not null.
      *
      * @param  string|array<string>  $key  The key to retrieve the value from the data array.

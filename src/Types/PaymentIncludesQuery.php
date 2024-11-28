@@ -4,9 +4,9 @@ namespace Mollie\Api\Types;
 
 class PaymentIncludesQuery
 {
-    const INCLUDE_PAYMENT = 'payment';
+    const PAYMENT = 'payment';
 
     const INCLUDES = [
-        self::INCLUDE_PAYMENT,
+        self::PAYMENT,
     ];
 }

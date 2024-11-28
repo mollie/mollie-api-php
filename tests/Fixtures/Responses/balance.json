@@ -31,11 +31,11 @@
   },
   "_links": {
     "self": {
-      "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH",
+      "href": "...",
       "type": "application/hal+json"
     },
     "documentation": {
-      "href": "https://docs.mollie.com/reference/v2/balances-api/get-balance",
+      "href": "...",
       "type": "text/html"
     }
   }

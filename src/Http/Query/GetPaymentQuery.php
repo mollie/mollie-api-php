@@ -3,26 +3,46 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Types\PaymentQuery;
 
 class GetPaymentQuery extends Query
 {
-    public array $embed = [];
+    public bool $embedCaptures = false;
 
-    public array $include = [];
+    public bool $embedRefunds = false;
+
+    public bool $embedChargebacks = false;
+
+    public bool $includeQrCode = false;
+
+    public bool $includeRemainderDetails = false;
 
     public function __construct(
-        array $embed = [],
-        array $include = [],
+        bool $embedCaptures = false,
+        bool $embedRefunds = false,
+        bool $embedChargebacks = false,
+        bool $includeQrCode = false,
+        bool $includeRemainderDetails = false,
     ) {
-        $this->embed = $embed;
-        $this->include = $include;
+        $this->embedCaptures = $embedCaptures;
+        $this->embedRefunds = $embedRefunds;
+        $this->embedChargebacks = $embedChargebacks;
+        $this->includeQrCode = $includeQrCode;
+        $this->includeRemainderDetails = $includeRemainderDetails;
     }
 
     public function toArray(): array
     {
         return [
-            'embed' => Arr::join($this->embed),
-            'include' => Arr::join($this->include),
+            'embed' => Arr::join([
+                $this->embedCaptures ? PaymentQuery::EMBED_CAPTURES : null,
+                $this->embedRefunds ? PaymentQuery::EMBED_REFUNDS : null,
+                $this->embedChargebacks ? PaymentQuery::EMBED_CHARGEBACKS : null,
+            ]),
+            'include' => Arr::join([
+                $this->includeQrCode ? PaymentQuery::INCLUDE_QR_CODE : null,
+                $this->includeRemainderDetails ? PaymentQuery::INCLUDE_REMAINDER_DETAILS : null,
+            ]),
         ];
     }
 }

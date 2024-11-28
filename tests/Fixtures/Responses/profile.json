@@ -1,0 +1,29 @@
+{
+  "resource": "profile",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "live",
+  "name": "My website name",
+  "website": "https://shop.example.org",
+  "email": "info@example.org",
+  "phone": "+31208202070",
+  "businessCategory": "OTHER_MERCHANDISE",
+  "status": "verified",
+  "review": {
+    "status": "pending"
+  },
+  "createdAt": "2023-03-20T09:28:37.0Z",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://www.mollie.com/dashboard/org_123456789/settings/profiles/pfl_QkEhN94Ba",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

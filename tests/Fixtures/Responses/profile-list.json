@@ -1,0 +1,43 @@
+{
+  "count": 1,
+  "_embedded": {
+    "profiles": [
+      {
+        "resource": "profile",
+        "id": "pfl_QkEhN94Ba",
+        "mode": "live",
+        "name": "My website name",
+        "website": "https://shop.example.org",
+        "email": "info@example.org",
+        "phone": "+31208202070",
+        "businessCategory": "OTHER_MERCHANDISE",
+        "status": "verified",
+        "review": {
+          "status": "pending"
+        },
+        "createdAt": "2023-03-20T09:28:37.0Z",
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/profiles?from=pfl_v9hTwCvYqw&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

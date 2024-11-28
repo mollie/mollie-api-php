@@ -2,23 +2,23 @@
 
 namespace Mollie\Api\Http\Query;
 
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaginatedRefundsQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
 
-    public array $embed = [];
+    private bool $embedPayment;
 
-    public ?string $profileId = null;
+    private ?string $profileId;
 
     public function __construct(
         PaginatedQuery $paginatedQuery,
-        array $embed = [],
+        bool $embedPayment = false,
         ?string $profileId = null
     ) {
         $this->paginatedQuery = $paginatedQuery;
-        $this->embed = $embed;
+        $this->embedPayment = $embedPayment;
         $this->profileId = $profileId;
     }
 
@@ -27,7 +27,7 @@ class GetPaginatedRefundsQuery extends Query
         return array_merge(
             $this->paginatedQuery->toArray(),
             [
-                'embed' => Arr::join($this->embed),
+                'embed' => $this->embedPayment ? PaymentIncludesQuery::PAYMENT : null,
                 'profileId' => $this->profileId,
             ]
         );

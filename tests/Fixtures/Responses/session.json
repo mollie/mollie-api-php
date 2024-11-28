@@ -1,0 +1,24 @@
+{
+  "id": "{{ RESOURCE_ID }}",
+  "status": "created",
+  "amount": {
+    "value": 10.00,
+    "currency": "EUR"
+  },
+  "description": "Order #12345",
+  "method": "paypal",
+  "methodDetails": {
+    "checkoutFlow": "express"
+  },
+  "nextAction": "redirect",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/sessions/{{ RESOURCE_ID }}",
+      "type": "application/hal+json"
+    },
+    "redirect": {
+      "href": "https://paypalc.com/order/dghjfidf;gj",
+      "type": "application/hal+json"
+    }
+  }
+}

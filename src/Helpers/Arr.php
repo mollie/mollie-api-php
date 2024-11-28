@@ -85,4 +85,27 @@ class Arr
     {
         return is_array($array) ? $array : [$array];
     }
+
+    /**
+     * Check if a value exists in an array of includes.
+     * @param  array  $array
+     * @param  string|array<string>  $key
+     * @param  mixed  $value
+     *
+     * @example includes(['includes' => ['payment']], 'includes', 'payment') => true
+     * @example includes(['includes' => ['refund']], 'includes', 'payment') => false
+     * @example includes(['includes' => ['payment' => 'foo']], 'includes.payment', 'foo') => true
+     */
+    public static function includes(array $array, $key, $value): bool
+    {
+        $keys = (array) $key;
+
+        foreach ($keys as $k) {
+            if (Arr::has($array, $k) && in_array($value, Arr::wrap(Arr::get($array, $k, [])))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

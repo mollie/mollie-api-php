@@ -3,22 +3,18 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Query\GetPaginatedClientQuery;
-
+use Mollie\Api\Types\ClientQuery;
 class GetPaginatedClientQueryFactory extends Factory
 {
-    private PaginatedQueryFactory $paginatedQueryFactory;
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->paginatedQueryFactory = new PaginatedQueryFactory($attributes);
-    }
-
     public function create(): GetPaginatedClientQuery
     {
+        $embedOrganization = $this->includes('embed', ClientQuery::EMBED_ORGANIZATION);
+        $embedOnboarding = $this->includes('embed', ClientQuery::EMBED_ONBOARDING);
+
         return new GetPaginatedClientQuery(
-            $this->paginatedQueryFactory->create(),
-            $this->get('embed', [])
+            PaginatedQueryFactory::new($this->data)->create(),
+            $this->get('embedOrganization', $embedOrganization),
+            $this->get('embedOnboarding', $embedOnboarding),
         );
     }
 }

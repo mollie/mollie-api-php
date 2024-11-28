@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetEnabledMethodsQuery;
+use Mollie\Api\Http\Query\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
 
@@ -13,9 +13,9 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 
     public static string $targetResourceClass = MethodCollection::class;
 
-    private GetEnabledMethodsQuery $query;
+    private GetEnabledPaymentMethodsQuery $query;
 
-    public function __construct(GetEnabledMethodsQuery $query)
+    public function __construct(GetEnabledPaymentMethodsQuery $query)
     {
         $this->query = $query;
     }

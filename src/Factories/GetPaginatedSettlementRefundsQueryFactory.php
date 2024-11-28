@@ -3,12 +3,13 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Query\GetPaginatedSettlementRefundsQuery;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaginatedSettlementRefundsQueryFactory extends Factory
 {
     public function create(): GetPaginatedSettlementRefundsQuery
     {
-        $includePayment = $this->has(['filters.include', 'filters.includePayment']);
+        $includePayment = $this->includes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementRefundsQuery(
             PaginatedQueryFactory::new($this->data)->create(),

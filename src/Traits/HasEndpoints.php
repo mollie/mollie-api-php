@@ -3,6 +3,8 @@
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
+use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
+use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
@@ -35,7 +37,6 @@ use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\Endpoints\ProfileMethodEndpoint;
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\BalanceTransactionCollection;
 
 /**
  * @mixin MollieApiClient
@@ -54,8 +55,8 @@ trait HasEndpoints
 
         $endpointClasses = [
             'balances' => BalanceEndpointCollection::class,
-            'balanceReports' => BalanceEndpointCollection::class,
-            'balanceTransactions' => BalanceTransactionCollection::class,
+            'balanceReports' => BalanceReportEndpointCollection::class,
+            'balanceTransactions' => BalanceTransactionEndpointCollection::class,
             'chargebacks' => ChargebackEndpointCollection::class,
             'clients' => ClientEndpointCollection::class,
             'clientLinks' => ClientLinkEndpointCollection::class,

@@ -45,7 +45,6 @@ use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
-use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\HandlesAuthentication;
 use Mollie\Api\Traits\HandlesAutoHydration;
 use Mollie\Api\Traits\HandlesDebugging;
@@ -61,7 +60,7 @@ use Mollie\Api\Traits\SendsRequests;
 /**
  * @property BalanceEndpointCollection $balances
  * @property BalanceReportEndpointCollection $balanceReports
- * @property BalanceTransactionCollection $balanceTransactions
+ * @property BalanceTransactionEndpointCollection $balanceTransactions
  * @property ChargebackEndpointCollection $chargebacks
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks

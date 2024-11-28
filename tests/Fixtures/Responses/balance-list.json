@@ -35,7 +35,7 @@
         },
         "_links": {
           "self": {
-            "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPNFH",
+            "href": "...",
             "type": "application/hal+json"
           }
         }
@@ -73,7 +73,7 @@
         },
         "_links": {
           "self": {
-            "href": "https://api.mollie.com/v2/balances/bal_gVMhHKqSSRYJyPsuoPABC",
+            "href": "...",
             "type": "application/hal+json"
           }
         }
@@ -82,7 +82,7 @@
   },
   "_links": {
     "documentation": {
-      "href": "https://docs.mollie.com/reference/v2/balances-api/list-balances",
+      "href": "...",
       "type": "text/html"
     },
     "self": {
@@ -91,7 +91,7 @@
     },
     "previous": null,
     "next": {
-      "href": "https://api.mollie.com/v2/balances?from=bal_gVMhHKqSSRYJyPsuoPABC&limit=5",
+      "href": "...",
       "type": "application/hal+json"
     }
   }

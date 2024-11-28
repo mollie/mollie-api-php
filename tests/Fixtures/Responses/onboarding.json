@@ -1,0 +1,26 @@
+{
+  "resource": "onboarding",
+  "name": "Mollie B.V.",
+  "status": "completed",
+  "canReceivePayments": true,
+  "canReceiveSettlements": true,
+  "signedUpAt": "2023-12-20T10:49:08.0Z",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://www.mollie.com/dashboard/onboarding",
+      "type": "text/html"
+    },
+    "organization": {
+      "href": "https://api.mollie.com/v2/organizations/org_12345678",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

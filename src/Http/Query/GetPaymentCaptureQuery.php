@@ -3,21 +3,21 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
-
+use Mollie\Api\Types\PaymentIncludesQuery;
 class GetPaymentCaptureQuery extends Query
 {
-    public array $include = [];
+    public bool $includePayment = false;
 
     public function __construct(
-        array $include = []
+        bool $includePayment = false
     ) {
-        $this->include = $include;
+        $this->includePayment = $includePayment;
     }
 
     public function toArray(): array
     {
         return [
-            'include' => Arr::join($this->include),
+            'include' => Arr::join($this->includePayment ? [PaymentIncludesQuery::PAYMENT] : []),
         ];
     }
 }

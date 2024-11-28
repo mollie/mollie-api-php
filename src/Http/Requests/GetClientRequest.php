@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Http\Query\GetClientQuery;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Types\Method;
 
@@ -20,19 +20,17 @@ class GetClientRequest extends ResourceHydratableRequest
 
     private string $id;
 
-    private array $embed;
+    private GetClientQuery $query;
 
-    public function __construct(string $id, array $embed = [])
+    public function __construct(string $id, GetClientQuery $query)
     {
         $this->id = $id;
-        $this->embed = $embed;
+        $this->query = $query;
     }
 
     protected function defaultQuery(): array
     {
-        return [
-            'embed' => Arr::join($this->embed),
-        ];
+        return $this->query->toArray();
     }
 
     public function resolveResourcePath(): string

@@ -9,7 +9,7 @@ class GetBalanceReportQueryFactory extends Factory
 {
     public function create(): GetBalanceReportQuery
     {
-        if (! $this->has(['from', 'unitl'])) {
+        if (! $this->has(['from', 'until'])) {
             throw new \InvalidArgumentException('The "from" and "until" fields are required.');
         }
 

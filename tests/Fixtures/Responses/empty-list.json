@@ -1,15 +1,15 @@
 {
-  "count": 2,
+  "count": 0,
   "_embedded": {
-    "balances": []
+    "{{ RESOURCE_ID }}": []
   },
   "_links": {
     "documentation": {
-      "href": "https://docs.mollie.com/reference/v2/balances-api/list-balances",
+      "href": "...",
       "type": "text/html"
     },
     "self": {
-      "href": "https://api.mollie.com/v2/balances?limit=5",
+      "href": "...",
       "type": "application/hal+json"
     },
     "previous": null,
