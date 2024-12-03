@@ -26,7 +26,7 @@ class GetEnabledPaymentMethodsQuery extends Query
         return [
             'sequenceType' => $this->sequenceType,
             'locale' => $this->locale,
-            'amount' => $this->amount?->data(),
+            'amount' => $this->amount ? $this->amount->data() : null,
             'resource' => $this->resource,
             'billingCountry' => $this->billingCountry,
             'includeWallets' => Arr::join($this->includeWallets ?? []),

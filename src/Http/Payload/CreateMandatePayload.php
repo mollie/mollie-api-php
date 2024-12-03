@@ -50,7 +50,7 @@ class CreateMandatePayload extends DataBag
             'consumerAccount' => $this->consumerAccount,
             'consumerBic' => $this->consumerBic,
             'consumerEmail' => $this->consumerEmail,
-            'signatureDate' => $this->signatureDate?->format('Y-m-d'),
+            'signatureDate' => $this->signatureDate ? $this->signatureDate->format('Y-m-d') : null,
             'mandateReference' => $this->mandateReference,
             'paypalBillingAgreementId' => $this->paypalBillingAgreementId,
         ];

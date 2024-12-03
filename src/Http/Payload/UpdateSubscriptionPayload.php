@@ -48,7 +48,7 @@ class UpdateSubscriptionPayload extends DataBag
             'amount' => $this->amount,
             'description' => $this->description,
             'interval' => $this->interval,
-            'startDate' => $this->startDate?->format('Y-m-d'),
+            'startDate' => $this->startDate ? $this->startDate->format('Y-m-d') : null,
             'times' => $this->times,
             'metadata' => $this->metadata,
             'webhookUrl' => $this->webhookUrl,

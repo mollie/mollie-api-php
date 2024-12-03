@@ -66,7 +66,7 @@ class CreateSubscriptionPayload extends DataBag
             'description' => $this->description,
             'status' => $this->status,
             'times' => $this->times,
-            'startDate' => $this->startDate?->format('Y-m-d'),
+            'startDate' => $this->startDate ? $this->startDate->format('Y-m-d') : null,
             'method' => $this->method,
             'applicationFee' => $this->applicationFee,
             'metadata' => $this->metadata,

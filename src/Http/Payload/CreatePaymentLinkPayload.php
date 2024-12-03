@@ -47,7 +47,7 @@ class CreatePaymentLinkPayload extends DataBag
             'webhookUrl' => $this->webhookUrl,
             'profileId' => $this->profileId,
             'reusable' => $this->reusable,
-            'expiresAt' => $this->expiresAt?->format('Y-m-d'),
+            'expiresAt' => $this->expiresAt ? $this->expiresAt->format('Y-m-d') : null,
         ];
     }
 }

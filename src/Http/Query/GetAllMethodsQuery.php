@@ -35,7 +35,7 @@ class GetAllMethodsQuery extends Query
                 $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
             ]),
             'locale' => $this->locale,
-            'amount' => $this->amount?->data(),
+            'amount' => $this->amount ? $this->amount->data() : null,
         ];
     }
 }
