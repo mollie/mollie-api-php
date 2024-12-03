@@ -9,14 +9,23 @@ use Mollie\Api\Types\MethodQuery;
 class GetEnabledPaymentMethodsQuery extends Query
 {
     private string $sequenceType;
+
     private string $resource;
+
     private ?string $locale;
+
     private ?Money $amount;
+
     private ?string $billingCountry;
+
     private ?array $includeWallets;
+
     private ?array $orderLineCategories;
+
     private ?string $profileId;
+
     private ?bool $includeIssuers;
+
     private ?bool $includePricing;
 
     public function __construct(
