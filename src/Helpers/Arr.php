@@ -88,7 +88,7 @@ class Arr
 
     /**
      * Check if a value exists in an array of includes.
-     * @param  array  $array
+     *
      * @param  string|array<string>  $key
      * @param  mixed  $value
      *

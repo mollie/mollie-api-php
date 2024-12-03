@@ -4,6 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Query\GetPaginatedClientQuery;
 use Mollie\Api\Types\ClientQuery;
+
 class GetPaginatedClientQueryFactory extends Factory
 {
     public function create(): GetPaginatedClientQuery

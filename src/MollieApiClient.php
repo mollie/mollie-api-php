@@ -33,6 +33,7 @@ use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
 use Mollie\Api\EndpointCollection\RefundEndpointCollection;
+use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementPaymentEndpointCollection;
@@ -55,7 +56,6 @@ use Mollie\Api\Traits\HasEndpoints;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\Initializable;
-use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\Traits\SendsRequests;
 
 /**

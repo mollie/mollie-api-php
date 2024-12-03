@@ -4,11 +4,13 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\ClientQuery;
+
 class GetPaginatedClientQuery extends Query
 {
     private PaginatedQuery $paginatedQuery;
 
     private bool $embedOrganization;
+
     private bool $embedOnboarding;
 
     public function __construct(

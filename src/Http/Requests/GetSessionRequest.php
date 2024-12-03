@@ -13,6 +13,7 @@ class GetSessionRequest extends ResourceHydratableRequest
     public static string $targetResourceClass = Session::class;
 
     private string $sessionId;
+
     private AnyQuery $query;
 
     public function __construct(string $sessionId, AnyQuery $query)

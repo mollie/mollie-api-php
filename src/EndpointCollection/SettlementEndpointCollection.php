@@ -18,7 +18,8 @@ class SettlementEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the settlement id is invalid or the resource cannot be found.
      *
-     * @param array|bool $testmode
+     * @param  array|bool  $testmode
+     *
      * @throws ApiException
      */
     public function get(string $settlementId, $testmode = []): Settlement
@@ -32,7 +33,8 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieve the next settlement from Mollie.
      *
-     * @param array|bool $testmode
+     * @param  array|bool  $testmode
+     *
      * @throws ApiException
      */
     public function next($testmode = []): ?Settlement
@@ -43,7 +45,8 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieve the open balance from Mollie.
      *
-     * @param array|bool $testmode
+     * @param  array|bool  $testmode
+     *
      * @throws ApiException
      */
     public function open($testmode = []): ?Settlement
@@ -54,7 +57,8 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieve a collection of settlements from Mollie.
      *
-     * @param string|null $from The first settlement ID you want to include in your list.
+     * @param  string|null  $from  The first settlement ID you want to include in your list.
+     *
      * @throws ApiException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): SettlementCollection
@@ -74,8 +78,8 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Create an iterator for iterating over settlements retrieved from Mollie.
      *
-     * @param string|null $from The first settlement ID you want to include in your list.
-     * @param bool $iterateBackwards Set to true for reverse order iteration (default is false).
+     * @param  string|null  $from  The first settlement ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iterator(
         ?string $from = null,

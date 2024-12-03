@@ -4,6 +4,7 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\PaymentIncludesQuery;
+
 class GetPaymentCaptureQuery extends Query
 {
     public bool $includePayment = false;

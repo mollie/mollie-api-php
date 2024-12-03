@@ -3,16 +3,16 @@
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
+use Mollie\Api\Http\Requests\DeleteCustomerRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetCustomerRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
-use Mollie\Api\Http\Requests\DeleteCustomerRequest;
-use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class CustomerEndpointCollectionTest extends TestCase
 {

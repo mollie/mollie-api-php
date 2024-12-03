@@ -4,16 +4,15 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class CustomerPaymentsEndpointCollectionTest extends TestCase
 {

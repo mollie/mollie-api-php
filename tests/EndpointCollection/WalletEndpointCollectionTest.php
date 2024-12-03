@@ -4,9 +4,9 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class WalletEndpointCollectionTest extends TestCase
 {

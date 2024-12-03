@@ -7,14 +7,14 @@ use Mollie\Api\Http\Payload\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
+use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class ProfileEndpointCollectionTest extends TestCase
 {

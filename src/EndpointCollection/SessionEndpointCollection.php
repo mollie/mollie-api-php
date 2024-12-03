@@ -5,6 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Http\Payload\AnyPayload;
+use Mollie\Api\Http\Query\AnyQuery;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
@@ -13,7 +14,6 @@ use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
-use Mollie\Api\Http\Query\AnyQuery;
 
 class SessionEndpointCollection extends EndpointCollection
 {
@@ -22,8 +22,8 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param string $sessionId
-     * @param array|AnyQuery $query
+     * @param  array|AnyQuery  $query
+     *
      * @throws ApiException
      */
     public function get(string $sessionId, $query = []): Session
@@ -39,8 +39,9 @@ class SessionEndpointCollection extends EndpointCollection
     /**
      * Creates a session in Mollie.
      *
-     * @param array|AnyPayload $payload
-     * @param array|AnyQuery $query
+     * @param  array|AnyPayload  $payload
+     * @param  array|AnyQuery  $query
+     *
      * @throws ApiException
      */
     public function create($payload = [], $query = []): Session

@@ -10,9 +10,9 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Tests\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Tests\Fixtures\MockClient;
+use Tests\TestCase;
 
 class GuzzleMollieHttpAdapterTest extends TestCase
 {

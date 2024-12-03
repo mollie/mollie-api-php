@@ -27,7 +27,7 @@ class ClientEndpointCollection extends EndpointCollection
      */
     public function get(string $id, $query = []): Client
     {
-        if (!$query instanceof GetClientQuery) {
+        if (! $query instanceof GetClientQuery) {
             $query = GetClientQueryFactory::new($query)->create();
         }
 

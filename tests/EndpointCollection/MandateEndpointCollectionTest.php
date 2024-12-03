@@ -11,9 +11,9 @@ use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class MandateEndpointCollectionTest extends TestCase
 {

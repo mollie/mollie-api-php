@@ -7,11 +7,11 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
+use Tests\TestCase;
 
 class BalanceReportEndpointCollectionTest extends TestCase
 {
@@ -29,7 +29,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
         $report = $client->balanceReports->getForId('bal_gVMhHKqSSRYJyPsuoPNFH', [
             'from' => '2021-01-01',
             'until' => '2021-02-01',
-            'grouping' => 'transaction-categories'
+            'grouping' => 'transaction-categories',
         ]);
 
         $this->assertBalanceReport($report, 'bal_gVMhHKqSSRYJyPsuoPNFH');
@@ -49,7 +49,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
         $report = $client->balanceReports->getFor($balance, [
             'from' => '2021-01-01',
             'until' => '2021-02-01',
-            'grouping' => 'transaction-categories'
+            'grouping' => 'transaction-categories',
         ]);
 
         $this->assertBalanceReport($report, 'bal_gVMhHKqSSRYJyPsuoPNFH');
@@ -66,7 +66,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
         $report = $client->balanceReports->getForPrimary([
             'from' => '2024-01-01',
             'until' => '2024-01-31',
-            'grouping' => 'transaction-categories'
+            'grouping' => 'transaction-categories',
         ]);
 
         $this->assertBalanceReport($report, 'bal_primary');

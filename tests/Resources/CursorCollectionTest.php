@@ -5,11 +5,11 @@ namespace Tests\Resources;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
-use Tests\TestCase;
 use stdClass;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
+use Tests\TestCase;
 
 class CursorCollectionTest extends TestCase
 {

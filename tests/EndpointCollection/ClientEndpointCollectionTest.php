@@ -7,9 +7,9 @@ use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class ClientEndpointCollectionTest extends TestCase
 {

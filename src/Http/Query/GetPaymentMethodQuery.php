@@ -8,9 +8,13 @@ use Mollie\Api\Types\MethodQuery;
 class GetPaymentMethodQuery extends Query
 {
     private ?string $locale;
+
     private ?string $currency;
+
     private ?string $profileId;
+
     private bool $includeIssuers;
+
     private bool $includePricing;
 
     public function __construct(

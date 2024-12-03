@@ -2,14 +2,14 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Settlement;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class SettlementCaptureEndpointCollectionTest extends TestCase
 {

@@ -7,9 +7,9 @@ use Mollie\Api\Http\Payload\Owner;
 use Mollie\Api\Http\Payload\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class ClientLinkEndpointCollectionTest extends TestCase
 {

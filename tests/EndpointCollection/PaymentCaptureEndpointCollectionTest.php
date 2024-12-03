@@ -6,13 +6,13 @@ use Mollie\Api\Http\Payload\CreatePaymentCapturePayload;
 use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
+use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class PaymentCaptureEndpointCollectionTest extends TestCase
 {
@@ -67,7 +67,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list','captures'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
         ]);
 
         foreach ($client->paymentCaptures->iteratorForId('tr_7UhSN1zuXS') as $capture) {

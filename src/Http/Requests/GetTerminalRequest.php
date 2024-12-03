@@ -5,6 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Types\Method;
+
 class GetTerminalRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;

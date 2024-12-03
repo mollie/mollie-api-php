@@ -2,12 +2,12 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
+use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Resources\Method;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class ProfileMethodEndpointCollectionTest extends TestCase
 {

@@ -6,9 +6,9 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class RefundEndpointCollectionTest extends TestCase
 {

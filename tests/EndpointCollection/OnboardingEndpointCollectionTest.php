@@ -4,9 +4,9 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\GetOnboardingRequest;
 use Mollie\Api\Resources\Onboarding;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class OnboardingEndpointCollectionTest extends TestCase
 {

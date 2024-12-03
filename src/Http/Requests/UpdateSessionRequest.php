@@ -17,6 +17,7 @@ class UpdateSessionRequest extends ResourceHydratableRequest implements HasPaylo
     public static string $targetResourceClass = Session::class;
 
     private string $sessionId;
+
     private AnyPayload $payload;
 
     public function __construct(string $sessionId, AnyPayload $payload)

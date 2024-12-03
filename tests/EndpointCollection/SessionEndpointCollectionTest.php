@@ -13,9 +13,9 @@ use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class SessionEndpointCollectionTest extends TestCase
 {
@@ -42,7 +42,7 @@ class SessionEndpointCollectionTest extends TestCase
         /** @var Session $session */
         $session = $client->sessions->create(new AnyPayload([
             'amount' => new Money('EUR', '10.00'),
-            'description' => 'Test Session'
+            'description' => 'Test Session',
         ]));
 
         $this->assertSession($session);
@@ -57,7 +57,7 @@ class SessionEndpointCollectionTest extends TestCase
 
         /** @var Session $session */
         $session = $client->sessions->update('ses_123', new AnyPayload([
-            'description' => 'Updated Session'
+            'description' => 'Updated Session',
         ]));
 
         $this->assertSession($session);
@@ -106,6 +106,7 @@ class SessionEndpointCollectionTest extends TestCase
             $this->assertSession($session);
         }
     }
+
     protected function assertSession(Session $session)
     {
         $this->assertInstanceOf(Session::class, $session);

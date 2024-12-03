@@ -13,7 +13,7 @@ class HandlersTest extends TestCase
     /** @test */
     public function add(): void
     {
-        $handlers = new Handlers();
+        $handlers = new Handlers;
         $handlers->add(fn () => null);
 
         $this->assertCount(1, $handlers->getHandlers());
@@ -24,7 +24,7 @@ class HandlersTest extends TestCase
     {
         $output = [];
 
-        $handlers = new Handlers();
+        $handlers = new Handlers;
         $handlers->add(function ($value) use (&$output) {
             $output[] = 1;
 
@@ -48,7 +48,7 @@ class HandlersTest extends TestCase
     }
 }
 
-class TestViableResponse implements ViableResponse, Arrayable
+class TestViableResponse implements Arrayable, ViableResponse
 {
     public array $output = [];
 

@@ -12,15 +12,14 @@ use Mollie\Api\Http\Payload\CreatePaymentPayload;
 use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
-use Tests\Fixtures\Requests\DynamicDeleteRequest;
-use Tests\Fixtures\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response as HttpResponse;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\Fixtures\Requests\DynamicDeleteRequest;
+use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class MollieApiClientTest extends TestCase
 {

@@ -9,14 +9,14 @@ use Mollie\Api\Http\Payload\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DeletePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
+use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class PaymentLinkEndpointCollectionTest extends TestCase
 {

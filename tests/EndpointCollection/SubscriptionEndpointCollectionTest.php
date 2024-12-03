@@ -2,19 +2,19 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
-use Mollie\Api\Http\Requests\GetSubscriptionRequest;
-use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
-use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
+use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
+use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
+use Mollie\Api\Http\Requests\GetSubscriptionRequest;
+use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
+use Tests\TestCase;
 
 class SubscriptionEndpointCollectionTest extends TestCase
 {

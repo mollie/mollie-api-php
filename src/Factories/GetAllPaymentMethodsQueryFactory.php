@@ -4,7 +4,6 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Query\GetAllMethodsQuery;
 use Mollie\Api\Types\MethodQuery;
-use Mollie\Api\Types\PaymentMethod;
 
 class GetAllPaymentMethodsQueryFactory extends Factory
 {

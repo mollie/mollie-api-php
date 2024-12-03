@@ -18,6 +18,7 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
     public static string $targetResourceClass = Session::class;
 
     private AnyPayload $payload;
+
     private AnyQuery $query;
 
     public function __construct(AnyPayload $payload, AnyQuery $query)

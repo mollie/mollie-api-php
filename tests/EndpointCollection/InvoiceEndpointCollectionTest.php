@@ -7,9 +7,9 @@ use Mollie\Api\Http\Requests\GetInvoiceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class InvoiceEndpointCollectionTest extends TestCase
 {

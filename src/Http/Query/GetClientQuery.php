@@ -8,6 +8,7 @@ use Mollie\Api\Types\ClientQuery;
 class GetClientQuery extends Query
 {
     private bool $embedOrganization;
+
     private bool $embedOnboarding;
 
     public function __construct(

@@ -2,13 +2,13 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
+use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class PaymentChargebackEndpointCollectionTest extends TestCase
 {

@@ -4,9 +4,9 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Resources\Partner;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class OrganizationPartnerEndpointCollectionTest extends TestCase
 {

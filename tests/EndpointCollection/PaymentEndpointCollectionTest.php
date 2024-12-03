@@ -16,9 +16,9 @@ use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class PaymentEndpointCollectionTest extends TestCase
 {

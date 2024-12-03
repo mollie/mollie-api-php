@@ -2,9 +2,7 @@
 
 namespace Tests\Fixtures\Requests;
 
-use Mollie\Api\Http\Requests\DynamicGetRequest as BaseDynamicGetRequest;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Http\Requests\DynamicGetRequest as BaseDynamicGetRequest;
 
-class DynamicGetRequest extends BaseDynamicGetRequest implements SupportsTestmodeInQuery
-{
-}
+class DynamicGetRequest extends BaseDynamicGetRequest implements SupportsTestmodeInQuery {}

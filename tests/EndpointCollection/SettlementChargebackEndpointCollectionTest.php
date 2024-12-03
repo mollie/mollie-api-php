@@ -6,9 +6,9 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Settlement;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class SettlementChargebackEndpointCollectionTest extends TestCase
 {

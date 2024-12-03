@@ -2,17 +2,17 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
-use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
-use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
+use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
+use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
-use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\TestCase;
 
 class PaymentRefundEndpointCollectionTest extends TestCase
 {
