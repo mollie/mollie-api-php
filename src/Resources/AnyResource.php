@@ -15,7 +15,7 @@ class AnyResource extends BaseResource
     }
 
     /**
-     * @param array|stdClass $attributes
+     * @param  array|stdClass  $attributes
      */
     public function fill($attributes): void
     {
