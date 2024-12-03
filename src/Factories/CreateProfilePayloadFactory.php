@@ -9,13 +9,13 @@ class CreateProfilePayloadFactory extends Factory
     public function create(): CreateProfilePayload
     {
         return new CreateProfilePayload(
-            name: $this->get('name'),
-            website: $this->get('website'),
-            email: $this->get('email'),
-            phone: $this->get('phone'),
-            description: $this->get('description'),
-            countriesOfActivity: $this->get('countriesOfActivity'),
-            businessCategory: $this->get('businessCategory')
+            $this->get('name'),
+            $this->get('website'),
+            $this->get('email'),
+            $this->get('phone'),
+            $this->get('description'),
+            $this->get('countriesOfActivity'),
+            $this->get('businessCategory')
         );
     }
 }
