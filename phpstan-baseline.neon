@@ -78,61 +78,6 @@ parameters:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 2
-			path: examples/orders/cancel-order-lines.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/cancel-order.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/create-order.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/list-methods.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/list-orders.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/refund-order-completely.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/refund-order-partially.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/update-order-line.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/update-order-lines-multiple.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/update-order.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/orders/webhook.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 2
 			path: examples/pagination/backwards.php
 
 		-
@@ -244,31 +189,6 @@ parameters:
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
 			path: examples/settlements/list-settlements.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/create-shipment-all.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/create-shipment-partial.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/get-shipment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/list-shipments.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/update-shipment.php
 
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
