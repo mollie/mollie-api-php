@@ -7,17 +7,17 @@ use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Http\Requests\GetPaymentMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class MethodEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
-            GetPaymentMethodRequest::class => new MockResponse(200, 'method'),
+            GetPaymentMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -27,7 +27,7 @@ class MethodEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function all_test()
+    public function all()
     {
         $client = new MockClient([
             GetAllMethodsRequest::class => new MockResponse(200, 'method-list'),
@@ -49,7 +49,7 @@ class MethodEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function all_enabled_test()
+    public function all_enabled()
     {
         $client = new MockClient([
             GetEnabledMethodsRequest::class => new MockResponse(200, 'method-list'),

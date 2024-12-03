@@ -6,7 +6,7 @@ use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\DataProvider;
 use Mollie\Api\Contracts\DataResolver;
 use Mollie\Api\Traits\ResolvesValues;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ResolvesValuesTest extends TestCase
 {

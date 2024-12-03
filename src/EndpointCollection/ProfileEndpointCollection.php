@@ -98,13 +98,11 @@ class ProfileEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the profile id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
      *
-     *
      * @throws ApiException
      */
-    public function delete(string $profileId): ?Profile
+    public function delete(string $profileId): void
     {
-        /** @var Profile|null */
-        return $this->send(new DeleteProfileRequest($profileId));
+        $this->send(new DeleteProfileRequest($profileId));
     }
 
     /**

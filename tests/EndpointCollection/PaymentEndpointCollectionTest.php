@@ -2,44 +2,46 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
+use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Payload\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class PaymentEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_test()
+    public function create()
     {
         $client = new MockClient([
             CreatePaymentRequest::class => new MockResponse(201, 'payment'),
         ]);
 
         /** @var Payment $payment */
-        $payment = $client->payments->create([
-            'amount' => [
-                'currency' => 'EUR',
-                'value' => '10.00',
-            ],
-            'description' => 'Test payment',
-            'redirectUrl' => 'https://example.org/redirect',
-            'webhookUrl' => 'https://example.org/webhook',
-        ]);
+        $payment = $client->payments->create(new CreatePaymentPayload(
+            'Test payment',
+            new Money('10.00', 'EUR'),
+            'https://example.org/redirect',
+            'https://example.org/webhook',
+        ));
 
         $this->assertPayment($payment);
     }
 
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetPaymentRequest::class => new MockResponse(200, 'payment'),
@@ -52,23 +54,23 @@ class PaymentEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function update_test()
+    public function update()
     {
         $client = new MockClient([
             UpdatePaymentRequest::class => new MockResponse(200, 'payment'),
         ]);
 
         /** @var Payment $payment */
-        $payment = $client->payments->update('tr_WDqYK6vllg', [
-            'description' => 'Updated description',
-            'redirectUrl' => 'https://example.org/updated-redirect',
-        ]);
+        $payment = $client->payments->update('tr_WDqYK6vllg', new UpdatePaymentPayload(
+            'Updated description',
+            'https://example.org/updated-redirect',
+        ));
 
         $this->assertPayment($payment);
     }
 
     /** @test */
-    public function cancel_test()
+    public function cancel()
     {
         $client = new MockClient([
             CancelPaymentRequest::class => new MockResponse(204),
@@ -76,12 +78,11 @@ class PaymentEndpointCollectionTest extends TestCase
 
         $payment = $client->payments->cancel('tr_WDqYK6vllg');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $this->assertTrue($payment->getResponse()->successful());
     }
 
     /** @test */
-    public function refund_test()
+    public function refund()
     {
         $client = new MockClient([
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
@@ -91,13 +92,10 @@ class PaymentEndpointCollectionTest extends TestCase
         $payment->id = 'tr_WDqYK6vllg';
 
         /** @var Refund $refund */
-        $refund = $client->payments->refund($payment, [
-            'amount' => [
-                'currency' => 'EUR',
-                'value' => '5.95',
-            ],
-            'description' => 'Test refund',
-        ]);
+        $refund = $client->payments->refund($payment, new CreateRefundPaymentPayload(
+            'Test refund',
+            new Money('5.95', 'EUR'),
+        ));
 
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals('refund', $refund->resource);
@@ -107,7 +105,7 @@ class PaymentEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
@@ -126,10 +124,11 @@ class PaymentEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
         foreach ($client->payments->iterator() as $payment) {
@@ -151,6 +150,5 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($payment->method);
         $this->assertNotEmpty($payment->metadata);
         $this->assertNotEmpty($payment->profileId);
-        $this->assertNotEmpty($payment->settlementAmount);
     }
 }

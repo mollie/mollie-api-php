@@ -2,6 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
+use DateTimeImmutable;
+use Mollie\Api\Http\Payload\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
@@ -9,14 +11,14 @@ use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class MandateEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_for_test()
+    public function create_for()
     {
         $client = new MockClient([
             CreateMandateRequest::class => new MockResponse(201, 'mandate'),
@@ -26,20 +28,21 @@ class MandateEndpointCollectionTest extends TestCase
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
-        $mandate = $client->mandates->createFor($customer, [
-            'method' => 'directdebit',
-            'consumerName' => 'John Doe',
-            'consumerAccount' => 'NL55INGB0000000000',
-            'consumerBic' => 'INGBNL2A',
-            'signatureDate' => '2023-05-07',
-            'mandateReference' => 'EXAMPLE-CORP-MD13804',
-        ]);
+        $mandate = $client->mandates->createFor($customer, new CreateMandatePayload(
+            'directdebit',
+            'John Doe',
+            'NL55INGB0000000000',
+            'INGBNL2A',
+            'john.doe@example.com',
+            new DateTimeImmutable('2023-05-07'),
+            'EXAMPLE-CORP-MD13804',
+        ));
 
         $this->assertMandate($mandate);
     }
 
     /** @test */
-    public function get_for_test()
+    public function get_for()
     {
         $client = new MockClient([
             GetMandateRequest::class => new MockResponse(200, 'mandate'),
@@ -55,7 +58,7 @@ class MandateEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function revoke_for_test()
+    public function revoke_for()
     {
         $client = new MockClient([
             RevokeMandateRequest::class => new MockResponse(204),
@@ -71,7 +74,7 @@ class MandateEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_for_test()
+    public function page_for()
     {
         $client = new MockClient([
             GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),

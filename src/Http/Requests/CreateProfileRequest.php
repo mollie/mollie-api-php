@@ -26,7 +26,6 @@ class CreateProfileRequest extends ResourceHydratableRequest implements HasPaylo
 
     public function __construct(CreateProfilePayload $payload)
     {
-        parent::__construct();
         $this->payload = $payload;
     }
 

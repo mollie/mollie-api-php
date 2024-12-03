@@ -2,11 +2,11 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinkPaymentsRequest;
-use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
@@ -19,11 +19,8 @@ class PaymentLinkPaymentEndpointCollectionTest extends TestCase
             GetPaginatedPaymentLinkPaymentsRequest::class => new MockResponse(200, 'payment-list'),
         ]);
 
-        $paymentLink = new PaymentLink($client);
-        $paymentLink->id = 'pl_4Y0eZitmBnQ6IDoMqZQKh';
-
         /** @var PaymentCollection $payments */
-        $payments = $client->paymentLinkPayments->pageFor($paymentLink);
+        $payments = $client->paymentLinkPayments->pageForId('pl_4Y0eZitmBnQ6IDoMqZQKh');
 
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertGreaterThan(0, $payments->count());
@@ -38,12 +35,10 @@ class PaymentLinkPaymentEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedPaymentLinkPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
-        $paymentLink = new PaymentLink($client);
-        $paymentLink->id = 'pl_4Y0eZitmBnQ6IDoMqZQKh';
-
-        foreach ($client->paymentLinkPayments->iteratorFor($paymentLink) as $payment) {
+        foreach ($client->paymentLinkPayments->iteratorForId('pl_4Y0eZitmBnQ6IDoMqZQKh') as $payment) {
             $this->assertPayment($payment);
         }
     }

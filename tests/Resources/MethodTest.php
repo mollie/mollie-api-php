@@ -5,7 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\IssuerCollection;
 use Mollie\Api\Resources\Method;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class MethodTest extends TestCase
 {

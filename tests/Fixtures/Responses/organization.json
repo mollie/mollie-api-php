@@ -3,6 +3,7 @@
   "id": "{{ RESOURCE_ID }}",
   "name": "Mollie B.V.",
   "email": "info@mollie.com",
+  "locale": "nl_NL",
   "address": {
     "streetAndNumber": "Keizersgracht 126",
     "postalCode": "1015 CW",

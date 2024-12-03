@@ -2,9 +2,12 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Payload\CreateClientLinkPayload;
+use Mollie\Api\Http\Payload\Owner;
+use Mollie\Api\Http\Payload\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
@@ -18,10 +21,11 @@ class ClientLinkEndpointCollectionTest extends TestCase
         ]);
 
         /** @var ClientLink $clientLink */
-        $clientLink = $client->clientLinks->create([
-            'ownerId' => 'org_12345678',
-            'name' => 'Test Client Link',
-        ]);
+        $clientLink = $client->clientLinks->create(new CreateClientLinkPayload(
+            new Owner('test@example.com', 'John', 'Doe'),
+            'Test Client Link',
+            new OwnerAddress('NL'),
+        ));
 
         $this->assertInstanceOf(ClientLink::class, $clientLink);
         $this->assertEquals('client-link', $clientLink->resource);

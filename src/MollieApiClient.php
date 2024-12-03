@@ -55,6 +55,7 @@ use Mollie\Api\Traits\HasEndpoints;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\Initializable;
+use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\Traits\SendsRequests;
 
 /**
@@ -94,6 +95,7 @@ use Mollie\Api\Traits\SendsRequests;
  * @property SubscriptionEndpointCollection $subscriptions
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals
+ * @property SessionEndpointCollection $sessions
  * @property WalletEndpointCollection $wallets
  * @property HttpAdapterContract $httpClient
  */

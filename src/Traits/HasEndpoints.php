@@ -18,6 +18,7 @@ use Mollie\Api\EndpointCollection\OnboardingEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationPartnerEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection;
+use Mollie\Api\EndpointCollection\PaymentChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentLinkEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentLinkPaymentEndpointCollection;
@@ -25,6 +26,7 @@ use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRouteEndpointCollection;
 use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
+use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
 use Mollie\Api\EndpointCollection\RefundEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
@@ -35,7 +37,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
-use Mollie\Api\Endpoints\ProfileMethodEndpoint;
+use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\MollieApiClient;
 
 /**
@@ -72,14 +74,15 @@ trait HasEndpoints
             'payments' => PaymentEndpointCollection::class,
             'paymentRefunds' => PaymentRefundEndpointCollection::class,
             'paymentCaptures' => PaymentCaptureEndpointCollection::class,
-            'paymentChargebacks' => ChargebackEndpointCollection::class,
+            'paymentChargebacks' => PaymentChargebackEndpointCollection::class,
             'paymentLinks' => PaymentLinkEndpointCollection::class,
             'paymentLinkPayments' => PaymentLinkPaymentEndpointCollection::class,
             'paymentRoutes' => PaymentRouteEndpointCollection::class,
             'permissions' => PermissionEndpointCollection::class,
             'profiles' => ProfileEndpointCollection::class,
-            'profileMethods' => ProfileMethodEndpoint::class,
+            'profileMethods' => ProfileMethodEndpointCollection::class,
             'refunds' => RefundEndpointCollection::class,
+            'sessions' => SessionEndpointCollection::class,
             'settlementCaptures' => SettlementCaptureEndpointCollection::class,
             'settlementChargebacks' => SettlementChargebackEndpointCollection::class,
             'settlementPayments' => SettlementPaymentEndpointCollection::class,

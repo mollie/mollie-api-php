@@ -26,6 +26,6 @@ class MethodIssuerEndpointCollection extends EndpointCollection
      */
     public function disable(string $profileId, string $methodId, string $issuerId): void
     {
-        return $this->send(new DisableMethodIssuerRequest($profileId, $methodId, $issuerId));
+        $this->send(new DisableMethodIssuerRequest($profileId, $methodId, $issuerId));
     }
 }

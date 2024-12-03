@@ -23,10 +23,14 @@ class ResourceFactory
         /** @var BaseResource $resource */
         $resource = new $resourceClass($connector, $response);
 
-        foreach ($data as $property => $value) {
-            $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
+        if ($resource instanceof AnyResource) {
+            $resource->fill($data);
+        } else {
+            foreach ($data as $property => $value) {
+                $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
                 ? self::parseEmbeddedResources($connector, $resource, $value)
                 : $value;
+            }
         }
 
         return $resource;

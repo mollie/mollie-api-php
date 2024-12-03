@@ -7,7 +7,7 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;

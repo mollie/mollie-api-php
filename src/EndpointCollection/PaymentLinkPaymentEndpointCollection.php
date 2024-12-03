@@ -20,7 +20,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageFor(PaymentLink $paymentLink, ?string $from = null, ?int $limit = null, ?array $filters = null): PaymentCollection
+    public function pageFor(PaymentLink $paymentLink, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
         return $this->pageForId($paymentLink->id, $from, $limit, $filters);
     }
@@ -32,7 +32,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageForId(string $paymentLinkId, ?string $from = null, ?int $limit = null, ?array $filters = null): PaymentCollection
+    public function pageForId(string $paymentLinkId, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
         $testmode = Helpers::extractBool($filters, 'testmode', false);
         $query = SortablePaginatedQueryFactory::new([
@@ -55,7 +55,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         PaymentLink $paymentLink,
         ?string $from = null,
         ?int $limit = null,
-        ?array $filters = null,
+        array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
         return $this->iteratorForId(
@@ -77,7 +77,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         string $paymentLinkId,
         ?string $from = null,
         ?int $limit = null,
-        ?array $filters = null,
+        array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Helpers::extractBool($filters, 'testmode', false);

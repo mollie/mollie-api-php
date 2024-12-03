@@ -6,7 +6,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateStatus;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class MandateCollectionTest extends TestCase
 {

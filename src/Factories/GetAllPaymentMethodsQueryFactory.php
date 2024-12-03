@@ -14,9 +14,9 @@ class GetAllPaymentMethodsQueryFactory extends Factory
         $includePricing = $this->includes('include', MethodQuery::INCLUDE_PRICING);
 
         return new GetAllMethodsQuery(
-            $this->get('locale'),
             $this->get('includeIssuers', $includeIssuers),
             $this->get('includePricing', $includePricing),
+            $this->get('locale'),
             $this->mapIfNotNull('amount', MoneyFactory::class)
         );
     }

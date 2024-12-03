@@ -2,68 +2,58 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Payload\CreatePaymentCapturePayload;
+use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
-use Mollie\Api\Resources\Payment;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class PaymentCaptureEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_for_test()
+    public function create_for_id()
     {
         $client = new MockClient([
             CreatePaymentCaptureRequest::class => new MockResponse(201, 'capture'),
         ]);
 
-        $payment = new Payment($client);
-        $payment->id = 'tr_7UhSN1zuXS';
-
         /** @var Capture $capture */
-        $capture = $client->paymentCaptures->createFor($payment, [
-            'amount' => [
-                'currency' => 'EUR',
-                'value' => '35.95'
-            ],
-            'description' => 'Capture for cart #12345',
-        ]);
+        $capture = $client->paymentCaptures->createForId('tr_7UhSN1zuXS', new CreatePaymentCapturePayload(
+            'Capture for cart #12345',
+            new Money('EUR', '35.95')
+        ));
 
         $this->assertCapture($capture);
     }
 
     /** @test */
-    public function get_for_test()
+    public function get_for_id()
     {
         $client = new MockClient([
             GetPaymentCaptureRequest::class => new MockResponse(200, 'capture'),
         ]);
 
-        $payment = new Payment($client);
-        $payment->id = 'tr_7UhSN1zuXS';
-
         /** @var Capture $capture */
-        $capture = $client->paymentCaptures->getFor($payment, 'cpt_mNepDkEtco6ah3QNPUGYH');
+        $capture = $client->paymentCaptures->getForId('tr_7UhSN1zuXS', 'cpt_mNepDkEtco6ah3QNPUGYH');
 
         $this->assertCapture($capture);
     }
 
     /** @test */
-    public function page_for_test()
+    public function page_for_id()
     {
         $client = new MockClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
         ]);
 
-        $payment = new Payment($client);
-        $payment->id = 'tr_7UhSN1zuXS';
-
         /** @var CaptureCollection $captures */
-        $captures = $client->paymentCaptures->pageFor($payment);
+        $captures = $client->paymentCaptures->pageForId('tr_7UhSN1zuXS');
 
         $this->assertInstanceOf(CaptureCollection::class, $captures);
         $this->assertEquals(1, $captures->count());
@@ -73,16 +63,14 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_for_test()
+    public function iterator_for_id()
     {
         $client = new MockClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list','captures'),
         ]);
 
-        $payment = new Payment($client);
-        $payment->id = 'tr_7UhSN1zuXS';
-
-        foreach ($client->paymentCaptures->iteratorFor($payment) as $capture) {
+        foreach ($client->paymentCaptures->iteratorForId('tr_7UhSN1zuXS') as $capture) {
             $this->assertInstanceOf(Capture::class, $capture);
             $this->assertCapture($capture);
         }

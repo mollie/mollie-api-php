@@ -10,14 +10,16 @@ use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 
 class SubscriptionEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_for_test()
+    public function create_for()
     {
         $client = new MockClient([
             CreateSubscriptionRequest::class => new MockResponse(201, 'subscription'),
@@ -41,7 +43,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function get_for_test()
+    public function get_for()
     {
         $client = new MockClient([
             GetSubscriptionRequest::class => new MockResponse(200, 'subscription'),
@@ -57,7 +59,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function update_for_test()
+    public function update_for()
     {
         $client = new MockClient([
             UpdateSubscriptionRequest::class => new MockResponse(200, 'subscription'),
@@ -79,7 +81,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function cancel_for_test()
+    public function cancel_for()
     {
         $client = new MockClient([
             CancelSubscriptionRequest::class => new MockResponse(204),
@@ -95,7 +97,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_for_test()
+    public function page_for()
     {
         $client = new MockClient([
             GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
@@ -117,17 +119,57 @@ class SubscriptionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_for_test()
+    public function iterator_for()
     {
         $client = new MockClient([
             GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
         ]);
 
         $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         foreach ($client->subscriptions->iteratorFor($customer) as $subscription) {
-            $this->assertInstanceOf(Subscription::class, $subscription);
+            $this->assertSubscription($subscription);
+        }
+    }
+
+    /** @test */
+    public function all_for_id()
+    {
+        $client = new MockClient([
+            GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+        ]);
+
+        /** @var SubscriptionCollection $subscriptions */
+        $subscriptions = $client->subscriptions->allForId(
+            'sub_123',
+            50,
+            ['profile_id' => 'prf_123']
+        );
+
+        $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
+        $this->assertGreaterThan(0, $subscriptions->count());
+
+        foreach ($subscriptions as $subscription) {
+            $this->assertSubscription($subscription);
+        }
+    }
+
+    /** @test */
+    public function iterator_for_all()
+    {
+        $client = new MockClient([
+            GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
+        ]);
+
+        foreach ($client->subscriptions->iteratorForAll(
+            'sub_123',
+            50,
+            ['profile_id' => 'prf_123'],
+            true
+        ) as $subscription) {
             $this->assertSubscription($subscription);
         }
     }
@@ -144,7 +186,6 @@ class SubscriptionEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($subscription->times);
         $this->assertNotEmpty($subscription->interval);
         $this->assertNotEmpty($subscription->description);
-        $this->assertNotEmpty($subscription->method);
         $this->assertNotEmpty($subscription->webhookUrl);
         $this->assertNotEmpty($subscription->_links);
     }

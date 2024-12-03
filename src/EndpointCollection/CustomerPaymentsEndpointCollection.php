@@ -21,10 +21,12 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     /**
      * Create a subscription for a Customer
      *
+     * @param  array|CreatePaymentPayload  $payload
+     * @param  array|CreatePaymentQuery  $query
      *
      * @throws ApiException
      */
-    public function createFor(Customer $customer, array $payload = [], array $query = [], bool $testmode = false): Payment
+    public function createFor(Customer $customer, $payload = [], $query = [], bool $testmode = false): Payment
     {
         return $this->createForId($customer->id, $payload, $query, $testmode);
     }
@@ -78,10 +80,10 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
             'filters' => $filters,
         ])->create();
 
-        return $this->send(new GetPaginatedCustomerPaymentsRequest(
+        return $this->send((new GetPaginatedCustomerPaymentsRequest(
             $customerId,
             $query
-        ))->test($testmode);
+        ))->test($testmode));
     }
 
     /**

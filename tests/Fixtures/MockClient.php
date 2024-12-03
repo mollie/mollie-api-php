@@ -13,6 +13,6 @@ class MockClient extends MollieApiClient
 
         $this->httpClient = new MockMollieHttpAdapter($expectedResponses);
 
-        $this->setApiKey('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        $this->setAccessToken('access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     }
 }

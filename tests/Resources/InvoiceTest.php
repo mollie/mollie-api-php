@@ -5,7 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Types\InvoiceStatus;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class InvoiceTest extends TestCase
 {

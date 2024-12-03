@@ -61,7 +61,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function update(string $paymentLinkId, $payload = [], ?bool $testmode = null): PaymentLink
+    public function update(string $paymentLinkId, $payload = [], bool $testmode = false): PaymentLink
     {
         if (! $payload instanceof UpdatePaymentLinkPayload) {
             $payload = UpdatePaymentLinkPayloadFactory::new($payload)->create();
@@ -77,7 +77,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function delete(string $paymentLinkId, ?bool $testmode = null): void
+    public function delete(string $paymentLinkId, bool $testmode = false): void
     {
         $this->send((new DeletePaymentLinkRequest($paymentLinkId))->test($testmode));
     }
@@ -107,12 +107,13 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      * Create an iterator for iterating over payment links retrieved from Mollie.
      *
      * @param  string|null  $from  The first resource ID you want to include in your list.
+     * @param  bool  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iterator(
         ?string $from = null,
         ?int $limit = null,
-        ?bool $testmode = null,
+        $testmode = [],
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Helpers::extractBool($testmode, 'testmode', false);

@@ -7,7 +7,7 @@ use Mollie\Api\Types\MethodQuery;
 
 class GetAllMethodsQuery extends Query
 {
-    private string $locale;
+    private ?string $locale;
 
     private bool $includeIssuers;
 
@@ -16,9 +16,9 @@ class GetAllMethodsQuery extends Query
     private ?Money $amount;
 
     public function __construct(
-        string $locale,
         bool $includeIssuers = false,
         bool $includePricing = false,
+        ?string $locale = null,
         ?Money $amount = null,
     ) {
         $this->locale = $locale;

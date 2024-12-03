@@ -6,17 +6,18 @@ use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class PaymentRefundEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_for_test()
+    public function create_for()
     {
         $client = new MockClient([
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
@@ -38,7 +39,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function get_for_test()
+    public function get_for()
     {
         $client = new MockClient([
             GetPaymentRefundRequest::class => new MockResponse(200, 'refund'),
@@ -54,7 +55,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function cancel_for_test()
+    public function cancel_for()
     {
         $client = new MockClient([
             CancelPaymentRefundRequest::class => new MockResponse(204),
@@ -70,7 +71,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_for_test()
+    public function page_for()
     {
         $client = new MockClient([
             GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
@@ -92,10 +93,11 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_for_test()
+    public function iterator_for()
     {
         $client = new MockClient([
             GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
         ]);
 
         $payment = new Payment($client);

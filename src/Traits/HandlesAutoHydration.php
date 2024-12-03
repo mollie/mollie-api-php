@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 
 trait HandlesAutoHydration
 {
@@ -11,7 +11,7 @@ trait HandlesAutoHydration
     public static function shouldAutoHydrate(bool $shouldAutoHydrate = true): void
     {
         static::$hydrationSettingResolver = static function () use ($shouldAutoHydrate) {
-            Request::hydrate($shouldAutoHydrate);
+            ResourceHydratableRequest::hydrate($shouldAutoHydrate);
         };
     }
 

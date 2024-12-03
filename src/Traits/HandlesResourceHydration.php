@@ -12,12 +12,12 @@ use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceFactory;
 
-trait HandlesResourceCreation
+trait HandlesResourceHydration
 {
     /**
      * @return mixed
      */
-    protected function createResource(ResourceHydratableRequest $request, Response $response)
+    protected function hydrate(ResourceHydratableRequest $request, Response $response)
     {
         $targetResourceClass = $request->getTargetResourceClass();
 

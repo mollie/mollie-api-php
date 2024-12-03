@@ -82,12 +82,11 @@ class CustomerEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function delete(string $id, $testmode = []): ?Customer
+    public function delete(string $id, $testmode = []): void
     {
         $testmode = Helpers::extractBool($testmode, 'testmode', false);
 
-        /** @var null|Customer */
-        return $this->send((new DeleteCustomerRequest($id))->test($testmode));
+        $this->send((new DeleteCustomerRequest($id))->test($testmode));
     }
 
     /**

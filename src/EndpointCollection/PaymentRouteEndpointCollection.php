@@ -18,7 +18,7 @@ class PaymentRouteEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function updateReleaseDateFor(Payment $payment, string $routeId, string $releaseDate, ?bool $testmode = null): Route
+    public function updateReleaseDateFor(Payment $payment, string $routeId, string $releaseDate, bool $testmode = false): Route
     {
         return $this->updateReleaseDateForId($payment->id, $routeId, $releaseDate, $testmode);
     }
@@ -30,7 +30,7 @@ class PaymentRouteEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function updateReleaseDateForId(string $paymentId, string $routeId, string $releaseDate, ?bool $testmode = null): Route
+    public function updateReleaseDateForId(string $paymentId, string $routeId, string $releaseDate, bool $testmode = false): Route
     {
         $payload = UpdatePaymentRoutePayloadFactory::new([
             'releaseDate' => $releaseDate,

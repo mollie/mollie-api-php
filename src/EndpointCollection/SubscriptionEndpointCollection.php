@@ -83,7 +83,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function update(string $customerId, string $subscriptionId, $data = [], ?bool $testmode = null): ?Subscription
+    public function update(string $customerId, string $subscriptionId, $data = [], bool $testmode = false): ?Subscription
     {
         if (! $data instanceof UpdateSubscriptionPayload) {
             $testmode = Helpers::extractBool($data, 'testmode', $testmode);
@@ -98,7 +98,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function cancelFor(Customer $customer, string $subscriptionId, ?bool $testmode = null): ?Subscription
+    public function cancelFor(Customer $customer, string $subscriptionId, bool $testmode = false): ?Subscription
     {
         return $this->cancelForId($customer->id, $subscriptionId, $testmode);
     }
@@ -108,7 +108,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function cancelForId(string $customerId, string $subscriptionId, ?bool $testmode = null): ?Subscription
+    public function cancelForId(string $customerId, string $subscriptionId, bool $testmode = false): ?Subscription
     {
         return $this->send((new CancelSubscriptionRequest($customerId, $subscriptionId))->test($testmode));
     }

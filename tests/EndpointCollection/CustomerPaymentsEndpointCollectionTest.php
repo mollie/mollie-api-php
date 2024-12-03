@@ -2,12 +2,16 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Query\CreatePaymentQuery;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
@@ -24,14 +28,11 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Payment $payment */
-        $payment = $client->customerPayments->createFor($customer, [
-            'amount' => [
-                'currency' => 'EUR',
-                'value' => '10.00',
-            ],
-            'description' => 'Test payment',
-            'redirectUrl' => 'https://example.org/redirect',
-        ]);
+        $payment = $client->customerPayments->createFor($customer, new CreatePaymentPayload(
+            'Test payment',
+            new Money('10.00', 'EUR'),
+            'https://example.org/redirect',
+        ));
 
         $this->assertPayment($payment);
     }
@@ -62,6 +63,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedCustomerPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
         $customer = new Customer($client);

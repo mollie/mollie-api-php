@@ -3,11 +3,8 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateSessionPayloadFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Factories\UpdateSessionPayloadFactory;
-use Mollie\Api\Http\Payload\CreateSessionPayload;
-use Mollie\Api\Http\Payload\UpdateSessionPayload;
+use Mollie\Api\Factories\SortablePaginatedQueryFactory;
+use Mollie\Api\Http\Payload\AnyPayload;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
@@ -16,6 +13,7 @@ use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
+use Mollie\Api\Http\Query\AnyQuery;
 
 class SessionEndpointCollection extends EndpointCollection
 {
@@ -24,30 +22,39 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
+     * @param string $sessionId
+     * @param array|AnyQuery $query
      * @throws ApiException
      */
-    public function get(string $sessionId, array $parameters = []): Session
+    public function get(string $sessionId, $query = []): Session
     {
+        if (! $query instanceof AnyQuery) {
+            $query = AnyQuery::fromArray($query);
+        }
+
         /** @var Session */
-        return $this->send(new GetSessionRequest($sessionId, $parameters));
+        return $this->send(new GetSessionRequest($sessionId, $query));
     }
 
     /**
      * Creates a session in Mollie.
      *
-     * @param  CreateSessionPayload|array  $data  An array containing details on the session.
-     *
+     * @param array|AnyPayload $payload
+     * @param array|AnyQuery $query
      * @throws ApiException
      */
-    public function create($data = [], array $filters = []): Session
+    public function create($payload = [], $query = []): Session
     {
-        if (! $data instanceof CreateSessionPayload) {
-            $data = CreateSessionPayloadFactory::new($data)
-                ->create();
+        if (! $payload instanceof AnyPayload) {
+            $payload = AnyPayload::fromArray($payload);
+        }
+
+        if (! $query instanceof AnyQuery) {
+            $query = AnyQuery::fromArray($query);
         }
 
         /** @var Session */
-        return $this->send(new CreateSessionRequest($data, $filters));
+        return $this->send(new CreateSessionRequest($payload, $query));
     }
 
     /**
@@ -55,19 +62,18 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param  array|UpdateSessionPayload  $data
+     * @param  array|AnyPayload  $payload
      *
      * @throws ApiException
      */
-    public function update(string $id, $data = []): Session
+    public function update(string $id, $payload = []): Session
     {
-        if (! $data instanceof UpdateSessionPayload) {
-            $data = UpdateSessionPayloadFactory::new($data)
-                ->create();
+        if (! $payload instanceof AnyPayload) {
+            $payload = AnyPayload::fromArray($payload);
         }
 
         /** @var Session */
-        return $this->send(new UpdateSessionRequest($id, $data));
+        return $this->send(new UpdateSessionRequest($id, $payload));
     }
 
     /**
@@ -77,10 +83,10 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function cancel(string $id, array $parameters = []): ?Session
+    public function cancel(string $id): ?Session
     {
         /** @var Session|null */
-        return $this->send(new CancelSessionRequest($id, $parameters));
+        return $this->send(new CancelSessionRequest($id));
     }
 
     /**
@@ -92,7 +98,7 @@ class SessionEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): SessionCollection
     {
-        $query = PaginatedQueryFactory::new([
+        $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
             'filters' => $filters,
@@ -114,7 +120,7 @@ class SessionEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $query = PaginatedQueryFactory::new([
+        $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
             'filters' => $filters,

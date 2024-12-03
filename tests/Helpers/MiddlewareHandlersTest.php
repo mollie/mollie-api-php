@@ -5,7 +5,7 @@ namespace Mollie\Api\Helpers;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 
 class MiddlewareHandlersTest extends TestCase

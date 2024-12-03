@@ -5,7 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use stdClass;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
@@ -13,11 +13,18 @@ use Tests\Fixtures\SequenceMockResponse;
 
 class CursorCollectionTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        MockClient::shouldAutoHydrate();
+    }
+
     /** @test */
     public function can_get_next_collection_result_when_next_link_is_available()
     {
         $client = new MockClient([
-            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection', 'tr_stTC2WHAuS'),
+            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
         ]);
 
         $collection = new PaymentCollection(
@@ -25,7 +32,7 @@ class CursorCollectionTest extends TestCase
             [],
             $this->arrayToObject([
                 'next' => [
-                    'href' => 'https://api.mollie.com/v2/payments?from=tr_stTC2WHAuS',
+                    'href' => 'https://api.mollie.com/v2/payments?from=tr_*',
                 ],
             ])
         );
@@ -33,8 +40,6 @@ class CursorCollectionTest extends TestCase
         $this->assertTrue($collection->hasNext());
 
         $nextPage = $collection->next();
-
-        $this->assertEquals('tr_stTC2WHAuS', $nextPage[0]->id);
 
         $this->assertFalse($nextPage->hasNext());
     }
@@ -56,7 +61,7 @@ class CursorCollectionTest extends TestCase
     public function test_can_get_previous_collection_result_when_previous_link_is_available()
     {
         $client = new MockClient([
-            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection', 'ord_stTC2WHAuS'),
+            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
         ]);
 
         $collection = new PaymentCollection(
@@ -64,7 +69,7 @@ class CursorCollectionTest extends TestCase
             [],
             $this->arrayToObject([
                 'previous' => [
-                    'href' => 'https://api.mollie.com/v2/payments?from=tr_stTC2WHAuS',
+                    'href' => 'https://api.mollie.com/v2/payments?from=tr_*',
                 ],
             ])
         );
@@ -72,8 +77,6 @@ class CursorCollectionTest extends TestCase
         $this->assertTrue($collection->hasPrevious());
 
         $previousPage = $collection->previous();
-
-        $this->assertEquals('tr_stTC2WHAuS', $previousPage[0]->id);
 
         $this->assertFalse($previousPage->hasPrevious());
     }

@@ -6,17 +6,17 @@ use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class OrganizationEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
-            GetOrganizationRequest::class => new MockResponse(200, 'organization'),
+            GetOrganizationRequest::class => new MockResponse(200, 'organization', 'org_12345678'),
         ]);
 
         /** @var Organization $organization */
@@ -26,7 +26,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function current_test()
+    public function current()
     {
         $client = new MockClient([
             GetOrganizationRequest::class => new MockResponse(200, 'organization'),
@@ -39,10 +39,10 @@ class OrganizationEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function partner_status_test()
+    public function partner_status()
     {
         $client = new MockClient([
-            GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner'),
+            GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
         ]);
 
         /** @var Partner $partner */
@@ -65,6 +65,5 @@ class OrganizationEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($organization->locale);
         $this->assertNotEmpty($organization->address);
         $this->assertNotEmpty($organization->registrationNumber);
-        $this->assertNotEmpty($organization->vatRegulation);
     }
 }

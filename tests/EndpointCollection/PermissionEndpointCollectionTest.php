@@ -6,14 +6,14 @@ use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class PermissionEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetPermissionRequest::class => new MockResponse(200, 'permission'),
@@ -26,7 +26,7 @@ class PermissionEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function list_test()
+    public function list()
     {
         $client = new MockClient([
             ListPermissionsRequest::class => new MockResponse(200, 'permission-list'),
@@ -50,7 +50,7 @@ class PermissionEndpointCollectionTest extends TestCase
         $this->assertEquals('permission', $permission->resource);
         $this->assertNotEmpty($permission->id);
         $this->assertNotEmpty($permission->description);
-        $this->assertNotEmpty($permission->granted);
+        $this->assertIsBool($permission->granted);
         $this->assertNotEmpty($permission->_links);
     }
 }

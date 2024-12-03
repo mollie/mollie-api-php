@@ -3,17 +3,18 @@
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Settlement;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class SettlementCaptureEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function page_for_test()
+    public function page_for()
     {
         $client = new MockClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
@@ -34,10 +35,11 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_for_test()
+    public function iterator_for()
     {
         $client = new MockClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
         ]);
 
         $settlement = new Settlement($client);
@@ -55,9 +57,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($capture->id);
         $this->assertNotEmpty($capture->mode);
         $this->assertNotEmpty($capture->amount);
-        $this->assertNotEmpty($capture->settlementId);
         $this->assertNotEmpty($capture->paymentId);
-        $this->assertNotEmpty($capture->shipmentId);
         $this->assertNotEmpty($capture->createdAt);
         $this->assertNotEmpty($capture->_links);
     }

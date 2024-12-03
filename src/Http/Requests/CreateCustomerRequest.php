@@ -15,7 +15,7 @@ class CreateCustomerRequest extends ResourceHydratableRequest implements HasPayl
 
     protected static string $method = Method::POST;
 
-    protected static string $targetResourceClass = Customer::class;
+    public static string $targetResourceClass = Customer::class;
 
     private CreateCustomerPayload $payload;
 

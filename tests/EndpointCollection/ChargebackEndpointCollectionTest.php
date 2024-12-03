@@ -5,14 +5,14 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class ChargebackEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
@@ -30,7 +30,7 @@ class ChargebackEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),

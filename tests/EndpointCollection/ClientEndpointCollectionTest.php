@@ -2,18 +2,19 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class ClientEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetClientRequest::class => new MockResponse(200, 'client'),
@@ -26,7 +27,7 @@ class ClientEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
@@ -44,10 +45,11 @@ class ClientEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'clients'),
         ]);
 
         foreach ($client->clients->iterator() as $clientResource) {

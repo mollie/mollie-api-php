@@ -2,40 +2,43 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Payload\CreateProfilePayload;
+use Mollie\Api\Http\Payload\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class ProfileEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_test()
+    public function create()
     {
         $client = new MockClient([
             CreateProfileRequest::class => new MockResponse(201, 'profile'),
         ]);
 
         /** @var Profile $profile */
-        $profile = $client->profiles->create([
-            'name' => 'My Test Profile',
-            'website' => 'https://example.org',
-            'email' => 'info@example.org',
-            'phone' => '+31612345678',
-            'categoryCode' => 5399,
-        ]);
+        $profile = $client->profiles->create(new CreateProfilePayload(
+            'My Test Profile',
+            'https://example.org',
+            'info@example.org',
+            '+31612345678',
+            'test',
+        ));
 
         $this->assertProfile($profile);
     }
 
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetProfileRequest::class => new MockResponse(200, 'profile'),
@@ -48,7 +51,7 @@ class ProfileEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function get_current_test()
+    public function get_current()
     {
         $client = new MockClient([
             GetProfileRequest::class => new MockResponse(200, 'current-profile'),
@@ -61,23 +64,23 @@ class ProfileEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function update_test()
+    public function update()
     {
         $client = new MockClient([
             UpdateProfileRequest::class => new MockResponse(200, 'profile'),
         ]);
 
         /** @var Profile $profile */
-        $profile = $client->profiles->update('pfl_v9hTwCvYqw', [
-            'name' => 'Updated Profile Name',
-            'website' => 'https://updated-example.org',
-        ]);
+        $profile = $client->profiles->update('pfl_v9hTwCvYqw', new UpdateProfilePayload(
+            'Updated Profile Name',
+            'https://updated-example.org',
+        ));
 
         $this->assertProfile($profile);
     }
 
     /** @test */
-    public function delete_test()
+    public function delete()
     {
         $client = new MockClient([
             DeleteProfileRequest::class => new MockResponse(204),
@@ -90,7 +93,7 @@ class ProfileEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
@@ -109,10 +112,11 @@ class ProfileEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'profiles'),
         ]);
 
         foreach ($client->profiles->iterator() as $profile) {

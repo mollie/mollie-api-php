@@ -3,7 +3,7 @@
 namespace Tests\Helpers;
 
 use Mollie\Api\Helpers\Arr;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ArrTest extends TestCase
 {

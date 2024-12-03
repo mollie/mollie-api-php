@@ -8,7 +8,7 @@
     "currency": "EUR"
   },
   "description": "My first API payment",
-  "method": null,
+  "method": "ideal",
   "metadata": {
     "order_id": "1234"
   },

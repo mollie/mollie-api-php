@@ -9,7 +9,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Mollie\Api\Http\Adapter\GuzzleRetryMiddlewareFactory;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class RetryMiddlewareFactoryTest extends TestCase
 {

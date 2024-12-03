@@ -10,7 +10,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Tests\Fixtures\MockClient;
 

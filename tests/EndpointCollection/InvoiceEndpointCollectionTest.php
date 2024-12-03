@@ -2,18 +2,19 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetInvoiceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class InvoiceEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetInvoiceRequest::class => new MockResponse(200, 'invoice'),
@@ -26,7 +27,7 @@ class InvoiceEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
@@ -43,10 +44,11 @@ class InvoiceEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'invoices'),
         ]);
 
         foreach ($client->invoices->iterator() as $invoice) {

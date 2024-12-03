@@ -14,7 +14,9 @@
         },
         "description": "Order #12345",
         "method": "ideal",
-        "metadata": null,
+        "metadata": {
+          "order_id": "12345"
+        },
         "details": null,
         "profileId": "pfl_QkEhN94Ba",
         "redirectUrl": "https://webshop.example.org/order/12345/",

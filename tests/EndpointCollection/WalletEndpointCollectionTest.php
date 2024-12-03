@@ -3,7 +3,8 @@
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
-use PHPUnit\Framework\TestCase;
+use Mollie\Api\Resources\AnyResource;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
@@ -16,7 +17,7 @@ class WalletEndpointCollectionTest extends TestCase
             ApplePayPaymentSessionRequest::class => new MockResponse(200, 'apple-pay-session'),
         ]);
 
-        $session = $client->wallets->requestApplePayPaymentSession(
+        $applePaySession = $client->wallets->requestApplePayPaymentSession(
             'pay.example.org',
             'https://apple-pay-gateway.example.com/paymentservices/paymentSession',
             [
@@ -24,7 +25,12 @@ class WalletEndpointCollectionTest extends TestCase
             ]
         );
 
-        $this->assertIsString($session);
-        $this->assertNotEmpty($session);
+        $this->assertInstanceOf(AnyResource::class, $applePaySession);
+        $this->assertNotEmpty($applePaySession->domainName);
+        $this->assertNotEmpty($applePaySession->displayName);
+        $this->assertNotEmpty($applePaySession->merchantIdentifier);
+        $this->assertNotEmpty($applePaySession->merchantSessionIdentifier);
+        $this->assertNotEmpty($applePaySession->nonce);
+        $this->assertNotEmpty($applePaySession->signature);
     }
 }

@@ -5,13 +5,8 @@ namespace Mollie\Api\Resources;
 use Generator;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 
-abstract class CursorCollection extends BaseCollection
+abstract class CursorCollection extends ResourceCollection
 {
-    /**
-     * Resource class name.
-     */
-    public static string $resource = '';
-
     /**
      * Return the next set of resources when available
      *
@@ -85,14 +80,5 @@ abstract class CursorCollection extends BaseCollection
                     : $page->next();
             }
         });
-    }
-
-    public static function getResourceClass(): string
-    {
-        if (empty(static::$resource)) {
-            throw new \RuntimeException('Collection name not set');
-        }
-
-        return static::$resource;
     }
 }

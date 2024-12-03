@@ -29,8 +29,8 @@ class GetEnabledPaymentMethodsQuery extends Query
             'amount' => $this->amount?->data(),
             'resource' => $this->resource,
             'billingCountry' => $this->billingCountry,
-            'includeWallets' => Arr::join($this->includeWallets),
-            'orderLineCategories' => Arr::join($this->orderLineCategories),
+            'includeWallets' => Arr::join($this->includeWallets ?? []),
+            'orderLineCategories' => Arr::join($this->orderLineCategories ?? []),
             'profileId' => $this->profileId,
             'include' => array_filter([
                 $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,

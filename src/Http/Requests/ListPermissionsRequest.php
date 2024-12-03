@@ -5,7 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\PermissionCollection;
 use Mollie\Api\Types\Method;
 
-class ListPermissionsRequest extends Request
+class ListPermissionsRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 

@@ -4,14 +4,14 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\GetOnboardingRequest;
 use Mollie\Api\Resources\Onboarding;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class OnboardingEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function status_test()
+    public function status()
     {
         $client = new MockClient([
             GetOnboardingRequest::class => new MockResponse(200, 'onboarding'),

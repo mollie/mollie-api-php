@@ -32,11 +32,6 @@ class GetPaginatedPaymentChargebacksRequest extends PaginatedRequest implements 
         $this->paymentId = $paymentId;
     }
 
-    protected function defaultQuery(): array
-    {
-        return $this->query ? $this->query->toArray() : [];
-    }
-
     public function resolveResourcePath(): string
     {
         return "payments/{$this->paymentId}/chargebacks";

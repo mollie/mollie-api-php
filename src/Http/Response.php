@@ -5,7 +5,7 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
-use Mollie\Api\Traits\HandlesResourceCreation;
+use Mollie\Api\Traits\HandlesResourceHydration;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -14,7 +14,7 @@ use Throwable;
 
 class Response
 {
-    use HandlesResourceCreation;
+    use HandlesResourceHydration;
 
     protected ResponseInterface $psrResponse;
 
@@ -50,7 +50,7 @@ class Response
             return $this;
         }
 
-        return $this->createResource($this->getRequest(), $this);
+        return $this->hydrate($this->getRequest(), $this);
     }
 
     /**
@@ -59,7 +59,7 @@ class Response
     public function json(): stdClass
     {
         if (! $this->decoded) {
-            $this->decoded = @json_decode($body = $this->body() ?: '[]');
+            $this->decoded = @json_decode($body = $this->body() ?: '{}');
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new ApiException("Unable to decode Mollie response: '{$body}'.");

@@ -2,17 +2,18 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class RefundEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
@@ -30,10 +31,11 @@ class RefundEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
         ]);
 
         foreach ($client->refunds->iterator() as $refund) {

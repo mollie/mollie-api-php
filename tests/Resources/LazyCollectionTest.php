@@ -3,7 +3,7 @@
 namespace Tests\Resources;
 
 use Mollie\Api\Resources\LazyCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class LazyCollectionTest extends TestCase
 {

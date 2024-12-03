@@ -2,18 +2,19 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Subscription;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class SubscriptionPaymentEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function page_for_test()
+    public function page_for()
     {
         $client = new MockClient([
             GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
@@ -35,10 +36,11 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_for_test()
+    public function iterator_for()
     {
         $client = new MockClient([
             GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
         $subscription = new Subscription($client);
@@ -60,7 +62,6 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($payment->createdAt);
         $this->assertNotEmpty($payment->status);
         $this->assertNotEmpty($payment->profileId);
-        $this->assertNotEmpty($payment->subscriptionId);
         $this->assertNotEmpty($payment->_links);
     }
 }

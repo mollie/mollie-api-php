@@ -7,9 +7,10 @@ use Mollie\Api\Http\Requests\GetCustomerRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Http\Requests\DeleteCustomerRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
@@ -96,6 +97,7 @@ class CustomerEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'customers'),
         ]);
 
         foreach ($client->customers->iterator() as $customer) {

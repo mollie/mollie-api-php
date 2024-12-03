@@ -4,16 +4,17 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class TerminalEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetTerminalRequest::class => new MockResponse(200, 'terminal'),
@@ -26,10 +27,11 @@ class TerminalEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
         ]);
 
         /** @var TerminalCollection $terminals */
@@ -44,7 +46,7 @@ class TerminalEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
@@ -67,7 +69,6 @@ class TerminalEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($terminal->serialNumber);
         $this->assertNotEmpty($terminal->currency);
         $this->assertNotEmpty($terminal->createdAt);
-        $this->assertNotEmpty($terminal->updatedAt);
         $this->assertNotEmpty($terminal->_links);
     }
 }

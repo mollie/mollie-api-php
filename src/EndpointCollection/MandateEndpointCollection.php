@@ -21,7 +21,7 @@ class MandateEndpointCollection extends EndpointCollection
     /**
      * Creates a mandate for a specific customer.
      *
-     * @param  array  $payload
+     * @param  array|CreateMandatePayload  $payload
      *
      * @throws ApiException
      */

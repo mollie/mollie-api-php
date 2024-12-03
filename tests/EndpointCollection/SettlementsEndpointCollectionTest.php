@@ -2,122 +2,96 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\EndpointCollection\SettlementsEndpointCollection;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
 use Mollie\Api\Http\Requests\GetSettlementRequest;
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Tests\Fixtures\MockClient;
+use Tests\Fixtures\MockResponse;
 
 class SettlementsEndpointCollectionTest extends TestCase
 {
-    private SettlementsEndpointCollection $collection;
-
-    protected function setUp(): void
+    /** @test */
+    public function get()
     {
-        parent::setUp();
-        $this->collection = $this->getMockBuilder(SettlementsEndpointCollection::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['send'])
-            ->getMock();
+        $client = new MockClient([
+            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+        ]);
+
+        /** @var Settlement $settlement */
+        $settlement = $client->settlements->get('stl_123');
+
+        $this->assertSettlement($settlement);
     }
 
-    public function testGet(): void
+    /** @test */
+    public function next()
     {
-        $settlement = $this->createMock(Settlement::class);
+        $client = new MockClient([
+            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+        ]);
 
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->isInstanceOf(GetSettlementRequest::class))
-            ->willReturn($settlement);
+        /** @var Settlement $settlement */
+        $settlement = $client->settlements->next();
 
-        $result = $this->collection->get('stl_123');
-
-        $this->assertSame($settlement, $result);
+        $this->assertSettlement($settlement);
     }
 
-    public function testNext(): void
+    /** @test */
+    public function open()
     {
-        $settlement = $this->createMock(Settlement::class);
+        $client = new MockClient([
+            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+        ]);
 
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->callback(function (GetSettlementRequest $request) {
-                return $request->getId() === 'next';
-            }))
-            ->willReturn($settlement);
+        /** @var Settlement $settlement */
+        $settlement = $client->settlements->open();
 
-        $result = $this->collection->next();
-
-        $this->assertSame($settlement, $result);
+        $this->assertSettlement($settlement);
     }
 
-    public function testOpen(): void
+    /** @test */
+    public function page()
     {
-        $settlement = $this->createMock(Settlement::class);
+        $client = new MockClient([
+            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
+        ]);
 
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->callback(function (GetSettlementRequest $request) {
-                return $request->getId() === 'open';
-            }))
-            ->willReturn($settlement);
+        /** @var SettlementCollection $settlements */
+        $settlements = $client->settlements->page('stl_123', 50, ['reference' => 'test']);
 
-        $result = $this->collection->open();
+        $this->assertInstanceOf(SettlementCollection::class, $settlements);
+        $this->assertGreaterThan(0, $settlements->count());
 
-        $this->assertSame($settlement, $result);
+        foreach ($settlements as $settlement) {
+            $this->assertSettlement($settlement);
+        }
     }
 
-    public function testPage(): void
+    /** @test */
+    public function iterator()
     {
-        $collection = $this->createMock(SettlementCollection::class);
+        $client = new MockClient([
+            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'settlements'),
+        ]);
 
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->isInstanceOf(GetPaginatedSettlementsRequest::class))
-            ->willReturn($collection);
-
-        $result = $this->collection->page('stl_123', 50, ['reference' => 'test']);
-
-        $this->assertSame($collection, $result);
+        foreach ($client->settlements->iterator('stl_123', 50, ['reference' => 'test']) as $settlement) {
+            $this->assertSettlement($settlement);
+        }
     }
 
-    public function testIterator(): void
+    protected function assertSettlement(Settlement $settlement)
     {
-        $lazyCollection = $this->createMock(LazyCollection::class);
-
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->callback(function (GetPaginatedSettlementsRequest $request) {
-                return $request->isIterator() && !$request->isIteratingBackwards();
-            }))
-            ->willReturn($lazyCollection);
-
-        $result = $this->collection->iterator('stl_123', 50, ['reference' => 'test']);
-
-        $this->assertSame($lazyCollection, $result);
-    }
-
-    public function testIteratorWithBackwardsIteration(): void
-    {
-        $lazyCollection = $this->createMock(LazyCollection::class);
-
-        $this->collection
-            ->expects($this->once())
-            ->method('send')
-            ->with($this->callback(function (GetPaginatedSettlementsRequest $request) {
-                return $request->isIterator() && $request->isIteratingBackwards();
-            }))
-            ->willReturn($lazyCollection);
-
-        $result = $this->collection->iterator('stl_123', 50, ['reference' => 'test'], true);
-
-        $this->assertSame($lazyCollection, $result);
+        $this->assertInstanceOf(Settlement::class, $settlement);
+        $this->assertEquals('settlement', $settlement->resource);
+        $this->assertNotEmpty($settlement->id);
+        $this->assertNotEmpty($settlement->reference);
+        $this->assertNotEmpty($settlement->settledAt);
+        $this->assertNotEmpty($settlement->status);
+        $this->assertNotEmpty($settlement->amount);
+        $this->assertNotEmpty($settlement->_links);
     }
 }

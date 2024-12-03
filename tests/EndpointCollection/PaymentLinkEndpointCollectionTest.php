@@ -2,42 +2,47 @@
 
 namespace Tests\EndpointCollection;
 
+use DateTimeImmutable;
+use Mollie\Api\Http\Payload\CreatePaymentLinkPayload;
+use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Payload\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DeletePaymentLinkRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 
 class PaymentLinkEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function create_test()
+    public function create()
     {
         $client = new MockClient([
             CreatePaymentLinkRequest::class => new MockResponse(201, 'payment-link'),
         ]);
 
         /** @var PaymentLink $paymentLink */
-        $paymentLink = $client->paymentLinks->create([
-            'amount' => [
-                'currency' => 'EUR',
-                'value' => '10.00',
-            ],
-            'description' => 'Test payment link',
-            'expiresAt' => '2023-12-31',
-            'webhookUrl' => 'https://example.org/webhook',
-        ]);
+        $paymentLink = $client->paymentLinks->create(new CreatePaymentLinkPayload(
+            'Test payment link',
+            new Money('10.00', 'EUR'),
+            'https://example.org/redirect',
+            'https://example.org/webhook',
+            null,
+            null,
+            new DateTimeImmutable('2023-12-31'),
+        ));
 
         $this->assertPaymentLink($paymentLink);
     }
 
     /** @test */
-    public function get_test()
+    public function get()
     {
         $client = new MockClient([
             GetPaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
@@ -50,23 +55,22 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function update_test()
+    public function update()
     {
         $client = new MockClient([
             UpdatePaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
         ]);
 
         /** @var PaymentLink $paymentLink */
-        $paymentLink = $client->paymentLinks->update('pl_4Y0eZitmBnQ6IDoMqZQKh', [
-            'description' => 'Updated description',
-            'expiresAt' => '2024-01-01',
-        ]);
+        $paymentLink = $client->paymentLinks->update('pl_4Y0eZitmBnQ6IDoMqZQKh', new UpdatePaymentLinkPayload(
+            'Updated description',
+        ));
 
         $this->assertPaymentLink($paymentLink);
     }
 
     /** @test */
-    public function delete_test()
+    public function delete()
     {
         $client = new MockClient([
             DeletePaymentLinkRequest::class => new MockResponse(204),
@@ -79,7 +83,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function page_test()
+    public function page()
     {
         $client = new MockClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
@@ -98,10 +102,11 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function iterator_test()
+    public function iterator()
     {
         $client = new MockClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payment_links'),
         ]);
 
         foreach ($client->paymentLinks->iterator() as $paymentLink) {
