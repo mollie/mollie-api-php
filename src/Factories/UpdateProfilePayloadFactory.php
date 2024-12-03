@@ -10,13 +10,13 @@ class UpdateProfilePayloadFactory extends Factory
     {
         return new UpdateProfilePayload(
             $this->get('name'),
-             $this->get('website'),
-             $this->get('email'),
-             $this->get('phone'),
-             $this->get('description'),
-             $this->get('countriesOfActivity'),
-             $this->get('businessCategory'),
-             $this->get('mode')
+            $this->get('website'),
+            $this->get('email'),
+            $this->get('phone'),
+            $this->get('description'),
+            $this->get('countriesOfActivity'),
+            $this->get('businessCategory'),
+            $this->get('mode')
         );
     }
 }
