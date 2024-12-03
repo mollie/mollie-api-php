@@ -15,7 +15,7 @@ class GetBalanceReportQuery extends Query
     public function __construct(
         DateTimeInterface $from,
         DateTimeInterface $until,
-        ?string $grouping = null,
+        ?string $grouping = null
     ) {
         $this->from = $from;
         $this->until = $until;

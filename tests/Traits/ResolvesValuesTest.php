@@ -38,7 +38,7 @@ class FooData implements Arrayable
 
     public function __construct(
         Bar $bar,
-        string $name,
+        string $name
     ) {
         $this->bar = $bar;
         $this->name = $name;

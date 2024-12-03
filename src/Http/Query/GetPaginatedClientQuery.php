@@ -16,7 +16,7 @@ class GetPaginatedClientQuery extends Query
     public function __construct(
         PaginatedQuery $paginatedQuery,
         bool $embedOrganization = false,
-        bool $embedOnboarding = false,
+        bool $embedOnboarding = false
     ) {
         $this->paginatedQuery = $paginatedQuery;
         $this->embedOrganization = $embedOrganization;

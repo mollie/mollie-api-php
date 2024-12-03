@@ -10,7 +10,7 @@ class UpdatePaymentLinkPayload extends DataBag
 
     public function __construct(
         string $description,
-        bool $archived = false,
+        bool $archived = false
     ) {
         $this->description = $description;
         $this->archived = $archived;

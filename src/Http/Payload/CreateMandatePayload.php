@@ -30,7 +30,7 @@ class CreateMandatePayload extends DataBag
         ?string $consumerEmail = null,
         ?DateTimeInterface $signatureDate = null,
         ?string $mandateReference = null,
-        ?string $paypalBillingAgreementId = null,
+        ?string $paypalBillingAgreementId = null
     ) {
         $this->method = $method;
         $this->consumerName = $consumerName;

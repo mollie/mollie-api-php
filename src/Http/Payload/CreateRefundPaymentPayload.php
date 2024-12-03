@@ -26,7 +26,7 @@ class CreateRefundPaymentPayload extends DataBag
         Money $amount,
         ?Metadata $metadata = null,
         ?bool $reverseRouting = null,
-        ?DataCollection $routingReversals = null,
+        ?DataCollection $routingReversals = null
     ) {
         $this->description = $description;
         $this->amount = $amount;

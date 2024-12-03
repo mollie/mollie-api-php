@@ -18,7 +18,7 @@ class GetEnabledPaymentMethodsQuery extends Query
         private ?array $orderLineCategories = null,
         private ?string $profileId = null,
         private ?bool $includeIssuers = null,
-        private ?bool $includePricing = null,
+        private ?bool $includePricing = null
     ) {}
 
     public function toArray(): array

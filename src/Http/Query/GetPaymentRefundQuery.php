@@ -9,7 +9,7 @@ class GetPaymentRefundQuery extends Query
     private bool $includePayment;
 
     public function __construct(
-        bool $includePayment = false,
+        bool $includePayment = false
     ) {
         $this->includePayment = $includePayment;
     }

@@ -42,7 +42,7 @@ class CreateSubscriptionPayload extends DataBag
         ?Metadata $metadata = null,
         ?string $webhookUrl = null,
         ?string $mandateId = null,
-        ?string $profileId = null,
+        ?string $profileId = null
     ) {
         $this->amount = $amount;
         $this->interval = $interval;

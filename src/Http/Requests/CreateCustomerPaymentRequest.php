@@ -14,7 +14,7 @@ class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPa
     public function __construct(
         string $customerId,
         CreatePaymentPayload $payload,
-        ?CreatePaymentQuery $query = null,
+        ?CreatePaymentQuery $query = null
     ) {
         parent::__construct($payload, $query);
 

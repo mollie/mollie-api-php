@@ -22,7 +22,7 @@ class GetPaymentQuery extends Query
         bool $embedRefunds = false,
         bool $embedChargebacks = false,
         bool $includeQrCode = false,
-        bool $includeRemainderDetails = false,
+        bool $includeRemainderDetails = false
     ) {
         $this->embedCaptures = $embedCaptures;
         $this->embedRefunds = $embedRefunds;

@@ -10,7 +10,7 @@ class GetPaginatedSettlementsQuery extends Query
 
     public function __construct(
         PaginatedQuery $query,
-        ?string $balanceId = null,
+        ?string $balanceId = null
     ) {
         $this->query = $query;
         $this->balanceId = $balanceId;

@@ -13,7 +13,7 @@ class GetClientQuery extends Query
 
     public function __construct(
         bool $embedOrganization = false,
-        bool $embedOnboarding = false,
+        bool $embedOnboarding = false
     ) {
         $this->embedOrganization = $embedOrganization;
         $this->embedOnboarding = $embedOnboarding;

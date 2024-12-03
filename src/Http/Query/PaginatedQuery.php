@@ -10,7 +10,7 @@ class PaginatedQuery extends Query
 
     public function __construct(
         ?string $from = null,
-        ?int $limit = null,
+        ?int $limit = null
     ) {
         $this->from = $from;
         $this->limit = $limit;

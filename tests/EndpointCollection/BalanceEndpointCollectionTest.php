@@ -112,7 +112,7 @@ class BalanceEndpointCollectionTest extends TestCase
      */
     protected function assertBalance(
         Balance $balance,
-        string $balanceId,
+        string $balanceId
     ) {
         $this->assertInstanceOf(Balance::class, $balance);
         $this->assertEquals('balance', $balance->resource);

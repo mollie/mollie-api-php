@@ -19,7 +19,7 @@ class GetAllMethodsQuery extends Query
         bool $includeIssuers = false,
         bool $includePricing = false,
         ?string $locale = null,
-        ?Money $amount = null,
+        ?Money $amount = null
     ) {
         $this->locale = $locale;
         $this->includeIssuers = $includeIssuers;

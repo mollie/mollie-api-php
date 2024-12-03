@@ -9,7 +9,7 @@ class UpdatePaymentRoutePayload extends DataBag
     private DateTimeInterface $releaseDate;
 
     public function __construct(
-        DateTimeInterface $releaseDate,
+        DateTimeInterface $releaseDate
     ) {
         $this->releaseDate = $releaseDate;
     }

@@ -20,7 +20,7 @@ class MockResponse
     public function __construct(
         int $status = 200,
         string $body = '',
-        string $resourceId = '',
+        string $resourceId = ''
     ) {
         $this->status = $status;
         $this->resourceId = $resourceId;

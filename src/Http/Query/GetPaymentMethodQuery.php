@@ -22,7 +22,7 @@ class GetPaymentMethodQuery extends Query
         ?string $currency = null,
         ?string $profileId = null,
         bool $includeIssuers = false,
-        bool $includePricing = false,
+        bool $includePricing = false
     ) {
         $this->locale = $locale;
         $this->currency = $currency;

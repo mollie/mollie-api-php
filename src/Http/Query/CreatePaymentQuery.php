@@ -12,7 +12,7 @@ class CreatePaymentQuery extends Query
     private bool $includeQrCode;
 
     public function __construct(
-        bool $includeQrCode = false,
+        bool $includeQrCode = false
     ) {
         $this->includeQrCode = $includeQrCode;
     }

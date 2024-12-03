@@ -9,7 +9,7 @@ class SortablePaginatedQuery extends PaginatedQuery
     public function __construct(
         ?string $from = null,
         ?int $limit = null,
-        ?string $sort = null,
+        ?string $sort = null
     ) {
         parent::__construct($from, $limit);
 
