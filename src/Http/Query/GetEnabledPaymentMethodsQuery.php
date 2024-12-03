@@ -8,18 +8,40 @@ use Mollie\Api\Types\MethodQuery;
 
 class GetEnabledPaymentMethodsQuery extends Query
 {
+    private string $sequenceType;
+    private string $resource;
+    private ?string $locale;
+    private ?Money $amount;
+    private ?string $billingCountry;
+    private ?array $includeWallets;
+    private ?array $orderLineCategories;
+    private ?string $profileId;
+    private ?bool $includeIssuers;
+    private ?bool $includePricing;
+
     public function __construct(
-        private string $sequenceType = MethodQuery::SEQUENCE_TYPE_ONEOFF,
-        private string $resource = MethodQuery::RESOURCE_PAYMENTS,
-        private ?string $locale = null,
-        private ?Money $amount = null,
-        private ?string $billingCountry = null,
-        private ?array $includeWallets = null,
-        private ?array $orderLineCategories = null,
-        private ?string $profileId = null,
-        private ?bool $includeIssuers = null,
-        private ?bool $includePricing = null
-    ) {}
+        string $sequenceType = MethodQuery::SEQUENCE_TYPE_ONEOFF,
+        string $resource = MethodQuery::RESOURCE_PAYMENTS,
+        ?string $locale = null,
+        ?Money $amount = null,
+        ?string $billingCountry = null,
+        ?array $includeWallets = null,
+        ?array $orderLineCategories = null,
+        ?string $profileId = null,
+        ?bool $includeIssuers = null,
+        ?bool $includePricing = null
+    ) {
+        $this->sequenceType = $sequenceType;
+        $this->resource = $resource;
+        $this->locale = $locale;
+        $this->amount = $amount;
+        $this->billingCountry = $billingCountry;
+        $this->includeWallets = $includeWallets;
+        $this->orderLineCategories = $orderLineCategories;
+        $this->profileId = $profileId;
+        $this->includeIssuers = $includeIssuers;
+        $this->includePricing = $includePricing;
+    }
 
     public function toArray(): array
     {
