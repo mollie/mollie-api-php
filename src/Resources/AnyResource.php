@@ -14,7 +14,10 @@ class AnyResource extends BaseResource
         return Arr::get($this->attributes, $name);
     }
 
-    public function fill(array|stdClass $attributes): void
+    /**
+     * @param array|stdClass $attributes
+     */
+    public function fill($attributes): void
     {
         $this->attributes = $attributes instanceof stdClass ? (array) $attributes : $attributes;
     }
