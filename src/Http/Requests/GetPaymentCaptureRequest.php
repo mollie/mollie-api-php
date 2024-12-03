@@ -34,7 +34,7 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
 
     protected function defaultQuery(): array
     {
-        return $this->query?->toArray() ?? [];
+        return $this->query ? $this->query->toArray() : [];
     }
 
     public function resolveResourcePath(): string
