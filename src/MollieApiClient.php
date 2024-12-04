@@ -8,6 +8,7 @@ use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
 use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
+use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
@@ -36,9 +37,9 @@ use Mollie\Api\EndpointCollection\RefundEndpointCollection;
 use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
-use Mollie\Api\EndpointCollection\SettlementEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
@@ -57,7 +58,6 @@ use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\Initializable;
 use Mollie\Api\Traits\SendsRequests;
-use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
 
 /**
  * @property BalanceEndpointCollection $balances

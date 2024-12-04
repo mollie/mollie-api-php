@@ -12,7 +12,6 @@ use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
-use Mollie\Api\MollieApiClient;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector

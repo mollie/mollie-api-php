@@ -107,7 +107,6 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      * Create an iterator for iterating over payment links retrieved from Mollie.
      *
      * @param  string|null  $from  The first resource ID you want to include in your list.
-     * @param  bool  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iterator(

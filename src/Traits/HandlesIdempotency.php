@@ -3,7 +3,6 @@
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
-use Mollie\Api\Contracts\Connector;
 
 /**
  * @mixin \Mollie\Api\MollieApiClient
@@ -60,7 +59,6 @@ trait HandlesIdempotency
     }
 
     /**
-     * @param  IdempotencyKeyGeneratorContract  $generator
      * @return $this
      */
     public function setIdempotencyKeyGenerator(IdempotencyKeyGeneratorContract $generator): self

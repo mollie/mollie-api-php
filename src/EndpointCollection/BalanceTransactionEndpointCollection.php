@@ -63,7 +63,6 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      * List the transactions for a specific Balance ID.
      *
      * @param  array|PaginatedQuery  $query
-     * @param  bool  $testmode
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */

@@ -157,7 +157,6 @@ class Profile extends BaseResource
     /**
      * Enable a payment method for this profile.
      *
-     * @param  string  $methodId
      *
      * @throws ApiException
      */
@@ -169,7 +168,6 @@ class Profile extends BaseResource
     /**
      * Disable a payment method for this profile.
      *
-     * @param  string  $methodId
      *
      * @throws ApiException
      */

@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use DateTimeInterface;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\UpdatePaymentRoutePayloadFactory;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;

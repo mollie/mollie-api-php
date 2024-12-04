@@ -9,7 +9,6 @@ class CurrentProfile extends Profile
     /**
      * Enable a payment method for this profile.
      *
-     * @param  string  $methodId
      *
      * @throws ApiException
      */
@@ -21,7 +20,6 @@ class CurrentProfile extends Profile
     /**
      * Disable a payment method for this profile.
      *
-     * @param  string  $methodId
      *
      * @throws ApiException
      */
