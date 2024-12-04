@@ -29,11 +29,11 @@ class MockMollieHttpAdapter implements HttpAdapterContract
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
-        if (! Arr::has($this->expectedResponses, $pendingRequest->getRequest()::class)) {
-            throw new \RuntimeException('The request class '.$pendingRequest->getRequest()::class.' is not expected.');
+        if (! Arr::has($this->expectedResponses, $requestClass = get_class($pendingRequest->getRequest()))) {
+            throw new \RuntimeException('The request class '.$requestClass.' is not expected.');
         }
 
-        $mockedResponse = $this->expectedResponses[$pendingRequest->getRequest()::class];
+        $mockedResponse = $this->expectedResponses[$requestClass];
 
         if ($mockedResponse instanceof SequenceMockResponse) {
             $mockedResponse = $mockedResponse->pop();

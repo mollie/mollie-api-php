@@ -253,6 +253,1122 @@ parameters:
 			path: src/CompatibilityChecker.php
 
 		-
+			message: '#^Parameter \#1 \$domain of class Mollie\\Api\\Http\\Payload\\RequestApplePayPaymentSessionPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/ApplePayPaymentSessionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$validationUrl of class Mollie\\Api\\Http\\Payload\\RequestApplePayPaymentSessionPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/ApplePayPaymentSessionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$profileId of class Mollie\\Api\\Http\\Payload\\RequestApplePayPaymentSessionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/ApplePayPaymentSessionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Mollie\\Api\\Http\\Payload\\Owner\:\:fromArray\(\) expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateClientLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Mollie\\Api\\Http\\Payload\\OwnerAddress\:\:fromArray\(\) expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateClientLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$name of class Mollie\\Api\\Http\\Payload\\CreateClientLinkPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateClientLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$registrationNumber of class Mollie\\Api\\Http\\Payload\\CreateClientLinkPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateClientLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$vatNumber of class Mollie\\Api\\Http\\Payload\\CreateClientLinkPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateClientLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of class Mollie\\Api\\Http\\Payload\\CreateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$email of class Mollie\\Api\\Http\\Payload\\CreateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$locale of class Mollie\\Api\\Http\\Payload\\CreateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$metadata of class Mollie\\Api\\Http\\Payload\\CreateCustomerPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$method of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$consumerName of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$consumerAccount of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$consumerBic of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$consumerEmail of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$signatureDate of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects DateTimeInterface\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$mandateReference of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$paypalBillingAgreementId of class Mollie\\Api\\Http\\Payload\\CreateMandatePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateMandatePayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\CreatePaymentCapturePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentCapturePayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$amount of class Mollie\\Api\\Http\\Payload\\CreatePaymentCapturePayload constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentCapturePayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$metadata of class Mollie\\Api\\Http\\Payload\\CreatePaymentCapturePayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentCapturePayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$amount of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$redirectUrl of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$webhookUrl of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$profileId of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$reusable of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects bool\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$expiresAt of class Mollie\\Api\\Http\\Payload\\CreatePaymentLinkPayload constructor expects DateTimeInterface\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Mollie\\Api\\Factories\\Factory\:\:new\(\) expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#10 \$method of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#11 \$issuer of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#12 \$restrictPaymentMethodsToCountry of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#13 \$metadata of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#14 \$captureMode of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#15 \$captureDelay of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#16 \$applicationFee of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\ApplicationFee\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#17 \$routing of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\DataCollection\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#18 \$sequenceType of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#19 \$mandateId of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#20 \$customerId of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#21 \$profileId of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#22 \$additional of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$redirectUrl of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$cancelUrl of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$webhookUrl of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$lines of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\DataCollection\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$billingAddress of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\Address\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$shippingAddress of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\Address\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#9 \$locale of class Mollie\\Api\\Http\\Payload\\CreatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$website of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$email of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$phone of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$description of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$countriesOfActivity of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects array\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$businessCategory of class Mollie\\Api\\Http\\Payload\\CreateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\CreateRefundPaymentPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateRefundPaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$metadata of class Mollie\\Api\\Http\\Payload\\CreateRefundPaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateRefundPaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$reverseRouting of class Mollie\\Api\\Http\\Payload\\CreateRefundPaymentPayload constructor expects bool\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateRefundPaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$routingReversals of class Mollie\\Api\\Http\\Payload\\CreateRefundPaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\DataCollection\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateRefundPaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Mollie\\Api\\Factories\\Factory\:\:new\(\) expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#10 \$webhookUrl of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#11 \$mandateId of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#12 \$profileId of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$interval of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$description of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$status of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$times of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects int\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$startDate of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects DateTimeInterface\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$method of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$applicationFee of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects Mollie\\Api\\Http\\Payload\\ApplicationFee\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#9 \$metadata of class Mollie\\Api\\Http\\Payload\\CreateSubscriptionPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/CreateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Method Mollie\\Api\\Factories\\Factory\:\:get\(\) has invalid return type Mollie\\Api\\Factories\\mixed\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Factories/Factory.php
+
+		-
+			message: '#^Method Mollie\\Api\\Factories\\Factory\:\:mapIfNotNull\(\) has invalid return type Mollie\\Api\\Factories\\mixed\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Factories/Factory.php
+
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type Mollie\\Api\\Factories\\mixed\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Factories/Factory.php
+
+		-
+			message: '#^Parameter \#2 \$profileId of class Mollie\\Api\\Http\\Query\\GetAllPaginatedSubscriptionsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetAllPaginatedSubscriptionsQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$includeIssuers of class Mollie\\Api\\Http\\Query\\GetAllMethodsQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetAllPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePricing of class Mollie\\Api\\Http\\Query\\GetAllMethodsQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetAllPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$locale of class Mollie\\Api\\Http\\Query\\GetAllMethodsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetAllPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#4 \$amount of class Mollie\\Api\\Http\\Query\\GetAllMethodsQuery constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetAllPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factories/GetBalanceReportQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$grouping of class Mollie\\Api\\Http\\Query\\GetBalanceReportQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetBalanceReportQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$embedOrganization of class Mollie\\Api\\Http\\Query\\GetClientQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetClientQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$embedOnboarding of class Mollie\\Api\\Http\\Query\\GetClientQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetClientQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$sequenceType of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#10 \$includePricing of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects bool\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$resource of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$locale of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#4 \$amount of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#5 \$billingCountry of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#6 \$includeWallets of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects array\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#7 \$orderLineCategories of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects array\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#8 \$profileId of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#9 \$includeIssuers of class Mollie\\Api\\Http\\Query\\GetEnabledPaymentMethodsQuery constructor expects bool\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetEnabledPaymentMethodsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$currency of class Mollie\\Api\\Http\\Query\\GetPaginatedBalanceQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedBalanceQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedChargebackQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedChargebackQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$profileId of class Mollie\\Api\\Http\\Query\\GetPaginatedChargebackQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedChargebackQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$embedOrganization of class Mollie\\Api\\Http\\Query\\GetPaginatedClientQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedClientQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$embedOnboarding of class Mollie\\Api\\Http\\Query\\GetPaginatedClientQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedClientQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$profileId of class Mollie\\Api\\Http\\Query\\GetPaginatedCustomerPaymentsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedCustomerPaymentsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$reference of class Mollie\\Api\\Http\\Query\\GetPaginatedInvoiceQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedInvoiceQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$year of class Mollie\\Api\\Http\\Query\\GetPaginatedInvoiceQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedInvoiceQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedPaymentCapturesQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedPaymentCapturesQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedPaymentChargebacksQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedPaymentChargebacksQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedPaymentRefundQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedPaymentRefundQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$embedPayment of class Mollie\\Api\\Http\\Query\\GetPaginatedRefundsQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedRefundsQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$profileId of class Mollie\\Api\\Http\\Query\\GetPaginatedRefundsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedRefundsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedSettlementCapturesQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedSettlementCapturesQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedSettlementChargebacksQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedSettlementChargebacksQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$profileId of class Mollie\\Api\\Http\\Query\\GetPaginatedSettlementChargebacksQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedSettlementChargebacksQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaginatedSettlementRefundsQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedSettlementRefundsQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$balanceId of class Mollie\\Api\\Http\\Query\\GetPaginatedSettlementsQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaginatedSettlementsQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaymentCaptureQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentCaptureQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaymentChargebackQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentChargebackQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$locale of class Mollie\\Api\\Http\\Query\\GetPaymentMethodQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentMethodQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$currency of class Mollie\\Api\\Http\\Query\\GetPaymentMethodQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentMethodQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$profileId of class Mollie\\Api\\Http\\Query\\GetPaymentMethodQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentMethodQueryFactory.php
+
+		-
+			message: '#^Parameter \#4 \$includeIssuers of class Mollie\\Api\\Http\\Query\\GetPaymentMethodQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentMethodQueryFactory.php
+
+		-
+			message: '#^Parameter \#5 \$includePricing of class Mollie\\Api\\Http\\Query\\GetPaymentMethodQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentMethodQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$embedCaptures of class Mollie\\Api\\Http\\Query\\GetPaymentQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$embedRefunds of class Mollie\\Api\\Http\\Query\\GetPaymentQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$embedChargebacks of class Mollie\\Api\\Http\\Query\\GetPaymentQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentQueryFactory.php
+
+		-
+			message: '#^Parameter \#4 \$includeQrCode of class Mollie\\Api\\Http\\Query\\GetPaymentQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentQueryFactory.php
+
+		-
+			message: '#^Parameter \#5 \$includeRemainderDetails of class Mollie\\Api\\Http\\Query\\GetPaymentQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$includePayment of class Mollie\\Api\\Http\\Query\\GetPaymentRefundQuery constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/GetPaymentRefundQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$currency of class Mollie\\Api\\Http\\Payload\\Money constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/MoneyFactory.php
+
+		-
+			message: '#^Parameter \#2 \$value of class Mollie\\Api\\Http\\Payload\\Money constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/MoneyFactory.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Mollie\\Api\\Factories\\Factory\:\:new\(\) expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#10 \$vatAmount of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#11 \$sku of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#12 \$imageUrl of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#13 \$productUrl of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#2 \$quantity of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects int, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#5 \$type of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#6 \$quantityUnit of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#7 \$discountAmount of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#8 \$recurring of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects Mollie\\Api\\Http\\Payload\\RecurringBillingCycle\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#9 \$vatRate of class Mollie\\Api\\Http\\Payload\\OrderLine constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/OrderLineFactory.php
+
+		-
+			message: '#^Parameter \#1 \$from of class Mollie\\Api\\Http\\Query\\PaginatedQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/PaginatedQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$limit of class Mollie\\Api\\Http\\Query\\PaginatedQuery constructor expects int\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/PaginatedQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$interval of class Mollie\\Api\\Http\\Payload\\RecurringBillingCycle constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/RecurringBillingCycleFactory.php
+
+		-
+			message: '#^Parameter \#2 \$description of class Mollie\\Api\\Http\\Payload\\RecurringBillingCycle constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/RecurringBillingCycleFactory.php
+
+		-
+			message: '#^Parameter \#3 \$amount of class Mollie\\Api\\Http\\Payload\\RecurringBillingCycle constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/RecurringBillingCycleFactory.php
+
+		-
+			message: '#^Parameter \#4 \$times of class Mollie\\Api\\Http\\Payload\\RecurringBillingCycle constructor expects int\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/RecurringBillingCycleFactory.php
+
+		-
+			message: '#^Parameter \#5 \$startDate of class Mollie\\Api\\Http\\Payload\\RecurringBillingCycle constructor expects DateTimeInterface\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/RecurringBillingCycleFactory.php
+
+		-
+			message: '#^Parameter \#1 \$from of class Mollie\\Api\\Http\\Query\\SortablePaginatedQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/SortablePaginatedQueryFactory.php
+
+		-
+			message: '#^Parameter \#2 \$limit of class Mollie\\Api\\Http\\Query\\SortablePaginatedQuery constructor expects int\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/SortablePaginatedQueryFactory.php
+
+		-
+			message: '#^Parameter \#3 \$sort of class Mollie\\Api\\Http\\Query\\SortablePaginatedQuery constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/SortablePaginatedQueryFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of class Mollie\\Api\\Http\\Payload\\UpdateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$email of class Mollie\\Api\\Http\\Payload\\UpdateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$locale of class Mollie\\Api\\Http\\Payload\\UpdateCustomerPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$metadata of class Mollie\\Api\\Http\\Payload\\UpdateCustomerPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateCustomerPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\UpdatePaymentLinkPayload constructor expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$archived of class Mollie\\Api\\Http\\Payload\\UpdatePaymentLinkPayload constructor expects bool, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentLinkPayloadFactory.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$description of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$redirectUrl of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$cancelUrl of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$webhookUrl of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$metadata of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$method of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$locale of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$restrictPaymentMethodsToCountry of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#9 \$additional of class Mollie\\Api\\Http\\Payload\\UpdatePaymentPayload constructor expects array, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$datetime of static method DateTimeImmutable\:\:createFromFormat\(\) expects string, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdatePaymentRoutePayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$website of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$email of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$phone of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$description of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$countriesOfActivity of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects array\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$businessCategory of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$mode of class Mollie\\Api\\Http\\Payload\\UpdateProfilePayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateProfilePayloadFactory.php
+
+		-
+			message: '#^Parameter \#1 \$amount of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects Mollie\\Api\\Http\\Payload\\Money\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#2 \$description of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#3 \$interval of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#4 \$startDate of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects DateTimeInterface\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#5 \$times of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects int\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#6 \$metadata of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects Mollie\\Api\\Http\\Payload\\Metadata\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#7 \$webhookUrl of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
+			message: '#^Parameter \#8 \$mandateId of class Mollie\\Api\\Http\\Payload\\UpdateSubscriptionPayload constructor expects string\|null, Mollie\\Api\\Factories\\mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factories/UpdateSubscriptionPayloadFactory.php
+
+		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
