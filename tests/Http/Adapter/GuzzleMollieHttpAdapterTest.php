@@ -5,7 +5,6 @@ namespace Tests\Http\Adapter;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
-use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\PendingRequest;
