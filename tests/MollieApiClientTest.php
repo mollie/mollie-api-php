@@ -202,7 +202,7 @@ class MollieApiClientTest extends TestCase
     public function idempotency_key_is_used_on_mutating_requests($request, $response)
     {
         $client = new MockClient([
-            $request::class => $response,
+            get_class($request) => $response,
         ]);
 
         $client->setIdempotencyKey('idempotentFooBar');

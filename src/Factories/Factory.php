@@ -27,7 +27,7 @@ abstract class Factory implements FactoryContract
      * @param  string|array<string>  $key
      * @param  mixed  $default
      */
-    protected function get($key, $default = null, $backupKey = 'filters.'): mixed
+    protected function get($key, $default = null, $backupKey = 'filters.')
     {
         $keys = (array) $key;
 
@@ -66,7 +66,7 @@ abstract class Factory implements FactoryContract
      * @param  string  $backupKey  The key to retrieve the value from the data array if the first key is null.
      * @return mixed The transformed value, a new class instance, or null if the value is null.
      */
-    protected function mapIfNotNull($key, $composable, $backupKey = 'filters.'): mixed
+    protected function mapIfNotNull($key, $composable, $backupKey = 'filters.')
     {
         return Helpers::compose($this->get($key, null, $backupKey), $composable);
     }
