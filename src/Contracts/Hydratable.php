@@ -4,7 +4,7 @@ namespace Mollie\Api\Contracts;
 
 interface Hydratable
 {
-    public static function shouldAutoHydrate(bool $shouldAutoHydrate = true): void;
+    public static function setAutoHydrate(bool $shouldAutoHydrate = true): void;
 
     /**
      * @return mixed

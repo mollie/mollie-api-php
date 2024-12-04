@@ -11,6 +11,6 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        MockClient::shouldAutoHydrate(false);
+        MockClient::setAutoHydrate(false);
     }
 }

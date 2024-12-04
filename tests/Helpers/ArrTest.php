@@ -18,6 +18,25 @@ class ArrTest extends TestCase
     }
 
     /** @test */
+    public function pull(): void
+    {
+        $array = ['foo' => ['bar' => 'baz']];
+
+        $this->assertEquals('baz', Arr::pull($array, 'foo.bar'));
+        $this->assertEquals(['foo' => []], $array);
+    }
+
+    /** @test */
+    public function forget(): void
+    {
+        $array = ['foo' => ['bar' => 'baz']];
+
+        Arr::forget($array, 'foo.bar');
+
+        $this->assertEquals(['foo' => []], $array);
+    }
+
+    /** @test */
     public function has(): void
     {
         $array = ['foo' => ['bar' => 'baz']];

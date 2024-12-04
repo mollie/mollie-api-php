@@ -8,7 +8,7 @@ trait HandlesAutoHydration
 {
     protected static $hydrationSettingResolver = null;
 
-    public static function shouldAutoHydrate(bool $shouldAutoHydrate = true): void
+    public static function setAutoHydrate(bool $shouldAutoHydrate = true): void
     {
         static::$hydrationSettingResolver = static function () use ($shouldAutoHydrate) {
             ResourceHydratableRequest::hydrate($shouldAutoHydrate);

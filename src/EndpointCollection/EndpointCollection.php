@@ -16,7 +16,7 @@ abstract class EndpointCollection
         /**
          * Default hydration decision to true to maintain legacy compatibility.
          */
-        $connector::shouldAutoHydrate();
+        $connector::setAutoHydrate();
     }
 
     /**

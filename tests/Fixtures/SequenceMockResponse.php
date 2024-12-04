@@ -30,4 +30,9 @@ class SequenceMockResponse
 
         return $response;
     }
+
+    public function isEmpty(): bool
+    {
+        return count($this->responses) === 0;
+    }
 }

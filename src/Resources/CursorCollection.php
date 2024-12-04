@@ -4,15 +4,43 @@ namespace Mollie\Api\Resources;
 
 use Generator;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 
 abstract class CursorCollection extends ResourceCollection
 {
+    private bool $autoHydrate = false;
+
+    public function setAutoHydrate(bool $shouldAutoHydrate = true): void
+    {
+        $this->autoHydrate = $shouldAutoHydrate;
+    }
+
+    public function shouldAutoHydrate(): bool
+    {
+        if ($this->response === null) {
+            return $this->autoHydrate;
+        }
+
+        $request = $this->response->getRequest();
+
+        /**
+         * Don't try to hydrate when the request
+         * already has auto-hydration enabled. The
+         * Hydrate Middleware will take care of that.
+         */
+        if ($request instanceof ResourceHydratableRequest && $request->shouldAutoHydrate()) {
+            return false;
+        }
+
+        return $this->autoHydrate;
+    }
+
     /**
      * Return the next set of resources when available
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function next(): ?CursorCollection
+    public function next(): ?CursorCollection
     {
         if (! $this->hasNext()) {
             return null;
@@ -26,7 +54,7 @@ abstract class CursorCollection extends ResourceCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function previous(): ?CursorCollection
+    public function previous(): ?CursorCollection
     {
         if (! $this->hasPrevious()) {
             return null;
@@ -37,9 +65,13 @@ abstract class CursorCollection extends ResourceCollection
 
     private function fetchCollection(string $url): CursorCollection
     {
-        return $this
+        $response = $this
             ->connector
             ->send(new DynamicGetRequest($url, static::class));
+
+        return $this->shouldAutoHydrate()
+            ? $response->toResource()
+            : $response;
     }
 
     /**
@@ -66,6 +98,8 @@ abstract class CursorCollection extends ResourceCollection
         $page = $this;
 
         return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
+            $page->setAutoHydrate();
+
             while (true) {
                 foreach ($page as $item) {
                     yield $item;

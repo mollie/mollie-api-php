@@ -13,13 +13,6 @@ use Tests\TestCase;
 
 class CursorCollectionTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        MockClient::shouldAutoHydrate();
-    }
-
     /** @test */
     public function can_get_next_collection_result_when_next_link_is_available()
     {
@@ -37,6 +30,8 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
+        $collection->setAutoHydrate();
+
         $this->assertTrue($collection->hasNext());
 
         $nextPage = $collection->next();
@@ -53,6 +48,8 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
+
+        $collection->setAutoHydrate();
 
         $this->assertFalse($collection->hasNext());
         $this->assertNull($collection->next());
@@ -74,6 +71,8 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
+        $collection->setAutoHydrate();
+
         $this->assertTrue($collection->hasPrevious());
 
         $previousPage = $collection->previous();
@@ -91,6 +90,8 @@ class CursorCollectionTest extends TestCase
             (object) []
         );
 
+        $collection->setAutoHydrate();
+
         $this->assertFalse($collection->hasPrevious());
         $this->assertNull($collection->previous());
     }
@@ -104,6 +105,8 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
+
+        $collection->setAutoHydrate();
 
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
