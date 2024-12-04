@@ -19,8 +19,6 @@ use Mollie\Api\EndpointCollection\MandateEndpointCollection;
 use Mollie\Api\EndpointCollection\MethodEndpointCollection;
 use Mollie\Api\EndpointCollection\MethodIssuerEndpointCollection;
 use Mollie\Api\EndpointCollection\OnboardingEndpointCollection;
-use Mollie\Api\EndpointCollection\OrderEndpointCollection;
-use Mollie\Api\EndpointCollection\OrderShipmentEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationPartnerEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection;
@@ -73,7 +71,6 @@ use Mollie\Api\Traits\SendsRequests;
  * @property MethodEndpointCollection $methods
  * @property MethodIssuerEndpointCollection $methodIssuers
  * @property OnboardingEndpointCollection $onboarding
- * @property OrderEndpointCollection $orders
  * @property OrganizationEndpointCollection $organizations
  * @property OrganizationPartnerEndpointCollection $organizationPartners
  * @property PaymentEndpointCollection $payments
@@ -92,7 +89,6 @@ use Mollie\Api\Traits\SendsRequests;
  * @property SettlementChargebackEndpointCollection $settlementChargebacks
  * @property SettlementPaymentEndpointCollection $settlementPayments
  * @property SettlementRefundEndpointCollection $settlementRefunds
- * @property OrderShipmentEndpointCollection $shipments
  * @property SubscriptionEndpointCollection $subscriptions
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals

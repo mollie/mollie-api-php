@@ -11,7 +11,7 @@ trait HasDefaultFactories
 
     public function factories(): Factories
     {
-        if (isset(static::$factories) && static::$factories !== null) {
+        if (static::$factories) {
             return static::$factories;
         }
 

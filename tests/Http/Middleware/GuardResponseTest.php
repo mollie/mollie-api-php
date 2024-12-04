@@ -57,9 +57,6 @@ class GuardResponseTest extends TestCase
 
         // No exception should be thrown
         $guardResponse($responseMock);
-
-        // If the test reaches here without exceptions, it passes
-        $this->assertTrue(true);
     }
 
     /**

@@ -60,7 +60,7 @@
     "brianium/paratest": "^6.11",
     "friendsofphp/php-cs-fixer": "^3.39",
     "guzzlehttp/guzzle": "^7.6",
-    "phpstan/phpstan": "^1.10",
+    "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^9.6"
   },
   "suggest": {

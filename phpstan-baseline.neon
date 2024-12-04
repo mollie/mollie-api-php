@@ -1,246 +1,355 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/captures/create-capture.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/captures/get-capture.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/captures/list-captures.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/client-links/create-client-link.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/create-customer-first-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/create-customer-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/create-customer-recurring-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/create-customer.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/delete-customer.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/list-customer-payments.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/customers/update-customer.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/invoices/list-invoices.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/mandates/create-mandate.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/mandates/list-mandates.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/mandates/revoke-mandate.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 2
 			path: examples/pagination/backwards.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 2
 			path: examples/pagination/basic_usage.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payment-links/create-payment-link.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payment-links/list-payment-links.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/create-capturable-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 2
 			path: examples/payments/create-ideal-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 2
 			path: examples/payments/create-payment-oauth.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/create-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/list-methods.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/list-payments.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/refund-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/return.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/update-payment.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/payments/webhook.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/profiles/create-profile.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/profiles/delete-profile.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/profiles/list-profiles.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/profiles/update-profile.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/sessions/cancel-session.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/sessions/create-session.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/sessions/list-sessions.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/sessions/update-session.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/settlements/list-settlements.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/subscriptions/cancel-subscription.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/subscriptions/create-subscription.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/subscriptions/update-subscription.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 1
 			path: src/CompatibilityChecker.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 1
 			path: src/Http/Payload/CreateRefundPaymentPayload.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 5
 			path: src/Http/Payload/DataCollection.php
 
 		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$_links\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/CustomerEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/MandateEndpointCollectionTest.php
+
+		-
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$_links\.$#'
+			identifier: property.notFound
 			count: 1
 			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$description\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$description\.$#'
+			identifier: property.notFound
 			count: 1
 			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$status\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$status\.$#'
+			identifier: property.notFound
 			count: 1
 			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Unsafe access to private property Tests\\\\Fixtures\\\\MockResponse\\:\\:\\$factories through static\\:\\:\\.$#"
-			count: 4
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/PaymentLinkEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/PaymentRefundEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/ProfileEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 2
+			path: tests/EndpointCollection/ProfileMethodEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/SessionEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/EndpointCollection/SubscriptionEndpointCollectionTest.php
+
+		-
+			message: '#^Unsafe access to private property Tests\\Fixtures\\MockResponse\:\:\$factories through static\:\:\.$#'
+			identifier: staticClassAccess.privateProperty
+			count: 3
 			path: tests/Fixtures/MockResponse.php
 
 		-
-			message: "#^Unsafe access to private property Tests\\\\Http\\\\Adapter\\\\MockMollieHttpAdapter\\:\\:\\$factories through static\\:\\:\\.$#"
-			count: 4
+			message: '#^Unsafe access to private property Tests\\Http\\Adapter\\MockMollieHttpAdapter\:\:\$factories through static\:\:\.$#'
+			identifier: staticClassAccess.privateProperty
+			count: 3
 			path: tests/Http/Adapter/MockMollieHttpAdapter.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Http/Middleware/GuardResponseTest.php

@@ -53,10 +53,6 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
                 return $this->createResponse($pendingRequest, 504, [], null, $e);
             }
         }
-
-        throw new CurlConnectTimeoutException(
-            'Unable to connect to Mollie. Maximum number of retries ('.self::MAX_RETRIES.') reached.'
-        );
     }
 
     protected function createResponse(PendingRequest $pendingRequest, int $statusCode, $headers = [], $body = null, ?Throwable $error = null): Response

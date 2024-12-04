@@ -289,7 +289,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Used to restrict the payment methods available to your customer to those from a single country.
      *
-     * @var string|null;
+     * @var string|null
      */
     public $restrictPaymentMethodsToCountry;
 
