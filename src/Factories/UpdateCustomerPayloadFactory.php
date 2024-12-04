@@ -14,7 +14,6 @@ class UpdateCustomerPayloadFactory extends Factory
             $this->get('email'),
             $this->get('locale'),
             $this->mapIfNotNull('metadata', Metadata::class),
-            $this->get('testmode')
         );
     }
 }

@@ -26,7 +26,7 @@ class PaymentRouteEndpointCollection extends EndpointCollection
     /**
      * Update the release date for a payment route using payment ID.
      *
-     * @param  DateTimeInterface  $releaseDate  UTC datetime when the funds will become available
+     * @param  string  $releaseDate  UTC datetime when the funds will become available
      *
      * @throws ApiException
      */

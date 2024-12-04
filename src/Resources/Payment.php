@@ -12,7 +12,11 @@ use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
+use Mollie\Api\MollieApiClient;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Payment extends BaseResource implements EmbeddedResourcesContract
 {
     use HasMode;
@@ -20,8 +24,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * Resource id prefix. Used to validate resource id's.
      */
-    public static string $resourceIdPrefix = 'tr_';
-
     /**
      * Id of the payment (on the Mollie platform).
      *

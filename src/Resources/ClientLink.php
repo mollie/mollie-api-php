@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\ApprovalPrompt;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class ClientLink extends BaseResource
 {
     /**

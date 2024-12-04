@@ -4,10 +4,11 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\InvoiceStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Invoice extends BaseResource
 {
-    public static string $resourceIdPrefix = 'inv_';
-
     /**
      * @var string
      */

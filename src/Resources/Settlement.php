@@ -5,10 +5,11 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Types\SettlementStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Settlement extends BaseResource
 {
-    public static string $resourceIdPrefix = 'stl_';
-
     /**
      * Id of the settlement.
      *
@@ -115,9 +116,7 @@ class Settlement extends BaseResource
     {
         return $this->connector->settlementPayments->pageForId(
             $this->id,
-            null,
-            $limit,
-            $parameters
+            array_merge($parameters, ['limit' => $limit])
         );
     }
 
@@ -130,9 +129,7 @@ class Settlement extends BaseResource
     {
         return $this->connector->settlementRefunds->pageForId(
             $this->id,
-            null,
-            $limit,
-            $parameters
+            array_merge($parameters, ['limit' => $limit])
         );
     }
 
@@ -145,9 +142,7 @@ class Settlement extends BaseResource
     {
         return $this->connector->settlementChargebacks->pageForId(
             $this->id,
-            null,
-            $limit,
-            $parameters
+            array_merge($parameters, ['limit' => $limit])
         );
     }
 
@@ -160,9 +155,7 @@ class Settlement extends BaseResource
     {
         return $this->connector->settlementCaptures->pageForId(
             $this->id,
-            null,
-            $limit,
-            $parameters
+            array_merge($parameters, ['limit' => $limit])
         );
     }
 }

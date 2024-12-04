@@ -6,11 +6,12 @@ use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\RefundStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Refund extends BaseResource
 {
     use HasMode;
-
-    public static string $resourceIdPrefix = 're_';
 
     /**
      * Id of the payment method.

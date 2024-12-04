@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class PaymentLink extends BaseResource
 {
-    public static string $resourceIdPrefix = 'pl_';
-
     /**
      * Id of the payment link (on the Mollie platform).
      *

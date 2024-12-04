@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\OnboardingStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Onboarding extends BaseResource
 {
     /**

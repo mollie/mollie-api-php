@@ -21,7 +21,7 @@ use Mollie\Api\EndpointCollection\OnboardingEndpointCollection;
 use Mollie\Api\EndpointCollection\OrderEndpointCollection;
 use Mollie\Api\EndpointCollection\OrderShipmentEndpointCollection;
 use Mollie\Api\EndpointCollection\OrganizationEndpointCollection;
-use Mollie\Api\EndpointCollection\OrganizationPartnerEndpoint;
+use Mollie\Api\EndpointCollection\OrganizationPartnerEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
@@ -38,7 +38,7 @@ use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
-use Mollie\Api\EndpointCollection\SettlementsEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
@@ -57,6 +57,7 @@ use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\Initializable;
 use Mollie\Api\Traits\SendsRequests;
+use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
 
 /**
  * @property BalanceEndpointCollection $balances
@@ -74,7 +75,7 @@ use Mollie\Api\Traits\SendsRequests;
  * @property OnboardingEndpointCollection $onboarding
  * @property OrderEndpointCollection $orders
  * @property OrganizationEndpointCollection $organizations
- * @property OrganizationPartnerEndpoint $organizationPartners
+ * @property OrganizationPartnerEndpointCollection $organizationPartners
  * @property PaymentEndpointCollection $payments
  * @property PaymentCaptureEndpointCollection $paymentCaptures
  * @property PaymentChargebackEndpointCollection $paymentChargebacks
@@ -86,7 +87,7 @@ use Mollie\Api\Traits\SendsRequests;
  * @property ProfileEndpointCollection $profiles
  * @property ProfileMethodEndpointCollection $profileMethods
  * @property RefundEndpointCollection $refunds
- * @property SettlementsEndpointCollection $settlements
+ * @property SettlementEndpointCollection $settlements
  * @property SettlementCaptureEndpointCollection $settlementCaptures
  * @property SettlementChargebackEndpointCollection $settlementChargebacks
  * @property SettlementPaymentEndpointCollection $settlementPayments

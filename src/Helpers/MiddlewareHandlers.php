@@ -61,7 +61,7 @@ class MiddlewareHandlers
     }
 
     /**
-     * @param  array<MiddlewareHandlers>  ...$handlers
+     * @param  array<MiddlewareHandlers>  ...$handlersCollection
      */
     public function merge(...$handlersCollection): self
     {

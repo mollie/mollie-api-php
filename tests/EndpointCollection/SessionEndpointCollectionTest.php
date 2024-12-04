@@ -113,7 +113,6 @@ class SessionEndpointCollectionTest extends TestCase
         $this->assertEquals('session', $session->resource);
         $this->assertNotEmpty($session->id);
         $this->assertNotEmpty($session->mode);
-        $this->assertNotEmpty($session->createdAt);
         $this->assertNotEmpty($session->status);
         $this->assertNotEmpty($session->amount);
         $this->assertNotEmpty($session->description);

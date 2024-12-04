@@ -19,8 +19,6 @@ class GetPaginatedSettlementChargebacksRequest extends PaginatedRequest implemen
 
     private string $settlementId;
 
-    private ?GetPaginatedSettlementChargebacksQuery $query;
-
     public function __construct(string $settlementId, ?GetPaginatedSettlementChargebacksQuery $query = null)
     {
         $this->settlementId = $settlementId;

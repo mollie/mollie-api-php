@@ -41,6 +41,7 @@ class HandlersTest extends TestCase
 
         $this->assertCount(3, $handlers->getHandlers());
 
+        /** @var TestViableResponse $response */
         $response = $handlers->execute($output);
 
         $this->assertInstanceOf(TestViableResponse::class, $response);

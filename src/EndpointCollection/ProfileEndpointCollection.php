@@ -77,7 +77,7 @@ class ProfileEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
-     * @param  array|UpdateProfilePayload  $data
+     * @param  array|UpdateProfilePayload  $payload
      *
      * @throws ApiException
      */

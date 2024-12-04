@@ -17,6 +17,7 @@ abstract class Factory implements FactoryContract
 
     public static function new(array $data): self
     {
+        /** @phpstan-ignore-next-line */
         return new static($data);
     }
 

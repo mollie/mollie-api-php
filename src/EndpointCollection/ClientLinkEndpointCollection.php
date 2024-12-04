@@ -13,18 +13,18 @@ class ClientLinkEndpointCollection extends EndpointCollection
     /**
      * Creates a client link in Mollie.
      *
-     * @param  array  $data  An array containing details on the client link.
+     * @param  array|CreateClientLinkPayload  $payload  An array containing details on the client link.
      *
      * @throws ApiException
      */
-    public function create($data = []): ClientLink
+    public function create($payload = []): ClientLink
     {
-        if (! $data instanceof CreateClientLinkPayload) {
-            $data = CreateClientLinkPayloadFactory::new($data)
+        if (! $payload instanceof CreateClientLinkPayload) {
+            $payload = CreateClientLinkPayloadFactory::new($payload)
                 ->create();
         }
 
         /** @var ClientLink */
-        return $this->send(new CreateClientLinkRequest($data));
+        return $this->send(new CreateClientLinkRequest($payload));
     }
 }

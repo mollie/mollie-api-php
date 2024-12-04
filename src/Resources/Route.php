@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Route extends BaseResource
 {
-    public static string $resourceIdPrefix = 'rt_';
-
     /**
      * Id of the payment method.
      *

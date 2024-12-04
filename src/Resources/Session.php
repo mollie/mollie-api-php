@@ -5,6 +5,9 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\SessionStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Session extends BaseResource
 {
     use HasMode;
@@ -160,13 +163,11 @@ class Session extends BaseResource
     /**
      * Cancels this session.
      *
-     * @return Session
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel()
+    public function cancel(): void
     {
-        return $this->connector->sessions->cancel($this->id, $this->withMode());
+        $this->connector->sessions->cancel($this->id);
     }
 
     /**

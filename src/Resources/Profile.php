@@ -6,6 +6,9 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\ProfileStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Profile extends BaseResource
 {
     /**
@@ -158,9 +161,9 @@ class Profile extends BaseResource
      *
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = []): Method
+    public function enableMethod(string $methodId): Method
     {
-        return $this->connector->profileMethods->createFor($this, $methodId, $data);
+        return $this->connector->profileMethods->createFor($this, $methodId);
     }
 
     /**
@@ -170,9 +173,9 @@ class Profile extends BaseResource
      *
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = []): ?Method
+    public function disableMethod(string $methodId): void
     {
-        return $this->connector->profileMethods->deleteFor($this, $methodId, $data);
+        $this->connector->profileMethods->deleteFor($this, $methodId);
     }
 
     /**

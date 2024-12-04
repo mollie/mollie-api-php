@@ -19,8 +19,6 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
 
     private string $settlementId;
 
-    private ?GetPaginatedSettlementRefundsQuery $query;
-
     public function __construct(string $settlementId, ?GetPaginatedSettlementRefundsQuery $query = null)
     {
         $this->settlementId = $settlementId;

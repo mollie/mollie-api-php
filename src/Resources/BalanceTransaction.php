@@ -6,6 +6,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Traits\HasMode;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class BalanceTransaction extends BaseResource
 {
     use HasMode;

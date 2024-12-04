@@ -204,3 +204,43 @@ parameters:
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
 			path: examples/subscriptions/update-subscription.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/CompatibilityChecker.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Payload/CreateRefundPaymentPayload.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 5
+			path: src/Http/Payload/DataCollection.php
+
+		-
+			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$_links\\.$#"
+			count: 1
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
+
+		-
+			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$description\\.$#"
+			count: 1
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
+
+		-
+			message: "#^Access to an undefined property Mollie\\\\Api\\\\Resources\\\\Issuer\\:\\:\\$status\\.$#"
+			count: 1
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
+
+		-
+			message: "#^Unsafe access to private property Tests\\\\Fixtures\\\\MockResponse\\:\\:\\$factories through static\\:\\:\\.$#"
+			count: 4
+			path: tests/Fixtures/MockResponse.php
+
+		-
+			message: "#^Unsafe access to private property Tests\\\\Http\\\\Adapter\\\\MockMollieHttpAdapter\\:\\:\\$factories through static\\:\\:\\.$#"
+			count: 4
+			path: tests/Http/Adapter/MockMollieHttpAdapter.php

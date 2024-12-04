@@ -4,10 +4,11 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\TerminalStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Terminal extends BaseResource
 {
-    public static string $resourceIdPrefix = 'term_';
-
     /**
      * @var string
      */

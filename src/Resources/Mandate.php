@@ -5,6 +5,9 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Types\MandateStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Mandate extends BaseResource
 {
     /**
@@ -33,7 +36,7 @@ class Mandate extends BaseResource
     public $details;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $customerId;
 
@@ -79,7 +82,7 @@ class Mandate extends BaseResource
      */
     public function revoke(): ?Mandate
     {
-        if (! isset($this->id, $this->customerId)) {
+        if (! isset($this->customerId)) {
             return $this;
         }
 
@@ -88,7 +91,6 @@ class Mandate extends BaseResource
             ->send((new RevokeMandateRequest(
                 $this->customerId,
                 $this->id,
-                $this->mode === 'test'
             ))->test($this->mode === 'test'))
             ->toResource();
     }

@@ -5,11 +5,12 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Traits\HasMode;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Customer extends BaseResource
 {
     use HasMode;
-
-    public static string $resourceIdPrefix = 'cst_';
 
     /**
      * Id of the customer.
@@ -170,13 +171,12 @@ class Customer extends BaseResource
 
     /**
      * @param  string  $mandateId
-     * @return null
      *
      * @throws ApiException
      */
-    public function revokeMandate($mandateId)
+    public function revokeMandate($mandateId): void
     {
-        return $this->connector->mandates->revokeFor($this, $mandateId, $this->withMode());
+        $this->connector->mandates->revokeFor($this, $mandateId, $this->withMode());
     }
 
     /**

@@ -113,7 +113,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
     public function iterator(
         ?string $from = null,
         ?int $limit = null,
-        $testmode = [],
+        bool $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Helpers::extractBool($testmode, 'testmode', false);

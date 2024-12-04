@@ -33,7 +33,7 @@ use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
-use Mollie\Api\EndpointCollection\SettlementsEndpointCollection;
+use Mollie\Api\EndpointCollection\SettlementEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
@@ -87,7 +87,7 @@ trait HasEndpoints
             'settlementChargebacks' => SettlementChargebackEndpointCollection::class,
             'settlementPayments' => SettlementPaymentEndpointCollection::class,
             'settlementRefunds' => SettlementRefundEndpointCollection::class,
-            'settlements' => SettlementsEndpointCollection::class,
+            'settlements' => SettlementEndpointCollection::class,
             'subscriptions' => SubscriptionEndpointCollection::class,
             'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
             'terminals' => TerminalEndpointCollection::class,

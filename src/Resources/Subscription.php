@@ -6,10 +6,11 @@ use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\SubscriptionStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Subscription extends BaseResource
 {
-    public static string $resourceIdPrefix = 'sub_';
-
     /**
      * @var string
      */

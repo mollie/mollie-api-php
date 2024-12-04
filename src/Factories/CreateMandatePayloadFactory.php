@@ -22,7 +22,6 @@ class CreateMandatePayloadFactory extends Factory
             $this->mapIfNotNull('signatureDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
             $this->get('mandateReference'),
             $this->get('paypalBillingAgreementId'),
-            $this->get('testmode')
         );
     }
 }

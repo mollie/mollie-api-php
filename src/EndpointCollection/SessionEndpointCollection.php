@@ -84,10 +84,9 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function cancel(string $id): ?Session
+    public function cancel(string $id): void
     {
-        /** @var Session|null */
-        return $this->send(new CancelSessionRequest($id));
+        $this->send(new CancelSessionRequest($id));
     }
 
     /**

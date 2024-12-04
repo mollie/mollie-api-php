@@ -19,8 +19,6 @@ class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements 
 
     private string $settlementId;
 
-    private ?GetPaginatedSettlementCapturesQuery $query;
-
     public function __construct(string $settlementId, ?GetPaginatedSettlementCapturesQuery $query = null)
     {
         $this->settlementId = $settlementId;

@@ -10,7 +10,7 @@ class GuardResponse
 {
     public function __invoke(Response $response)
     {
-        if ($isEmpty = $response->isEmpty() && $response->status() !== ResponseStatusCode::HTTP_NO_CONTENT) {
+        if (($isEmpty = $response->isEmpty()) && $response->status() !== ResponseStatusCode::HTTP_NO_CONTENT) {
             throw new ApiException('No response body found.');
         }
 

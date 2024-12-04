@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Client extends BaseResource implements EmbeddedResourcesContract
 {
     /**

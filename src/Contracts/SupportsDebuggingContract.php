@@ -7,14 +7,14 @@ interface SupportsDebuggingContract
     /**
      * Enable debugging for the current request.
      *
-     * @return $this
+     * @return HttpAdapterContract|Connector
      */
     public function enableDebugging();
 
     /**
      * Disable debugging for the current request.
      *
-     * @return $this
+     * @return HttpAdapterContract|Connector
      */
     public function disableDebugging();
 }

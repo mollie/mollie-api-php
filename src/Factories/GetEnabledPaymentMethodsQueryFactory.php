@@ -23,7 +23,6 @@ class GetEnabledPaymentMethodsQueryFactory extends Factory
             $this->get('profileId'),
             $this->get('includeIssuers', $includeIssuers),
             $this->get('includePricing', $includePricing),
-            $this->get('testmode')
         );
     }
 }

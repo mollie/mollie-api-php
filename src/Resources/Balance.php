@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Traits\HasMode;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Balance extends BaseResource
 {
     use HasMode;
@@ -11,8 +14,6 @@ class Balance extends BaseResource
     /**
      * Resource id prefix. Used to validate resource id's.
      */
-    public static string $resourceIdPrefix = 'bal_';
-
     /**
      * Indicates this is a balance resource. The value will always be "balance" here.
      *

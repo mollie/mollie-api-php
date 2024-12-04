@@ -15,8 +15,6 @@ trait IsDebuggableAdapter
      * Enable debugging. If debugging mode is enabled, the request will
      * be included in the ApiException. By default, debugging is disabled to prevent
      * sensitive request data from leaking into exception logs.
-     *
-     * @return $this
      */
     public function enableDebugging(): HttpAdapterContract
     {
@@ -29,8 +27,6 @@ trait IsDebuggableAdapter
      * Disable debugging. If debugging mode is enabled, the request will
      * be included in the ApiException. By default, debugging is disabled to prevent
      * sensitive request data from leaking into exception logs.
-     *
-     * @return $this
      */
     public function disableDebugging(): HttpAdapterContract
     {

@@ -26,11 +26,17 @@ class WalletEndpointCollectionTest extends TestCase
         );
 
         $this->assertInstanceOf(AnyResource::class, $applePaySession);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->domainName);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->displayName);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->merchantIdentifier);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->merchantSessionIdentifier);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->nonce);
+        /** @phpstan-ignore-next-line */
         $this->assertNotEmpty($applePaySession->signature);
     }
 }

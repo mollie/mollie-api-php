@@ -5,6 +5,9 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Helpers\Arr;
 use stdClass;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class AnyResource extends BaseResource
 {
     public array $attributes = [];

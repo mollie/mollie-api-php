@@ -40,7 +40,7 @@ class Handlers
     /**
      * Execute the handlers
      *
-     * @param  PendingRequest|Response  $payload
+     * @param  PendingRequest|Response|mixed  $payload
      * @return PendingRequest|Response|ViableResponse
      */
     public function execute($payload)

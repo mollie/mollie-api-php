@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 
@@ -15,9 +16,11 @@ trait HandlesDebugging
      *
      * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
      */
-    public function enableDebugging(): void
+    public function enableDebugging(): Connector
     {
         $this->setDebugging(true);
+
+        return $this;
     }
 
     /**
@@ -25,9 +28,11 @@ trait HandlesDebugging
      *
      * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
      */
-    public function disableDebugging(): void
+    public function disableDebugging(): Connector
     {
         $this->setDebugging(false);
+
+        return $this;
     }
 
     /**
