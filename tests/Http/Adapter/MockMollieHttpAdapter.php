@@ -46,16 +46,14 @@ class MockMollieHttpAdapter implements HttpAdapterContract
 
     /**
      * Get the mocked response and remove it from the expected responses.
-     *
-     * @param string $requestClass
-     * @return MockResponse
      */
     private function getResponse(string $requestClass): MockResponse
     {
         $mockedResponse = Arr::get($this->expectedResponses, $requestClass);
 
-        if (!($mockedResponse instanceof SequenceMockResponse)) {
+        if (! ($mockedResponse instanceof SequenceMockResponse)) {
             Arr::forget($this->expectedResponses, $requestClass);
+
             return $mockedResponse;
         }
 

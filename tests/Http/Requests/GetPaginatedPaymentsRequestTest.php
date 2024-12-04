@@ -21,7 +21,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
             GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
         ]);
 
-        $request = new GetPaginatedPaymentsRequest();
+        $request = new GetPaginatedPaymentsRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -49,7 +49,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
-        $request = (new GetPaginatedPaymentsRequest())->useIterator();
+        $request = (new GetPaginatedPaymentsRequest)->useIterator();
 
         /** @var Response */
         $response = $client->send($request);

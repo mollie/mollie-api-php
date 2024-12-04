@@ -29,8 +29,6 @@ class Arr
     /**
      * Get and remove an item from an array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  string  $key
      * @param  mixed  $default
      * @return mixed
      */
@@ -45,9 +43,6 @@ class Arr
 
     /**
      * Remove an item from an array using "dot" notation.
-     *
-     * @param  array  $array
-     * @param  string  $key
      */
     public static function forget(array &$array, string $key): void
     {
@@ -56,7 +51,7 @@ class Arr
         $array = &$array;
 
         foreach ($keys as $segment) {
-            if (!is_array($array) || !array_key_exists($segment, $array)) {
+            if (! is_array($array) || ! array_key_exists($segment, $array)) {
                 break;
             }
             $array = &$array[$segment];
