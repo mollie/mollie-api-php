@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
@@ -19,7 +18,7 @@ class GetOrganizationPartnerStatusRequestTest extends TestCase
             GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
         ]);
 
-        $request = new GetOrganizationPartnerStatusRequest();
+        $request = new GetOrganizationPartnerStatusRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetOrganizationPartnerStatusRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetOrganizationPartnerStatusRequest();
+        $request = new GetOrganizationPartnerStatusRequest;
 
         $this->assertEquals('organizations/me/partner', $request->resolveResourcePath());
     }

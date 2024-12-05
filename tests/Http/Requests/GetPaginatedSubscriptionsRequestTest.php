@@ -2,13 +2,12 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
-use Mollie\Api\Resources\LazyCollection;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;

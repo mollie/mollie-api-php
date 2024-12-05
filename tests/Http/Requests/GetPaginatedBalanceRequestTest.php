@@ -18,7 +18,7 @@ class GetPaginatedBalanceRequestTest extends TestCase
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
         ]);
 
-        $request = new GetPaginatedBalanceRequest();
+        $request = new GetPaginatedBalanceRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -30,7 +30,7 @@ class GetPaginatedBalanceRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedBalanceRequest();
+        $request = new GetPaginatedBalanceRequest;
 
         $this->assertEquals('balances', $request->resolveResourcePath());
     }

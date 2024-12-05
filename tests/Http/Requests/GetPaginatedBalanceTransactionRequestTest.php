@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BalanceTransactionCollection;

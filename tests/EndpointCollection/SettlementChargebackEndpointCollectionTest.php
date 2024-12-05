@@ -39,7 +39,7 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list','chargebacks'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
         ]);
 
         $settlement = new Settlement($client);

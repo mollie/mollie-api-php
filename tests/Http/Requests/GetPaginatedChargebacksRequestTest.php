@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\ChargebackCollection;
@@ -19,7 +18,7 @@ class GetPaginatedChargebacksRequestTest extends TestCase
             GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
         ]);
 
-        $request = new GetPaginatedChargebacksRequest();
+        $request = new GetPaginatedChargebacksRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetPaginatedChargebacksRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedChargebacksRequest();
+        $request = new GetPaginatedChargebacksRequest;
 
         $this->assertEquals('chargebacks', $request->resolveResourcePath());
     }

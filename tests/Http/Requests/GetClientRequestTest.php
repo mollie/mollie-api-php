@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetClientQuery;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Client;

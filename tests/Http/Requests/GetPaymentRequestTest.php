@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetPaymentQuery;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;

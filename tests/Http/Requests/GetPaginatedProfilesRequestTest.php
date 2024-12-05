@@ -5,9 +5,9 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
-use Mollie\Api\Resources\LazyCollection;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
@@ -71,7 +71,7 @@ class GetPaginatedProfilesRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedProfilesRequest();
+        $request = new GetPaginatedProfilesRequest;
 
         $this->assertEquals('profiles', $request->resolveResourcePath());
     }

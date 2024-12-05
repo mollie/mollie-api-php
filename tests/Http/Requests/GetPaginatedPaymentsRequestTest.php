@@ -71,7 +71,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedPaymentsRequest();
+        $request = new GetPaginatedPaymentsRequest;
 
         $this->assertEquals('payments', $request->resolveResourcePath());
     }

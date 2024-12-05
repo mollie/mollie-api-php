@@ -35,7 +35,7 @@ class ChargebackEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list','chargebacks'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
         ]);
 
         foreach ($client->chargebacks->iterator() as $chargeback) {

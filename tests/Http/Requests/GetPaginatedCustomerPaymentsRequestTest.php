@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetPaginatedCustomerPaymentsQuery;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentCollection;

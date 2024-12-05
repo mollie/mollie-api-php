@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\MethodCollection;
@@ -19,7 +18,7 @@ class GetEnabledMethodsRequestTest extends TestCase
             GetEnabledMethodsRequest::class => new MockResponse(200, 'method-list'),
         ]);
 
-        $request = new GetEnabledMethodsRequest();
+        $request = new GetEnabledMethodsRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetEnabledMethodsRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetEnabledMethodsRequest();
+        $request = new GetEnabledMethodsRequest;
 
         $this->assertEquals('methods', $request->resolveResourcePath());
     }

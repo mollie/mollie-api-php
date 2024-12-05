@@ -6,7 +6,6 @@ use DateTime;
 use Mollie\Api\Http\Query\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;

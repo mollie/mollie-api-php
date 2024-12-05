@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SubscriptionCollection;
@@ -19,7 +18,7 @@ class GetAllPaginatedSubscriptionsRequestTest extends TestCase
             GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
         ]);
 
-        $request = new GetAllPaginatedSubscriptionsRequest();
+        $request = new GetAllPaginatedSubscriptionsRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetAllPaginatedSubscriptionsRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetAllPaginatedSubscriptionsRequest();
+        $request = new GetAllPaginatedSubscriptionsRequest;
 
         $this->assertEquals('subscriptions', $request->resolveResourcePath());
     }

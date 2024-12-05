@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\InvoiceCollection;
@@ -19,7 +18,7 @@ class GetPaginatedInvoiceRequestTest extends TestCase
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
         ]);
 
-        $request = new GetPaginatedInvoiceRequest();
+        $request = new GetPaginatedInvoiceRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetPaginatedInvoiceRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedInvoiceRequest();
+        $request = new GetPaginatedInvoiceRequest;
 
         $this->assertEquals('invoices', $request->resolveResourcePath());
     }

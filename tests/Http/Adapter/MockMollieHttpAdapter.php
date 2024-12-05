@@ -7,9 +7,9 @@ use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use PHPUnit\Framework\Assert as PHPUnit;
 
 class MockMollieHttpAdapter implements HttpAdapterContract
 {
@@ -78,7 +78,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         return $response;
     }
 
-    public function recorded(callable $callback = null): array
+    public function recorded(?callable $callback = null): array
     {
         if ($callback === null) {
             return $this->recorded;

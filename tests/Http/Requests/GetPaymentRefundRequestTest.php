@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetPaymentRefundQuery;
 use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Refund;

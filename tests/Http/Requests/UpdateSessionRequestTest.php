@@ -44,7 +44,7 @@ class UpdateSessionRequestTest extends TestCase
     public function it_resolves_correct_resource_path()
     {
         $sessionId = 'ses_LQNz4v4Qvk';
-        $request = new UpdateSessionRequest($sessionId, new AnyPayload());
+        $request = new UpdateSessionRequest($sessionId, new AnyPayload);
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

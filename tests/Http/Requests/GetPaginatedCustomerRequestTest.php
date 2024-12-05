@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\CustomerCollection;
@@ -19,7 +18,7 @@ class GetPaginatedCustomerRequestTest extends TestCase
             GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
         ]);
 
-        $request = new GetPaginatedCustomerRequest();
+        $request = new GetPaginatedCustomerRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetPaginatedCustomerRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedCustomerRequest();
+        $request = new GetPaginatedCustomerRequest;
 
         $this->assertEquals('customers', $request->resolveResourcePath());
     }

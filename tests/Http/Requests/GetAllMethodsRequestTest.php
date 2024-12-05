@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\GetAllMethodsQuery;
 use Mollie\Api\Http\Requests\GetAllMethodsRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\MethodCollection;
@@ -19,7 +18,7 @@ class GetAllMethodsRequestTest extends TestCase
             GetAllMethodsRequest::class => new MockResponse(200, 'method-list'),
         ]);
 
-        $request = new GetAllMethodsRequest();
+        $request = new GetAllMethodsRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -31,7 +30,7 @@ class GetAllMethodsRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetAllMethodsRequest();
+        $request = new GetAllMethodsRequest;
 
         $this->assertEquals('methods/all', $request->resolveResourcePath());
     }

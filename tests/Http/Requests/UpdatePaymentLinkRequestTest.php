@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use DateTime;
 use Mollie\Api\Http\Payload\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Http\Response;

@@ -9,6 +9,7 @@ use ReflectionProperty;
 
 /**
  * @mixin Response
+ *
  * @property null|BaseResource|ResourceCollection $resource
  */
 trait DelegatesToResource
@@ -49,7 +50,7 @@ trait DelegatesToResource
     {
         $this->ensureResourceIsLoaded();
 
-        if (!property_exists($this->resource, $key)) {
+        if (! property_exists($this->resource, $key)) {
             throw new \InvalidArgumentException("Property {$key} does not exist on resource.");
         }
 

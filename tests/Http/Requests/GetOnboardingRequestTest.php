@@ -18,7 +18,7 @@ class GetOnboardingRequestTest extends TestCase
             GetOnboardingRequest::class => new MockResponse(200, 'onboarding'),
         ]);
 
-        $request = new GetOnboardingRequest();
+        $request = new GetOnboardingRequest;
 
         /** @var Response */
         $response = $client->send($request);
@@ -30,7 +30,7 @@ class GetOnboardingRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetOnboardingRequest();
+        $request = new GetOnboardingRequest;
 
         $this->assertEquals('onboarding/me', $request->resolveResourcePath());
     }

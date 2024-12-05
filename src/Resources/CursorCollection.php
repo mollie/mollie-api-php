@@ -12,6 +12,7 @@ abstract class CursorCollection extends ResourceCollection
      * Return the next set of resources when available
      *
      * @return null|CursorCollection|Response
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function next()
@@ -27,6 +28,7 @@ abstract class CursorCollection extends ResourceCollection
      * Return the previous set of resources when available
      *
      * @return null|CursorCollection|Response
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function previous()
