@@ -98,9 +98,9 @@ abstract class CursorCollection extends ResourceCollection
         $page = $this;
 
         return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
-            $page->setAutoHydrate();
-
             while (true) {
+                $page->setAutoHydrate();
+                
                 foreach ($page as $item) {
                     yield $item;
                 }
