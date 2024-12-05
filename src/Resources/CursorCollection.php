@@ -100,7 +100,7 @@ abstract class CursorCollection extends ResourceCollection
         return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
             while (true) {
                 $page->setAutoHydrate();
-                
+
                 foreach ($page as $item) {
                     yield $item;
                 }
