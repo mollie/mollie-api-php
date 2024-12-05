@@ -23,9 +23,9 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
 
     private string $refundId;
 
-    private GetPaymentRefundQuery $query;
+    private ?GetPaymentRefundQuery $query = null;
 
-    public function __construct(string $paymentId, string $refundId, GetPaymentRefundQuery $query)
+    public function __construct(string $paymentId, string $refundId, ?GetPaymentRefundQuery $query = null)
     {
         $this->paymentId = $paymentId;
         $this->refundId = $refundId;
@@ -34,7 +34,7 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return $this->query ? $this->query->toArray() : [];
     }
 
     /**

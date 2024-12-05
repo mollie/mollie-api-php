@@ -50,6 +50,7 @@ class TerminalEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
         ]);
 
         foreach ($client->terminals->iterator() as $terminal) {

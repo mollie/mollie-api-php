@@ -21,7 +21,7 @@ class GetPaginatedCustomerPaymentsRequest extends PaginatedRequest implements Is
 
     public function __construct(
         string $customerId,
-        GetPaginatedCustomerPaymentsQuery $query
+        ?GetPaginatedCustomerPaymentsQuery $query = null
     ) {
         parent::__construct($query);
 

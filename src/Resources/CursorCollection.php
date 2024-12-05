@@ -4,43 +4,17 @@ namespace Mollie\Api\Resources;
 
 use Generator;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+use Mollie\Api\Http\Response;
 
 abstract class CursorCollection extends ResourceCollection
 {
-    private bool $autoHydrate = false;
-
-    public function setAutoHydrate(bool $shouldAutoHydrate = true): void
-    {
-        $this->autoHydrate = $shouldAutoHydrate;
-    }
-
-    public function shouldAutoHydrate(): bool
-    {
-        if ($this->response === null) {
-            return $this->autoHydrate;
-        }
-
-        $request = $this->response->getRequest();
-
-        /**
-         * Don't try to hydrate when the request
-         * already has auto-hydration enabled. The
-         * Hydrate Middleware will take care of that.
-         */
-        if ($request instanceof ResourceHydratableRequest && $request->shouldAutoHydrate()) {
-            return false;
-        }
-
-        return $this->autoHydrate;
-    }
-
     /**
      * Return the next set of resources when available
      *
+     * @return null|CursorCollection|Response
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function next(): ?CursorCollection
+    public function next()
     {
         if (! $this->hasNext()) {
             return null;
@@ -52,9 +26,10 @@ abstract class CursorCollection extends ResourceCollection
     /**
      * Return the previous set of resources when available
      *
+     * @return null|CursorCollection|Response
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function previous(): ?CursorCollection
+    public function previous()
     {
         if (! $this->hasPrevious()) {
             return null;
@@ -63,15 +38,14 @@ abstract class CursorCollection extends ResourceCollection
         return $this->fetchCollection($this->_links->previous->href);
     }
 
-    private function fetchCollection(string $url): CursorCollection
+    /**
+     * @return CursorCollection|Response
+     */
+    private function fetchCollection(string $url)
     {
-        $response = $this
+        return $this
             ->connector
             ->send(new DynamicGetRequest($url, static::class));
-
-        return $this->shouldAutoHydrate()
-            ? $response->toResource()
-            : $response;
     }
 
     /**
@@ -99,8 +73,6 @@ abstract class CursorCollection extends ResourceCollection
 
         return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
             while (true) {
-                $page->setAutoHydrate();
-
                 foreach ($page as $item) {
                     yield $item;
                 }
@@ -109,9 +81,13 @@ abstract class CursorCollection extends ResourceCollection
                     break;
                 }
 
-                $page = $iterateBackwards
+                $response = $iterateBackwards
                     ? $page->previous()
                     : $page->next();
+
+                $page = $response instanceof Response
+                    ? $response->toResource()
+                    : $response;
             }
         });
     }

@@ -30,8 +30,6 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
-        $collection->setAutoHydrate();
-
         $this->assertTrue($collection->hasNext());
 
         $nextPage = $collection->next();
@@ -48,8 +46,6 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
-
-        $collection->setAutoHydrate();
 
         $this->assertFalse($collection->hasNext());
         $this->assertNull($collection->next());
@@ -71,8 +67,6 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
-        $collection->setAutoHydrate();
-
         $this->assertTrue($collection->hasPrevious());
 
         $previousPage = $collection->previous();
@@ -90,8 +84,6 @@ class CursorCollectionTest extends TestCase
             (object) []
         );
 
-        $collection->setAutoHydrate();
-
         $this->assertFalse($collection->hasPrevious());
         $this->assertNull($collection->previous());
     }
@@ -105,8 +97,6 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
-
-        $collection->setAutoHydrate();
 
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
@@ -131,12 +121,12 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
-        $orderIds = [];
-        foreach ($collection->getAutoIterator() as $order) {
-            $orderIds[] = $order->id;
+        $paymentIds = [];
+        foreach ($collection->getAutoIterator() as $payment) {
+            $paymentIds[] = $payment->id;
         }
 
-        $this->assertEquals(['tr_stTC2WHAuF', 'tr_stTC2WHAuS', 'tr_stTC2WHAuB'], $orderIds);
+        $this->assertEquals(['tr_stTC2WHAuF', 'tr_stTC2WHAuS', 'tr_stTC2WHAuB'], $paymentIds);
     }
 
     /**

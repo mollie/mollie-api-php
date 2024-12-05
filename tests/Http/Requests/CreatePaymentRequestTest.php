@@ -35,4 +35,17 @@ class CreatePaymentRequestTest extends TestCase
         $this->assertTrue($response->successful());
         $this->assertInstanceOf(Payment::class, $response->toResource());
     }
+
+    /** @test */
+    public function it_resolves_correct_resource_path()
+    {
+        $request = new CreatePaymentRequest(new CreatePaymentPayload(
+            'Test payment',
+            new Money('EUR', '10.00'),
+            'https://example.org/redirect',
+            'https://example.org/webhook'
+        ));
+
+        $this->assertEquals('payments', $request->resolveResourcePath());
+    }
 }

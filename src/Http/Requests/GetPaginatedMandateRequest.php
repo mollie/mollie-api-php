@@ -19,7 +19,7 @@ class GetPaginatedMandateRequest extends PaginatedRequest implements IsIteratabl
 
     private string $customerId;
 
-    public function __construct(string $customerId, PaginatedQuery $query)
+    public function __construct(string $customerId, ?PaginatedQuery $query = null)
     {
         parent::__construct($query);
 

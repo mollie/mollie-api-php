@@ -20,9 +20,9 @@ class GetClientRequest extends ResourceHydratableRequest
 
     private string $id;
 
-    private GetClientQuery $query;
+    private ?GetClientQuery $query;
 
-    public function __construct(string $id, GetClientQuery $query)
+    public function __construct(string $id, ?GetClientQuery $query = null)
     {
         $this->id = $id;
         $this->query = $query;
@@ -30,7 +30,7 @@ class GetClientRequest extends ResourceHydratableRequest
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return $this->query ? $this->query->toArray() : [];
     }
 
     public function resolveResourcePath(): string

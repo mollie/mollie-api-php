@@ -10,6 +10,7 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
+use Tests\Fixtures\SequenceMockResponse;
 use Tests\TestCase;
 
 class GetPaginatedPaymentsRequestTest extends TestCase
@@ -45,8 +46,10 @@ class GetPaginatedPaymentsRequestTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
+            DynamicGetRequest::class => new SequenceMockResponse(
+                new MockResponse(200, 'payment-list'),
+                new MockResponse(200, 'empty-list', 'payments'),
+            ),
         ]);
 
         $request = (new GetPaginatedPaymentsRequest)->useIterator();
@@ -61,5 +64,15 @@ class GetPaginatedPaymentsRequestTest extends TestCase
         foreach ($payments as $payment) {
             $this->assertInstanceOf(Payment::class, $payment);
         }
+
+        $client->assertSentCount(3);
+    }
+
+    /** @test */
+    public function it_resolves_correct_resource_path()
+    {
+        $request = new GetPaginatedPaymentsRequest();
+
+        $this->assertEquals('payments', $request->resolveResourcePath());
     }
 }

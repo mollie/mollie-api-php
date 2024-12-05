@@ -21,11 +21,11 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
 
     private string $id;
 
-    private GetPaymentQuery $query;
+    private ?GetPaymentQuery $query = null;
 
     public function __construct(
         string $id,
-        GetPaymentQuery $query
+        ?GetPaymentQuery $query = null
     ) {
         $this->id = $id;
         $this->query = $query;
@@ -33,7 +33,7 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return $this->query ? $this->query->toArray() : [];
     }
 
     /**

@@ -9,6 +9,7 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
+use PHPUnit\Framework\Assert as PHPUnit;
 
 class MockMollieHttpAdapter implements HttpAdapterContract
 {
@@ -17,11 +18,13 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     /**
      * @var array<string, MockResponse>
      */
-    private array $expectedResponses;
+    private array $expected;
+
+    private array $recorded = [];
 
     public function __construct(array $expectedResponses = [])
     {
-        $this->expectedResponses = $expectedResponses;
+        $this->expected = $expectedResponses;
     }
 
     /**
@@ -29,19 +32,28 @@ class MockMollieHttpAdapter implements HttpAdapterContract
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
-        $requestClass = get_class($pendingRequest->getRequest());
+        $requestClass = get_class($request = $pendingRequest->getRequest());
 
-        if (! Arr::has($this->expectedResponses, $requestClass)) {
-            throw new \RuntimeException('The request class '.$requestClass.' is not expected.');
-        }
+        $this->guardAgainstStrayRequests($requestClass);
 
         $mockedResponse = $this->getResponse($requestClass);
 
-        return new Response(
+        $response = new Response(
             $mockedResponse->createPsrResponse(),
             $pendingRequest->createPsrRequest(),
             $pendingRequest,
         );
+
+        $this->recorded[] = [$request, $response];
+
+        return $response;
+    }
+
+    private function guardAgainstStrayRequests(string $requestClass): void
+    {
+        if (! Arr::has($this->expected, $requestClass)) {
+            throw new \RuntimeException('The request class '.$requestClass.' is not expected.');
+        }
     }
 
     /**
@@ -49,10 +61,10 @@ class MockMollieHttpAdapter implements HttpAdapterContract
      */
     private function getResponse(string $requestClass): MockResponse
     {
-        $mockedResponse = Arr::get($this->expectedResponses, $requestClass);
+        $mockedResponse = Arr::get($this->expected, $requestClass);
 
         if (! ($mockedResponse instanceof SequenceMockResponse)) {
-            Arr::forget($this->expectedResponses, $requestClass);
+            Arr::forget($this->expected, $requestClass);
 
             return $mockedResponse;
         }
@@ -60,10 +72,43 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         $response = $mockedResponse->pop();
 
         if ($mockedResponse->isEmpty()) {
-            Arr::forget($this->expectedResponses, $requestClass);
+            Arr::forget($this->expected, $requestClass);
         }
 
         return $response;
+    }
+
+    public function recorded(callable $callback = null): array
+    {
+        if ($callback === null) {
+            return $this->recorded;
+        }
+
+        return array_filter($this->recorded, fn ($recorded) => $callback($recorded[0], $recorded[1]));
+    }
+
+    /**
+     * @param  string|callable  $callback
+     */
+    public function assertSent($callback): void
+    {
+        if (is_string($callback)) {
+            $callback = fn ($request) => get_class($request) === $callback;
+        }
+
+        PHPUnit::assertTrue(
+            count($this->recorded($callback)) > 0,
+            'No requests were sent.'
+        );
+    }
+
+    public function assertSentCount(int $count): void
+    {
+        PHPUnit::assertEquals(
+            $count,
+            count($this->recorded),
+            'The expected number of requests was not sent.'
+        );
     }
 
     /**

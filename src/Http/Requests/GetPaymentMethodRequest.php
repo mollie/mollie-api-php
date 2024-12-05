@@ -13,11 +13,11 @@ class GetPaymentMethodRequest extends ResourceHydratableRequest implements Suppo
 
     public static string $targetResourceClass = Method::class;
 
-    private GetPaymentMethodQuery $query;
+    private ?GetPaymentMethodQuery $query = null;
 
     private string $methodId;
 
-    public function __construct(string $methodId, GetPaymentMethodQuery $query)
+    public function __construct(string $methodId, ?GetPaymentMethodQuery $query = null)
     {
         $this->methodId = $methodId;
         $this->query = $query;
@@ -25,7 +25,7 @@ class GetPaymentMethodRequest extends ResourceHydratableRequest implements Suppo
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return $this->query ? $this->query->toArray() : [];
     }
 
     public function resolveResourcePath(): string

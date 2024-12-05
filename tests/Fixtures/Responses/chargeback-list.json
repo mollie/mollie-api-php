@@ -202,6 +202,9 @@
       "type": "application/hal+json"
     },
     "previous": null,
-    "next": null
+    "next": {
+      "href": "...",
+      "type": "application/hal+json"
+    }
   }
 }

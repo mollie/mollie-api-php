@@ -13,16 +13,16 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 
     public static string $targetResourceClass = MethodCollection::class;
 
-    private GetEnabledPaymentMethodsQuery $query;
+    private ?GetEnabledPaymentMethodsQuery $query = null;
 
-    public function __construct(GetEnabledPaymentMethodsQuery $query)
+    public function __construct(?GetEnabledPaymentMethodsQuery $query = null)
     {
         $this->query = $query;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return $this->query ? $this->query->toArray() : [];
     }
 
     public function resolveResourcePath(): string

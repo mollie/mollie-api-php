@@ -20,7 +20,7 @@ class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements 
 
     public function __construct(
         string $balanceId,
-        PaginatedQuery $query
+        ?PaginatedQuery $query = null
     ) {
         parent::__construct($query);
 

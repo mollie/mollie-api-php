@@ -2,6 +2,7 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Resources\Chargeback;
@@ -49,6 +50,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     {
         $client = new MockClient([
             GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            DynamicGetRequest::class => new MockResponse(200, 'empty-list','chargebacks'),
         ]);
 
         foreach ($client->paymentChargebacks->iteratorForId('tr_7UhSN1zuXS') as $chargeback) {

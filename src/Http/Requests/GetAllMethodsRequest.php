@@ -20,9 +20,9 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
 
     private GetAllMethodsQuery $query;
 
-    public function __construct(GetAllMethodsQuery $query)
+    public function __construct(?GetAllMethodsQuery $query = null)
     {
-        $this->query = $query;
+        $this->query = $query ?: new GetAllMethodsQuery();
     }
 
     protected function defaultQuery(): array
