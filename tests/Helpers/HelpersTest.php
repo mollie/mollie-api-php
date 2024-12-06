@@ -140,5 +140,10 @@ class TestFilterClass
 
 class TestComposable
 {
-    public function __construct(public $value) {}
+    public $value;
+
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
 }
