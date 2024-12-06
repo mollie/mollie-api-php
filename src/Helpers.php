@@ -69,13 +69,13 @@ class Helpers
     public static function filterByProperties($class, array $array): array
     {
         $properties = array_map(
-            fn(ReflectionProperty $prop) => $prop->getName(),
+            fn (ReflectionProperty $prop) => $prop->getName(),
             static::getProperties($class)
         );
 
         return array_filter(
             $array,
-            fn($key) => ! in_array($key, $properties, true),
+            fn ($key) => ! in_array($key, $properties, true),
             ARRAY_FILTER_USE_KEY
         );
     }
@@ -96,7 +96,7 @@ class Helpers
         }
 
         $composable = is_string($composable)
-            ? fn($value) => new $composable($value)
+            ? fn ($value) => new $composable($value)
             : $composable;
 
         return (bool) $value ? $composable($value) : $default;

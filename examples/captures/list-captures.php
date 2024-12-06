@@ -21,9 +21,9 @@ try {
     $response = $mollie->send(new GetPaginatedPaymentCapturesRequest('tr_WDqYK6vllg'));
 
     foreach ($payment = $response->toResource() as $capture) {
-        $amount = $capture->amount->currency . ' ' . $capture->amount->value;
-        echo 'Captured ' . $amount . ' for payment ' . $payment->id;
+        $amount = $capture->amount->currency.' '.$capture->amount->value;
+        echo 'Captured '.$amount.' for payment '.$payment->id;
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

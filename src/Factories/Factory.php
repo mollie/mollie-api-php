@@ -7,7 +7,6 @@ use Mollie\Api\Contracts\DataProvider;
 use Mollie\Api\Contracts\Factory as FactoryContract;
 use Mollie\Api\Helpers;
 use Mollie\Api\Helpers\Arr;
-use Mollie\Api\Http\Payload\DataBag;
 
 abstract class Factory implements FactoryContract
 {
@@ -17,7 +16,7 @@ abstract class Factory implements FactoryContract
     {
         if ($data instanceof Arrayable) {
             $this->data = $data->toArray();
-        } else if ($data instanceof DataProvider) {
+        } elseif ($data instanceof DataProvider) {
             $this->data = $data->data();
         } else {
             $this->data = $data;
@@ -41,7 +40,7 @@ abstract class Factory implements FactoryContract
         $keys = (array) $key;
 
         if ($backupKey !== null) {
-            $keys[] = $backupKey . $key;
+            $keys[] = $backupKey.$key;
         }
 
         foreach ($keys as $key) {
@@ -64,7 +63,7 @@ abstract class Factory implements FactoryContract
      */
     protected function includes($key, $value, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey . $key, $key], $value);
+        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
     }
 
     /**

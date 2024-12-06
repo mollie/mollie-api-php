@@ -4,15 +4,15 @@ namespace Tests\Helpers;
 
 use Mollie\Api\Helpers;
 use Mollie\Api\Http\Payload\Metadata;
-use Tests\TestCase;
 use ReflectionProperty;
+use Tests\TestCase;
 
 class HelpersTest extends TestCase
 {
     /** @test */
     public function class_uses_recursive()
     {
-        $result = Helpers::classUsesRecursive(new TestChildClass());
+        $result = Helpers::classUsesRecursive(new TestChildClass);
 
         $this->assertContains(TestTrait1::class, $result);
         $this->assertContains(TestTrait2::class, $result);
@@ -48,7 +48,7 @@ class HelpersTest extends TestCase
         $array = [
             'prop1' => 'value1',
             'prop2' => 'value2',
-            'extraProp' => 'extraValue'
+            'extraProp' => 'extraValue',
         ];
 
         $filtered = Helpers::filterByProperties(TestFilterClass::class, $array);
@@ -62,7 +62,7 @@ class HelpersTest extends TestCase
     public function compose()
     {
         // Test with callable
-        $composedWithCallable = Helpers::compose(5, fn($x) => $x * 2);
+        $composedWithCallable = Helpers::compose(5, fn ($x) => $x * 2);
         $this->assertEquals(10, $composedWithCallable);
 
         $composedWithClass = Helpers::compose('test', TestComposable::class);
@@ -70,7 +70,7 @@ class HelpersTest extends TestCase
         $this->assertEquals('test', $composedWithClass->value);
 
         // Test with falsy value
-        $composedWithDefault = Helpers::compose(false, fn($x) => $x * 2, 'default');
+        $composedWithDefault = Helpers::compose(false, fn ($x) => $x * 2, 'default');
         $this->assertEquals('default', $composedWithDefault);
 
         $existingValueIsNotOverriden = Helpers::compose(new Metadata(['key' => 'value']), Metadata::class);
@@ -125,13 +125,16 @@ trait TestTraitMain
 class TestPropertiesClass
 {
     public $publicProp;
+
     protected $protectedProp;
+
     private $privateProp;
 }
 
 class TestFilterClass
 {
     public $prop1;
+
     public $prop2;
 }
 

@@ -21,7 +21,7 @@ try {
      * Retrieve the last created customer for this example.
      * If no customers are created yet, run the create-customer example.
      */
-    $customer = $mollie->send(new GetPaginatedCustomerRequest())->toResource()[0];
+    $customer = $mollie->send(new GetPaginatedCustomerRequest)->toResource()[0];
 
     /*
      * Generate a unique order id for this example. It is important to include this unique attribute
@@ -67,7 +67,7 @@ try {
      * After completion, the customer will have a pending or valid mandate that can be
      * used for recurring payments and subscriptions.
      */
-    header('Location: ' . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

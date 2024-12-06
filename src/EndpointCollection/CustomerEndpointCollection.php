@@ -46,6 +46,7 @@ class CustomerEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the customer id is invalid or the resource cannot be found.
      *
      * @param  bool|array  $testmode
+     *
      * @throws ApiException
      */
     public function get(string $id, $testmode = []): Customer
