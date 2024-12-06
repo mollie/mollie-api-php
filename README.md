@@ -63,14 +63,8 @@ $response = $mollie->send(new CreatePaymentRequest($payload));
 $payment = $response->toResource();
 ```
 
-## Upgrading
-
-Please see [UPGRADING](UPGRADING.md) for details.
-
-## API documentation ##
-For an in-depth understanding of our API, please explore the [Mollie Developer Portal](https://www.mollie.com/developers). Our API documentation is available in English.
-
 ## Documentation
+For an in-depth understanding of our API, please explore the [Mollie Developer Portal](https://www.mollie.com/developers). Our API documentation is available in English.
 
 For detailed documentation about using this PHP client, see the following guides:
 
@@ -108,6 +102,9 @@ For a full list of examples, please refer to the [examples directory](examples/)
 
 These examples are designed to be run in a safe testing environment. Make sure to use your test API keys and review each example's code before integrating it into your production environment.
 
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## Contributing to Our API Client ##
 Would you like to contribute to improving our API client? We welcome [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr). But, if you're interested in contributing to a technology-focused organization, Mollie is actively recruiting developers and system engineers. Discover our current [job openings](https://jobs.mollie.com/) or [reach out](mailto:personeel@mollie.com).
