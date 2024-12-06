@@ -4,6 +4,8 @@
  * List captures for a payment using the Mollie API.
  */
 
+use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -16,13 +18,12 @@ try {
      * See: https://docs.mollie.com/reference/v2/captures-api/list-captures
      */
 
-    $payment = $mollie->payments->get('tr_WDqYK6vllg');
-    $captures = $payment->captures();
+    $response = $mollie->send(new GetPaginatedPaymentCapturesRequest('tr_WDqYK6vllg'));
 
-    foreach ($captures as $capture) {
-        $amount = $capture->amount->currency.' '.$capture->amount->value;
-        echo 'Captured '.$amount.' for payment '.$payment->id;
+    foreach ($payment = $response->toResource() as $capture) {
+        $amount = $capture->amount->currency . ' ' . $capture->amount->value;
+        echo 'Captured ' . $amount . ' for payment ' . $payment->id;
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: '.htmlspecialchars($e->getMessage());
+    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
 }

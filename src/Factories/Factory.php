@@ -2,20 +2,29 @@
 
 namespace Mollie\Api\Factories;
 
+use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Contracts\DataProvider;
 use Mollie\Api\Contracts\Factory as FactoryContract;
 use Mollie\Api\Helpers;
 use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Http\Payload\DataBag;
 
 abstract class Factory implements FactoryContract
 {
     protected array $data;
 
-    public function __construct(array $data)
+    public function __construct($data)
     {
-        $this->data = $data;
+        if ($data instanceof Arrayable) {
+            $this->data = $data->toArray();
+        } else if ($data instanceof DataProvider) {
+            $this->data = $data->data();
+        } else {
+            $this->data = $data;
+        }
     }
 
-    public static function new(array $data): self
+    public static function new($data): self
     {
         /** @phpstan-ignore-next-line */
         return new static($data);
@@ -32,7 +41,7 @@ abstract class Factory implements FactoryContract
         $keys = (array) $key;
 
         if ($backupKey !== null) {
-            $keys[] = $backupKey.$key;
+            $keys[] = $backupKey . $key;
         }
 
         foreach ($keys as $key) {
@@ -55,7 +64,7 @@ abstract class Factory implements FactoryContract
      */
     protected function includes($key, $value, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
+        return Arr::includes($this->data, [$backupKey . $key, $key], $value);
     }
 
     /**

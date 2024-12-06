@@ -4,6 +4,11 @@
  * How to create a new client link in the Mollie API.
  */
 
+use Mollie\Api\Http\Payload\CreateClientLinkPayload;
+use Mollie\Api\Http\Payload\Owner;
+use Mollie\Api\Http\Payload\OwnerAddress;
+use Mollie\Api\Http\Requests\CreateClientLinkRequest;
+
 try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
@@ -22,23 +27,15 @@ try {
      *
      * See: https://docs.mollie.com/reference/v2/client-links-api/create-client-link
      */
-    $clientLink = $mollie->clientLinks->create([
-        'owner' => [
-            'email' => 'foo@test.com',
-            'givenName' => 'foo',
-            'familyName' => 'bar',
-            'locale' => 'nl_NL',
-        ],
-        'name' => 'Foo Company',
-        'address' => [
-            'streetAndNumber' => 'Keizersgracht 313',
-            'postalCode' => '1016 EE',
-            'city' => 'Amsterdam',
-            'country' => 'nl',
-        ],
-        'registrationNumber' => '30204462',
-        'vatNumber' => 'NL123456789B01',
-    ]);
+    $response = $mollie->send(new CreateClientLinkRequest(new CreateClientLinkPayload(
+        new Owner('foo@test.com', 'foo', 'bar', 'nl_NL'),
+        'Foo Company',
+        new OwnerAddress('NL', 'Keizersgracht 313', '1016 EE', 'Amsterdam'),
+        '30204462',
+        'NL123456789B01',
+    )));
+
+    $clientLink = $response->toResource();
 
     /**
      * Get the redirect url for the client link, by passing in the 'client_id' of the your app,

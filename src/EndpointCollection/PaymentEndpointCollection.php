@@ -50,16 +50,16 @@ class PaymentEndpointCollection extends EndpointCollection
     /**
      * Creates a payment in Mollie.
      *
-     * @param  CreatePaymentPayload|array  $data  An array containing details on the payment.
+     * @param  CreatePaymentPayload|array  $payload  An array containing details on the payment.
      * @param  CreatePaymentQuery|array|string  $query  An array of strings or a single string containing the details to include.
      *
      * @throws ApiException
      */
-    public function create($data = [], $query = [], bool $testmode = false): Payment
+    public function create($payload = [], $query = [], bool $testmode = false): Payment
     {
-        if (! $data instanceof CreatePaymentPayload) {
-            $testmode = Helpers::extractBool($data, 'testmode', $testmode);
-            $data = CreatePaymentPayloadFactory::new($data)
+        if (! $payload instanceof CreatePaymentPayload) {
+            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $payload = CreatePaymentPayloadFactory::new($payload)
                 ->create();
         }
 
@@ -68,7 +68,7 @@ class PaymentEndpointCollection extends EndpointCollection
         }
 
         /** @var Payment */
-        return $this->send((new CreatePaymentRequest($data, $query))->test($testmode));
+        return $this->send((new CreatePaymentRequest($payload, $query))->test($testmode));
     }
 
     /**

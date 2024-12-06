@@ -9,7 +9,6 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\HttpFactory;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Contracts\SupportsDebuggingContract;
@@ -133,6 +132,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      */
     public function version(): string
     {
-        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
     }
 }

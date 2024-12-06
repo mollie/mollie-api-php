@@ -6,15 +6,15 @@ use Mollie\Api\Contracts\DataProvider;
 
 class Metadata implements DataProvider
 {
-    public array $metadata;
+    public array $data;
 
-    public function __construct(array $metadata)
+    public function __construct(array $data)
     {
-        $this->metadata = $metadata;
+        $this->data = $data;
     }
 
     public function data(): string
     {
-        return @json_encode($this->metadata);
+        return @json_encode($this->data);
     }
 }

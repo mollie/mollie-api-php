@@ -69,13 +69,13 @@ class Helpers
     public static function filterByProperties($class, array $array): array
     {
         $properties = array_map(
-            fn (ReflectionProperty $prop) => $prop->getName(),
+            fn(ReflectionProperty $prop) => $prop->getName(),
             static::getProperties($class)
         );
 
         return array_filter(
             $array,
-            fn ($key) => ! in_array($key, $properties, true),
+            fn($key) => ! in_array($key, $properties, true),
             ARRAY_FILTER_USE_KEY
         );
     }
@@ -90,9 +90,14 @@ class Helpers
      */
     public static function compose($value, $composable, $default = null)
     {
-        $composable = is_callable($composable)
-            ? $composable
-            : fn ($value) => new $composable($value);
+        // If the value is an instance of the composable class, return it.
+        if (is_string($composable) && $value instanceof $composable) {
+            return $value;
+        }
+
+        $composable = is_string($composable)
+            ? fn($value) => new $composable($value)
+            : $composable;
 
         return (bool) $value ? $composable($value) : $default;
     }

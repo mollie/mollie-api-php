@@ -27,7 +27,7 @@ parameters:
 		-
 			message: '#^Variable \$mollie might not be defined\.$#'
 			identifier: variable.undefined
-			count: 1
+			count: 2
 			path: examples/customers/create-customer-first-payment.php
 
 		-
@@ -341,6 +341,30 @@ parameters:
 			identifier: staticClassAccess.privateProperty
 			count: 3
 			path: tests/Fixtures/MockResponse.php
+
+		-
+			message: '#^Property Tests\\Helpers\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: tests/Helpers/HelpersTest.php
+
+		-
+			message: '#^Trait Tests\\Helpers\\TestTraitBase is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Helpers/HelpersTest.php
+
+		-
+			message: '#^Trait Tests\\Helpers\\TestTraitMain is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Helpers/HelpersTest.php
+
+		-
+			message: '#^Trait Tests\\Helpers\\TestTraitNested is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Helpers/HelpersTest.php
 
 		-
 			message: '#^Unsafe access to private property Tests\\Http\\Adapter\\MockMollieHttpAdapter\:\:\$factories through static\:\:\.$#'
