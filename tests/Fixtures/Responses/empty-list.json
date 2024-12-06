@@ -1,0 +1,18 @@
+{
+  "count": 0,
+  "_embedded": {
+    "{{ RESOURCE_ID }}": []
+  },
+  "_links": {
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": null
+  }
+}

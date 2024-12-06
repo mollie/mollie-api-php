@@ -5,10 +5,7 @@ namespace Mollie\Api\Resources;
 class ShipmentCollection extends BaseCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
      */
-    public function getCollectionResourceName()
-    {
-        return 'shipments';
-    }
+    public static string $collectionName = 'shipments';
 }
