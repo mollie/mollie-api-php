@@ -36,7 +36,7 @@ class SettlementCaptureEndpoint extends CollectionEndpointAbstract
      * @return mixed
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function pageForId(string $settlementId, string $from = null, int $limit = null, array $parameters = [])
+    public function pageForId(string $settlementId, ?string $from = null, ?int $limit = null, array $parameters = [])
     {
         $this->parentId = $settlementId;
 
