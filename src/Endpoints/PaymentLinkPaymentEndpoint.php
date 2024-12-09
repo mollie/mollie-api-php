@@ -29,14 +29,14 @@ class PaymentLinkPaymentEndpoint extends CollectionEndpointAbstract
         return new Payment($this->client);
     }
 
-    public function pageForId(string $paymentLinkId, string $from = null, int $limit = null, array $filters = [])
+    public function pageForId(string $paymentLinkId, ?string $from = null, ?int $limit = null, array $filters = [])
     {
         $this->parentId = $paymentLinkId;
 
         return $this->rest_list($from, $limit, $filters);
     }
 
-    public function pageFor(PaymentLink $paymentLink, string $from = null, int $limit = null, array $filters = [])
+    public function pageFor(PaymentLink $paymentLink, ?string $from = null, ?int $limit = null, array $filters = [])
     {
         return $this->pageForId($paymentLink->id, $from, $limit, $filters);
     }
