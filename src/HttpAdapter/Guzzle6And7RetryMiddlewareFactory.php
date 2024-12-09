@@ -66,8 +66,8 @@ class Guzzle6And7RetryMiddlewareFactory
         return function (
             $retries,
             Request $request,
-            Response $response = null,
-            TransferException $exception = null
+            ?Response $response = null,
+            ?TransferException $exception = null
         ) {
             if ($retries >= static::MAX_RETRIES) {
                 return false;

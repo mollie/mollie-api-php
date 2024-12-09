@@ -118,7 +118,7 @@ class Settlement extends BaseResource
      * @return PaymentCollection
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function payments(int $limit = null, array $parameters = []): PaymentCollection
+    public function payments(?int $limit = null, array $parameters = []): PaymentCollection
     {
         return $this->client->settlementPayments->pageForId(
             $this->id,
@@ -136,7 +136,7 @@ class Settlement extends BaseResource
      * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds(int $limit = null, array $parameters = [])
+    public function refunds(?int $limit = null, array $parameters = [])
     {
         return $this->client->settlementRefunds->pageForId(
             $this->id,
@@ -154,7 +154,7 @@ class Settlement extends BaseResource
      * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks(int $limit = null, array $parameters = [])
+    public function chargebacks(?int $limit = null, array $parameters = [])
     {
         return $this->client->settlementChargebacks->pageForId(
             $this->id,
@@ -172,7 +172,7 @@ class Settlement extends BaseResource
      * @return CaptureCollection
      * @throws ApiException
      */
-    public function captures(int $limit = null, array $parameters = [])
+    public function captures(?int $limit = null, array $parameters = [])
     {
         return $this->client->settlementCaptures->pageForId(
             $this->id,
