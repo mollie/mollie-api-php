@@ -13,6 +13,7 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
     use HasJsonPayload;
 
     protected static string $method = Method::POST;
+
     public static string $targetResourceClass = SalesInvoice::class;
 
     private CreateSalesInvoicePayload $payload;

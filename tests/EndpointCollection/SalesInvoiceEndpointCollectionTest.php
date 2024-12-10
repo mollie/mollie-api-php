@@ -52,7 +52,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
                 1,
                 '21',
                 new Money('EUR', '10,00'),
-            )
+            ),
         ];
 
         // Create a sales invoice

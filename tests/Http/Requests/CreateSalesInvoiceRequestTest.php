@@ -33,7 +33,7 @@ class CreateSalesInvoiceRequestTest extends TestCase
                 1,
                 '21',
                 new Money('EUR', '10,00'),
-            )
+            ),
         ];
 
         // Create a sales invoice
@@ -89,7 +89,7 @@ class CreateSalesInvoiceRequestTest extends TestCase
                     1,
                     '21',
                     new Money('EUR', '10,00'),
-                )
+                ),
             ])
         ));
 

@@ -13,9 +13,11 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
     use HasJsonPayload;
 
     protected static string $method = Method::PATCH;
+
     public static string $targetResourceClass = SalesInvoice::class;
 
     private string $id;
+
     private UpdateSalesInvoicePayload $payload;
 
     public function __construct(string $id, UpdateSalesInvoicePayload $payload)

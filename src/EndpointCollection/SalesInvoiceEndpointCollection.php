@@ -32,7 +32,7 @@ class SalesInvoiceEndpointCollection extends EndpointCollection
     /**
      * Creates a SalesInvoice in Mollie.
      *
-     * @param array|CreateSalesInvoicePayload $payload
+     * @param  array|CreateSalesInvoicePayload  $payload
      *
      * @throws ApiException
      */

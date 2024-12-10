@@ -28,6 +28,7 @@ use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
 use Mollie\Api\EndpointCollection\RefundEndpointCollection;
+use Mollie\Api\EndpointCollection\SalesInvoiceEndpointCollection;
 use Mollie\Api\EndpointCollection\SessionEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementCaptureEndpointCollection;
 use Mollie\Api\EndpointCollection\SettlementChargebackEndpointCollection;
@@ -38,7 +39,6 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
-use Mollie\Api\EndpointCollection\SalesInvoiceEndpointCollection;
 use Mollie\Api\MollieApiClient;
 
 /**

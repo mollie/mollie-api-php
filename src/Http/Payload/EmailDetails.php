@@ -8,6 +8,7 @@ use Mollie\Api\Traits\ComposableFromArray;
 class EmailDetails implements DataProvider
 {
     use ComposableFromArray;
+
     public string $subject;
 
     public string $body;

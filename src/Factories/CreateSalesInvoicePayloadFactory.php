@@ -3,16 +3,14 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Payload\CreateSalesInvoicePayload;
-use Mollie\Api\Http\Payload\PaymentDetails;
-use Mollie\Api\Http\Payload\EmailDetails;
 use Mollie\Api\Http\Payload\Discount;
+use Mollie\Api\Http\Payload\EmailDetails;
+use Mollie\Api\Http\Payload\PaymentDetails;
 
 class CreateSalesInvoicePayloadFactory extends Factory
 {
     /**
      * Create a new CreateSalesInvoicePayload instance.
-     *
-     * @return CreateSalesInvoicePayload
      */
     public function create(): CreateSalesInvoicePayload
     {
@@ -27,14 +25,14 @@ class CreateSalesInvoicePayloadFactory extends Factory
             $this
                 ->mapIfNotNull(
                     'lines',
-                    fn(array $items) => InvoiceLineCollectionFactory::new($items)->create()
+                    fn (array $items) => InvoiceLineCollectionFactory::new($items)->create()
                 ),
             $this->get('profileId'),
             $this->get('memo'),
-            $this->mapIfNotNull('paymentDetails', fn(array $data) => PaymentDetails::fromArray($data)),
-            $this->mapIfNotNull('emailDetails', fn(array $data) => EmailDetails::fromArray($data)),
+            $this->mapIfNotNull('paymentDetails', fn (array $data) => PaymentDetails::fromArray($data)),
+            $this->mapIfNotNull('emailDetails', fn (array $data) => EmailDetails::fromArray($data)),
             $this->get('webhookUrl'),
-            $this->mapIfNotNull('discount', fn(array $data) => Discount::fromArray($data))
+            $this->mapIfNotNull('discount', fn (array $data) => Discount::fromArray($data))
         );
     }
 }
