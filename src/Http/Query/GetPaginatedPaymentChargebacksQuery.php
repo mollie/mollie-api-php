@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaginatedPaymentChargebacksQuery extends Query
+class GetPaginatedPaymentChargebacksQuery implements Arrayable
 {
     private PaginatedQuery $paginatedQuery;
 

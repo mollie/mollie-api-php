@@ -4,8 +4,9 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaymentCaptureQuery extends Query
+class GetPaymentCaptureQuery implements Arrayable
 {
     public bool $includePayment = false;
 

@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\ClientQuery;
 
-class GetClientQuery extends Query
+class GetClientQuery implements Arrayable
 {
     private bool $embedOrganization;
 

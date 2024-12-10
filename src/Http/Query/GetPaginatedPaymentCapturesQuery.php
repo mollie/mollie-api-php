@@ -4,8 +4,9 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaginatedPaymentCapturesQuery extends Query
+class GetPaginatedPaymentCapturesQuery implements Arrayable
 {
     private PaginatedQuery $paginatedQuery;
 

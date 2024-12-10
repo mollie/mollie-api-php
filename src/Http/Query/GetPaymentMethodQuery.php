@@ -4,8 +4,9 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\MethodQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaymentMethodQuery extends Query
+class GetPaymentMethodQuery implements Arrayable
 {
     private ?string $locale;
 

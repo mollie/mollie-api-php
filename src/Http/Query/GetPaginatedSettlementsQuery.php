@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetPaginatedSettlementsQuery extends Query
+use Mollie\Api\Contracts\Arrayable;
+
+class GetPaginatedSettlementsQuery implements Arrayable
 {
     private ?string $balanceId = null;
 

@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Types\MethodQuery;
 
-class GetAllMethodsQuery extends Query
+class GetAllMethodsQuery implements Arrayable
 {
     private ?string $locale;
 
@@ -35,7 +36,7 @@ class GetAllMethodsQuery extends Query
                 $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
             ]),
             'locale' => $this->locale,
-            'amount' => $this->amount ? $this->amount->data() : null,
+            'amount' => $this->amount,
         ];
     }
 }

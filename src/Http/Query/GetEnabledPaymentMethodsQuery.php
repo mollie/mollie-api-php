@@ -2,11 +2,12 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Types\MethodQuery;
 
-class GetEnabledPaymentMethodsQuery extends Query
+class GetEnabledPaymentMethodsQuery implements Arrayable
 {
     private string $sequenceType;
 
@@ -57,7 +58,7 @@ class GetEnabledPaymentMethodsQuery extends Query
         return [
             'sequenceType' => $this->sequenceType,
             'locale' => $this->locale,
-            'amount' => $this->amount ? $this->amount->data() : null,
+            'amount' => $this->amount,
             'resource' => $this->resource,
             'billingCountry' => $this->billingCountry,
             'includeWallets' => Arr::join($this->includeWallets ?? []),

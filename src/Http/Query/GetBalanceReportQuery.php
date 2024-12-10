@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Query;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetBalanceReportQuery extends Query
+class GetBalanceReportQuery implements Arrayable
 {
     public DateTimeInterface $from;
 

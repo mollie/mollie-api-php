@@ -4,8 +4,9 @@ namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\ClientQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaginatedClientQuery extends Query
+class GetPaginatedClientQuery implements Arrayable
 {
     private PaginatedQuery $paginatedQuery;
 

@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaymentRefundQuery extends Query
+class GetPaymentRefundQuery implements Arrayable
 {
     private bool $includePayment;
 

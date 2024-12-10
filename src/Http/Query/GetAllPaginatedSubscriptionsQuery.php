@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetAllPaginatedSubscriptionsQuery extends Query
+use Mollie\Api\Contracts\Arrayable;
+
+class GetAllPaginatedSubscriptionsQuery implements Arrayable
 {
     private ?string $profileId;
 

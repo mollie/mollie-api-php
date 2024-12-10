@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class AnyQuery extends Query
+class AnyQuery implements Arrayable
 {
     use ComposableFromArray;
 

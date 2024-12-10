@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
-class PaginatedQuery extends Query
+use Mollie\Api\Contracts\Arrayable;
+
+class PaginatedQuery implements Arrayable
 {
     public ?string $from = null;
 

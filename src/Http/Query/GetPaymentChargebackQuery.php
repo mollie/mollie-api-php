@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Query;
 
 use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Contracts\Arrayable;
 
-class GetPaymentChargebackQuery extends Query
+class GetPaymentChargebackQuery implements Arrayable
 {
     private bool $includePayment;
 

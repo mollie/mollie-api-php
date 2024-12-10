@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
-class GetPaginatedBalanceQuery extends Query
+use Mollie\Api\Contracts\Arrayable;
+
+class GetPaginatedBalanceQuery implements Arrayable
 {
     private SortablePaginatedQuery $paginatedQuery;
 

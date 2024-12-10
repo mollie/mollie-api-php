@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\Query;
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Requests\PaginatedRequest;
 use Mollie\Api\Resources\BaseCollection;
 use Tests\TestCase;
@@ -37,7 +37,7 @@ class ConcretePaginatedRequest extends PaginatedRequest
     }
 }
 
-class ConcreteQuery extends Query
+class ConcreteQuery implements Arrayable
 {
     private array $parameters;
 
