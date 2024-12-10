@@ -28,10 +28,10 @@ try {
                 'vatRate' => '21',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '15.00'
-                ]
-            ]
-        ]
+                    'value' => '15.00',
+                ],
+            ],
+        ],
     ]);
 
     echo "<p>Sales invoice updated with ID: " . htmlspecialchars($updatedInvoice->id) . "</p>";

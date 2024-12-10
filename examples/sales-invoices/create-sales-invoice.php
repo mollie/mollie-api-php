@@ -30,7 +30,7 @@ try {
             'postalCode' => '2000 AA',
             'city' => 'Amsterdam',
             'country' => 'NL',
-            'locale' => 'nl_NL'
+            'locale' => 'nl_NL',
         ],
         'lines' => [
             [
@@ -39,10 +39,10 @@ try {
                 'vatRate' => '21',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'  // Corrected the format from '10,00' to '10.00' to match typical API expectations
-                ]
-            ]
-        ]
+                    'value' => '10.00',  // Corrected the format from '10,00' to '10.00' to match typical API expectations
+                ],
+            ],
+        ],
     ]);
 
     echo "<p>New sales invoice created with ID: " . htmlspecialchars($salesInvoice->id) . "</p>";
