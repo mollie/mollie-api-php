@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class EmailDetails implements DataProvider
+class EmailDetails implements Arrayable
 {
     use ComposableFromArray;
 
@@ -21,7 +21,7 @@ class EmailDetails implements DataProvider
         $this->body = $body;
     }
 
-    public function data()
+    public function toArray(): array
     {
         return [
             'subject' => $this->subject,

@@ -16,7 +16,7 @@ class UpdatePaymentLinkPayload extends DataBag
         $this->archived = $archived;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

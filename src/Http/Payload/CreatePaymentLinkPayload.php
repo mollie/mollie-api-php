@@ -38,7 +38,7 @@ class CreatePaymentLinkPayload extends DataBag
         $this->expiresAt = $expiresAt;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

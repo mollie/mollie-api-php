@@ -28,7 +28,7 @@ class InvoiceLine extends DataBag
         $this->discount = $discount;
     }
 
-    public function data()
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

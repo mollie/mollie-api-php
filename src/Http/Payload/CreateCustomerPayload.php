@@ -24,7 +24,7 @@ class CreateCustomerPayload extends DataBag
         $this->metadata = $metadata;
     }
 
-    public function data()
+    public function toArray(): array
     {
         return [
             'name' => $this->name,

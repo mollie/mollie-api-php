@@ -42,7 +42,7 @@ class CreateMandatePayload extends DataBag
         $this->paypalBillingAgreementId = $paypalBillingAgreementId;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'method' => $this->method,

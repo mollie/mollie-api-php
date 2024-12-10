@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class PaymentDetails implements DataProvider
+class PaymentDetails implements Arrayable
 {
     use ComposableFromArray;
 
@@ -21,7 +21,7 @@ class PaymentDetails implements DataProvider
         $this->sourceDescription = $sourceDescription;
     }
 
-    public function data()
+    public function toArray(): array
     {
         return [
             'source' => $this->source,

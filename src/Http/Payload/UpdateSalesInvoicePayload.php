@@ -51,7 +51,7 @@ class UpdateSalesInvoicePayload extends DataBag
         $this->discount = $discount;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'status' => $this->status,

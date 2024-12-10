@@ -16,7 +16,7 @@ class RefundRoute extends DataBag
         $this->organizationId = $organizationId;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,

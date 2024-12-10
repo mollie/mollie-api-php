@@ -22,7 +22,7 @@ class PaymentRoute extends DataBag
         $this->delayUntil = $delayUntil;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,

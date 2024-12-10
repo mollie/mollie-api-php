@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Stringable;
 
-class Metadata implements DataProvider
+class Metadata implements Stringable
 {
     public array $data;
 
@@ -13,7 +13,7 @@ class Metadata implements DataProvider
         $this->data = $data;
     }
 
-    public function data(): string
+    public function __toString(): string
     {
         return @json_encode($this->data);
     }

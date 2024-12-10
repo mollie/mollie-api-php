@@ -35,7 +35,7 @@ class CreateRefundPaymentPayload extends DataBag
         $this->routingReversals = $routingReversals;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

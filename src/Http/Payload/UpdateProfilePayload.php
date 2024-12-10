@@ -40,7 +40,7 @@ class UpdateProfilePayload extends DataBag
         $this->mode = $mode;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'name' => $this->name,

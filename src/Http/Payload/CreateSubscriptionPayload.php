@@ -58,7 +58,7 @@ class CreateSubscriptionPayload extends DataBag
         $this->profileId = $profileId;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,

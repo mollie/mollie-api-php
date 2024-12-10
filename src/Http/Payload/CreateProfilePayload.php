@@ -36,7 +36,7 @@ class CreateProfilePayload extends DataBag
         $this->businessCategory = $businessCategory;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'name' => $this->name,

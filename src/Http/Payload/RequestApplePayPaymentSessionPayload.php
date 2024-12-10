@@ -20,7 +20,7 @@ class RequestApplePayPaymentSessionPayload extends DataBag
         $this->profileId = $profileId;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'domain' => $this->domain,

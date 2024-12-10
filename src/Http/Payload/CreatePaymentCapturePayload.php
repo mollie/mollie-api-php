@@ -20,7 +20,7 @@ class CreatePaymentCapturePayload extends DataBag
         $this->metadata = $metadata;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

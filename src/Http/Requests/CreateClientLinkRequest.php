@@ -31,7 +31,7 @@ class CreateClientLinkRequest extends ResourceHydratableRequest implements HasPa
 
     protected function defaultPayload(): array
     {
-        return $this->payload->data();
+        return $this->payload->toArray();
     }
 
     public function resolveResourcePath(): string

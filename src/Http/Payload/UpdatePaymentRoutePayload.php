@@ -14,7 +14,7 @@ class UpdatePaymentRoutePayload extends DataBag
         $this->releaseDate = $releaseDate;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'releaseDate' => $this->releaseDate->format('Y-m-d'),

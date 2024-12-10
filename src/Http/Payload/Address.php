@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class Address implements DataProvider
+class Address implements Arrayable
 {
     use ComposableFromArray;
 
@@ -61,7 +61,7 @@ class Address implements DataProvider
         $this->country = $country;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'title' => $this->title,

@@ -71,7 +71,7 @@ class CreateSalesInvoicePayload extends DataBag
         $this->discount = $discount;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'profileId' => $this->profileId,

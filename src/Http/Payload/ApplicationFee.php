@@ -16,7 +16,7 @@ class ApplicationFee extends DataBag
         $this->description = $description;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,

@@ -42,7 +42,7 @@ class UpdateSubscriptionPayload extends DataBag
         $this->mandateId = $mandateId;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'amount' => $this->amount,

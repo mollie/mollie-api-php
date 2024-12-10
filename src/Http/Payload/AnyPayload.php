@@ -15,7 +15,7 @@ class AnyPayload extends DataBag
         $this->data = $data;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return $this->data ?? [];
     }

@@ -3,14 +3,13 @@
 namespace Mollie\Api\Http\Payload;
 
 use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Contracts\DataProvider;
 use Mollie\Api\Contracts\DataResolver;
 use Mollie\Api\Traits\ResolvesValues;
 
 /**
  * @template T of \Mollie\Api\Contracts\DataResolver
  */
-class DataCollection implements Arrayable, DataProvider, DataResolver
+class DataCollection implements Arrayable, DataResolver
 {
     use ResolvesValues;
 
@@ -33,20 +32,11 @@ class DataCollection implements Arrayable, DataProvider, DataResolver
             return $subject;
         }
 
-        if ($subject instanceof DataProvider) {
-            return new static($subject->data());
-        }
-
         if ($subject instanceof Arrayable) {
             return new static($subject->toArray());
         }
 
         return new static((array) $subject);
-    }
-
-    public function data(): array
-    {
-        return $this->toArray();
     }
 
     public function toArray(): array

@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 
-class Recipient implements DataProvider
+class Recipient implements Arrayable
 {
     public string $type;
 
@@ -74,7 +74,7 @@ class Recipient implements DataProvider
         $this->locale = $locale;
     }
 
-    public function data()
+    public function toArray(): array
     {
         return [
             'type' => $this->type,

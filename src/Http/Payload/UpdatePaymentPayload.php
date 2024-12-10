@@ -49,7 +49,7 @@ class UpdatePaymentPayload extends DataBag
         $this->additional = $additional;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return array_merge([
             'description' => $this->description,

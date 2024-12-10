@@ -35,7 +35,7 @@ class RecurringBillingCycle extends DataBag
         $this->startDate = $startDate;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'interval' => $this->interval,

@@ -28,7 +28,7 @@ class CreateClientLinkPayload extends DataBag
         $this->vatNumber = $vatNumber;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'owner' => $this->owner,

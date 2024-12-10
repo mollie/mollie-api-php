@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Payload;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 
-class Money implements DataProvider
+class Money implements Arrayable
 {
     public string $currency;
 
@@ -18,7 +18,7 @@ class Money implements DataProvider
         $this->value = $value;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'currency' => $this->currency,

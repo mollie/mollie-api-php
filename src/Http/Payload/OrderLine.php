@@ -60,7 +60,7 @@ class OrderLine extends DataBag
         $this->productUrl = $productUrl;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'description' => $this->description,

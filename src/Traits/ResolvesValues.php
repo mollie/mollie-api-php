@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Contracts\DataProvider;
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\DataResolver;
 use Mollie\Api\Http\Payload\DataCollection;
+use Stringable;
 
 trait ResolvesValues
 {
@@ -16,8 +17,12 @@ trait ResolvesValues
                     return $value->resolve();
                 }
 
-                if ($value instanceof DataProvider) {
-                    return $value->data();
+                if ($value instanceof Arrayable) {
+                    return $value->toArray();
+                }
+
+                if ($value instanceof Stringable) {
+                    return $value->__toString();
                 }
 
                 return $value;

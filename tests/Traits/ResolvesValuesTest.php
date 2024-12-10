@@ -3,7 +3,6 @@
 namespace Tests\Traits;
 
 use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Contracts\DataProvider;
 use Mollie\Api\Contracts\DataResolver;
 use Mollie\Api\Traits\ResolvesValues;
 use Tests\TestCase;
@@ -64,7 +63,7 @@ class Bar implements DataResolver
         $this->baz = $baz;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'baz' => $this->baz,
@@ -72,7 +71,7 @@ class Bar implements DataResolver
     }
 }
 
-class Baz implements DataProvider
+class Baz implements Arrayable
 {
     public string $value;
 
@@ -81,7 +80,7 @@ class Baz implements DataProvider
         $this->value = $value;
     }
 
-    public function data(): array
+    public function toArray(): array
     {
         return [
             'value' => $this->value,
