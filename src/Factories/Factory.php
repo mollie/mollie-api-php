@@ -37,7 +37,7 @@ abstract class Factory implements FactoryContract
         $keys = (array) $key;
 
         if ($backupKey !== null) {
-            $keys[] = $backupKey . $key;
+            $keys[] = $backupKey.$key;
         }
 
         foreach ($keys as $key) {
@@ -60,7 +60,7 @@ abstract class Factory implements FactoryContract
      */
     protected function includes($key, $value, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey . $key, $key], $value);
+        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
     }
 
     /**
