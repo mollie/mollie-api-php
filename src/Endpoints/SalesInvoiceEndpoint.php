@@ -41,7 +41,6 @@ class SalesInvoiceEndpoint extends CollectionEndpointAbstract
      * Creates a payment in Mollie.
      *
      * @param array $data An array containing details on the payment.
-     * @param array $filters
      *
      * @return SalesInvoice
      * @throws ApiException
