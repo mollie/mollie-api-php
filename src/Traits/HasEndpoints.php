@@ -38,6 +38,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\EndpointCollection\SalesInvoiceEndpointCollection;
 use Mollie\Api\MollieApiClient;
 
 /**
@@ -82,6 +83,7 @@ trait HasEndpoints
             'profiles' => ProfileEndpointCollection::class,
             'profileMethods' => ProfileMethodEndpointCollection::class,
             'refunds' => RefundEndpointCollection::class,
+            'salesInvoices' => SalesInvoiceEndpointCollection::class,
             'sessions' => SessionEndpointCollection::class,
             'settlementCaptures' => SettlementCaptureEndpointCollection::class,
             'settlementChargebacks' => SettlementChargebackEndpointCollection::class,

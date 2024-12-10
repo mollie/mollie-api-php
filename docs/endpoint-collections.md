@@ -521,6 +521,72 @@ $refund = $mollie->refunds->createForPayment($paymentId, [
 $refunds = $mollie->refunds->page();
 ```
 
+## Sales Invoices
+
+[Official Documentation TBA]
+
+**Available Payloads:**
+- `CreateSalesInvoicePayload` - For creating sales invoices
+- `UpdateSalesInvoicePayload` - For updating existing sales invoices
+
+**Available Queries:**
+- `GetPaginatedSalesInvoiceQuery` - For listing sales invoices with pagination
+
+### Sales Invoice Management
+
+```php
+use Mollie\Api\Types\VatMode;
+use Mollie\Api\Types\VatScheme;
+use Mollie\Api\Types\PaymentTerm;
+use Mollie\Api\Types\RecipientType;
+use Mollie\Api\Types\RecipientType;
+use Mollie\Api\Types\SalesInvoiceStatus;
+
+// Create a sales invoice
+$salesInvoice = $mollie->salesInvoices->create([
+    'currency' => 'EUR',
+    'status' => SalesInvoiceStatus::DRAFT,
+    'vatScheme' => VatScheme::STANDARD,
+    'vatMode' => VatMode::INCLUSIVE,
+    'paymentTerm' => PaymentTerm::DAYS_30,
+    'recipientIdentifier' => 'XXXXX',
+    'recipient' => [
+        'type' => RecipientType::CONSUMER,
+        'email' => 'darth@vader.deathstar',
+        'streetAndNumber' => 'Sample Street 12b',
+        'postalCode' => '2000 AA',
+        'city' => 'Amsterdam',
+        'country' => 'NL',
+        'locale' => 'nl_NL'
+    ],
+    'lines' => [
+        [
+            'description' => 'Monthly subscription fee',
+            'quantity' => 1,
+            'vatRate' => '21',
+            'unitPrice' => [
+                'currency' => 'EUR',
+                'value' => '10,00'
+            ]
+        ]
+    ]
+]);
+
+// Get a sales invoice
+$salesInvoice = $mollie->salesInvoices->get('invoice_12345');
+
+// Update a sales invoice
+$salesInvoice = $mollie->salesInvoices->update('invoice_12345', [
+    'description' => 'Updated description'
+]);
+
+// Delete a sales invoice
+$mollie->salesInvoices->delete('invoice_12345');
+
+// List sales invoices
+$salesInvoices = $mollie->salesInvoices->page();
+```
+
 ## Sessions
 
 [Official Documentation](https://docs.mollie.com/reference/v2/sessions-api/create-session)

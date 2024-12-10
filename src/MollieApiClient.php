@@ -42,6 +42,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\EndpointCollection\SalesInvoiceEndpointCollection;
 use Mollie\Api\Helpers\Url;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
@@ -84,15 +85,16 @@ use Mollie\Api\Traits\SendsRequests;
  * @property ProfileEndpointCollection $profiles
  * @property ProfileMethodEndpointCollection $profileMethods
  * @property RefundEndpointCollection $refunds
- * @property SettlementEndpointCollection $settlements
+ * @property SalesInvoiceEndpointCollection $salesInvoices
+ * @property SessionEndpointCollection $sessions
  * @property SettlementCaptureEndpointCollection $settlementCaptures
  * @property SettlementChargebackEndpointCollection $settlementChargebacks
+ * @property SettlementEndpointCollection $settlements
  * @property SettlementPaymentEndpointCollection $settlementPayments
  * @property SettlementRefundEndpointCollection $settlementRefunds
  * @property SubscriptionEndpointCollection $subscriptions
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals
- * @property SessionEndpointCollection $sessions
  * @property WalletEndpointCollection $wallets
  * @property HttpAdapterContract $httpClient
  */
