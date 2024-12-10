@@ -4,6 +4,8 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSalesInvoicesRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Resources\SalesInvoiceCollection;
 use Tests\Fixtures\MockClient;

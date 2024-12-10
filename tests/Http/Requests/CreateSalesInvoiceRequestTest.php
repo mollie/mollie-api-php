@@ -8,6 +8,7 @@ use Mollie\Api\Http\Payload\InvoiceLine;
 use Mollie\Api\Http\Payload\Money;
 use Mollie\Api\Http\Payload\Recipient;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\RecipientType;

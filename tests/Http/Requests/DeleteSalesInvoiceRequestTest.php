@@ -3,6 +3,7 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DeleteSalesInvoiceRequest;
+use Mollie\Api\Http\Response;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\TestCase;

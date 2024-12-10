@@ -328,6 +328,12 @@ parameters:
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1
+			path: tests/EndpointCollection/SalesInvoiceEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
 			path: tests/EndpointCollection/SessionEndpointCollectionTest.php
 
 		-

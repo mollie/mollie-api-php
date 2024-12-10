@@ -4,6 +4,7 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Payload\UpdateSalesInvoicePayload;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Tests\Fixtures\MockClient;
