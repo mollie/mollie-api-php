@@ -37,7 +37,7 @@ class UpdateSalesInvoicePayload extends DataBag
         ?Recipient $recipient = null,
         ?DataCollection $lines = null,
         ?string $webhookUrl = null,
-        ?Discount $discount = null,
+        ?Discount $discount = null
     ) {
         $this->status = $status;
         $this->paymentTerm = $paymentTerm;

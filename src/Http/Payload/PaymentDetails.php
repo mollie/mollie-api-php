@@ -15,7 +15,7 @@ class PaymentDetails implements DataProvider
 
     public function __construct(
         string $source,
-        ?string $sourceDescription = null,
+        ?string $sourceDescription = null
     ) {
         $this->source = $source;
         $this->sourceDescription = $sourceDescription;

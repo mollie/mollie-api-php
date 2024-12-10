@@ -15,7 +15,7 @@ class EmailDetails implements DataProvider
 
     public function __construct(
         string $subject,
-        string $body,
+        string $body
     ) {
         $this->subject = $subject;
         $this->body = $body;

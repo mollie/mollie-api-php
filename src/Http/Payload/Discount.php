@@ -15,7 +15,7 @@ class Discount implements DataProvider
 
     public function __construct(
         string $type,
-        string $value,
+        string $value
     ) {
         $this->type = $type;
         $this->value = $value;

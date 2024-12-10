@@ -19,7 +19,7 @@ class InvoiceLine extends DataBag
         int $quantity,
         string $vatRate,
         Money $unitPrice,
-        ?Discount $discount = null,
+        ?Discount $discount = null
     ) {
         $this->description = $description;
         $this->quantity = $quantity;

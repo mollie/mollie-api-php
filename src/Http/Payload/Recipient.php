@@ -54,7 +54,7 @@ class Recipient implements DataProvider
         ?string $vatNumber = null,
         ?string $phone = null,
         ?string $streetAdditional = null,
-        ?string $region = null,
+        ?string $region = null
     ) {
         $this->type = $type;
         $this->title = $title;

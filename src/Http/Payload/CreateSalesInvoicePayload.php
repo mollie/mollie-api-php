@@ -53,7 +53,7 @@ class CreateSalesInvoicePayload extends DataBag
         ?PaymentDetails $paymentDetails = null,
         ?EmailDetails $emailDetails = null,
         ?string $webhookUrl = null,
-        ?Discount $discount = null,
+        ?Discount $discount = null
     ) {
         $this->profileId = $profileId;
         $this->currency = $currency;
