@@ -223,6 +223,26 @@ parameters:
 		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
+			path: examples/sales-invoices/create-sales-invoice.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sales-invoices/delete-sales-invoice.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sales-invoices/list-sales-invoices.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/sales-invoices/update-sales-invoice.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
 			path: examples/sessions/cancel-session.php
 
 		-
