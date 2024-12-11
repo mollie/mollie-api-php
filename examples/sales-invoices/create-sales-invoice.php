@@ -1,6 +1,5 @@
 <?php
 
-use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\SalesInvoiceStatus;
 
 /*
@@ -21,7 +20,7 @@ try {
         'status' => SalesInvoiceStatus::DRAFT,
         'vatScheme' => 'standard',
         'vatMode' => 'inclusive',
-        'paymentTerm' => PaymentTerm::DAYS_30,
+        'paymentTerm' => '30 days',
         'recipientIdentifier' => 'XXXXX',
         'recipient' => [
             'type' => 'consumer',

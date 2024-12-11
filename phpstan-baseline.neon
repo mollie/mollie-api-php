@@ -221,11 +221,6 @@ parameters:
 			path: examples/profiles/update-profile.php
 
 		-
-			message: "#^Access to constant DAYS_30 on an unknown class Mollie\\\\Api\\\\Types\\\\PaymentTerm\\.$#"
-			count: 1
-			path: examples/sales-invoices/create-sales-invoice.php
-
-		-
 			message: "#^Variable \\$mollie might not be defined\\.$#"
 			count: 1
 			path: examples/sales-invoices/create-sales-invoice.php
