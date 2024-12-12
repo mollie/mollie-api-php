@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\RequestApplePayPaymentSessionPayload;
+use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 
 class ApplePayPaymentSessionPayloadFactory extends Factory
 {

@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
@@ -19,7 +19,7 @@ class GetSessionRequestTest extends TestCase
             GetSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 
-        $query = new AnyQuery([
+        $query = new AnyData([
             'testmode' => true,
         ]);
 
@@ -40,7 +40,7 @@ class GetSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $query = new AnyQuery([
+        $query = new AnyData([
             'testmode' => true,
         ]);
 

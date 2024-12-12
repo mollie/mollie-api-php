@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedPaymentRefundQuery;
+use Mollie\Api\Http\Data\GetPaginatedPaymentRefundQuery;
 
 class GetPaginatedPaymentRefundQueryFactory extends Factory
 {

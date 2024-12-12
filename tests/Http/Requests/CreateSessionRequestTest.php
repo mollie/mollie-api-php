@@ -2,8 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\AnyPayload;
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
@@ -21,8 +20,8 @@ class CreateSessionRequestTest extends TestCase
         ]);
 
         $request = new CreateSessionRequest(
-            new AnyPayload(['foo' => 'bar']),
-            new AnyQuery(['baz' => 'qux'])
+            new AnyData(['foo' => 'bar']),
+            new AnyData(['baz' => 'qux'])
         );
 
         /** @var Response */
@@ -35,7 +34,7 @@ class CreateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateSessionRequest(new AnyPayload(['foo' => 'bar']), new AnyQuery(['baz' => 'qux']));
+        $request = new CreateSessionRequest(new AnyData(['foo' => 'bar']), new AnyData(['baz' => 'qux']));
 
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }

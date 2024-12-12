@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreateClientLinkPayload;
-use Mollie\Api\Http\Payload\Owner;
-use Mollie\Api\Http\Payload\OwnerAddress;
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\Owner;
+use Mollie\Api\Http\Data\OwnerAddress;
 
 class CreateClientLinkPayloadFactory extends Factory
 {

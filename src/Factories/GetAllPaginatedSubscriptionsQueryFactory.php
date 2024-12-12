@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetAllPaginatedSubscriptionsQuery;
+use Mollie\Api\Http\Data\GetAllPaginatedSubscriptionsQuery;
 
 class GetAllPaginatedSubscriptionsQueryFactory extends Factory
 {

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedBalanceQuery;
+use Mollie\Api\Http\Data\GetPaginatedBalanceQuery;
 
 class GetPaginatedBalanceQueryFactory extends Factory
 {

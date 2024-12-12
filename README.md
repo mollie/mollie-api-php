@@ -45,8 +45,8 @@ Find our full documentation online on [docs.mollie.com](https://docs.mollie.com)
 
 #### Example usage ####
 ```php
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 $payload = new CreatePaymentPayload(

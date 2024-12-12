@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\AnyPayload;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
@@ -19,7 +19,7 @@ class UpdateSessionRequestTest extends TestCase
             UpdateSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 
-        $payload = new AnyPayload([
+        $payload = new AnyData([
             'status' => 'completed',
             'metadata' => [
                 'order_id' => '12345',
@@ -44,7 +44,7 @@ class UpdateSessionRequestTest extends TestCase
     public function it_resolves_correct_resource_path()
     {
         $sessionId = 'ses_LQNz4v4Qvk';
-        $request = new UpdateSessionRequest($sessionId, new AnyPayload);
+        $request = new UpdateSessionRequest($sessionId, new AnyData);
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaginatedPaymentCapturesQuery;
+use Mollie\Api\Http\Data\GetPaginatedPaymentCapturesQuery;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;

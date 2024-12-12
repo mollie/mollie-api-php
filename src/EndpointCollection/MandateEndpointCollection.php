@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateMandatePayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Helpers;
-use Mollie\Api\Http\Payload\CreateMandatePayload;
+use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;

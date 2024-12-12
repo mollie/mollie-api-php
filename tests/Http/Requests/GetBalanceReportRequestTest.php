@@ -3,7 +3,7 @@
 namespace Tests\Http\Requests;
 
 use DateTime;
-use Mollie\Api\Http\Query\GetBalanceReportQuery;
+use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BalanceReport;

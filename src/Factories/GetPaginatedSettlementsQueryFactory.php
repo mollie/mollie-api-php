@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedSettlementsQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementsQuery;
 
 class GetPaginatedSettlementsQueryFactory extends Factory
 {

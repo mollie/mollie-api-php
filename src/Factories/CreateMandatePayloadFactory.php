@@ -3,7 +3,7 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeImmutable;
-use Mollie\Api\Http\Payload\CreateMandatePayload;
+use Mollie\Api\Http\Data\CreateMandatePayload;
 
 class CreateMandatePayloadFactory extends Factory
 {
@@ -19,7 +19,7 @@ class CreateMandatePayloadFactory extends Factory
             $this->get('consumerAccount'),
             $this->get('consumerBic'),
             $this->get('consumerEmail'),
-            $this->mapIfNotNull('signatureDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
+            $this->mapIfNotNull('signatureDate', fn(string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
             $this->get('mandateReference'),
             $this->get('paypalBillingAgreementId'),
         );

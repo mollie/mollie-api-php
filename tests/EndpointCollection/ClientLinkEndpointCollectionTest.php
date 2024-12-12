@@ -2,9 +2,9 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Payload\CreateClientLinkPayload;
-use Mollie\Api\Http\Payload\Owner;
-use Mollie\Api\Http\Payload\OwnerAddress;
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\Owner;
+use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
 use Tests\Fixtures\MockClient;

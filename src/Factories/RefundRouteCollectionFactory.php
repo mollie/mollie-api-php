@@ -3,8 +3,8 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Helpers\Arr;
-use Mollie\Api\Http\Payload\DataCollection;
-use Mollie\Api\Http\Payload\RefundRoute;
+use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\RefundRoute;
 
 class RefundRouteCollectionFactory extends Factory
 {

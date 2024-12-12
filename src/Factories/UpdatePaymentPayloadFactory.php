@@ -3,8 +3,8 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Helpers;
-use Mollie\Api\Http\Payload\Metadata;
-use Mollie\Api\Http\Payload\UpdatePaymentPayload;
+use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Http\Data\UpdatePaymentPayload;
 
 class UpdatePaymentPayloadFactory extends Factory
 {

@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
-use Mollie\Api\Http\Payload\Metadata;
+use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
+use Mollie\Api\Http\Data\Metadata;
 
 class CreateRefundPaymentPayloadFactory extends Factory
 {
@@ -17,7 +17,7 @@ class CreateRefundPaymentPayloadFactory extends Factory
             $this
                 ->mapIfNotNull(
                     'routingReversals',
-                    fn (array $items) => RefundRouteCollectionFactory::new($items)->create()
+                    fn(array $items) => RefundRouteCollectionFactory::new($items)->create()
                 ),
         );
     }

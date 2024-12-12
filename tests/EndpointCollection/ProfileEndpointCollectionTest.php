@@ -2,8 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Payload\CreateProfilePayload;
-use Mollie\Api\Http\Payload\UpdateProfilePayload;
+use Mollie\Api\Http\Data\CreateProfilePayload;
+use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;

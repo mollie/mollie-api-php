@@ -23,8 +23,8 @@ To send a request using the Mollie API client, you typically need to:
    Use the client to send the request and handle the response.
    ```php
    use Mollie\Api\MollieApiClient;
-   use Mollie\Api\Http\Payload\Money;
-   use Mollie\Api\Http\Payload\CreatePaymentPayload;
+   use Mollie\Api\Http\Data\Money;
+   use Mollie\Api\Http\Data\CreatePaymentPayload;
    use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
    $mollie = new MollieApiClient();

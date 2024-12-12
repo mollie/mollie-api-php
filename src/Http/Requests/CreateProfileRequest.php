@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\CreateProfilePayload;
+use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

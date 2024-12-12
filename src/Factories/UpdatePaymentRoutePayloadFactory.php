@@ -3,7 +3,7 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeImmutable;
-use Mollie\Api\Http\Payload\UpdatePaymentRoutePayload;
+use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 
 class UpdatePaymentRoutePayloadFactory extends Factory
 {

@@ -3,8 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\AnyPayload;
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -17,11 +16,11 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     public static string $targetResourceClass = Session::class;
 
-    private AnyPayload $payload;
+    private AnyData $payload;
 
-    private AnyQuery $query;
+    private AnyData $query;
 
-    public function __construct(AnyPayload $payload, AnyQuery $query)
+    public function __construct(AnyData $payload, AnyData $query)
     {
         $this->payload = $payload;
         $this->query = $query;

@@ -4,8 +4,8 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
-use Mollie\Api\Http\Query\CreatePaymentQuery;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
+use Mollie\Api\Http\Data\CreatePaymentQuery;
 
 class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPayload, SupportsTestmodeInPayload
 {

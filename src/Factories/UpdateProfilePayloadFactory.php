@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\UpdateProfilePayload;
+use Mollie\Api\Http\Data\UpdateProfilePayload;
 
 class UpdateProfilePayloadFactory extends Factory
 {

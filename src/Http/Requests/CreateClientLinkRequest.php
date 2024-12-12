@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Resources\ClientLink;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

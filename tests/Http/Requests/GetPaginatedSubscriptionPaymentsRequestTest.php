@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Query\PaginatedQuery;
+use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Http\Response;

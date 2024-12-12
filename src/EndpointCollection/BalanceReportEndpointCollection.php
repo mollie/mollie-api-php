@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\GetBalanceReportQueryFactory;
 use Mollie\Api\Helpers;
-use Mollie\Api\Http\Query\GetBalanceReportQuery;
+use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;

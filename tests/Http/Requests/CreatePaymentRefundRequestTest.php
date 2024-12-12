@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateRefundPaymentPayload;
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Refund;

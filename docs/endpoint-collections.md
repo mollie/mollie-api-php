@@ -40,8 +40,8 @@ $payment = $mollie->payments->create([
 **Advanced: Using typed payloads/queries**
 This approach provides full IDE support and type safety:
 ```php
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 
 $payment = $mollie->payments->create(
     new CreatePaymentPayload(
@@ -53,7 +53,7 @@ $payment = $mollie->payments->create(
 
 If you have an array and need to interact with the payload or query, you can use a dedicated factory to convert the array into a typed class.
 
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 
 // Fully untyped data
@@ -371,8 +371,8 @@ $permissions = $mollie->permissions->list();
 
 ```php
 // Create a payment using typed payload
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 
 $payload = new CreatePaymentPayload(
     description: 'Order #12345',
@@ -763,16 +763,10 @@ try {
 
 ## Common Data Types
 
-**Shared Payloads:**
 - `Money` - For handling currency amounts
-- `Address` - For handling address information
 - `Metadata` - For handling custom metadata
 - `DataCollection` - For handling collections of data
-- `ApplicationFee` - For handling application fees
-
-**Base Classes:**
-- `DataBag` - Base class for payload objects
-- `Query` - Base class for query objects
+- `Data` - Base class for payload/query objects
 
 ## Factories
 

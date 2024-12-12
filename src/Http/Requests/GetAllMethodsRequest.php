@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Query\GetAllMethodsQuery;
+use Mollie\Api\Http\Data\GetAllMethodsQuery;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
 

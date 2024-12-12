@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\UpdatePaymentLinkPayload;
+use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentLink;

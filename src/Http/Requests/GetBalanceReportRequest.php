@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetBalanceReportQuery;
+use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Types\Method;
 

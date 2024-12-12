@@ -4,8 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Http\Payload\AnyPayload;
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
@@ -22,14 +21,14 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param  array|AnyQuery  $query
+     * @param  array|AnyData  $query
      *
      * @throws ApiException
      */
     public function get(string $sessionId, $query = []): Session
     {
-        if (! $query instanceof AnyQuery) {
-            $query = AnyQuery::fromArray($query);
+        if (! $query instanceof AnyData) {
+            $query = AnyData::fromArray($query);
         }
 
         /** @var Session */
@@ -39,19 +38,19 @@ class SessionEndpointCollection extends EndpointCollection
     /**
      * Creates a session in Mollie.
      *
-     * @param  array|AnyPayload  $payload
-     * @param  array|AnyQuery  $query
+     * @param  array|AnyData  $payload
+     * @param  array|AnyData  $query
      *
      * @throws ApiException
      */
     public function create($payload = [], $query = []): Session
     {
-        if (! $payload instanceof AnyPayload) {
-            $payload = AnyPayload::fromArray($payload);
+        if (! $payload instanceof AnyData) {
+            $payload = AnyData::fromArray($payload);
         }
 
-        if (! $query instanceof AnyQuery) {
-            $query = AnyQuery::fromArray($query);
+        if (! $query instanceof AnyData) {
+            $query = AnyData::fromArray($query);
         }
 
         /** @var Session */
@@ -63,14 +62,14 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param  array|AnyPayload  $payload
+     * @param  array|AnyData  $payload
      *
      * @throws ApiException
      */
     public function update(string $id, $payload = []): Session
     {
-        if (! $payload instanceof AnyPayload) {
-            $payload = AnyPayload::fromArray($payload);
+        if (! $payload instanceof AnyData) {
+            $payload = AnyData::fromArray($payload);
         }
 
         /** @var Session */

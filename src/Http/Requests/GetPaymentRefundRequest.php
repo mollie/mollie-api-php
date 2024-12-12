@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaymentRefundQuery;
+use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\Method;
 

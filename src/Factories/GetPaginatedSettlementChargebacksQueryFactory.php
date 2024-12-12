@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedSettlementChargebacksQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementChargebacksQuery;
 
 class GetPaginatedSettlementChargebacksQueryFactory extends Factory
 {

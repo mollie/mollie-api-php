@@ -191,8 +191,8 @@ With this approach you can use new Objects and therefore actually know what data
 
 ```php
 // improved
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 
 $payload = new CreatePaymentPayload(
     description: 'My first API payment',
@@ -213,8 +213,8 @@ Finally, the new way of interacting with the client:
 
 ```php
 // newest ;-)
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 $payload = new CreatePaymentPayload(

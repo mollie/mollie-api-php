@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\AnyPayload;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -18,9 +18,9 @@ class UpdateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     private string $sessionId;
 
-    private AnyPayload $payload;
+    private AnyData $payload;
 
-    public function __construct(string $sessionId, AnyPayload $payload)
+    public function __construct(string $sessionId, AnyData $payload)
     {
         $this->sessionId = $sessionId;
         $this->payload = $payload;

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetEnabledPaymentMethodsQuery;
+use Mollie\Api\Http\Data\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Types\MethodQuery;
 
 class GetEnabledPaymentMethodsQueryFactory extends Factory

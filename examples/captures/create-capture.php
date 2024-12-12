@@ -4,8 +4,8 @@
  * How to prepare a new payment with the Mollie API.
  */
 
-use Mollie\Api\Http\Payload\CreatePaymentCapturePayload;
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
 
 try {
@@ -29,7 +29,7 @@ try {
 
     $capture = $response->toResource();
 
-    echo '<p>New capture created '.htmlspecialchars($capture->id).' ('.htmlspecialchars($capture->description).').</p>';
+    echo '<p>New capture created ' . htmlspecialchars($capture->id) . ' (' . htmlspecialchars($capture->description) . ').</p>';
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: '.htmlspecialchars($e->getMessage());
+    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
 }

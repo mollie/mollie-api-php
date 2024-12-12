@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\UpdateSalesInvoicePayload;
+use Mollie\Api\Http\Data\UpdateSalesInvoicePayload;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

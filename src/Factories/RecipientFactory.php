@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\Recipient;
+use Mollie\Api\Http\Data\Recipient;
 
 class RecipientFactory extends Factory
 {

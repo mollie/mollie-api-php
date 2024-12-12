@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\SortablePaginatedQuery;
+use Mollie\Api\Http\Data\SortablePaginatedQuery;
 
 class SortablePaginatedQueryFactory extends Factory
 {

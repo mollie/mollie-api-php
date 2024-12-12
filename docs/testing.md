@@ -28,8 +28,8 @@ For specific control, you can enable test mode per request. This is useful for m
 ```php
 // Creating a payment in test mode
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 $mollie = new MollieApiClient();

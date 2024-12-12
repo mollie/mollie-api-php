@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateClientLinkPayloadFactory;
-use Mollie\Api\Http\Payload\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\RequestApplePayPaymentSessionPayload;
+use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\AnyResource;

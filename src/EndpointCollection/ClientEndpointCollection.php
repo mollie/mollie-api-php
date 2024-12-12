@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetClientQueryFactory;
 use Mollie\Api\Factories\GetPaginatedClientQueryFactory;
-use Mollie\Api\Http\Query\GetClientQuery;
+use Mollie\Api\Http\Data\GetClientQuery;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\Client;

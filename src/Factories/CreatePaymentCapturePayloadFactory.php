@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreatePaymentCapturePayload;
-use Mollie\Api\Http\Payload\Metadata;
+use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
+use Mollie\Api\Http\Data\Metadata;
 
 class CreatePaymentCapturePayloadFactory extends Factory
 {
@@ -11,7 +11,7 @@ class CreatePaymentCapturePayloadFactory extends Factory
     {
         return new CreatePaymentCapturePayload(
             $this->get('description'),
-            $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
+            $this->mapIfNotNull('amount', fn(array $item) => MoneyFactory::new($item)->create()),
             $this->mapIfNotNull('metadata', Metadata::class)
         );
     }

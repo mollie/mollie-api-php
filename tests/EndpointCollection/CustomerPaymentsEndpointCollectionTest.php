@@ -2,8 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Payload\CreatePaymentPayload;
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\CreatePaymentPayload;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;

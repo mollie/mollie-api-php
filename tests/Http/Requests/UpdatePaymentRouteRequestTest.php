@@ -3,7 +3,7 @@
 namespace Tests\Http\Requests;
 
 use DateTime;
-use Mollie\Api\Http\Payload\UpdatePaymentRoutePayload;
+use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Route;

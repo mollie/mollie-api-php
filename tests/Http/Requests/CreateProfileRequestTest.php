@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateProfilePayload;
+use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Profile;

@@ -4,9 +4,9 @@
  * How to create a new client link in the Mollie API.
  */
 
-use Mollie\Api\Http\Payload\CreateClientLinkPayload;
-use Mollie\Api\Http\Payload\Owner;
-use Mollie\Api\Http\Payload\OwnerAddress;
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\Owner;
+use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 
 try {
@@ -53,7 +53,7 @@ try {
      * Send the customer off to finalize the organization creation.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header('Location: '.$redirectUrl, true, 303);
+    header('Location: ' . $redirectUrl, true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: '.htmlspecialchars($e->getMessage());
+    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
 }

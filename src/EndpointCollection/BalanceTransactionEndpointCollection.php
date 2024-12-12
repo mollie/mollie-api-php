@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Http\Query\PaginatedQuery;
+use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransactionCollection;

@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateMandatePayload;
+use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Mandate;

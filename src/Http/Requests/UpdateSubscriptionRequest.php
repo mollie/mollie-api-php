@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Payload\UpdateSubscriptionPayload;
+use Mollie\Api\Http\Data\UpdateSubscriptionPayload;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedSettlementCapturesQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaginatedSettlementCapturesQueryFactory extends Factory

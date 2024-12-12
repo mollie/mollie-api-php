@@ -3,16 +3,18 @@
 namespace Mollie\Api;
 
 use Mollie\Api\Exceptions\IncompatiblePlatform;
-use Mollie\Api\Traits\Makeable;
 
 class CompatibilityChecker
 {
-    use Makeable;
-
     /**
      * @var string
      */
     public const MIN_PHP_VERSION = '7.4';
+
+    public static function make(): self
+    {
+        return new self;
+    }
 
     /**
      * @return void
@@ -23,7 +25,7 @@ class CompatibilityChecker
     {
         if (! $this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatform(
-                'The client requires PHP version >= '.self::MIN_PHP_VERSION.', you have '.PHP_VERSION.'.',
+                'The client requires PHP version >= ' . self::MIN_PHP_VERSION . ', you have ' . PHP_VERSION . '.',
                 IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
             );
         }

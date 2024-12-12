@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementCapturesQueryFactory;
 use Mollie\Api\Helpers;
-use Mollie\Api\Http\Query\GetPaginatedSettlementCapturesQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;

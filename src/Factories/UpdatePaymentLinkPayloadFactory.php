@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\UpdatePaymentLinkPayload;
+use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 
 class UpdatePaymentLinkPayloadFactory extends Factory
 {

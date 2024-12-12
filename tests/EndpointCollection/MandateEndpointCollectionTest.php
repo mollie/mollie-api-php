@@ -3,7 +3,7 @@
 namespace Tests\EndpointCollection;
 
 use DateTimeImmutable;
-use Mollie\Api\Http\Payload\CreateMandatePayload;
+use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;

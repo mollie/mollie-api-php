@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\CreateCustomerPayload;
-use Mollie\Api\Http\Payload\Metadata;
+use Mollie\Api\Http\Data\CreateCustomerPayload;
+use Mollie\Api\Http\Data\Metadata;
 
 class CreateCustomerPayloadFactory extends Factory
 {

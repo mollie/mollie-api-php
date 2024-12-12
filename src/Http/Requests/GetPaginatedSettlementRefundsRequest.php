@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaginatedSettlementRefundsQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 

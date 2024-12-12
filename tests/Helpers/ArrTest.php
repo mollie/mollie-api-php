@@ -2,7 +2,11 @@
 
 namespace Tests\Helpers;
 
+use DateTimeImmutable;
 use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Http\Data\AnyData;
+use Mollie\Api\Http\Data\Data;
+use Stringable;
 use Tests\TestCase;
 
 class ArrTest extends TestCase
@@ -84,5 +88,58 @@ class ArrTest extends TestCase
 
         $this->assertTrue(Arr::includes($array, 'includes', 'payment'));
         $this->assertFalse(Arr::includes($array, 'includes', 'refund'));
+    }
+
+    /** @test */
+    public function resolve(): void
+    {
+        $foo = new Foo('bar', new Bar('baz'));
+        $anyData = new AnyData(['foo' => $foo]);
+
+        $this->assertEquals(['foo' => ['foo' => 'bar', 'bar' => 'baz']], Arr::resolve($anyData));
+
+        $nullResult = Arr::resolve(null);
+        $this->assertEquals([], $nullResult);
+
+        $resolvesDateTime = Arr::resolve(['dateTime' => DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01')]);
+        $this->assertEquals(['dateTime' => '2024-01-01'], $resolvesDateTime);
+
+        $filtersResult = Arr::resolve(['some' => null, 'bar' => 'baz']);
+        $this->assertEquals(['bar' => 'baz'], $filtersResult);
+    }
+}
+
+class Foo extends Data
+{
+    public string $foo;
+    public Bar $bar;
+
+    public function __construct(string $foo, Bar $bar)
+    {
+        $this->foo = $foo;
+        $this->bar = $bar;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'foo' => $this->foo,
+            'bar' => $this->bar,
+        ];
+    }
+}
+
+class Bar implements Stringable
+{
+    public string $bar;
+
+    public function __construct(string $bar)
+    {
+        $this->bar = $bar;
+    }
+
+    public function __toString(): string
+    {
+        return $this->bar;
     }
 }

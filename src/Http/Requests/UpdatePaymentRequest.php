@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Payload\UpdatePaymentPayload;
+use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

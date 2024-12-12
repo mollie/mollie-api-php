@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetPaginatedClientQuery;
+use Mollie\Api\Http\Data\GetPaginatedClientQuery;
 use Mollie\Api\Types\ClientQuery;
 
 class GetPaginatedClientQueryFactory extends Factory

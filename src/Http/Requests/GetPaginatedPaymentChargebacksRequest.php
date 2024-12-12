@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaginatedPaymentChargebacksQuery;
+use Mollie\Api\Http\Data\GetPaginatedPaymentChargebacksQuery;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;

@@ -3,7 +3,7 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeImmutable;
-use Mollie\Api\Http\Query\GetBalanceReportQuery;
+use Mollie\Api\Http\Data\GetBalanceReportQuery;
 
 class GetBalanceReportQueryFactory extends Factory
 {

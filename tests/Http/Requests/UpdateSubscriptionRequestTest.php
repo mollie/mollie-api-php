@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\UpdateSubscriptionPayload;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\UpdateSubscriptionPayload;
 use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Subscription;

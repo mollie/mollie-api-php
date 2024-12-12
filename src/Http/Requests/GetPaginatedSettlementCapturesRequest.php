@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaginatedSettlementCapturesQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 

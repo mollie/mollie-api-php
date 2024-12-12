@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
-use Mollie\Api\Http\Query\PaginatedQuery;
+use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 

@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaymentChargebackQuery;
+use Mollie\Api\Http\Data\GetPaymentChargebackQuery;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Types\Method;
 

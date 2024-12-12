@@ -2,9 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
-use Mollie\Api\Http\Payload\AnyPayload;
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -27,7 +26,7 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->get('ses_123', new AnyQuery(['include' => 'details']));
+        $session = $client->sessions->get('ses_123', new AnyData(['include' => 'details']));
 
         $this->assertSession($session);
     }
@@ -40,7 +39,7 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->create(new AnyPayload([
+        $session = $client->sessions->create(new AnyData([
             'amount' => new Money('EUR', '10.00'),
             'description' => 'Test Session',
         ]));
@@ -56,7 +55,7 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->update('ses_123', new AnyPayload([
+        $session = $client->sessions->update('ses_123', new AnyData([
             'description' => 'Updated Session',
         ]));
 

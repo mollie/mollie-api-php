@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\Money;
 
 class MoneyFactory extends Factory
 {

@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Query\GetPaymentCaptureQuery;
+use Mollie\Api\Http\Data\GetPaymentCaptureQuery;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Types\Method;
 

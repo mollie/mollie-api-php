@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Query\GetClientQuery;
+use Mollie\Api\Http\Data\GetClientQuery;
 use Mollie\Api\Types\ClientQuery;
 
 class GetClientQueryFactory extends Factory

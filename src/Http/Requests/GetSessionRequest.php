@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Query\AnyQuery;
+use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Types\Method;
 
@@ -14,9 +14,9 @@ class GetSessionRequest extends ResourceHydratableRequest
 
     private string $sessionId;
 
-    private AnyQuery $query;
+    private AnyData $query;
 
-    public function __construct(string $sessionId, AnyQuery $query)
+    public function __construct(string $sessionId, AnyData $query)
     {
         $this->sessionId = $sessionId;
         $this->query = $query;

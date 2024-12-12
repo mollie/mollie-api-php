@@ -2,7 +2,7 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateCustomerPayload;
+use Mollie\Api\Http\Data\CreateCustomerPayload;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;

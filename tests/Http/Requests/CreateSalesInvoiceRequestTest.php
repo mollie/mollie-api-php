@@ -2,11 +2,11 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreateSalesInvoicePayload;
-use Mollie\Api\Http\Payload\DataCollection;
-use Mollie\Api\Http\Payload\InvoiceLine;
-use Mollie\Api\Http\Payload\Money;
-use Mollie\Api\Http\Payload\Recipient;
+use Mollie\Api\Http\Data\CreateSalesInvoicePayload;
+use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\InvoiceLine;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\Recipient;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SalesInvoice;

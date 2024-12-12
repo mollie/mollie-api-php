@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Payload\RequestApplePayPaymentSessionPayload;
+use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

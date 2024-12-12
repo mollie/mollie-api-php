@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementChargebacksQueryFactory;
 use Mollie\Api\Helpers;
-use Mollie\Api\Http\Query\GetPaginatedSettlementChargebacksQuery;
+use Mollie\Api\Http\Data\GetPaginatedSettlementChargebacksQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;

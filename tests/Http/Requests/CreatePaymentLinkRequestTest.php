@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Payload\CreatePaymentLinkPayload;
-use Mollie\Api\Http\Payload\Money;
+use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentLink;

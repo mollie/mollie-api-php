@@ -2,6 +2,12 @@
 
 namespace Mollie\Api\Helpers;
 
+use DateTimeInterface;
+use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Http\Data\Data;
+use Mollie\Api\Http\Data\DataCollection;
+use Stringable;
+
 class Arr
 {
     /**
@@ -141,5 +147,36 @@ class Arr
         }
 
         return false;
+    }
+
+    /**
+     * Resolve the values of the given array.
+     *
+     * @param  mixed  $values
+     */
+    public static function resolve($values): array
+    {
+        return DataCollection::wrap($values)
+            ->map(function ($value) {
+                if ($value instanceof Data) {
+                    return static::resolve($value->toArray());
+                }
+
+                if ($value instanceof Arrayable) {
+                    return $value->toArray();
+                }
+
+                if ($value instanceof Stringable) {
+                    return $value->__toString();
+                }
+
+                if ($value instanceof DateTimeInterface) {
+                    return $value->format('Y-m-d');
+                }
+
+                return $value;
+            })
+            ->filter()
+            ->toArray();
     }
 }

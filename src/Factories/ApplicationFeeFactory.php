@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Payload\ApplicationFee;
+use Mollie\Api\Http\Data\ApplicationFee;
 
 class ApplicationFeeFactory extends Factory
 {
