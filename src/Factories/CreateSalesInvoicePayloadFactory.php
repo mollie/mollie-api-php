@@ -25,14 +25,14 @@ class CreateSalesInvoicePayloadFactory extends Factory
             $this
                 ->mapIfNotNull(
                     'lines',
-                    fn(array $items) => InvoiceLineCollectionFactory::new($items)->create()
+                    fn (array $items) => InvoiceLineCollectionFactory::new($items)->create()
                 ),
             $this->get('profileId'),
             $this->get('memo'),
-            $this->mapIfNotNull('paymentDetails', fn(array $data) => PaymentDetails::fromArray($data)),
-            $this->mapIfNotNull('emailDetails', fn(array $data) => EmailDetails::fromArray($data)),
+            $this->mapIfNotNull('paymentDetails', fn (array $data) => PaymentDetails::fromArray($data)),
+            $this->mapIfNotNull('emailDetails', fn (array $data) => EmailDetails::fromArray($data)),
             $this->get('webhookUrl'),
-            $this->mapIfNotNull('discount', fn(array $data) => Discount::fromArray($data))
+            $this->mapIfNotNull('discount', fn (array $data) => Discount::fromArray($data))
         );
     }
 }

@@ -17,7 +17,7 @@ class CreateRefundPaymentPayloadFactory extends Factory
             $this
                 ->mapIfNotNull(
                     'routingReversals',
-                    fn(array $items) => RefundRouteCollectionFactory::new($items)->create()
+                    fn (array $items) => RefundRouteCollectionFactory::new($items)->create()
                 ),
         );
     }

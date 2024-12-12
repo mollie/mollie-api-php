@@ -10,7 +10,7 @@ class CreatePaymentLinkPayloadFactory extends Factory
     {
         return new CreatePaymentLinkPayload(
             $this->get('description'),
-            $this->mapIfNotNull('amount', fn(array $amount) => MoneyFactory::new($amount)->create()),
+            $this->mapIfNotNull('amount', fn (array $amount) => MoneyFactory::new($amount)->create()),
             $this->get('redirectUrl'),
             $this->get('webhookUrl'),
             $this->get('profileId'),

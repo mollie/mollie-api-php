@@ -30,7 +30,7 @@ class PaymentRoute extends Data
                 'type' => 'organization',
                 'organizationId' => $this->organizationId,
             ],
-            'delayUntil' => $this->delayUntil
+            'delayUntil' => $this->delayUntil,
         ];
     }
 }

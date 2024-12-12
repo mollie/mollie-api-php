@@ -3,7 +3,6 @@
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Helpers\Arr;
-use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\MethodQuery;
 
 class GetEnabledPaymentMethodsQuery extends Data

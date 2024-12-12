@@ -62,7 +62,7 @@ class HelpersTest extends TestCase
     public function compose()
     {
         // Test with callable
-        $composedWithCallable = Helpers::compose(5, fn($x) => $x * 2);
+        $composedWithCallable = Helpers::compose(5, fn ($x) => $x * 2);
         $this->assertEquals(10, $composedWithCallable);
 
         $composedWithClass = Helpers::compose('test', TestComposable::class);
@@ -70,7 +70,7 @@ class HelpersTest extends TestCase
         $this->assertEquals('test', $composedWithClass->value);
 
         // Test with falsy value
-        $composedWithDefault = Helpers::compose(false, fn($x) => $x * 2, 'default');
+        $composedWithDefault = Helpers::compose(false, fn ($x) => $x * 2, 'default');
         $this->assertEquals('default', $composedWithDefault);
 
         $existingValueIsNotOverriden = Helpers::compose(new Metadata(['key' => 'value']), Metadata::class);

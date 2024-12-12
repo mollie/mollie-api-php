@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Data;
 
-use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\MethodQuery;
 

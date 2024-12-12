@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Data;
 
-use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\MethodQuery;
 
 class GetAllMethodsQuery extends Data

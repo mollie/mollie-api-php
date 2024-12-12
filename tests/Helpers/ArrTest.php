@@ -112,6 +112,7 @@ class ArrTest extends TestCase
 class Foo extends Data
 {
     public string $foo;
+
     public Bar $bar;
 
     public function __construct(string $foo, Bar $bar)

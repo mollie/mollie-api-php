@@ -22,7 +22,7 @@ class PaymentRouteCollectionFactory extends Factory
                 Arr::get($item, 'destination.organizationId'),
                 Helpers::compose(
                     Arr::get($item, 'delayUntil'),
-                    fn($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value)
+                    fn ($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value)
                 )
             );
         }, $this->data);
