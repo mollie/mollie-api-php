@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Http\Middleware;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\ViableResponse;
-use Mollie\Api\Helpers\Handlers;
-use Mollie\Api\Helpers\MiddlewarePriority;
+use Mollie\Api\Http\Middleware\Handlers;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Tests\TestCase;
 
 class HandlersTest extends TestCase
@@ -14,7 +14,7 @@ class HandlersTest extends TestCase
     public function add(): void
     {
         $handlers = new Handlers;
-        $handlers->add(fn () => null);
+        $handlers->add(fn() => null);
 
         $this->assertCount(1, $handlers->getHandlers());
     }

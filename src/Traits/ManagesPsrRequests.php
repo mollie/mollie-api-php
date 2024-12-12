@@ -3,8 +3,8 @@
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\PayloadRepository;
-use Mollie\Api\Helpers\Factories;
-use Mollie\Api\Helpers\Url;
+use Mollie\Api\Utils\Factories;
+use Mollie\Api\Utils\Url;
 use Mollie\Api\Http\PendingRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;

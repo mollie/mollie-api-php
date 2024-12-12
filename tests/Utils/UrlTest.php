@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Utils;
 
-use Mollie\Api\Helpers\Url;
+use Mollie\Api\Utils\Url;
 use Tests\TestCase;
 
 class UrlTest extends TestCase

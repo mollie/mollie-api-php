@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
@@ -42,7 +42,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
         ?int $limit = null,
         $testmode = []
     ): PaymentCollection {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -75,7 +75,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
         $testmode = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

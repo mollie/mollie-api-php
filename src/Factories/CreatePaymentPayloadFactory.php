@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Metadata;
@@ -43,7 +43,7 @@ class CreatePaymentPayloadFactory extends Factory
             $this->get('mandateId'),
             $this->get('customerId'),
             $this->get('profileId'),
-            $this->get('additional') ?? Helpers::filterByProperties(CreatePaymentPayload::class, $this->data),
+            $this->get('additional') ?? Utility::filterByProperties(CreatePaymentPayload::class, $this->data),
         );
     }
 }

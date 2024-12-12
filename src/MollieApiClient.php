@@ -43,7 +43,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
-use Mollie\Api\Helpers\Url;
+use Mollie\Api\Utils\Url;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Traits\HandlesAuthentication;

@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementChargebacksQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedSettlementChargebacksQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
@@ -35,7 +35,7 @@ class SettlementChargebackEndpointCollection extends EndpointCollection
     public function pageForId(string $settlementId, $query = [], bool $testmode = false): ChargebackCollection
     {
         if (! $query instanceof GetPaginatedSettlementChargebacksQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaginatedSettlementChargebacksQueryFactory::new($query)->create();
         }
 
@@ -72,7 +72,7 @@ class SettlementChargebackEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedSettlementChargebacksQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

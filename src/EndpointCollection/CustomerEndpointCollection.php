@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateCustomerPayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdateCustomerPayloadFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateCustomerPayload;
 use Mollie\Api\Http\Data\UpdateCustomerPayload;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
@@ -30,7 +30,7 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function create($data = [], $testmode = []): Customer
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         if (! $data instanceof CreateCustomerPayload) {
             $data = CreateCustomerPayloadFactory::new($data)->create();
@@ -51,7 +51,7 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function get(string $id, $testmode = []): Customer
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var Customer */
         return $this->send((new GetCustomerRequest($id))->test($testmode));
@@ -86,7 +86,7 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function delete(string $id, $testmode = []): void
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         $this->send((new DeleteCustomerRequest($id))->test($testmode));
     }
@@ -100,7 +100,7 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): CustomerCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = PaginatedQueryFactory::new([
             'from' => $from,
@@ -120,7 +120,7 @@ class CustomerEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = PaginatedQueryFactory::new([
             'from' => $from,

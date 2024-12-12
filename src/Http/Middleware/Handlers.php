@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Helpers;
+namespace Mollie\Api\Http\Middleware;
 
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\PendingRequest;

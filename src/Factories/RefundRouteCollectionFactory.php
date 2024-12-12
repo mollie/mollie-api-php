@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\RefundRoute;
 

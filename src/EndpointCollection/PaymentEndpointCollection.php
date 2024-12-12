@@ -8,8 +8,8 @@ use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaymentQueryFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentPayloadFactory;
-use Mollie\Api\Helpers;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Utility;
+use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
@@ -39,7 +39,7 @@ class PaymentEndpointCollection extends EndpointCollection
     public function get(string $id, $query = [], bool $testmode = false): Payment
     {
         if (! $query instanceof GetPaymentQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaymentQueryFactory::new($query)
                 ->create();
         }
@@ -58,7 +58,7 @@ class PaymentEndpointCollection extends EndpointCollection
     public function create($payload = [], $query = [], bool $testmode = false): Payment
     {
         if (! $payload instanceof CreatePaymentPayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreatePaymentPayloadFactory::new($payload)
                 ->create();
         }
@@ -84,7 +84,7 @@ class PaymentEndpointCollection extends EndpointCollection
     public function update($id, $data = [], bool $testmode = false): ?Payment
     {
         if (! $data instanceof UpdatePaymentPayload) {
-            $testmode = Helpers::extractBool($data, 'testmode', $testmode);
+            $testmode = Utility::extractBool($data, 'testmode', $testmode);
             $data = UpdatePaymentPayloadFactory::new($data)
                 ->create();
         }
@@ -119,7 +119,7 @@ class PaymentEndpointCollection extends EndpointCollection
      */
     public function cancel(string $id, $data = []): ?Payment
     {
-        $testmode = Helpers::extractBool($data, 'testmode', false);
+        $testmode = Utility::extractBool($data, 'testmode', false);
 
         /** @var null|Payment */
         return $this->send((new CancelPaymentRequest($id))->test($testmode));
@@ -138,7 +138,7 @@ class PaymentEndpointCollection extends EndpointCollection
     public function refund(Payment $payment, $payload = [], bool $testmode = false): Refund
     {
         if (! $payload instanceof CreateRefundPaymentPayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreateRefundPaymentPayloadFactory::new($payload)
                 ->create();
         }
@@ -154,7 +154,7 @@ class PaymentEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -172,7 +172,7 @@ class PaymentEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

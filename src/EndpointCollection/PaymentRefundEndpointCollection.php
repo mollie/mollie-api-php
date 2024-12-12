@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaginatedPaymentRefundQueryFactory;
 use Mollie\Api\Factories\GetPaymentRefundQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
@@ -40,9 +40,9 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      */
     public function createForId(string $paymentId, $payload = [], $testmode = []): Refund
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
         if (! $payload instanceof CreateRefundPaymentPayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreateRefundPaymentPayloadFactory::new($payload)
                 ->create();
         }
@@ -67,7 +67,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     public function getForId(string $paymentId, string $refundId, $query = [], bool $testmode = false): Refund
     {
         if (! $query instanceof GetPaymentRefundQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaymentRefundQueryFactory::new($query)
                 ->create();
         }
@@ -95,7 +95,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      */
     public function cancelForId(string $paymentId, string $refundId, $testmode = [])
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         return $this->send((new CancelPaymentRefundRequest($paymentId, $refundId))->test($testmode));
     }
@@ -105,7 +105,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      */
     public function pageForId(string $paymentId, ?string $from = null, ?int $limit = null, array $filters = []): RefundCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedPaymentRefundQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -152,7 +152,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedPaymentRefundQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Contracts;
 
-use Mollie\Api\Helpers\Factories;
+use Mollie\Api\Utils\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Helpers;
+namespace Mollie\Api\Utils;
 
 class Url
 {
@@ -13,7 +13,7 @@ class Url
             return $endpoint;
         }
 
-        return rtrim($baseUrl, '/').'/'.ltrim($endpoint, '/');
+        return rtrim($baseUrl, '/') . '/' . ltrim($endpoint, '/');
     }
 
     /**

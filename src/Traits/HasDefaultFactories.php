@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Helpers\Factories;
+use Mollie\Api\Utils\Factories;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 trait HasDefaultFactories

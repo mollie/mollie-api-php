@@ -13,7 +13,7 @@ use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Helpers\Factories;
+use Mollie\Api\Utils\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\IsDebuggableAdapter;
@@ -132,6 +132,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      */
     public function version(): string
     {
-        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
     }
 }

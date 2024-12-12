@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedPaymentChargebacksQueryFactory;
 use Mollie\Api\Factories\GetPaymentChargebackQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedPaymentChargebacksQuery;
 use Mollie\Api\Http\Data\GetPaymentChargebackQuery;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
@@ -35,7 +35,7 @@ class PaymentChargebackEndpointCollection extends EndpointCollection
     public function getForId(string $paymentId, string $chargebackId, $query = [], bool $testmode = false): Chargeback
     {
         if (! $query instanceof GetPaymentChargebackQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaymentChargebackQueryFactory::new($query)->create();
         }
 
@@ -61,7 +61,7 @@ class PaymentChargebackEndpointCollection extends EndpointCollection
     public function pageForId(string $paymentId, $query = [], bool $testmode = false): ChargebackCollection
     {
         if (! $query instanceof GetPaginatedPaymentChargebacksQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaginatedPaymentChargebacksQueryFactory::new($query)->create();
         }
 
@@ -98,7 +98,7 @@ class PaymentChargebackEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedPaymentChargebacksQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

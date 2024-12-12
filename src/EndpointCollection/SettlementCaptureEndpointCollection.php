@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementCapturesQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Resources\CaptureCollection;
@@ -35,7 +35,7 @@ class SettlementCaptureEndpointCollection extends EndpointCollection
     public function pageForId(string $settlementId, $query = [], bool $testmode = false): CaptureCollection
     {
         if (! $query instanceof GetPaginatedSettlementCapturesQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaginatedSettlementCapturesQueryFactory::new($query)->create();
         }
 
@@ -72,7 +72,7 @@ class SettlementCaptureEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedSettlementCapturesQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

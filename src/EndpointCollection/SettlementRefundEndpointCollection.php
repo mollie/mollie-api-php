@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementRefundsQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementRefundsRequest;
 use Mollie\Api\Resources\LazyCollection;
@@ -35,7 +35,7 @@ class SettlementRefundEndpointCollection extends EndpointCollection
     public function pageForId(string $settlementId, $query = [], bool $testmode = false): RefundCollection
     {
         if (! $query instanceof GetPaginatedSettlementRefundsQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaginatedSettlementRefundsQueryFactory::new($query)->create();
         }
 
@@ -65,7 +65,7 @@ class SettlementRefundEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedSettlementRefundsQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

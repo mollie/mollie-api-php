@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Arr;
 use stdClass;
 
 /**

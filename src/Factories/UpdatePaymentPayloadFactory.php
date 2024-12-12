@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\UpdatePaymentPayload;
 
@@ -19,7 +19,7 @@ class UpdatePaymentPayloadFactory extends Factory
             $this->get('method'),
             $this->get('locale'),
             $this->get('restrictPaymentMethodsToCountry'),
-            $this->get('additional') ?? Helpers::filterByProperties(UpdatePaymentPayload::class, $this->data),
+            $this->get('additional') ?? Utility::filterByProperties(UpdatePaymentPayload::class, $this->data),
         );
     }
 }

@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinkPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
@@ -34,7 +34,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
      */
     public function pageForId(string $paymentLinkId, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -80,7 +80,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

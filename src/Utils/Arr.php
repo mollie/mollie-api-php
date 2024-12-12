@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Helpers;
+namespace Mollie\Api\Utils;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\Arrayable;

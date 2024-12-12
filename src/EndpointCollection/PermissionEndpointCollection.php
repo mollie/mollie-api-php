@@ -3,7 +3,7 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
@@ -22,7 +22,7 @@ class PermissionEndpointCollection extends EndpointCollection
      */
     public function get(string $permissionId, $testmode = []): Permission
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var Permission */
         return $this->send((new GetPermissionRequest($permissionId))->test($testmode));

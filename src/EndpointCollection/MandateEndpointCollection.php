@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateMandatePayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
@@ -40,7 +40,7 @@ class MandateEndpointCollection extends EndpointCollection
     public function createForId(string $customerId, $payload = [], bool $testmode = false): Mandate
     {
         if (! $payload instanceof CreateMandatePayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreateMandatePayloadFactory::new($payload)->create();
         }
 
@@ -68,7 +68,7 @@ class MandateEndpointCollection extends EndpointCollection
      */
     public function getForId(string $customerId, string $mandateId, $testmode = []): Mandate
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var Mandate */
         return $this->send((new GetMandateRequest($customerId, $mandateId))->test($testmode));
@@ -94,7 +94,7 @@ class MandateEndpointCollection extends EndpointCollection
      */
     public function revokeForId(string $customerId, string $mandateId, $testmode = []): void
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         $this->send((new RevokeMandateRequest($customerId, $mandateId))->test($testmode));
     }
@@ -120,7 +120,7 @@ class MandateEndpointCollection extends EndpointCollection
      */
     public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): MandateCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -160,7 +160,7 @@ class MandateEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

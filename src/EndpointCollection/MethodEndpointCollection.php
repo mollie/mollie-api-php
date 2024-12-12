@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetAllPaymentMethodsQueryFactory;
 use Mollie\Api\Factories\GetEnabledPaymentMethodsQueryFactory;
 use Mollie\Api\Factories\GetPaymentMethodQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetAllMethodsQuery as GetAllPaymentMethodsQuery;
 use Mollie\Api\Http\Data\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Http\Data\GetPaymentMethodQuery;
@@ -47,7 +47,7 @@ class MethodEndpointCollection extends EndpointCollection
     public function allEnabled($query = [], bool $testmode = false): MethodCollection
     {
         if (! $query instanceof GetEnabledPaymentMethodsQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetEnabledPaymentMethodsQueryFactory::new($query)
                 ->create();
         }
@@ -76,7 +76,7 @@ class MethodEndpointCollection extends EndpointCollection
     public function get(string $methodId, $query = [], bool $testmode = false): Method
     {
         if (! $query instanceof GetPaymentMethodQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaymentMethodQueryFactory::new($query)
                 ->create();
         }

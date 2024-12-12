@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Helpers;
+namespace Mollie\Api\Utils;
 
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;

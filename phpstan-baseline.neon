@@ -361,30 +361,6 @@ parameters:
 			path: tests/Fixtures/MockResponse.php
 
 		-
-			message: '#^Property Tests\\Helpers\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
-			identifier: property.unused
-			count: 1
-			path: tests/Helpers/HelpersTest.php
-
-		-
-			message: '#^Trait Tests\\Helpers\\TestTraitBase is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Helpers/HelpersTest.php
-
-		-
-			message: '#^Trait Tests\\Helpers\\TestTraitMain is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Helpers/HelpersTest.php
-
-		-
-			message: '#^Trait Tests\\Helpers\\TestTraitNested is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Helpers/HelpersTest.php
-
-		-
 			message: '#^Unsafe access to private property Tests\\Http\\Adapter\\MockMollieHttpAdapter\:\:\$factories through static\:\:\.$#'
 			identifier: staticClassAccess.privateProperty
 			count: 3
@@ -395,3 +371,27 @@ parameters:
 			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/Http/Middleware/GuardResponseTest.php
+
+		-
+			message: '#^Property Tests\\Utils\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: tests/Utils/UtilityTest.php
+
+		-
+			message: '#^Trait Tests\\Utils\\TestTraitBase is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Utils/UtilityTest.php
+
+		-
+			message: '#^Trait Tests\\Utils\\TestTraitMain is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Utils/UtilityTest.php
+
+		-
+			message: '#^Trait Tests\\Utils\\TestTraitNested is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: tests/Utils/UtilityTest.php

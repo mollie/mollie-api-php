@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedChargebackQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
@@ -20,7 +20,7 @@ class ChargebackEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): ChargebackCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = GetPaginatedChargebackQueryFactory::new([
             'from' => $from,
@@ -41,7 +41,7 @@ class ChargebackEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = GetPaginatedChargebackQueryFactory::new([
             'from' => $from,

@@ -7,8 +7,8 @@ use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Helpers\MiddlewarePriority;
-use Mollie\Api\Helpers\Url;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
+use Mollie\Api\Utils\Url;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\EvaluateHydrationSetting;
 use Mollie\Api\Http\Middleware\GuardResponse;
@@ -76,7 +76,6 @@ class PendingRequest
             ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
             ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH)
             ->onResponse(new Hydrate, 'hydration', MiddlewarePriority::LOW);
-
     }
 
     public function setTestmode(bool $testmode): self

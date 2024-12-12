@@ -3,7 +3,7 @@
 namespace Tests\Http\Adapter;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\HasDefaultFactories;
@@ -52,7 +52,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     private function guardAgainstStrayRequests(string $requestClass): void
     {
         if (! Arr::has($this->expected, $requestClass)) {
-            throw new \RuntimeException('The request class '.$requestClass.' is not expected.');
+            throw new \RuntimeException('The request class ' . $requestClass . ' is not expected.');
         }
     }
 
@@ -84,7 +84,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             return $this->recorded;
         }
 
-        return array_filter($this->recorded, fn ($recorded) => $callback($recorded[0], $recorded[1]));
+        return array_filter($this->recorded, fn($recorded) => $callback($recorded[0], $recorded[1]));
     }
 
     /**
@@ -93,7 +93,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     public function assertSent($callback): void
     {
         if (is_string($callback)) {
-            $callback = fn ($request) => get_class($request) === $callback;
+            $callback = fn($request) => get_class($request) === $callback;
         }
 
         PHPUnit::assertTrue(

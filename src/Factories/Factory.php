@@ -4,8 +4,8 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Factory as FactoryContract;
-use Mollie\Api\Helpers;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Utility;
+use Mollie\Api\Utils\Arr;
 
 abstract class Factory implements FactoryContract
 {
@@ -37,7 +37,7 @@ abstract class Factory implements FactoryContract
         $keys = (array) $key;
 
         if ($backupKey !== null) {
-            $keys[] = $backupKey.$key;
+            $keys[] = $backupKey . $key;
         }
 
         foreach ($keys as $key) {
@@ -60,7 +60,7 @@ abstract class Factory implements FactoryContract
      */
     protected function includes($key, $value, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
+        return Arr::includes($this->data, [$backupKey . $key, $key], $value);
     }
 
     /**
@@ -73,6 +73,6 @@ abstract class Factory implements FactoryContract
      */
     protected function mapIfNotNull($key, $composable, $backupKey = 'filters.')
     {
-        return Helpers::compose($this->get($key, null, $backupKey), $composable);
+        return Utility::compose($this->get($key, null, $backupKey), $composable);
     }
 }

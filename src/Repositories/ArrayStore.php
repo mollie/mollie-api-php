@@ -3,7 +3,7 @@
 namespace Mollie\Api\Repositories;
 
 use Mollie\Api\Contracts\ArrayRepository;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Arr;
 
 class ArrayStore implements ArrayRepository
 {

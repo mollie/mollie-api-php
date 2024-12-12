@@ -2,14 +2,14 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Helpers\MiddlewareHandlers;
+use Mollie\Api\Http\Middleware;
 
 trait HasMiddleware
 {
-    protected MiddlewareHandlers $middleware;
+    protected Middleware $middleware;
 
-    public function middleware(): MiddlewareHandlers
+    public function middleware(): Middleware
     {
-        return $this->middleware ??= new MiddlewareHandlers;
+        return $this->middleware ??= new Middleware;
     }
 }

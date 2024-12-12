@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentLinkPayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentLinkPayloadFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
 use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
@@ -48,7 +48,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      */
     public function get(string $paymentLinkId, $testmode = []): PaymentLink
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var PaymentLink */
         return $this->send((new GetPaymentLinkRequest($paymentLinkId))->test($testmode));
@@ -92,7 +92,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, $testmode = []): PaymentLinkCollection
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         $query = PaginatedQueryFactory::new([
             'from' => $from,
@@ -115,7 +115,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
         bool $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
         $query = PaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

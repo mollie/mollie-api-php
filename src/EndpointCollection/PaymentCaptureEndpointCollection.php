@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentCapturePayloadFactory;
 use Mollie\Api\Factories\GetPaginatedPaymentCapturesQueryFactory;
 use Mollie\Api\Factories\GetPaymentCaptureQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
 use Mollie\Api\Http\Data\GetPaginatedPaymentCapturesQuery;
 use Mollie\Api\Http\Data\GetPaymentCaptureQuery;
@@ -42,7 +42,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
     public function createForId(string $paymentId, $payload = [], bool $testmode = false): Capture
     {
         if (! $payload instanceof CreatePaymentCapturePayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreatePaymentCapturePayloadFactory::new($payload)->create();
         }
 
@@ -68,7 +68,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
     public function getForId(string $paymentId, string $captureId, $query = [], bool $testmode = false): Capture
     {
         if (! $query instanceof GetPaymentCaptureQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaymentCaptureQueryFactory::new($query)->create();
         }
 
@@ -94,7 +94,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
     public function pageForId(string $paymentId, $query = [], bool $testmode = false): CaptureCollection
     {
         if (! $query instanceof GetPaginatedPaymentCapturesQuery) {
-            $testmode = Helpers::extractBool($query, 'testmode', $testmode);
+            $testmode = Utility::extractBool($query, 'testmode', $testmode);
             $query = GetPaginatedPaymentCapturesQueryFactory::new($query)->create();
         }
 
@@ -131,7 +131,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedPaymentCapturesQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

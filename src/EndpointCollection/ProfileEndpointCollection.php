@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateProfilePayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdateProfilePayloadFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
@@ -51,7 +51,7 @@ class ProfileEndpointCollection extends EndpointCollection
      */
     public function get(string $profileId, $testmode = []): Profile
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var Profile */
         return $this->send((new GetProfileRequest($profileId))->test($testmode));

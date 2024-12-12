@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedRefundsQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\RefundCollection;
@@ -20,7 +20,7 @@ class RefundEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): RefundCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedRefundsQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -43,7 +43,7 @@ class RefundEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedRefundsQueryFactory::new([
             'from' => $from,
             'limit' => $limit,

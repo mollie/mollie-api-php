@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Utils;
 
 use DateTimeImmutable;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\Data;
 use Stringable;

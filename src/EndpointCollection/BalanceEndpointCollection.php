@@ -4,7 +4,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedBalanceQueryFactory;
-use Mollie\Api\Helpers;
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetBalanceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
@@ -24,7 +24,7 @@ class BalanceEndpointCollection extends EndpointCollection
      */
     public function get(string $id, $testmode = []): Balance
     {
-        $testmode = Helpers::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var Balance */
         return $this->send((new GetBalanceRequest($id))->test($testmode));
@@ -48,7 +48,7 @@ class BalanceEndpointCollection extends EndpointCollection
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): BalanceCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = GetPaginatedBalanceQueryFactory::new([
             'from' => $from,
@@ -67,7 +67,7 @@ class BalanceEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
 
         $query = GetPaginatedBalanceQueryFactory::new([
             'from' => $from,

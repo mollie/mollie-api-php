@@ -21,6 +21,7 @@ To send a request using the Mollie API client, you typically need to:
 
 3. **Send the request**:
    Use the client to send the request and handle the response.
+
    ```php
    use Mollie\Api\MollieApiClient;
    use Mollie\Api\Http\Data\Money;

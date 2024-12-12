@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Helpers;
+namespace Mollie\Api\Http\Middleware;
 
 class MiddlewarePriority
 {

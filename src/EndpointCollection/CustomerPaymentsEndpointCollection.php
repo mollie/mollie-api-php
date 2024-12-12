@@ -5,8 +5,8 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaginatedCustomerPaymentsQueryFactory;
-use Mollie\Api\Helpers;
-use Mollie\Api\Helpers\Arr;
+use Mollie\Api\Utils\Utility;
+use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
@@ -43,7 +43,7 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     public function createForId($customerId, $payload = [], $query = [], bool $testmode = false): Payment
     {
         if (! $payload instanceof CreatePaymentPayload) {
-            $testmode = Helpers::extractBool($payload, 'testmode', $testmode);
+            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreatePaymentPayloadFactory::new($payload)
                 ->create();
         }
@@ -73,7 +73,7 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
      */
     public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedCustomerPaymentsQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -115,7 +115,7 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
         array $filters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Helpers::extractBool($filters, 'testmode', false);
+        $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = GetPaginatedCustomerPaymentsQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
