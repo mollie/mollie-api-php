@@ -2,16 +2,21 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\SessionStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Session extends BaseResource
 {
-    use HasPresetOptions;
+    use HasMode;
 
     /**
      * The session's unique identifier,
      *
      * @example sess_dfsklg13jO
+     *
      * @var string
      */
     public $id;
@@ -27,6 +32,7 @@ class Session extends BaseResource
      * UTC datetime indicating the time at which the Session failed in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $failedAt;
@@ -96,6 +102,7 @@ class Session extends BaseResource
      * The person and the address the payment is shipped to.
      *
      * @deprecated
+     *
      * @var \stdClass
      */
     public $shippingAddress;
@@ -104,13 +111,14 @@ class Session extends BaseResource
      * The person and the address the payment is billed to.
      *
      * @deprecated
-     * @var \stdClass
      *
+     * @var \stdClass
      */
     public $billingAddress;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
+     *
      * @var \stdClass
      */
     public $_links;
@@ -139,6 +147,7 @@ class Session extends BaseResource
      * Saves the session's updatable properties.
      *
      * @return \Mollie\Api\Resources\Session
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update()
@@ -148,20 +157,17 @@ class Session extends BaseResource
             'shippingAddress' => $this->shippingAddress,
         ];
 
-        $result = $this->client->sessions->update($this->id, $this->withPresetOptions($body));
-
-        return ResourceFactory::createFromApiResult($result, new Session($this->client));
+        return $this->connector->sessions->update($this->id, $this->withMode($body));
     }
 
     /**
      * Cancels this session.
      *
-     * @return Session
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel()
+    public function cancel(): void
     {
-        return $this->client->sessions->cancel($this->id, $this->getPresetOptions());
+        $this->connector->sessions->cancel($this->id);
     }
 
     /**

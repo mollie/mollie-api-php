@@ -1,0 +1,47 @@
+{
+  "resource": "profile",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "live",
+  "name": "Jonas Test BV",
+  "website": "https://example.com",
+  "email": "test@mollie.com",
+  "phone": "+31612345678",
+  "categoryCode": 6012,
+  "businessCategory": "MONEY_SERVICES",
+  "status": "verified",
+  "createdAt": "2021-12-08T15:42:58+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://www.mollie.com/dashboard/org_13514547/settings/profiles/pfl_85dxyKqNHa",
+      "type": "text/html"
+    },
+    "chargebacks": {
+      "href": "https://api.mollie.com/v2/chargebacks",
+      "type": "application/hal+json"
+    },
+    "methods": {
+      "href": "https://api.mollie.com/v2/methods",
+      "type": "application/hal+json"
+    },
+    "payments": {
+      "href": "https://api.mollie.com/v2/payments",
+      "type": "application/hal+json"
+    },
+    "refunds": {
+      "href": "https://api.mollie.com/v2/refunds",
+      "type": "application/hal+json"
+    },
+    "checkoutPreviewUrl": {
+      "href": "https://www.mollie.com/checkout/preview/{{ RESOURCE_ID }}",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

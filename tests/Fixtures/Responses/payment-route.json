@@ -1,0 +1,13 @@
+{
+  "resource": "route",
+  "id": "rt_9dk4al1n",
+  "amount": {
+    "value": "7.50",
+    "currency": "EUR"
+  },
+  "destination": {
+    "type": "organization",
+    "organizationId": "org_23456"
+  },
+  "releaseDate": "2026-01-01"
+}

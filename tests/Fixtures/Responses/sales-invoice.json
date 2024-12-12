@@ -1,0 +1,81 @@
+{
+  "resource": "sales-invoice",
+  "id": "invoice_4Y0eZitmBnQ6IDoMqZQKh",
+  "profileId": "pfl_QkEhN94Ba",
+  "invoiceNumber": null,
+  "currency": "EUR",
+  "status": "draft",
+  "vatScheme": "standard",
+  "paymentTerm": "30 days",
+  "recipientIdentifier": "123532354",
+  "recipient": {
+    "type": "consumer",
+    "title": null,
+    "givenName": "Given",
+    "familyName": "Family",
+    "email": "given.family@mollie.com",
+    "phone": null,
+    "streetAndNumber": "Street 1",
+    "streetAdditional": null,
+    "postalCode": "1000 AA",
+    "city": "Amsterdam",
+    "region": null,
+    "country": "NL",
+    "locale": "nl_NL"
+  },
+  "lines": [
+    {
+      "description": "LEGO 4440 Forest Police Station",
+      "quantity": 1,
+      "vatRate": "21",
+      "unitPrice": {
+        "value": "89.00",
+        "currency": "EUR"
+      },
+      "discount": null
+    }
+  ],
+  "discount": null,
+  "amountDue": {
+    "value": "107.69",
+    "currency": "EUR"
+  },
+  "subtotalAmount": {
+    "value": "89.00",
+    "currency": "EUR"
+  },
+  "totalAmount": {
+    "value": "107.69",
+    "currency": "EUR"
+  },
+  "totalVatAmount": {
+    "value": "18.69",
+    "currency": "EUR"
+  },
+  "discountedSubtotalAmount": {
+    "value": "89.00",
+    "currency": "EUR"
+  },
+  "createdAt": "2024-10-03T10:47:38.457381+00:00",
+  "issuedAt": null,
+  "dueAt": null,
+  "memo": null,
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "invoicePayment": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "pdfLink": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

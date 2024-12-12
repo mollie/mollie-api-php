@@ -1,0 +1,16 @@
+{
+  "resource": "permission",
+  "id": "{{ RESOURCE_ID }}",
+  "description": "View your payments",
+  "granted": true,
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

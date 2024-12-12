@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\InvoiceStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Invoice extends BaseResource
 {
     /**
@@ -72,6 +75,7 @@ class Invoice extends BaseResource
      * Array containing the invoice lines.
      *
      * @see https://docs.mollie.com/reference/v2/invoices-api/get-invoice
+     *
      * @var array
      */
     public $lines;
@@ -83,27 +87,18 @@ class Invoice extends BaseResource
      */
     public $_links;
 
-    /**
-     * @return bool
-     */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return $this->status == InvoiceStatus::STATUS_PAID;
+        return $this->status == InvoiceStatus::PAID;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOpen()
+    public function isOpen(): bool
     {
-        return $this->status == InvoiceStatus::STATUS_OPEN;
+        return $this->status == InvoiceStatus::OPEN;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOverdue()
+    public function isOverdue(): bool
     {
-        return $this->status == InvoiceStatus::STATUS_OVERDUE;
+        return $this->status == InvoiceStatus::OVERDUE;
     }
 }

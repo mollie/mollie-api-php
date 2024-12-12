@@ -9,17 +9,23 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    public const MIN_PHP_VERSION = "7.2";
+    public const MIN_PHP_VERSION = '7.4';
+
+    public static function make(): self
+    {
+        return new self;
+    }
 
     /**
-     * @throws IncompatiblePlatform
      * @return void
+     *
+     * @throws IncompatiblePlatform
      */
     public function checkCompatibility()
     {
         if (! $this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatform(
-                "The client requires PHP version >= " . self::MIN_PHP_VERSION . ", you have " . PHP_VERSION . ".",
+                'The client requires PHP version >= '.self::MIN_PHP_VERSION.', you have '.PHP_VERSION.'.',
                 IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
             );
         }
@@ -34,15 +40,17 @@ class CompatibilityChecker
 
     /**
      * @return bool
+     *
      * @codeCoverageIgnore
      */
     public function satisfiesPhpVersion()
     {
-        return (bool)version_compare(PHP_VERSION, self::MIN_PHP_VERSION, ">=");
+        return (bool) version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '>=');
     }
 
     /**
      * @return bool
+     *
      * @codeCoverageIgnore
      */
     public function satisfiesJsonExtension()
