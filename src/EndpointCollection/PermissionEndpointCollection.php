@@ -3,11 +3,11 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
+use Mollie\Api\Utils\Utility;
 
 class PermissionEndpointCollection extends EndpointCollection
 {

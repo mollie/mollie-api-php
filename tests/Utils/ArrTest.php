@@ -3,9 +3,9 @@
 namespace Tests\Utils;
 
 use DateTimeImmutable;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\Data;
+use Mollie\Api\Utils\Arr;
 use Stringable;
 use Tests\TestCase;
 

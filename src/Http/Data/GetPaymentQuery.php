@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Data;
 
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Types\PaymentQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaymentQuery extends Data
 {

@@ -5,8 +5,6 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Http\Response;
 
 class Middleware
 {

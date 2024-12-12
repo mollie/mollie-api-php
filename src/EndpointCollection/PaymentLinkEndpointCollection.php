@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentLinkPayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentLinkPayloadFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
 use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
@@ -17,6 +16,7 @@ use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
+use Mollie\Api\Utils\Utility;
 
 class PaymentLinkEndpointCollection extends EndpointCollection
 {

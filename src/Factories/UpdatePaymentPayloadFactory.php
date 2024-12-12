@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\UpdatePaymentPayload;
+use Mollie\Api\Utils\Utility;
 
 class UpdatePaymentPayloadFactory extends Factory
 {

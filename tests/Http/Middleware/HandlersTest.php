@@ -14,7 +14,7 @@ class HandlersTest extends TestCase
     public function add(): void
     {
         $handlers = new Handlers;
-        $handlers->add(fn() => null);
+        $handlers->add(fn () => null);
 
         $this->assertCount(1, $handlers->getHandlers());
     }

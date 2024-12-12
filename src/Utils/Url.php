@@ -13,7 +13,7 @@ class Url
             return $endpoint;
         }
 
-        return rtrim($baseUrl, '/') . '/' . ltrim($endpoint, '/');
+        return rtrim($baseUrl, '/').'/'.ltrim($endpoint, '/');
     }
 
     /**

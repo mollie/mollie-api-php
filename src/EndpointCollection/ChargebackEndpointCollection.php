@@ -4,10 +4,10 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedChargebackQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Utils\Utility;
 
 class ChargebackEndpointCollection extends EndpointCollection
 {

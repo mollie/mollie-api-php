@@ -5,7 +5,6 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedPaymentChargebacksQueryFactory;
 use Mollie\Api\Factories\GetPaymentChargebackQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedPaymentChargebacksQuery;
 use Mollie\Api\Http\Data\GetPaymentChargebackQuery;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
@@ -14,6 +13,7 @@ use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Utils\Utility;
 
 class PaymentChargebackEndpointCollection extends EndpointCollection
 {

@@ -4,12 +4,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementRefundsQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementRefundsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
+use Mollie\Api\Utils\Utility;
 
 class SettlementRefundEndpointCollection extends EndpointCollection
 {

@@ -2,10 +2,10 @@
 
 namespace Tests\Http;
 
+use Mollie\Api\Http\Middleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Http\Middleware;
 use Tests\Fixtures\MockClient;
 use Tests\TestCase;
 

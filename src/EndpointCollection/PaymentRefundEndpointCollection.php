@@ -5,7 +5,6 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaginatedPaymentRefundQueryFactory;
 use Mollie\Api\Factories\GetPaymentRefundQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
@@ -16,6 +15,7 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
+use Mollie\Api\Utils\Utility;
 
 class PaymentRefundEndpointCollection extends EndpointCollection
 {

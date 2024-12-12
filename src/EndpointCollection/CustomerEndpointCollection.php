@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateCustomerPayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdateCustomerPayloadFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateCustomerPayload;
 use Mollie\Api\Http\Data\UpdateCustomerPayload;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
@@ -17,6 +16,7 @@ use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Utils\Utility;
 
 class CustomerEndpointCollection extends EndpointCollection
 {

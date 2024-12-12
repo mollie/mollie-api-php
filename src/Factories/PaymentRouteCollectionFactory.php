@@ -3,10 +3,10 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeImmutable;
-use Mollie\Api\Utils\Utility;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\PaymentRoute;
+use Mollie\Api\Utils\Arr;
+use Mollie\Api\Utils\Utility;
 
 class PaymentRouteCollectionFactory extends Factory
 {

@@ -8,8 +8,6 @@ use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaymentQueryFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentPayloadFactory;
-use Mollie\Api\Utils\Utility;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
@@ -25,6 +23,8 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Utils\Arr;
+use Mollie\Api\Utils\Utility;
 
 class PaymentEndpointCollection extends EndpointCollection
 {

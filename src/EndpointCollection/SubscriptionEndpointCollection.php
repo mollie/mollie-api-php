@@ -7,7 +7,6 @@ use Mollie\Api\Factories\CreateSubscriptionPayloadFactory;
 use Mollie\Api\Factories\GetAllPaginatedSubscriptionsQueryFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdateSubscriptionPayloadFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateSubscriptionPayload;
 use Mollie\Api\Http\Data\UpdateSubscriptionPayload;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
@@ -20,6 +19,7 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
+use Mollie\Api\Utils\Utility;
 
 class SubscriptionEndpointCollection extends EndpointCollection
 {

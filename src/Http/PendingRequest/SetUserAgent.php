@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\PendingRequest;
 
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Auth\AccessTokenAuthenticator;
 use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Utils\Arr;
 
 class SetUserAgent
 {

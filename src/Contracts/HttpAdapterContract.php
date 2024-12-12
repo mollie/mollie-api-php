@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Contracts;
 
-use Mollie\Api\Utils\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Utils\Factories;
 
 interface HttpAdapterContract
 {

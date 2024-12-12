@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Utils\Utility;
 
 class CreatePaymentPayloadFactory extends Factory
 {

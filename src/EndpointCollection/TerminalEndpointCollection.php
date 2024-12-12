@@ -4,12 +4,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use Mollie\Api\Utils\Utility;
 
 class TerminalEndpointCollection extends EndpointCollection
 {

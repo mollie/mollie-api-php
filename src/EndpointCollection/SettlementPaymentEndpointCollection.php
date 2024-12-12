@@ -4,12 +4,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\SortablePaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Settlement;
+use Mollie\Api\Utils\Utility;
 
 class SettlementPaymentEndpointCollection extends EndpointCollection
 {

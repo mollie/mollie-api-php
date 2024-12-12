@@ -2,8 +2,8 @@
 
 namespace Tests\Fixtures;
 
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Traits\HasDefaultFactories;
+use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 
@@ -55,7 +55,7 @@ class MockResponse
         $path = Arr::join([
             __DIR__,
             'Responses',
-            $body . '.json',
+            $body.'.json',
         ], DIRECTORY_SEPARATOR);
 
         $contents = file_get_contents($path);

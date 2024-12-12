@@ -7,12 +7,11 @@ use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Mollie\Api\Utils\Url;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\EvaluateHydrationSetting;
 use Mollie\Api\Http\Middleware\GuardResponse;
 use Mollie\Api\Http\Middleware\Hydrate;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\Middleware\ThrowExceptionIfRequestFailed;
 use Mollie\Api\Http\PendingRequest\AddTestmodeIfEnabled;
@@ -24,6 +23,7 @@ use Mollie\Api\Http\PendingRequest\SetUserAgent;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\ManagesPsrRequests;
+use Mollie\Api\Utils\Url;
 
 class PendingRequest
 {

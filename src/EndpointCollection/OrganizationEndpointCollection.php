@@ -3,11 +3,11 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
+use Mollie\Api\Utils\Utility;
 
 class OrganizationEndpointCollection extends EndpointCollection
 {

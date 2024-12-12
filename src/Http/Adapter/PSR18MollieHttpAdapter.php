@@ -5,10 +5,10 @@ namespace Mollie\Api\Http\Adapter;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Utils\Factories;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\IsDebuggableAdapter;
+use Mollie\Api\Utils\Factories;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -78,7 +78,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract, SupportsDebug
             }
 
             throw new ApiException(
-                'Error while sending request to Mollie API: ' . $e->getMessage(),
+                'Error while sending request to Mollie API: '.$e->getMessage(),
                 0,
                 $e,
                 $request,

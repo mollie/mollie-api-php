@@ -3,11 +3,11 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\GetBalanceReportQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
+use Mollie\Api\Utils\Utility;
 
 class BalanceReportEndpointCollection extends EndpointCollection
 {

@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetAllPaymentMethodsQueryFactory;
 use Mollie\Api\Factories\GetEnabledPaymentMethodsQueryFactory;
 use Mollie\Api\Factories\GetPaymentMethodQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetAllMethodsQuery as GetAllPaymentMethodsQuery;
 use Mollie\Api\Http\Data\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Http\Data\GetPaymentMethodQuery;
@@ -15,6 +14,7 @@ use Mollie\Api\Http\Requests\GetEnabledMethodsRequest as GetEnabledPaymentMethod
 use Mollie\Api\Http\Requests\GetPaymentMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use Mollie\Api\Utils\Utility;
 
 class MethodEndpointCollection extends EndpointCollection
 {

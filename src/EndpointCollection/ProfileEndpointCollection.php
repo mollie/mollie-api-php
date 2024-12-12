@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateProfilePayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Factories\UpdateProfilePayloadFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
@@ -18,6 +17,7 @@ use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
+use Mollie\Api\Utils\Utility;
 
 class ProfileEndpointCollection extends EndpointCollection
 {

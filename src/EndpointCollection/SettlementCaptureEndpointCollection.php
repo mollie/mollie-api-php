@@ -4,12 +4,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedSettlementCapturesQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
+use Mollie\Api\Utils\Utility;
 
 class SettlementCaptureEndpointCollection extends EndpointCollection
 {

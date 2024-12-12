@@ -4,12 +4,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\GetPaginatedBalanceQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Requests\GetBalanceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
 use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Utils\Utility;
 
 class BalanceEndpointCollection extends EndpointCollection
 {

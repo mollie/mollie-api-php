@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\RefundRoute;
+use Mollie\Api\Utils\Arr;
 
 class RefundRouteCollectionFactory extends Factory
 {

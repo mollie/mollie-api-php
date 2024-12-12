@@ -5,8 +5,6 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 use Mollie\Api\Factories\GetPaginatedCustomerPaymentsQueryFactory;
-use Mollie\Api\Utils\Utility;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
@@ -15,6 +13,8 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use Mollie\Api\Utils\Arr;
+use Mollie\Api\Utils\Utility;
 
 class CustomerPaymentsEndpointCollection extends EndpointCollection
 {

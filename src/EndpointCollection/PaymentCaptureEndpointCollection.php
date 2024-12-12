@@ -6,7 +6,6 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreatePaymentCapturePayloadFactory;
 use Mollie\Api\Factories\GetPaginatedPaymentCapturesQueryFactory;
 use Mollie\Api\Factories\GetPaymentCaptureQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
 use Mollie\Api\Http\Data\GetPaginatedPaymentCapturesQuery;
 use Mollie\Api\Http\Data\GetPaymentCaptureQuery;
@@ -17,6 +16,7 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Utils\Utility;
 
 class PaymentCaptureEndpointCollection extends EndpointCollection
 {

@@ -5,7 +5,6 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Factories\CreateMandatePayloadFactory;
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
@@ -15,6 +14,7 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Utils\Utility;
 
 class MandateEndpointCollection extends EndpointCollection
 {
