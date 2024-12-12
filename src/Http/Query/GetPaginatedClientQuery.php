@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\ClientQuery;
-use Mollie\Api\Contracts\Arrayable;
 
 class GetPaginatedClientQuery implements Arrayable
 {

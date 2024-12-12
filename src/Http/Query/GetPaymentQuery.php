@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Http\Query;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Helpers\Arr;
 use Mollie\Api\Types\PaymentQuery;
-use Mollie\Api\Contracts\Arrayable;
 
 class GetPaymentQuery implements Arrayable
 {

@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Query;
 
-use Mollie\Api\Types\PaymentIncludesQuery;
 use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaymentRefundQuery implements Arrayable
 {
