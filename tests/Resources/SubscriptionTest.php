@@ -2,6 +2,7 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\SubscriptionStatus;
@@ -17,7 +18,10 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
      */
     public function test_subscription_statuses($status, $function, $expected_boolean)
     {
-        $subscription = new Subscription($this->createMock(MollieApiClient::class));
+        $subscription = new Subscription(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
         $subscription->status = $status;
 
         $this->assertEquals($expected_boolean, $subscription->{$function}());

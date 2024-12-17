@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetSettlementRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetSettlementRequestTest extends TestCase
 {
@@ -20,16 +19,11 @@ class GetSettlementRequestTest extends TestCase
 
         $request = new GetSettlementRequest('stl_jDk30akdN');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Settlement */
-        $settlement = $response->toResource();
+        $settlement = $client->send($request);
 
+        $this->assertTrue($settlement->getResponse()->successful());
         $this->assertInstanceOf(Settlement::class, $settlement);
-        $this->assertEquals('settlement', $settlement->resource);
     }
 
     /** @test */

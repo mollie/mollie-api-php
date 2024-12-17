@@ -21,7 +21,7 @@ class GetPaginatedPaymentCapturesRequest extends PaginatedRequest implements IsI
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = CaptureCollection::class;
+    protected $hydratableResource = CaptureCollection::class;
 
     private string $paymentId;
 

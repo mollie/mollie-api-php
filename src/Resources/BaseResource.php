@@ -12,32 +12,28 @@ abstract class BaseResource implements HasResponse
 {
     protected Connector $connector;
 
-    protected ?Response $response;
+    protected Response $response;
 
     /**
      * Indicates the type of resource.
-     *
-     * @example payment
      *
      * @var string
      */
     public $resource;
 
-    public function __construct(Connector $connector, ?Response $response = null)
+    public function __construct(Connector $connector, Response $response)
     {
         $this->connector = $connector;
         $this->response = $response;
     }
 
-    public function getResponse(): ?Response
+    public function getResponse(): Response
     {
         return $this->response;
     }
 
-    public function getPendingRequest(): ?PendingRequest
+    public function getPendingRequest(): PendingRequest
     {
-        return $this->response
-            ? $this->response->getPendingRequest()
-            : null;
+        return $this->response->getPendingRequest();
     }
 }

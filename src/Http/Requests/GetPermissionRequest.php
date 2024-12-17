@@ -13,7 +13,7 @@ class GetPermissionRequest extends ResourceHydratableRequest implements Supports
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Permission::class;
+    protected $hydratableResource = Permission::class;
 
     private string $id;
 

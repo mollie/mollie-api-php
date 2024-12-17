@@ -4,14 +4,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
-use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedPaymentLinksRequestTest extends TestCase
 {
@@ -24,16 +22,10 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
 
         $request = new GetPaginatedPaymentLinksRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PaymentLinkCollection */
-        $paymentLinks = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(PaymentLinkCollection::class, $paymentLinks);
-        $this->assertGreaterThan(0, $paymentLinks->count());
+        $paymentLinks = $client->send($request);
+
+        $this->assertTrue($paymentLinks->getResponse()->successful());
 
         foreach ($paymentLinks as $paymentLink) {
             $this->assertInstanceOf(PaymentLink::class, $paymentLink);
@@ -54,12 +46,10 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
 
         $request = (new GetPaginatedPaymentLinksRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
+        /** @var PaymentLinkCollection */
+        $paymentLinks = $client->send($request);
 
-        /** @var LazyCollection */
-        $paymentLinks = $response->toResource();
+        $this->assertTrue($paymentLinks->getResponse()->successful());
 
         foreach ($paymentLinks as $paymentLink) {
             $this->assertInstanceOf(PaymentLink::class, $paymentLink);

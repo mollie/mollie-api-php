@@ -7,11 +7,12 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class BalanceReportEndpointCollectionTest extends TestCase
 {
@@ -42,7 +43,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
             GetBalanceReportRequest::class => new MockResponse(200, 'balance-report', 'bal_gVMhHKqSSRYJyPsuoPNFH'),
         ]);
 
-        $balance = new Balance($client);
+        $balance = new Balance($client, $this->createMock(Response::class));
         $balance->id = 'bal_gVMhHKqSSRYJyPsuoPNFH';
 
         /** @var BalanceReport $report */

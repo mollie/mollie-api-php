@@ -7,9 +7,9 @@ use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class TerminalEndpointCollectionTest extends TestCase
 {

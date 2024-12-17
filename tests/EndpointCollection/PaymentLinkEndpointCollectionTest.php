@@ -14,9 +14,9 @@ use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PaymentLinkEndpointCollectionTest extends TestCase
 {

@@ -9,7 +9,7 @@ class GetOrganizationPartnerStatusRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Partner::class;
+    protected $hydratableResource = Partner::class;
 
     public function resolveResourcePath(): string
     {

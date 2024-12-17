@@ -16,9 +16,10 @@ use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Http\Response;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PaymentEndpointCollectionTest extends TestCase
 {
@@ -88,7 +89,10 @@ class PaymentEndpointCollectionTest extends TestCase
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_WDqYK6vllg';
 
         /** @var Refund $refund */

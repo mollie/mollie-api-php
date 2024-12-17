@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Middleware;
 
+use Mollie\Api\Contracts\RequestMiddleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
 
-class ApplyIdempotencyKey
+class ApplyIdempotencyKey implements RequestMiddleware
 {
     const IDEMPOTENCY_KEY_HEADER = 'Idempotency-Key';
 

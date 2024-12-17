@@ -3,10 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
-use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\Method;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class EnableProfileMethodRequestTest extends TestCase
 {
@@ -21,11 +21,11 @@ class EnableProfileMethodRequestTest extends TestCase
         $methodId = 'ideal';
         $request = new EnableProfileMethodRequest($profileId, $methodId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Method */
+        $method = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertEquals(204, $response->status());
+        $this->assertTrue($method->getResponse()->successful());
+        $this->assertEquals(204, $method->getResponse()->status());
     }
 
     /** @test */

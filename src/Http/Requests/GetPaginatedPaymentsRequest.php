@@ -14,7 +14,7 @@ class GetPaginatedPaymentsRequest extends PaginatedRequest implements IsIteratab
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PaymentCollection::class;
+    protected $hydratableResource = PaymentCollection::class;
 
     /**
      * Resolve the resource path.

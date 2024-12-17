@@ -3,12 +3,11 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class ListPermissionsRequestTest extends TestCase
 {
@@ -21,14 +20,10 @@ class ListPermissionsRequestTest extends TestCase
 
         $request = new ListPermissionsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PermissionCollection */
-        $permissions = $response->toResource();
+        $permissions = $client->send($request);
 
+        $this->assertTrue($permissions->getResponse()->successful());
         $this->assertInstanceOf(PermissionCollection::class, $permissions);
         $this->assertGreaterThan(0, $permissions->count());
 

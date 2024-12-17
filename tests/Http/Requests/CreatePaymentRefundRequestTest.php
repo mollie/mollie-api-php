@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Refund;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreatePaymentRefundRequestTest extends TestCase
 {
@@ -28,11 +27,11 @@ class CreatePaymentRefundRequestTest extends TestCase
 
         $request = new CreatePaymentRefundRequest($paymentId, $payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Refund */
+        $refund = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Refund::class, $response->toResource());
+        $this->assertTrue($refund->getResponse()->successful());
+        $this->assertInstanceOf(Refund::class, $refund);
     }
 
     /** @test */

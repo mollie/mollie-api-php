@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaymentRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaymentRequestTest extends TestCase
 {
@@ -21,16 +20,11 @@ class GetPaymentRequestTest extends TestCase
         $paymentId = 'tr_WDqYK6vllg';
         $request = new GetPaymentRequest($paymentId);
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Payment */
-        $payment = $response->toResource();
+        $payment = $client->send($request);
 
+        $this->assertTrue($payment->getResponse()->successful());
         $this->assertInstanceOf(Payment::class, $payment);
-        $this->assertEquals('payment', $payment->resource);
     }
 
     /** @test */

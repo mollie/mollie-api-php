@@ -11,7 +11,7 @@ class GetPaymentMethodRequest extends ResourceHydratableRequest implements Suppo
 {
     protected static string $method = HttpMethod::GET;
 
-    public static string $targetResourceClass = Method::class;
+    protected $hydratableResource = Method::class;
 
     private ?GetPaymentMethodQuery $query = null;
 

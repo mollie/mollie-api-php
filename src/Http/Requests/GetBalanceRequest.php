@@ -10,7 +10,7 @@ class GetBalanceRequest extends ResourceHydratableRequest implements SupportsTes
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Balance::class;
+    protected $hydratableResource = Balance::class;
 
     private string $id;
 

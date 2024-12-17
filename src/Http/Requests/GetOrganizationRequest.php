@@ -10,7 +10,7 @@ class GetOrganizationRequest extends ResourceHydratableRequest implements Suppor
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Organization::class;
+    protected $hydratableResource = Organization::class;
 
     private string $id;
 

@@ -16,7 +16,7 @@ class GetMandateRequest extends ResourceHydratableRequest implements SupportsTes
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Mandate::class;
+    protected $hydratableResource = Mandate::class;
 
     private string $customerId;
 

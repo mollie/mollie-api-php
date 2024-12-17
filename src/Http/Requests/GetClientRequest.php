@@ -16,7 +16,7 @@ class GetClientRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Client::class;
+    protected $hydratableResource = Client::class;
 
     private string $id;
 

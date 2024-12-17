@@ -3,10 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
-use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\Issuer;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class EnableMethodIssuerRequestTest extends TestCase
 {
@@ -22,11 +22,11 @@ class EnableMethodIssuerRequestTest extends TestCase
         $issuerId = 'INGBNL2A';
         $request = new EnableMethodIssuerRequest($profileId, $methodId, $issuerId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Issuer */
+        $issuer = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertEquals(204, $response->status());
+        $this->assertTrue($issuer->getResponse()->successful());
+        $this->assertEquals(204, $issuer->getResponse()->status());
     }
 
     /** @test */

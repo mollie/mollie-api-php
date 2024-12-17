@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Data\CreateSubscriptionPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateSubscriptionRequestTest extends TestCase
 {
@@ -26,11 +25,11 @@ class CreateSubscriptionRequestTest extends TestCase
             'Test subscription'
         ));
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Subscription */
+        $subscription = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Subscription::class, $response->toResource());
+        $this->assertTrue($subscription->getResponse()->successful());
+        $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
     /** @test */

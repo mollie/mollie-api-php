@@ -17,7 +17,7 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Payment::class;
+    protected $hydratableResource = Payment::class;
 
     private string $id;
 

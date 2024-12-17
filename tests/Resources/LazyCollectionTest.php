@@ -3,7 +3,8 @@
 namespace Tests\Resources;
 
 use Mollie\Api\Resources\LazyCollection;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
+use PHPUnit\Framework\TestCase;
 
 class LazyCollectionTest extends TestCase
 {
@@ -20,7 +21,7 @@ class LazyCollectionTest extends TestCase
             yield 1;
             yield 2;
             yield 3;
-        });
+        }, $this->createMock(Response::class));
     }
 
     public function test_can_create_a_collection_from_generator_function()

@@ -2,12 +2,13 @@
 
 namespace Mollie\Api\Http\Middleware;
 
+use Mollie\Api\Contracts\ResponseMiddleware;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Response;
 
-class ThrowExceptionIfRequestFailed
+class ThrowExceptionIfRequestFailed implements ResponseMiddleware
 {
-    public function __invoke(Response $response)
+    public function __invoke(Response $response): void
     {
         if ($response->successful()) {
             return;

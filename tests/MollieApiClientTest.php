@@ -16,6 +16,7 @@ use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response as HttpResponse;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;

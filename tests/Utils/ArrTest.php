@@ -6,8 +6,8 @@ use DateTimeImmutable;
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\Data;
 use Mollie\Api\Utils\Arr;
+use PHPUnit\Framework\TestCase;
 use Stringable;
-use Tests\TestCase;
 
 class ArrTest extends TestCase
 {

@@ -47,7 +47,7 @@ abstract class CursorCollection extends ResourceCollection
     {
         return $this
             ->connector
-            ->send(new DynamicGetRequest($url, static::class));
+            ->send((new DynamicGetRequest($url))->setHydratableResource(static::class));
     }
 
     /**
@@ -83,14 +83,10 @@ abstract class CursorCollection extends ResourceCollection
                     break;
                 }
 
-                $response = $iterateBackwards
+                $page = $iterateBackwards
                     ? $page->previous()
                     : $page->next();
-
-                $page = $response instanceof Response
-                    ? $response->toResource()
-                    : $response;
             }
-        });
+        }, $this->response);
     }
 }

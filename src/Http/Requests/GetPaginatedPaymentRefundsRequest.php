@@ -15,7 +15,7 @@ class GetPaginatedPaymentRefundsRequest extends PaginatedRequest implements IsIt
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = RefundCollection::class;
+    protected $hydratableResource = RefundCollection::class;
 
     private string $paymentId;
 

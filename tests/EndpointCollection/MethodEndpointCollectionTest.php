@@ -7,9 +7,9 @@ use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Http\Requests\GetPaymentMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class MethodEndpointCollectionTest extends TestCase
 {

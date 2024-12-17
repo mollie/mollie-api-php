@@ -11,7 +11,7 @@ class GetPaginatedSalesInvoicesRequest extends PaginatedRequest implements IsIte
 {
     use IsIteratableRequest;
 
-    public static string $targetResourceClass = SalesInvoiceCollection::class;
+    protected $hydratableResource = SalesInvoiceCollection::class;
 
     public function resolveResourcePath(): string
     {

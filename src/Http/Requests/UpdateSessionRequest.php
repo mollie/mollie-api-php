@@ -14,7 +14,7 @@ class UpdateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     protected static string $method = Method::PATCH;
 
-    public static string $targetResourceClass = Session::class;
+    protected $hydratableResource = Session::class;
 
     private string $sessionId;
 

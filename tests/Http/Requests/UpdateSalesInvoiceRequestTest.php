@@ -4,12 +4,11 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\UpdateSalesInvoicePayload;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\SalesInvoiceStatus;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdateSalesInvoiceRequestTest extends TestCase
 {
@@ -26,11 +25,11 @@ class UpdateSalesInvoiceRequestTest extends TestCase
         );
         $request = new UpdateSalesInvoiceRequest('invoice_123', $payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var SalesInvoice */
+        $salesInvoice = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(SalesInvoice::class, $response->toResource());
+        $this->assertTrue($salesInvoice->getResponse()->successful());
+        $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
     /** @test */

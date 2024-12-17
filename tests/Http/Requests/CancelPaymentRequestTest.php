@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CancelPaymentRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class CancelPaymentRequestTest extends TestCase
         $paymentId = 'tr_WDqYK6vllg';
         $request = new CancelPaymentRequest($paymentId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Payment */
+        $payment = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Payment::class, $response->toResource());
+        $this->assertTrue($payment->getResponse()->successful());
+        $this->assertInstanceOf(Payment::class, $payment);
     }
 
     /** @test */

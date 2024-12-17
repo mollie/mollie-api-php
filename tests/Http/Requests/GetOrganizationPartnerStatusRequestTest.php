@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Partner;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetOrganizationPartnerStatusRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetOrganizationPartnerStatusRequestTest extends TestCase
 
         $request = new GetOrganizationPartnerStatusRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Partner */
+        $partner = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Partner::class, $response->toResource());
+        $this->assertTrue($partner->getResponse()->successful());
+        $this->assertInstanceOf(Partner::class, $partner);
     }
 
     /** @test */

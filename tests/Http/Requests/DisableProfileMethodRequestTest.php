@@ -4,9 +4,9 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class DisableProfileMethodRequestTest extends TestCase
 {

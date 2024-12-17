@@ -5,7 +5,8 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Types\InvoiceStatus;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
+use PHPUnit\Framework\TestCase;
 
 class InvoiceTest extends TestCase
 {
@@ -18,7 +19,10 @@ class InvoiceTest extends TestCase
      */
     public function test_invoice_statuses($status, $function, $expected_boolean)
     {
-        $invoice = new Invoice($this->createMock(MollieApiClient::class));
+        $invoice = new Invoice(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
         $invoice->status = $status;
 
         $this->assertEquals($expected_boolean, $invoice->{$function}());

@@ -15,7 +15,7 @@ class GetPaginatedSettlementChargebacksRequest extends PaginatedRequest implemen
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = ChargebackCollection::class;
+    protected $hydratableResource = ChargebackCollection::class;
 
     private string $settlementId;
 

@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Mandate;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateMandateRequestTest extends TestCase
 {
@@ -28,11 +27,11 @@ class CreateMandateRequestTest extends TestCase
 
         $request = new CreateMandateRequest($customerId, $payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Mandate */
+        $mandate = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Mandate::class, $response->toResource());
+        $this->assertTrue($mandate->getResponse()->successful());
+        $this->assertInstanceOf(Mandate::class, $mandate);
     }
 
     /** @test */

@@ -8,10 +8,10 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedPaymentsRequestTest extends TestCase
 {
@@ -24,13 +24,11 @@ class GetPaginatedPaymentsRequestTest extends TestCase
 
         $request = new GetPaginatedPaymentsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PaymentCollection */
-        $payments = $response->toResource();
+        $payments = $client->send($request);
+
+        $this->assertTrue($payments->getResponse()->successful());
+
         // Assert response was properly handled
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertGreaterThan(0, $payments->count());
@@ -54,12 +52,9 @@ class GetPaginatedPaymentsRequestTest extends TestCase
 
         $request = (new GetPaginatedPaymentsRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $payments = $response->toResource();
+        $payments = $client->send($request);
+        $this->assertTrue($payments->getResponse()->successful());
 
         foreach ($payments as $payment) {
             $this->assertInstanceOf(Payment::class, $payment);

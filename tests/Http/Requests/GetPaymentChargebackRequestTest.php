@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Chargeback;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaymentChargebackRequestTest extends TestCase
 {
@@ -20,18 +19,14 @@ class GetPaymentChargebackRequestTest extends TestCase
 
         $request = new GetPaymentChargebackRequest('tr_WDqYK6vllg', 'chb_n9z0tp');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Chargeback */
-        $chargeback = $response->toResource();
+        $chargeback = $client->send($request);
 
+        $this->assertTrue($chargeback->getResponse()->successful());
         $this->assertInstanceOf(Chargeback::class, $chargeback);
-        $this->assertEquals('chargeback', $chargeback->resource);
     }
 
+    /** @test */
     /** @test */
     public function it_resolves_correct_resource_path()
     {

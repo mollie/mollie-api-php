@@ -14,7 +14,7 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     protected static string $method = Method::PATCH;
 
-    public static string $targetResourceClass = SalesInvoice::class;
+    protected $hydratableResource = SalesInvoice::class;
 
     private string $id;
 

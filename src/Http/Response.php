@@ -4,11 +4,6 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Http\Requests\ResourceHydratableRequest;
-use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\ResourceCollection;
-use Mollie\Api\Traits\DelegatesToResource;
-use Mollie\Api\Traits\HandlesResourceHydration;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -17,9 +12,6 @@ use Throwable;
 
 class Response
 {
-    use DelegatesToResource;
-    use HandlesResourceHydration;
-
     protected ResponseInterface $psrResponse;
 
     protected RequestInterface $psrRequest;
@@ -27,11 +19,6 @@ class Response
     protected PendingRequest $pendingRequest;
 
     protected ?Throwable $senderException = null;
-
-    /**
-     * @var null|BaseResource|ResourceCollection
-     */
-    protected $resource = null;
 
     /**
      * The decoded JSON response.
@@ -48,18 +35,6 @@ class Response
         $this->psrRequest = $psrRequest;
         $this->pendingRequest = $pendingRequest;
         $this->senderException = $senderException;
-    }
-
-    /**
-     * @return self|BaseResource|ResourceCollection|null
-     */
-    public function toResource()
-    {
-        if (! $this->getRequest() instanceof ResourceHydratableRequest) {
-            return $this;
-        }
-
-        return $this->resource ?: $this->resource = $this->hydrate($this->getRequest(), $this);
     }
 
     /**

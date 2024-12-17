@@ -2,13 +2,14 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceFactory;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ResourceFactoryTest extends TestCase
 {
@@ -25,7 +26,12 @@ class ResourceFactoryTest extends TestCase
             }
         }');
 
-        $payment = ResourceFactory::createFromApiResult($this->createMock(MollieApiClient::class), $apiResult, Payment::class);
+        $payment = ResourceFactory::createFromApiResult(
+            $this->createMock(MollieApiClient::class),
+            $apiResult,
+            Payment::class,
+            $this->createMock(Response::class)
+        );
 
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals('payment', $payment->resource);
@@ -64,7 +70,8 @@ class ResourceFactoryTest extends TestCase
         $payment = ResourceFactory::createFromApiResult(
             $this->createMock(MollieApiClient::class),
             $apiResult,
-            Payment::class
+            Payment::class,
+            $this->createMock(Response::class)
         );
 
         $this->assertInstanceOf(Payment::class, $payment);
@@ -102,7 +109,8 @@ class ResourceFactoryTest extends TestCase
         $client = ResourceFactory::createFromApiResult(
             $this->createMock(MollieApiClient::class),
             $apiResult,
-            Client::class
+            Client::class,
+            $this->createMock(Response::class)
         );
 
         $this->assertInstanceOf(Client::class, $client);

@@ -9,7 +9,7 @@ class GetOnboardingRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Onboarding::class;
+    protected $hydratableResource = Onboarding::class;
 
     public function resolveResourcePath(): string
     {

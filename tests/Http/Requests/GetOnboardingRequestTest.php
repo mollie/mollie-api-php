@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetOnboardingRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Onboarding;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetOnboardingRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetOnboardingRequestTest extends TestCase
 
         $request = new GetOnboardingRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Onboarding */
+        $onboarding = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Onboarding::class, $response->toResource());
+        $this->assertTrue($onboarding->getResponse()->successful());
+        $this->assertInstanceOf(Onboarding::class, $onboarding);
     }
 
     /** @test */

@@ -11,7 +11,7 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
 {
     protected Connector $connector;
 
-    protected ?Response $response = null;
+    protected Response $response;
 
     /**
      * The name of the collection resource in Mollie's API.
@@ -23,7 +23,7 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
     /**
      * @param  array|object  $items
      */
-    public function __construct(Connector $connector, $items = [], ?\stdClass $_links = null, ?Response $response = null)
+    public function __construct(Connector $connector, Response $response, $items = [], ?\stdClass $_links = null)
     {
         parent::__construct($items);
 
@@ -32,7 +32,7 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
         $this->response = $response;
     }
 
-    public function getResponse(): ?Response
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -53,7 +53,7 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
         $filteredItems = array_filter($this->getArrayCopy(), $callback);
 
         /** @phpstan-ignore-next-line */
-        return new static($this->connector, $filteredItems,  $this->_links);
+        return new static($this->connector, $this->response, $filteredItems,  $this->_links);
     }
 
     public static function getCollectionResourceName(): string

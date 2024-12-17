@@ -5,7 +5,7 @@ namespace Mollie\Api\Contracts;
 use Mollie\Api\Http\Middleware;
 use Mollie\Api\Http\Request;
 
-interface Connector extends Authenticatable, Hydratable, IdempotencyContract, SupportsDebuggingContract, Testable
+interface Connector extends Authenticatable, IdempotencyContract, SupportsDebuggingContract, Testable
 {
     public function send(Request $request): ?object;
 

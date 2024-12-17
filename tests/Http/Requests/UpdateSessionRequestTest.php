@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdateSessionRequestTest extends TestCase
 {
@@ -28,13 +27,10 @@ class UpdateSessionRequestTest extends TestCase
 
         $request = new UpdateSessionRequest('ses_LQNz4v4Qvk', $payload);
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Session */
-        $session = $response->toResource();
+        $session = $client->send($request);
+
+        $this->assertTrue($session->getResponse()->successful());
 
         $this->assertInstanceOf(Session::class, $session);
         $this->assertEquals('session', $session->resource);

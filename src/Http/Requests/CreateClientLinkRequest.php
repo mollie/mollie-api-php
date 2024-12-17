@@ -20,7 +20,7 @@ class CreateClientLinkRequest extends ResourceHydratableRequest implements HasPa
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = ClientLink::class;
+    protected $hydratableResource = ClientLink::class;
 
     private CreateClientLinkPayload $payload;
 

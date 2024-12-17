@@ -2,13 +2,14 @@
 
 namespace Mollie\Api\Http\Middleware;
 
+use Mollie\Api\Contracts\ResponseMiddleware;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
 
-class GuardResponse
+class GuardResponse implements ResponseMiddleware
 {
-    public function __invoke(Response $response)
+    public function __invoke(Response $response): void
     {
         if (($isEmpty = $response->isEmpty()) && $response->status() !== ResponseStatusCode::HTTP_NO_CONTENT) {
             throw new ApiException('No response body found.');

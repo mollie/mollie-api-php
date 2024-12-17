@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetSubscriptionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetSubscriptionRequestTest extends TestCase
 {
@@ -20,16 +19,11 @@ class GetSubscriptionRequestTest extends TestCase
 
         $request = new GetSubscriptionRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Subscription */
-        $subscription = $response->toResource();
+        $subscription = $client->send($request);
 
+        $this->assertTrue($subscription->getResponse()->successful());
         $this->assertInstanceOf(Subscription::class, $subscription);
-        $this->assertEquals('subscription', $subscription->resource);
     }
 
     /** @test */

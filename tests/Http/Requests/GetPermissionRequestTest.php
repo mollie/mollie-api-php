@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPermissionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Permission;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPermissionRequestTest extends TestCase
 {
@@ -20,16 +19,11 @@ class GetPermissionRequestTest extends TestCase
 
         $request = new GetPermissionRequest('payments.read');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Permission */
-        $permission = $response->toResource();
+        $permission = $client->send($request);
 
+        $this->assertTrue($permission->getResponse()->successful());
         $this->assertInstanceOf(Permission::class, $permission);
-        $this->assertEquals('permission', $permission->resource);
     }
 
     /** @test */

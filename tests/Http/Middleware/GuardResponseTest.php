@@ -6,7 +6,7 @@ use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Middleware\GuardResponse;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class GuardResponseTest extends TestCase
 {

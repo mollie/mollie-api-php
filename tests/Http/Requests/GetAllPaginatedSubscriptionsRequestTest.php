@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SubscriptionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetAllPaginatedSubscriptionsRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetAllPaginatedSubscriptionsRequestTest extends TestCase
 
         $request = new GetAllPaginatedSubscriptionsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var SubscriptionCollection */
+        $subscriptions = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(SubscriptionCollection::class, $response->toResource());
+        $this->assertTrue($subscriptions->getResponse()->successful());
+        $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
     }
 
     /** @test */

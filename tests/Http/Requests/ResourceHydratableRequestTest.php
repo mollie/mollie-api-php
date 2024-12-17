@@ -4,7 +4,7 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\BaseResource;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ResourceHydratableRequestTest extends TestCase
 {
@@ -13,21 +13,7 @@ class ResourceHydratableRequestTest extends TestCase
     {
         $request = new ConcreteResourceHydratableRequest;
 
-        $this->assertEquals(BaseResource::class, $request->getTargetResourceClass());
-    }
-
-    /** @test */
-    public function it_can_toggle_auto_hydration()
-    {
-        $request = new ConcreteResourceHydratableRequest;
-
-        $this->assertFalse($request->shouldAutoHydrate());
-
-        ConcreteResourceHydratableRequest::hydrate(true);
-        $this->assertTrue($request->shouldAutoHydrate());
-
-        ConcreteResourceHydratableRequest::hydrate(false);
-        $this->assertFalse($request->shouldAutoHydrate());
+        $this->assertEquals(BaseResource::class, $request->getHydratableResource());
     }
 
     /** @test */
@@ -38,13 +24,13 @@ class ResourceHydratableRequestTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Resource class is not set.');
 
-        $request->getTargetResourceClass();
+        $request->getHydratableResource();
     }
 }
 
 class ConcreteResourceHydratableRequest extends ResourceHydratableRequest
 {
-    public static string $targetResourceClass = BaseResource::class;
+    protected $hydratableResource = BaseResource::class;
 
     public function resolveResourcePath(): string
     {

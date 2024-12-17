@@ -3,7 +3,7 @@
 namespace Tests\Utils;
 
 use Mollie\Api\Utils\Url;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase
 {

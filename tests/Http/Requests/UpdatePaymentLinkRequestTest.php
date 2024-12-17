@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentLink;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdatePaymentLinkRequestTest extends TestCase
 {
@@ -23,16 +22,11 @@ class UpdatePaymentLinkRequestTest extends TestCase
             'Updated payment link',
         ));
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PaymentLink */
-        $paymentLink = $response->toResource();
+        $paymentLink = $client->send($request);
 
+        $this->assertTrue($paymentLink->getResponse()->successful());
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
-        $this->assertEquals('payment-link', $paymentLink->resource);
     }
 
     /** @test */

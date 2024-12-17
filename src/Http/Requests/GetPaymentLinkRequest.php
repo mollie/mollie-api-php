@@ -16,7 +16,7 @@ class GetPaymentLinkRequest extends ResourceHydratableRequest implements Support
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PaymentLink::class;
+    protected $hydratableResource = PaymentLink::class;
 
     private string $id;
 

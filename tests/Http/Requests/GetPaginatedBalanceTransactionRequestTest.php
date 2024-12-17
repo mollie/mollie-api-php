@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BalanceTransactionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaginatedBalanceTransactionRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class GetPaginatedBalanceTransactionRequestTest extends TestCase
         $balanceId = 'bal_gVMhHKqSSRYJyPsuoPNFH';
         $request = new GetPaginatedBalanceTransactionRequest($balanceId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var BalanceTransactionCollection */
+        $balanceTransactions = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(BalanceTransactionCollection::class, $response->toResource());
+        $this->assertTrue($balanceTransactions->getResponse()->successful());
+        $this->assertInstanceOf(BalanceTransactionCollection::class, $balanceTransactions);
     }
 
     /** @test */

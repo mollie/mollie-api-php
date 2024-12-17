@@ -6,11 +6,10 @@ use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateCustomerPaymentRequestTest extends TestCase
 {
@@ -33,11 +32,11 @@ class CreateCustomerPaymentRequestTest extends TestCase
             new CreatePaymentQuery(true)
         );
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Payment */
+        $payment = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Payment::class, $response->toResource());
+        $this->assertTrue($payment->getResponse()->successful());
+        $this->assertInstanceOf(Payment::class, $payment);
     }
 
     /** @test */

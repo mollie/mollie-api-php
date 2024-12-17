@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentLink;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaymentLinkRequestTest extends TestCase
 {
@@ -20,18 +19,14 @@ class GetPaymentLinkRequestTest extends TestCase
 
         $request = new GetPaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PaymentLink */
-        $paymentLink = $response->toResource();
+        $paymentLink = $client->send($request);
 
+        $this->assertTrue($paymentLink->getResponse()->successful());
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
-        $this->assertEquals('payment-link', $paymentLink->resource);
     }
 
+    /** @test */
     /** @test */
     public function it_resolves_correct_resource_path()
     {

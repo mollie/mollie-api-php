@@ -20,7 +20,7 @@ class GetPaginatedRefundsRequest extends PaginatedRequest implements IsIteratabl
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = RefundCollection::class;
+    protected $hydratableResource = RefundCollection::class;
 
     public function resolveResourcePath(): string
     {

@@ -13,7 +13,7 @@ class GetPaginatedSettlementsRequest extends PaginatedRequest implements IsItera
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = SettlementCollection::class;
+    protected $hydratableResource = SettlementCollection::class;
 
     /**
      * Resolve the resource path.

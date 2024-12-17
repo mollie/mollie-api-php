@@ -15,7 +15,7 @@ class GetPaginatedPaymentLinkPaymentsRequest extends PaginatedRequest implements
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PaymentCollection::class;
+    protected $hydratableResource = PaymentCollection::class;
 
     private string $paymentLinkId;
 

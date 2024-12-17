@@ -11,9 +11,10 @@ use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class MandateEndpointCollectionTest extends TestCase
 {
@@ -24,7 +25,10 @@ class MandateEndpointCollectionTest extends TestCase
             CreateMandateRequest::class => new MockResponse(201, 'mandate'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
@@ -48,7 +52,10 @@ class MandateEndpointCollectionTest extends TestCase
             GetMandateRequest::class => new MockResponse(200, 'mandate'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
@@ -64,7 +71,10 @@ class MandateEndpointCollectionTest extends TestCase
             RevokeMandateRequest::class => new MockResponse(204),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_4qqhO89gsT';
 
         $client->mandates->revokeFor($customer, 'mdt_h3gAaD5zP');
@@ -80,7 +90,10 @@ class MandateEndpointCollectionTest extends TestCase
             GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var MandateCollection $mandates */

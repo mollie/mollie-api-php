@@ -5,6 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\OnboardingStatus;
+use Mollie\Api\Http\Response;
 
 class OnboardingTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,10 +18,13 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
      */
     public function test_onboarding_statuses($status, $function, $expected_boolean)
     {
-        $orderLine = new Onboarding($this->createMock(MollieApiClient::class));
-        $orderLine->status = $status;
+        $onboarding = new Onboarding(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
+        $onboarding->status = $status;
 
-        $this->assertEquals($expected_boolean, $orderLine->{$function}());
+        $this->assertEquals($expected_boolean, $onboarding->{$function}());
     }
 
     public function dpTestOnboardingStatuses()

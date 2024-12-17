@@ -11,7 +11,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 {
     protected static string $method = HttpMethod::GET;
 
-    public static string $targetResourceClass = MethodCollection::class;
+    protected $hydratableResource = MethodCollection::class;
 
     private ?GetEnabledPaymentMethodsQuery $query = null;
 

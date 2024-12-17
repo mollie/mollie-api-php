@@ -6,9 +6,9 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinkPaymentsRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PaymentLinkPaymentEndpointCollectionTest extends TestCase
 {

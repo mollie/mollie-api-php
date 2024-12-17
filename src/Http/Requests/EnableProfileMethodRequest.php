@@ -15,7 +15,7 @@ class EnableProfileMethodRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Method::class;
+    protected $hydratableResource = Method::class;
 
     private string $profileId;
 

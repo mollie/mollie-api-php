@@ -9,7 +9,7 @@ class CancelSessionRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::DELETE;
 
-    public static string $targetResourceClass = Session::class;
+    protected $hydratableResource = Session::class;
 
     private string $sessionId;
 

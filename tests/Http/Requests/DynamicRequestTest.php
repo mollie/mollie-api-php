@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Mollie\Api\Http\Requests\DynamicRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\Method;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class DynamicRequestTest extends TestCase
 {
@@ -16,32 +16,37 @@ class DynamicRequestTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("The resource class 'NonExistentClass' does not exist.");
 
-        /** @phpstan-ignore-next-line */
-        new class('some-url', 'NonExistentClass') extends DynamicRequest
+        $request = new class('some-url') extends DynamicRequest
         {
             protected static string $method = Method::GET;
         };
+
+        $request->setHydratableResource('NonExistentClass');
     }
 
     /** @test */
     public function it_accepts_valid_resource_class()
     {
-        $request = new class('some-url', Payment::class) extends DynamicRequest
+        $request = new class('some-url') extends DynamicRequest
         {
             protected static string $method = Method::GET;
         };
 
-        $this->assertEquals(Payment::class, $request->getTargetResourceClass());
+        $request->setHydratableResource(Payment::class);
+
+        $this->assertEquals(Payment::class, $request->getHydratableResource());
     }
 
     /** @test */
     public function it_resolves_correct_resource_path()
     {
         $url = 'https://example.org';
-        $request = new class($url, Payment::class) extends DynamicRequest
+        $request = new class($url) extends DynamicRequest
         {
             protected static string $method = Method::GET;
         };
+
+        $request->setHydratableResource(Payment::class);
 
         $this->assertEquals($url, $request->resolveResourcePath());
     }

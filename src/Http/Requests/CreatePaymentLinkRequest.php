@@ -20,7 +20,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PaymentLink::class;
+    protected $hydratableResource = PaymentLink::class;
 
     private CreatePaymentLinkPayload $payload;
 

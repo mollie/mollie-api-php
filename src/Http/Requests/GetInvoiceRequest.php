@@ -9,7 +9,7 @@ class GetInvoiceRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Invoice::class;
+    protected $hydratableResource = Invoice::class;
 
     private string $id;
 

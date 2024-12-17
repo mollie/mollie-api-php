@@ -21,9 +21,6 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     use HasMode;
 
     /**
-     * Resource id prefix. Used to validate resource id's.
-     */
-    /**
      * Id of the payment (on the Mollie platform).
      *
      * @var string
@@ -598,15 +595,12 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->connector);
+            return new RefundCollection($this->connector, $this->response);
         }
 
         return $this
             ->connector
-            ->send(new DynamicGetRequest(
-                $this->_links->refunds->href,
-                RefundCollection::class
-            ));
+            ->send((new DynamicGetRequest($this->_links->refunds->href))->setHydratableResource(RefundCollection::class));
     }
 
     /**
@@ -643,15 +637,12 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function captures(): CaptureCollection
     {
         if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->connector);
+            return new CaptureCollection($this->connector, $this->response);
         }
 
         return $this
             ->connector
-            ->send(new DynamicGetRequest(
-                $this->_links->captures->href,
-                CaptureCollection::class
-            ));
+            ->send((new DynamicGetRequest($this->_links->captures->href))->setHydratableResource(CaptureCollection::class));
     }
 
     /**
@@ -677,15 +668,12 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->connector);
+            return new ChargebackCollection($this->connector, $this->response);
         }
 
         return $this
             ->connector
-            ->send(new DynamicGetRequest(
-                $this->_links->chargebacks->href,
-                ChargebackCollection::class
-            ));
+            ->send((new DynamicGetRequest($this->_links->chargebacks->href))->setHydratableResource(ChargebackCollection::class));
     }
 
     /**

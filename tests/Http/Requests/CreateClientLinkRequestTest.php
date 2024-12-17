@@ -6,11 +6,10 @@ use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\ClientLink;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateClientLinkRequestTest extends TestCase
 {
@@ -29,10 +28,10 @@ class CreateClientLinkRequestTest extends TestCase
 
         $request = new CreateClientLinkRequest($payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var ClientLink */
+        $clientLink = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(ClientLink::class, $response->toResource());
+        $this->assertTrue($clientLink->getResponse()->successful());
+        $this->assertInstanceOf(ClientLink::class, $clientLink);
     }
 }

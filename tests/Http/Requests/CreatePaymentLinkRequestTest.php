@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentLink;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreatePaymentLinkRequestTest extends TestCase
 {
@@ -27,11 +26,11 @@ class CreatePaymentLinkRequestTest extends TestCase
 
         $request = new CreatePaymentLinkRequest($payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var PaymentLink */
+        $paymentLink = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(PaymentLink::class, $response->toResource());
+        $this->assertTrue($paymentLink->getResponse()->successful());
+        $this->assertInstanceOf(PaymentLink::class, $paymentLink);
     }
 
     /** @test */

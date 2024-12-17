@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetInvoiceRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Invoice;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetInvoiceRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class GetInvoiceRequestTest extends TestCase
         $invoiceId = 'inv_xBEbP9rvAq';
         $request = new GetInvoiceRequest($invoiceId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Invoice */
+        $invoice = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Invoice::class, $response->toResource());
+        $this->assertTrue($invoice->getResponse()->successful());
+        $this->assertInstanceOf(Invoice::class, $invoice);
     }
 
     /** @test */

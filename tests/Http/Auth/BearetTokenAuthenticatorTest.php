@@ -5,7 +5,7 @@ namespace Tests\Http\Auth;
 use Mollie\Api\Http\Auth\BearerTokenAuthenticator;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Repositories\ArrayStore;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class BearetTokenAuthenticatorTest extends TestCase
 {

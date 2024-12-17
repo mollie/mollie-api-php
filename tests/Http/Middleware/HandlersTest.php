@@ -6,7 +6,7 @@ use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class HandlersTest extends TestCase
 {

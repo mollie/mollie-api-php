@@ -4,8 +4,8 @@ namespace Tests\Utils;
 
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Utils\Utility;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use Tests\TestCase;
 
 class UtilityTest extends TestCase
 {

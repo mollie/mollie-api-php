@@ -4,7 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Iterator;
 use IteratorAggregate;
+use Mollie\Api\Contracts\HasResponse;
 use Mollie\Api\Contracts\ViableResponse;
+use Mollie\Api\Http\Response;
 
 /**
  * @template TKey of array-key
@@ -12,19 +14,27 @@ use Mollie\Api\Contracts\ViableResponse;
  *
  * @implements IteratorAggregate<TKey, TValue>
  */
-class LazyCollection implements IteratorAggregate, ViableResponse
+class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
 {
     /**
      * @var callable
      */
     private $source;
 
+    private Response $response;
+
     /**
      * @param  callable  $source
      */
-    public function __construct($source)
+    public function __construct($source, Response $response)
     {
         $this->source = $source;
+        $this->response = $response;
+    }
+
+    public function getResponse(): Response
+    {
+        return $this->response;
     }
 
     /**
@@ -65,7 +75,7 @@ class LazyCollection implements IteratorAggregate, ViableResponse
                     yield $key => $value;
                 }
             }
-        });
+        }, $this->response);
     }
 
     /**
@@ -109,7 +119,7 @@ class LazyCollection implements IteratorAggregate, ViableResponse
             foreach ($this as $key => $value) {
                 yield $key => $callback($value, $key);
             }
-        });
+        }, $this->response);
     }
 
     /**
@@ -133,7 +143,7 @@ class LazyCollection implements IteratorAggregate, ViableResponse
                     $iterator->next();
                 }
             }
-        });
+        }, $this->response);
     }
 
     /**

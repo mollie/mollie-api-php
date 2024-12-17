@@ -5,9 +5,9 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
 use Mollie\Api\Resources\Issuer;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class MethodIssuerEndpointCollectionTest extends TestCase
 {

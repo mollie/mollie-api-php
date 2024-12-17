@@ -20,7 +20,7 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = \Mollie\Api\Resources\Refund::class;
+    protected $hydratableResource = \Mollie\Api\Resources\Refund::class;
 
     private string $paymentId;
 

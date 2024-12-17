@@ -14,7 +14,7 @@ class GetAllPaginatedSubscriptionsRequest extends PaginatedRequest implements Is
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = SubscriptionCollection::class;
+    protected $hydratableResource = SubscriptionCollection::class;
 
     /**
      * The resource path.

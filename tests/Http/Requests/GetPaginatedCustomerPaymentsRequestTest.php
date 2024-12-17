@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaginatedCustomerPaymentsRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class GetPaginatedCustomerPaymentsRequestTest extends TestCase
         $customerId = 'cst_kEn1PlbGa';
         $request = new GetPaginatedCustomerPaymentsRequest($customerId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var PaymentCollection */
+        $payments = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(PaymentCollection::class, $response->toResource());
+        $this->assertTrue($payments->getResponse()->successful());
+        $this->assertInstanceOf(PaymentCollection::class, $payments);
     }
 
     /** @test */

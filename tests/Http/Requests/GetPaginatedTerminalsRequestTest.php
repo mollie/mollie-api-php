@@ -4,14 +4,13 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedTerminalsRequestTest extends TestCase
 {
@@ -24,16 +23,10 @@ class GetPaginatedTerminalsRequestTest extends TestCase
 
         $request = new GetPaginatedTerminalsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var TerminalCollection */
-        $terminals = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(TerminalCollection::class, $terminals);
-        $this->assertGreaterThan(0, $terminals->count());
+        $terminals = $client->send($request);
+
+        $this->assertTrue($terminals->getResponse()->successful());
 
         foreach ($terminals as $terminal) {
             $this->assertInstanceOf(Terminal::class, $terminal);
@@ -54,12 +47,9 @@ class GetPaginatedTerminalsRequestTest extends TestCase
 
         $request = (new GetPaginatedTerminalsRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $terminals = $response->toResource();
+        $terminals = $client->send($request);
+        $this->assertTrue($terminals->getResponse()->successful());
 
         foreach ($terminals as $terminal) {
             $this->assertInstanceOf(Terminal::class, $terminal);

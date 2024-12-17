@@ -15,7 +15,7 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = RefundCollection::class;
+    protected $hydratableResource = RefundCollection::class;
 
     private string $settlementId;
 

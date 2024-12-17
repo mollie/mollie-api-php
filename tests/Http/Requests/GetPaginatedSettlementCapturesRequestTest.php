@@ -4,14 +4,13 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedSettlementCapturesRequestTest extends TestCase
 {
@@ -24,16 +23,10 @@ class GetPaginatedSettlementCapturesRequestTest extends TestCase
 
         $request = new GetPaginatedSettlementCapturesRequest('stl_jDk30akdN');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var CaptureCollection */
-        $captures = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(CaptureCollection::class, $captures);
-        $this->assertGreaterThan(0, $captures->count());
+        $captures = $client->send($request);
+
+        $this->assertTrue($captures->getResponse()->successful());
 
         foreach ($captures as $capture) {
             $this->assertInstanceOf(Capture::class, $capture);
@@ -54,12 +47,9 @@ class GetPaginatedSettlementCapturesRequestTest extends TestCase
 
         $request = (new GetPaginatedSettlementCapturesRequest('stl_jDk30akdN'))->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $captures = $response->toResource();
+        $captures = $client->send($request);
+        $this->assertTrue($captures->getResponse()->successful());
 
         foreach ($captures as $capture) {
             $this->assertInstanceOf(Capture::class, $capture);

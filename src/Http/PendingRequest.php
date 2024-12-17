@@ -8,9 +8,7 @@ use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
-use Mollie\Api\Http\Middleware\EvaluateHydrationSetting;
 use Mollie\Api\Http\Middleware\GuardResponse;
-use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\Middleware\ThrowExceptionIfRequestFailed;
@@ -68,14 +66,12 @@ class PendingRequest
             ->middleware()
 
             /** On request */
-            ->onRequest(new EvaluateHydrationSetting, 'hydration')
             ->onRequest(new ApplyIdempotencyKey, 'idempotency')
 
             /** On response */
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
-            ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH)
-            ->onResponse(new Hydrate, 'hydration', MiddlewarePriority::LOW);
+            ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH);
     }
 
     public function setTestmode(bool $testmode): self
@@ -87,6 +83,17 @@ class PendingRequest
         }
 
         return $this;
+    }
+
+    public function getTestmode(): bool
+    {
+        if (! $this->request instanceof SupportsTestmodeInQuery && ! $this->request instanceof SupportsTestmodeInPayload) {
+            return false;
+        }
+
+        return $this->request instanceof SupportsTestmodeInQuery
+            ? $this->query()->get('testmode', false)
+            : $this->payload()->get('testmode', false);
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self

@@ -12,11 +12,6 @@ abstract class EndpointCollection
     public function __construct(Connector $connector)
     {
         $this->connector = $connector;
-
-        /**
-         * Default hydration decision to true to maintain legacy compatibility.
-         */
-        $connector::setAutoHydrate();
     }
 
     /**

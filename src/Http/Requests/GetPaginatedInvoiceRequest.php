@@ -13,7 +13,7 @@ class GetPaginatedInvoiceRequest extends PaginatedRequest implements IsIteratabl
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = InvoiceCollection::class;
+    protected $hydratableResource = InvoiceCollection::class;
 
     public function resolveResourcePath(): string
     {

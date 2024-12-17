@@ -5,6 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
+use Mollie\Api\Http\Response;
 
 class RefundTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +18,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      */
     public function test_refund_statuses($status, $function, $expected_boolean)
     {
-        $refund = new Refund($this->createMock(MollieApiClient::class));
+        $refund = new Refund(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
         $refund->status = $status;
 
         $this->assertEquals($expected_boolean, $refund->{$function}());
@@ -31,7 +35,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      */
     public function test_refund_can_be_canceled($status, $expected_boolean)
     {
-        $refund = new Refund($this->createMock(MollieApiClient::class));
+        $refund = new Refund(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
         $refund->status = $status;
 
         $this->assertEquals($expected_boolean, $refund->canBeCanceled());

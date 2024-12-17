@@ -12,7 +12,7 @@ class ListPermissionsRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PermissionCollection::class;
+    protected $hydratableResource = PermissionCollection::class;
 
     public function resolveResourcePath(): string
     {

@@ -4,14 +4,13 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementPaymentsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedSettlementPaymentsRequestTest extends TestCase
 {
@@ -24,14 +23,11 @@ class GetPaginatedSettlementPaymentsRequestTest extends TestCase
 
         $request = new GetPaginatedSettlementPaymentsRequest('stl_jDk30akdN');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var PaymentCollection */
-        $payments = $response->toResource();
-        // Assert response was properly handled
+        $payments = $client->send($request);
+
+        $this->assertTrue($payments->getResponse()->successful());
+
         $this->assertInstanceOf(PaymentCollection::class, $payments);
         $this->assertGreaterThan(0, $payments->count());
 
@@ -54,12 +50,9 @@ class GetPaginatedSettlementPaymentsRequestTest extends TestCase
 
         $request = (new GetPaginatedSettlementPaymentsRequest('stl_jDk30akdN'))->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $payments = $response->toResource();
+        $payments = $client->send($request);
+        $this->assertTrue($payments->getResponse()->successful());
 
         foreach ($payments as $payment) {
             $this->assertInstanceOf(Payment::class, $payment);

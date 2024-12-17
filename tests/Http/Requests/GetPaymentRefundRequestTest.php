@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Refund;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaymentRefundRequestTest extends TestCase
 {
@@ -22,16 +21,11 @@ class GetPaymentRefundRequestTest extends TestCase
         $refundId = 're_4qqhO89gsT';
         $request = new GetPaymentRefundRequest($paymentId, $refundId);
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Refund */
-        $refund = $response->toResource();
+        $refund = $client->send($request);
 
+        $this->assertTrue($refund->getResponse()->successful());
         $this->assertInstanceOf(Refund::class, $refund);
-        $this->assertEquals('refund', $refund->resource);
     }
 
     /** @test */

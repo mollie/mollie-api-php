@@ -10,9 +10,10 @@ use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class CustomerPaymentsEndpointCollectionTest extends TestCase
 {
@@ -23,7 +24,10 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             CreateCustomerPaymentRequest::class => new MockResponse(201, 'payment'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Payment $payment */
@@ -43,7 +47,10 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             GetPaginatedCustomerPaymentsRequest::class => new MockResponse(200, 'payment-list'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var PaymentCollection $payments */
@@ -65,7 +72,10 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer(
+            $client,
+            $this->createMock(Response::class)
+        );
         $customer->id = 'cst_kEn1PlbGa';
 
         foreach ($client->customerPayments->iteratorFor($customer) as $payment) {

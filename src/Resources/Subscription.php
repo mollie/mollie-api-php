@@ -199,14 +199,11 @@ class Subscription extends BaseResource
     public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->connector);
+            return new PaymentCollection($this->connector, $this->response);
         }
 
         return $this
             ->connector
-            ->send(new DynamicGetRequest(
-                $this->_links->payments->href,
-                PaymentCollection::class
-            ));
+            ->send((new DynamicGetRequest($this->_links->payments->href))->setHydratableResource(PaymentCollection::class));
     }
 }

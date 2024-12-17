@@ -8,16 +8,15 @@ use Mollie\Api\Http\Data\InvoiceLine;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\Recipient;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateSalesInvoiceRequestTest extends TestCase
 {
@@ -58,11 +57,11 @@ class CreateSalesInvoiceRequestTest extends TestCase
         );
         $request = new CreateSalesInvoiceRequest($payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var SalesInvoice */
+        $salesInvoice = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(SalesInvoice::class, $response->toResource());
+        $this->assertTrue($salesInvoice->getResponse()->successful());
+        $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
     /** @test */

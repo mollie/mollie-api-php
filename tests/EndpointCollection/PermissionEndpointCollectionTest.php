@@ -6,9 +6,9 @@ use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PermissionEndpointCollectionTest extends TestCase
 {

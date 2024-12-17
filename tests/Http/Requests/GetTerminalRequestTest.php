@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetTerminalRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Terminal;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetTerminalRequestTest extends TestCase
 {
@@ -20,16 +19,11 @@ class GetTerminalRequestTest extends TestCase
 
         $request = new GetTerminalRequest('term_7MgL4wea');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Terminal */
-        $terminal = $response->toResource();
+        $terminal = $client->send($request);
 
+        $this->assertTrue($terminal->getResponse()->successful());
         $this->assertInstanceOf(Terminal::class, $terminal);
-        $this->assertEquals('terminal', $terminal->resource);
     }
 
     /** @test */

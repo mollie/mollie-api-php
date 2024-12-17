@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetAllMethodsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\MethodCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetAllMethodsRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetAllMethodsRequestTest extends TestCase
 
         $request = new GetAllMethodsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var MethodCollection */
+        $methods = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(MethodCollection::class, $response->toResource());
+        $this->assertTrue($methods->getResponse()->successful());
+        $this->assertInstanceOf(MethodCollection::class, $methods);
     }
 
     /** @test */

@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use DateTime;
 use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BalanceReport;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetBalanceReportRequestTest extends TestCase
 {
@@ -28,11 +27,11 @@ class GetBalanceReportRequestTest extends TestCase
             )
         );
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var BalanceReport */
+        $balanceReport = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(BalanceReport::class, $response->toResource());
+        $this->assertTrue($balanceReport->getResponse()->successful());
+        $this->assertInstanceOf(BalanceReport::class, $balanceReport);
     }
 
     /** @test */

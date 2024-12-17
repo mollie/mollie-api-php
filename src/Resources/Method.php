@@ -82,6 +82,7 @@ class Method extends BaseResource
         return ResourceFactory::createBaseResourceCollection(
             $this->connector,
             Issuer::class,
+            $this->response,
             $this->issuers
         );
     }
@@ -95,6 +96,7 @@ class Method extends BaseResource
         return ResourceFactory::createBaseResourceCollection(
             $this->connector,
             MethodPrice::class,
+            $this->response,
             $this->pricing
         );
     }

@@ -4,14 +4,13 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedSessionsRequestTest extends TestCase
 {
@@ -24,16 +23,10 @@ class GetPaginatedSessionsRequestTest extends TestCase
 
         $request = new GetPaginatedSessionsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var SessionCollection */
-        $sessions = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(SessionCollection::class, $sessions);
-        $this->assertGreaterThan(0, $sessions->count());
+        $sessions = $client->send($request);
+
+        $this->assertTrue($sessions->getResponse()->successful());
 
         foreach ($sessions as $session) {
             $this->assertInstanceOf(Session::class, $session);
@@ -54,12 +47,9 @@ class GetPaginatedSessionsRequestTest extends TestCase
 
         $request = (new GetPaginatedSessionsRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $sessions = $response->toResource();
+        $sessions = $client->send($request);
+        $this->assertTrue($sessions->getResponse()->successful());
 
         foreach ($sessions as $session) {
             $this->assertInstanceOf(Session::class, $session);

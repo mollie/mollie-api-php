@@ -10,9 +10,10 @@ use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class PaymentRefundEndpointCollectionTest extends TestCase
 {
@@ -23,7 +24,10 @@ class PaymentRefundEndpointCollectionTest extends TestCase
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_7UhSN1zuXS';
 
         /** @var Refund $refund */
@@ -45,7 +49,10 @@ class PaymentRefundEndpointCollectionTest extends TestCase
             GetPaymentRefundRequest::class => new MockResponse(200, 'refund'),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_7UhSN1zuXS';
 
         /** @var Refund $refund */
@@ -61,7 +68,10 @@ class PaymentRefundEndpointCollectionTest extends TestCase
             CancelPaymentRefundRequest::class => new MockResponse(204),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_7UhSN1zuXS';
 
         $client->paymentRefunds->cancelForPayment($payment, 're_4qqhO89gsT');
@@ -77,7 +87,10 @@ class PaymentRefundEndpointCollectionTest extends TestCase
             GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_7UhSN1zuXS';
 
         /** @var RefundCollection $refunds */
@@ -100,7 +113,10 @@ class PaymentRefundEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
         ]);
 
-        $payment = new Payment($client);
+        $payment = new Payment(
+            $client,
+            $this->createMock(Response::class)
+        );
         $payment->id = 'tr_7UhSN1zuXS';
 
         foreach ($client->paymentRefunds->iteratorFor($payment) as $refund) {

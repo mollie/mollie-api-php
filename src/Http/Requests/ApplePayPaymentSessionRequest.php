@@ -14,7 +14,7 @@ class ApplePayPaymentSessionRequest extends ResourceHydratableRequest implements
 
     protected static string $method = Method::POST;
 
-    public static string $targetResourceClass = AnyResource::class;
+    protected $hydratableResource = AnyResource::class;
 
     private RequestApplePayPaymentSessionPayload $payload;
 

@@ -1,0 +1,70 @@
+<?php
+
+namespace Mollie\Api\Resources;
+
+use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+use Mollie\Api\Http\Response;
+
+class ResourceHydrator
+{
+    /**
+     * Hydrate a response into a resource or collection
+     *
+     * @return Response|BaseResource|BaseCollection|LazyCollection
+     */
+    public function hydrate(ResourceHydratableRequest $request, Response $response)
+    {
+        $targetResourceClass = $request->getHydratableResource();
+
+        if ($this->isCollectionTarget($targetResourceClass)) {
+            $collection = $this->buildResultCollection($response, $targetResourceClass);
+
+            return $this->unwrapIterator($request, $collection);
+        }
+
+        if ($this->isResourceTarget($targetResourceClass)) {
+            return ResourceFactory::createFromApiResult($response->getConnector(), $response, $targetResourceClass);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return BaseCollection|LazyCollection
+     */
+    private function unwrapIterator(Request $request, BaseCollection $collection)
+    {
+        if ($request instanceof IsIteratable && $request->iteratorEnabled()) {
+            /** @var CursorCollection $collection */
+            return $collection->getAutoIterator($request->iteratesBackwards());
+        }
+
+        return $collection;
+    }
+
+    private function buildResultCollection(Response $response, string $targetCollectionClass): BaseCollection
+    {
+        $result = $response->json();
+
+        return ResourceFactory::createBaseResourceCollection(
+            $response->getConnector(),
+            ($targetCollectionClass)::getResourceClass(),
+            $response,
+            $result->_embedded->{$targetCollectionClass::getCollectionResourceName()},
+            $result->_links,
+            $targetCollectionClass,
+        );
+    }
+
+    private function isCollectionTarget(string $targetResourceClass): bool
+    {
+        return is_subclass_of($targetResourceClass, BaseCollection::class);
+    }
+
+    private function isResourceTarget(string $targetResourceClass): bool
+    {
+        return is_subclass_of($targetResourceClass, BaseResource::class);
+    }
+}

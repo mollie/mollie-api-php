@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Capture;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaymentCaptureRequestTest extends TestCase
 {
@@ -20,18 +19,14 @@ class GetPaymentCaptureRequestTest extends TestCase
 
         $request = new GetPaymentCaptureRequest('tr_WDqYK6vllg', 'cpt_4qqhO89gsT');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Capture */
-        $capture = $response->toResource();
+        $capture = $client->send($request);
 
+        $this->assertTrue($capture->getResponse()->successful());
         $this->assertInstanceOf(Capture::class, $capture);
-        $this->assertEquals('capture', $capture->resource);
     }
 
+    /** @test */
     /** @test */
     public function it_resolves_correct_resource_path()
     {

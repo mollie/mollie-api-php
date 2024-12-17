@@ -2,37 +2,44 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\SupportsResourceHydration;
 use Mollie\Api\Http\Request;
 
-abstract class ResourceHydratableRequest extends Request implements SupportsResourceHydration
+abstract class ResourceHydratableRequest extends Request
 {
     /**
-     * Whether the request should be automatically hydrated.
+     * The resource class the request should be hydrated into.
+     *
+     * @var string|null
      */
-    protected static bool $shouldAutoHydrate = false;
+    protected $hydratableResource = null;
 
-    /**
-     * The resource class the request should be casted to.
-     */
-    public static string $targetResourceClass;
-
-    public static function hydrate(bool $shouldAutoHydrate = true): void
+    public function isHydratable(): bool
     {
-        self::$shouldAutoHydrate = $shouldAutoHydrate;
+        return $this->hydratableResource !== null;
     }
 
-    public function shouldAutoHydrate(): bool
+    public function getHydratableResource(): string
     {
-        return self::$shouldAutoHydrate;
-    }
-
-    public function getTargetResourceClass(): string
-    {
-        if (empty(static::$targetResourceClass)) {
+        if (! $this->isHydratable()) {
             throw new \RuntimeException('Resource class is not set.');
         }
 
-        return static::$targetResourceClass;
+        return $this->hydratableResource;
+    }
+
+    public function setHydratableResource(string $hydratableResource): self
+    {
+        if (! class_exists($hydratableResource)) {
+            throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not exist.");
+        }
+
+        /** @phpstan-ignore-next-line */
+        if ($this->hydratableResource && ! is_subclass_of($hydratableResource, $this->hydratableResource)) {
+            throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not match the existing resource class '{$this->hydratableResource}'.");
+        }
+
+        $this->hydratableResource = $hydratableResource;
+
+        return $this;
     }
 }

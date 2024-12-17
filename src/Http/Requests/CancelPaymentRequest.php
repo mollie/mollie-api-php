@@ -10,7 +10,7 @@ class CancelPaymentRequest extends ResourceHydratableRequest implements Supports
 {
     protected static string $method = Method::DELETE;
 
-    public static string $targetResourceClass = Payment::class;
+    protected $hydratableResource = Payment::class;
 
     protected string $id;
 

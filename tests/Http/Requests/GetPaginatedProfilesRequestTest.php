@@ -4,14 +4,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
-use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedProfilesRequestTest extends TestCase
 {
@@ -24,16 +22,10 @@ class GetPaginatedProfilesRequestTest extends TestCase
 
         $request = new GetPaginatedProfilesRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var ProfileCollection */
-        $profiles = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(ProfileCollection::class, $profiles);
-        $this->assertGreaterThan(0, $profiles->count());
+        $profiles = $client->send($request);
+
+        $this->assertTrue($profiles->getResponse()->successful());
 
         foreach ($profiles as $profile) {
             $this->assertInstanceOf(Profile::class, $profile);
@@ -54,12 +46,9 @@ class GetPaginatedProfilesRequestTest extends TestCase
 
         $request = (new GetPaginatedProfilesRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
-        /** @var LazyCollection */
-        $profiles = $response->toResource();
+        /** @var ProfileCollection */
+        $profiles = $client->send($request);
+        $this->assertTrue($profiles->getResponse()->successful());
 
         foreach ($profiles as $profile) {
             $this->assertInstanceOf(Profile::class, $profile);

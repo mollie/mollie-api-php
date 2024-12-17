@@ -17,7 +17,7 @@ class UpdateCustomerRequest extends ResourceHydratableRequest implements HasPayl
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Customer::class;
+    protected $hydratableResource = Customer::class;
 
     private string $id;
 

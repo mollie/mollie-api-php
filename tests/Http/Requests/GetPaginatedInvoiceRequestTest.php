@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\InvoiceCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaginatedInvoiceRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetPaginatedInvoiceRequestTest extends TestCase
 
         $request = new GetPaginatedInvoiceRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var InvoiceCollection */
+        $invoices = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(InvoiceCollection::class, $response->toResource());
+        $this->assertTrue($invoices->getResponse()->successful());
+        $this->assertInstanceOf(InvoiceCollection::class, $invoices);
     }
 
     /** @test */

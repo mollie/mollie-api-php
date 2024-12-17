@@ -17,7 +17,7 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Capture::class;
+    protected $hydratableResource = Capture::class;
 
     private string $paymentId;
 

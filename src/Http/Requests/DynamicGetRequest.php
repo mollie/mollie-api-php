@@ -15,10 +15,9 @@ class DynamicGetRequest extends DynamicRequest
 
     public function __construct(
         string $url,
-        string $resourceClass = '',
         array $query = []
     ) {
-        parent::__construct($url, $resourceClass);
+        parent::__construct($url);
 
         $this->query = $query;
     }

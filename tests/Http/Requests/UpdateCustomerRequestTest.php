@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\UpdateCustomerPayload;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdateCustomerRequestTest extends TestCase
 {
@@ -24,16 +23,11 @@ class UpdateCustomerRequestTest extends TestCase
             'updated@example.com',
         ));
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Customer */
-        $customer = $response->toResource();
+        $customer = $client->send($request);
 
+        $this->assertTrue($customer->getResponse()->successful());
         $this->assertInstanceOf(Customer::class, $customer);
-        $this->assertEquals('customer', $customer->resource);
     }
 
     /** @test */

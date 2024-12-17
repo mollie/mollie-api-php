@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Profile;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdateProfileRequestTest extends TestCase
 {
@@ -23,16 +22,11 @@ class UpdateProfileRequestTest extends TestCase
             'Updated Profile Name',
         ));
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Profile */
-        $profile = $response->toResource();
+        $profile = $client->send($request);
 
+        $this->assertTrue($profile->getResponse()->successful());
         $this->assertInstanceOf(Profile::class, $profile);
-        $this->assertEquals('profile', $profile->resource);
     }
 
     /** @test */

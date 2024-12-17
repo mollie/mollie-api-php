@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\ChargebackCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaginatedChargebacksRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetPaginatedChargebacksRequestTest extends TestCase
 
         $request = new GetPaginatedChargebacksRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var ChargebackCollection */
+        $chargebacks = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(ChargebackCollection::class, $response->toResource());
+        $this->assertTrue($chargebacks->getResponse()->successful());
+        $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
     }
 
     /** @test */

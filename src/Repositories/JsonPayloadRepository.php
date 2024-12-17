@@ -37,6 +37,18 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
         return $this;
     }
 
+    public function get(string $key, $default = null): mixed
+    {
+        return $this->store[$key] ?? $default;
+    }
+
+    public function merge(array ...$arrays): self
+    {
+        $this->store = array_merge($this->store, ...$arrays);
+
+        return $this;
+    }
+
     public function remove(string $key): self
     {
         unset($this->store[$key]);

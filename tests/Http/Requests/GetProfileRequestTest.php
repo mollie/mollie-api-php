@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetProfileRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Profile;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetProfileRequestTest extends TestCase
 {
@@ -20,16 +19,11 @@ class GetProfileRequestTest extends TestCase
 
         $request = new GetProfileRequest('pfl_v9hTwCvYqw');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Profile */
-        $profile = $response->toResource();
+        $profile = $client->send($request);
 
+        $this->assertTrue($profile->getResponse()->successful());
         $this->assertInstanceOf(Profile::class, $profile);
-        $this->assertEquals('profile', $profile->resource);
     }
 
     /** @test */

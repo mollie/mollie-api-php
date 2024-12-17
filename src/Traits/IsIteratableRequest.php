@@ -2,6 +2,11 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+
+/**
+ * @mixin ResourceHydratableRequest
+ */
 trait IsIteratableRequest
 {
     protected bool $iteratorEnabled = false;

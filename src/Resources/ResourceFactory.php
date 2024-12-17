@@ -7,7 +7,6 @@ use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 
-#[\AllowDynamicProperties]
 class ResourceFactory
 {
     /**
@@ -18,6 +17,8 @@ class ResourceFactory
         if ($data instanceof Response) {
             $response = $data;
             $data = $response->json();
+        } else if ($response === null) {
+            throw new \InvalidArgumentException('Response is required');
         }
 
         /** @var BaseResource $resource */
@@ -28,8 +29,8 @@ class ResourceFactory
         } else {
             foreach ($data as $property => $value) {
                 $resource->{$property} = self::holdsEmbeddedResources($resource, $property, $value)
-                ? self::parseEmbeddedResources($connector, $resource, $value)
-                : $value;
+                    ? self::parseEmbeddedResources($connector, $resource, $value, $response)
+                    : $value;
             }
         }
 
@@ -51,7 +52,7 @@ class ResourceFactory
     /**
      * Parses embedded resources into their respective resource objects or collections.
      */
-    private static function parseEmbeddedResources(Connector $connector, object $resource, object $embedded): object
+    private static function parseEmbeddedResources(Connector $connector, object $resource, object $embedded, Response $response): object
     {
         $result = new \stdClass;
 
@@ -60,7 +61,7 @@ class ResourceFactory
 
             if (is_null($collectionOrResourceClass)) {
                 throw new EmbeddedResourcesNotParseableException(
-                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
+                    'Resource ' . get_class($resource) . " does not have a mapping for embedded resource {$resourceKey}"
                 );
             }
 
@@ -68,12 +69,14 @@ class ResourceFactory
                 ? self::createFromApiResult(
                     $connector,
                     $resourceData,
-                    $collectionOrResourceClass
+                    $collectionOrResourceClass,
+                    $response
                 )
                 : self::createEmbeddedResourceCollection(
                     $connector,
                     $collectionOrResourceClass,
-                    $resourceData
+                    $resourceData,
+                    $response
                 );
         }
 
@@ -86,7 +89,8 @@ class ResourceFactory
     private static function createEmbeddedResourceCollection(
         Connector $connector,
         string $collectionClass,
-        $data
+        $data,
+        Response $response
     ): BaseCollection {
         return self::instantiateBaseCollection(
             $connector,
@@ -94,8 +98,10 @@ class ResourceFactory
             self::mapToResourceObjects(
                 $connector,
                 $data,
-                $collectionClass::getResourceClass()
+                $collectionClass::getResourceClass(),
+                $response
             ),
+            $response
         );
     }
 
@@ -105,17 +111,17 @@ class ResourceFactory
     public static function createBaseResourceCollection(
         Connector $connector,
         string $resourceClass,
+        Response $response,
         $data = null,
         ?object $_links = null,
-        ?string $resourceCollectionClass = null,
-        ?Response $response = null
+        ?string $resourceCollectionClass = null
     ): BaseCollection {
         return self::instantiateBaseCollection(
             $connector,
             self::determineCollectionClass($resourceClass, $resourceCollectionClass),
             self::mapToResourceObjects($connector, $data ?? [], $resourceClass, $response),
-            $_links,
-            $response
+            $response,
+            $_links
         );
     }
 
@@ -123,19 +129,19 @@ class ResourceFactory
         Connector $connector,
         string $collectionClass,
         array $items,
-        ?object $_links = null,
-        ?Response $response = null
+        Response $response,
+        ?object $_links = null
     ): BaseCollection {
-        return new $collectionClass($connector, $items, $_links, $response);
+        return new $collectionClass($connector, $response, $items, $_links);
     }
 
     /**
      * @param  array|\ArrayObject  $data
      */
-    private static function mapToResourceObjects(Connector $connector, $data, string $resourceClass, ?Response $response = null): array
+    private static function mapToResourceObjects(Connector $connector, $data, string $resourceClass, Response $response): array
     {
         return array_map(
-            fn ($item) => static::createFromApiResult(
+            fn($item) => static::createFromApiResult(
                 $connector,
                 $item,
                 $resourceClass,
@@ -147,6 +153,6 @@ class ResourceFactory
 
     private static function determineCollectionClass(string $resourceClass, ?string $resourceCollectionClass): string
     {
-        return $resourceCollectionClass ?: $resourceClass.'Collection';
+        return $resourceCollectionClass ?: $resourceClass . 'Collection';
     }
 }

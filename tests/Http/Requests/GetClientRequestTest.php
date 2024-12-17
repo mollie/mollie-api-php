@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetClientRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Client;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetClientRequestTest extends TestCase
 {
@@ -20,12 +19,12 @@ class GetClientRequestTest extends TestCase
 
         $request = new GetClientRequest('client_123');
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Client */
+        $client = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Client::class, $response->toResource());
-        $this->assertEquals('client', $response->resource);
+        $this->assertTrue($client->getResponse()->successful());
+        $this->assertInstanceOf(Client::class, $client);
+        $this->assertEquals('client', $client->resource);
     }
 
     /** @test */

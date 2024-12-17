@@ -5,11 +5,12 @@ namespace Tests\Resources;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Tests\Fixtures\MockClient;
+use Mollie\Api\Http\Response;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class CursorCollectionTest extends TestCase
 {
@@ -22,6 +23,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             $this->arrayToObject([
                 'next' => [
@@ -43,6 +45,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             (object) []
         );
@@ -59,6 +62,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             $this->arrayToObject([
                 'previous' => [
@@ -80,6 +84,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             (object) []
         );
@@ -94,6 +99,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             (object) []
         );
@@ -113,6 +119,7 @@ class CursorCollectionTest extends TestCase
 
         $collection = new PaymentCollection(
             $client,
+            $this->createMock(Response::class),
             [],
             $this->arrayToObject([
                 'next' => [

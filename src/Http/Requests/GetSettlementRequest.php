@@ -9,7 +9,7 @@ class GetSettlementRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Settlement::class;
+    protected $hydratableResource = Settlement::class;
 
     private string $id;
 

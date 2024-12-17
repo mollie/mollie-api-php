@@ -10,7 +10,7 @@ class GetPaginatedSessionsRequest extends PaginatedRequest implements IsIteratab
 {
     use IsIteratableRequest;
 
-    public static string $targetResourceClass = SessionCollection::class;
+    protected $hydratableResource = SessionCollection::class;
 
     public function resolveResourcePath(): string
     {

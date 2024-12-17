@@ -10,9 +10,9 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PaymentCaptureEndpointCollectionTest extends TestCase
 {

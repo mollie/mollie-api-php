@@ -16,7 +16,7 @@ class CancelSubscriptionRequest extends ResourceHydratableRequest implements Sup
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Subscription::class;
+    protected $hydratableResource = Subscription::class;
 
     private string $customerId;
 

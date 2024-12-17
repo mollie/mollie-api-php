@@ -6,9 +6,9 @@ use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class OrganizationEndpointCollectionTest extends TestCase
 {

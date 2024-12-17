@@ -21,9 +21,9 @@ use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class SalesInvoiceEndpointCollectionTest extends TestCase
 {

@@ -5,7 +5,7 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Requests\PaginatedRequest;
 use Mollie\Api\Resources\BaseCollection;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class PaginatedRequestTest extends TestCase
 {
@@ -29,7 +29,7 @@ class PaginatedRequestTest extends TestCase
 
 class ConcretePaginatedRequest extends PaginatedRequest
 {
-    public static string $targetResourceClass = BaseCollection::class;
+    protected $hydratableResource = BaseCollection::class;
 
     public function resolveResourcePath(): string
     {

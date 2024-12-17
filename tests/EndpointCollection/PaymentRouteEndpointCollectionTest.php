@@ -4,9 +4,9 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class PaymentRouteEndpointCollectionTest extends TestCase
 {

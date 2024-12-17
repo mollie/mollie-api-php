@@ -21,7 +21,7 @@ class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Route::class;
+    protected $hydratableResource = Route::class;
 
     private string $paymentId;
 

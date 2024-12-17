@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreateSessionRequestTest extends TestCase
 {
@@ -24,11 +23,11 @@ class CreateSessionRequestTest extends TestCase
             new AnyData(['baz' => 'qux'])
         );
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Session */
+        $session = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Session::class, $response->toResource());
+        $this->assertTrue($session->getResponse()->successful());
+        $this->assertInstanceOf(Session::class, $session);
     }
 
     /** @test */

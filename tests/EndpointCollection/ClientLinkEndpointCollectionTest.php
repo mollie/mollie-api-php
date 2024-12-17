@@ -7,9 +7,9 @@ use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class ClientLinkEndpointCollectionTest extends TestCase
 {

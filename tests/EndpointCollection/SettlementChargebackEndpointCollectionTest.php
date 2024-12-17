@@ -7,9 +7,10 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class SettlementChargebackEndpointCollectionTest extends TestCase
 {
@@ -20,7 +21,10 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
             GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
         ]);
 
-        $settlement = new Settlement($client);
+        $settlement = new Settlement(
+            $client,
+            $this->createMock(Response::class)
+        );
         $settlement->id = 'stl_jDk30akdN';
 
         /** @var ChargebackCollection $chargebacks */
@@ -42,7 +46,10 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
         ]);
 
-        $settlement = new Settlement($client);
+        $settlement = new Settlement(
+            $client,
+            $this->createMock(Response::class)
+        );
         $settlement->id = 'stl_jDk30akdN';
 
         foreach ($client->settlementChargebacks->iteratorFor($settlement) as $chargeback) {

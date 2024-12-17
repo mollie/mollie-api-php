@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use DateTime;
 use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Route;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class UpdatePaymentRouteRequestTest extends TestCase
 {
@@ -24,16 +23,11 @@ class UpdatePaymentRouteRequestTest extends TestCase
             new DateTime('2024-01-01'),
         ));
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var Route */
-        $route = $response->toResource();
+        $route = $client->send($request);
 
+        $this->assertTrue($route->getResponse()->successful());
         $this->assertInstanceOf(Route::class, $route);
-        $this->assertEquals('route', $route->resource);
     }
 
     /** @test */

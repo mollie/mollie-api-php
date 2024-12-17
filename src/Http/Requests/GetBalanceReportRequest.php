@@ -17,7 +17,7 @@ class GetBalanceReportRequest extends ResourceHydratableRequest implements Suppo
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = BalanceReport::class;
+    protected $hydratableResource = BalanceReport::class;
 
     private string $balanceId;
 

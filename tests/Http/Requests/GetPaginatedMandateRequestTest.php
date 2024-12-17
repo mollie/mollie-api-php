@@ -4,14 +4,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
-use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedMandateRequestTest extends TestCase
 {
@@ -24,14 +22,10 @@ class GetPaginatedMandateRequestTest extends TestCase
 
         $request = new GetPaginatedMandateRequest('cst_kEn1PlbGa');
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var MandateCollection */
-        $mandates = $response->toResource();
-        // Assert response was properly handled
+        $mandates = $client->send($request);
+
+        $this->assertTrue($mandates->getResponse()->successful());
         $this->assertInstanceOf(MandateCollection::class, $mandates);
         $this->assertGreaterThan(0, $mandates->count());
 
@@ -54,12 +48,9 @@ class GetPaginatedMandateRequestTest extends TestCase
 
         $request = (new GetPaginatedMandateRequest('cst_kEn1PlbGa'))->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
-        /** @var LazyCollection */
-        $mandates = $response->toResource();
+        /** @var MandateCollection */
+        $mandates = $client->send($request);
+        $this->assertTrue($mandates->getResponse()->successful());
 
         foreach ($mandates as $mandate) {
             $this->assertInstanceOf(Mandate::class, $mandate);

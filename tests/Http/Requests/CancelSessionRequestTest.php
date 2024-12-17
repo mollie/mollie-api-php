@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\CancelSessionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CancelSessionRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class CancelSessionRequestTest extends TestCase
         $sessionId = 'sess_pNxqdWEFws';
         $request = new CancelSessionRequest($sessionId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Session */
+        $session = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Session::class, $response->toResource());
+        $this->assertTrue($session->getResponse()->successful());
+        $this->assertInstanceOf(Session::class, $session);
     }
 
     /** @test */

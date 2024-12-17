@@ -10,7 +10,7 @@ class GetSessionRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    public static string $targetResourceClass = Session::class;
+    protected $hydratableResource = Session::class;
 
     private string $sessionId;
 

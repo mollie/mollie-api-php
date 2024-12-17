@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class DynamicGetRequestTest extends TestCase
 {
@@ -20,22 +19,24 @@ class DynamicGetRequestTest extends TestCase
 
         $request = new DynamicGetRequest(
             'payments/tr_WDqYK6vllg',
-            Payment::class,
             ['testmode' => 'true']
         );
 
-        /** @var Response */
-        $response = $client->send($request);
+        $request->setHydratableResource(Payment::class);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Payment::class, $response->toResource());
+        /** @var Payment */
+        $payment = $client->send($request);
+
+        $this->assertTrue($payment->getResponse()->successful());
+        $this->assertInstanceOf(Payment::class, $payment);
     }
 
     /** @test */
     public function it_resolves_correct_resource_path()
     {
         $path = 'payments/tr_WDqYK6vllg';
-        $request = new DynamicGetRequest($path, Payment::class);
+        $request = new DynamicGetRequest($path);
+        $request->setHydratableResource(Payment::class);
 
         $this->assertEquals($path, $request->resolveResourcePath());
     }

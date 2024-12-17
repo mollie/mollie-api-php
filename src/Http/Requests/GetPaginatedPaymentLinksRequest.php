@@ -20,7 +20,7 @@ class GetPaginatedPaymentLinksRequest extends PaginatedRequest implements IsIter
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = PaymentLinkCollection::class;
+    protected $hydratableResource = PaymentLinkCollection::class;
 
     public function resolveResourcePath(): string
     {

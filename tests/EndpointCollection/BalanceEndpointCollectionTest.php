@@ -9,11 +9,11 @@ use Mollie\Api\Http\Requests\GetBalanceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
-use Tests\TestCase;
 
 class BalanceEndpointCollectionTest extends TestCase
 {

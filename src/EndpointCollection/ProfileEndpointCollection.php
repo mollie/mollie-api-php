@@ -66,10 +66,14 @@ class ProfileEndpointCollection extends EndpointCollection
      */
     public function getCurrent($testmode = []): CurrentProfile
     {
-        GetProfileRequest::$targetResourceClass = CurrentProfile::class;
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var CurrentProfile */
-        return $this->get('me', $testmode);
+        return $this->send(
+            (new GetProfileRequest('me'))
+                ->setHydratableResource(CurrentProfile::class)
+                ->test($testmode)
+        );
     }
 
     /**

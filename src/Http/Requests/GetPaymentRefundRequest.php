@@ -17,7 +17,7 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Refund::class;
+    protected $hydratableResource = Refund::class;
 
     private string $paymentId;
 

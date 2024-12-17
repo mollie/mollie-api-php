@@ -14,7 +14,7 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     protected static string $method = Method::POST;
 
-    public static string $targetResourceClass = SalesInvoice::class;
+    protected $hydratableResource = SalesInvoice::class;
 
     private CreateSalesInvoicePayload $payload;
 

@@ -5,11 +5,10 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Capture;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CreatePaymentCaptureRequestTest extends TestCase
 {
@@ -27,11 +26,11 @@ class CreatePaymentCaptureRequestTest extends TestCase
 
         $request = new CreatePaymentCaptureRequest('tr_123', $payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Capture */
+        $capture = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Capture::class, $response->toResource());
+        $this->assertTrue($capture->getResponse()->successful());
+        $this->assertInstanceOf(Capture::class, $capture);
     }
 
     /** @test */

@@ -11,7 +11,7 @@ use Mollie\Api\Resources\SalesInvoiceCollection;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSalesInvoicesRequestTest extends TestCase
 {
@@ -24,13 +24,11 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
 
         $request = new GetPaginatedSalesInvoicesRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var SalesInvoiceCollection */
-        $salesInvoices = $response->toResource();
+        $salesInvoices = $client->send($request);
+
+        $this->assertTrue($salesInvoices->getResponse()->successful());
+
         $this->assertInstanceOf(SalesInvoiceCollection::class, $salesInvoices);
         $this->assertGreaterThan(0, $salesInvoices->count());
     }
@@ -48,12 +46,9 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
 
         $request = (new GetPaginatedSalesInvoicesRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $salesInvoices = $response->toResource();
+        $salesInvoices = $client->send($request);
+        $this->assertTrue($salesInvoices->getResponse()->successful());
 
         foreach ($salesInvoices as $salesInvoice) {
             $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);

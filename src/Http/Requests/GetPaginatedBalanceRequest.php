@@ -14,7 +14,7 @@ class GetPaginatedBalanceRequest extends PaginatedRequest implements IsIteratabl
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = BalanceCollection::class;
+    protected $hydratableResource = BalanceCollection::class;
 
     /**
      * Resolve the resource path.

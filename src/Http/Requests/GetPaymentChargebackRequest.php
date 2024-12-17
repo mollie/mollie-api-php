@@ -17,7 +17,7 @@ class GetPaymentChargebackRequest extends ResourceHydratableRequest implements S
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Chargeback::class;
+    protected $hydratableResource = Chargeback::class;
 
     private string $paymentId;
 

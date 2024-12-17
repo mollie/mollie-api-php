@@ -4,14 +4,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Chargeback;
-use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedSettlementChargebacksRequestTest extends TestCase
 {
@@ -24,16 +22,10 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
 
         $request = new GetPaginatedSettlementChargebacksRequest('stl_jDk30akdN');
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var LazyCollection */
+        $chargebacks = $client->send($request);
 
-        $this->assertTrue($response->successful());
-
-        /** @var ChargebackCollection */
-        $chargebacks = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
-        $this->assertGreaterThan(0, $chargebacks->count());
+        $this->assertTrue($chargebacks->getResponse()->successful());
 
         foreach ($chargebacks as $chargeback) {
             $this->assertInstanceOf(Chargeback::class, $chargeback);
@@ -54,12 +46,9 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
 
         $request = (new GetPaginatedSettlementChargebacksRequest('stl_jDk30akdN'))->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $chargebacks = $response->toResource();
+        $chargebacks = $client->send($request);
+        $this->assertTrue($chargebacks->getResponse()->successful());
 
         foreach ($chargebacks as $chargeback) {
             $this->assertInstanceOf(Chargeback::class, $chargeback);

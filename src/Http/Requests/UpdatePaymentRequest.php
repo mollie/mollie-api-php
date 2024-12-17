@@ -18,7 +18,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Payment::class;
+    protected $hydratableResource = Payment::class;
 
     private string $id;
 

@@ -4,11 +4,10 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\AnyResource;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class ApplePayPaymentSessionRequestTest extends TestCase
 {
@@ -27,11 +26,11 @@ class ApplePayPaymentSessionRequestTest extends TestCase
 
         $request = new ApplePayPaymentSessionRequest($payload);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var AnyResource */
+        $appleSession = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(AnyResource::class, $response->toResource());
+        $this->assertTrue($appleSession->getResponse()->successful());
+        $this->assertInstanceOf(AnyResource::class, $appleSession);
     }
 
     /** @test */

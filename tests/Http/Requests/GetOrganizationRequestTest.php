@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Organization;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetOrganizationRequestTest extends TestCase
 {
@@ -21,11 +20,11 @@ class GetOrganizationRequestTest extends TestCase
         $organizationId = 'org_1337';
         $request = new GetOrganizationRequest($organizationId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Organization */
+        $organization = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Organization::class, $response->toResource());
+        $this->assertTrue($organization->getResponse()->successful());
+        $this->assertInstanceOf(Organization::class, $organization);
     }
 
     /** @test */

@@ -12,9 +12,9 @@ use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class ProfileEndpointCollectionTest extends TestCase
 {

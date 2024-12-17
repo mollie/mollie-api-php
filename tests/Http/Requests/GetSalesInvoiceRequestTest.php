@@ -4,9 +4,9 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetSalesInvoiceRequestTest extends TestCase
 {
@@ -18,9 +18,11 @@ class GetSalesInvoiceRequestTest extends TestCase
         ]);
 
         $request = new GetSalesInvoiceRequest('invoice_123');
-        $response = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(SalesInvoice::class, $response->toResource());
+        /** @var SalesInvoice */
+        $salesInvoice = $client->send($request);
+
+        $this->assertTrue($salesInvoice->getResponse()->successful());
+        $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 }

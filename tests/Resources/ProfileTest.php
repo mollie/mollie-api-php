@@ -5,6 +5,7 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Types\ProfileStatus;
+use Mollie\Api\Http\Response;
 
 class ProfileTest extends \PHPUnit\Framework\TestCase
 {
@@ -17,7 +18,10 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
      */
     public function test_profile_statusses($status, $function, $expected_boolean)
     {
-        $profile = new Profile($this->createMock(MollieApiClient::class));
+        $profile = new Profile(
+            $this->createMock(MollieApiClient::class),
+            $this->createMock(Response::class)
+        );
         $profile->status = $status;
 
         $this->assertEquals($expected_boolean, $profile->{$function}());

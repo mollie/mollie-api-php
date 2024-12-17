@@ -19,7 +19,7 @@ class EnableMethodIssuerRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Issuer::class;
+    protected $hydratableResource = Issuer::class;
 
     private string $profileId;
 

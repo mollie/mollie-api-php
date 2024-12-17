@@ -12,9 +12,9 @@ use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class SessionEndpointCollectionTest extends TestCase
 {

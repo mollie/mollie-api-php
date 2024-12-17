@@ -7,9 +7,9 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
 use Mollie\Api\Http\Requests\GetSettlementRequest;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class SettlementsEndpointCollectionTest extends TestCase
 {

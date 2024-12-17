@@ -4,14 +4,13 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedSettlementsRequestTest extends TestCase
 {
@@ -24,14 +23,10 @@ class GetPaginatedSettlementsRequestTest extends TestCase
 
         $request = new GetPaginatedSettlementsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var SettlementCollection */
-        $settlements = $response->toResource();
-        // Assert response was properly handled
+        $settlements = $client->send($request);
+
+        $this->assertTrue($settlements->getResponse()->successful());
         $this->assertInstanceOf(SettlementCollection::class, $settlements);
         $this->assertGreaterThan(0, $settlements->count());
 
@@ -54,12 +49,9 @@ class GetPaginatedSettlementsRequestTest extends TestCase
 
         $request = (new GetPaginatedSettlementsRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
         /** @var LazyCollection */
-        $settlements = $response->toResource();
+        $settlements = $client->send($request);
+        $this->assertTrue($settlements->getResponse()->successful());
 
         foreach ($settlements as $settlement) {
             $this->assertInstanceOf(Settlement::class, $settlement);

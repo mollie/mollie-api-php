@@ -6,8 +6,8 @@ use Mollie\Api\Http\Middleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
-use Tests\TestCase;
 
 class MiddlewareTest extends TestCase
 {

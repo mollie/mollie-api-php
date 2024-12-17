@@ -20,7 +20,7 @@ class CreateProfileRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = Profile::class;
+    protected $hydratableResource = Profile::class;
 
     private CreateProfilePayload $payload;
 

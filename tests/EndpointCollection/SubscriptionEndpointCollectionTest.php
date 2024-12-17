@@ -12,9 +12,10 @@ use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
+use Mollie\Api\Http\Response;
 
 class SubscriptionEndpointCollectionTest extends TestCase
 {
@@ -25,7 +26,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             CreateSubscriptionRequest::class => new MockResponse(201, 'subscription'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -49,7 +50,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             GetSubscriptionRequest::class => new MockResponse(200, 'subscription'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -65,7 +66,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             UpdateSubscriptionRequest::class => new MockResponse(200, 'subscription'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -87,7 +88,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             CancelSubscriptionRequest::class => new MockResponse(204),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         $client->subscriptions->cancelFor($customer, 'sub_rVKGtNd6s3');
@@ -103,7 +104,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var SubscriptionCollection $subscriptions */
@@ -126,7 +127,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
         ]);
 
-        $customer = new Customer($client);
+        $customer = new Customer($client, $this->createMock(Response::class));
         $customer->id = 'cst_kEn1PlbGa';
 
         foreach ($client->subscriptions->iteratorFor($customer) as $subscription) {
@@ -164,12 +165,14 @@ class SubscriptionEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
         ]);
 
-        foreach ($client->subscriptions->iteratorForAll(
-            'sub_123',
-            50,
-            ['profile_id' => 'prf_123'],
-            true
-        ) as $subscription) {
+        foreach (
+            $client->subscriptions->iteratorForAll(
+                'sub_123',
+                50,
+                ['profile_id' => 'prf_123'],
+                true
+            ) as $subscription
+        ) {
             $this->assertSubscription($subscription);
         }
     }

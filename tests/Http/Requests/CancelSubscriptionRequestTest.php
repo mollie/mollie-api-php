@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class CancelSubscriptionRequestTest extends TestCase
 {
@@ -22,11 +21,11 @@ class CancelSubscriptionRequestTest extends TestCase
         $subscriptionId = 'sub_rVKGtNd6s3';
         $request = new CancelSubscriptionRequest($customerId, $subscriptionId);
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var Subscription */
+        $subscription = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(Subscription::class, $response->toResource());
+        $this->assertTrue($subscription->getResponse()->successful());
+        $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
     /** @test */

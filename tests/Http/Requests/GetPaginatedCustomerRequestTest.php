@@ -3,11 +3,10 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\CustomerCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class GetPaginatedCustomerRequestTest extends TestCase
 {
@@ -20,11 +19,11 @@ class GetPaginatedCustomerRequestTest extends TestCase
 
         $request = new GetPaginatedCustomerRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
+        /** @var CustomerCollection */
+        $customers = $client->send($request);
 
-        $this->assertTrue($response->successful());
-        $this->assertInstanceOf(CustomerCollection::class, $response->toResource());
+        $this->assertTrue($customers->getResponse()->successful());
+        $this->assertInstanceOf(CustomerCollection::class, $customers);
     }
 
     /** @test */

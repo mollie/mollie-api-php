@@ -16,7 +16,7 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    public static string $targetResourceClass = MethodCollection::class;
+    protected $hydratableResource = MethodCollection::class;
 
     private GetAllMethodsQuery $query;
 

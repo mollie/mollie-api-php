@@ -4,12 +4,13 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Tests\TestCase;
 
 class SubscriptionPaymentEndpointCollectionTest extends TestCase
 {
@@ -20,7 +21,10 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
             GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
         ]);
 
-        $subscription = new Subscription($client);
+        $subscription = new Subscription(
+            $client,
+            $this->createMock(Response::class)
+        );
         $subscription->id = 'sub_rVKGtNd6s3';
         $subscription->customerId = 'cust_kEn1PlbGa';
 
@@ -43,7 +47,10 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);
 
-        $subscription = new Subscription($client);
+        $subscription = new Subscription(
+            $client,
+            $this->createMock(Response::class)
+        );
         $subscription->id = 'sub_rVKGtNd6s3';
         $subscription->customerId = 'cust_kEn1PlbGa';
 

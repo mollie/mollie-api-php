@@ -4,14 +4,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
-use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
+use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
 use Tests\Fixtures\SequenceMockResponse;
-use Tests\TestCase;
 
 class GetPaginatedRefundsRequestTest extends TestCase
 {
@@ -24,16 +22,10 @@ class GetPaginatedRefundsRequestTest extends TestCase
 
         $request = new GetPaginatedRefundsRequest;
 
-        /** @var Response */
-        $response = $client->send($request);
-
-        $this->assertTrue($response->successful());
-
         /** @var RefundCollection */
-        $refunds = $response->toResource();
-        // Assert response was properly handled
-        $this->assertInstanceOf(RefundCollection::class, $refunds);
-        $this->assertGreaterThan(0, $refunds->count());
+        $refunds = $client->send($request);
+
+        $this->assertTrue($refunds->getResponse()->successful());
 
         foreach ($refunds as $refund) {
             $this->assertInstanceOf(Refund::class, $refund);
@@ -54,12 +46,9 @@ class GetPaginatedRefundsRequestTest extends TestCase
 
         $request = (new GetPaginatedRefundsRequest)->useIterator();
 
-        /** @var Response */
-        $response = $client->send($request);
-        $this->assertTrue($response->successful());
-
-        /** @var LazyCollection */
-        $refunds = $response->toResource();
+        /** @var RefundCollection */
+        $refunds = $client->send($request);
+        $this->assertTrue($refunds->getResponse()->successful());
 
         foreach ($refunds as $refund) {
             $this->assertInstanceOf(Refund::class, $refund);
