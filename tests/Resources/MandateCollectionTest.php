@@ -2,12 +2,12 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateStatus;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Http\Response;
 
 class MandateCollectionTest extends TestCase
 {

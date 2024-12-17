@@ -4,13 +4,13 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Mollie\Api\Http\Response;
 
 class BalanceTransactionEndpointCollectionTest extends TestCase
 {

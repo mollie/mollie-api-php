@@ -2,12 +2,12 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 use stdClass;
-use Mollie\Api\Http\Response;
 
 class PaymentTest extends \PHPUnit\Framework\TestCase
 {

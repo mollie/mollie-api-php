@@ -17,7 +17,7 @@ class ResourceFactory
         if ($data instanceof Response) {
             $response = $data;
             $data = $response->json();
-        } else if ($response === null) {
+        } elseif ($response === null) {
             throw new \InvalidArgumentException('Response is required');
         }
 
@@ -61,7 +61,7 @@ class ResourceFactory
 
             if (is_null($collectionOrResourceClass)) {
                 throw new EmbeddedResourcesNotParseableException(
-                    'Resource ' . get_class($resource) . " does not have a mapping for embedded resource {$resourceKey}"
+                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
                 );
             }
 
@@ -141,7 +141,7 @@ class ResourceFactory
     private static function mapToResourceObjects(Connector $connector, $data, string $resourceClass, Response $response): array
     {
         return array_map(
-            fn($item) => static::createFromApiResult(
+            fn ($item) => static::createFromApiResult(
                 $connector,
                 $item,
                 $resourceClass,
@@ -153,6 +153,6 @@ class ResourceFactory
 
     private static function determineCollectionClass(string $resourceClass, ?string $resourceCollectionClass): string
     {
-        return $resourceCollectionClass ?: $resourceClass . 'Collection';
+        return $resourceCollectionClass ?: $resourceClass.'Collection';
     }
 }

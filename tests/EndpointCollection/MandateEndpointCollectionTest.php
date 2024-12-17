@@ -8,13 +8,13 @@ use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\MockClient;
 use Tests\Fixtures\MockResponse;
-use Mollie\Api\Http\Response;
 
 class MandateEndpointCollectionTest extends TestCase
 {

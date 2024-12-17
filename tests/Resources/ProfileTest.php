@@ -2,10 +2,10 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Types\ProfileStatus;
-use Mollie\Api\Http\Response;
 
 class ProfileTest extends \PHPUnit\Framework\TestCase
 {

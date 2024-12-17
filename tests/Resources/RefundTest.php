@@ -2,10 +2,10 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
-use Mollie\Api\Http\Response;
 
 class RefundTest extends \PHPUnit\Framework\TestCase
 {
