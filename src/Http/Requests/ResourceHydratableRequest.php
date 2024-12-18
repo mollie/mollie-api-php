@@ -39,7 +39,7 @@ abstract class ResourceHydratableRequest extends Request
     }
 
     /**
-     * @param string|DecorateResource  $hydratableResource
+     * @param  string|DecorateResource  $hydratableResource
      */
     public function setHydratableResource($hydratableResource): self
     {
