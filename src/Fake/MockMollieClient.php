@@ -3,7 +3,6 @@
 namespace Mollie\Api\Fake;
 
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Fake\MockMollieHttpAdapter;
 
 /**
  * @property MockMollieHttpAdapter $httpClient

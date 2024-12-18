@@ -2,14 +2,14 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class CreateClientLinkRequestTest extends TestCase
 {

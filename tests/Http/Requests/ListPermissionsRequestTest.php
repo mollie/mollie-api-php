@@ -2,12 +2,12 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class ListPermissionsRequestTest extends TestCase
 {

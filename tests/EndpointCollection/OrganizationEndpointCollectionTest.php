@@ -2,13 +2,13 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class OrganizationEndpointCollectionTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinkPaymentsRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class PaymentLinkPaymentEndpointCollectionTest extends TestCase
 {

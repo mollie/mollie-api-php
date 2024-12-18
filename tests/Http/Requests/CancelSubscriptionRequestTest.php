@@ -2,11 +2,11 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class CancelSubscriptionRequestTest extends TestCase
 {

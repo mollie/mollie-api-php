@@ -55,7 +55,7 @@ class MockResponse
         $path = Arr::join([
             __DIR__,
             'Responses',
-            $body . '.json',
+            $body.'.json',
         ], DIRECTORY_SEPARATOR);
 
         $contents = file_get_contents($path);

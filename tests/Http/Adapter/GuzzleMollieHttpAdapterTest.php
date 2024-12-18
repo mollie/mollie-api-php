@@ -6,12 +6,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Mollie\Api\Fake\MockMollieClient;
 
 class GuzzleMollieHttpAdapterTest extends TestCase
 {

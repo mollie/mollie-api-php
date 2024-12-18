@@ -2,11 +2,11 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class GetSalesInvoiceRequestTest extends TestCase
 {

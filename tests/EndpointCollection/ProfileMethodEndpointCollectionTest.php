@@ -2,12 +2,12 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
 use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Resources\Method;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class ProfileMethodEndpointCollectionTest extends TestCase
 {

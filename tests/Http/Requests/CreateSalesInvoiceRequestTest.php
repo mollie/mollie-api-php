@@ -2,6 +2,8 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\CreateSalesInvoicePayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\InvoiceLine;
@@ -15,8 +17,6 @@ use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class CreateSalesInvoiceRequestTest extends TestCase
 {

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 

@@ -2,11 +2,11 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class GetPaymentCaptureRequestTest extends TestCase
 {

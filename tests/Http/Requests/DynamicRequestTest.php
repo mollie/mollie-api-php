@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use InvalidArgumentException;
 use Mollie\Api\Http\Requests\DynamicRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\Method;

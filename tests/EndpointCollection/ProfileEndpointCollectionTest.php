@@ -2,6 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
@@ -13,8 +15,6 @@ use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class ProfileEndpointCollectionTest extends TestCase
 {

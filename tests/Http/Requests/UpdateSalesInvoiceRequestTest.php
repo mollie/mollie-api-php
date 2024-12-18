@@ -2,13 +2,13 @@
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\UpdateSalesInvoicePayload;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class UpdateSalesInvoiceRequestTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace Tests\Http;
 
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Middleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
 
 class MiddlewareTest extends TestCase
 {

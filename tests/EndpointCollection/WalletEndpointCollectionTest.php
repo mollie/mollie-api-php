@@ -2,11 +2,11 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class WalletEndpointCollectionTest extends TestCase
 {

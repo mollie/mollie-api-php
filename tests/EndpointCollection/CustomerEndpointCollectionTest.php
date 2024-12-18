@@ -2,6 +2,8 @@
 
 namespace Tests\EndpointCollection;
 
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
 use Mollie\Api\Http\Requests\DeleteCustomerRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -11,8 +13,6 @@ use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
 
 class CustomerEndpointCollectionTest extends TestCase
 {
