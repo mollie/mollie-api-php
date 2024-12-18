@@ -10,10 +10,10 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\CursorCollection;
-use Mollie\Api\Resources\WrapResource;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceCollection;
 use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Resources\WrapResource;
 use Mollie\Api\Traits\IsIteratableRequest;
 use PHPUnit\Framework\TestCase;
 
