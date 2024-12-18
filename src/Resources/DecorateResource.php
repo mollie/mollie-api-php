@@ -2,17 +2,17 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Contracts\ResourceDecorator;
+use Mollie\Api\Contracts\IsWrapper;
 
-class DecorateResource
+class WrapResource
 {
-    protected string $decoratedResource;
+    protected string $wrappedResource;
 
     protected ?string $decorator = null;
 
     public function __construct(string $decoratedResource, ?string $decorator = null)
     {
-        $this->decoratedResource = $decoratedResource;
+        $this->wrappedResource = $decoratedResource;
 
         if ($decorator) {
             $this->with($decorator);
@@ -21,7 +21,7 @@ class DecorateResource
 
     public function with(string $decorator): self
     {
-        if (! is_subclass_of($decorator, ResourceDecorator::class)) {
+        if (! is_subclass_of($decorator, IsWrapper::class)) {
             throw new \InvalidArgumentException("The decorator class '{$decorator}' does not implement the DecoratedResource interface.");
         }
 
@@ -30,12 +30,12 @@ class DecorateResource
         return $this;
     }
 
-    public function getDecoratedResource(): string
+    public function getWrappedResource(): string
     {
-        return $this->decoratedResource;
+        return $this->wrappedResource;
     }
 
-    public function getDecorator(): ?string
+    public function getWrapper(): ?string
     {
         if (! $this->decorator) {
             throw new \InvalidArgumentException('The decorator class is not set.');

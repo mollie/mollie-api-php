@@ -3,14 +3,14 @@
 namespace Mollie\Api\Tests\Resources;
 
 use Mollie\Api\Contracts\IsIteratable;
-use Mollie\Api\Contracts\ResourceDecorator;
+use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\CursorCollection;
-use Mollie\Api\Resources\DecorateResource;
+use Mollie\Api\Resources\WrapResource;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceCollection;
 use Mollie\Api\Resources\ResourceHydrator;
@@ -130,7 +130,7 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $decoratedResource = (new DecorateResource(AnyResource::class))
+        $decoratedResource = (new WrapResource(AnyResource::class))
             ->with(CustomDecorator::class);
 
         $request->expects($this->exactly(2))
@@ -185,7 +185,7 @@ class CustomCollection extends CursorCollection
     public static string $collectionName = 'items';
 }
 
-class CustomDecorator implements ResourceDecorator
+class CustomDecorator implements IsWrapper
 {
     public static function fromResource($resource): self
     {

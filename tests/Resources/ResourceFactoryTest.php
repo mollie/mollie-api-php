@@ -2,7 +2,7 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Contracts\ResourceDecorator;
+use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
@@ -286,7 +286,7 @@ class CustomPaymentCollection extends BaseCollection
     //
 }
 
-class CustomResourceDecorator implements ResourceDecorator
+class CustomResourceDecorator implements IsWrapper
 {
     public string $status;
 
@@ -308,7 +308,7 @@ class CustomResourceDecorator implements ResourceDecorator
         $this->dashboardUrl = $dashboardUrl;
     }
 
-    public static function fromResource($onboarding): ResourceDecorator
+    public static function fromResource($onboarding): IsWrapper
     {
         /** @var Onboarding $onboarding */
         return new self(

@@ -4,7 +4,7 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
-use Mollie\Api\Contracts\ResourceDecorator;
+use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 
@@ -63,9 +63,9 @@ class ResourceFactory
      *
      * @param  Response|BaseResource|BaseCollection|LazyCollection  $response
      */
-    public static function createDecoratedResource($response, string $decorator): ResourceDecorator
+    public static function createDecoratedResource($response, string $decorator): IsWrapper
     {
-        if (! is_subclass_of($decorator, ResourceDecorator::class)) {
+        if (! is_subclass_of($decorator, IsWrapper::class)) {
             throw new \InvalidArgumentException("The decorator class '{$decorator}' does not implement the ResourceDecorator interface.");
         }
 
@@ -96,7 +96,7 @@ class ResourceFactory
 
             if (is_null($collectionOrResourceClass)) {
                 throw new EmbeddedResourcesNotParseableException(
-                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
+                    'Resource ' . get_class($resource) . " does not have a mapping for embedded resource {$resourceKey}"
                 );
             }
 
@@ -156,7 +156,7 @@ class ResourceFactory
     private static function mapToResourceObjects(Connector $connector, $data, string $resourceClass, Response $response): array
     {
         return array_map(
-            fn ($item) => static::createFromApiResult(
+            fn($item) => static::createFromApiResult(
                 $connector,
                 $item,
                 $resourceClass,
@@ -168,6 +168,6 @@ class ResourceFactory
 
     private static function determineCollectionClass(string $resourceClass, ?string $resourceCollectionClass): string
     {
-        return $resourceCollectionClass ?: $resourceClass.'Collection';
+        return $resourceCollectionClass ?: $resourceClass . 'Collection';
     }
 }
