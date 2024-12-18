@@ -367,24 +367,6 @@ parameters:
 			path: tests/EndpointCollection/SubscriptionEndpointCollectionTest.php
 
 		-
-			message: '#^Class Tests\\Http\\Adapter\\MockMollieHttpAdapter not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: tests/Http/Adapter/MollieHttpAdapterPickerTest.php
-
-		-
-			message: '#^Instantiated class Tests\\Http\\Adapter\\MockMollieHttpAdapter not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: tests/Http/Adapter/MollieHttpAdapterPickerTest.php
-
-		-
-			message: '#^Parameter \#1 \$httpClient of method Mollie\\Api\\Http\\Adapter\\MollieHttpAdapterPicker\:\:pickHttpAdapter\(\) expects GuzzleHttp\\ClientInterface\|Mollie\\Api\\Contracts\\HttpAdapterContract\|stdClass\|null, Tests\\Http\\Adapter\\MockMollieHttpAdapter given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/Http/Adapter/MollieHttpAdapterPickerTest.php
-
-		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1

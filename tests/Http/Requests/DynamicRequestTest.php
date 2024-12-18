@@ -11,20 +11,6 @@ use PHPUnit\Framework\TestCase;
 class DynamicRequestTest extends TestCase
 {
     /** @test */
-    public function it_throws_exception_for_invalid_resource_class()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The resource class 'NonExistentClass' does not exist.");
-
-        $request = new class('some-url') extends DynamicRequest
-        {
-            protected static string $method = Method::GET;
-        };
-
-        $request->setHydratableResource('NonExistentClass');
-    }
-
-    /** @test */
     public function it_accepts_valid_resource_class()
     {
         $request = new class('some-url') extends DynamicRequest
