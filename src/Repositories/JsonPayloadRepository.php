@@ -37,7 +37,10 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
         return $this;
     }
 
-    public function get(string $key, $default = null): mixed
+    /**
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
     {
         return $this->store[$key] ?? $default;
     }

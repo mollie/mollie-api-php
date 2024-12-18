@@ -21,7 +21,10 @@ interface PayloadRepository
 
     public function add(string $key, $value): self;
 
-    public function get(string $key, $default = null): mixed;
+    /**
+     * @return mixed
+     */
+    public function get(string $key, $default = null);
 
     public function merge(array ...$arrays): self;
 
