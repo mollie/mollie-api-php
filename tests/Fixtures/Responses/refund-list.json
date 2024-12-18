@@ -1,0 +1,48 @@
+{
+  "count": 1,
+  "_embedded": {
+    "refunds": [
+      {
+        "resource": "refund",
+        "id": "re_4qqhO89gsT",
+        "mode": "live",
+        "description": "Order",
+        "amount": {
+          "currency": "EUR",
+          "value": "5.95"
+        },
+        "status": "pending",
+        "metadata": {
+          "bookkeeping_id": 12345
+        },
+        "paymentId": "tr_7UhSN1zuXS",
+        "createdAt": "2023-03-14T17:09:02.0Z",
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "payment": {
+            "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS/refunds?from=re_APBiGPH2vV&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

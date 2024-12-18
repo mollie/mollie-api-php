@@ -3,18 +3,18 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        php: [7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
+        php: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
     name: PHP - ${{ matrix.php }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -22,16 +22,15 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           tools: composer:v2
           coverage: none
-      - name: Remove PHP CS Fixer dependency to prevent unnecessary dependency collisions
+      - name: Remove pint dependency to prevent unnecessary dependency collisions
         run: |
-          composer remove --dev friendsofphp/php-cs-fixer
+          composer remove --dev laravel/pint
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
       - name: PHPStan
-        if: ${{ matrix.php >= 7.3 }}
         run: |
-          composer require "phpstan/phpstan:1.12.5"
+          composer require "phpstan/phpstan" --dev
           vendor/bin/phpstan analyse --no-progress
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+        run: vendor/bin/paratest --verbose

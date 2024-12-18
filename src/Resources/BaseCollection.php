@@ -2,33 +2,66 @@
 
 namespace Mollie\Api\Resources;
 
-abstract class BaseCollection extends \ArrayObject
+use ArrayObject;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Http\Response;
+
+abstract class BaseCollection extends ArrayObject implements HasResponse
 {
-    /**
-     * Total number of retrieved objects.
-     *
-     * @var int
-     */
-    public $count;
+    protected Connector $connector;
+
+    protected Response $response;
 
     /**
-     * @var \stdClass|null
+     * The name of the collection resource in Mollie's API.
      */
-    public $_links;
+    public static string $collectionName = '';
+
+    public ?\stdClass $_links = null;
 
     /**
-     * @param int $count
-     * @param \stdClass|null $_links
+     * @param  array|object  $items
      */
-    public function __construct($count, $_links)
+    public function __construct(Connector $connector, Response $response, $items = [], ?\stdClass $_links = null)
     {
-        $this->count = $count;
+        parent::__construct($items);
+
         $this->_links = $_links;
-        parent::__construct();
+        $this->connector = $connector;
+        $this->response = $response;
     }
 
-    /**
-     * @return string|null
-     */
-    abstract public function getCollectionResourceName();
+    public function getResponse(): Response
+    {
+        return $this->response;
+    }
+
+    public function contains(callable $callback): bool
+    {
+        foreach ($this as $item) {
+            if ($callback($item)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function filter(callable $callback)
+    {
+        $filteredItems = array_filter($this->getArrayCopy(), $callback);
+
+        /** @phpstan-ignore-next-line */
+        return new static($this->connector, $this->response, $filteredItems,  $this->_links);
+    }
+
+    public static function getCollectionResourceName(): string
+    {
+        if (empty(static::$collectionName)) {
+            throw new \RuntimeException('Collection name not set');
+        }
+
+        return static::$collectionName;
+    }
 }

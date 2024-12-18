@@ -2,8 +2,15 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Capture extends BaseResource
 {
+    use HasMode;
+
     /**
      * Always 'capture' for this object
      *
@@ -13,6 +20,7 @@ class Capture extends BaseResource
 
     /**
      * Id of the capture
+     *
      * @var string
      */
     public $id;
@@ -23,6 +31,13 @@ class Capture extends BaseResource
      * @var string
      */
     public $mode;
+
+    /**
+     * Description of the capture.
+     *
+     * @var string
+     */
+    public $description;
 
     /**
      * Status of the capture.

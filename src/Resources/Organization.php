@@ -2,8 +2,14 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Organization extends BaseResource
 {
+    /**
+     * Resource id prefix. Used to validate resource id's.
+     */
     /**
      * Id of the payment method.
      *

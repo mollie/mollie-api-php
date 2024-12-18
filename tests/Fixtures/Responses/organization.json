@@ -1,0 +1,29 @@
+{
+  "resource": "organization",
+  "id": "{{ RESOURCE_ID }}",
+  "name": "Mollie B.V.",
+  "email": "info@mollie.com",
+  "locale": "nl_NL",
+  "address": {
+    "streetAndNumber": "Keizersgracht 126",
+    "postalCode": "1015 CW",
+    "city": "Amsterdam",
+    "country": "NL"
+  },
+  "registrationNumber": "30204462",
+  "vatNumber": "NL815839091B01",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://mollie.com/dashboard/{{ RESOURCE_ID }}",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

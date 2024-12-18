@@ -1,0 +1,16 @@
+{
+  "resource": "issuer",
+  "id": "festivalcadeau",
+  "description": "FestivalCadeau Giftcard",
+  "status": "pending-issuer",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

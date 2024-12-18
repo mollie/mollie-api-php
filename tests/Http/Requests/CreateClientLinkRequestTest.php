@@ -1,0 +1,37 @@
+<?php
+
+namespace Tests\Http\Requests;
+
+use Mollie\Api\Http\Data\CreateClientLinkPayload;
+use Mollie\Api\Http\Data\Owner;
+use Mollie\Api\Http\Data\OwnerAddress;
+use Mollie\Api\Http\Requests\CreateClientLinkRequest;
+use Mollie\Api\Resources\ClientLink;
+use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\MockClient;
+use Tests\Fixtures\MockResponse;
+
+class CreateClientLinkRequestTest extends TestCase
+{
+    /** @test */
+    public function it_can_create_client_link()
+    {
+        $client = new MockClient([
+            CreateClientLinkRequest::class => new MockResponse(201, 'client-link'),
+        ]);
+
+        $payload = new CreateClientLinkPayload(
+            new Owner('test@example.org', 'John', 'Doe'),
+            'Test',
+            new OwnerAddress('NL')
+        );
+
+        $request = new CreateClientLinkRequest($payload);
+
+        /** @var ClientLink */
+        $clientLink = $client->send($request);
+
+        $this->assertTrue($clientLink->getResponse()->successful());
+        $this->assertInstanceOf(ClientLink::class, $clientLink);
+    }
+}

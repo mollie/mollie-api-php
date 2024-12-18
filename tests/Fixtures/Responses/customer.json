@@ -1,0 +1,27 @@
+{
+  "resource": "customer",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "test",
+  "name": "Jane Doe",
+  "email": "test@mollie.com",
+  "locale": "en_US",
+  "metadata": {
+    "someProperty": "someValue",
+    "anotherProperty": "anotherValue"
+  },
+  "createdAt": "2022-01-03T13:42:04+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://www.mollie.com/dashboard/org_13514547/customers/cst_tKt44u85MM",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

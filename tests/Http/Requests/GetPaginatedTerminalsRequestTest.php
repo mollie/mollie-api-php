@@ -1,0 +1,68 @@
+<?php
+
+namespace Tests\Http\Requests;
+
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
+use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Resources\Terminal;
+use Mollie\Api\Resources\TerminalCollection;
+use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\MockClient;
+use Tests\Fixtures\MockResponse;
+use Tests\Fixtures\SequenceMockResponse;
+
+class GetPaginatedTerminalsRequestTest extends TestCase
+{
+    /** @test */
+    public function it_can_get_paginated_terminals()
+    {
+        $client = new MockClient([
+            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+        ]);
+
+        $request = new GetPaginatedTerminalsRequest;
+
+        /** @var TerminalCollection */
+        $terminals = $client->send($request);
+
+        $this->assertTrue($terminals->getResponse()->successful());
+
+        foreach ($terminals as $terminal) {
+            $this->assertInstanceOf(Terminal::class, $terminal);
+            $this->assertEquals('terminal', $terminal->resource);
+        }
+    }
+
+    /** @test */
+    public function it_can_iterate_over_terminals()
+    {
+        $client = new MockClient([
+            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+            DynamicGetRequest::class => new SequenceMockResponse(
+                new MockResponse(200, 'terminal-list'),
+                new MockResponse(200, 'empty-list', 'terminals'),
+            ),
+        ]);
+
+        $request = (new GetPaginatedTerminalsRequest)->useIterator();
+
+        /** @var LazyCollection */
+        $terminals = $client->send($request);
+        $this->assertTrue($terminals->getResponse()->successful());
+
+        foreach ($terminals as $terminal) {
+            $this->assertInstanceOf(Terminal::class, $terminal);
+        }
+
+        $client->assertSentCount(3);
+    }
+
+    /** @test */
+    public function it_resolves_correct_resource_path()
+    {
+        $request = new GetPaginatedTerminalsRequest;
+
+        $this->assertEquals('terminals', $request->resolveResourcePath());
+    }
+}

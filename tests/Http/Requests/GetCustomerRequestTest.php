@@ -1,0 +1,41 @@
+<?php
+
+namespace Tests\Http\Requests;
+
+use Mollie\Api\Http\Requests\GetCustomerRequest;
+use Mollie\Api\Resources\Customer;
+use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\MockClient;
+use Tests\Fixtures\MockResponse;
+
+class GetCustomerRequestTest extends TestCase
+{
+    /** @test */
+    public function it_can_get_customer()
+    {
+        $client = new MockClient([
+            GetCustomerRequest::class => new MockResponse(200, 'customer'),
+        ]);
+
+        $customerId = 'cst_kEn1PlbGa';
+        $request = new GetCustomerRequest($customerId);
+
+        /** @var Customer */
+        $customer = $client->send($request);
+
+        $this->assertTrue($customer->getResponse()->successful());
+        $this->assertInstanceOf(Customer::class, $customer);
+    }
+
+    /** @test */
+    public function it_resolves_correct_resource_path()
+    {
+        $customerId = 'cst_kEn1PlbGa';
+        $request = new GetCustomerRequest($customerId);
+
+        $this->assertEquals(
+            "customers/{$customerId}",
+            $request->resolveResourcePath()
+        );
+    }
+}

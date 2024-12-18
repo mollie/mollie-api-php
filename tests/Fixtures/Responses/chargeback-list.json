@@ -1,0 +1,210 @@
+{
+  "count": 2,
+  "_embedded": {
+    "chargebacks": [
+      {
+        "resource": "chargeback",
+        "id": "chb_xg7414",
+        "amount": {
+          "value": "10.00",
+          "currency": "EUR"
+        },
+        "createdAt": "2022-01-03T13:28:13+00:00",
+        "paymentId": "tr_HdQrGb6N3r",
+        "settlementAmount": {
+          "value": "-10.00",
+          "currency": "EUR"
+        },
+        "_embedded": {
+          "payment": {
+            "resource": "payment",
+            "id": "tr_HdQrGb6N3r",
+            "mode": "test",
+            "createdAt": "2022-01-03T13:27:35+00:00",
+            "amount": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "description": "This is the description of the payment",
+            "method": "creditcard",
+            "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+            },
+            "status": "paid",
+            "paidAt": "2022-01-03T13:28:10+00:00",
+            "amountRefunded": {
+              "value": "0.00",
+              "currency": "EUR"
+            },
+            "amountRemaining": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "amountChargedBack": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "locale": "en_US",
+            "restrictPaymentMethodsToCountry": "NL",
+            "countryCode": "NL",
+            "profileId": "pfl_85dxyKqNHa",
+            "sequenceType": "oneoff",
+            "redirectUrl": "https://example.com/landing_page",
+            "webhookUrl": "https://example.com/redirect",
+            "settlementAmount": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "details": {
+              "cardNumber": "6787",
+              "cardHolder": "T. TEST",
+              "cardAudience": "consumer",
+              "cardLabel": "Mastercard",
+              "cardCountryCode": "NL",
+              "cardSecurity": "normal",
+              "feeRegion": "other"
+            },
+            "_links": {
+              "self": {
+                "href": "...",
+                "type": "application/hal+json"
+              },
+              "dashboard": {
+                "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_HdQrGb6N3r",
+                "type": "text/html"
+              },
+              "changePaymentState": {
+                "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.lxnsca",
+                "type": "text/html"
+              },
+              "chargebacks": {
+                "href": "https://api.mollie.com/v2/payments/tr_HdQrGb6N3r/chargebacks",
+                "type": "application/hal+json"
+              }
+            }
+          }
+        },
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "payment": {
+            "href": "https://api.mollie.com/v2/payments/tr_HdQrGb6N3r",
+            "type": "application/hal+json"
+          }
+        }
+      },
+      {
+        "resource": "chargeback",
+        "id": "chb_ls7ahg",
+        "amount": {
+          "value": "10.00",
+          "currency": "EUR"
+        },
+        "createdAt": "2022-01-03T13:20:37+00:00",
+        "paymentId": "tr_8bVBhk2qs4",
+        "settlementAmount": {
+          "value": "-10.00",
+          "currency": "EUR"
+        },
+        "_embedded": {
+          "payment": {
+            "resource": "payment",
+            "id": "tr_8bVBhk2qs4",
+            "mode": "test",
+            "createdAt": "2022-01-03T13:11:20+00:00",
+            "amount": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "description": "This is the description of the payment",
+            "method": "creditcard",
+            "metadata": {
+              "someProperty": "someValue",
+              "anotherProperty": "anotherValue"
+            },
+            "status": "paid",
+            "paidAt": "2022-01-03T13:18:39+00:00",
+            "amountRefunded": {
+              "value": "0.00",
+              "currency": "EUR"
+            },
+            "amountRemaining": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "amountChargedBack": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "locale": "en_US",
+            "restrictPaymentMethodsToCountry": "NL",
+            "countryCode": "NL",
+            "profileId": "pfl_85dxyKqNHa",
+            "sequenceType": "oneoff",
+            "redirectUrl": "https://example.com/landing_page",
+            "webhookUrl": "https://example.com/redirect",
+            "settlementAmount": {
+              "value": "10.00",
+              "currency": "EUR"
+            },
+            "details": {
+              "cardNumber": "6787",
+              "cardHolder": "T. TEST",
+              "cardAudience": "consumer",
+              "cardLabel": "Mastercard",
+              "cardCountryCode": "NL",
+              "cardSecurity": "normal",
+              "feeRegion": "other"
+            },
+            "_links": {
+              "self": {
+                "href": "...",
+                "type": "application/hal+json"
+              },
+              "dashboard": {
+                "href": "https://www.mollie.com/dashboard/org_13514547/payments/tr_8bVBhk2qs4",
+                "type": "text/html"
+              },
+              "changePaymentState": {
+                "href": "https://www.mollie.com/checkout/test-mode?method=creditcard&token=3.11roh2",
+                "type": "text/html"
+              },
+              "chargebacks": {
+                "href": "https://api.mollie.com/v2/payments/tr_8bVBhk2qs4/chargebacks",
+                "type": "application/hal+json"
+              }
+            }
+          }
+        },
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "payment": {
+            "href": "https://api.mollie.com/v2/payments/tr_8bVBhk2qs4",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "...",
+      "type": "application/hal+json"
+    }
+  }
+}

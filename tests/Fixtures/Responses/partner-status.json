@@ -1,0 +1,19 @@
+{
+  "resource": "partner",
+  "partnerType": "signuplink",
+  "partnerContractSignedAt": "2023-03-20T13:59:02.0Z",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "signuplink": {
+      "href": "https://www.mollie.com/dashboard/signup/exampleCode",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

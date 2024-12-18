@@ -1,0 +1,41 @@
+<?php
+
+namespace Tests\Http\Requests;
+
+use Mollie\Api\Http\Requests\GetBalanceRequest;
+use Mollie\Api\Resources\Balance;
+use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\MockClient;
+use Tests\Fixtures\MockResponse;
+
+class GetBalanceRequestTest extends TestCase
+{
+    /** @test */
+    public function it_can_get_balance()
+    {
+        $client = new MockClient([
+            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+        ]);
+
+        $balanceId = 'bal_12345678';
+        $request = new GetBalanceRequest($balanceId);
+
+        /** @var Balance */
+        $balance = $client->send($request);
+
+        $this->assertTrue($balance->getResponse()->successful());
+        $this->assertInstanceOf(Balance::class, $balance);
+    }
+
+    /** @test */
+    public function it_resolves_correct_resource_path()
+    {
+        $balanceId = 'bal_12345678';
+        $request = new GetBalanceRequest($balanceId);
+
+        $this->assertEquals(
+            "balances/{$balanceId}",
+            $request->resolveResourcePath()
+        );
+    }
+}

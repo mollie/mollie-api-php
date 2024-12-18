@@ -1,0 +1,52 @@
+{
+  "resource": "client",
+  "id": "org_7049691",
+  "organizationCreatedAt": "2019-12-06T10:09:32+00:00",
+  "_embedded": {
+    "organization": {
+      "resource": "organization",
+      "id": "org_7049691",
+      "name": "Hugo's eenzame zaak",
+      "email": "[[redacted]]",
+      "locale": "en_US",
+      "address": {
+        "streetAndNumber": "[[redacted]]",
+        "postalCode": "[[redacted]]",
+        "city": "[[redacted]]",
+        "country": "[[redacted]]"
+      },
+      "registrationNumber": "[[redacted]]",
+      "vatNumber": "",
+      "vatRegulation": "dutch",
+      "verifiedAt": "2020-10-19T11:45:36+00:00",
+      "_links": {
+        "self": {
+          "href": "https://api.mollie.com/v2/organization/org_7049691",
+          "type": "application/hal+json"
+        },
+        "dashboard": {
+          "href": "https://www.mollie.com/dashboard/org_7049691/",
+          "type": "text/html"
+        }
+      }
+    }
+  },
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/clients/org_7049691",
+      "type": "application/hal+json"
+    },
+    "onboarding": {
+      "href": "https://api.mollie.com/v2/onboarding/org_7049691",
+      "type": "application/hal+json"
+    },
+    "organization": {
+      "href": "https://api.mollie.com/v2/organization/org_7049691",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/partners-api/get-client",
+      "type": "text/html"
+    }
+  }
+}
