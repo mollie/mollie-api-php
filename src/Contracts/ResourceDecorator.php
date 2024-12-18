@@ -10,7 +10,7 @@ use Mollie\Api\Resources\LazyCollection;
 interface ResourceDecorator
 {
     /**
-     * @param Response|BaseResource|BaseCollection|LazyCollection $resource
+     * @param  Response|BaseResource|BaseCollection|LazyCollection  $resource
      */
     public static function fromResource($resource): self;
 }

@@ -2,17 +2,17 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
+use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceFactory;
-use Mollie\Api\Contracts\ResourceDecorator;
-use Mollie\Api\Resources\BaseCollection;
 use PHPUnit\Framework\TestCase;
 
 class ResourceFactoryTest extends TestCase
@@ -128,7 +128,7 @@ class ResourceFactoryTest extends TestCase
     /** @test */
     public function it_throws_exception_when_response_is_missing()
     {
-        $apiResult = new \stdClass();
+        $apiResult = new \stdClass;
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Response is required');
@@ -190,7 +190,7 @@ class ResourceFactoryTest extends TestCase
         $response = $this->createMock(Response::class);
         $data = [
             ['id' => 'payment-1', 'resource' => 'payment'],
-            ['id' => 'payment-2', 'resource' => 'payment']
+            ['id' => 'payment-2', 'resource' => 'payment'],
         ];
 
         $collection = ResourceFactory::createBaseResourceCollection(
@@ -211,7 +211,7 @@ class ResourceFactoryTest extends TestCase
     {
         $response = $this->createMock(Response::class);
         $data = [
-            ['id' => 'payment-1', 'resource' => 'payment']
+            ['id' => 'payment-1', 'resource' => 'payment'],
         ];
 
         $collection = ResourceFactory::createBaseResourceCollection(
@@ -289,8 +289,11 @@ class CustomPaymentCollection extends BaseCollection
 class CustomResourceDecorator implements ResourceDecorator
 {
     public string $status;
+
     public bool $canReceivePayments;
+
     public bool $canReceiveSettlements;
+
     public string $dashboardUrl;
 
     public function __construct(

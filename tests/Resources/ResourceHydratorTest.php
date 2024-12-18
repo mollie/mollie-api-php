@@ -6,27 +6,28 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\DecorateResource;
-use Mollie\Api\Resources\ResourceHydrator;
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceCollection;
+use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Traits\IsIteratableRequest;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
 {
     private ResourceHydrator $hydrator;
+
     private MollieApiClient $client;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->hydrator = new ResourceHydrator();
+        $this->hydrator = new ResourceHydrator;
         $this->client = $this->createMock(MollieApiClient::class);
     }
 
@@ -57,7 +58,8 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $mockCollection = new class($this->client, $response) extends ResourceCollection {
+        $mockCollection = new class($this->client, $response) extends ResourceCollection
+        {
             public static string $resource = AnyResource::class;
 
             public static string $collectionName = 'items';
@@ -73,9 +75,9 @@ class ResourceHydratorTest extends TestCase
 
         $response->expects($this->once())
             ->method('json')
-            ->willReturn((object)[
-                '_embedded' => (object)['items' => []],
-                '_links' => (object)[]
+            ->willReturn((object) [
+                '_embedded' => (object) ['items' => []],
+                '_links' => (object) [],
             ]);
 
         $result = $this->hydrator->hydrate($request, $response);
@@ -106,14 +108,14 @@ class ResourceHydratorTest extends TestCase
 
         $response->expects($this->once())
             ->method('json')
-            ->willReturn((object)[
-                '_embedded' => (object)['items' => [
-                    (object)[
+            ->willReturn((object) [
+                '_embedded' => (object) ['items' => [
+                    (object) [
                         'id' => 'id',
                         'foo' => 'bar',
-                    ]
+                    ],
                 ]],
-                '_links' => (object)[]
+                '_links' => (object) [],
             ]);
 
         $result = $this->hydrator->hydrate($request, $response);
@@ -187,6 +189,6 @@ class CustomDecorator implements ResourceDecorator
 {
     public static function fromResource($resource): self
     {
-        return new self();
+        return new self;
     }
 }

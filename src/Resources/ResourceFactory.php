@@ -3,8 +3,8 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
+use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 
@@ -61,9 +61,7 @@ class ResourceFactory
     /**
      * Create a decorated resource from a response or existing resource.
      *
-     * @param Response|BaseResource|BaseCollection|LazyCollection $response
-     * @param string $decorator
-     * @return ResourceDecorator
+     * @param  Response|BaseResource|BaseCollection|LazyCollection  $response
      */
     public static function createDecoratedResource($response, string $decorator): ResourceDecorator
     {

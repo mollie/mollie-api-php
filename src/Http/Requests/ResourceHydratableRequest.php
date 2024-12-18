@@ -39,8 +39,7 @@ abstract class ResourceHydratableRequest extends Request
     }
 
     /**
-     * @param string|DecorateResource $hydratableResource
-     * @return self
+     * @param  string|DecorateResource  $hydratableResource
      */
     public function setHydratableResource($hydratableResource): self
     {
@@ -49,7 +48,7 @@ abstract class ResourceHydratableRequest extends Request
         }
 
         if ($hydratableResource instanceof DecorateResource && ! $hydratableResource->getDecorator()) {
-            throw new \InvalidArgumentException("The decorator class is not set.");
+            throw new \InvalidArgumentException('The decorator class is not set.');
         }
 
         $this->customHydratableResource = $hydratableResource;
