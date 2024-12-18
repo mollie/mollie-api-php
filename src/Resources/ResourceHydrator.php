@@ -18,6 +18,16 @@ class ResourceHydrator
     {
         $targetResourceClass = $request->getHydratableResource();
 
+        if ($targetResourceClass instanceof DecorateResource) {
+            $response = $this->hydrate(
+                // Reset the hydratable resource to the original resource class.
+                $request->resetHydratableResource(),
+                $response,
+            );
+
+            return ResourceFactory::createDecoratedResource($response, $targetResourceClass->getDecorator());
+        }
+
         if ($this->isCollectionTarget($targetResourceClass)) {
             $collection = $this->buildResultCollection($response, $targetResourceClass);
 

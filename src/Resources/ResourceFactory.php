@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
@@ -35,6 +36,42 @@ class ResourceFactory
         }
 
         return $resource;
+    }
+
+    /**
+     * @param  null|array|\ArrayObject  $data
+     */
+    public static function createBaseResourceCollection(
+        Connector $connector,
+        string $resourceClass,
+        Response $response,
+        $data = null,
+        ?object $_links = null,
+        ?string $resourceCollectionClass = null
+    ): BaseCollection {
+        return self::instantiateBaseCollection(
+            $connector,
+            self::determineCollectionClass($resourceClass, $resourceCollectionClass),
+            self::mapToResourceObjects($connector, $data ?? [], $resourceClass, $response),
+            $response,
+            $_links
+        );
+    }
+
+    /**
+     * Create a decorated resource from a response or existing resource.
+     *
+     * @param Response|BaseResource|BaseCollection|LazyCollection $response
+     * @param string $decorator
+     * @return ResourceDecorator
+     */
+    public static function createDecoratedResource($response, string $decorator): ResourceDecorator
+    {
+        if (! is_subclass_of($decorator, ResourceDecorator::class)) {
+            throw new \InvalidArgumentException("The decorator class '{$decorator}' does not implement the ResourceDecorator interface.");
+        }
+
+        return $decorator::fromResource($response);
     }
 
     /**
@@ -102,26 +139,6 @@ class ResourceFactory
                 $response
             ),
             $response
-        );
-    }
-
-    /**
-     * @param  null|array|\ArrayObject  $data
-     */
-    public static function createBaseResourceCollection(
-        Connector $connector,
-        string $resourceClass,
-        Response $response,
-        $data = null,
-        ?object $_links = null,
-        ?string $resourceCollectionClass = null
-    ): BaseCollection {
-        return self::instantiateBaseCollection(
-            $connector,
-            self::determineCollectionClass($resourceClass, $resourceCollectionClass),
-            self::mapToResourceObjects($connector, $data ?? [], $resourceClass, $response),
-            $response,
-            $_links
         );
     }
 

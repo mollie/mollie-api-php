@@ -12,7 +12,7 @@ abstract class ResourceCollection extends BaseCollection
     public static function getResourceClass(): string
     {
         if (empty(static::$resource)) {
-            throw new \RuntimeException('Collection name not set');
+            throw new \RuntimeException('Resource name not set');
         }
 
         return static::$resource;

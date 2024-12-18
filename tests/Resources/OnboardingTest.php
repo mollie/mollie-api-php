@@ -31,15 +31,15 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [OnboardingStatus::NEEDS_DATA, 'needsData', true],
-            [OnboardingStatus::NEEDS_DATA, 'isInReview', false],
+            [OnboardingStatus::NEEDS_DATA, 'inReview', false],
             [OnboardingStatus::NEEDS_DATA, 'isCompleted', false],
 
             [OnboardingStatus::IN_REVIEW, 'needsData', false],
-            [OnboardingStatus::IN_REVIEW, 'isInReview', true],
+            [OnboardingStatus::IN_REVIEW, 'inReview', true],
             [OnboardingStatus::IN_REVIEW, 'isCompleted', false],
 
             [OnboardingStatus::COMPLETED, 'needsData', false],
-            [OnboardingStatus::COMPLETED, 'isInReview', false],
+            [OnboardingStatus::COMPLETED, 'inReview', false],
             [OnboardingStatus::COMPLETED, 'isCompleted', true],
         ];
     }

@@ -3,42 +3,63 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Http\Request;
+use Mollie\Api\Resources\DecorateResource;
 
 abstract class ResourceHydratableRequest extends Request
 {
     /**
-     * The resource class the request should be hydrated into.
+     * The original resource class the request should be hydrated into.
      *
      * @var string|null
      */
     protected $hydratableResource = null;
 
+    /**
+     * The custom resource class the request should be hydrated into.
+     *
+     * @var string|null|DecorateResource
+     */
+    protected ?string $customHydratableResource = null;
+
     public function isHydratable(): bool
     {
-        return $this->hydratableResource !== null;
+        return $this->hydratableResource !== null || $this->customHydratableResource !== null;
     }
 
-    public function getHydratableResource(): string
+    /**
+     * @return string|DecorateResource
+     */
+    public function getHydratableResource()
     {
         if (! $this->isHydratable()) {
             throw new \RuntimeException('Resource class is not set.');
         }
 
-        return $this->hydratableResource;
+        return $this->customHydratableResource ?? $this->hydratableResource;
     }
 
-    public function setHydratableResource(string $hydratableResource): self
+    /**
+     * @param string|DecorateResource $hydratableResource
+     * @return self
+     */
+    public function setHydratableResource($hydratableResource): self
     {
         if (! class_exists($hydratableResource)) {
             throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not exist.");
         }
 
-        /** @phpstan-ignore-next-line */
-        if ($this->hydratableResource && ! is_subclass_of($hydratableResource, $this->hydratableResource)) {
-            throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not match the existing resource class '{$this->hydratableResource}'.");
+        if ($hydratableResource instanceof DecorateResource && ! $hydratableResource->getDecorator()) {
+            throw new \InvalidArgumentException("The decorator class is not set.");
         }
 
-        $this->hydratableResource = $hydratableResource;
+        $this->customHydratableResource = $hydratableResource;
+
+        return $this;
+    }
+
+    public function resetHydratableResource(): self
+    {
+        $this->customHydratableResource = null;
 
         return $this;
     }

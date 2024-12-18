@@ -47,7 +47,7 @@ class Onboarding extends BaseResource
         return $this->status === OnboardingStatus::NEEDS_DATA;
     }
 
-    public function isInReview(): bool
+    public function inReview(): bool
     {
         return $this->status === OnboardingStatus::IN_REVIEW;
     }
