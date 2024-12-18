@@ -22,6 +22,9 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           tools: composer:v2
           coverage: none
+      - name: Remove pint dependency to prevent unnecessary dependency collisions
+        run: |
+          composer remove --dev laravel/pint
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
