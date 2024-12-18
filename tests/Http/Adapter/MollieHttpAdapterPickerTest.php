@@ -4,6 +4,7 @@ namespace Tests\Http\Adapter;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Mollie\Api\Exceptions\UnrecognizedClientException;
+use Mollie\Api\Fake\MockMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use PHPUnit\Framework\TestCase;

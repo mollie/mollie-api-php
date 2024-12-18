@@ -8,15 +8,15 @@ use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class PaymentChargebackEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaymentChargebackRequest::class => new MockResponse(200, 'chargeback'),
         ]);
 
@@ -29,7 +29,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     /** @test */
     public function page_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
         ]);
 
@@ -48,7 +48,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
         ]);

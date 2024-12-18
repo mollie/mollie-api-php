@@ -8,16 +8,16 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedSubscriptionsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_subscriptions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
         ]);
 
@@ -39,7 +39,7 @@ class GetPaginatedSubscriptionsRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_subscriptions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'subscription-list'),

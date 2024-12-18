@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CancelSessionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_cancel_session()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CancelSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 

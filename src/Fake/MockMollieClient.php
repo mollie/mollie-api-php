@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Mollie\Api\Fake;
 
 use Mollie\Api\MollieApiClient;
-use Tests\Http\Adapter\MockMollieHttpAdapter;
+use Mollie\Api\Fake\MockMollieHttpAdapter;
 
 /**
  * @property MockMollieHttpAdapter $httpClient
  */
-class MockClient extends MollieApiClient
+class MockMollieClient extends MollieApiClient
 {
     public function __construct(array $expectedResponses = [])
     {

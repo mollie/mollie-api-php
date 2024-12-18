@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class ApplePayPaymentSessionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_apple_pay_session()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             ApplePayPaymentSessionRequest::class => new MockResponse(200, 'apple-pay-session'),
         ]);
 

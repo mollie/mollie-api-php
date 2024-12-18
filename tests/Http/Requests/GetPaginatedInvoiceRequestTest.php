@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\InvoiceCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetPaginatedInvoiceRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_invoices()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
         ]);
 

@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Resources\Method;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class EnableProfileMethodRequestTest extends TestCase
 {
     /** @test */
     public function it_can_enable_profile_method()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             EnableProfileMethodRequest::class => new MockResponse(204, ''),
         ]);
 

@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CancelSubscriptionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_cancel_subscription()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CancelSubscriptionRequest::class => new MockResponse(200, 'subscription'),
         ]);
 

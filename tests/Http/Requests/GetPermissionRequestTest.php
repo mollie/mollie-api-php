@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Resources\Permission;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetPermissionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_permission()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPermissionRequest::class => new MockResponse(200, 'permission'),
         ]);
 

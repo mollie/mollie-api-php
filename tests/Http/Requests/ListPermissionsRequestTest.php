@@ -6,15 +6,15 @@ use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class ListPermissionsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_list_permissions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             ListPermissionsRequest::class => new MockResponse(200, 'permission-list'),
         ]);
 

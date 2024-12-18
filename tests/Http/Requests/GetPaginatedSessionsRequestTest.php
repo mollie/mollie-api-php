@@ -8,16 +8,16 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedSessionsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_sessions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
         ]);
 
@@ -37,7 +37,7 @@ class GetPaginatedSessionsRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_sessions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'session-list'),

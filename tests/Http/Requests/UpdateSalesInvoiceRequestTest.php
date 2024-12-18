@@ -7,15 +7,15 @@ use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdateSalesInvoiceRequestTest extends TestCase
 {
     /** @test */
     public function it_updates_sales_invoice()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
         ]);
 

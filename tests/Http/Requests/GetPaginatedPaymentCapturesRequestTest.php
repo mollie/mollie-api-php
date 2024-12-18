@@ -7,16 +7,16 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedPaymentCapturesRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_captures()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
         ]);
 
@@ -38,7 +38,7 @@ class GetPaginatedPaymentCapturesRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_captures()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'capture-list'),

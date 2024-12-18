@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetPaginatedBalanceTransactionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_balance_transactions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedBalanceTransactionRequest::class => new MockResponse(200, 'balance-transactions'),
         ]);
 

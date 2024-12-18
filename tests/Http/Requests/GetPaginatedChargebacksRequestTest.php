@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetPaginatedChargebacksRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_chargebacks()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
         ]);
 

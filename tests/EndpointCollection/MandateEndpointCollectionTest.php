@@ -13,15 +13,15 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class MandateEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateMandateRequest::class => new MockResponse(201, 'mandate'),
         ]);
 
@@ -48,7 +48,7 @@ class MandateEndpointCollectionTest extends TestCase
     /** @test */
     public function get_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetMandateRequest::class => new MockResponse(200, 'mandate'),
         ]);
 
@@ -67,7 +67,7 @@ class MandateEndpointCollectionTest extends TestCase
     /** @test */
     public function revoke_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             RevokeMandateRequest::class => new MockResponse(204),
         ]);
 
@@ -86,7 +86,7 @@ class MandateEndpointCollectionTest extends TestCase
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
         ]);
 

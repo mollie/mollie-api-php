@@ -10,9 +10,9 @@ class WrapResource
 
     protected ?string $wrapper = null;
 
-    public function __construct(string $decoratedResource, ?string $wrapper = null)
+    public function __construct(string $wrappedResource, ?string $wrapper = null)
     {
-        $this->wrappedResource = $decoratedResource;
+        $this->wrappedResource = $wrappedResource;
 
         if ($wrapper) {
             $this->with($wrapper);

@@ -8,15 +8,15 @@ use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreateClientLinkRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_client_link()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateClientLinkRequest::class => new MockResponse(201, 'client-link'),
         ]);
 

@@ -8,16 +8,16 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedTerminalsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_terminals()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
         ]);
 
@@ -37,7 +37,7 @@ class GetPaginatedTerminalsRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_terminals()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'terminal-list'),

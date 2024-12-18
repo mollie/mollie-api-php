@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\DeleteCustomerRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class DeleteCustomerRequestTest extends TestCase
 {
     /** @test */
     public function it_can_delete_customer()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DeleteCustomerRequest::class => new MockResponse(204),
         ]);
 

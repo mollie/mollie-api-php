@@ -15,15 +15,15 @@ use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreateSalesInvoiceRequestTest extends TestCase
 {
     /** @test */
     public function it_creates_sales_invoice()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateSalesInvoiceRequest::class => new MockResponse(201, 'sales-invoice'),
         ]);
 

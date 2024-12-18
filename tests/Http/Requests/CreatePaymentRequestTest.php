@@ -7,15 +7,15 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreatePaymentRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_payment()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentRequest::class => new MockResponse(201, 'payment'),
         ]);
 

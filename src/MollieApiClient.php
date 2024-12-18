@@ -43,6 +43,7 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Traits\HandlesAuthentication;
@@ -168,6 +169,11 @@ class MollieApiClient implements Connector
     public function resolveBaseUrl(): string
     {
         return Url::join($this->apiEndpoint, self::API_VERSION);
+    }
+
+    public static function fake(array $expectedResponses = []): MockMollieClient
+    {
+        return new MockMollieClient($expectedResponses);
     }
 
     public function __serialize(): array

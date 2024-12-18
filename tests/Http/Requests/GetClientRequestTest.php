@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Resources\Client;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetClientRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_client()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetClientRequest::class => new MockResponse(200, 'client'),
         ]);
 

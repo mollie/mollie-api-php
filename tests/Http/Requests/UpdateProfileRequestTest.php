@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdateProfileRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_profile()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateProfileRequest::class => new MockResponse(200, 'profile'),
         ]);
 

@@ -11,15 +11,15 @@ use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class PaymentCaptureEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentCaptureRequest::class => new MockResponse(201, 'capture'),
         ]);
 
@@ -35,7 +35,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     /** @test */
     public function get_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaymentCaptureRequest::class => new MockResponse(200, 'capture'),
         ]);
 
@@ -48,7 +48,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     /** @test */
     public function page_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
         ]);
 
@@ -65,7 +65,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
         ]);

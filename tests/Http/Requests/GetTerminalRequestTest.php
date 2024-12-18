@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\Terminal;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetTerminalRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_terminal()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetTerminalRequest::class => new MockResponse(200, 'terminal'),
         ]);
 

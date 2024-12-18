@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdatePaymentLinkRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_payment_link()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdatePaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
         ]);
 

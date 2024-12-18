@@ -8,16 +8,16 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedSettlementCapturesRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_settlement_captures()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
         ]);
 
@@ -37,7 +37,7 @@ class GetPaginatedSettlementCapturesRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_settlement_captures()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'capture-list'),

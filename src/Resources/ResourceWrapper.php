@@ -18,6 +18,11 @@ abstract class ResourceWrapper implements IsWrapper
         return $this;
     }
 
+    public function __get($name)
+    {
+        return $this->resource->{$name};
+    }
+
     public function __call($name, $arguments)
     {
         return $this->forwardDecoratedCallTo($this->resource, $name, $arguments);

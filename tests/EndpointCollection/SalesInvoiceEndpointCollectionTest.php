@@ -22,15 +22,15 @@ use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class SalesInvoiceEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
         ]);
 
@@ -42,7 +42,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function create()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateSalesInvoiceRequest::class => new MockResponse(201, 'sales-invoice'),
         ]);
 
@@ -83,7 +83,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function update()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
         ]);
 
@@ -99,7 +99,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function delete()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DeleteSalesInvoiceRequest::class => new MockResponse(204),
         ]);
 
@@ -111,7 +111,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
         ]);
 
@@ -123,7 +123,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function iterate()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'sales_invoices'),
         ]);

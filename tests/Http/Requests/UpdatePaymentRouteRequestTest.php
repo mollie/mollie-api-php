@@ -7,15 +7,15 @@ use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdatePaymentRouteRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_payment_route()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdatePaymentRouteRequest::class => new MockResponse(200, 'route'),
         ]);
 

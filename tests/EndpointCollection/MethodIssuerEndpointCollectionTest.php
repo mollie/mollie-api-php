@@ -6,15 +6,15 @@ use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
 use Mollie\Api\Resources\Issuer;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class MethodIssuerEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function enable()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             EnableMethodIssuerRequest::class => new MockResponse(200, 'issuer'),
         ]);
 
@@ -32,7 +32,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
     /** @test */
     public function disable()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DisableMethodIssuerRequest::class => new MockResponse(204),
         ]);
 

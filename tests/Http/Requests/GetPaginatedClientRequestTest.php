@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\ClientCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetPaginatedClientRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_clients()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
         ]);
 

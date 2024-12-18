@@ -10,8 +10,8 @@ use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
 
@@ -23,7 +23,7 @@ class BalanceEndpointCollectionTest extends TestCase
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetBalanceRequest::class => new MockResponse(200, 'balance'),
         ]);
 
@@ -39,7 +39,7 @@ class BalanceEndpointCollectionTest extends TestCase
     /** @test */
     public function primary()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetBalanceRequest::class => new MockResponse(200, 'balance'),
         ]);
 
@@ -55,7 +55,7 @@ class BalanceEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
         ]);
 
@@ -97,7 +97,7 @@ class BalanceEndpointCollectionTest extends TestCase
     /** @test */
     public function iterate()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'balances'),
         ]);

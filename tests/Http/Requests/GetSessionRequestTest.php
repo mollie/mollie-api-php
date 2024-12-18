@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetSessionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_session()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 

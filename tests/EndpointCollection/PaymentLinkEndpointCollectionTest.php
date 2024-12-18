@@ -15,15 +15,15 @@ use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class PaymentLinkEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentLinkRequest::class => new MockResponse(201, 'payment-link'),
         ]);
 
@@ -44,7 +44,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
         ]);
 
@@ -57,7 +57,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     /** @test */
     public function update()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdatePaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
         ]);
 
@@ -72,7 +72,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     /** @test */
     public function delete()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DeletePaymentLinkRequest::class => new MockResponse(204),
         ]);
 
@@ -85,7 +85,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
         ]);
 
@@ -104,7 +104,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payment_links'),
         ]);

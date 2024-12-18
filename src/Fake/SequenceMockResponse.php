@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Mollie\Api\Fake;
 
 class SequenceMockResponse
 {

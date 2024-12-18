@@ -17,8 +17,8 @@ use Mollie\Api\Http\Response as HttpResponse;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
@@ -27,7 +27,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function send_returns_body_as_object()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
         ]);
 
@@ -46,7 +46,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => $mockResponse = new MockResponse(422, 'unprocessable-entity-with-field'),
         ]);
 
@@ -69,7 +69,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => $mockResponse = new MockResponse(422, 'unprocessable-entity'),
         ]);
 
@@ -135,7 +135,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function correct_request_headers()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentRequest::class => new MockResponse(200, '{"resource": "payment"}'),
         ]);
 
@@ -170,7 +170,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function no_content_type_without_provided_body()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(204, ''),
         ]);
 
@@ -183,7 +183,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function no_idempotency_is_set_if_no_key_nor_generator_are_set()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicDeleteRequest::class => new MockResponse(204, ''),
         ]);
 
@@ -202,7 +202,7 @@ class MollieApiClientTest extends TestCase
      */
     public function idempotency_key_is_used_on_mutating_requests($request, $response)
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             get_class($request) => $response,
         ]);
 
@@ -240,7 +240,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function idempotency_key_is_not_used_on_get_requests()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(204),
         ]);
 
@@ -254,7 +254,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function idempotency_key_resets_after_each_request()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicDeleteRequest::class => new MockResponse(204),
         ]);
 
@@ -270,7 +270,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function it_uses_the_idempotency_key_generator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicDeleteRequest::class => new MockResponse(204),
         ]);
 
@@ -290,7 +290,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function testmode_is_added_to_request_when_enabled()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
         ]);
 
@@ -305,7 +305,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function testmode_is_removed_when_using_api_key_authentication()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
         ]);
 
@@ -320,7 +320,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function testmode_is_not_removed_when_not_using_api_key_authentication()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
         ]);
 

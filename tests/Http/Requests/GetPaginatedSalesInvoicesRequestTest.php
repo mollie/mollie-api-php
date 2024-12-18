@@ -8,16 +8,16 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Resources\SalesInvoiceCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedSalesInvoicesRequestTest extends TestCase
 {
     /** @test */
     public function it_gets_paginated_sales_invoices()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
         ]);
 
@@ -35,7 +35,7 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_sales_invoices()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'sales-invoice-list'),

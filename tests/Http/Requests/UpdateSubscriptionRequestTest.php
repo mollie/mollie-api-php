@@ -7,15 +7,15 @@ use Mollie\Api\Http\Data\UpdateSubscriptionPayload;
 use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdateSubscriptionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_subscription()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateSubscriptionRequest::class => new MockResponse(200, 'subscription'),
         ]);
 

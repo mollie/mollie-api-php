@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
 use Mollie\Api\Resources\Issuer;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class EnableMethodIssuerRequestTest extends TestCase
 {
     /** @test */
     public function it_can_enable_method_issuer()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             EnableMethodIssuerRequest::class => new MockResponse(204, ''),
         ]);
 

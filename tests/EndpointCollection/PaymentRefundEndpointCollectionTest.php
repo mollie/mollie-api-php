@@ -12,15 +12,15 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class PaymentRefundEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
         ]);
 
@@ -45,7 +45,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     /** @test */
     public function get_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaymentRefundRequest::class => new MockResponse(200, 'refund'),
         ]);
 
@@ -64,7 +64,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     /** @test */
     public function cancel_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CancelPaymentRefundRequest::class => new MockResponse(204),
         ]);
 
@@ -83,7 +83,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
         ]);
 
@@ -108,7 +108,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
         ]);

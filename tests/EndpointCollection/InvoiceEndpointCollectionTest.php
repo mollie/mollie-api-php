@@ -8,15 +8,15 @@ use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class InvoiceEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetInvoiceRequest::class => new MockResponse(200, 'invoice'),
         ]);
 
@@ -29,7 +29,7 @@ class InvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
         ]);
 
@@ -46,7 +46,7 @@ class InvoiceEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'invoices'),
         ]);

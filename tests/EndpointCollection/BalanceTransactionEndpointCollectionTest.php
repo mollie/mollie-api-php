@@ -9,15 +9,15 @@ use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class BalanceTransactionEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedBalanceTransactionRequest::class => new MockResponse(200, 'balance-transactions'),
         ]);
 
@@ -41,7 +41,7 @@ class BalanceTransactionEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedBalanceTransactionRequest::class => new MockResponse(200, 'balance-transactions'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'balance_transactions'),
         ]);

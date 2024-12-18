@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CancelPaymentRequestTest extends TestCase
 {
     /** @test */
     public function it_can_cancel_payment()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CancelPaymentRequest::class => new MockResponse(200, 'payment'),
         ]);
 

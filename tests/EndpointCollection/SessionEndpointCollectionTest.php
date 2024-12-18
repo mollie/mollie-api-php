@@ -13,15 +13,15 @@ use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class SessionEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 
@@ -34,7 +34,7 @@ class SessionEndpointCollectionTest extends TestCase
     /** @test */
     public function create()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateSessionRequest::class => new MockResponse(201, 'session'),
         ]);
 
@@ -50,7 +50,7 @@ class SessionEndpointCollectionTest extends TestCase
     /** @test */
     public function update()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 
@@ -65,7 +65,7 @@ class SessionEndpointCollectionTest extends TestCase
     /** @test */
     public function cancel()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CancelSessionRequest::class => new MockResponse(204),
         ]);
 
@@ -78,7 +78,7 @@ class SessionEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
         ]);
 
@@ -96,7 +96,7 @@ class SessionEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'sessions'),
         ]);

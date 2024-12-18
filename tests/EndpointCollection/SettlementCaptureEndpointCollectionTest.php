@@ -9,15 +9,15 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Settlement;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class SettlementCaptureEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
         ]);
 
@@ -41,7 +41,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
         ]);

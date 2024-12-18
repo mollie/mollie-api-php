@@ -43,10 +43,6 @@ abstract class ResourceHydratableRequest extends Request
      */
     public function setHydratableResource($hydratableResource): self
     {
-        if (! class_exists($hydratableResource)) {
-            throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not exist.");
-        }
-
         $this->customHydratableResource = $hydratableResource;
 
         return $this;

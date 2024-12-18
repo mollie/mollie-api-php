@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class DisableMethodIssuerRequestTest extends TestCase
 {
     /** @test */
     public function it_can_disable_method_issuer()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DisableMethodIssuerRequest::class => new MockResponse(204, ''),
         ]);
 

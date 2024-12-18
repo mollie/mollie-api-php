@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 use Mollie\Api\Resources\SubscriptionCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetAllPaginatedSubscriptionsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_subscriptions()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
         ]);
 

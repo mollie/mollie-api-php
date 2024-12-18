@@ -8,15 +8,15 @@ use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class ClientEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetClientRequest::class => new MockResponse(200, 'client'),
         ]);
 
@@ -29,7 +29,7 @@ class ClientEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
         ]);
 
@@ -47,7 +47,7 @@ class ClientEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'clients'),
         ]);

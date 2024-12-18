@@ -12,15 +12,15 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CustomerPaymentsEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateCustomerPaymentRequest::class => new MockResponse(201, 'payment'),
         ]);
 
@@ -43,7 +43,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedCustomerPaymentsRequest::class => new MockResponse(200, 'payment-list'),
         ]);
 
@@ -67,7 +67,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedCustomerPaymentsRequest::class => new MockResponse(200, 'payment-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
         ]);

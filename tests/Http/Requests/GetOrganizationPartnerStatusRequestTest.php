@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Resources\Partner;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetOrganizationPartnerStatusRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_organization_partner_status()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
         ]);
 

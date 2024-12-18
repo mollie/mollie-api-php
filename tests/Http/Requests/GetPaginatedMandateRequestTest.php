@@ -7,16 +7,16 @@ use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedMandateRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_mandates()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
         ]);
 
@@ -38,7 +38,7 @@ class GetPaginatedMandateRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_mandates()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'mandate-list'),

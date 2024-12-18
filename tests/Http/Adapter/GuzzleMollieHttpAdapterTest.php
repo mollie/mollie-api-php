@@ -11,7 +11,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Tests\Fixtures\MockClient;
+use Mollie\Api\Fake\MockMollieClient;
 
 class GuzzleMollieHttpAdapterTest extends TestCase
 {
@@ -47,7 +47,7 @@ class GuzzleMollieHttpAdapterTest extends TestCase
         $adapter->enableDebugging();
 
         $request = new DynamicGetRequest('https://api.mollie.com/v2/payments');
-        $pendingRequest = new PendingRequest(new MockClient, $request);
+        $pendingRequest = new PendingRequest(new MockMollieClient, $request);
 
         try {
             $adapter->sendRequest($pendingRequest);
@@ -75,7 +75,7 @@ class GuzzleMollieHttpAdapterTest extends TestCase
         $this->assertFalse($adapter->debuggingIsActive());
 
         $request = new DynamicGetRequest('https://api.mollie.com/v2/payments');
-        $pendingRequest = new PendingRequest(new MockClient, $request);
+        $pendingRequest = new PendingRequest(new MockMollieClient, $request);
 
         try {
             $adapter->sendRequest($pendingRequest);

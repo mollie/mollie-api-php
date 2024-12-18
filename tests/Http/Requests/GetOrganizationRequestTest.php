@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetOrganizationRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_organization()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetOrganizationRequest::class => new MockResponse(200, 'organization'),
         ]);
 

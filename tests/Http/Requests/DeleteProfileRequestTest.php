@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class DeleteProfileRequestTest extends TestCase
 {
     /** @test */
     public function it_can_delete_profile()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DeleteProfileRequest::class => new MockResponse(204, ''),
         ]);
 

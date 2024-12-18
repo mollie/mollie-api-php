@@ -6,15 +6,15 @@ use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
 use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Resources\Method;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class ProfileMethodEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function enable_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             EnableProfileMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
         ]);
 
@@ -27,7 +27,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     /** @test */
     public function enable()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             EnableProfileMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
         ]);
 
@@ -40,7 +40,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     /** @test */
     public function disable_for_id()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DisableProfileMethodRequest::class => new MockResponse(204),
         ]);
 
@@ -53,7 +53,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     /** @test */
     public function disable()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DisableProfileMethodRequest::class => new MockResponse(204),
         ]);
 

@@ -7,15 +7,15 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Resources\Refund;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreatePaymentRefundRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_payment_refund()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
         ]);
 

@@ -8,15 +8,15 @@ use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class TerminalEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetTerminalRequest::class => new MockResponse(200, 'terminal'),
         ]);
 
@@ -29,7 +29,7 @@ class TerminalEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
         ]);
@@ -48,7 +48,7 @@ class TerminalEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
         ]);

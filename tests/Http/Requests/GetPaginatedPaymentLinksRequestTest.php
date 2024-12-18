@@ -7,16 +7,16 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedPaymentLinksRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_payment_links()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
         ]);
 
@@ -36,7 +36,7 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_payment_links()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'payment-link-list'),

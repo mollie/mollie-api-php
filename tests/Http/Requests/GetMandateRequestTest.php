@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetMandateRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_mandate()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetMandateRequest::class => new MockResponse(200, 'mandate'),
         ]);
 

@@ -7,16 +7,16 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\LazyCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedSettlementChargebacksRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_settlement_chargebacks()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
         ]);
 
@@ -36,7 +36,7 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_settlement_chargebacks()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'chargeback-list'),

@@ -7,16 +7,16 @@ use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class GetPaginatedRefundsRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_paginated_refunds()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
         ]);
 
@@ -36,7 +36,7 @@ class GetPaginatedRefundsRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_refunds()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'refund-list'),

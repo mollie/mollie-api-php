@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Mollie\Api\Fake;
 
 use Mollie\Api\Traits\HasDefaultFactories;
 use Mollie\Api\Utils\Arr;
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\ResponseInterface;
 
 class MockResponse
@@ -55,7 +55,7 @@ class MockResponse
         $path = Arr::join([
             __DIR__,
             'Responses',
-            $body.'.json',
+            $body . '.json',
         ], DIRECTORY_SEPARATOR);
 
         $contents = file_get_contents($path);
@@ -72,7 +72,7 @@ class MockResponse
         $body = $response->getBody();
         $body->rewind();
 
-        Assert::assertEquals(
+        PHPUnit::assertEquals(
             $body->getContents(),
             $this->createPsrResponse()->getBody()->getContents(),
             'Response does not match'

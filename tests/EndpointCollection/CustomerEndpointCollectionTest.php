@@ -11,15 +11,15 @@ use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CustomerEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function create()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateCustomerRequest::class => new MockResponse(201, 'customer'),
         ]);
 
@@ -35,7 +35,7 @@ class CustomerEndpointCollectionTest extends TestCase
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetCustomerRequest::class => new MockResponse(200, 'customer'),
         ]);
 
@@ -48,7 +48,7 @@ class CustomerEndpointCollectionTest extends TestCase
     /** @test */
     public function update()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateCustomerRequest::class => new MockResponse(200, 'customer'),
         ]);
 
@@ -64,7 +64,7 @@ class CustomerEndpointCollectionTest extends TestCase
     /** @test */
     public function delete()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DeleteCustomerRequest::class => new MockResponse(204),
         ]);
 
@@ -77,7 +77,7 @@ class CustomerEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
         ]);
 
@@ -95,7 +95,7 @@ class CustomerEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'customers'),
         ]);

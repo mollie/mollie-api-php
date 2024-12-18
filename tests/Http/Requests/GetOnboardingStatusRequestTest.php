@@ -2,22 +2,22 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Http\Requests\GetOnboardingRequest;
+use Mollie\Api\Http\Requests\GetOnboardingStatusRequest;
 use Mollie\Api\Resources\Onboarding;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
-class GetOnboardingRequestTest extends TestCase
+class GetOnboardingStatusRequestTest extends TestCase
 {
     /** @test */
-    public function it_can_get_onboarding()
+    public function it_can_get_onboarding_status()
     {
-        $client = new MockClient([
-            GetOnboardingRequest::class => new MockResponse(200, 'onboarding'),
+        $client = new MockMollieClient([
+            GetOnboardingStatusRequest::class => new MockResponse(200, 'onboarding'),
         ]);
 
-        $request = new GetOnboardingRequest;
+        $request = new GetOnboardingStatusRequest;
 
         /** @var Onboarding */
         $onboarding = $client->send($request);
@@ -29,7 +29,7 @@ class GetOnboardingRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetOnboardingRequest;
+        $request = new GetOnboardingStatusRequest;
 
         $this->assertEquals('onboarding/me', $request->resolveResourcePath());
     }

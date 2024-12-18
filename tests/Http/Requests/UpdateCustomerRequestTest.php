@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\UpdateCustomerPayload;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdateCustomerRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_customer()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateCustomerRequest::class => new MockResponse(200, 'customer'),
         ]);
 

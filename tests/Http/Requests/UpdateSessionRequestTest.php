@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class UpdateSessionRequestTest extends TestCase
 {
     /** @test */
     public function it_can_update_session()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdateSessionRequest::class => new MockResponse(200, 'session'),
         ]);
 

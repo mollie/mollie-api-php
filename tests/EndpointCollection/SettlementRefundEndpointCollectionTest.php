@@ -9,15 +9,15 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class SettlementRefundEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function page_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
         ]);
 
@@ -41,7 +41,7 @@ class SettlementRefundEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
         ]);

@@ -5,7 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\Method;
 
-class GetOnboardingRequest extends ResourceHydratableRequest
+class GetOnboardingStatusRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 

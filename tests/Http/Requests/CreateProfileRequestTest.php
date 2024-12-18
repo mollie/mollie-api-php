@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreateProfileRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_profile()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateProfileRequest::class => new MockResponse(201, 'profile'),
         ]);
 

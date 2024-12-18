@@ -5,15 +5,15 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class PaymentRouteEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function update_release_date_for()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             UpdatePaymentRouteRequest::class => new MockResponse(200, 'route'),
         ]);
 

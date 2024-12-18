@@ -8,16 +8,16 @@ use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
-use Tests\Fixtures\SequenceMockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\SequenceMockResponse;
 
 class CursorCollectionTest extends TestCase
 {
     /** @test */
     public function can_get_next_collection_result_when_next_link_is_available()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
         ]);
 
@@ -41,7 +41,7 @@ class CursorCollectionTest extends TestCase
 
     public function test_will_return_null_if_no_next_result_is_available()
     {
-        $client = new MockClient;
+        $client = new MockMollieClient;
 
         $collection = new PaymentCollection(
             $client,
@@ -56,7 +56,7 @@ class CursorCollectionTest extends TestCase
 
     public function test_can_get_previous_collection_result_when_previous_link_is_available()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
         ]);
 
@@ -80,7 +80,7 @@ class CursorCollectionTest extends TestCase
 
     public function test_will_return_null_if_no_previous_result_is_available()
     {
-        $client = new MockClient;
+        $client = new MockMollieClient;
 
         $collection = new PaymentCollection(
             $client,
@@ -95,7 +95,7 @@ class CursorCollectionTest extends TestCase
 
     public function test_auto_paginator_returns_lazy_collection()
     {
-        $client = new MockClient;
+        $client = new MockMollieClient;
 
         $collection = new PaymentCollection(
             $client,
@@ -109,7 +109,7 @@ class CursorCollectionTest extends TestCase
 
     public function test_auto_paginator_can_handle_consecutive_calls()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new SequenceMockResponse(
                 new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuF'),
                 new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuS'),

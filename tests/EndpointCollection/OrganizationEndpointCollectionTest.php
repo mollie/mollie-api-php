@@ -7,15 +7,15 @@ use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class OrganizationEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetOrganizationRequest::class => new MockResponse(200, 'organization', 'org_12345678'),
         ]);
 
@@ -28,7 +28,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     /** @test */
     public function current()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetOrganizationRequest::class => new MockResponse(200, 'organization'),
         ]);
 
@@ -41,7 +41,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     /** @test */
     public function partner_status()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
         ]);
 

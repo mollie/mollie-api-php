@@ -7,15 +7,15 @@ use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\BalanceReport;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class GetBalanceReportRequestTest extends TestCase
 {
     /** @test */
     public function it_can_get_balance_report()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetBalanceReportRequest::class => new MockResponse(200, 'balance-report'),
         ]);
 

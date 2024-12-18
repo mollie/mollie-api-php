@@ -7,7 +7,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
+use Mollie\Api\Fake\MockMollieClient;
 
 class MiddlewareTest extends TestCase
 {
@@ -25,7 +25,7 @@ class MiddlewareTest extends TestCase
         });
 
         $result = $middlewareHandlers->executeOnRequest(
-            new PendingRequest(new MockClient, new DynamicGetRequest(''))
+            new PendingRequest(new MockMollieClient, new DynamicGetRequest(''))
         );
 
         $this->assertEquals('Bar', $result->headers()->get('Foo'));
@@ -76,7 +76,7 @@ class MiddlewareTest extends TestCase
         $middlewareHandlers1->merge($middlewareHandlers2);
 
         $result = $middlewareHandlers1->executeOnRequest(
-            new PendingRequest(new MockClient, new DynamicGetRequest(''))
+            new PendingRequest(new MockMollieClient, new DynamicGetRequest(''))
         );
 
         $this->assertEquals('One', $result->headers()->get('Request-One'));

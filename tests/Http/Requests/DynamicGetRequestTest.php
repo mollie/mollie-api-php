@@ -5,15 +5,15 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class DynamicGetRequestTest extends TestCase
 {
     /** @test */
     public function it_can_make_dynamic_get_request()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             DynamicGetRequest::class => new MockResponse(200, 'payment'),
         ]);
 

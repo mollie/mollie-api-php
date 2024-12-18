@@ -6,15 +6,15 @@ use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class CreateMandateRequestTest extends TestCase
 {
     /** @test */
     public function it_can_create_mandate()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             CreateMandateRequest::class => new MockResponse(201, 'mandate'),
         ]);
 

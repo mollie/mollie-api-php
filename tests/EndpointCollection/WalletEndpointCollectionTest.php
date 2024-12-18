@@ -5,15 +5,15 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class WalletEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function request_apple_pay_payment_session()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             ApplePayPaymentSessionRequest::class => new MockResponse(200, 'apple-pay-session'),
         ]);
 

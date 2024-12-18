@@ -8,15 +8,15 @@ use Mollie\Api\Http\Requests\GetSettlementRequest;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixtures\MockClient;
-use Tests\Fixtures\MockResponse;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
 
 class SettlementsEndpointCollectionTest extends TestCase
 {
     /** @test */
     public function get()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSettlementRequest::class => new MockResponse(200, 'settlement'),
         ]);
 
@@ -29,7 +29,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     /** @test */
     public function next()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSettlementRequest::class => new MockResponse(200, 'settlement'),
         ]);
 
@@ -42,7 +42,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     /** @test */
     public function open()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetSettlementRequest::class => new MockResponse(200, 'settlement'),
         ]);
 
@@ -55,7 +55,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     /** @test */
     public function page()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
         ]);
 
@@ -73,7 +73,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     /** @test */
     public function iterator()
     {
-        $client = new MockClient([
+        $client = new MockMollieClient([
             GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
             DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'settlements'),
         ]);
