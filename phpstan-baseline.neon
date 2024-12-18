@@ -373,6 +373,18 @@ parameters:
 			path: tests/Http/Middleware/GuardResponseTest.php
 
 		-
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$customField\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/Resources/ResourceFactoryTest.php
+
+		-
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/Resources/ResourceFactoryTest.php
+
+		-
 			message: '#^Property Tests\\Utils\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
 			identifier: property.unused
 			count: 1

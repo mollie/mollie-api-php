@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\ResourceDecorator;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
@@ -12,7 +13,7 @@ class ResourceHydrator
     /**
      * Hydrate a response into a resource or collection
      *
-     * @return Response|BaseResource|BaseCollection|LazyCollection
+     * @return Response|BaseResource|BaseCollection|LazyCollection|ResourceDecorator
      */
     public function hydrate(ResourceHydratableRequest $request, Response $response)
     {

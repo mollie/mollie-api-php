@@ -10,9 +10,13 @@ class DecorateResource
 
     protected ?string $decorator = null;
 
-    public function __construct(string $decoratedResource)
+    public function __construct(string $decoratedResource, ?string $decorator = null)
     {
         $this->decoratedResource = $decoratedResource;
+
+        if ($decorator) {
+            $this->with($decorator);
+        }
     }
 
     public function with(string $decorator): self
@@ -33,6 +37,10 @@ class DecorateResource
 
     public function getDecorator(): ?string
     {
+        if (! $this->decorator) {
+            throw new \InvalidArgumentException('The decorator class is not set.');
+        }
+
         return $this->decorator;
     }
 }

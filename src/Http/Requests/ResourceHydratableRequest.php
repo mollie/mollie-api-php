@@ -19,7 +19,7 @@ abstract class ResourceHydratableRequest extends Request
      *
      * @var string|null|DecorateResource
      */
-    protected ?string $customHydratableResource = null;
+    protected $customHydratableResource = null;
 
     public function isHydratable(): bool
     {
@@ -39,16 +39,12 @@ abstract class ResourceHydratableRequest extends Request
     }
 
     /**
-     * @param  string|DecorateResource  $hydratableResource
+     * @param string|DecorateResource  $hydratableResource
      */
     public function setHydratableResource($hydratableResource): self
     {
         if (! class_exists($hydratableResource)) {
             throw new \InvalidArgumentException("The resource class '{$hydratableResource}' does not exist.");
-        }
-
-        if ($hydratableResource instanceof DecorateResource && ! $hydratableResource->getDecorator()) {
-            throw new \InvalidArgumentException('The decorator class is not set.');
         }
 
         $this->customHydratableResource = $hydratableResource;
