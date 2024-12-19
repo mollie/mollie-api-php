@@ -14,7 +14,7 @@ class GetSettlementRequestTest extends TestCase
     public function it_can_get_settlement()
     {
         $client = new MockMollieClient([
-            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+            GetSettlementRequest::class => MockResponse::ok('settlement'),
         ]);
 
         $request = new GetSettlementRequest('stl_jDk30akdN');

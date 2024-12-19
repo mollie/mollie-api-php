@@ -16,7 +16,7 @@ class PaymentLinkPaymentEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentLinkPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedPaymentLinkPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         /** @var PaymentCollection $payments */
@@ -34,8 +34,8 @@ class PaymentLinkPaymentEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentLinkPaymentsRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
+            GetPaginatedPaymentLinkPaymentsRequest::class => MockResponse::ok('payment-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
         foreach ($client->paymentLinkPayments->iteratorForId('pl_4Y0eZitmBnQ6IDoMqZQKh') as $payment) {

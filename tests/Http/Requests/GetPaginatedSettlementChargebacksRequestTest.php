@@ -17,7 +17,7 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
     public function it_can_get_paginated_settlement_chargebacks()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedSettlementChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         $request = new GetPaginatedSettlementChargebacksRequest('stl_jDk30akdN');
@@ -37,10 +37,10 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
     public function it_can_iterate_over_settlement_chargebacks()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedSettlementChargebacksRequest::class => MockResponse::ok('chargeback-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'chargeback-list'),
-                new MockResponse(200, 'empty-list', 'chargebacks'),
+                MockResponse::ok('chargeback-list'),
+                MockResponse::ok('empty-list', 'chargebacks'),
             ),
         ]);
 

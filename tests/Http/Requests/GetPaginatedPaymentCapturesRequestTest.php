@@ -17,7 +17,7 @@ class GetPaginatedPaymentCapturesRequestTest extends TestCase
     public function it_can_get_paginated_captures()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedPaymentCapturesRequest::class => MockResponse::ok('capture-list'),
         ]);
 
         $request = new GetPaginatedPaymentCapturesRequest('tr_WDqYK6vllg');
@@ -39,10 +39,10 @@ class GetPaginatedPaymentCapturesRequestTest extends TestCase
     public function it_can_iterate_over_captures()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedPaymentCapturesRequest::class => MockResponse::ok('capture-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'capture-list'),
-                new MockResponse(200, 'empty-list', 'captures'),
+                MockResponse::ok('capture-list'),
+                MockResponse::ok('empty-list', 'captures'),
             ),
         ]);
 

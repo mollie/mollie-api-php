@@ -14,7 +14,7 @@ class GetPaginatedClientRequestTest extends TestCase
     public function it_can_get_paginated_clients()
     {
         $client = new MockMollieClient([
-            GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
+            GetPaginatedClientRequest::class => MockResponse::ok('client-list'),
         ]);
 
         $request = new GetPaginatedClientRequest;

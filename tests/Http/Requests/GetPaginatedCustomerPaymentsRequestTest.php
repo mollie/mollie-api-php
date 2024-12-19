@@ -14,7 +14,7 @@ class GetPaginatedCustomerPaymentsRequestTest extends TestCase
     public function it_can_get_paginated_customer_payments()
     {
         $client = new MockMollieClient([
-            GetPaginatedCustomerPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedCustomerPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

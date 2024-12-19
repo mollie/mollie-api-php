@@ -14,7 +14,7 @@ class CancelSessionRequestTest extends TestCase
     public function it_can_cancel_session()
     {
         $client = new MockMollieClient([
-            CancelSessionRequest::class => new MockResponse(200, 'session'),
+            CancelSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         $sessionId = 'sess_pNxqdWEFws';

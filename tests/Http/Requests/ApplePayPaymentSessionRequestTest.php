@@ -15,7 +15,7 @@ class ApplePayPaymentSessionRequestTest extends TestCase
     public function it_can_create_apple_pay_session()
     {
         $client = new MockMollieClient([
-            ApplePayPaymentSessionRequest::class => new MockResponse(200, 'apple-pay-session'),
+            ApplePayPaymentSessionRequest::class => MockResponse::ok('apple-pay-session'),
         ]);
 
         $payload = new RequestApplePayPaymentSessionPayload(

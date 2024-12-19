@@ -14,7 +14,7 @@ class DeleteProfileRequestTest extends TestCase
     public function it_can_delete_profile()
     {
         $client = new MockMollieClient([
-            DeleteProfileRequest::class => new MockResponse(204, ''),
+            DeleteProfileRequest::class => MockResponse::noContent(''),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';

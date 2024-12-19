@@ -18,7 +18,7 @@ class GetPaginatedSettlementRefundsRequestTest extends TestCase
     public function it_can_get_paginated_settlement_refunds()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedSettlementRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
         $request = new GetPaginatedSettlementRefundsRequest('stl_jDk30akdN');
@@ -41,10 +41,10 @@ class GetPaginatedSettlementRefundsRequestTest extends TestCase
     public function it_can_iterate_over_settlement_refunds()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedSettlementRefundsRequest::class => MockResponse::ok('refund-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'refund-list'),
-                new MockResponse(200, 'empty-list', 'refunds'),
+                MockResponse::ok('refund-list'),
+                MockResponse::ok('empty-list', 'refunds'),
             ),
         ]);
 

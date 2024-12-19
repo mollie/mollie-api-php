@@ -15,7 +15,7 @@ class CreateSessionRequestTest extends TestCase
     public function it_can_create_session()
     {
         $client = new MockMollieClient([
-            CreateSessionRequest::class => new MockResponse(201, 'session'),
+            CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
         $request = new CreateSessionRequest(

@@ -16,7 +16,7 @@ class PermissionEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetPermissionRequest::class => new MockResponse(200, 'permission'),
+            GetPermissionRequest::class => MockResponse::ok('permission'),
         ]);
 
         /** @var Permission $permission */
@@ -29,7 +29,7 @@ class PermissionEndpointCollectionTest extends TestCase
     public function list()
     {
         $client = new MockMollieClient([
-            ListPermissionsRequest::class => new MockResponse(200, 'permission-list'),
+            ListPermissionsRequest::class => MockResponse::ok('permission-list'),
         ]);
 
         /** @var PermissionCollection $permissions */

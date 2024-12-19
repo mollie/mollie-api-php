@@ -14,7 +14,7 @@ class GetPaginatedInvoiceRequestTest extends TestCase
     public function it_can_get_paginated_invoices()
     {
         $client = new MockMollieClient([
-            GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
+            GetPaginatedInvoiceRequest::class => MockResponse::ok('invoice-list'),
         ]);
 
         $request = new GetPaginatedInvoiceRequest;

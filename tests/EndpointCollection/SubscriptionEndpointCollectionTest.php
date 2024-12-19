@@ -23,7 +23,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function create_for()
     {
         $client = new MockMollieClient([
-            CreateSubscriptionRequest::class => new MockResponse(201, 'subscription'),
+            CreateSubscriptionRequest::class => MockResponse::created('subscription'),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -47,7 +47,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function get_for()
     {
         $client = new MockMollieClient([
-            GetSubscriptionRequest::class => new MockResponse(200, 'subscription'),
+            GetSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -63,7 +63,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function update_for()
     {
         $client = new MockMollieClient([
-            UpdateSubscriptionRequest::class => new MockResponse(200, 'subscription'),
+            UpdateSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -85,7 +85,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function cancel_for()
     {
         $client = new MockMollieClient([
-            CancelSubscriptionRequest::class => new MockResponse(204),
+            CancelSubscriptionRequest::class => MockResponse::noContent(),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -101,7 +101,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+            GetPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -123,8 +123,8 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
+            GetPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'subscriptions'),
         ]);
 
         $customer = new Customer($client, $this->createMock(Response::class));
@@ -139,7 +139,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function all_for_id()
     {
         $client = new MockMollieClient([
-            GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+            GetAllPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
         ]);
 
         /** @var SubscriptionCollection $subscriptions */
@@ -161,8 +161,8 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function iterator_for_all()
     {
         $client = new MockMollieClient([
-            GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'subscriptions'),
+            GetAllPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'subscriptions'),
         ]);
 
         foreach (

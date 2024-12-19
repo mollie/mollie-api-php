@@ -17,7 +17,7 @@ class ClientEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetClientRequest::class => new MockResponse(200, 'client'),
+            GetClientRequest::class => MockResponse::ok('client'),
         ]);
 
         /** @var Client $clientResource */
@@ -30,7 +30,7 @@ class ClientEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
+            GetPaginatedClientRequest::class => MockResponse::ok('client-list'),
         ]);
 
         /** @var ClientCollection $clients */
@@ -48,8 +48,8 @@ class ClientEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedClientRequest::class => new MockResponse(200, 'client-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'clients'),
+            GetPaginatedClientRequest::class => MockResponse::ok('client-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'clients'),
         ]);
 
         foreach ($client->clients->iterator() as $clientResource) {

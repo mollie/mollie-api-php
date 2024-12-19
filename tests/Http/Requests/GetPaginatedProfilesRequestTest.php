@@ -17,7 +17,7 @@ class GetPaginatedProfilesRequestTest extends TestCase
     public function it_can_get_paginated_profiles()
     {
         $client = new MockMollieClient([
-            GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
+            GetPaginatedProfilesRequest::class => MockResponse::ok('profile-list'),
         ]);
 
         $request = new GetPaginatedProfilesRequest;
@@ -37,10 +37,10 @@ class GetPaginatedProfilesRequestTest extends TestCase
     public function it_can_iterate_over_profiles()
     {
         $client = new MockMollieClient([
-            GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
+            GetPaginatedProfilesRequest::class => MockResponse::ok('profile-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'profile-list'),
-                new MockResponse(200, 'empty-list', 'profiles'),
+                MockResponse::ok('profile-list'),
+                MockResponse::ok('empty-list', 'profiles'),
             ),
         ]);
 

@@ -17,7 +17,7 @@ class GetPaginatedRefundsRequestTest extends TestCase
     public function it_can_get_paginated_refunds()
     {
         $client = new MockMollieClient([
-            GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
         $request = new GetPaginatedRefundsRequest;
@@ -37,10 +37,10 @@ class GetPaginatedRefundsRequestTest extends TestCase
     public function it_can_iterate_over_refunds()
     {
         $client = new MockMollieClient([
-            GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedRefundsRequest::class => MockResponse::ok('refund-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'refund-list'),
-                new MockResponse(200, 'empty-list', 'refunds'),
+                MockResponse::ok('refund-list'),
+                MockResponse::ok('empty-list', 'refunds'),
             ),
         ]);
 

@@ -16,7 +16,7 @@ class UpdateSalesInvoiceRequestTest extends TestCase
     public function it_updates_sales_invoice()
     {
         $client = new MockMollieClient([
-            UpdateSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
+            UpdateSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
         $payload = new UpdateSalesInvoicePayload(

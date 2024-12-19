@@ -17,7 +17,7 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
     public function it_can_get_paginated_payment_links()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
+            GetPaginatedPaymentLinksRequest::class => MockResponse::ok('payment-link-list'),
         ]);
 
         $request = new GetPaginatedPaymentLinksRequest;
@@ -37,10 +37,10 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
     public function it_can_iterate_over_payment_links()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentLinksRequest::class => new MockResponse(200, 'payment-link-list'),
+            GetPaginatedPaymentLinksRequest::class => MockResponse::ok('payment-link-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'payment-link-list'),
-                new MockResponse(200, 'empty-list', 'payment_links'),
+                MockResponse::ok('payment-link-list'),
+                MockResponse::ok('empty-list', 'payment_links'),
             ),
         ]);
 

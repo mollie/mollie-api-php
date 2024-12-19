@@ -15,7 +15,7 @@ class ListPermissionsRequestTest extends TestCase
     public function it_can_list_permissions()
     {
         $client = new MockMollieClient([
-            ListPermissionsRequest::class => new MockResponse(200, 'permission-list'),
+            ListPermissionsRequest::class => MockResponse::ok('permission-list'),
         ]);
 
         $request = new ListPermissionsRequest;

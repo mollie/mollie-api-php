@@ -15,7 +15,7 @@ class CreateProfileRequestTest extends TestCase
     public function it_can_create_profile()
     {
         $client = new MockMollieClient([
-            CreateProfileRequest::class => new MockResponse(201, 'profile'),
+            CreateProfileRequest::class => MockResponse::created('profile'),
         ]);
 
         $payload = new CreateProfilePayload(

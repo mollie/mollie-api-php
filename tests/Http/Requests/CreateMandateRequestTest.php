@@ -15,7 +15,7 @@ class CreateMandateRequestTest extends TestCase
     public function it_can_create_mandate()
     {
         $client = new MockMollieClient([
-            CreateMandateRequest::class => new MockResponse(201, 'mandate'),
+            CreateMandateRequest::class => MockResponse::created('mandate'),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

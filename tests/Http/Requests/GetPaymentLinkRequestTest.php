@@ -14,7 +14,7 @@ class GetPaymentLinkRequestTest extends TestCase
     public function it_can_get_payment_link()
     {
         $client = new MockMollieClient([
-            GetPaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
+            GetPaymentLinkRequest::class => MockResponse::ok('payment-link'),
         ]);
 
         $request = new GetPaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw');

@@ -21,7 +21,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     public function create_for()
     {
         $client = new MockMollieClient([
-            CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
+            CreatePaymentRefundRequest::class => MockResponse::created('refund'),
         ]);
 
         $payment = new Payment(
@@ -46,7 +46,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     public function get_for()
     {
         $client = new MockMollieClient([
-            GetPaymentRefundRequest::class => new MockResponse(200, 'refund'),
+            GetPaymentRefundRequest::class => MockResponse::ok('refund'),
         ]);
 
         $payment = new Payment(
@@ -65,7 +65,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     public function cancel_for()
     {
         $client = new MockMollieClient([
-            CancelPaymentRefundRequest::class => new MockResponse(204),
+            CancelPaymentRefundRequest::class => MockResponse::noContent(),
         ]);
 
         $payment = new Payment(
@@ -84,7 +84,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedPaymentRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
         $payment = new Payment(
@@ -109,8 +109,8 @@ class PaymentRefundEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentRefundsRequest::class => new MockResponse(200, 'refund-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
+            GetPaginatedPaymentRefundsRequest::class => MockResponse::ok('refund-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
         ]);
 
         $payment = new Payment(

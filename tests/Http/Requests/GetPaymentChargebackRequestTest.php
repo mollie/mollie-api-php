@@ -14,7 +14,7 @@ class GetPaymentChargebackRequestTest extends TestCase
     public function it_can_get_payment_chargeback()
     {
         $client = new MockMollieClient([
-            GetPaymentChargebackRequest::class => new MockResponse(200, 'chargeback'),
+            GetPaymentChargebackRequest::class => MockResponse::ok('chargeback'),
         ]);
 
         $request = new GetPaymentChargebackRequest('tr_WDqYK6vllg', 'chb_n9z0tp');

@@ -14,7 +14,7 @@ class DynamicGetRequestTest extends TestCase
     public function it_can_make_dynamic_get_request()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, 'payment'),
+            DynamicGetRequest::class => MockResponse::ok('payment'),
         ]);
 
         $request = new DynamicGetRequest(

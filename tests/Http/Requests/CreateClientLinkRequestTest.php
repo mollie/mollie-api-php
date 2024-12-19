@@ -17,7 +17,7 @@ class CreateClientLinkRequestTest extends TestCase
     public function it_can_create_client_link()
     {
         $client = new MockMollieClient([
-            CreateClientLinkRequest::class => new MockResponse(201, 'client-link'),
+            CreateClientLinkRequest::class => MockResponse::created('client-link'),
         ]);
 
         $payload = new CreateClientLinkPayload(

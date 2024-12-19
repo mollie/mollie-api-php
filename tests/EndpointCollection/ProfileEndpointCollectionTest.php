@@ -22,7 +22,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateProfileRequest::class => new MockResponse(201, 'profile'),
+            CreateProfileRequest::class => MockResponse::created('profile'),
         ]);
 
         /** @var Profile $profile */
@@ -41,7 +41,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetProfileRequest::class => new MockResponse(200, 'profile'),
+            GetProfileRequest::class => MockResponse::ok('profile'),
         ]);
 
         /** @var Profile $profile */
@@ -54,7 +54,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function get_current()
     {
         $client = new MockMollieClient([
-            GetProfileRequest::class => new MockResponse(200, 'current-profile'),
+            GetProfileRequest::class => MockResponse::ok('current-profile'),
         ]);
 
         /** @var Profile $profile */
@@ -67,7 +67,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdateProfileRequest::class => new MockResponse(200, 'profile'),
+            UpdateProfileRequest::class => MockResponse::ok('profile'),
         ]);
 
         /** @var Profile $profile */
@@ -83,7 +83,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function delete()
     {
         $client = new MockMollieClient([
-            DeleteProfileRequest::class => new MockResponse(204),
+            DeleteProfileRequest::class => MockResponse::noContent(),
         ]);
 
         $client->profiles->delete('pfl_v9hTwCvYqw');
@@ -96,7 +96,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
+            GetPaginatedProfilesRequest::class => MockResponse::ok('profile-list'),
         ]);
 
         /** @var ProfileCollection $profiles */
@@ -115,8 +115,8 @@ class ProfileEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedProfilesRequest::class => new MockResponse(200, 'profile-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'profiles'),
+            GetPaginatedProfilesRequest::class => MockResponse::ok('profile-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'profiles'),
         ]);
 
         foreach ($client->profiles->iterator() as $profile) {

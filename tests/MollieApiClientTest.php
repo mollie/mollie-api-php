@@ -28,7 +28,7 @@ class MollieApiClientTest extends TestCase
     public function send_returns_body_as_object()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
         $response = $client->send(new DynamicGetRequest(''));
@@ -47,7 +47,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $client = new MockMollieClient([
-            DynamicGetRequest::class => $mockResponse = new MockResponse(422, 'unprocessable-entity-with-field'),
+            DynamicGetRequest::class => $mockResponse = MockResponse::unprocessableEntity('unprocessable-entity-with-field'),
         ]);
 
         try {
@@ -70,7 +70,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $client = new MockMollieClient([
-            DynamicGetRequest::class => $mockResponse = new MockResponse(422, 'unprocessable-entity'),
+            DynamicGetRequest::class => $mockResponse = MockResponse::unprocessableEntity('unprocessable-entity'),
         ]);
 
         try {
@@ -136,7 +136,7 @@ class MollieApiClientTest extends TestCase
     public function correct_request_headers()
     {
         $client = new MockMollieClient([
-            CreatePaymentRequest::class => new MockResponse(200, '{"resource": "payment"}'),
+            CreatePaymentRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
@@ -171,7 +171,7 @@ class MollieApiClientTest extends TestCase
     public function no_content_type_without_provided_body()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(204, ''),
+            DynamicGetRequest::class => MockResponse::noContent(),
         ]);
 
         /** @var HttpResponse $response */
@@ -184,7 +184,7 @@ class MollieApiClientTest extends TestCase
     public function no_idempotency_is_set_if_no_key_nor_generator_are_set()
     {
         $client = new MockMollieClient([
-            DynamicDeleteRequest::class => new MockResponse(204, ''),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
         ]);
 
         $client->clearIdempotencyKeyGenerator();
@@ -219,20 +219,20 @@ class MollieApiClientTest extends TestCase
         return [
             'delete' => [
                 new DynamicDeleteRequest(''),
-                new MockResponse(204, ''),
+                MockResponse::noContent(),
             ],
             'post' => [
                 new CreatePaymentRequest(new CreatePaymentPayload(
                     'test',
                     new Money('EUR', '100.00'),
                 )),
-                new MockResponse(200, 'payment'),
+                MockResponse::ok('payment'),
             ],
             'patch' => [
                 new UpdatePaymentRequest('tr_payment-id', new UpdatePaymentPayload(
                     'test',
                 )),
-                new MockResponse(200, 'payment'),
+                MockResponse::ok('payment'),
             ],
         ];
     }
@@ -241,7 +241,7 @@ class MollieApiClientTest extends TestCase
     public function idempotency_key_is_not_used_on_get_requests()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(204),
+            DynamicGetRequest::class => MockResponse::noContent(),
         ]);
 
         $client->setIdempotencyKey('idempotentFooBar');
@@ -255,7 +255,7 @@ class MollieApiClientTest extends TestCase
     public function idempotency_key_resets_after_each_request()
     {
         $client = new MockMollieClient([
-            DynamicDeleteRequest::class => new MockResponse(204),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
         ]);
 
         $client->setIdempotencyKey('idempotentFooBar');
@@ -271,7 +271,7 @@ class MollieApiClientTest extends TestCase
     public function it_uses_the_idempotency_key_generator()
     {
         $client = new MockMollieClient([
-            DynamicDeleteRequest::class => new MockResponse(204),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
         ]);
 
         $fakeIdempotencyKeyGenerator = new FakeIdempotencyKeyGenerator;
@@ -291,7 +291,7 @@ class MollieApiClientTest extends TestCase
     public function testmode_is_added_to_request_when_enabled()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
         $client->test(true);
@@ -306,7 +306,7 @@ class MollieApiClientTest extends TestCase
     public function testmode_is_removed_when_using_api_key_authentication()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
         $client->setApiKey('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
@@ -321,7 +321,7 @@ class MollieApiClientTest extends TestCase
     public function testmode_is_not_removed_when_not_using_api_key_authentication()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, '{"resource": "payment"}'),
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
         // Not setting an API key, so using default authentication

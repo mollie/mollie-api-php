@@ -14,7 +14,7 @@ class GetOrganizationPartnerStatusRequestTest extends TestCase
     public function it_can_get_organization_partner_status()
     {
         $client = new MockMollieClient([
-            GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
+            GetOrganizationPartnerStatusRequest::class => MockResponse::ok('partner-status'),
         ]);
 
         $request = new GetOrganizationPartnerStatusRequest;

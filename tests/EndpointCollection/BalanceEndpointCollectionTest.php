@@ -24,7 +24,7 @@ class BalanceEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+            GetBalanceRequest::class => MockResponse::ok('balance'),
         ]);
 
         /** @var Balance $balance */
@@ -40,7 +40,7 @@ class BalanceEndpointCollectionTest extends TestCase
     public function primary()
     {
         $client = new MockMollieClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+            GetBalanceRequest::class => MockResponse::ok('balance'),
         ]);
 
         /** @var Balance $balance */
@@ -56,7 +56,7 @@ class BalanceEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
+            GetPaginatedBalanceRequest::class => MockResponse::ok('balance-list'),
         ]);
 
         /** @var BalanceCollection $balances */
@@ -98,8 +98,8 @@ class BalanceEndpointCollectionTest extends TestCase
     public function iterate()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'balances'),
+            GetPaginatedBalanceRequest::class => MockResponse::ok('balance-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'balances'),
         ]);
 
         foreach ($client->balances->iterator() as $balance) {

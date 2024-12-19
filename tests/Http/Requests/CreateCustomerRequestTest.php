@@ -15,7 +15,7 @@ class CreateCustomerRequestTest extends TestCase
     public function it_can_create_customer()
     {
         $client = new MockMollieClient([
-            CreateCustomerRequest::class => new MockResponse(201, 'customer'),
+            CreateCustomerRequest::class => MockResponse::created('customer'),
         ]);
 
         $payload = new CreateCustomerPayload(

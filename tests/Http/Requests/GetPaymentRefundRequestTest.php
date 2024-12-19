@@ -14,7 +14,7 @@ class GetPaymentRefundRequestTest extends TestCase
     public function it_can_get_payment_refund()
     {
         $client = new MockMollieClient([
-            GetPaymentRefundRequest::class => new MockResponse(200, 'refund'),
+            GetPaymentRefundRequest::class => MockResponse::ok('refund'),
         ]);
 
         $paymentId = 'tr_WDqYK6vllg';

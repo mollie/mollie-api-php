@@ -14,7 +14,7 @@ class GetPaginatedBalanceRequestTest extends TestCase
     public function it_can_get_paginated_balances()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceRequest::class => new MockResponse(200, 'balance-list'),
+            GetPaginatedBalanceRequest::class => MockResponse::ok('balance-list'),
         ]);
 
         $request = new GetPaginatedBalanceRequest;

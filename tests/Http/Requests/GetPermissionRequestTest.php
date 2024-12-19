@@ -14,7 +14,7 @@ class GetPermissionRequestTest extends TestCase
     public function it_can_get_permission()
     {
         $client = new MockMollieClient([
-            GetPermissionRequest::class => new MockResponse(200, 'permission'),
+            GetPermissionRequest::class => MockResponse::ok('permission'),
         ]);
 
         $request = new GetPermissionRequest('payments.read');

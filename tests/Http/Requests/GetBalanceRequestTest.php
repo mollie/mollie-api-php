@@ -14,7 +14,7 @@ class GetBalanceRequestTest extends TestCase
     public function it_can_get_balance()
     {
         $client = new MockMollieClient([
-            GetBalanceRequest::class => new MockResponse(200, 'balance'),
+            GetBalanceRequest::class => MockResponse::ok('balance'),
         ]);
 
         $balanceId = 'bal_12345678';

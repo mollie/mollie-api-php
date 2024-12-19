@@ -14,7 +14,7 @@ class EnableProfileMethodRequestTest extends TestCase
     public function it_can_enable_profile_method()
     {
         $client = new MockMollieClient([
-            EnableProfileMethodRequest::class => new MockResponse(204, ''),
+            EnableProfileMethodRequest::class => MockResponse::noContent(''),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';

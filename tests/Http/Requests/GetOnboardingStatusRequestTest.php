@@ -14,7 +14,7 @@ class GetOnboardingStatusRequestTest extends TestCase
     public function it_can_get_onboarding_status()
     {
         $client = new MockMollieClient([
-            GetOnboardingStatusRequest::class => new MockResponse(200, 'onboarding'),
+            GetOnboardingStatusRequest::class => MockResponse::ok('onboarding'),
         ]);
 
         $request = new GetOnboardingStatusRequest;

@@ -17,7 +17,7 @@ class MethodEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetPaymentMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
+            GetPaymentMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -30,7 +30,7 @@ class MethodEndpointCollectionTest extends TestCase
     public function all()
     {
         $client = new MockMollieClient([
-            GetAllMethodsRequest::class => new MockResponse(200, 'method-list'),
+            GetAllMethodsRequest::class => MockResponse::ok('method-list'),
         ]);
 
         /** @var MethodCollection $methods */
@@ -52,7 +52,7 @@ class MethodEndpointCollectionTest extends TestCase
     public function all_enabled()
     {
         $client = new MockMollieClient([
-            GetEnabledMethodsRequest::class => new MockResponse(200, 'method-list'),
+            GetEnabledMethodsRequest::class => MockResponse::ok('method-list'),
         ]);
 
         /** @var MethodCollection $methods */

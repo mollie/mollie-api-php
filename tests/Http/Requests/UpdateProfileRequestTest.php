@@ -15,7 +15,7 @@ class UpdateProfileRequestTest extends TestCase
     public function it_can_update_profile()
     {
         $client = new MockMollieClient([
-            UpdateProfileRequest::class => new MockResponse(200, 'profile'),
+            UpdateProfileRequest::class => MockResponse::ok('profile'),
         ]);
 
         $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', new UpdateProfilePayload(

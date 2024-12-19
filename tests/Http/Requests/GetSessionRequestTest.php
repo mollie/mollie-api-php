@@ -15,7 +15,7 @@ class GetSessionRequestTest extends TestCase
     public function it_can_get_session()
     {
         $client = new MockMollieClient([
-            GetSessionRequest::class => new MockResponse(200, 'session'),
+            GetSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         $query = new AnyData([

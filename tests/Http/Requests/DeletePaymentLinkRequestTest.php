@@ -14,7 +14,7 @@ class DeletePaymentLinkRequestTest extends TestCase
     public function it_can_delete_payment_link()
     {
         $client = new MockMollieClient([
-            DeletePaymentLinkRequest::class => new MockResponse(204),
+            DeletePaymentLinkRequest::class => MockResponse::noContent(),
         ]);
 
         $request = new DeletePaymentLinkRequest('pl_123');

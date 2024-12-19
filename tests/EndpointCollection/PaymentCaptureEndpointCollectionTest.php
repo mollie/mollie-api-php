@@ -20,7 +20,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     public function create_for_id()
     {
         $client = new MockMollieClient([
-            CreatePaymentCaptureRequest::class => new MockResponse(201, 'capture'),
+            CreatePaymentCaptureRequest::class => MockResponse::created('capture'),
         ]);
 
         /** @var Capture $capture */
@@ -36,7 +36,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     public function get_for_id()
     {
         $client = new MockMollieClient([
-            GetPaymentCaptureRequest::class => new MockResponse(200, 'capture'),
+            GetPaymentCaptureRequest::class => MockResponse::ok('capture'),
         ]);
 
         /** @var Capture $capture */
@@ -49,7 +49,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     public function page_for_id()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedPaymentCapturesRequest::class => MockResponse::ok('capture-list'),
         ]);
 
         /** @var CaptureCollection $captures */
@@ -66,8 +66,8 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
     public function iterator_for_id()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentCapturesRequest::class => new MockResponse(200, 'capture-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
+            GetPaginatedPaymentCapturesRequest::class => MockResponse::ok('capture-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'captures'),
         ]);
 
         foreach ($client->paymentCaptures->iteratorForId('tr_7UhSN1zuXS') as $capture) {

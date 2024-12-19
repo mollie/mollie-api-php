@@ -17,7 +17,7 @@ class TerminalEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetTerminalRequest::class => new MockResponse(200, 'terminal'),
+            GetTerminalRequest::class => MockResponse::ok('terminal'),
         ]);
 
         /** @var Terminal $terminal */
@@ -30,8 +30,8 @@ class TerminalEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
+            GetPaginatedTerminalsRequest::class => MockResponse::ok('terminal-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'terminals'),
         ]);
 
         /** @var TerminalCollection $terminals */
@@ -49,8 +49,8 @@ class TerminalEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'terminals'),
+            GetPaginatedTerminalsRequest::class => MockResponse::ok('terminal-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'terminals'),
         ]);
 
         foreach ($client->terminals->iterator() as $terminal) {

@@ -27,7 +27,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreatePaymentRequest::class => new MockResponse(201, 'payment'),
+            CreatePaymentRequest::class => MockResponse::created('payment'),
         ]);
 
         /** @var Payment $payment */
@@ -45,7 +45,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetPaymentRequest::class => new MockResponse(200, 'payment'),
+            GetPaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
         /** @var Payment $payment */
@@ -58,7 +58,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdatePaymentRequest::class => new MockResponse(200, 'payment'),
+            UpdatePaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
         /** @var Payment $payment */
@@ -74,7 +74,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function cancel()
     {
         $client = new MockMollieClient([
-            CancelPaymentRequest::class => new MockResponse(204),
+            CancelPaymentRequest::class => MockResponse::noContent(),
         ]);
 
         $payment = $client->payments->cancel('tr_WDqYK6vllg');
@@ -86,7 +86,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function refund()
     {
         $client = new MockMollieClient([
-            CreatePaymentRefundRequest::class => new MockResponse(201, 'refund'),
+            CreatePaymentRefundRequest::class => MockResponse::created('refund'),
         ]);
 
         $payment = new Payment(
@@ -112,7 +112,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         /** @var PaymentCollection $payments */
@@ -131,8 +131,8 @@ class PaymentEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentsRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
+            GetPaginatedPaymentsRequest::class => MockResponse::ok('payment-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
         foreach ($client->payments->iterator() as $payment) {

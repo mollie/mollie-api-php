@@ -18,7 +18,7 @@ class GetPaginatedSettlementCapturesRequestTest extends TestCase
     public function it_can_get_paginated_settlement_captures()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedSettlementCapturesRequest::class => MockResponse::ok('capture-list'),
         ]);
 
         $request = new GetPaginatedSettlementCapturesRequest('stl_jDk30akdN');
@@ -38,10 +38,10 @@ class GetPaginatedSettlementCapturesRequestTest extends TestCase
     public function it_can_iterate_over_settlement_captures()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedSettlementCapturesRequest::class => MockResponse::ok('capture-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'capture-list'),
-                new MockResponse(200, 'empty-list', 'captures'),
+                MockResponse::ok('capture-list'),
+                MockResponse::ok('empty-list', 'captures'),
             ),
         ]);
 

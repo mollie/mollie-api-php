@@ -14,7 +14,7 @@ class DisableMethodIssuerRequestTest extends TestCase
     public function it_can_disable_method_issuer()
     {
         $client = new MockMollieClient([
-            DisableMethodIssuerRequest::class => new MockResponse(204, ''),
+            DisableMethodIssuerRequest::class => MockResponse::noContent(''),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';

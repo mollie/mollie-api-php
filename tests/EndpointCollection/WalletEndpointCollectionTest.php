@@ -14,7 +14,7 @@ class WalletEndpointCollectionTest extends TestCase
     public function request_apple_pay_payment_session()
     {
         $client = new MockMollieClient([
-            ApplePayPaymentSessionRequest::class => new MockResponse(200, 'apple-pay-session'),
+            ApplePayPaymentSessionRequest::class => MockResponse::ok('apple-pay-session'),
         ]);
 
         $applePaySession = $client->wallets->requestApplePayPaymentSession(

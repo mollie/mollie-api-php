@@ -14,7 +14,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
     public function update_release_date_for()
     {
         $client = new MockMollieClient([
-            UpdatePaymentRouteRequest::class => new MockResponse(200, 'route'),
+            UpdatePaymentRouteRequest::class => MockResponse::ok('route'),
         ]);
 
         /** @var Route $route */

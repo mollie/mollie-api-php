@@ -15,7 +15,7 @@ class UpdateSessionRequestTest extends TestCase
     public function it_can_update_session()
     {
         $client = new MockMollieClient([
-            UpdateSessionRequest::class => new MockResponse(200, 'session'),
+            UpdateSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         $payload = new AnyData([

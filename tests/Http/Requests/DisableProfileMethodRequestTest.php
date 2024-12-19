@@ -14,7 +14,7 @@ class DisableProfileMethodRequestTest extends TestCase
     public function it_can_disable_profile_method()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => new MockResponse(204, ''),
+            DisableProfileMethodRequest::class => MockResponse::noContent(''),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';

@@ -14,7 +14,7 @@ class GetProfileRequestTest extends TestCase
     public function it_can_get_profile()
     {
         $client = new MockMollieClient([
-            GetProfileRequest::class => new MockResponse(200, 'profile'),
+            GetProfileRequest::class => MockResponse::ok('profile'),
         ]);
 
         $request = new GetProfileRequest('pfl_v9hTwCvYqw');

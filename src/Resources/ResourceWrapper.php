@@ -18,6 +18,11 @@ abstract class ResourceWrapper implements IsWrapper
         return $this;
     }
 
+    public function wrap($resource): static
+    {
+        return $this->setResource($resource);
+    }
+
     public function __get($name)
     {
         return $this->resource->{$name};

@@ -14,7 +14,7 @@ class GetPaginatedChargebacksRequestTest extends TestCase
     public function it_can_get_paginated_chargebacks()
     {
         $client = new MockMollieClient([
-            GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         $request = new GetPaginatedChargebacksRequest;

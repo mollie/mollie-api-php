@@ -16,7 +16,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetOrganizationRequest::class => new MockResponse(200, 'organization', 'org_12345678'),
+            GetOrganizationRequest::class => MockResponse::ok('organization', 'org_12345678'),
         ]);
 
         /** @var Organization $organization */
@@ -29,7 +29,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     public function current()
     {
         $client = new MockMollieClient([
-            GetOrganizationRequest::class => new MockResponse(200, 'organization'),
+            GetOrganizationRequest::class => MockResponse::ok('organization'),
         ]);
 
         /** @var Organization $organization */
@@ -42,7 +42,7 @@ class OrganizationEndpointCollectionTest extends TestCase
     public function partner_status()
     {
         $client = new MockMollieClient([
-            GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
+            GetOrganizationPartnerStatusRequest::class => MockResponse::ok('partner-status'),
         ]);
 
         /** @var Partner $partner */

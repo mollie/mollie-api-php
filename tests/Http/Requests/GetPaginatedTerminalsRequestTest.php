@@ -18,7 +18,7 @@ class GetPaginatedTerminalsRequestTest extends TestCase
     public function it_can_get_paginated_terminals()
     {
         $client = new MockMollieClient([
-            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+            GetPaginatedTerminalsRequest::class => MockResponse::ok('terminal-list'),
         ]);
 
         $request = new GetPaginatedTerminalsRequest;
@@ -38,10 +38,10 @@ class GetPaginatedTerminalsRequestTest extends TestCase
     public function it_can_iterate_over_terminals()
     {
         $client = new MockMollieClient([
-            GetPaginatedTerminalsRequest::class => new MockResponse(200, 'terminal-list'),
+            GetPaginatedTerminalsRequest::class => MockResponse::ok('terminal-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'terminal-list'),
-                new MockResponse(200, 'empty-list', 'terminals'),
+                MockResponse::ok('terminal-list'),
+                MockResponse::ok('empty-list', 'terminals'),
             ),
         ]);
 

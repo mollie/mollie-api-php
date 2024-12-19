@@ -15,7 +15,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
     public function enable()
     {
         $client = new MockMollieClient([
-            EnableMethodIssuerRequest::class => new MockResponse(200, 'issuer'),
+            EnableMethodIssuerRequest::class => MockResponse::ok('issuer'),
         ]);
 
         /** @var Issuer $issuer */
@@ -33,7 +33,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
     public function disable()
     {
         $client = new MockMollieClient([
-            DisableMethodIssuerRequest::class => new MockResponse(204),
+            DisableMethodIssuerRequest::class => MockResponse::noContent(),
         ]);
 
         $client->methodIssuers->disable(

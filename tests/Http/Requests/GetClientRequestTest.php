@@ -14,7 +14,7 @@ class GetClientRequestTest extends TestCase
     public function it_can_get_client()
     {
         $client = new MockMollieClient([
-            GetClientRequest::class => new MockResponse(200, 'client'),
+            GetClientRequest::class => MockResponse::ok('client'),
         ]);
 
         $request = new GetClientRequest('client_123');

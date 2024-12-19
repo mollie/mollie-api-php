@@ -16,7 +16,7 @@ class RefundEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
         /** @var RefundCollection $refunds */
@@ -34,8 +34,8 @@ class RefundEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedRefundsRequest::class => new MockResponse(200, 'refund-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
+            GetPaginatedRefundsRequest::class => MockResponse::ok('refund-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
         ]);
 
         foreach ($client->refunds->iterator() as $refund) {

@@ -14,7 +14,7 @@ class DeleteCustomerRequestTest extends TestCase
     public function it_can_delete_customer()
     {
         $client = new MockMollieClient([
-            DeleteCustomerRequest::class => new MockResponse(204),
+            DeleteCustomerRequest::class => MockResponse::noContent(),
         ]);
 
         $request = new DeleteCustomerRequest('cst_123');

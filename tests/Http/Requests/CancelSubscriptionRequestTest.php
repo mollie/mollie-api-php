@@ -14,7 +14,7 @@ class CancelSubscriptionRequestTest extends TestCase
     public function it_can_cancel_subscription()
     {
         $client = new MockMollieClient([
-            CancelSubscriptionRequest::class => new MockResponse(200, 'subscription'),
+            CancelSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

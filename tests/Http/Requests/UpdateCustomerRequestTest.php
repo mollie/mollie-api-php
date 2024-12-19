@@ -15,7 +15,7 @@ class UpdateCustomerRequestTest extends TestCase
     public function it_can_update_customer()
     {
         $client = new MockMollieClient([
-            UpdateCustomerRequest::class => new MockResponse(200, 'customer'),
+            UpdateCustomerRequest::class => MockResponse::ok('customer'),
         ]);
 
         $request = new UpdateCustomerRequest('cst_kEn1PlbGa', new UpdateCustomerPayload(

@@ -14,7 +14,7 @@ class GetAllPaginatedSubscriptionsRequestTest extends TestCase
     public function it_can_get_paginated_subscriptions()
     {
         $client = new MockMollieClient([
-            GetAllPaginatedSubscriptionsRequest::class => new MockResponse(200, 'subscription-list'),
+            GetAllPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
         ]);
 
         $request = new GetAllPaginatedSubscriptionsRequest;

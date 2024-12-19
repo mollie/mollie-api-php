@@ -16,7 +16,7 @@ class CreatePaymentLinkRequestTest extends TestCase
     public function it_can_create_payment_link()
     {
         $client = new MockMollieClient([
-            CreatePaymentLinkRequest::class => new MockResponse(201, 'payment-link'),
+            CreatePaymentLinkRequest::class => MockResponse::created('payment-link'),
         ]);
 
         $payload = new CreatePaymentLinkPayload(

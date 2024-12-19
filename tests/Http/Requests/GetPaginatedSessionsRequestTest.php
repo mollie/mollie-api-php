@@ -18,7 +18,7 @@ class GetPaginatedSessionsRequestTest extends TestCase
     public function it_can_get_paginated_sessions()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
+            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
         ]);
 
         $request = new GetPaginatedSessionsRequest;
@@ -38,10 +38,10 @@ class GetPaginatedSessionsRequestTest extends TestCase
     public function it_can_iterate_over_sessions()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
+            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'session-list'),
-                new MockResponse(200, 'empty-list', 'sessions'),
+                MockResponse::ok('session-list'),
+                MockResponse::ok('empty-list', 'sessions'),
             ),
         ]);
 

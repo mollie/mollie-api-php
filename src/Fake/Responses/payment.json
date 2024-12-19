@@ -1,6 +1,6 @@
 {
   "resource": "payment",
-  "id": "tr_44aKxzEbr8",
+  "id": "{{ RESOURCE_ID }}",
   "mode": "test",
   "createdAt": "2018-03-13T14:02:29+00:00",
   "amount": {

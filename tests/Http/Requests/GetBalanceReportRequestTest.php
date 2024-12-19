@@ -16,7 +16,7 @@ class GetBalanceReportRequestTest extends TestCase
     public function it_can_get_balance_report()
     {
         $client = new MockMollieClient([
-            GetBalanceReportRequest::class => new MockResponse(200, 'balance-report'),
+            GetBalanceReportRequest::class => MockResponse::ok('balance-report'),
         ]);
 
         $request = new GetBalanceReportRequest(

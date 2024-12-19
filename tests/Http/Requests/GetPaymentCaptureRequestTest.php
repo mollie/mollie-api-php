@@ -14,7 +14,7 @@ class GetPaymentCaptureRequestTest extends TestCase
     public function it_can_get_payment_capture()
     {
         $client = new MockMollieClient([
-            GetPaymentCaptureRequest::class => new MockResponse(200, 'capture'),
+            GetPaymentCaptureRequest::class => MockResponse::ok('capture'),
         ]);
 
         $request = new GetPaymentCaptureRequest('tr_WDqYK6vllg', 'cpt_4qqhO89gsT');

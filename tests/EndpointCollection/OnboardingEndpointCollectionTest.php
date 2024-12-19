@@ -14,7 +14,7 @@ class OnboardingEndpointCollectionTest extends TestCase
     public function status()
     {
         $client = new MockMollieClient([
-            GetOnboardingStatusRequest::class => new MockResponse(200, 'onboarding'),
+            GetOnboardingStatusRequest::class => MockResponse::ok('onboarding'),
         ]);
 
         /** @var Onboarding $onboarding */

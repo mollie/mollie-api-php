@@ -14,7 +14,7 @@ class GetSubscriptionRequestTest extends TestCase
     public function it_can_get_subscription()
     {
         $client = new MockMollieClient([
-            GetSubscriptionRequest::class => new MockResponse(200, 'subscription'),
+            GetSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $request = new GetSubscriptionRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3');

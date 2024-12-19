@@ -22,7 +22,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetSessionRequest::class => new MockResponse(200, 'session'),
+            GetSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         /** @var Session $session */
@@ -35,7 +35,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateSessionRequest::class => new MockResponse(201, 'session'),
+            CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
         /** @var Session $session */
@@ -51,7 +51,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdateSessionRequest::class => new MockResponse(200, 'session'),
+            UpdateSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         /** @var Session $session */
@@ -66,7 +66,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function cancel()
     {
         $client = new MockMollieClient([
-            CancelSessionRequest::class => new MockResponse(204),
+            CancelSessionRequest::class => MockResponse::noContent(),
         ]);
 
         $client->sessions->cancel('ses_123');
@@ -79,7 +79,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
+            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
         ]);
 
         /** @var SessionCollection $sessions */
@@ -97,8 +97,8 @@ class SessionEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => new MockResponse(200, 'session-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'sessions'),
+            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'sessions'),
         ]);
 
         foreach ($client->sessions->iterator() as $session) {

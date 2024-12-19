@@ -17,7 +17,7 @@ class InvoiceEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetInvoiceRequest::class => new MockResponse(200, 'invoice'),
+            GetInvoiceRequest::class => MockResponse::ok('invoice'),
         ]);
 
         /** @var Invoice $invoice */
@@ -30,7 +30,7 @@ class InvoiceEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
+            GetPaginatedInvoiceRequest::class => MockResponse::ok('invoice-list'),
         ]);
 
         /** @var InvoiceCollection $invoices */
@@ -47,8 +47,8 @@ class InvoiceEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedInvoiceRequest::class => new MockResponse(200, 'invoice-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'invoices'),
+            GetPaginatedInvoiceRequest::class => MockResponse::ok('invoice-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'invoices'),
         ]);
 
         foreach ($client->invoices->iterator() as $invoice) {

@@ -14,7 +14,7 @@ class GetAllMethodsRequestTest extends TestCase
     public function it_can_get_all_methods()
     {
         $client = new MockMollieClient([
-            GetAllMethodsRequest::class => new MockResponse(200, 'method-list'),
+            GetAllMethodsRequest::class => MockResponse::ok('method-list'),
         ]);
 
         $request = new GetAllMethodsRequest;

@@ -16,7 +16,7 @@ class CreateSubscriptionRequestTest extends TestCase
     public function it_can_create_subscription()
     {
         $client = new MockMollieClient([
-            CreateSubscriptionRequest::class => new MockResponse(201, 'subscription'),
+            CreateSubscriptionRequest::class => MockResponse::created('subscription'),
         ]);
 
         $request = new CreateSubscriptionRequest('cst_123', new CreateSubscriptionPayload(

@@ -31,7 +31,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
+            GetSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
         $salesInvoice = $client->salesInvoices->get('inv_123');
@@ -43,7 +43,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateSalesInvoiceRequest::class => new MockResponse(201, 'sales-invoice'),
+            CreateSalesInvoiceRequest::class => MockResponse::created('sales-invoice'),
         ]);
 
         $invoiceLines = [
@@ -84,7 +84,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdateSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
+            UpdateSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
         $payload = new UpdateSalesInvoicePayload(
@@ -100,7 +100,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function delete()
     {
         $client = new MockMollieClient([
-            DeleteSalesInvoiceRequest::class => new MockResponse(204),
+            DeleteSalesInvoiceRequest::class => MockResponse::noContent(),
         ]);
 
         $client->salesInvoices->delete('invoice_123');
@@ -112,7 +112,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
+            GetPaginatedSalesInvoicesRequest::class => MockResponse::ok('sales-invoice-list'),
         ]);
 
         $salesInvoices = $client->salesInvoices->page();
@@ -124,8 +124,8 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
     public function iterate()
     {
         $client = new MockMollieClient([
-            GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'sales_invoices'),
+            GetPaginatedSalesInvoicesRequest::class => MockResponse::ok('sales-invoice-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'sales_invoices'),
         ]);
 
         /** @var SalesInvoice $salesInvoice */

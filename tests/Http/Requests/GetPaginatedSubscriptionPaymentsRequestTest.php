@@ -19,7 +19,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
     public function it_can_get_paginated_subscription_payments()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         $request = new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3', new PaginatedQuery);
@@ -41,10 +41,10 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
     public function it_can_iterate_over_subscription_payments()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'payment-list'),
-                new MockResponse(200, 'empty-list', 'payments'),
+                MockResponse::ok('payment-list'),
+                MockResponse::ok('empty-list', 'payments'),
             ),
         ]);
 

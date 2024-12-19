@@ -14,7 +14,7 @@ class GetPaymentRequestTest extends TestCase
     public function it_can_get_payment()
     {
         $client = new MockMollieClient([
-            GetPaymentRequest::class => new MockResponse(200, 'payment'),
+            GetPaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
         $paymentId = 'tr_WDqYK6vllg';

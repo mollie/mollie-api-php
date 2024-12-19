@@ -18,7 +18,7 @@ class CursorCollectionTest extends TestCase
     public function can_get_next_collection_result_when_next_link_is_available()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
+            DynamicGetRequest::class => MockResponse::ok('cursor-collection'),
         ]);
 
         $collection = new PaymentCollection(
@@ -57,7 +57,7 @@ class CursorCollectionTest extends TestCase
     public function test_can_get_previous_collection_result_when_previous_link_is_available()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => new MockResponse(200, 'cursor-collection'),
+            DynamicGetRequest::class => MockResponse::ok('cursor-collection'),
         ]);
 
         $collection = new PaymentCollection(
@@ -111,9 +111,9 @@ class CursorCollectionTest extends TestCase
     {
         $client = new MockMollieClient([
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuF'),
-                new MockResponse(200, 'cursor-collection-next', 'tr_stTC2WHAuS'),
-                new MockResponse(200, 'cursor-collection', 'tr_stTC2WHAuB')
+                MockResponse::ok('cursor-collection-next', 'tr_stTC2WHAuF'),
+                MockResponse::ok('cursor-collection-next', 'tr_stTC2WHAuS'),
+                MockResponse::ok('cursor-collection', 'tr_stTC2WHAuB')
             ),
         ]);
 

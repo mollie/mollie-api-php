@@ -18,7 +18,7 @@ class GetPaginatedSettlementsRequestTest extends TestCase
     public function it_can_get_paginated_settlements()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
+            GetPaginatedSettlementsRequest::class => MockResponse::ok('settlement-list'),
         ]);
 
         $request = new GetPaginatedSettlementsRequest;
@@ -40,10 +40,10 @@ class GetPaginatedSettlementsRequestTest extends TestCase
     public function it_can_iterate_over_settlements()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
+            GetPaginatedSettlementsRequest::class => MockResponse::ok('settlement-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'settlement-list'),
-                new MockResponse(200, 'empty-list', 'settlements'),
+                MockResponse::ok('settlement-list'),
+                MockResponse::ok('empty-list', 'settlements'),
             ),
         ]);
 

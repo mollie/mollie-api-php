@@ -14,7 +14,7 @@ class GetInvoiceRequestTest extends TestCase
     public function it_can_get_invoice()
     {
         $client = new MockMollieClient([
-            GetInvoiceRequest::class => new MockResponse(200, 'invoice'),
+            GetInvoiceRequest::class => MockResponse::ok('invoice'),
         ]);
 
         $invoiceId = 'inv_xBEbP9rvAq';

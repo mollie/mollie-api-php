@@ -18,7 +18,7 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedSettlementChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         $settlement = new Settlement(
@@ -42,8 +42,8 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
+            GetPaginatedSettlementChargebacksRequest::class => MockResponse::ok('chargeback-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'chargebacks'),
         ]);
 
         $settlement = new Settlement(

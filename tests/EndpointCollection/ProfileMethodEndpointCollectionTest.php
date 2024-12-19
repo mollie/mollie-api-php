@@ -15,7 +15,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function enable_for_id()
     {
         $client = new MockMollieClient([
-            EnableProfileMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
+            EnableProfileMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -28,7 +28,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function enable()
     {
         $client = new MockMollieClient([
-            EnableProfileMethodRequest::class => new MockResponse(200, 'method', 'ideal'),
+            EnableProfileMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -41,7 +41,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function disable_for_id()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => new MockResponse(204),
+            DisableProfileMethodRequest::class => MockResponse::noContent(),
         ]);
 
         $client->profileMethods->disableForId('pfl_v9hTwCvYqw', 'ideal');
@@ -54,7 +54,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function disable()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => new MockResponse(204),
+            DisableProfileMethodRequest::class => MockResponse::noContent(),
         ]);
 
         $client->profileMethods->disable('ideal');

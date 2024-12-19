@@ -16,7 +16,7 @@ class ChargebackEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         /** @var ChargebackCollection $chargebacks */
@@ -34,8 +34,8 @@ class ChargebackEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
+            GetPaginatedChargebacksRequest::class => MockResponse::ok('chargeback-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'chargebacks'),
         ]);
 
         foreach ($client->chargebacks->iterator() as $chargeback) {

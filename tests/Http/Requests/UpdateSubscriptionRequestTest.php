@@ -16,7 +16,7 @@ class UpdateSubscriptionRequestTest extends TestCase
     public function it_can_update_subscription()
     {
         $client = new MockMollieClient([
-            UpdateSubscriptionRequest::class => new MockResponse(200, 'subscription'),
+            UpdateSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

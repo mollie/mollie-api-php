@@ -14,7 +14,7 @@ class OrganizationPartnerEndpointCollectionTest extends TestCase
     public function status()
     {
         $client = new MockMollieClient([
-            GetOrganizationPartnerStatusRequest::class => new MockResponse(200, 'partner-status'),
+            GetOrganizationPartnerStatusRequest::class => MockResponse::ok('partner-status'),
         ]);
 
         /** @var Partner $partner */

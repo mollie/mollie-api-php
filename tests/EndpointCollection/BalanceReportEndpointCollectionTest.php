@@ -23,7 +23,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
     public function get_for_id()
     {
         $client = new MockMollieClient([
-            GetBalanceReportRequest::class => new MockResponse(200, 'balance-report', 'bal_gVMhHKqSSRYJyPsuoPNFH'),
+            GetBalanceReportRequest::class => MockResponse::ok('balance-report', 'bal_gVMhHKqSSRYJyPsuoPNFH'),
         ]);
 
         /** @var BalanceReport $report */
@@ -40,7 +40,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
     public function get_for_balance()
     {
         $client = new MockMollieClient([
-            GetBalanceReportRequest::class => new MockResponse(200, 'balance-report', 'bal_gVMhHKqSSRYJyPsuoPNFH'),
+            GetBalanceReportRequest::class => MockResponse::ok('balance-report', 'bal_gVMhHKqSSRYJyPsuoPNFH'),
         ]);
 
         $balance = new Balance($client, $this->createMock(Response::class));
@@ -60,7 +60,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
     public function get_for_primary()
     {
         $client = new MockMollieClient([
-            GetBalanceReportRequest::class => new MockResponse(200, 'balance-report', 'bal_primary'),
+            GetBalanceReportRequest::class => MockResponse::ok('balance-report', 'bal_primary'),
         ]);
 
         /** @var BalanceReport $report */

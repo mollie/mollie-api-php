@@ -17,7 +17,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+            GetSettlementRequest::class => MockResponse::ok('settlement'),
         ]);
 
         /** @var Settlement $settlement */
@@ -30,7 +30,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     public function next()
     {
         $client = new MockMollieClient([
-            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+            GetSettlementRequest::class => MockResponse::ok('settlement'),
         ]);
 
         /** @var Settlement $settlement */
@@ -43,7 +43,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     public function open()
     {
         $client = new MockMollieClient([
-            GetSettlementRequest::class => new MockResponse(200, 'settlement'),
+            GetSettlementRequest::class => MockResponse::ok('settlement'),
         ]);
 
         /** @var Settlement $settlement */
@@ -56,7 +56,7 @@ class SettlementsEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
+            GetPaginatedSettlementsRequest::class => MockResponse::ok('settlement-list'),
         ]);
 
         /** @var SettlementCollection $settlements */
@@ -74,8 +74,8 @@ class SettlementsEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementsRequest::class => new MockResponse(200, 'settlement-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'settlements'),
+            GetPaginatedSettlementsRequest::class => MockResponse::ok('settlement-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'settlements'),
         ]);
 
         foreach ($client->settlements->iterator('stl_123', 50, ['reference' => 'test']) as $settlement) {

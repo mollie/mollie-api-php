@@ -14,7 +14,7 @@ class GetTerminalRequestTest extends TestCase
     public function it_can_get_terminal()
     {
         $client = new MockMollieClient([
-            GetTerminalRequest::class => new MockResponse(200, 'terminal'),
+            GetTerminalRequest::class => MockResponse::ok('terminal'),
         ]);
 
         $request = new GetTerminalRequest('term_7MgL4wea');

@@ -16,7 +16,7 @@ class UpdatePaymentRouteRequestTest extends TestCase
     public function it_can_update_payment_route()
     {
         $client = new MockMollieClient([
-            UpdatePaymentRouteRequest::class => new MockResponse(200, 'route'),
+            UpdatePaymentRouteRequest::class => MockResponse::ok('route'),
         ]);
 
         $request = new UpdatePaymentRouteRequest('tr_WDqYK6vllg', 'rt_H2wvxEyQcP', new UpdatePaymentRoutePayload(

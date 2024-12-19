@@ -17,7 +17,7 @@ class GetPaginatedPaymentChargebacksRequestTest extends TestCase
     public function it_can_get_paginated_chargebacks()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedPaymentChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         $request = new GetPaginatedPaymentChargebacksRequest('tr_WDqYK6vllg');
@@ -39,10 +39,10 @@ class GetPaginatedPaymentChargebacksRequestTest extends TestCase
     public function it_can_iterate_over_chargebacks()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedPaymentChargebacksRequest::class => MockResponse::ok('chargeback-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'chargeback-list'),
-                new MockResponse(200, 'empty-list', 'chargebacks'),
+                MockResponse::ok('chargeback-list'),
+                MockResponse::ok('empty-list', 'chargebacks'),
             ),
         ]);
 

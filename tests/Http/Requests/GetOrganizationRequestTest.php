@@ -14,7 +14,7 @@ class GetOrganizationRequestTest extends TestCase
     public function it_can_get_organization()
     {
         $client = new MockMollieClient([
-            GetOrganizationRequest::class => new MockResponse(200, 'organization'),
+            GetOrganizationRequest::class => MockResponse::ok('organization'),
         ]);
 
         $organizationId = 'org_1337';

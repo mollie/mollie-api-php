@@ -13,18 +13,48 @@ class MockResponse
 
     private int $status;
 
-    private string $resourceId;
+    private string $resourceKey;
 
     private string $body;
 
+    /**
+     * @param string|array $body
+     * @param integer $status
+     * @param string $resourcekey
+     */
     public function __construct(
+        $body,
         int $status = 200,
-        string $body = '',
-        string $resourceId = ''
+        string $resourcekey = ''
     ) {
+        $this->body = is_array($body) ? json_encode($body) : $body;
         $this->status = $status;
-        $this->resourceId = $resourceId;
-        $this->body = $body;
+        $this->resourceKey = $resourcekey;
+    }
+
+    public static function ok(string $body = '', string $resourceKey = ''): self
+    {
+        return new self($body, 200, $resourceKey);
+    }
+
+    public static function created(string $body = '', string $resourceKey = ''): self
+    {
+        return new self($body, 201, $resourceKey);
+    }
+
+    public static function noContent(string $body = '', string $resourceKey = ''): self
+    {
+        return new self($body, 204, $resourceKey);
+    }
+
+    public static function notFound(string $resourceKey = ''): self
+    {
+        return new self('', 404, $resourceKey);
+    }
+
+    public static function unprocessableEntity(string $body = '', string $resourceKey = ''): self
+    {
+        return new self($body, 422, $resourceKey);
     }
 
     public function createPsrResponse(): ResponseInterface
@@ -60,8 +90,8 @@ class MockResponse
 
         $contents = file_get_contents($path);
 
-        if (! empty($this->resourceId)) {
-            $contents = str_replace('{{ RESOURCE_ID }}', $this->resourceId, $contents);
+        if (! empty($this->resourceKey)) {
+            $contents = str_replace('{{ RESOURCE_ID }}', $this->resourceKey, $contents);
         }
 
         return $contents;

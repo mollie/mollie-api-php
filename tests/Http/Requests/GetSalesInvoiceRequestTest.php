@@ -14,7 +14,7 @@ class GetSalesInvoiceRequestTest extends TestCase
     public function it_fetches_sales_invoice()
     {
         $client = new MockMollieClient([
-            GetSalesInvoiceRequest::class => new MockResponse(200, 'sales-invoice'),
+            GetSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
         $request = new GetSalesInvoiceRequest('invoice_123');

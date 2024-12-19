@@ -14,7 +14,7 @@ class GetEnabledMethodsRequestTest extends TestCase
     public function it_can_get_enabled_methods()
     {
         $client = new MockMollieClient([
-            GetEnabledMethodsRequest::class => new MockResponse(200, 'method-list'),
+            GetEnabledMethodsRequest::class => MockResponse::ok('method-list'),
         ]);
 
         $request = new GetEnabledMethodsRequest;

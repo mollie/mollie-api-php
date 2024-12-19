@@ -18,7 +18,7 @@ class SettlementPaymentEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedSettlementPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         $settlement = new Settlement($client, $this->createMock(Response::class));
@@ -39,8 +39,8 @@ class SettlementPaymentEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementPaymentsRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
+            GetPaginatedSettlementPaymentsRequest::class => MockResponse::ok('payment-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
         $settlement = new Settlement($client, $this->createMock(Response::class));

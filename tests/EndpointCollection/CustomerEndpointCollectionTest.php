@@ -20,7 +20,7 @@ class CustomerEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateCustomerRequest::class => new MockResponse(201, 'customer'),
+            CreateCustomerRequest::class => MockResponse::created('customer'),
         ]);
 
         /** @var Customer $customer */
@@ -36,7 +36,7 @@ class CustomerEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetCustomerRequest::class => new MockResponse(200, 'customer'),
+            GetCustomerRequest::class => MockResponse::ok('customer'),
         ]);
 
         /** @var Customer $customer */
@@ -49,7 +49,7 @@ class CustomerEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdateCustomerRequest::class => new MockResponse(200, 'customer'),
+            UpdateCustomerRequest::class => MockResponse::ok('customer'),
         ]);
 
         /** @var Customer $customer */
@@ -65,7 +65,7 @@ class CustomerEndpointCollectionTest extends TestCase
     public function delete()
     {
         $client = new MockMollieClient([
-            DeleteCustomerRequest::class => new MockResponse(204),
+            DeleteCustomerRequest::class => MockResponse::noContent(),
         ]);
 
         $client->customers->delete('cst_kEn1PlbGa');
@@ -78,7 +78,7 @@ class CustomerEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
+            GetPaginatedCustomerRequest::class => MockResponse::ok('customer-list'),
         ]);
 
         /** @var CustomerCollection $customers */
@@ -96,8 +96,8 @@ class CustomerEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedCustomerRequest::class => new MockResponse(200, 'customer-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'customers'),
+            GetPaginatedCustomerRequest::class => MockResponse::ok('customer-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'customers'),
         ]);
 
         foreach ($client->customers->iterator() as $customer) {

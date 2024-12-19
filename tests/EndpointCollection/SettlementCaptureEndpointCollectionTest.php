@@ -18,7 +18,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
+            GetPaginatedSettlementCapturesRequest::class => MockResponse::ok('capture-list'),
         ]);
 
         $settlement = new Settlement(
@@ -42,8 +42,8 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementCapturesRequest::class => new MockResponse(200, 'capture-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'captures'),
+            GetPaginatedSettlementCapturesRequest::class => MockResponse::ok('capture-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'captures'),
         ]);
 
         $settlement = new Settlement(

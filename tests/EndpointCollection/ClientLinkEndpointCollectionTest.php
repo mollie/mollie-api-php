@@ -17,7 +17,7 @@ class ClientLinkEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateClientLinkRequest::class => new MockResponse(201, 'client-link'),
+            CreateClientLinkRequest::class => MockResponse::created('client-link'),
         ]);
 
         /** @var ClientLink $clientLink */

@@ -14,7 +14,7 @@ class DeleteSalesInvoiceRequestTest extends TestCase
     public function it_deletes_sales_invoice()
     {
         $client = new MockMollieClient([
-            DeleteSalesInvoiceRequest::class => new MockResponse(204),
+            DeleteSalesInvoiceRequest::class => MockResponse::noContent(),
         ]);
 
         $request = new DeleteSalesInvoiceRequest('invoice_123');

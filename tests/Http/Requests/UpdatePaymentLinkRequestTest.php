@@ -15,7 +15,7 @@ class UpdatePaymentLinkRequestTest extends TestCase
     public function it_can_update_payment_link()
     {
         $client = new MockMollieClient([
-            UpdatePaymentLinkRequest::class => new MockResponse(200, 'payment-link'),
+            UpdatePaymentLinkRequest::class => MockResponse::ok('payment-link'),
         ]);
 
         $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', new UpdatePaymentLinkPayload(

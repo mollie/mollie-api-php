@@ -18,7 +18,7 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
+            GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
         $subscription = new Subscription(
@@ -43,8 +43,8 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSubscriptionPaymentsRequest::class => new MockResponse(200, 'payment-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'payments'),
+            GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
         $subscription = new Subscription(

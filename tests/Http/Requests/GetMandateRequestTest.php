@@ -14,7 +14,7 @@ class GetMandateRequestTest extends TestCase
     public function it_can_get_mandate()
     {
         $client = new MockMollieClient([
-            GetMandateRequest::class => new MockResponse(200, 'mandate'),
+            GetMandateRequest::class => MockResponse::ok('mandate'),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

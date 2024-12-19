@@ -14,7 +14,7 @@ class CancelPaymentRefundRequestTest extends TestCase
     public function it_can_cancel_payment_refund()
     {
         $client = new MockMollieClient([
-            CancelPaymentRefundRequest::class => new MockResponse(204, ''),
+            CancelPaymentRefundRequest::class => MockResponse::noContent(''),
         ]);
 
         $paymentId = 'tr_7UhSN1zuXS';

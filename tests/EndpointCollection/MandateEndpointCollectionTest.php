@@ -22,7 +22,7 @@ class MandateEndpointCollectionTest extends TestCase
     public function create_for()
     {
         $client = new MockMollieClient([
-            CreateMandateRequest::class => new MockResponse(201, 'mandate'),
+            CreateMandateRequest::class => MockResponse::created('mandate'),
         ]);
 
         $customer = new Customer(
@@ -49,7 +49,7 @@ class MandateEndpointCollectionTest extends TestCase
     public function get_for()
     {
         $client = new MockMollieClient([
-            GetMandateRequest::class => new MockResponse(200, 'mandate'),
+            GetMandateRequest::class => MockResponse::ok('mandate'),
         ]);
 
         $customer = new Customer(
@@ -68,7 +68,7 @@ class MandateEndpointCollectionTest extends TestCase
     public function revoke_for()
     {
         $client = new MockMollieClient([
-            RevokeMandateRequest::class => new MockResponse(204),
+            RevokeMandateRequest::class => MockResponse::noContent(),
         ]);
 
         $customer = new Customer(
@@ -87,7 +87,7 @@ class MandateEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
         ]);
 
         $customer = new Customer(

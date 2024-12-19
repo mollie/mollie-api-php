@@ -18,7 +18,7 @@ class SettlementRefundEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
+            GetPaginatedSettlementRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
         $settlement = new Settlement(
@@ -42,8 +42,8 @@ class SettlementRefundEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedSettlementRefundsRequest::class => new MockResponse(200, 'refund-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'refunds'),
+            GetPaginatedSettlementRefundsRequest::class => MockResponse::ok('refund-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
         ]);
 
         $settlement = new Settlement(

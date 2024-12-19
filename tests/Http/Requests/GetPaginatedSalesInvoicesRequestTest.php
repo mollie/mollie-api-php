@@ -18,7 +18,7 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
     public function it_gets_paginated_sales_invoices()
     {
         $client = new MockMollieClient([
-            GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
+            GetPaginatedSalesInvoicesRequest::class => MockResponse::ok('sales-invoice-list'),
         ]);
 
         $request = new GetPaginatedSalesInvoicesRequest;
@@ -36,10 +36,10 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
     public function it_can_iterate_over_sales_invoices()
     {
         $client = new MockMollieClient([
-            GetPaginatedSalesInvoicesRequest::class => new MockResponse(200, 'sales-invoice-list'),
+            GetPaginatedSalesInvoicesRequest::class => MockResponse::ok('sales-invoice-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'sales-invoice-list'),
-                new MockResponse(200, 'empty-list', 'sales_invoices'),
+                MockResponse::ok('sales-invoice-list'),
+                MockResponse::ok('empty-list', 'sales_invoices'),
             ),
         ]);
 

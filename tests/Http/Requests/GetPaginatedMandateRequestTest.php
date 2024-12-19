@@ -17,7 +17,7 @@ class GetPaginatedMandateRequestTest extends TestCase
     public function it_can_get_paginated_mandates()
     {
         $client = new MockMollieClient([
-            GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
         ]);
 
         $request = new GetPaginatedMandateRequest('cst_kEn1PlbGa');
@@ -39,10 +39,10 @@ class GetPaginatedMandateRequestTest extends TestCase
     public function it_can_iterate_over_mandates()
     {
         $client = new MockMollieClient([
-            GetPaginatedMandateRequest::class => new MockResponse(200, 'mandate-list'),
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
-                new MockResponse(200, 'mandate-list'),
-                new MockResponse(200, 'empty-list', 'mandates'),
+                MockResponse::ok('mandate-list'),
+                MockResponse::ok('empty-list', 'mandates'),
             ),
         ]);
 

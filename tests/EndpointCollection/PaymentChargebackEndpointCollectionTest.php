@@ -17,7 +17,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     public function get_for_id()
     {
         $client = new MockMollieClient([
-            GetPaymentChargebackRequest::class => new MockResponse(200, 'chargeback'),
+            GetPaymentChargebackRequest::class => MockResponse::ok('chargeback'),
         ]);
 
         /** @var Chargeback $chargeback */
@@ -30,7 +30,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     public function page_for_id()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
+            GetPaginatedPaymentChargebacksRequest::class => MockResponse::ok('chargeback-list'),
         ]);
 
         /** @var ChargebackCollection $chargebacks */
@@ -49,8 +49,8 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
     public function iterator_for_id()
     {
         $client = new MockMollieClient([
-            GetPaginatedPaymentChargebacksRequest::class => new MockResponse(200, 'chargeback-list'),
-            DynamicGetRequest::class => new MockResponse(200, 'empty-list', 'chargebacks'),
+            GetPaginatedPaymentChargebacksRequest::class => MockResponse::ok('chargeback-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'chargebacks'),
         ]);
 
         foreach ($client->paymentChargebacks->iteratorForId('tr_7UhSN1zuXS') as $chargeback) {
