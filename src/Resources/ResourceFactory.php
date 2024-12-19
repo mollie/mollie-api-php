@@ -23,7 +23,7 @@ class ResourceFactory
         }
 
         /** @var BaseResource $resource */
-        $resource = new $resourceClass($connector, $response);
+        $resource = (new $resourceClass($connector))->setResponse($response);
 
         if ($resource instanceof AnyResource) {
             $resource->fill($data);
@@ -147,7 +147,7 @@ class ResourceFactory
         Response $response,
         ?object $_links = null
     ): BaseCollection {
-        return new $collectionClass($connector, $response, $items, $_links);
+        return (new $collectionClass($connector, $items, $_links))->setResponse($response);
     }
 
     /**

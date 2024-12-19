@@ -49,7 +49,6 @@ use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
 use Mollie\Api\Traits\HandlesAuthentication;
 use Mollie\Api\Traits\HandlesDebugging;
 use Mollie\Api\Traits\HandlesIdempotency;
-use Mollie\Api\Traits\HandlesResourceHydration;
 use Mollie\Api\Traits\HandlesTestmode;
 use Mollie\Api\Traits\HandlesVersions;
 use Mollie\Api\Traits\HasEndpoints;
@@ -104,7 +103,6 @@ class MollieApiClient implements Connector
     use HandlesAuthentication;
     use HandlesDebugging;
     use HandlesIdempotency;
-    use HandlesResourceHydration;
     use HandlesTestmode;
     use HandlesVersions;
     use HasEndpoints;

@@ -4,9 +4,8 @@ namespace Mollie\Api\Resources;
 
 use Iterator;
 use IteratorAggregate;
-use Mollie\Api\Contracts\HasResponse;
-use Mollie\Api\Contracts\ViableResponse;
-use Mollie\Api\Http\Response;
+use Mollie\Api\Contracts\IsResponseAware;
+use Mollie\Api\Traits\HasResponse;
 
 /**
  * @template TKey of array-key
@@ -14,27 +13,21 @@ use Mollie\Api\Http\Response;
  *
  * @implements IteratorAggregate<TKey, TValue>
  */
-class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
+class LazyCollection implements IsResponseAware, IteratorAggregate
 {
+    use HasResponse;
+
     /**
      * @var callable
      */
     private $source;
 
-    private Response $response;
-
     /**
      * @param  callable  $source
      */
-    public function __construct($source, Response $response)
+    public function __construct($source)
     {
         $this->source = $source;
-        $this->response = $response;
-    }
-
-    public function getResponse(): Response
-    {
-        return $this->response;
     }
 
     /**
@@ -69,13 +62,13 @@ class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
      */
     public function filter(callable $callback): self
     {
-        return new self(function () use ($callback) {
+        return (new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 if ($callback($value, $key)) {
                     yield $key => $value;
                 }
             }
-        }, $this->response);
+        }))->setResponse($this->response);
     }
 
     /**
@@ -115,11 +108,11 @@ class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
      */
     public function map(callable $callback): self
     {
-        return new self(function () use ($callback) {
+        return (new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 yield $key => $callback($value, $key);
             }
-        }, $this->response);
+        }))->setResponse($this->response);
     }
 
     /**
@@ -129,7 +122,7 @@ class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
      */
     public function take(int $limit): self
     {
-        return new self(function () use ($limit) {
+        return (new self(function () use ($limit) {
             $iterator = $this->getIterator();
 
             while ($limit--) {
@@ -143,7 +136,7 @@ class LazyCollection implements HasResponse, IteratorAggregate, ViableResponse
                     $iterator->next();
                 }
             }
-        }, $this->response);
+        }))->setResponse($this->response);
     }
 
     /**

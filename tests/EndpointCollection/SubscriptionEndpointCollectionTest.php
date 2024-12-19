@@ -11,7 +11,6 @@ use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Requests\GetSubscriptionRequest;
 use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
@@ -26,7 +25,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             CreateSubscriptionRequest::class => MockResponse::created('subscription'),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -50,7 +49,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             GetSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -66,7 +65,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             UpdateSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Subscription $subscription */
@@ -88,7 +87,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             CancelSubscriptionRequest::class => MockResponse::noContent(),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         $client->subscriptions->cancelFor($customer, 'sub_rVKGtNd6s3');
@@ -104,7 +103,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             GetPaginatedSubscriptionsRequest::class => MockResponse::ok('subscription-list'),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var SubscriptionCollection $subscriptions */
@@ -127,7 +126,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'subscriptions'),
         ]);
 
-        $customer = new Customer($client, $this->createMock(Response::class));
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         foreach ($client->subscriptions->iteratorFor($customer) as $subscription) {

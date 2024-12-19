@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\OnboardingStatus;
@@ -20,7 +19,6 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
     {
         $onboarding = new Onboarding(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $onboarding->status = $status;
 

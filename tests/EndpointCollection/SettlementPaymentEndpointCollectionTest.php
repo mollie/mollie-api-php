@@ -6,7 +6,6 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementPaymentsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Settlement;
@@ -21,7 +20,7 @@ class SettlementPaymentEndpointCollectionTest extends TestCase
             GetPaginatedSettlementPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
-        $settlement = new Settlement($client, $this->createMock(Response::class));
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         /** @var PaymentCollection $payments */
@@ -43,7 +42,7 @@ class SettlementPaymentEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
-        $settlement = new Settlement($client, $this->createMock(Response::class));
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         foreach ($client->settlementPayments->iteratorFor($settlement) as $payment) {

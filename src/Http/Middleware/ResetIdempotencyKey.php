@@ -7,7 +7,10 @@ use Mollie\Api\Http\Response;
 
 class ResetIdempotencyKey implements ResponseMiddleware
 {
-    public function __invoke(Response $response): void
+    /**
+     * @param  Response|ViableResponse|mixed  $response
+     */
+    public function __invoke($response): void
     {
         $response->getConnector()->resetIdempotencyKey();
     }

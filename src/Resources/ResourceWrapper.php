@@ -9,27 +9,35 @@ abstract class ResourceWrapper implements IsWrapper
 {
     use ForwardsCalls;
 
-    protected $resource;
+    protected $wrapped;
 
-    public function setResource($resource): static
+    public function setWrapped($wrapped): static
     {
-        $this->resource = $resource;
+        $this->wrapped = $wrapped;
 
         return $this;
     }
 
     public function wrap($resource): static
     {
-        return $this->setResource($resource);
+        return $this->setWrapped($resource);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWrapped()
+    {
+        return $this->wrapped;
     }
 
     public function __get($name)
     {
-        return $this->resource->{$name};
+        return $this->wrapped->{$name};
     }
 
     public function __call($name, $arguments)
     {
-        return $this->forwardDecoratedCallTo($this->resource, $name, $arguments);
+        return $this->forwardDecoratedCallTo($this->wrapped, $name, $arguments);
     }
 }

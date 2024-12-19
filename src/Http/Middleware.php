@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Http;
 
+use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
@@ -35,7 +36,8 @@ class Middleware
 
     public function onResponse(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
     {
-        $this->onResponse->add(static function (Response $response) use ($callback) {
+        /** @param Response|IsResponseAware $response */
+        $this->onResponse->add(static function ($response) use ($callback) {
             $result = $callback($response);
 
             return $result instanceof Response

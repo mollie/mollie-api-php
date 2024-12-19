@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Types\ProfileStatus;
@@ -20,7 +19,6 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
     {
         $profile = new Profile(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $profile->status = $status;
 

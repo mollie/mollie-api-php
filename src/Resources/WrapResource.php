@@ -8,26 +8,18 @@ class WrapResource
 {
     protected string $wrappedResource;
 
-    protected ?string $wrapper = null;
+    protected string $wrapper;
 
     public function __construct(string $wrappedResource, ?string $wrapper = null)
     {
-        $this->wrappedResource = $wrappedResource;
+        $wrapper = $wrapper ?? $wrappedResource;
 
-        if ($wrapper) {
-            $this->with($wrapper);
-        }
-    }
-
-    public function with(string $wrapper): self
-    {
         if (! is_subclass_of($wrapper, IsWrapper::class)) {
             throw new \InvalidArgumentException("The wrapper class '{$wrapper}' does not implement the IsWrapper interface.");
         }
 
+        $this->wrappedResource = $wrappedResource;
         $this->wrapper = $wrapper;
-
-        return $this;
     }
 
     public function getWrappedResource(): string

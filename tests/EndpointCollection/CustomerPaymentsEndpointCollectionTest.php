@@ -9,7 +9,6 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
@@ -24,10 +23,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             CreateCustomerPaymentRequest::class => MockResponse::created('payment'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Payment $payment */
@@ -47,10 +43,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             GetPaginatedCustomerPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var PaymentCollection $payments */
@@ -72,10 +65,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'payments'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_kEn1PlbGa';
 
         foreach ($client->customerPayments->iteratorFor($customer) as $payment) {

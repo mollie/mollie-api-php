@@ -3,12 +3,13 @@
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\HasResponse;
+use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\GuardResponse;
+use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\Middleware\ThrowExceptionIfRequestFailed;
@@ -56,9 +57,9 @@ class PendingRequest
 
         $this
             ->tap(new MergeRequestProperties)
-            ->tap(new AddTestmodeIfEnabled)
             ->tap(new SetBody)
             ->tap(new SetUserAgent)
+            ->tap(new AddTestmodeIfEnabled)
             ->tap(new AuthenticateRequest)
             ->tap(new RemoveTestmodeFromApiAuthenticatedRequests);
 
@@ -70,6 +71,7 @@ class PendingRequest
 
             /** On response */
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
+            ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
             ->onResponse(new GuardResponse, MiddlewarePriority::HIGH)
             ->onResponse(new ThrowExceptionIfRequestFailed, MiddlewarePriority::HIGH);
     }
@@ -134,7 +136,7 @@ class PendingRequest
     }
 
     /**
-     * @return Response|HasResponse
+     * @return Response|IsResponseAware
      */
     public function executeResponseHandlers(Response $response)
     {

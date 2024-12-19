@@ -6,7 +6,6 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementRefundsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
@@ -21,10 +20,7 @@ class SettlementRefundEndpointCollectionTest extends TestCase
             GetPaginatedSettlementRefundsRequest::class => MockResponse::ok('refund-list'),
         ]);
 
-        $settlement = new Settlement(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         /** @var RefundCollection $refunds */
@@ -46,10 +42,7 @@ class SettlementRefundEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
         ]);
 
-        $settlement = new Settlement(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         foreach ($client->settlementRefunds->iteratorFor($settlement) as $refund) {

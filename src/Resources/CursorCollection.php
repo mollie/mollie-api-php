@@ -73,7 +73,7 @@ abstract class CursorCollection extends ResourceCollection
     {
         $page = $this;
 
-        return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
+        return (new LazyCollection(function () use ($page, $iterateBackwards): Generator {
             while (true) {
                 foreach ($page as $item) {
                     yield $item;
@@ -87,6 +87,6 @@ abstract class CursorCollection extends ResourceCollection
                     ? $page->previous()
                     : $page->next();
             }
-        }, $this->response);
+        }))->setResponse($this->response);
     }
 }

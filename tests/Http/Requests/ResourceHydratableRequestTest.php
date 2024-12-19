@@ -4,6 +4,8 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\ResourceWrapper;
+use Mollie\Api\Resources\WrapResource;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratableRequestTest extends TestCase
@@ -26,6 +28,27 @@ class ResourceHydratableRequestTest extends TestCase
 
         $request->getHydratableResource();
     }
+
+    /** @test */
+    public function it_can_hydrate_response_into_resource_wrapper()
+    {
+        $request = new class extends ResourceHydratableRequest
+        {
+            protected $hydratableResource = DummyResource::class;
+
+            public function resolveResourcePath(): string
+            {
+                return 'test';
+            }
+        };
+
+        // Set the wrapper as the hydratable resource
+        $request->setHydratableResource(new WrapResource(DummyResource::class, DummyResourceWrapper::class));
+
+        // Assert the wrapper is set as the hydratable resource
+        $this->assertInstanceOf(WrapResource::class, $request->getHydratableResource());
+        $this->assertTrue($request->isHydratable());
+    }
 }
 
 class ConcreteResourceHydratableRequest extends ResourceHydratableRequest
@@ -43,5 +66,20 @@ class InvalidResourceHydratableRequest extends ResourceHydratableRequest
     public function resolveResourcePath(): string
     {
         return 'test';
+    }
+}
+
+class DummyResource extends BaseResource
+{
+    public $id;
+
+    public $name;
+}
+
+class DummyResourceWrapper extends ResourceWrapper
+{
+    public static function fromResource($resource): self
+    {
+        return (new self)->wrap($resource);
     }
 }

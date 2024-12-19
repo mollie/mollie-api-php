@@ -37,7 +37,7 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $mockResource = new class($this->client, $response) extends BaseResource {};
+        $mockResource = new class($this->client) extends BaseResource {};
 
         $request->expects($this->once())
             ->method('getHydratableResource')
@@ -58,7 +58,7 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $mockCollection = new class($this->client, $response) extends ResourceCollection
+        $mockCollection = new class($this->client) extends ResourceCollection
         {
             public static string $resource = AnyResource::class;
 
@@ -130,8 +130,7 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $decoratedResource = (new WrapResource(AnyResource::class))
-            ->with(CustomDecorator::class);
+        $decoratedResource = (new WrapResource(AnyResource::class, CustomDecorator::class));
 
         $request->expects($this->exactly(2))
             ->method('getHydratableResource')

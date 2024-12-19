@@ -10,7 +10,6 @@ use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
@@ -25,10 +24,7 @@ class MandateEndpointCollectionTest extends TestCase
             CreateMandateRequest::class => MockResponse::created('mandate'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
@@ -52,10 +48,7 @@ class MandateEndpointCollectionTest extends TestCase
             GetMandateRequest::class => MockResponse::ok('mandate'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
@@ -71,10 +64,7 @@ class MandateEndpointCollectionTest extends TestCase
             RevokeMandateRequest::class => MockResponse::noContent(),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_4qqhO89gsT';
 
         $client->mandates->revokeFor($customer, 'mdt_h3gAaD5zP');
@@ -90,10 +80,7 @@ class MandateEndpointCollectionTest extends TestCase
             GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
         ]);
 
-        $customer = new Customer(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $customer = new Customer($client);
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var MandateCollection $mandates */

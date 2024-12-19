@@ -6,7 +6,6 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Settlement;
@@ -21,10 +20,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
             GetPaginatedSettlementCapturesRequest::class => MockResponse::ok('capture-list'),
         ]);
 
-        $settlement = new Settlement(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         /** @var CaptureCollection $captures */
@@ -46,10 +42,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'captures'),
         ]);
 
-        $settlement = new Settlement(
-            $client,
-            $this->createMock(Response::class)
-        );
+        $settlement = new Settlement($client);
         $settlement->id = 'stl_jDk30akdN';
 
         foreach ($client->settlementCaptures->iteratorFor($settlement) as $capture) {

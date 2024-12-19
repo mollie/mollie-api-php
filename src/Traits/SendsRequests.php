@@ -17,10 +17,8 @@ trait SendsRequests
 
         $pendingRequest = $pendingRequest->executeRequestHandlers();
 
-        $response = $pendingRequest->executeResponseHandlers(
+        return $pendingRequest->executeResponseHandlers(
             $this->httpClient->sendRequest($pendingRequest)
         );
-
-        return $this->hydrateIfApplicable($response);
     }
 }

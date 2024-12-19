@@ -6,7 +6,6 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Subscription;
@@ -23,7 +22,6 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
 
         $subscription = new Subscription(
             $client,
-            $this->createMock(Response::class)
         );
         $subscription->id = 'sub_rVKGtNd6s3';
         $subscription->customerId = 'cust_kEn1PlbGa';
@@ -49,7 +47,6 @@ class SubscriptionPaymentEndpointCollectionTest extends TestCase
 
         $subscription = new Subscription(
             $client,
-            $this->createMock(Response::class)
         );
         $subscription->id = 'sub_rVKGtNd6s3';
         $subscription->customerId = 'cust_kEn1PlbGa';

@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Types\InvoiceStatus;
@@ -21,7 +20,6 @@ class InvoiceTest extends TestCase
     {
         $invoice = new Invoice(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $invoice->status = $status;
 

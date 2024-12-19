@@ -7,7 +7,7 @@ use Mollie\Api\Resources\BaseCollection;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\LazyCollection;
 
-interface IsWrapper
+interface IsWrapper extends ViableResponse
 {
     /**
      * @param  Response|BaseResource|BaseCollection|LazyCollection  $resource

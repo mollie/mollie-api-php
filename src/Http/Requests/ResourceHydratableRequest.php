@@ -45,6 +45,10 @@ abstract class ResourceHydratableRequest extends Request
     {
         $this->customHydratableResource = $hydratableResource;
 
+        if (! $this->hydratableResource && $this->customHydratableResource instanceof WrapResource) {
+            $this->hydratableResource = $this->customHydratableResource->getWrappedResource();
+        }
+
         return $this;
     }
 

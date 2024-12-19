@@ -4,7 +4,6 @@ namespace Mollie\Api\Fake;
 
 use Mollie\Api\Traits\HasDefaultFactories;
 use Mollie\Api\Utils\Arr;
-use PHPUnit\Framework\Assert as PHPUnit;
 use Psr\Http\Message\ResponseInterface;
 
 class MockResponse
@@ -18,31 +17,38 @@ class MockResponse
     private string $body;
 
     /**
-     * @param string|array $body
-     * @param integer $status
-     * @param string $resourcekey
+     * @param  string|array|callable  $body
      */
     public function __construct(
         $body,
         int $status = 200,
-        string $resourcekey = ''
+        string $resourceKey = ''
     ) {
         $this->body = is_array($body) ? json_encode($body) : $body;
         $this->status = $status;
-        $this->resourceKey = $resourcekey;
+        $this->resourceKey = $resourceKey;
     }
 
-    public static function ok(string $body = '', string $resourceKey = ''): self
+    /**
+     * @param  string|array  $body
+     */
+    public static function ok($body = [], string $resourceKey = ''): self
     {
         return new self($body, 200, $resourceKey);
     }
 
-    public static function created(string $body = '', string $resourceKey = ''): self
+    /**
+     * @param  string|array  $body
+     */
+    public static function created($body = [], string $resourceKey = ''): self
     {
         return new self($body, 201, $resourceKey);
     }
 
-    public static function noContent(string $body = '', string $resourceKey = ''): self
+    /**
+     * @param  string|array  $body
+     */
+    public static function noContent($body = [], string $resourceKey = ''): self
     {
         return new self($body, 204, $resourceKey);
     }
@@ -52,7 +58,10 @@ class MockResponse
         return new self('', 404, $resourceKey);
     }
 
-    public static function unprocessableEntity(string $body = '', string $resourceKey = ''): self
+    /**
+     * @param  string|array  $body
+     */
+    public static function unprocessableEntity($body = [], string $resourceKey = ''): self
     {
         return new self($body, 422, $resourceKey);
     }
@@ -95,18 +104,6 @@ class MockResponse
         }
 
         return $contents;
-    }
-
-    public function assertResponseBodyEquals(ResponseInterface $response): void
-    {
-        $body = $response->getBody();
-        $body->rewind();
-
-        PHPUnit::assertEquals(
-            $body->getContents(),
-            $this->createPsrResponse()->getBody()->getContents(),
-            'Response does not match'
-        );
     }
 
     private function isJson($string): bool

@@ -46,13 +46,4 @@ class MockResponseTest extends TestCase
         $this->assertStringContainsString('tr_12345', $body);
         $this->assertStringNotContainsString('{{ RESOURCE_ID }}', $body);
     }
-
-    /** @test */
-    public function assert_response_body_equals_compares_response_contents()
-    {
-        $response = MockResponse::ok('{"test": true}');
-        $psrResponse = $response->createPsrResponse();
-
-        $response->assertResponseBodyEquals($psrResponse);
-    }
 }

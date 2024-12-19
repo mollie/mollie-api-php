@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
@@ -20,7 +19,6 @@ class RefundTest extends \PHPUnit\Framework\TestCase
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $refund->status = $status;
 
@@ -37,7 +35,6 @@ class RefundTest extends \PHPUnit\Framework\TestCase
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $refund->status = $status;
 

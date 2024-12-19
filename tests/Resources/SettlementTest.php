@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Types\SettlementStatus;
@@ -20,7 +19,6 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
     {
         $settlement = new Settlement(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $settlement->status = $status;
 

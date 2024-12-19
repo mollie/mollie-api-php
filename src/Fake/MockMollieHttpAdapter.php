@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Fake;
 
+use Closure;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
@@ -14,7 +15,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     use HasDefaultFactories;
 
     /**
-     * @var array<string, MockResponse>
+     * @var array<string, MockResponse|Closure(PendingRequest): MockResponse>
      */
     private array $expected;
 
@@ -34,7 +35,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
 
         $this->guardAgainstStrayRequests($requestClass);
 
-        $mockedResponse = $this->getResponse($requestClass);
+        $mockedResponse = $this->getResponse($requestClass, $pendingRequest);
 
         $response = new Response(
             $mockedResponse->createPsrResponse(),
@@ -57,9 +58,15 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     /**
      * Get the mocked response and remove it from the expected responses.
      */
-    private function getResponse(string $requestClass): MockResponse
+    private function getResponse(string $requestClass, PendingRequest $pendingRequest): MockResponse
     {
         $mockedResponse = Arr::get($this->expected, $requestClass);
+
+        if ($mockedResponse instanceof Closure) {
+            Arr::forget($this->expected, $requestClass);
+
+            return $mockedResponse($pendingRequest);
+        }
 
         if (! ($mockedResponse instanceof SequenceMockResponse)) {
             Arr::forget($this->expected, $requestClass);

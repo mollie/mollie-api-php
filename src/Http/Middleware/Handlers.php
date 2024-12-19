@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Http\Middleware;
 
+use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
@@ -41,7 +42,7 @@ class Handlers
      * Execute the handlers
      *
      * @param  PendingRequest|Response|mixed  $payload
-     * @return PendingRequest|Response|ViableResponse
+     * @return PendingRequest|Response|IsResponseAware|ViableResponse
      */
     public function execute($payload)
     {

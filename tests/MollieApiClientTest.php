@@ -15,9 +15,11 @@ use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
-use Mollie\Api\Http\Response as HttpResponse;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\ResourceWrapper;
+use Mollie\Api\Resources\WrapResource;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
@@ -47,7 +49,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $client = new MockMollieClient([
-            DynamicGetRequest::class => $mockResponse = MockResponse::unprocessableEntity('unprocessable-entity-with-field'),
+            DynamicGetRequest::class => MockResponse::unprocessableEntity('unprocessable-entity-with-field'),
         ]);
 
         try {
@@ -55,8 +57,6 @@ class MollieApiClientTest extends TestCase
         } catch (ApiException $e) {
             $this->assertEquals('recurringType', $e->getField());
             $this->assertNotEmpty($e->getDocumentationUrl());
-
-            $mockResponse->assertResponseBodyEquals($e->getResponse());
 
             throw $e;
         }
@@ -70,7 +70,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $client = new MockMollieClient([
-            DynamicGetRequest::class => $mockResponse = MockResponse::unprocessableEntity('unprocessable-entity'),
+            DynamicGetRequest::class => MockResponse::unprocessableEntity('unprocessable-entity'),
         ]);
 
         try {
@@ -78,7 +78,6 @@ class MollieApiClientTest extends TestCase
         } catch (ApiException $e) {
             $this->assertNull($e->getField());
             $this->assertNull($e->getDocumentationUrl());
-            $mockResponse->assertResponseBodyEquals($e->getResponse());
 
             throw $e;
         }
@@ -105,7 +104,6 @@ class MollieApiClientTest extends TestCase
         $this->assertNotEmpty($client_copy->customerPayments);
         $this->assertNotEmpty($client_copy->payments);
         $this->assertNotEmpty($client_copy->methods);
-        // no need to assert them all.
     }
 
     /** @test */
@@ -174,7 +172,7 @@ class MollieApiClientTest extends TestCase
             DynamicGetRequest::class => MockResponse::noContent(),
         ]);
 
-        /** @var HttpResponse $response */
+        /** @var Response $response */
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertFalse($response->getPendingRequest()->headers()->has('Content-Type'));
@@ -189,7 +187,7 @@ class MollieApiClientTest extends TestCase
 
         $client->clearIdempotencyKeyGenerator();
 
-        /** @var HttpResponse $response */
+        /** @var Response $response */
         $response = $client->send(new DynamicDeleteRequest(''));
 
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
@@ -332,5 +330,29 @@ class MollieApiClientTest extends TestCase
 
         $this->assertTrue($response->getPendingRequest()->query()->has('testmode'));
         $this->assertTrue($response->getPendingRequest()->query()->get('testmode'));
+    }
+
+    /** @test */
+    public function can_hydrate_response_into_custom_resource_wrapper_class()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+        ]);
+
+        /** @var DummyResourceWrapper $response */
+        $response = $client->send(
+            (new DynamicGetRequest(''))
+                ->setHydratableResource(new WrapResource(DummyResourceWrapper::class))
+        );
+
+        $this->assertInstanceOf(DummyResourceWrapper::class, $response);
+    }
+}
+
+class DummyResourceWrapper extends ResourceWrapper
+{
+    public static function fromResource($resource): self
+    {
+        return (new self)->wrap($resource);
     }
 }

@@ -4,14 +4,14 @@ namespace Mollie\Api\Resources;
 
 use ArrayObject;
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\HasResponse;
-use Mollie\Api\Http\Response;
+use Mollie\Api\Contracts\IsResponseAware;
+use Mollie\Api\Traits\HasResponse;
 
-abstract class BaseCollection extends ArrayObject implements HasResponse
+abstract class BaseCollection extends ArrayObject implements IsResponseAware
 {
-    protected Connector $connector;
+    use HasResponse;
 
-    protected Response $response;
+    protected Connector $connector;
 
     /**
      * The name of the collection resource in Mollie's API.
@@ -23,18 +23,12 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
     /**
      * @param  array|object  $items
      */
-    public function __construct(Connector $connector, Response $response, $items = [], ?\stdClass $_links = null)
+    public function __construct(Connector $connector, $items = [], ?\stdClass $_links = null)
     {
         parent::__construct($items);
 
         $this->_links = $_links;
         $this->connector = $connector;
-        $this->response = $response;
-    }
-
-    public function getResponse(): Response
-    {
-        return $this->response;
     }
 
     public function contains(callable $callback): bool
@@ -53,7 +47,7 @@ abstract class BaseCollection extends ArrayObject implements HasResponse
         $filteredItems = array_filter($this->getArrayCopy(), $callback);
 
         /** @phpstan-ignore-next-line */
-        return new static($this->connector, $this->response, $filteredItems,  $this->_links);
+        return (new static($this->connector, $filteredItems,  $this->_links))->setResponse($this->response);
     }
 
     public static function getCollectionResourceName(): string

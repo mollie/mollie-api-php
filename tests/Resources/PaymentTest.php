@@ -2,7 +2,6 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
@@ -22,7 +21,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
         $payment->status = $status;
 
@@ -86,7 +84,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->paidAt = '2016-10-24';
@@ -97,7 +94,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -110,7 +106,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -121,7 +116,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -134,7 +128,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -145,7 +138,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->sequenceType = SequenceType::FIRST;
@@ -157,7 +149,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->sequenceType = SequenceType::RECURRING;
@@ -169,7 +160,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->sequenceType = SequenceType::ONEOFF;
@@ -181,7 +171,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -195,7 +184,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
@@ -209,7 +197,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $amountRemaining = new Stdclass;
@@ -225,7 +212,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountRemaining = null;
@@ -237,7 +223,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountRefunded = (object) ['value' => 22.0, 'currency' => 'EUR'];
@@ -248,7 +233,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountRefunded = null;
@@ -259,7 +243,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountRemaining = (object) ['value' => 22.0, 'currency' => 'EUR'];
@@ -270,7 +253,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountRefunded = null;
@@ -281,7 +263,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountChargedBack = (object) ['value' => 22.0, 'currency' => 'EUR'];
@@ -292,7 +273,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->amountChargedBack = null;
@@ -303,7 +283,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->settlementAmount = null;
@@ -314,7 +293,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->settlementAmount = (object) ['value' => 22.0, 'currency' => 'EUR'];
@@ -325,7 +303,6 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
-            $this->createMock(Response::class)
         );
 
         $payment->_links = new stdClass;
