@@ -270,3 +270,8 @@ $paymentLink = $mollie->paymentLinks->get('pl_...', testmode: true);
 $paymentLink = $mollie->paymentLinks->update('pl_...', ['description' => 'Updated'], testmode: true);
 $mollie->paymentLinks->delete('pl_...', testmode: true);
 ```
+
+---
+
+- removed `STATUS` prefix on all type constants
+- collection constructors changed, they don't include the counted items anymore
