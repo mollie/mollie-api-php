@@ -3,6 +3,7 @@
 namespace Tests;
 
 use GuzzleHttp\Client;
+use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
 use Mollie\Api\Fake\MockMollieClient;
@@ -13,6 +14,8 @@ use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Request;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response;
@@ -20,6 +23,8 @@ use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\ResourceWrapper;
 use Mollie\Api\Resources\WrapperResource;
+use Mollie\Api\Traits\HasJsonPayload;
+use Mollie\Api\Types\Method;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
@@ -347,6 +352,53 @@ class MollieApiClientTest extends TestCase
 
         $this->assertInstanceOf(DummyResourceWrapper::class, $response);
     }
+
+    /** @test */
+    public function empty_or_null_query_parameters_are_not_added_to_the_request()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => function (PendingRequest $pendingRequest) {
+                $this->assertEquals([
+                    'filled' => 'bar',
+                ], $pendingRequest->query()->all());
+                $this->assertEquals('filled=bar', $pendingRequest->getUri()->getQuery());
+
+                return MockResponse::noContent();
+            },
+        ]);
+
+        $client->send(new DynamicGetRequest('', [
+            'filled' => 'bar',
+            'empty' => '',
+            'null' => null,
+            'empty_array' => [],
+        ]));
+    }
+
+    /** @test */
+    public function empty_or_null_payload_parameters_are_not_added_to_the_request()
+    {
+        $client = new MockMollieClient([
+            DummyPostRequest::class => function (PendingRequest $pendingRequest) {
+                $this->assertEquals([
+                    'filled' => 'bar',
+                ], $pendingRequest->payload()->all());
+
+                return MockResponse::noContent();
+            },
+        ]);
+
+        $request = new DummyPostRequest;
+
+        $request->payload()->set([
+            'filled' => 'bar',
+            'empty' => '',
+            'null' => null,
+            'empty_array' => [],
+        ]);
+
+        $client->send($request);
+    }
 }
 
 class DummyResourceWrapper extends ResourceWrapper
@@ -354,5 +406,17 @@ class DummyResourceWrapper extends ResourceWrapper
     public static function fromResource($resource): self
     {
         return (new self)->wrap($resource);
+    }
+}
+
+class DummyPostRequest extends Request implements HasPayload
+{
+    use HasJsonPayload;
+
+    protected static string $method = Method::POST;
+
+    public function resolveResourcePath(): string
+    {
+        return 'dummy';
     }
 }

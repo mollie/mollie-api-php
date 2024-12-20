@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class PaymentRoute extends Data
+class PaymentRoute implements Resolvable
 {
     public Money $amount;
 

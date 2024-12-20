@@ -3,8 +3,8 @@
 namespace Tests\Utils;
 
 use DateTimeImmutable;
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Http\Data\AnyData;
-use Mollie\Api\Http\Data\Data;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\TestCase;
 use Stringable;
@@ -109,7 +109,7 @@ class ArrTest extends TestCase
     }
 }
 
-class Foo extends Data
+class Foo implements Resolvable
 {
     public string $foo;
 

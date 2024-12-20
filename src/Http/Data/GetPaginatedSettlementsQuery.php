@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class GetPaginatedSettlementsQuery extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class GetPaginatedSettlementsQuery implements Resolvable
 {
     private ?string $balanceId = null;
 

@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaginatedPaymentRefundQuery extends Data
+class GetPaginatedPaymentRefundQuery implements Resolvable
 {
     private PaginatedQuery $paginatedQuery;
 

@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class PaginatedQuery extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class PaginatedQuery implements Resolvable
 {
     public ?string $from = null;
 

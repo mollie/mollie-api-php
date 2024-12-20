@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class GetAllPaginatedSubscriptionsQuery extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class GetAllPaginatedSubscriptionsQuery implements Resolvable
 {
     private ?string $profileId;
 

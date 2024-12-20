@@ -4,7 +4,7 @@ namespace Mollie\Api\Utils;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Http\Data\Data;
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Http\Data\DataCollection;
 use Stringable;
 
@@ -158,7 +158,7 @@ class Arr
     {
         return DataCollection::wrap($values)
             ->map(function ($value) {
-                if ($value instanceof Data) {
+                if ($value instanceof Resolvable) {
                     return static::resolve($value->toArray());
                 }
 

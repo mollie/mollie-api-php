@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class RecurringBillingCycle extends Data
+class RecurringBillingCycle implements Resolvable
 {
     /**
      * Possible values: XX months XX weeks XX days.

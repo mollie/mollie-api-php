@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class GetPaginatedInvoiceQuery extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class GetPaginatedInvoiceQuery implements Resolvable
 {
     private PaginatedQuery $paginatedQuery;
 

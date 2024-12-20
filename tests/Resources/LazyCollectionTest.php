@@ -23,7 +23,8 @@ class LazyCollectionTest extends TestCase
         });
     }
 
-    public function test_can_create_a_collection_from_generator_function()
+    /** @test */
+    public function can_create_a_collection_from_generator_function()
     {
         $this->assertEquals(3, $this->collection->count());
         $this->assertEquals(1, $this->collection->get(0));
@@ -31,49 +32,58 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals(3, $this->collection->get(2));
     }
 
-    public function test_filter()
+    /** @test */
+    public function can_filter_collection()
     {
         $filtered = $this->collection->filter(function ($value) {
             return $value > 1;
         });
 
         $this->assertEquals(2, $filtered->count());
+        $this->assertEquals([2, 3], array_values($filtered->all()));
     }
 
-    public function test_all()
+    /** @test */
+    public function can_get_all_items()
     {
         $this->assertEquals([1, 2, 3], $this->collection->all());
     }
 
-    public function test_first()
+    /** @test */
+    public function can_get_first_item()
     {
         $this->assertEquals(1, $this->collection->first());
+    }
+
+    /** @test */
+    public function can_get_first_item_with_callback()
+    {
         $this->assertEquals(3, $this->collection->first(function ($value) {
             return $value === 3;
         }));
     }
 
-    public function test_map()
+    /** @test */
+    public function can_map_collection()
     {
         $mapped = $this->collection->map(function ($value) {
             return $value * 2;
         });
 
-        $mapped->every(function ($value, $key) {
-            $this->assertEquals($value, $this->collection->get($key) * 2);
-
-            return true;
-        });
+        $this->assertEquals([2, 4, 6], $mapped->all());
     }
 
-    public function test_take()
+    /** @test */
+    public function can_take_items()
     {
         $taken = $this->collection->take(2);
 
         $this->assertEquals(2, $taken->count());
+        $this->assertEquals([1, 2], $taken->all());
     }
 
-    public function test_every()
+    /** @test */
+    public function can_check_every_item()
     {
         $this->assertTrue($this->collection->every(function ($value) {
             return $value > 0;
@@ -84,16 +94,37 @@ class LazyCollectionTest extends TestCase
         }));
     }
 
-    public function test_chained_usage()
+    /** @test */
+    public function can_chain_methods()
     {
         $result = $this->collection
             ->filter(function ($value) {
                 return $value > 1;
-            })->map(function ($value) {
+            })
+            ->map(function ($value) {
                 return $value * 2;
-            })->take(1);
+            })
+            ->take(1);
 
         $this->assertEquals(1, $result->count());
         $this->assertEquals(4, $result->first());
+    }
+
+    /** @test */
+    public function can_iterate_over_collection()
+    {
+        $items = [];
+        foreach ($this->collection as $item) {
+            $items[] = $item;
+        }
+
+        $this->assertEquals([1, 2, 3], $items);
+    }
+
+    /** @test */
+    public function can_get_item_by_key()
+    {
+        $this->assertEquals(2, $this->collection->get(1));
+        $this->assertNull($this->collection->get(99));
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Utils\Arr;
 
-class GetClientQuery extends Data
+class GetClientQuery implements Resolvable
 {
     private bool $embedOrganization;
 

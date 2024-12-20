@@ -2,11 +2,12 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 
-class CreateSalesInvoicePayload extends Data
+class CreateSalesInvoicePayload implements Resolvable
 {
     public ?string $profileId;
 

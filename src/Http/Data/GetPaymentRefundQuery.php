@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaymentRefundQuery extends Data
+class GetPaymentRefundQuery implements Resolvable
 {
     private bool $includePayment;
 

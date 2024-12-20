@@ -2,10 +2,12 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\MethodQuery;
+use Mollie\Api\Types\SequenceType;
 use Mollie\Api\Utils\Arr;
 
-class GetEnabledPaymentMethodsQuery extends Data
+class GetEnabledPaymentMethodsQuery implements Resolvable
 {
     private string $sequenceType;
 
@@ -28,7 +30,7 @@ class GetEnabledPaymentMethodsQuery extends Data
     private ?bool $includePricing;
 
     public function __construct(
-        string $sequenceType = MethodQuery::SEQUENCE_TYPE_ONEOFF,
+        string $sequenceType = SequenceType::ONEOFF,
         string $resource = MethodQuery::RESOURCE_PAYMENTS,
         ?string $locale = null,
         ?Money $amount = null,

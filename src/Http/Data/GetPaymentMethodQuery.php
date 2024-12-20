@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Utils\Arr;
 
-class GetPaymentMethodQuery extends Data
+class GetPaymentMethodQuery implements Resolvable
 {
     private ?string $locale;
 

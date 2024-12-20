@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Utils\Arr;
 
-class GetPaginatedClientQuery extends Data
+class GetPaginatedClientQuery implements Resolvable
 {
     private PaginatedQuery $paginatedQuery;
 

@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class CreatePaymentCapturePayload extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class CreatePaymentCapturePayload implements Resolvable
 {
     public string $description;
 

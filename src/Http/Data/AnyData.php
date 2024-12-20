@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class AnyData extends Data
+class AnyData implements Resolvable
 {
     use ComposableFromArray;
 

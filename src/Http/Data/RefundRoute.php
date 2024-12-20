@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class RefundRoute extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class RefundRoute implements Resolvable
 {
     public Money $amount;
 

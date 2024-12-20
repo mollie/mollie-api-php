@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class OrderLine extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class OrderLine implements Resolvable
 {
     public string $description;
 

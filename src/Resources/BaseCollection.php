@@ -6,6 +6,7 @@ use ArrayObject;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Traits\HasResponse;
+use Mollie\Api\Utils\Arr;
 
 abstract class BaseCollection extends ArrayObject implements IsResponseAware
 {
@@ -48,6 +49,31 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
 
         /** @phpstan-ignore-next-line */
         return (new static($this->connector, $filteredItems,  $this->_links))->setResponse($this->response);
+    }
+
+    public function first()
+    {
+        return array_values($this->getArrayCopy())[0];
+    }
+
+    /**
+     * @param  string|callable  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public function firstWhere($key, $value = true)
+    {
+        if (! is_string($key) && is_callable($key)) {
+            return $this->filter($key)->first();
+        }
+
+        return $this->filter(function ($item) use ($key, $value) {
+            if (is_array($item)) {
+                return Arr::get($item, $key) === $value;
+            }
+
+            return $item->{$key} === $value;
+        })->first();
     }
 
     public static function getCollectionResourceName(): string

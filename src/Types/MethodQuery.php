@@ -13,18 +13,6 @@ class MethodQuery
         self::INCLUDE_ISSUERS,
     ];
 
-    const SEQUENCE_TYPE_ONEOFF = 'oneoff';
-
-    const SEQUENCE_TYPE_FIRST = 'first';
-
-    const SEQUENCE_TYPE_RECURRING = 'recurring';
-
-    const SEQUENCE_TYPES = [
-        self::SEQUENCE_TYPE_ONEOFF,
-        self::SEQUENCE_TYPE_FIRST,
-        self::SEQUENCE_TYPE_RECURRING,
-    ];
-
     const RESOURCE_ORDERS = 'orders';
 
     const RESOURCE_PAYMENTS = 'payments';

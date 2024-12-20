@@ -27,7 +27,7 @@ class ArrayStore implements ArrayRepository
      */
     public function get(string $key, $default = null)
     {
-        return $this->store[$key] ?? $default;
+        return Arr::get($this->store, $key, $default);
     }
 
     public function add(string $key, $value): self
@@ -51,14 +51,14 @@ class ArrayStore implements ArrayRepository
 
     public function remove(string $key): self
     {
-        unset($this->store[$key]);
+        Arr::forget($this->store, $key);
 
         return $this;
     }
 
     public function all(): array
     {
-        return $this->store;
+        return Arr::resolve($this->store);
     }
 
     public function isEmpty(): bool

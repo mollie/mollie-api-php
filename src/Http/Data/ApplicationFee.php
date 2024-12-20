@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class ApplicationFee extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class ApplicationFee implements Resolvable
 {
     public Money $amount;
 

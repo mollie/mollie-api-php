@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Traits\ComposableFromArray;
 use Mollie\Api\Types\PaymentQuery;
 
-class CreatePaymentQuery extends Data
+class CreatePaymentQuery implements Resolvable
 {
     use ComposableFromArray;
 

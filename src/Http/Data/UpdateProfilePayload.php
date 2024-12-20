@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class UpdateProfilePayload extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class UpdateProfilePayload implements Resolvable
 {
     public ?string $name;
 

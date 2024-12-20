@@ -3,6 +3,7 @@
 namespace Mollie\Api\Repositories;
 
 use Mollie\Api\Contracts\JsonPayloadRepository as JsonBodyRepositoryContract;
+use Mollie\Api\Utils\Arr;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -27,7 +28,7 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
 
     public function all(): array
     {
-        return $this->store;
+        return Arr::resolve($this->store);
     }
 
     public function add(string $key, $value): self

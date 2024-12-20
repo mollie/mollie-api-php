@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class CreateClientLinkPayload extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class CreateClientLinkPayload implements Resolvable
 {
     public Owner $owner;
 

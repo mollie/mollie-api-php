@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class InvoiceLine extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class InvoiceLine implements Resolvable
 {
     public string $description;
 

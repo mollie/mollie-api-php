@@ -2,7 +2,9 @@
 
 namespace Mollie\Api\Http\Data;
 
-class RequestApplePayPaymentSessionPayload extends Data
+use Mollie\Api\Contracts\Resolvable;
+
+class RequestApplePayPaymentSessionPayload implements Resolvable
 {
     public string $domain;
 

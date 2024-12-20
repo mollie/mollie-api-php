@@ -4,6 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetEnabledPaymentMethodsQuery;
 use Mollie\Api\Types\MethodQuery;
+use Mollie\Api\Types\SequenceType;
 
 class GetEnabledPaymentMethodsQueryFactory extends Factory
 {
@@ -13,10 +14,10 @@ class GetEnabledPaymentMethodsQueryFactory extends Factory
         $includePricing = $this->includes('include', MethodQuery::INCLUDE_PRICING);
 
         return new GetEnabledPaymentMethodsQuery(
-            $this->get('sequenceType', MethodQuery::SEQUENCE_TYPE_ONEOFF),
+            $this->get('sequenceType', SequenceType::ONEOFF),
             $this->get('resource', MethodQuery::RESOURCE_PAYMENTS),
             $this->get('locale'),
-            $this->mapIfNotNull('amount', MoneyFactory::class),
+            $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->get('billingCountry'),
             $this->get('includeWallets'),
             $this->get('orderLineCategories', []),

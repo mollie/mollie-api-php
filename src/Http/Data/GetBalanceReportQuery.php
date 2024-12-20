@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class GetBalanceReportQuery extends Data
+class GetBalanceReportQuery implements Resolvable
 {
     public DateTimeInterface $from;
 

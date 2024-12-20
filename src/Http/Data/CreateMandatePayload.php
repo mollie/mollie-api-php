@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class CreateMandatePayload extends Data
+class CreateMandatePayload implements Resolvable
 {
     public string $method;
 

@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class CreateSubscriptionPayload extends Data
+class CreateSubscriptionPayload implements Resolvable
 {
     public ?string $status;
 

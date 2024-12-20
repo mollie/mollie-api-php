@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class CreatePaymentLinkPayload extends Data
+class CreatePaymentLinkPayload implements Resolvable
 {
     public string $description;
 

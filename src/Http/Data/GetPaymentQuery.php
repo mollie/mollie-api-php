@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Types\PaymentQuery;
 use Mollie\Api\Utils\Arr;
 
-class GetPaymentQuery extends Data
+class GetPaymentQuery implements Resolvable
 {
     public bool $embedCaptures = false;
 

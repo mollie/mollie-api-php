@@ -3,8 +3,9 @@
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
+use Mollie\Api\Contracts\Resolvable;
 
-class UpdatePaymentRoutePayload extends Data
+class UpdatePaymentRoutePayload implements Resolvable
 {
     private DateTimeInterface $releaseDate;
 
