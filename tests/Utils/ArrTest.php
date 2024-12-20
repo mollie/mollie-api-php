@@ -115,14 +115,14 @@ class ArrTest extends TestCase
                 new Money('EUR', '10.00'),
                 'org_1234567890',
                 null
-            )
+            ),
         ]));
 
         $this->assertEquals([
             [
                 'amount' => ['currency' => 'EUR', 'value' => '10.00'],
                 'destination' => ['type' => 'organization', 'organizationId' => 'org_1234567890'],
-            ]
+            ],
         ], $dataCollectionResult);
     }
 }
