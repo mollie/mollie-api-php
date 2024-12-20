@@ -19,7 +19,7 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\ResourceWrapper;
-use Mollie\Api\Resources\WrapResource;
+use Mollie\Api\Resources\WrapperResource;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
@@ -342,7 +342,7 @@ class MollieApiClientTest extends TestCase
         /** @var DummyResourceWrapper $response */
         $response = $client->send(
             (new DynamicGetRequest(''))
-                ->setHydratableResource(new WrapResource(DummyResourceWrapper::class))
+                ->setHydratableResource(new WrapperResource(DummyResourceWrapper::class))
         );
 
         $this->assertInstanceOf(DummyResourceWrapper::class, $response);

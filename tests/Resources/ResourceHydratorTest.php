@@ -13,7 +13,7 @@ use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\ResourceCollection;
 use Mollie\Api\Resources\ResourceHydrator;
-use Mollie\Api\Resources\WrapResource;
+use Mollie\Api\Resources\WrapperResource;
 use Mollie\Api\Traits\IsIteratableRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -130,7 +130,7 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $decoratedResource = (new WrapResource(AnyResource::class, CustomDecorator::class));
+        $decoratedResource = new WrapperResource(CustomDecorator::class);
 
         $request->expects($this->exactly(2))
             ->method('getHydratableResource')

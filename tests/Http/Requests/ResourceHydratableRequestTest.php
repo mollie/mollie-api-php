@@ -5,7 +5,7 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceWrapper;
-use Mollie\Api\Resources\WrapResource;
+use Mollie\Api\Resources\WrapperResource;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratableRequestTest extends TestCase
@@ -43,10 +43,10 @@ class ResourceHydratableRequestTest extends TestCase
         };
 
         // Set the wrapper as the hydratable resource
-        $request->setHydratableResource(new WrapResource(DummyResource::class, DummyResourceWrapper::class));
+        $request->setHydratableResource(new WrapperResource(DummyResourceWrapper::class));
 
         // Assert the wrapper is set as the hydratable resource
-        $this->assertInstanceOf(WrapResource::class, $request->getHydratableResource());
+        $this->assertInstanceOf(WrapperResource::class, $request->getHydratableResource());
         $this->assertTrue($request->isHydratable());
     }
 }

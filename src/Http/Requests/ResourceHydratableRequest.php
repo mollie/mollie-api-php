@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Http\Request;
-use Mollie\Api\Resources\WrapResource;
+use Mollie\Api\Resources\WrapperResource;
 
 abstract class ResourceHydratableRequest extends Request
 {
@@ -17,7 +17,7 @@ abstract class ResourceHydratableRequest extends Request
     /**
      * The custom resource class the request should be hydrated into.
      *
-     * @var string|null|WrapResource
+     * @var WrapperResource|null
      */
     protected $customHydratableResource = null;
 
@@ -27,7 +27,7 @@ abstract class ResourceHydratableRequest extends Request
     }
 
     /**
-     * @return string|WrapResource
+     * @return string|WrapperResource
      */
     public function getHydratableResource()
     {
@@ -39,14 +39,14 @@ abstract class ResourceHydratableRequest extends Request
     }
 
     /**
-     * @param  string|WrapResource  $hydratableResource
+     * @param  string|WrapperResource  $hydratableResource
      */
     public function setHydratableResource($hydratableResource): self
     {
         $this->customHydratableResource = $hydratableResource;
 
-        if (! $this->hydratableResource && $this->customHydratableResource instanceof WrapResource) {
-            $this->hydratableResource = $this->customHydratableResource->getWrappedResource();
+        if (! $this->hydratableResource && $this->customHydratableResource instanceof WrapperResource) {
+            $this->hydratableResource = $this->customHydratableResource->getWrapper();
         }
 
         return $this;

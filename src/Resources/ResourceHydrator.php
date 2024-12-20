@@ -19,7 +19,7 @@ class ResourceHydrator
     {
         $targetResourceClass = $request->getHydratableResource();
 
-        if ($targetResourceClass instanceof WrapResource) {
+        if ($targetResourceClass instanceof WrapperResource) {
             $response = $this->hydrate(
                 // Reset the hydratable resource to the original resource class.
                 $request->resetHydratableResource(),
