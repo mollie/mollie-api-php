@@ -3,11 +3,12 @@
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Contracts\Resolvable;
 
 /**
  * @template T of mixed
  */
-class DataCollection implements Arrayable
+class DataCollection implements Resolvable
 {
     /**
      * @var array<T>

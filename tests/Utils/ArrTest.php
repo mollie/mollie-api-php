@@ -5,6 +5,9 @@ namespace Tests\Utils;
 use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Http\Data\AnyData;
+use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\TestCase;
 use Stringable;
@@ -106,6 +109,21 @@ class ArrTest extends TestCase
 
         $filtersResult = Arr::resolve(['some' => null, 'bar' => 'baz']);
         $this->assertEquals(['bar' => 'baz'], $filtersResult);
+
+        $dataCollectionResult = Arr::resolve(new DataCollection([
+            new PaymentRoute(
+                new Money('EUR', '10.00'),
+                'org_1234567890',
+                null
+            )
+        ]));
+
+        $this->assertEquals([
+            [
+                'amount' => ['currency' => 'EUR', 'value' => '10.00'],
+                'destination' => ['type' => 'organization', 'organizationId' => 'org_1234567890'],
+            ]
+        ], $dataCollectionResult);
     }
 }
 

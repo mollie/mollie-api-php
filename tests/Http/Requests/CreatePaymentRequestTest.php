@@ -23,7 +23,7 @@ class CreatePaymentRequestTest extends TestCase
             'Test payment',
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
-            'https://example.org/webhook'
+            'https://example.org/webhook',
         );
 
         $request = new CreatePaymentRequest($payload);

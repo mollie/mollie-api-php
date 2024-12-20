@@ -15,6 +15,13 @@ class GetEnabledPaymentMethodsQuery implements Resolvable
 
     private ?string $locale;
 
+    /**
+     * Used to filter the payment methods by amount and currency.
+     * If the amount lies outside the range of the payment method's minimum
+     * and maximum amount, the payment method will not be included in the result.
+     *
+     * @var Money|null
+     */
     private ?Money $amount;
 
     private ?string $billingCountry;
