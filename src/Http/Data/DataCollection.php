@@ -4,6 +4,7 @@ namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
+use Mollie\Api\Utils\Arr;
 
 /**
  * @template T of mixed
@@ -36,7 +37,7 @@ class DataCollection implements Resolvable
             return new static($subject->toArray());
         }
 
-        return new static((array) $subject);
+        return new static(Arr::wrap($subject));
     }
 
     public function toArray(): array

@@ -5,6 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
+use Mollie\Api\Resources\Refund;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
@@ -20,7 +21,7 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = \Mollie\Api\Resources\Refund::class;
+    protected $hydratableResource = Refund::class;
 
     private string $paymentId;
 
