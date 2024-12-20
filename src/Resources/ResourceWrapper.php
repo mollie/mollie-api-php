@@ -12,7 +12,7 @@ abstract class ResourceWrapper implements IsWrapper
     protected $wrapped;
 
     /**
-     * @param mixed $wrapped
+     * @param  mixed  $wrapped
      * @return static
      */
     public function setWrapped($wrapped)
@@ -23,7 +23,7 @@ abstract class ResourceWrapper implements IsWrapper
     }
 
     /**
-     * @param mixed $resource
+     * @param  mixed  $resource
      * @return static
      */
     public function wrap($resource)
