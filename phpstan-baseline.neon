@@ -373,6 +373,18 @@ parameters:
 			path: tests/Http/Middleware/GuardResponseTest.php
 
 		-
+			message: '#^Method Tests\\Http\\Requests\\DummyResourceWrapper\:\:fromResource\(\) should return Tests\\Http\\Requests\\DummyResourceWrapper but returns Mollie\\Api\\Resources\\ResourceWrapper\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Http/Requests/ResourceHydratableRequestTest.php
+
+		-
+			message: '#^Method Tests\\DummyResourceWrapper\:\:fromResource\(\) should return Tests\\DummyResourceWrapper but returns Mollie\\Api\\Resources\\ResourceWrapper\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/MollieApiClientTest.php
+
+		-
 			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$customField\.$#'
 			identifier: property.notFound
 			count: 1

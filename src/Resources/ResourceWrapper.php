@@ -11,14 +11,14 @@ abstract class ResourceWrapper implements IsWrapper
 
     protected $wrapped;
 
-    public function setWrapped($wrapped): static
+    public function setWrapped($wrapped): self
     {
         $this->wrapped = $wrapped;
 
         return $this;
     }
 
-    public function wrap($resource): static
+    public function wrap($resource): self
     {
         return $this->setWrapped($resource);
     }
