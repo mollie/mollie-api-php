@@ -8,6 +8,7 @@ use Mollie\Api\Fake\SequenceMockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
@@ -42,7 +43,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
     /** @test */
     public function it_can_iterate_over_payments()
     {
-        $client = new MockMollieClient([
+        $client = MollieApiClient::fake([
             GetPaginatedPaymentsRequest::class => MockResponse::ok('payment-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 MockResponse::ok('payment-list'),

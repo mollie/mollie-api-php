@@ -2,9 +2,9 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
 
@@ -13,15 +13,12 @@ class GetPaymentRequestTest extends TestCase
     /** @test */
     public function it_can_get_payment()
     {
-        $client = new MockMollieClient([
+        $client = MollieApiClient::fake([
             GetPaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
-        $paymentId = 'tr_WDqYK6vllg';
-        $request = new GetPaymentRequest($paymentId);
-
         /** @var Payment */
-        $payment = $client->send($request);
+        $payment = $client->send(new GetPaymentRequest('tr_WDqYK6vllg'));
 
         $this->assertTrue($payment->getResponse()->successful());
         $this->assertInstanceOf(Payment::class, $payment);

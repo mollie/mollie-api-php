@@ -33,7 +33,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     *
+     * @param array|GetPaymentQuery $query
      * @throws ApiException
      */
     public function get(string $id, $query = [], bool $testmode = false): Payment

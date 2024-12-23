@@ -27,13 +27,16 @@ try {
      *
      * See: https://docs.mollie.com/reference/v2/client-links-api/create-client-link
      */
-    $response = $mollie->send(new CreateClientLinkRequest(new CreateClientLinkPayload(
-        new Owner('foo@test.com', 'foo', 'bar', 'nl_NL'),
-        'Foo Company',
-        new OwnerAddress('NL', 'Keizersgracht 313', '1016 EE', 'Amsterdam'),
-        '30204462',
-        'NL123456789B01',
-    )));
+    $response = $mollie
+        ->send(
+            new CreateClientLinkRequest(new CreateClientLinkPayload(
+                new Owner('foo@test.com', 'foo', 'bar', 'nl_NL'),
+                'Foo Company',
+                new OwnerAddress('NL', 'Keizersgracht 313', '1016 EE', 'Amsterdam'),
+                '30204462',
+                'NL123456789B01',
+            ))
+        );
 
     $clientLink = $response->toResource();
 
@@ -53,7 +56,7 @@ try {
      * Send the customer off to finalize the organization creation.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header('Location: '.$redirectUrl, true, 303);
+    header('Location: ' . $redirectUrl, true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: '.htmlspecialchars($e->getMessage());
+    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
 }
