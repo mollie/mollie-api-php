@@ -56,7 +56,7 @@ try {
      * Send the customer off to finalize the organization creation.
      * This request should always be a GET, thus we enforce 303 http response code
      */
-    header('Location: ' . $redirectUrl, true, 303);
+    header('Location: '.$redirectUrl, true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }
