@@ -53,6 +53,7 @@ $payment = $mollie->payments->create(
 
 If you have an array and need to interact with the payload or query, you can use a dedicated factory to convert the array into a typed class.
 
+```php
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 
