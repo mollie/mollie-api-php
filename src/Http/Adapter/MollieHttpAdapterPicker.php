@@ -16,15 +16,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
     public function pickHttpAdapter($httpClient): HttpAdapterContract
     {
         if (! $httpClient) {
-            if ($this->guzzleIsDetected()) {
-                $guzzleVersion = $this->guzzleMajorVersionNumber();
-
-                if ($guzzleVersion && in_array($guzzleVersion, [6, 7])) {
-                    return GuzzleMollieHttpAdapter::createDefault();
-                }
-            }
-
-            return new CurlMollieHttpAdapter;
+            return $this->createDefaultAdapter();
         }
 
         if ($httpClient instanceof HttpAdapterContract) {
@@ -38,23 +30,17 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
         throw new UnrecognizedClientException('The provided http client or adapter was not recognized.');
     }
 
-    private function guzzleIsDetected(): bool
+    private function createDefaultAdapter(): HttpAdapterContract
     {
-        return interface_exists('\\'.\GuzzleHttp\ClientInterface::class);
+        if ($this->guzzleIsDetected()) {
+            return GuzzleMollieHttpAdapter::createDefault();
+        }
+
+        return new CurlMollieHttpAdapter;
     }
 
-    private function guzzleMajorVersionNumber(): ?int
+    private function guzzleIsDetected(): bool
     {
-        // Guzzle 7
-        if (defined('\GuzzleHttp\ClientInterface::MAJOR_VERSION')) {
-            return (int) \GuzzleHttp\ClientInterface::MAJOR_VERSION;
-        }
-
-        // Before Guzzle 7
-        if (defined('\GuzzleHttp\ClientInterface::VERSION')) {
-            return (int) \GuzzleHttp\ClientInterface::VERSION[0];
-        }
-
-        return null;
+        return interface_exists('\\' . \GuzzleHttp\ClientInterface::class);
     }
 }

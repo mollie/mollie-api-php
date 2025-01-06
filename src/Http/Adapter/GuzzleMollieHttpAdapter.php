@@ -60,7 +60,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
     }
 
     /**
-     * Instantiate a default adapter with sane configuration for Guzzle 6 or 7.
+     * Instantiate a default adapter with sane configuration for Guzzle.
      */
     public static function createDefault(): self
     {
@@ -132,6 +132,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      */
     public function version(): string
     {
-        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
     }
 }
