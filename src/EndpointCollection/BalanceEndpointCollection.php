@@ -36,6 +36,7 @@ class BalanceEndpointCollection extends EndpointCollection
      * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
      *
      * @param  bool|array  $testmode
+     *
      * @throws ApiException
      */
     public function primary($testmode = false): Balance
