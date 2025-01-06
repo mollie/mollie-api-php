@@ -25,9 +25,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function createFor(Customer $customer, $payload = [], bool $testmode = false): Mandate
+    public function createForCustomer(Customer $customer, $payload = [], bool $testmode = false): Mandate
     {
-        return $this->createForId($customer->id, $payload, $testmode);
+        return $this->createForCustomerId($customer->id, $payload, $testmode);
     }
 
     /**
@@ -37,7 +37,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function createForId(string $customerId, $payload = [], bool $testmode = false): Mandate
+    public function createForCustomerId(string $customerId, $payload = [], bool $testmode = false): Mandate
     {
         if (! $payload instanceof CreateMandatePayload) {
             $testmode = Utility::extractBool($payload, 'testmode', $testmode);
@@ -54,9 +54,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function getFor(Customer $customer, string $mandateId, array $parameters = []): Mandate
+    public function getForCustomer(Customer $customer, string $mandateId, array $parameters = []): Mandate
     {
-        return $this->getForId($customer->id, $mandateId, $parameters);
+        return $this->getForCustomerId($customer->id, $mandateId, $parameters);
     }
 
     /**
@@ -66,7 +66,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function getForId(string $customerId, string $mandateId, $testmode = false): Mandate
+    public function getForCustomerId(string $customerId, string $mandateId, $testmode = false): Mandate
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -80,19 +80,19 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function revokeFor(Customer $customer, string $mandateId, $data = []): void
+    public function revokeForCustomer(Customer $customer, string $mandateId, $data = []): void
     {
-        $this->revokeForId($customer->id, $mandateId, $data);
+        $this->revokeForCustomerId($customer->id, $mandateId, $data);
     }
 
     /**
      * Revoke a mandate for a specific customer ID.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function revokeForId(string $customerId, string $mandateId, $testmode = false): void
+    public function revokeForCustomerId(string $customerId, string $mandateId, $testmode = false): void
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -106,9 +106,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
+    public function pageForCustomer(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
     {
-        return $this->pageForId($customer->id, $from, $limit, $parameters);
+        return $this->pageForCustomerId($customer->id, $from, $limit, $parameters);
     }
 
     /**
@@ -118,7 +118,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): MandateCollection
+    public function pageForCustomerId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): MandateCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
         $query = PaginatedQueryFactory::new([
@@ -137,14 +137,14 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorFor(
+    public function iteratorForCustomer(
         Customer $customer,
         ?string $from = null,
         ?int $limit = null,
         array $parameters = [],
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->iteratorForId($customer->id, $from, $limit, $parameters, $iterateBackwards);
+        return $this->iteratorForCustomerId($customer->id, $from, $limit, $parameters, $iterateBackwards);
     }
 
     /**
@@ -153,7 +153,7 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForId(
+    public function iteratorForCustomerId(
         string $customerId,
         ?string $from = null,
         ?int $limit = null,
