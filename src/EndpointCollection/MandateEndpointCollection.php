@@ -62,11 +62,11 @@ class MandateEndpointCollection extends EndpointCollection
     /**
      * Retrieve a specific mandate for a customer ID.
      *
-     * @param  array  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function getForId(string $customerId, string $mandateId, $testmode = []): Mandate
+    public function getForId(string $customerId, string $mandateId, $testmode = false): Mandate
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -92,7 +92,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function revokeForId(string $customerId, string $mandateId, $testmode = []): void
+    public function revokeForId(string $customerId, string $mandateId, $testmode = false): void
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 

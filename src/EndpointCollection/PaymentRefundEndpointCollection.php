@@ -22,11 +22,11 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     /**
      * Creates a refund for a specific payment.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createFor(Payment $payment, array $data, $testmode = []): Refund
+    public function createFor(Payment $payment, array $data, $testmode = false): Refund
     {
         return $this->createForId($payment->id, $data, $testmode);
     }
@@ -34,13 +34,15 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     /**
      * Creates a refund for a specific payment.
      *
-     * @param  array  $payload
+     * @param  array|CreateRefundPaymentPayload  $payload
+     * @param  bool|array  $testmode
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId(string $paymentId, $payload = [], $testmode = []): Refund
+    public function createForId(string $paymentId, $payload = [], $testmode = false): Refund
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
+
         if (! $payload instanceof CreateRefundPaymentPayload) {
             $testmode = Utility::extractBool($payload, 'testmode', $testmode);
             $payload = CreateRefundPaymentPayloadFactory::new($payload)
@@ -82,7 +84,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelForPayment(Payment $payment, string $refundId, $testmode = [])
+    public function cancelForPayment(Payment $payment, string $refundId, $testmode = false)
     {
         return $this->cancelForId($payment->id, $refundId, $testmode);
     }
@@ -93,7 +95,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancelForId(string $paymentId, string $refundId, $testmode = [])
+    public function cancelForId(string $paymentId, string $refundId, $testmode = false)
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 

@@ -16,11 +16,11 @@ class PermissionEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the permission id is invalid.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function get(string $permissionId, $testmode = []): Permission
+    public function get(string $permissionId, $testmode = false): Permission
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 

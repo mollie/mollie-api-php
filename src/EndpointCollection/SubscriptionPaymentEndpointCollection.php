@@ -21,7 +21,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageFor(Subscription $subscription, ?string $from = null, ?int $limit = null, $testmode = []): PaymentCollection
+    public function pageFor(Subscription $subscription, ?string $from = null, ?int $limit = null, $testmode = false): PaymentCollection
     {
         return $this->pageForIds($subscription->customerId, $subscription->id, $from, $limit, $testmode);
     }
@@ -40,7 +40,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
         string $subscriptionId,
         ?string $from = null,
         ?int $limit = null,
-        $testmode = []
+        $testmode = false
     ): PaymentCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
         $query = PaginatedQueryFactory::new([
@@ -53,12 +53,14 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
 
     /**
      * Create an iterator for iterating over payments for the given subscription, retrieved from Mollie.
+     *
+     * @param  bool|array  $testmode
      */
     public function iteratorFor(
         Subscription $subscription,
         ?string $from = null,
         ?int $limit = null,
-        $testmode = [],
+        $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
         return $this->iteratorForIds($subscription->customerId, $subscription->id, $from, $limit, $testmode, $iterateBackwards);
@@ -66,13 +68,15 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
 
     /**
      * Create an iterator for iterating over payments for the given subscription ID, retrieved from Mollie.
+     *
+     * @param  bool|array  $testmode
      */
     public function iteratorForIds(
         string $customerId,
         string $subscriptionId,
         ?string $from = null,
         ?int $limit = null,
-        $testmode = [],
+        $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);

@@ -30,7 +30,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function getFor(Customer $customer, string $subscriptionId, $testmode = []): Subscription
+    public function getFor(Customer $customer, string $subscriptionId, $testmode = false): Subscription
     {
         return $this->getForId($customer->id, $subscriptionId, $testmode);
     }
@@ -38,9 +38,11 @@ class SubscriptionEndpointCollection extends EndpointCollection
     /**
      * Retrieve a single subscription from Mollie.
      *
+     * @param  bool|array  $testmode
+     *
      * @throws ApiException
      */
-    public function getForId(string $customerId, string $subscriptionId, $testmode = []): Subscription
+    public function getForId(string $customerId, string $subscriptionId, $testmode = false): Subscription
     {
         $testmode = Utility::extractBool($testmode, 'testmode');
 

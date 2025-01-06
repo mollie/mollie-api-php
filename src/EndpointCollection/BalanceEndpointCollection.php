@@ -22,7 +22,7 @@ class BalanceEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function get(string $id, $testmode = []): Balance
+    public function get(string $id, $testmode = false): Balance
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -35,9 +35,10 @@ class BalanceEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the balance id is invalid or the resource cannot be found.
      *
+     * @param  bool|array  $testmode
      * @throws ApiException
      */
-    public function primary(array $testmode = []): Balance
+    public function primary($testmode = false): Balance
     {
         /** @var Balance */
         return $this->get('primary', $testmode);

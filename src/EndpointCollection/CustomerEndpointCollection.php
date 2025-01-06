@@ -28,7 +28,7 @@ class CustomerEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function create($data = [], $testmode = []): Customer
+    public function create($data = [], $testmode = false): Customer
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -49,7 +49,7 @@ class CustomerEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function get(string $id, $testmode = []): Customer
+    public function get(string $id, $testmode = false): Customer
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -84,7 +84,7 @@ class CustomerEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function delete(string $id, $testmode = []): void
+    public function delete(string $id, $testmode = false): void
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 

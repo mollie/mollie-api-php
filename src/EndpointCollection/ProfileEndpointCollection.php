@@ -44,12 +44,12 @@ class ProfileEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      * @return Profile|CurrentProfile
      *
      * @throws ApiException
      */
-    public function get(string $profileId, $testmode = []): Profile
+    public function get(string $profileId, $testmode = false): Profile
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -60,11 +60,11 @@ class ProfileEndpointCollection extends EndpointCollection
     /**
      * Retrieve the current Profile from Mollie.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function getCurrent($testmode = []): CurrentProfile
+    public function getCurrent($testmode = false): CurrentProfile
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 

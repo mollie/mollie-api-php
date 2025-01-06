@@ -16,11 +16,11 @@ class OrganizationEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the organization id is invalid or the resource cannot be found.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function get(string $id, $testmode = []): Organization
+    public function get(string $id, $testmode = false): Organization
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -31,11 +31,11 @@ class OrganizationEndpointCollection extends EndpointCollection
     /**
      * Retrieve the current organization from Mollie.
      *
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function current($testmode = []): Organization
+    public function current($testmode = false): Organization
     {
         /** @var Organization */
         return $this->get('me', $testmode);

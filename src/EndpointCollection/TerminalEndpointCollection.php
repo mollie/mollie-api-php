@@ -22,7 +22,7 @@ class TerminalEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function get(string $id, $testmode = []): Terminal
+    public function get(string $id, $testmode = false): Terminal
     {
         $testmode = Utility::extractBool($testmode, 'testmode');
 
@@ -34,10 +34,11 @@ class TerminalEndpointCollection extends EndpointCollection
      * Retrieves a collection of Terminals from Mollie for the current organization / profile, ordered from newest to oldest.
      *
      * @param  string|null  $from  The first terminal ID you want to include in your list.
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, $testmode = []): TerminalCollection
+    public function page(?string $from = null, ?int $limit = null, $testmode = false): TerminalCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
         $query = PaginatedQueryFactory::new([
@@ -54,11 +55,12 @@ class TerminalEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first resource ID you want to include in your list.
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     * @param  bool|array  $testmode
      */
     public function iterator(
         ?string $from = null,
         ?int $limit = null,
-        $testmode = [],
+        $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);

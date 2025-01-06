@@ -42,11 +42,11 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      *
      * Will throw an ApiException if the payment link id is invalid or the resource cannot be found.
      *
-     * @param  array  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function get(string $paymentLinkId, $testmode = []): PaymentLink
+    public function get(string $paymentLinkId, $testmode = false): PaymentLink
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -86,11 +86,11 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      * Retrieves a collection of Payment Links from Mollie.
      *
      * @param  string|null  $from  The first payment link ID you want to include in your list.
-     * @param  array|bool  $testmode
+     * @param  bool|array  $testmode
      *
      * @throws ApiException
      */
-    public function page(?string $from = null, ?int $limit = null, $testmode = []): PaymentLinkCollection
+    public function page(?string $from = null, ?int $limit = null, $testmode = false): PaymentLinkCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
