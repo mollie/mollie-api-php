@@ -132,6 +132,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      */
     public function version(): string
     {
-        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
     }
 }
