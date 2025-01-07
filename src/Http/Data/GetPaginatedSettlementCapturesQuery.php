@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Http\Data;
 
-class GetPaginatedSettlementCapturesQuery extends GetPaginatedPaymentCapturesQuery {}
+class GetPaginatedSettlementCapturesQuery extends GetPaginatedPaymentCapturesQuery
+{
+}

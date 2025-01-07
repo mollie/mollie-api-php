@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Exceptions;
 
-class EmbeddedResourcesNotParseableException extends ApiException {}
+class EmbeddedResourcesNotParseableException extends ApiException
+{
+}

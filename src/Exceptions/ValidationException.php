@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Exceptions;
 
-class ValidationException extends ApiException {}
+class ValidationException extends ApiException
+{
+}

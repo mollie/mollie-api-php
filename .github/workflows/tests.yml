@@ -25,12 +25,19 @@ jobs:
       - name: Remove pint dependency to prevent unnecessary dependency collisions
         run: |
           composer remove --dev laravel/pint
+
       - name: Install dependencies
         run: |
           composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Remove PHP CS Fixer dependency to prevent unnecessary dependency collisions
+        run: |
+          composer remove --dev friendsofphp/php-cs-fixer
+
       - name: PHPStan
         run: |
           composer require "phpstan/phpstan" --dev
           vendor/bin/phpstan analyse --no-progress
+
       - name: Execute tests
         run: vendor/bin/paratest --verbose
