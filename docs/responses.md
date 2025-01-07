@@ -5,6 +5,8 @@ Whether you interact with the endpoints using the traditional method (`$mollie->
 ## Resource Hydration
 By default, all responses from are automatically hydrated into the corresponding `Resource` or `ResourceCollection` objects. You can still access the raw response using the `->getResponse()` method.
 
+For example, when retrieving a payment you'll receive a Payment resource object, on which you can still access the raw Response class.
+
 ```php
 /**
  * Legacy approach
