@@ -27,7 +27,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function createFor(Payment $payment, $payload = [], ?bool $testmode = null): Capture
+    public function createFor(Payment $payment, $payload = [], bool $testmode = false): Capture
     {
         return $this->createForId($payment->id, $payload, $testmode);
     }
@@ -55,7 +55,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function getFor(Payment $payment, string $captureId, $query = [], ?bool $testmode = null): Capture
+    public function getFor(Payment $payment, string $captureId, $query = [], bool $testmode = false): Capture
     {
         return $this->getForId($payment->id, $captureId, $query, $testmode);
     }
@@ -81,7 +81,7 @@ class PaymentCaptureEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function pageFor(Payment $payment, $query = [], ?bool $testmode = null): CaptureCollection
+    public function pageFor(Payment $payment, $query = [], bool $testmode = false): CaptureCollection
     {
         return $this->pageForId($payment->id, $query, $testmode);
     }
