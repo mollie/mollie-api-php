@@ -43,14 +43,21 @@ class Response
     public function json(): stdClass
     {
         if (! $this->decoded) {
-            $this->decoded = json_decode($body = $this->body() ?: '{}');
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new ApiException("Unable to decode Mollie response: '{$body}'.");
-            }
+            $this->decoded = $this->decodeJson();
         }
 
-        return $this->decoded ?? new \stdClass;
+        return $this->decoded;
+    }
+
+    private function decodeJson(): stdClass
+    {
+        $decoded = json_decode($body = $this->body() ?: '{}');
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ApiException("Unable to decode Mollie response: '{$body}'.");
+        }
+
+        return $decoded;
     }
 
     public function getConnector(): Connector

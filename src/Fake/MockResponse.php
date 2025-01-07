@@ -24,9 +24,23 @@ class MockResponse
         int $status = 200,
         string $resourceKey = ''
     ) {
-        $this->body = is_array($body) ? json_encode($body) : $body;
+        $this->body = $this->convertToJson($body);
         $this->status = $status;
         $this->resourceKey = $resourceKey;
+    }
+
+    /**
+     * @param  string|array|callable  $body
+     */
+    private function convertToJson($body): string
+    {
+        if (is_array($body) && empty($body)) {
+            return '{}';
+        }
+
+        return is_array($body)
+            ? json_encode($body)
+            : $body;
     }
 
     /**
@@ -94,7 +108,7 @@ class MockResponse
         $path = Arr::join([
             __DIR__,
             'Responses',
-            $body.'.json',
+            $body . '.json',
         ], DIRECTORY_SEPARATOR);
 
         $contents = file_get_contents($path);
