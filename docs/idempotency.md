@@ -8,7 +8,7 @@ Mollie API supports idempotent requests for critical operations such as creating
 
 For more detailed information, refer to the [Mollie API Idempotency Documentation](https://docs.mollie.com/reference/api-idempotency).
 
-> ![Note]
+> [!Note]
 > This package automatically handles idempotency for you. The information below allows you to override the default idempotency behavior.
 
 ## Automatic Idempotency Key Handling
