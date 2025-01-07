@@ -43,7 +43,8 @@ class Response
     public function json(): stdClass
     {
         if (! $this->decoded) {
-            $this->decoded = (object) @json_decode($body = $this->body() ?: '{}');
+            /** @var \stdClass */
+            $this->decoded = json_decode($body = $this->body() ?: '{}') ?? new \stdClass();
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new ApiException("Unable to decode Mollie response: '{$body}'.");
