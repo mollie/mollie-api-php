@@ -8,6 +8,9 @@ Mollie API supports idempotent requests for critical operations such as creating
 
 For more detailed information, refer to the [Mollie API Idempotency Documentation](https://docs.mollie.com/reference/api-idempotency).
 
+> ![Note]
+> This package automatically handles idempotency for you. The information below allows you to override the default idempotency behavior.
+
 ## Automatic Idempotency Key Handling
 
 The Mollie API client automatically handles idempotency for mutating requests (POST, PATCH, DELETE) through the `ApplyIdempotencyKey` middleware. This middleware checks if the request is a mutating type and applies an idempotency key if one is not already provided.

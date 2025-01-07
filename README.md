@@ -18,7 +18,8 @@ To use the Mollie API client, the following things are required:
 + Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
 + Now you're ready to use the Mollie API client in test mode.
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
-+ PHP >= 7.2
++ PHP >= 7.4
++ cUrl >= 7.19.4
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 
 For leveraging [Mollie Connect](https://docs.mollie.com/oauth/overview) (advanced use cases only), we recommend also installing our [OAuth2 client](https://github.com/mollie/oauth2-mollie-php).
