@@ -95,8 +95,12 @@ class UtilityTest extends TestCase
     }
 }
 
-trait TestTrait1 {}
-trait TestTrait2 {}
+trait TestTrait1
+{
+}
+trait TestTrait2
+{
+}
 trait TestTrait3
 {
     use TestTrait1;
@@ -113,7 +117,9 @@ class TestChildClass extends TestParentClass
     use TestTrait3;
 }
 
-trait TestTraitBase {}
+trait TestTraitBase
+{
+}
 trait TestTraitNested
 {
     use TestTraitBase;
