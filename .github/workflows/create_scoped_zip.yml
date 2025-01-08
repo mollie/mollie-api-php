@@ -14,7 +14,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: "7.4"
           coverage: none
 
       - name: Install dependencies
@@ -58,16 +58,16 @@ jobs:
           cd ../..
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mollie-api-php-test
           path: mollie-api-php-test.zip
 
       # This step only runs on actual release
-      - name: Upload zip to release
+      - name: Upload to release
         if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v1
+        uses: JasonEtco/upload-to-release@master
         with:
-          files: mollie-api-php-${{ github.event.release.tag_name }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          args: build/mollie-api-php.zip application/zip
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
