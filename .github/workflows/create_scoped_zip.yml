@@ -2,6 +2,7 @@ name: Create Release Zip
 
 on:
   workflow_dispatch: # Allows manual triggering
+  push: # Add push trigger
   release:
     types: [published]
 
