@@ -1,8 +1,8 @@
 name: Create Release Zip
 
 on:
-  push:
-  pull_request:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -54,20 +54,12 @@ jobs:
       - name: Create release zip
         run: |
           cd build/scoped
-          zip -r ../../mollie-api-php-test.zip .
+          zip -r ../../mollie-api-php-${{ github.event.release.tag_name }}.zip .
           cd ../..
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload zip to release
+        uses: softprops/action-gh-release@v2
         with:
-          name: mollie-api-php-test
-          path: mollie-api-php-test.zip
-
-      # This step only runs on actual release
-      - name: Upload to release
-        if: github.event_name == 'release'
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: build/mollie-api-php.zip application/zip
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: mollie-api-php-${{ github.event.release.tag_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
