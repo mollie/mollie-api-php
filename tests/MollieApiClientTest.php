@@ -2,13 +2,14 @@
 
 namespace Tests;
 
+use Exception;
 use GuzzleHttp\Client;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Adapter\CurlMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
@@ -49,7 +50,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function send_creates_api_exception_correctly()
     {
-        $this->expectException(ApiException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
@@ -59,7 +60,7 @@ class MollieApiClientTest extends TestCase
 
         try {
             $client->send(new DynamicGetRequest(''));
-        } catch (ApiException $e) {
+        } catch (ValidationException $e) {
             $this->assertEquals('recurringType', $e->getField());
             $this->assertNotEmpty($e->getDocumentationUrl());
 
@@ -70,7 +71,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function send_creates_api_exception_without_field_and_documentation_url()
     {
-        $this->expectException(ApiException::class);
+        $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
         $this->expectExceptionCode(422);
 
@@ -80,7 +81,7 @@ class MollieApiClientTest extends TestCase
 
         try {
             $client->send(new DynamicGetRequest(''));
-        } catch (ApiException $e) {
+        } catch (ValidationException $e) {
             $this->assertNull($e->getField());
             $this->assertNull($e->getDocumentationUrl());
 
@@ -109,24 +110,6 @@ class MollieApiClientTest extends TestCase
         $this->assertNotEmpty($client_copy->customerPayments);
         $this->assertNotEmpty($client_copy->payments);
         $this->assertNotEmpty($client_copy->methods);
-    }
-
-    /** @test */
-    public function enabling_debugging_throws_an_exception_if_http_adapter_does_not_support_it()
-    {
-        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
-        $client = new MollieApiClient(new CurlMollieHttpAdapter);
-
-        $client->enableDebugging();
-    }
-
-    /** @test */
-    public function disabling_debugging_throws_an_exception_if_http_adapter_does_not_support_it()
-    {
-        $this->expectException(HttpAdapterDoesNotSupportDebuggingException::class);
-        $client = new MollieApiClient(new CurlMollieHttpAdapter);
-
-        $client->disableDebugging();
     }
 
     /**
@@ -335,6 +318,20 @@ class MollieApiClientTest extends TestCase
 
         $this->assertTrue($response->getPendingRequest()->query()->has('testmode'));
         $this->assertTrue($response->getPendingRequest()->query()->get('testmode'));
+    }
+
+    /** @test */
+    public function when_debugging_is_enabled_the_request_is_removed_from_exceptions_to_prevent_leaking_sensitive_data()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => function (PendingRequest $pendingRequest) {
+                throw new RequestException('test', $pendingRequest->createPsrRequest());
+            },
+        ]);
+
+        $client->test(true);
+
+        $client->send(new DynamicGetRequest(''));
     }
 
     /** @test */

@@ -3,23 +3,24 @@
 namespace Mollie\Api\Http\Adapter;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Traits\IsDebuggableAdapter;
 use Mollie\Api\Utils\Factories;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Client\NetworkExceptionInterface;
+use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Throwable;
 
-final class PSR18MollieHttpAdapter implements HttpAdapterContract, SupportsDebuggingContract
+final class PSR18MollieHttpAdapter implements HttpAdapterContract
 {
-    use IsDebuggableAdapter;
-
     private ClientInterface $httpClient;
 
     private RequestFactoryInterface $requestFactory;
@@ -67,29 +68,36 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract, SupportsDebug
         try {
             $response = $this->httpClient->sendRequest($request);
 
-            return new Response(
-                $response,
-                $request,
-                $pendingRequest
-            );
-        } catch (ClientExceptionInterface $e) {
-            if (! $this->debug) {
-                $request = null;
+            return $this->createResponse($response, $request, $pendingRequest);
+        } catch (NetworkExceptionInterface $e) {
+            // throw new FailedConnectionException;
+        } catch (RequestExceptionInterface $e) {
+            if (! method_exists($e, 'getResponse') || ! $response = $e->getResponse()) {
+                // throw new FailedConnectionException
             }
 
-            throw new ApiException(
-                'Error while sending request to Mollie API: '.$e->getMessage(),
-                0,
-                $e,
-                $request,
-                null
-            );
+            /** @var ResponseInterface $response */
+            return $this->createResponse($response, $request, $pendingRequest, $e);
         }
     }
 
     /**
-     * {@inheritdoc}
+     * Create a response.
      */
+    protected function createResponse(
+        ResponseInterface $psrResponse,
+        RequestInterface $psrRequest,
+        PendingRequest $pendingRequest,
+        ?Throwable $exception = null
+    ): Response {
+        return new Response(
+            $psrResponse,
+            $psrRequest,
+            $pendingRequest,
+            $exception
+        );
+    }
+
     public function version(): string
     {
         return 'PSR18MollieHttpAdapter';

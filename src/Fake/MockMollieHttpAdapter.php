@@ -89,7 +89,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             return $this->recorded;
         }
 
-        return array_filter($this->recorded, fn ($recorded) => $callback($recorded[0], $recorded[1]));
+        return array_filter($this->recorded, fn($recorded) => $callback($recorded[0], $recorded[1]));
     }
 
     /**
@@ -98,7 +98,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     public function assertSent($callback): void
     {
         if (is_string($callback)) {
-            $callback = fn ($request) => get_class($request) === $callback;
+            $callback = fn($request) => get_class($request) === $callback;
         }
 
         PHPUnit::assertTrue(

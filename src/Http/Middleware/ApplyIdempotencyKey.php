@@ -5,6 +5,7 @@ namespace Mollie\Api\Http\Middleware;
 use Mollie\Api\Contracts\RequestMiddleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 
 class ApplyIdempotencyKey implements RequestMiddleware
 {
@@ -25,6 +26,7 @@ class ApplyIdempotencyKey implements RequestMiddleware
             return $pendingRequest;
         }
 
+        /** @var IdempotencyKeyGeneratorContract $idempotencyKeyGenerator */
         $pendingRequest->headers()->add(
             self::IDEMPOTENCY_KEY_HEADER,
             $idempotencyKey ?? $idempotencyKeyGenerator->generate()

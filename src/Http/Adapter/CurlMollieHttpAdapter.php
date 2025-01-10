@@ -3,14 +3,17 @@
 namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;
+use CurlHandle;
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\CurlConnectTimeoutException;
+use Mollie\Api\Http\Adapter\CurlConnectionErrorException;
+use Mollie\Api\Http\Adapter\CurlException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Mollie\Api\Types\Method;
 use Throwable;
+use Psr\Http\Message\RequestInterface;
 
 final class CurlMollieHttpAdapter implements HttpAdapterContract
 {
@@ -38,10 +41,10 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
     /**
      * @throws \Mollie\Api\Exceptions\ApiException
-     * @throws \Mollie\Api\Exceptions\CurlConnectTimeoutException
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
+        $lastException = null;
         for ($i = 0; $i <= self::MAX_RETRIES; $i++) {
             usleep($i * self::DELAY_INCREASE_MS);
 
@@ -49,8 +52,44 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
                 [$headers, $body, $statusCode] = $this->send($pendingRequest);
 
                 return $this->createResponse($pendingRequest, $statusCode, $headers, $body);
-            } catch (CurlConnectTimeoutException $e) {
-                return $this->createResponse($pendingRequest, 504, [], null, $e);
+            } catch (CurlConnectionErrorException $e) {
+                // Connection errors are fatal and shouldn't be retried
+                $lastException = $e;
+            } catch (CurlException $e) {
+                // Only retry non-connection CURL errors
+                $lastException = $e;
+            }
+        }
+
+        return $this->createResponse($pendingRequest, ResponseStatusCode::HTTP_GATEWAY_TIMEOUT, [], null, $lastException);
+    }
+
+    /**
+     * @throws CurlException
+     */
+    protected function send(PendingRequest $pendingRequest): array
+    {
+        $curl = null;
+        $request = $pendingRequest->createPsrRequest();
+
+        try {
+            $curl = $this->initializeCurl($request->getUri());
+
+            $this->setCurlHeaders($curl, $pendingRequest->headers()->all());
+            $this->setCurlMethodOptions($curl, $pendingRequest->method(), $request->getBody());
+
+            $startTime = microtime(true);
+            $response = curl_exec($curl);
+            $endTime = microtime(true);
+
+            if ($response === false) {
+                $this->handleCurlError($curl, $endTime - $startTime, $request);
+            }
+
+            return $this->extractResponseDetails($curl, $response);
+        } finally {
+            if ($curl !== null) {
+                curl_close($curl);
             }
         }
     }
@@ -75,96 +114,130 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         );
     }
 
-    /**
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    protected function send(PendingRequest $pendingRequest): array
-    {
-        $request = $pendingRequest->createPsrRequest();
-
-        $curl = $this->initializeCurl($request->getUri());
-        $this->setCurlHeaders($curl, $pendingRequest->headers()->all());
-        $this->setCurlMethodOptions($curl, $pendingRequest->method(), $request->getBody());
-
-        $startTime = microtime(true);
-        $response = curl_exec($curl);
-        $endTime = microtime(true);
-
-        if ($response === false) {
-            $this->handleCurlError($curl, $endTime - $startTime);
-        }
-
-        [$headers, $content, $statusCode] = $this->extractResponseDetails($curl, $response);
-        curl_close($curl);
-
-        return [$headers, $content, $statusCode];
-    }
-
-    private function initializeCurl(string $url)
+    private function initializeCurl(string $url): CurlHandle
     {
         $curl = curl_init($url);
+        if ($curl === false) {
+            throw new CurlException('Failed to initialize CURL');
+        }
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, true);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, self::DEFAULT_CONNECT_TIMEOUT);
-        curl_setopt($curl, CURLOPT_TIMEOUT, self::DEFAULT_TIMEOUT);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($curl, CURLOPT_CAINFO, CaBundle::getBundledCaBundlePath());
+        $this->setCurlOption($curl, CURLOPT_RETURNTRANSFER, true);
+        $this->setCurlOption($curl, CURLOPT_HEADER, true);
+        $this->setCurlOption($curl, CURLOPT_CONNECTTIMEOUT, self::DEFAULT_CONNECT_TIMEOUT);
+        $this->setCurlOption($curl, CURLOPT_TIMEOUT, self::DEFAULT_TIMEOUT);
+        $this->setCurlOption($curl, CURLOPT_SSL_VERIFYPEER, true);
+        $this->setCurlOption($curl, CURLOPT_CAINFO, CaBundle::getBundledCaBundlePath());
 
         return $curl;
     }
 
-    private function setCurlHeaders($curl, array $headers)
+    private function setCurlOption(CurlHandle $curl, int $option, $value): void
+    {
+        if (curl_setopt($curl, $option, $value) === false) {
+            throw new CurlException(
+                sprintf('Failed to set CURL option %d', $option),
+                curl_errno($curl),
+            );
+        }
+    }
+
+    private function setCurlHeaders(CurlHandle $curl, array $headers): void
     {
         $headers['Content-Type'] = 'application/json';
 
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->parseHeaders($headers));
+        -$this->setCurlOption($curl, CURLOPT_HTTPHEADER, $this->parseHeaders($headers));
     }
 
-    private function setCurlMethodOptions($curl, string $method, ?string $body): void
+    private function setCurlMethodOptions(CurlHandle $curl, string $method, ?string $body): void
     {
         switch ($method) {
             case Method::POST:
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-
+                $this->setCurlOption($curl, CURLOPT_POST, true);
+                $this->setCurlOption($curl, CURLOPT_POSTFIELDS, $body);
                 break;
 
             case Method::PATCH:
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Method::PATCH);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-
+                $this->setCurlOption($curl, CURLOPT_CUSTOMREQUEST, Method::PATCH);
+                $this->setCurlOption($curl, CURLOPT_POSTFIELDS, $body);
                 break;
 
             case Method::DELETE:
-                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Method::DELETE);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-
+                $this->setCurlOption($curl, CURLOPT_CUSTOMREQUEST, Method::DELETE);
+                $this->setCurlOption($curl, CURLOPT_POSTFIELDS, $body);
                 break;
 
             case Method::GET:
             default:
                 if ($method !== Method::GET) {
-                    throw new \InvalidArgumentException('Invalid HTTP method: '.$method);
+                    throw new \InvalidArgumentException('Invalid HTTP method: ' . $method);
                 }
-
                 break;
         }
     }
 
-    private function handleCurlError($curl, float $executionTime): void
+    /**
+     * @throws CurlException
+     * @return never
+     */
+    private function handleCurlError(CurlHandle $curl, float $executionTime, RequestInterface $request): void
     {
         $curlErrorNumber = curl_errno($curl);
-        $curlErrorMessage = 'Curl error: '.curl_error($curl);
+        $curlErrorMessage = 'Curl error: ' . curl_error($curl);
 
-        if ($this->isConnectTimeoutError($curlErrorNumber, $executionTime)) {
-            throw new CurlConnectTimeoutException('Unable to connect to Mollie. '.$curlErrorMessage);
-        }
-
-        throw new ApiException($curlErrorMessage);
+        throw $this->mapCurlErrorToException($curlErrorNumber, $curlErrorMessage, $request, $executionTime);
     }
 
-    private function extractResponseDetails($curl, string $response): array
+    private function mapCurlErrorToException(int $curlErrorNumber, string $curlErrorMessage, RequestInterface $request, float $executionTime): CurlException
+    {
+        static $messages = [
+            \CURLE_UNSUPPORTED_PROTOCOL => 'Unsupported protocol. Please check the URL.',
+            \CURLE_URL_MALFORMAT => 'Malformed URL. Please check the URL format.',
+            \CURLE_COULDNT_RESOLVE_PROXY => 'Could not resolve proxy. Please check your proxy settings.',
+            \CURLE_COULDNT_RESOLVE_HOST => 'Could not resolve host. Please check your internet connection and DNS settings.',
+            \CURLE_COULDNT_CONNECT => 'Could not connect to host. Please check if the service is available.',
+            \CURLE_FTP_ACCESS_DENIED => 'Remote access denied. Please check your authentication credentials.',
+            \CURLE_OUT_OF_MEMORY => 'Out of memory while processing the request.',
+            \CURLE_OPERATION_TIMEOUTED => 'Operation timed out. The request took too long to complete.',
+            \CURLE_SSL_CONNECT_ERROR => 'SSL connection error. Please check your SSL/TLS configuration.',
+            \CURLE_GOT_NOTHING => 'Server returned nothing. Empty response received.',
+            \CURLE_SSL_CERTPROBLEM => 'Problem with the local SSL certificate.',
+            \CURLE_SSL_CIPHER => 'Problem with the SSL cipher.',
+            \CURLE_SSL_CACERT => 'Problem with the SSL CA cert.',
+            \CURLE_BAD_CONTENT_ENCODING => 'Unrecognized content encoding.',
+        ];
+
+        $message = $messages[$curlErrorNumber] ?? 'An error occurred while making the request.';
+        $message .= ' ' . $curlErrorMessage;
+
+        if ($this->isConnectionError($curlErrorNumber, $executionTime)) {
+            return new CurlConnectionErrorException($message, $curlErrorNumber, $request);
+        }
+
+        return new CurlException($message, $curlErrorNumber);
+    }
+
+    private function isConnectionError(int $curlErrorNumber, float $executionTime): bool
+    {
+        $connectErrors = [
+            \CURLE_COULDNT_RESOLVE_HOST => true,
+            \CURLE_COULDNT_CONNECT => true,
+            \CURLE_SSL_CONNECT_ERROR => true,
+            \CURLE_GOT_NOTHING => true,
+        ];
+
+        if (isset($connectErrors[$curlErrorNumber])) {
+            return true;
+        }
+
+        if ($curlErrorNumber === \CURLE_OPERATION_TIMEOUTED) {
+            // Only treat it as a connection error if it timed out during the connection phase
+            return $executionTime <= self::DEFAULT_CONNECT_TIMEOUT;
+        }
+
+        return false;
+    }
+
+    private function extractResponseDetails(CurlHandle $curl, string $response): array
     {
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $headerValues = substr($response, 0, $headerSize);
@@ -183,39 +256,12 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         return [$headers, $content, $statusCode];
     }
 
-    /**
-     * @param  string|float  $executionTime
-     */
-    protected function isConnectTimeoutError(int $curlErrorNumber, $executionTime): bool
-    {
-        $connectErrors = [
-            \CURLE_COULDNT_RESOLVE_HOST => true,
-            \CURLE_COULDNT_CONNECT => true,
-            \CURLE_SSL_CONNECT_ERROR => true,
-            \CURLE_GOT_NOTHING => true,
-        ];
-
-        if (isset($connectErrors[$curlErrorNumber])) {
-            return true;
-        }
-
-        if ($curlErrorNumber === \CURLE_OPERATION_TIMEOUTED) {
-            if ($executionTime > self::DEFAULT_TIMEOUT) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     private function parseHeaders(array $headers): array
     {
         $result = [];
 
         foreach ($headers as $key => $value) {
-            $result[] = $key.': '.$value;
+            $result[] = $key . ': ' . $value;
         }
 
         return $result;

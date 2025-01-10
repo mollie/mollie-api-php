@@ -2,57 +2,73 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\SupportsDebuggingContract;
-use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
+use Mollie\Api\Helpers\Debugger;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Response;
 
 /**
- * @mixin MollieApiClient
+ * @mixin HasMiddleware
  */
 trait HandlesDebugging
 {
     /**
-     * Enable debugging mode.
+     * Enable request debugging with an optional custom debugger.
      *
-     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
+     * @param callable|null $debugger Custom request debugger function
+     * @param bool $die Whether to die after dumping
+     * @return $this
      */
-    public function enableDebugging(): Connector
+    public function debugRequest(?callable $debugger = null, bool $die = false): self
     {
-        $this->setDebugging(true);
+        $debugger ??= fn(...$args) => Debugger::symfonyRequestDebugger(...$args);
+
+        $this->middleware()->onRequest(function (PendingRequest $pendingRequest) use ($debugger, $die): PendingRequest {
+            $debugger($pendingRequest, $pendingRequest->createPsrRequest());
+
+            if ($die) {
+                Debugger::die();
+            }
+
+            return $pendingRequest;
+        });
 
         return $this;
     }
 
     /**
-     * Disable debugging mode.
+     * Enable response debugging with an optional custom debugger.
      *
-     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
+     * @param callable|null $debugger Custom response debugger function
+     * @param bool $die Whether to die after dumping
+     * @return $this
      */
-    public function disableDebugging(): Connector
+    public function debugResponse(?callable $debugger = null, bool $die = false): self
     {
-        $this->setDebugging(false);
+        $debugger ??= fn(...$args) => Debugger::symfonyResponseDebugger(...$args);
+
+        $this->middleware()->onResponse(function (Response $response) use ($debugger, $die): Response {
+            $debugger($response, $response->getPsrResponse());
+
+            if ($die) {
+                Debugger::die();
+            }
+
+            return $response;
+        },);
 
         return $this;
     }
 
     /**
-     * Toggle debugging mode. If debugging mode is enabled, the attempted request will be included in the ApiException.
-     * By default, debugging is disabled to prevent leaking sensitive request data into exception logs.
+     * Enable both request and response debugging.
      *
-     * @throws \Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException
+     * @param bool $die Whether to die after dumping
+     * @return $this
      */
-    public function setDebugging(bool $enable)
+    public function debug(bool $die = false): self
     {
-        if (! $this->httpClient instanceof SupportsDebuggingContract) {
-            throw new HttpAdapterDoesNotSupportDebuggingException(
-                'Debugging is not supported by '.get_class($this->httpClient).'.'
-            );
-        }
-
-        if ($enable) {
-            $this->httpClient->enableDebugging();
-        } else {
-            $this->httpClient->disableDebugging();
-        }
+        return $this
+            ->debugRequest()
+            ->debugResponse(null, $die);
     }
 }

@@ -4,17 +4,9 @@ namespace Mollie\Api\Contracts;
 
 interface SupportsDebuggingContract
 {
-    /**
-     * Enable debugging for the current request.
-     *
-     * @return HttpAdapterContract|Connector
-     */
-    public function enableDebugging();
+    public function debugRequest(?callable $debugger = null, bool $die = false): self;
 
-    /**
-     * Disable debugging for the current request.
-     *
-     * @return HttpAdapterContract|Connector
-     */
-    public function disableDebugging();
+    public function debugResponse(?callable $debugger = null, bool $die = false): self;
+
+    public function debug(bool $die = false): self;
 }

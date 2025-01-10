@@ -33,7 +33,7 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
     private function createDefaultAdapter(): HttpAdapterContract
     {
         if ($this->guzzleIsDetected()) {
-            return GuzzleMollieHttpAdapter::createDefault();
+            return GuzzleMollieHttpAdapter::createClient();
         }
 
         return new CurlMollieHttpAdapter;
@@ -41,6 +41,6 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
 
     private function guzzleIsDetected(): bool
     {
-        return interface_exists('\\'.\GuzzleHttp\ClientInterface::class);
+        return interface_exists('\\' . \GuzzleHttp\ClientInterface::class);
     }
 }

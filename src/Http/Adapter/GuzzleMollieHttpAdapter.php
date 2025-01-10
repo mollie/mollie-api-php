@@ -11,20 +11,16 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\HttpFactory;
 use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Contracts\SupportsDebuggingContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Traits\IsDebuggableAdapter;
 use Mollie\Api\Utils\Factories;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebuggingContract
+final class GuzzleMollieHttpAdapter implements HttpAdapterContract
 {
-    use IsDebuggableAdapter;
-
     /**
      * Default response timeout (in seconds).
      */
@@ -34,11 +30,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      * Default connect timeout (in seconds).
      */
     public const DEFAULT_CONNECT_TIMEOUT = 2;
-
-    /**
-     * HTTP status code for an empty ok response.
-     */
-    public const HTTP_NO_CONTENT = 204;
 
     protected ClientInterface $httpClient;
 
@@ -62,7 +53,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
     /**
      * Instantiate a default adapter with sane configuration for Guzzle.
      */
-    public static function createDefault(): self
+    public static function createClient(): self
     {
         $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory;
         $handlerStack = HandlerStack::create();
@@ -92,18 +83,14 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
 
             return $this->createResponse($response, $request, $pendingRequest);
         } catch (ConnectException $e) {
-            if (! $this->debug) {
-                $request = null;
-            }
-
-            throw new ApiException($e->getMessage(), $e->getCode(), null, $request, null);
+            // throw new FailedConnectionException
         } catch (RequestException $e) {
-            // Prevent sensitive request data from ending up in exception logs unintended
-            if (! $this->debug) {
-                $request = null;
+            if (! $response = $e->getResponse()) {
+                // throw new FailedConnection
             }
 
-            return $this->createResponse($e->getResponse(), $request, $pendingRequest, $e);
+            /** @var ResponseInterface $response */
+            return $this->createResponse($response, $request, $pendingRequest, $e);
         }
     }
 
@@ -132,6 +119,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract, SupportsDebu
      */
     public function version(): string
     {
-        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
     }
 }

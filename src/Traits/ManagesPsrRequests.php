@@ -29,8 +29,9 @@ trait ManagesPsrRequests
             $request = $request->withHeader($headerName, $headerValue);
         }
 
-        if ($this->payload() instanceof PayloadRepository) {
-            $request = $request->withBody($this->payload()->toStream($factories->streamFactory));
+        /** @var PayloadRepository|null */
+        if (($payload = $this->payload()) instanceof PayloadRepository) {
+            $request = $request->withBody($payload->toStream($factories->streamFactory));
         }
 
         return $request;

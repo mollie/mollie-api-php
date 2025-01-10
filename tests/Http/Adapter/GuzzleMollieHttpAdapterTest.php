@@ -18,7 +18,7 @@ class GuzzleMollieHttpAdapterTest extends TestCase
     /** @test */
     public function test_debugging_is_supported()
     {
-        $adapter = GuzzleMollieHttpAdapter::createDefault();
+        $adapter = GuzzleMollieHttpAdapter::createClient();
         $this->assertFalse($adapter->debuggingIsActive());
 
         $adapter->enableDebugging();

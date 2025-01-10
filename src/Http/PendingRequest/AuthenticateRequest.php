@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\PendingRequest;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\MissingAuthenticationException;
 use Mollie\Api\Http\PendingRequest;
 
 class AuthenticateRequest
@@ -12,7 +12,7 @@ class AuthenticateRequest
         $authenticator = $pendingRequest->getConnector()->getAuthenticator();
 
         if (! $authenticator) {
-            throw new ApiException('You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.');
+            throw new MissingAuthenticationException();
         }
 
         $authenticator->authenticate($pendingRequest);

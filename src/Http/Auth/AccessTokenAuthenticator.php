@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Auth;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\InvalidAuthenticationException;
 
 class AccessTokenAuthenticator extends BearerTokenAuthenticator
 {
@@ -10,7 +10,7 @@ class AccessTokenAuthenticator extends BearerTokenAuthenticator
         string $token
     ) {
         if (! preg_match('/^access_\w+$/', trim($token))) {
-            throw new ApiException("Invalid OAuth access token: '{$token}'. An access token must start with 'access_'.");
+            throw new InvalidAuthenticationException($token, "Invalid OAuth access token. An access token must start with 'access_'.");
         }
 
         parent::__construct($token);

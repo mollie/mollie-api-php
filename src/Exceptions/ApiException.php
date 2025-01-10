@@ -7,15 +7,13 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-class ApiException extends \Exception
+class ApiException extends MollieException
 {
-    protected ?string $field = null;
-
     protected string $plainMessage;
 
     protected ?RequestInterface $request;
 
-    protected ?ResponseInterface $response;
+    protected ?ResponseInterface $response = null;
 
     /**
      * ISO8601 representation of the moment this exception was thrown
@@ -30,7 +28,6 @@ class ApiException extends \Exception
     public function __construct(
         string $message = '',
         int $code = 0,
-        ?string $field = null,
         ?RequestInterface $request = null,
         ?ResponseInterface $response = null,
         ?Throwable $previous = null
@@ -40,12 +37,7 @@ class ApiException extends \Exception
         $this->raisedAt = new DateTimeImmutable;
 
         $formattedRaisedAt = $this->raisedAt->format(DateTimeImmutable::ATOM);
-        $message = "[{$formattedRaisedAt}] ".$message;
-
-        if (! empty($field)) {
-            $this->field = (string) $field;
-            $message .= ". Field: {$this->field}";
-        }
+        $message = "[{$formattedRaisedAt}] " . $message;
 
         if (! empty($response)) {
             $this->response = $response;
@@ -73,11 +65,6 @@ class ApiException extends \Exception
         }
 
         parent::__construct($message, $code, $previous);
-    }
-
-    public function getField(): ?string
-    {
-        return $this->field;
     }
 
     public function getDocumentationUrl(): ?string

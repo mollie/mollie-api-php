@@ -41,22 +41,14 @@ class Handlers
     /**
      * Execute the handlers
      *
-     * @param  PendingRequest|Response|mixed  $payload
-     * @return PendingRequest|Response|IsResponseAware|ViableResponse
+     * @param  mixed  $payload
+     * @return mixed
      */
     public function execute($payload)
     {
         /** @var Handler $handler */
         foreach ($this->sortHandlers() as $handler) {
             $payload = call_user_func($handler->callback(), $payload);
-
-            /**
-             * If the handler returns a value that is not an instance of PendingRequest or Response,
-             * we assume that the handler has transformed the payload in some way and we return the transformed value.
-             */
-            if ($payload instanceof ViableResponse) {
-                return $payload;
-            }
         }
 
         return $payload;

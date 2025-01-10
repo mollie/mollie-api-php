@@ -367,12 +367,6 @@ parameters:
 			path: tests/EndpointCollection/SubscriptionEndpointCollectionTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: tests/Http/Middleware/GuardResponseTest.php
-
-		-
 			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$customField\.$#'
 			identifier: property.notFound
 			count: 1

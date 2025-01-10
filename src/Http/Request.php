@@ -3,6 +3,7 @@
 namespace Mollie\Api\Http;
 
 use LogicException;
+use Mollie\Api\Traits\HandlesDebugging;
 use Mollie\Api\Traits\HandlesTestmode;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
@@ -11,6 +12,7 @@ abstract class Request
 {
     use HandlesTestmode;
     use HasMiddleware;
+    use HandlesDebugging;
     use HasRequestProperties;
 
     /**
