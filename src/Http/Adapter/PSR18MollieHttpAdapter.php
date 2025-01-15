@@ -75,7 +75,6 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
                 'Network error: ' . $e->getMessage()
             );
         } catch (RequestExceptionInterface $e) {
-            /** @phpstan-ignore-next-line */
             if (method_exists($e, 'getResponse') && $response = $e->getResponse()) {
                 return $this->createResponse($response, $request, $pendingRequest, $e);
             }

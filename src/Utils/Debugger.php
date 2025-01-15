@@ -35,7 +35,7 @@ class Debugger
             'uri' => (string) $psrRequest->getUri(),
             'headers' => $headers,
             'body' => (string) $psrRequest->getBody(),
-        ], 'Mollie Request (' . self::getLabel($pendingRequest->getRequest()) . ') ->');
+        ]);
     }
 
     /**
@@ -53,7 +53,7 @@ class Debugger
             'status' => $response->status(),
             'headers' => $headers,
             'body' => json_decode((string) $psrResponse->getBody(), true),
-        ], 'Mollie Response (' . self::getLabel($response) . ') ->');
+        ]);
     }
 
     /**
@@ -66,12 +66,5 @@ class Debugger
         };
 
         $handler();
-    }
-
-    private static function getLabel(object $object): string
-    {
-        $className = explode('\\', get_class($object));
-
-        return end($className);
     }
 }

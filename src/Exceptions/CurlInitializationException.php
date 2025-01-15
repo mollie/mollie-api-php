@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Http\Adapter;
 
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\PendingRequest;
 use Throwable;
 

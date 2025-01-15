@@ -271,18 +271,6 @@ parameters:
 			path: examples/subscriptions/update-subscription.php
 
 		-
-			message: '#^Unsafe access to private property Mollie\\Api\\Fake\\MockMollieHttpAdapter\:\:\$factories through static\:\:\.$#'
-			identifier: staticClassAccess.privateProperty
-			count: 3
-			path: src/Fake/MockMollieHttpAdapter.php
-
-		-
-			message: '#^Unsafe access to private property Mollie\\Api\\Fake\\MockResponse\:\:\$factories through static\:\:\.$#'
-			identifier: staticClassAccess.privateProperty
-			count: 3
-			path: src/Fake/MockResponse.php
-
-		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 4

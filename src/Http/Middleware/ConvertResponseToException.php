@@ -48,8 +48,8 @@ class ConvertResponseToException implements ResponseMiddleware
                     sprintf(
                         'Error executing API call (%d: %s): %s',
                         $status,
-                        $response->json()?->title ?? 'Unknown',
-                        $response->json()?->detail ?? 'Unknown'
+                        $response->json()->title ?? 'Unknown',
+                        $response->json()->detail ?? 'Unknown'
                     ),
                     $status,
                     null

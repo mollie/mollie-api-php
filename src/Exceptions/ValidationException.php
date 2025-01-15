@@ -8,7 +8,7 @@ use Throwable;
 
 class ValidationException extends ApiException
 {
-    private ?string $field;
+    private string $field;
 
     public function __construct(
         Response $response,
