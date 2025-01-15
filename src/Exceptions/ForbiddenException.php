@@ -3,6 +3,7 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class ForbiddenException extends ApiException
 {
@@ -11,11 +12,10 @@ class ForbiddenException extends ApiException
         $body = $response->json();
 
         return new self(
+            $response,
             'Your request was understood but not allowed. ' .
-                sprintf('Error executing API call (%d: %s): %s', 403, $body->title, $body->detail),
-            403,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_FORBIDDEN, $body->title, $body->detail),
+            ResponseStatusCode::HTTP_FORBIDDEN
         );
     }
 }

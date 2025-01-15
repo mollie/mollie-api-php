@@ -2,7 +2,7 @@
 
 namespace Mollie\Api;
 
-use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\Exceptions\IncompatiblePlatformException;
 
 class CompatibilityChecker
 {
@@ -19,21 +19,21 @@ class CompatibilityChecker
     /**
      * @return void
      *
-     * @throws IncompatiblePlatform
+     * @throws IncompatiblePlatformException
      */
     public function checkCompatibility()
     {
         if (! $this->satisfiesPhpVersion()) {
-            throw new IncompatiblePlatform(
-                'The client requires PHP version >= '.self::MIN_PHP_VERSION.', you have '.PHP_VERSION.'.',
-                IncompatiblePlatform::INCOMPATIBLE_PHP_VERSION
+            throw new IncompatiblePlatformException(
+                'The client requires PHP version >= ' . self::MIN_PHP_VERSION . ', you have ' . PHP_VERSION . '.',
+                IncompatiblePlatformException::INCOMPATIBLE_PHP_VERSION
             );
         }
 
         if (! $this->satisfiesJsonExtension()) {
-            throw new IncompatiblePlatform(
+            throw new IncompatiblePlatformException(
                 "PHP extension json is not enabled. Please make sure to enable 'json' in your PHP configuration.",
-                IncompatiblePlatform::INCOMPATIBLE_JSON_EXTENSION
+                IncompatiblePlatformException::INCOMPATIBLE_JSON_EXTENSION
             );
         }
     }

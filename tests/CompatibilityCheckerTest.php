@@ -25,7 +25,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 
     public function test_check_compatibility_throws_exception_on_php_version()
     {
-        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
+        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatformException::class);
         $this->checker->expects($this->once())
             ->method('satisfiesPhpVersion')
             ->will($this->returnValue(false)); // Fail
@@ -38,7 +38,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 
     public function test_check_compatibility_throws_exception_on_json_extension()
     {
-        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatform::class);
+        $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatformException::class);
         $this->checker->expects($this->once())
             ->method('satisfiesPhpVersion')
             ->will($this->returnValue(true));

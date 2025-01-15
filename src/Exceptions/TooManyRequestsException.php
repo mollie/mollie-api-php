@@ -3,6 +3,7 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class TooManyRequestsException extends ApiException
 {
@@ -11,11 +12,10 @@ class TooManyRequestsException extends ApiException
         $body = $response->json();
 
         return new self(
+            $response,
             'Your request exceeded the rate limit. ' .
-                sprintf('Error executing API call (%d: %s): %s', 429, $body->title, $body->detail),
-            429,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_TOO_MANY_REQUESTS, $body->title, $body->detail),
+            ResponseStatusCode::HTTP_TOO_MANY_REQUESTS
         );
     }
 }

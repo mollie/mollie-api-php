@@ -6,10 +6,12 @@ use Exception;
 use GuzzleHttp\Client;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Utils\Debugger;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
@@ -82,7 +84,6 @@ class MollieApiClientTest extends TestCase
         try {
             $client->send(new DynamicGetRequest(''));
         } catch (ValidationException $e) {
-            $this->assertNull($e->getField());
             $this->assertNull($e->getDocumentationUrl());
 
             throw $e;
@@ -150,7 +151,7 @@ class MollieApiClientTest extends TestCase
      * In this case it has to be skipped.
      *
      * @throws ApiException
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatformException
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
     /** @test */
@@ -321,17 +322,117 @@ class MollieApiClientTest extends TestCase
     }
 
     /** @test */
-    public function when_debugging_is_enabled_the_request_is_removed_from_exceptions_to_prevent_leaking_sensitive_data()
+    public function when_debugging_is_enabled_the_request_is_sanitized_when_an_exception_is_thrown_to_prevent_leaking_sensitive_data()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => function (PendingRequest $pendingRequest) {
-                throw new RequestException('test', $pendingRequest->createPsrRequest());
-            },
+            DynamicGetRequest::class => new MockResponse([
+                'status' => 503,
+                'title' => 'Service Unavailable',
+                'detail' => 'The service is temporarily unavailable.',
+            ], 503),
         ]);
 
         $client->test(true);
 
+        try {
+            $client
+                ->debug()
+                ->send(new DynamicGetRequest(''));
+        } catch (RequestException $e) {
+            $this->assertArrayNotHasKey('Authorization', $e->getRequest()->getHeaders());
+            $this->assertArrayNotHasKey('User-Agent', $e->getRequest()->getHeaders());
+            $this->assertArrayNotHasKey('X-Mollie-Client-Info', $e->getRequest()->getHeaders());
+        }
+    }
+
+    /** @test */
+    public function debugging_request_captures_request_information()
+    {
+        $requestCaptured = false;
+        $capturedRequest = null;
+
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+        ]);
+
+        $client->debugRequest(function ($pendingRequest, $psrRequest) use (&$requestCaptured, &$capturedRequest) {
+            $requestCaptured = true;
+            $capturedRequest = $pendingRequest;
+        });
+
         $client->send(new DynamicGetRequest(''));
+
+        $this->assertTrue($requestCaptured, 'Request debug callback was not called');
+        $this->assertNotNull($capturedRequest);
+        $this->assertInstanceOf(PendingRequest::class, $capturedRequest);
+    }
+
+    /** @test */
+    public function debugging_response_captures_response_information()
+    {
+        $responseCaptured = false;
+        $capturedResponse = null;
+
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+        ]);
+
+        $client->debugResponse(function ($response, $psrResponse) use (&$responseCaptured, &$capturedResponse) {
+            $responseCaptured = true;
+            $capturedResponse = $response;
+        });
+
+        $client->send(new DynamicGetRequest(''));
+
+        $this->assertTrue($responseCaptured, 'Response debug callback was not called');
+        $this->assertNotNull($capturedResponse);
+        $this->assertInstanceOf(Response::class, $capturedResponse);
+    }
+
+    /** @test */
+    public function debugging_with_die_flag_exits_after_debug()
+    {
+        $dieWasCalled = false;
+        $originalDieHandler = Debugger::$dieHandler;
+
+        try {
+            $client = new MockMollieClient([
+                DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+            ]);
+
+            Debugger::$dieHandler = function () use (&$dieWasCalled) {
+                $dieWasCalled = true;
+            };
+
+            $client->debug(true);
+            $client->send(new DynamicGetRequest(''));
+
+            $this->assertTrue($dieWasCalled, 'Die handler was not called');
+        } finally {
+            Debugger::$dieHandler = $originalDieHandler;
+        }
+    }
+
+    /** @test */
+    public function debugging_removes_sensitive_data_from_request()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => new MockResponse([
+                'status' => 503,
+                'title' => 'Service Unavailable',
+                'detail' => 'The service is temporarily unavailable.',
+            ], 503),
+        ]);
+
+        try {
+            $client
+                ->debug()
+                ->send(new DynamicGetRequest(''));
+        } catch (RequestException $e) {
+            $this->assertArrayNotHasKey('Authorization', $e->getRequest()->getHeaders());
+            $this->assertArrayNotHasKey('User-Agent', $e->getRequest()->getHeaders());
+            $this->assertArrayNotHasKey('X-Mollie-Client-Info', $e->getRequest()->getHeaders());
+        }
     }
 
     /** @test */

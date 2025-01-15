@@ -3,6 +3,7 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class UnauthorizedException extends ApiException
 {
@@ -11,11 +12,10 @@ class UnauthorizedException extends ApiException
         $body = $response->json();
 
         return new self(
+            $response,
             'Your request wasn\'t executed due to failed authentication. Check your API key. ' .
-                sprintf('Error executing API call (%d: %s): %s', 401, $body->title, $body->detail),
-            401,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_UNAUTHORIZED, $body->title, $body->detail),
+            ResponseStatusCode::HTTP_UNAUTHORIZED
         );
     }
 }

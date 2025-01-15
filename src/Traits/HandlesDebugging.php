@@ -2,15 +2,24 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Helpers\Debugger;
+use Mollie\Api\Utils\Debugger;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Http\RequestSanitizer;
 
 /**
  * @mixin HasMiddleware
  */
 trait HandlesDebugging
 {
+    /**
+     * @var bool
+     */
+    private bool $hasSanitizerMiddleware = false;
+
     /**
      * Enable request debugging with an optional custom debugger.
      *
@@ -20,6 +29,8 @@ trait HandlesDebugging
      */
     public function debugRequest(?callable $debugger = null, bool $die = false): self
     {
+        $this->removeSensitiveData();
+
         $debugger ??= fn(...$args) => Debugger::symfonyRequestDebugger(...$args);
 
         $this->middleware()->onRequest(function (PendingRequest $pendingRequest) use ($debugger, $die): PendingRequest {
@@ -30,7 +41,7 @@ trait HandlesDebugging
             }
 
             return $pendingRequest;
-        });
+        }, MiddlewarePriority::LOW);
 
         return $this;
     }
@@ -44,6 +55,8 @@ trait HandlesDebugging
      */
     public function debugResponse(?callable $debugger = null, bool $die = false): self
     {
+        $this->removeSensitiveData();
+
         $debugger ??= fn(...$args) => Debugger::symfonyResponseDebugger(...$args);
 
         $this->middleware()->onResponse(function (Response $response) use ($debugger, $die): Response {
@@ -54,7 +67,32 @@ trait HandlesDebugging
             }
 
             return $response;
-        },);
+        }, MiddlewarePriority::HIGH);
+
+        return $this;
+    }
+
+    /**
+     * Remove sensitive data from the request and response.
+     *
+     * @return $this
+     */
+    protected function removeSensitiveData(): self
+    {
+        if ($this->hasSanitizerMiddleware) {
+            return $this;
+        }
+
+        $this->hasSanitizerMiddleware = true;
+        $sanitizer = new RequestSanitizer();
+
+        $this->middleware()->onFatal(function (MollieException $exception) use ($sanitizer) {
+            if ($exception instanceof RequestException) {
+                return $sanitizer->sanitize($exception);
+            }
+
+            return $exception;
+        }, MiddlewarePriority::LOW);
 
         return $this;
     }

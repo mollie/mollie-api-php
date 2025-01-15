@@ -13,6 +13,7 @@ use Mollie\Api\Exceptions\ServiceUnavailableException;
 use Mollie\Api\Exceptions\TooManyRequestsException;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class ConvertResponseToException implements ResponseMiddleware
 {
@@ -25,33 +26,32 @@ class ConvertResponseToException implements ResponseMiddleware
         $status = $response->status();
 
         switch ($status) {
-            case 401:
+            case ResponseStatusCode::HTTP_UNAUTHORIZED:
                 throw UnauthorizedException::fromResponse($response);
-            case 403:
+            case ResponseStatusCode::HTTP_FORBIDDEN:
                 throw ForbiddenException::fromResponse($response);
-            case 404:
+            case ResponseStatusCode::HTTP_NOT_FOUND:
                 throw NotFoundException::fromResponse($response);
-            case 405:
+            case ResponseStatusCode::HTTP_METHOD_NOT_ALLOWED:
                 throw MethodNotAllowedException::fromResponse($response);
-            case 408:
+            case ResponseStatusCode::HTTP_REQUEST_TIMEOUT:
                 throw RequestTimeoutException::fromResponse($response);
-            case 422:
+            case ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY:
                 throw ValidationException::fromResponse($response);
-            case 429:
+            case ResponseStatusCode::HTTP_TOO_MANY_REQUESTS:
                 throw TooManyRequestsException::fromResponse($response);
-            case 503:
+            case ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE:
                 throw ServiceUnavailableException::fromResponse($response);
             default:
                 throw new ApiException(
+                    $response,
                     sprintf(
                         'Error executing API call (%d: %s): %s',
                         $status,
-                        $response->json()->title,
-                        $response->json()->detail
+                        $response->json()?->title ?? 'Unknown',
+                        $response->json()?->detail ?? 'Unknown'
                     ),
                     $status,
-                    $response->getPsrRequest(),
-                    $response->getPsrResponse(),
                     null
                 );
         }

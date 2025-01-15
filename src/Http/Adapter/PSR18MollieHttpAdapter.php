@@ -3,11 +3,12 @@
 namespace Mollie\Api\Http\Adapter;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\NetworkRequestException;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Utils\Factories;
-use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Client\NetworkExceptionInterface;
 use Psr\Http\Client\RequestExceptionInterface;
@@ -22,18 +23,12 @@ use Throwable;
 final class PSR18MollieHttpAdapter implements HttpAdapterContract
 {
     private ClientInterface $httpClient;
-
     private RequestFactoryInterface $requestFactory;
-
     private ResponseFactoryInterface $responseFactory;
-
     private StreamFactoryInterface $streamFactory;
-
     private UriFactoryInterface $uriFactory;
+    private ?Factories $factories = null;
 
-    /**
-     * PSR18MollieHttpAdapter constructor.
-     */
     public function __construct(
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
@@ -50,7 +45,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
 
     public function factories(): Factories
     {
-        return new Factories(
+        return $this->factories ??= new Factories(
             $this->requestFactory,
             $this->responseFactory,
             $this->streamFactory,
@@ -59,7 +54,11 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * {@inheritdoc}
+     * Send a request using a PSR-18 compatible HTTP client.
+     *
+     * @throws NetworkRequestException When a network error occurs
+     * @throws RetryableNetworkRequestException When a temporary network error occurs
+     * @throws RequestException When the request fails with a response
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
@@ -67,23 +66,26 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
 
         try {
             $response = $this->httpClient->sendRequest($request);
-
             return $this->createResponse($response, $request, $pendingRequest);
         } catch (NetworkExceptionInterface $e) {
-            // throw new FailedConnectionException;
+            // PSR-18 NetworkExceptionInterface indicates network errors, which are retryable
+            throw new RetryableNetworkRequestException(
+                $pendingRequest,
+                'Network error: ' . $e->getMessage()
+            );
         } catch (RequestExceptionInterface $e) {
-            if (! method_exists($e, 'getResponse') || ! $response = $e->getResponse()) {
-                // throw new FailedConnectionException
+            /** @phpstan-ignore-next-line */
+            if (method_exists($e, 'getResponse') && $response = $e->getResponse()) {
+                return $this->createResponse($response, $request, $pendingRequest, $e);
             }
 
-            /** @var ResponseInterface $response */
-            return $this->createResponse($response, $request, $pendingRequest, $e);
+            throw new RetryableNetworkRequestException(
+                $pendingRequest,
+                'Network error: ' . $e->getMessage()
+            );
         }
     }
 
-    /**
-     * Create a response.
-     */
     protected function createResponse(
         ResponseInterface $psrResponse,
         RequestInterface $psrRequest,
@@ -98,8 +100,14 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
         );
     }
 
+    /**
+     * Get the version string for the HTTP client implementation.
+     * This is used in the User-Agent header.
+     */
     public function version(): string
     {
-        return 'PSR18MollieHttpAdapter';
+        $clientClass = get_class($this->httpClient);
+        $clientName = substr($clientClass, strrpos($clientClass, '\\') + 1);
+        return 'PSR18/' . $clientName;
     }
 }

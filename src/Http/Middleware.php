@@ -4,6 +4,8 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\ViableResponse;
+use Mollie\Api\Exceptions\NetworkRequestException;
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 
@@ -13,10 +15,13 @@ class Middleware
 
     protected Handlers $onResponse;
 
+    protected Handlers $onFatal;
+
     public function __construct()
     {
         $this->onRequest = new Handlers;
         $this->onResponse = new Handlers;
+        $this->onFatal = new Handlers;
     }
 
     public function onRequest(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
@@ -49,6 +54,17 @@ class Middleware
         return $this;
     }
 
+    public function onFatal(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
+    {
+        $this->onFatal->add(static function (MollieException $exception) use ($callback) {
+            $callback($exception);
+
+            return $exception;
+        }, $name, $priority);
+
+        return $this;
+    }
+
     public function executeOnRequest(PendingRequest $pendingRequest): PendingRequest
     {
         return $this->onRequest->execute($pendingRequest);
@@ -60,6 +76,11 @@ class Middleware
     public function executeOnResponse(Response $response)
     {
         return $this->onResponse->execute($response);
+    }
+
+    public function executeOnFatal(MollieException $exception): MollieException
+    {
+        return $this->onFatal->execute($exception);
     }
 
     /**
@@ -82,6 +103,12 @@ class Middleware
             );
 
             $this->onResponse->setHandlers($onResponseHandlers);
+
+            $onFatalHandlers = array_merge(
+                $this->onFatal->getHandlers(),
+                $handlers->onFatal->getHandlers()
+            );
+            $this->onFatal->setHandlers($onFatalHandlers);
         }
 
         return $this;

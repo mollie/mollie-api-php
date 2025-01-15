@@ -134,7 +134,7 @@ class MollieApiClient implements Connector
     /**
      * @param  \GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\HttpAdapterContract|null  $client
      *
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform|\Mollie\Api\Exceptions\UnrecognizedClientException
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatformException|\Mollie\Api\Exceptions\UnrecognizedClientException
      */
     public function __construct(
         $client = null,

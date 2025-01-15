@@ -2,4 +2,4 @@
 
 namespace Mollie\Api\Exceptions;
 
-class ClientException extends MollieException {}
+class ClientException extends RequestException {}

@@ -76,6 +76,7 @@ For detailed documentation about using this PHP client, see the following guides
 - [Requests](docs/requests.md) - Overview and usage of request objects in the API client.
 - [Responses](docs/responses.md) - Handling and understanding responses from the API.
 - [Testing](docs/testing.md) - Guidelines for testing with the Mollie API client.
+- [Debugging](docs/debugging.md) - How to debug API requests and responses safely.
 
 These guides provide in-depth explanations and examples for advanced usage of the client.
 

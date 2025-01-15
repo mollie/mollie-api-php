@@ -4,6 +4,7 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Exceptions\ClientException;
+use Mollie\Api\Exceptions\JsonParseException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -54,7 +55,7 @@ class Response
         $decoded = json_decode($body = $this->body() ?: '{}');
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new ClientException("Unable to decode Mollie response: '{$body}'.");
+            throw new JsonParseException("Invalid JSON response from Mollie: '{$body}'.", $body);
         }
 
         return $decoded;

@@ -3,6 +3,7 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class MethodNotAllowedException extends ApiException
 {
@@ -11,11 +12,10 @@ class MethodNotAllowedException extends ApiException
         $body = $response->json();
 
         return new self(
+            $response,
             'The HTTP method is not supported. ' .
-                sprintf('Error executing API call (%d: %s): %s', 405, $body->title, $body->detail),
-            405,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_METHOD_NOT_ALLOWED, $body->title, $body->detail),
+            ResponseStatusCode::HTTP_METHOD_NOT_ALLOWED
         );
     }
 }

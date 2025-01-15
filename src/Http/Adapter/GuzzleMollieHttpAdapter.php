@@ -7,11 +7,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\HttpFactory;
-use GuzzleHttp\RequestOptions as GuzzleRequestOptions;
+use GuzzleHttp\RequestOptions;
 use Mollie\Api\Contracts\HttpAdapterContract;
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\NetworkRequestException;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Utils\Factories;
@@ -30,6 +32,11 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
      * Default connect timeout (in seconds).
      */
     public const DEFAULT_CONNECT_TIMEOUT = 2;
+
+    /**
+     * Maximum number of retries for retryable errors.
+     */
+    public const MAX_RETRIES = 5;
 
     protected ClientInterface $httpClient;
 
@@ -51,18 +58,20 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * Instantiate a default adapter with sane configuration for Guzzle.
+     * Create a preconfigured Guzzle adapter.
      */
     public static function createClient(): self
     {
-        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory;
+        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory();
+
         $handlerStack = HandlerStack::create();
         $handlerStack->push($retryMiddlewareFactory->retry());
 
         $client = new Client([
-            GuzzleRequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
-            GuzzleRequestOptions::TIMEOUT => self::DEFAULT_TIMEOUT,
-            GuzzleRequestOptions::CONNECT_TIMEOUT => self::DEFAULT_CONNECT_TIMEOUT,
+            RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),
+            RequestOptions::TIMEOUT => self::DEFAULT_TIMEOUT,
+            RequestOptions::CONNECT_TIMEOUT => self::DEFAULT_CONNECT_TIMEOUT,
+            RequestOptions::HTTP_ERRORS => false,
             'handler' => $handlerStack,
         ]);
 
@@ -70,53 +79,37 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * Send a request to the specified Mollie api url.
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws NetworkRequestException
+     * @throws RetryableNetworkRequestException
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
         $request = $pendingRequest->createPsrRequest();
 
         try {
-            $response = $this->httpClient->send($request, ['http_errors' => false]);
-
+            $response = $this->httpClient->send($request);
             return $this->createResponse($response, $request, $pendingRequest);
         } catch (ConnectException $e) {
-            // throw new FailedConnectionException
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
+        } catch (TooManyRedirectsException $e) {
+            throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
         } catch (RequestException $e) {
-            if (! $response = $e->getResponse()) {
-                // throw new FailedConnection
+            if ($response = $e->getResponse()) {
+                return $this->createResponse($response, $request, $pendingRequest, $e);
             }
-
-            /** @var ResponseInterface $response */
-            return $this->createResponse($response, $request, $pendingRequest, $e);
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
         }
     }
 
-    /**
-     * Create a response.
-     */
     protected function createResponse(
         ResponseInterface $psrResponse,
         RequestInterface $psrRequest,
         PendingRequest $pendingRequest,
         ?Throwable $exception = null
     ): Response {
-        return new Response(
-            $psrResponse,
-            $psrRequest,
-            $pendingRequest,
-            $exception
-        );
+        return new Response($psrResponse, $psrRequest, $pendingRequest, $exception);
     }
 
-    /**
-     * The version number for the underlying http client, if available.
-     * This is used to report the UserAgent to Mollie, for convenient support.
-     *
-     * @example Guzzle/7.0
-     */
     public function version(): string
     {
         return 'Guzzle/' . ClientInterface::MAJOR_VERSION;

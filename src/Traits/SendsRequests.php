@@ -2,11 +2,10 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\MollieApiClient;
-use Psr\Http\Client\ClientExceptionInterface;
 
 /**
  * @mixin MollieApiClient
@@ -22,8 +21,10 @@ trait SendsRequests
             $response = $this->httpClient->sendRequest($pendingRequest);
 
             return $pendingRequest->executeResponseHandlers($response);
-        } catch (RequestException $e) {
-            throw $e;
+        } catch (MollieException $exception) {
+            $exception = $pendingRequest->executeFatalHandlers($exception);
+
+            throw $exception;
         }
     }
 }

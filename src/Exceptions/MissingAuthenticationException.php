@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Exceptions;
 
-class MissingAuthenticationException extends ClientException
+class MissingAuthenticationException extends MollieException
 {
     public function __construct()
     {

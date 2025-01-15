@@ -3,6 +3,7 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
+use Mollie\Api\Http\ResponseStatusCode;
 
 class NotFoundException extends ApiException
 {
@@ -11,11 +12,10 @@ class NotFoundException extends ApiException
         $body = $response->json();
 
         return new self(
+            $response,
             'The object referenced by your API request does not exist. ' .
-                sprintf('Error executing API call (%d: %s): %s', 404, $body->title, $body->detail),
-            404,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_NOT_FOUND, $body->title, $body->detail),
+            ResponseStatusCode::HTTP_NOT_FOUND
         );
     }
 }

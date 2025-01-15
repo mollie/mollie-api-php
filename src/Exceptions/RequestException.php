@@ -2,25 +2,44 @@
 
 namespace Mollie\Api\Exceptions;
 
-use Psr\Http\Client\ClientExceptionInterface;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Response;
+use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Throwable;
 
-class RequestException extends MollieException implements ClientExceptionInterface
+class RequestException extends MollieException implements RequestExceptionInterface
 {
-    protected RequestInterface $request;
+    protected Response $response;
 
     public function __construct(
-        string $message,
-        RequestInterface $request,
+        Response $response,
+        ?string $message = null,
+        int $code = 0,
         ?Throwable $previous = null
     ) {
-        parent::__construct($message, 0, $previous);
-        $this->request = $request;
+        parent::__construct($message, $code, $previous);
+
+        $this->response = $response;
     }
 
     public function getRequest(): RequestInterface
     {
-        return $this->request;
+        return $this->response->getPsrRequest();
+    }
+
+    public function getResponse(): Response
+    {
+        return $this->response;
+    }
+
+    public function getPendingRequest(): PendingRequest
+    {
+        return $this->response->getPendingRequest();
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->response->status();
     }
 }

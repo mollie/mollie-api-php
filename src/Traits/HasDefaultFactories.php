@@ -11,13 +11,13 @@ trait HasDefaultFactories
 
     public function factories(): Factories
     {
-        if (static::$factories) {
-            return static::$factories;
+        if (self::$factories) {
+            return self::$factories;
         }
 
         $httpFactory = new Psr17Factory;
 
-        return static::$factories = new Factories(
+        return self::$factories = new Factories(
             $httpFactory,
             $httpFactory,
             $httpFactory,

@@ -8,8 +8,9 @@ use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmode;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Exceptions\NetworkRequestException;
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
-use Mollie\Api\Http\Middleware\GuardResponse;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
@@ -157,6 +158,11 @@ class PendingRequest
     public function executeResponseHandlers(Response $response)
     {
         return $this->middleware()->executeOnResponse($response);
+    }
+
+    public function executeFatalHandlers(MollieException $exception): MollieException
+    {
+        return $this->middleware()->executeOnFatal($exception);
     }
 
     protected function tap(callable $callable): self

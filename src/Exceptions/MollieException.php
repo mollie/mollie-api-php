@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Exceptions;
 
-class MollieException extends \Exception {}
+use Psr\Http\Client\ClientExceptionInterface;
+
+abstract class MollieException extends \Exception implements ClientExceptionInterface {}

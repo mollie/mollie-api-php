@@ -3,22 +3,23 @@
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Mollie\Api\Http\ResponseStatusCode;
+use Throwable;
 
 class ValidationException extends ApiException
 {
     private ?string $field;
 
     public function __construct(
+        Response $response,
+        string $field,
         string $message,
-        int $code,
-        ?string $field,
-        ?RequestInterface $request,
-        ?ResponseInterface $response
+        int $code = ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY,
+        ?Throwable $previous = null
     ) {
-        parent::__construct($message, $code, $request, $response);
         $this->field = $field;
+
+        parent::__construct($response, $message, $code, $previous);
     }
 
     public function getField(): ?string
@@ -32,12 +33,11 @@ class ValidationException extends ApiException
         $field = ! empty($body->field) ? $body->field : null;
 
         return new self(
+            $response,
+            $field,
             'We could not process your request due to validation errors. ' .
                 sprintf('Error executing API call (%d: %s): %s', 422, $body->title, $body->detail),
-            422,
-            $field,
-            $response->getPsrRequest(),
-            $response->getPsrResponse()
+            ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY
         );
     }
 }

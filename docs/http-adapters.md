@@ -37,38 +37,10 @@ class MyCustomHttpAdapter implements HttpAdapterContract {
 }
 ```
 
-### Debugging
-
-When debugging mode is enabled, adapters remove sensitive information before they fire an exception.
-
-Adapters that support debugging must implement the `SupportsDebuggingContract`. This contract defines methods `enableDebugging()` and `disableDebugging()` to control debugging behavior.
-
-```php
-use Mollie\Api\Contracts\SupportsDebuggingContract;
-
-class MyCustomHttpAdapter implements HttpAdapterContract, SupportsDebuggingContract {
-    // Implementation of debugging methods
-}
-```
-
 ## Available Adapters
 
 Out of the box, the Mollie API client provides several adapters:
 
 - **GuzzleMollieHttpAdapter**: Wraps a Guzzle HTTP client for sending requests.
 - **CurlMollieHttpAdapter**: Uses cURL for sending HTTP requests. This is the default if Guzzle is not available.
-
-## Enabling Debugging
-
-Debugging can be enabled through the `HandlesDebugging` trait. This trait allows you to toggle debugging on the HTTP client, which is useful for development and troubleshooting.
-
-### How to Enable Debugging
-
-1. **Enable Debugging**: Call `enableDebugging()` on the Mollie API client instance. This sets the debugging mode on the underlying HTTP adapter, if it supports debugging.
-
-2. **Disable Debugging**: Call `disableDebugging()` to turn off debugging.
-
-```php
-$mollieClient->enableDebugging();
-$mollieClient->disableDebugging();
-```
+- **PSR18MollieHttpAdapter**: psr-18 compatible adapter

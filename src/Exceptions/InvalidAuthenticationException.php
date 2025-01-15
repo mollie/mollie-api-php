@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Exceptions;
 
-class InvalidAuthenticationException extends ClientException
+class InvalidAuthenticationException extends MollieException
 {
     private string $token;
 

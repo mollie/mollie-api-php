@@ -3,6 +3,7 @@
 namespace Mollie\Api\Http\Adapter;
 
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
@@ -65,6 +66,11 @@ class GuzzleRetryMiddlewareFactory
             }
 
             if ($exception instanceof ConnectException) {
+                return true;
+            }
+
+            // Retry on request exceptions without response (network errors)
+            if ($exception instanceof RequestException && !$response) {
                 return true;
             }
 
