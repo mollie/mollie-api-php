@@ -26,8 +26,16 @@ class RemoveTestmodeFromApiAuthenticatedRequests
             $pendingRequest->query()->remove('testmode');
         }
 
-        if ($pendingRequest->getRequest() instanceof SupportsTestmodeInPayload) {
-            $pendingRequest->payload()?->remove('testmode');
+        if (!$pendingRequest->getRequest() instanceof SupportsTestmodeInPayload) {
+            return;
         }
+
+        $payload = $pendingRequest->payload();
+
+        if ($payload === null) {
+            return;
+        }
+
+        $payload->remove('testmode');
     }
 }
