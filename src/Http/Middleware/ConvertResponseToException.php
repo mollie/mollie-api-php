@@ -4,13 +4,13 @@ namespace Mollie\Api\Http\Middleware;
 
 use Mollie\Api\Contracts\ResponseMiddleware;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\UnauthorizedException;
 use Mollie\Api\Exceptions\ForbiddenException;
-use Mollie\Api\Exceptions\NotFoundException;
 use Mollie\Api\Exceptions\MethodNotAllowedException;
+use Mollie\Api\Exceptions\NotFoundException;
 use Mollie\Api\Exceptions\RequestTimeoutException;
 use Mollie\Api\Exceptions\ServiceUnavailableException;
 use Mollie\Api\Exceptions\TooManyRequestsException;
+use Mollie\Api\Exceptions\UnauthorizedException;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;

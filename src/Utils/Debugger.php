@@ -71,6 +71,7 @@ class Debugger
     private static function getLabel(object $object): string
     {
         $className = explode('\\', get_class($object));
+
         return end($className);
     }
 }

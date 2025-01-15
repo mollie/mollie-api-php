@@ -2,11 +2,6 @@
 
 namespace Mollie\Api\Http\Middleware;
 
-use Mollie\Api\Contracts\IsResponseAware;
-use Mollie\Api\Contracts\ViableResponse;
-use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Http\Response;
-
 class Handlers
 {
     /**

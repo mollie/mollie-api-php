@@ -81,11 +81,12 @@ class ApiException extends RequestException
 
     public function getUrl(string $key): ?string
     {
-        if (!$this->hasLink($key)) {
+        if (! $this->hasLink($key)) {
             return null;
         }
 
         $link = $this->getLink($key);
+
         return $link->href;
     }
 

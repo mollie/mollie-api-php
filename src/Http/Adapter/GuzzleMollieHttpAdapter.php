@@ -88,6 +88,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
 
         try {
             $response = $this->httpClient->send($request);
+
             return $this->createResponse($response, $request, $pendingRequest);
         } catch (ConnectException $e) {
             throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
@@ -97,6 +98,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
             if ($response = $e->getResponse()) {
                 return $this->createResponse($response, $request, $pendingRequest, $e);
             }
+
             throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
         }
     }

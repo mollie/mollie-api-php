@@ -2,13 +2,13 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Utils\Debugger;
-use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\RequestSanitizer;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Utils\Debugger;
 
 /**
  * @mixin HasMiddleware
@@ -31,7 +31,7 @@ trait HandlesDebugging
     {
         $this->removeSensitiveData();
 
-        $debugger ??= fn(...$args) => Debugger::symfonyRequestDebugger(...$args);
+        $debugger ??= fn (...$args) => Debugger::symfonyRequestDebugger(...$args);
 
         $this->middleware()->onRequest(function (PendingRequest $pendingRequest) use ($debugger, $die): PendingRequest {
             $debugger($pendingRequest, $pendingRequest->createPsrRequest());
@@ -57,7 +57,7 @@ trait HandlesDebugging
     {
         $this->removeSensitiveData();
 
-        $debugger ??= fn(...$args) => Debugger::symfonyResponseDebugger(...$args);
+        $debugger ??= fn (...$args) => Debugger::symfonyResponseDebugger(...$args);
 
         $this->middleware()->onResponse(function (Response $response) use ($debugger, $die): Response {
             $debugger($response, $response->getPsrResponse());

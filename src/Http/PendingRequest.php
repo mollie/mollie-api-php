@@ -8,13 +8,12 @@ use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\SupportsTestmode;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Exceptions\NetworkRequestException;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
+use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
-use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\PendingRequest\AddTestmodeIfEnabled;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
 use Mollie\Api\Http\PendingRequest\MergeRequestProperties;
@@ -85,7 +84,7 @@ class PendingRequest
 
         if ($this->request instanceof SupportsTestmodeInQuery) {
             $this->query()->add('testmode', $testmode);
-        } else if ($this->request instanceof SupportsTestmodeInPayload) {
+        } elseif ($this->request instanceof SupportsTestmodeInPayload) {
             $payload = $this->payload();
 
             if ($payload === null) {

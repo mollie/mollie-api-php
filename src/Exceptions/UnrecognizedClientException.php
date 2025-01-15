@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Exceptions;
 
-class UnrecognizedClientException extends MollieException {}
+class UnrecognizedClientException extends MollieException
+{
+}

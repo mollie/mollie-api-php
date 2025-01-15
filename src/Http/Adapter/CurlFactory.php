@@ -4,7 +4,6 @@ namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;
 use CurlHandle;
-use Mollie\Api\Http\Adapter\CurlInitializationException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
 
@@ -59,16 +58,19 @@ class CurlFactory
             case Method::POST:
                 $this->setOption(CURLOPT_POST, true);
                 $this->setOption(CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case Method::PATCH:
                 $this->setOption(CURLOPT_CUSTOMREQUEST, Method::PATCH);
                 $this->setOption(CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case Method::DELETE:
                 $this->setOption(CURLOPT_CUSTOMREQUEST, Method::DELETE);
                 $this->setOption(CURLOPT_POSTFIELDS, $body);
+
                 break;
 
             case Method::GET:
@@ -76,6 +78,7 @@ class CurlFactory
                 if ($method !== Method::GET) {
                     throw new \InvalidArgumentException('Invalid HTTP method: ' . $method);
                 }
+
                 break;
         }
 
@@ -103,6 +106,7 @@ class CurlFactory
         foreach ($headers as $key => $value) {
             $result[] = $key . ': ' . $value;
         }
+
         return $result;
     }
 }

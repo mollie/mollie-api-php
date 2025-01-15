@@ -3,7 +3,6 @@
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Exceptions\ClientException;
 use Mollie\Api\Exceptions\JsonParseException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

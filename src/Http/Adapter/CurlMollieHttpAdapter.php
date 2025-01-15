@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Adapter;
 
-use Composer\CaBundle\CaBundle;
 use CurlHandle;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\NetworkRequestException;

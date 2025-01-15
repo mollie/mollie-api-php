@@ -66,6 +66,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
 
         try {
             $response = $this->httpClient->sendRequest($request);
+
             return $this->createResponse($response, $request, $pendingRequest);
         } catch (NetworkExceptionInterface $e) {
             // PSR-18 NetworkExceptionInterface indicates network errors, which are retryable
@@ -108,6 +109,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
     {
         $clientClass = get_class($this->httpClient);
         $clientName = substr($clientClass, strrpos($clientClass, '\\') + 1);
+
         return 'PSR18/' . $clientName;
     }
 }

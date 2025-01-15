@@ -4,7 +4,6 @@ namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\ViableResponse;
-use Mollie\Api\Exceptions\NetworkRequestException;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;

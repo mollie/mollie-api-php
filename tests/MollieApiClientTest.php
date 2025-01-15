@@ -2,16 +2,13 @@
 
 namespace Tests;
 
-use Exception;
 use GuzzleHttp\Client;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Utils\Debugger;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
@@ -28,6 +25,7 @@ use Mollie\Api\Resources\ResourceWrapper;
 use Mollie\Api\Resources\WrapperResource;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Utils\Debugger;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;

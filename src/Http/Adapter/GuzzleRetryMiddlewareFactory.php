@@ -70,7 +70,7 @@ class GuzzleRetryMiddlewareFactory
             }
 
             // Retry on request exceptions without response (network errors)
-            if ($exception instanceof RequestException && !$response) {
+            if ($exception instanceof RequestException && ! $response) {
                 return true;
             }
 

@@ -5,8 +5,8 @@ namespace Mollie\Api\Exceptions;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\ResponseStatusCode;
 use Psr\Http\Client\NetworkExceptionInterface;
-use Throwable;
 use Psr\Http\Message\RequestInterface;
+use Throwable;
 
 /**
  * Exception thrown when a request cannot be completed due to network-level errors.

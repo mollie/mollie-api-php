@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Http\Middleware;
 
+use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 use Mollie\Api\Contracts\RequestMiddleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 
 class ApplyIdempotencyKey implements RequestMiddleware
 {
