@@ -3,12 +3,11 @@
 namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;
-use CurlHandle;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
 
 /**
- * @phpstan-type CurlType resource|CurlHandle
+ * @phpstan-type CurlType resource
  */
 class CurlFactory
 {

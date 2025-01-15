@@ -271,6 +271,48 @@ parameters:
 			path: examples/subscriptions/update-subscription.php
 
 		-
+			message: '#^Parameter \#1 \$handle of class Mollie\\Api\\Http\\Adapter\\CurlFactory constructor expects resource, CurlHandle given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlFactory.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_setopt expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlFactory.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_close expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlMollieHttpAdapter.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_errno expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlMollieHttpAdapter.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_error expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlMollieHttpAdapter.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_exec expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Http/Adapter/CurlMollieHttpAdapter.php
+
+		-
+			message: '#^Parameter \#1 \$handle of function curl_getinfo expects CurlHandle, resource given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Http/Adapter/CurlMollieHttpAdapter.php
+
+		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 4
