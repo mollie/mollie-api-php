@@ -7,15 +7,24 @@ use CurlHandle;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
 
+/**
+ * @phpstan-type CurlType resource|CurlHandle
+ */
 class CurlFactory
 {
     public const DEFAULT_TIMEOUT = 10;
     public const DEFAULT_CONNECT_TIMEOUT = 2;
 
-    private CurlHandle $handle;
+    /**
+     * @var CurlType The curl handle
+     */
+    private $handle;
     private PendingRequest $pendingRequest;
 
-    private function __construct(CurlHandle $handle, PendingRequest $pendingRequest)
+    /**
+     * @param CurlType $handle
+     */
+    private function __construct($handle, PendingRequest $pendingRequest)
     {
         $this->handle = $handle;
         $this->pendingRequest = $pendingRequest;
@@ -85,11 +94,18 @@ class CurlFactory
         return $this;
     }
 
-    public function create(): CurlHandle
+    /**
+     * @return CurlType
+     */
+    public function create()
     {
         return $this->handle;
     }
 
+    /**
+     * @param int $option
+     * @param mixed $value
+     */
     private function setOption(int $option, $value): void
     {
         if (curl_setopt($this->handle, $option, $value) === false) {

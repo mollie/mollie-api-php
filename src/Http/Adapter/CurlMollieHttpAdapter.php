@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Adapter;
 
-use CurlHandle;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\NetworkRequestException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
@@ -12,6 +11,9 @@ use Mollie\Api\Http\ResponseStatusCode;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Throwable;
 
+/**
+ * @phpstan-import-type CurlType from CurlFactory
+ */
 final class CurlMollieHttpAdapter implements HttpAdapterContract
 {
     use HasDefaultFactories;
@@ -51,9 +53,11 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
     /**
      * @throws NetworkRequestException
+     * @return array{0: array<string, string>, 1: string, 2: int}
      */
     protected function send(PendingRequest $pendingRequest): array
     {
+        /** @var CurlType|null */
         $curl = null;
         $request = $pendingRequest->createPsrRequest();
 
@@ -100,7 +104,12 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         );
     }
 
-    private function extractResponseDetails(CurlHandle $curl, string $response): array
+    /**
+     * @param CurlType $curl
+     * @param string $response
+     * @return array{0: array<string, string>, 1: string, 2: int}
+     */
+    private function extractResponseDetails($curl, string $response): array
     {
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $headerValues = substr($response, 0, $headerSize);
