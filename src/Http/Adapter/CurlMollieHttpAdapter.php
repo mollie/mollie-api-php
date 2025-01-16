@@ -11,9 +11,6 @@ use Mollie\Api\Http\ResponseStatusCode;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Throwable;
 
-/**
- * @phpstan-import-type CurlType from CurlFactory
- */
 final class CurlMollieHttpAdapter implements HttpAdapterContract
 {
     use HasDefaultFactories;
@@ -57,7 +54,6 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
      */
     protected function send(PendingRequest $pendingRequest): array
     {
-        /** @var CurlType|null */
         $curl = null;
         $request = $pendingRequest->createPsrRequest();
 
@@ -105,7 +101,6 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * @param CurlType $curl
      * @param string $response
      * @return array{0: array<string, string>, 1: string, 2: int}
      */

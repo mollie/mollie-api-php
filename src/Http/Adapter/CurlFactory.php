@@ -6,23 +6,14 @@ use Composer\CaBundle\CaBundle;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Types\Method;
 
-/**
- * @phpstan-type CurlType resource
- */
 class CurlFactory
 {
     public const DEFAULT_TIMEOUT = 10;
     public const DEFAULT_CONNECT_TIMEOUT = 2;
 
-    /**
-     * @var CurlType The curl handle
-     */
     private $handle;
     private PendingRequest $pendingRequest;
 
-    /**
-     * @param CurlType $handle
-     */
     private function __construct($handle, PendingRequest $pendingRequest)
     {
         $this->handle = $handle;
@@ -93,9 +84,6 @@ class CurlFactory
         return $this;
     }
 
-    /**
-     * @return CurlType
-     */
     public function create()
     {
         return $this->handle;
