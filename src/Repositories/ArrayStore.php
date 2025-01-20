@@ -68,7 +68,7 @@ class ArrayStore implements Repository
 
     public function isNotEmpty(): bool
     {
-        return !empty($this->store);
+        return ! empty($this->store);
     }
 
     public function resolve(): static

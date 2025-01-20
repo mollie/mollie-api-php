@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Repositories;
 
-use Mollie\Api\Contracts\JsonPayloadRepository as JsonBodyRepositoryContract;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Utils\Arr;
 use Psr\Http\Message\StreamFactoryInterface;
