@@ -19,14 +19,12 @@ class CreatePaymentRequestTest extends TestCase
             CreatePaymentRequest::class => MockResponse::created('payment'),
         ]);
 
-        $payload = new CreatePaymentPayload(
+        $request = new CreatePaymentRequest(
             'Test payment',
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook',
         );
-
-        $request = new CreatePaymentRequest($payload);
 
         /** @var Payment */
         $payment = $client->send($request);
@@ -38,12 +36,12 @@ class CreatePaymentRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreatePaymentRequest(new CreatePaymentPayload(
+        $request = new CreatePaymentRequest(
             'Test payment',
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook'
-        ));
+        );
 
         $this->assertEquals('payments', $request->resolveResourcePath());
     }

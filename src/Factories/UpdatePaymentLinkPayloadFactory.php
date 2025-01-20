@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 
-class UpdatePaymentLinkPayloadFactory extends Factory
+class UpdatePaymentLinkPayloadFactory extends OldFactory
 {
     public function create(): UpdatePaymentLinkPayload
     {

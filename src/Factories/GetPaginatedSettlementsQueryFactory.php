@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetPaginatedSettlementsQuery;
 
-class GetPaginatedSettlementsQueryFactory extends Factory
+class GetPaginatedSettlementsQueryFactory extends OldFactory
 {
     /**
      * Create a new instance of GetPaginatedSettlementsQuery.

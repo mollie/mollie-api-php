@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Data\GetClientQuery;
 use Mollie\Api\Types\ClientQuery;
 
-class GetClientQueryFactory extends Factory
+class GetClientQueryFactory extends OldFactory
 {
     public function create(): GetClientQuery
     {

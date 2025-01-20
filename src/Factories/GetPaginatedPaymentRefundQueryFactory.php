@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetPaginatedPaymentRefundQuery;
 
-class GetPaginatedPaymentRefundQueryFactory extends Factory
+class GetPaginatedPaymentRefundQueryFactory extends OldFactory
 {
     public function create(): GetPaginatedPaymentRefundQuery
     {

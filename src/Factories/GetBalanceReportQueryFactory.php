@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use DateTimeImmutable;
 use Mollie\Api\Http\Data\GetBalanceReportQuery;
 
-class GetBalanceReportQueryFactory extends Factory
+class GetBalanceReportQueryFactory extends OldFactory
 {
     public function create(): GetBalanceReportQuery
     {

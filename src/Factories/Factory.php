@@ -2,28 +2,37 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Contracts\Factory as FactoryContract;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
-abstract class Factory implements FactoryContract
+abstract class Factory
 {
-    protected array $data;
+    protected array $payload = [];
 
-    public function __construct($data)
+    protected array $query = [];
+
+    public function withPayload(array $payload): static
     {
-        if ($data instanceof Arrayable) {
-            $this->data = $data->toArray();
-        } else {
-            $this->data = $data;
-        }
+        $this->payload = $payload;
+
+        return $this;
     }
 
-    public static function new($data): self
+    public function withQuery(array $query): static
     {
-        /** @phpstan-ignore-next-line */
-        return new static($data);
+        $this->query = $query;
+
+        return $this;
+    }
+
+    protected function payload(string $key, $default = null)
+    {
+        return $this->get($this->payload, $key, $default);
+    }
+
+    protected function query(string $key, $default = null)
+    {
+        return $this->get($this->query, $key, $default);
     }
 
     /**
@@ -32,16 +41,16 @@ abstract class Factory implements FactoryContract
      * @param  string|array<string>  $key
      * @param  mixed  $default
      */
-    protected function get($key, $default = null, $backupKey = 'filters.')
+    protected function get(array $data, $key, $default = null, $backupKey = 'filters.')
     {
         $keys = (array) $key;
 
         if ($backupKey !== null) {
-            $keys[] = $backupKey.$key;
+            $keys[] = $backupKey . $key;
         }
 
         foreach ($keys as $key) {
-            if ($value = Arr::get($this->data, $key, $default)) {
+            if ($value = Arr::get($data, $key, $default)) {
                 return $value;
             }
         }
@@ -49,18 +58,28 @@ abstract class Factory implements FactoryContract
         return $default;
     }
 
-    protected function has($keys): bool
+    protected function payloadIncludes(string $key, $value)
     {
-        return Arr::has($this->data, $keys);
+        return $this->includes($this->payload, $key, $value);
+    }
+
+    protected function queryIncludes(string $key, $value)
+    {
+        return $this->includes($this->query, $key, $value);
     }
 
     /**
      * @param  string|array<string>  $key
      * @param  mixed  $value
      */
-    protected function includes($key, $value, $backupKey = 'filters.'): bool
+    protected function includes(array $data, $key, $value, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
+        return Arr::includes($data, [$backupKey . $key, $key], $value);
+    }
+
+    protected function has(array $data, $keys): bool
+    {
+        return Arr::has($data, $keys);
     }
 
     /**
@@ -73,6 +92,6 @@ abstract class Factory implements FactoryContract
      */
     protected function mapIfNotNull($key, $composable, $backupKey = 'filters.')
     {
-        return Utility::compose($this->get($key, null, $backupKey), $composable);
+        return Utility::compose($this->get($this->payload, $key, null, $backupKey), $composable);
     }
 }

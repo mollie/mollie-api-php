@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetPaginatedInvoiceQuery;
 
-class GetPaginatedInvoiceQueryFactory extends Factory
+class GetPaginatedInvoiceQueryFactory extends OldFactory
 {
     public function create(): GetPaginatedInvoiceQuery
     {

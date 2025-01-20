@@ -2,13 +2,11 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
+use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
 use Mollie\Api\Factories\GetPaginatedPaymentRefundQueryFactory;
 use Mollie\Api\Factories\GetPaymentRefundQueryFactory;
-use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
-use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\LazyCollection;
@@ -34,23 +32,21 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     /**
      * Creates a refund for a specific payment.
      *
-     * @param  array|CreateRefundPaymentPayload  $payload
+     * @param  array  $payload
      * @param  bool|array  $testmode
      *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function createForId(string $paymentId, $payload = [], $testmode = false): Refund
+    public function createForId(string $paymentId, array $payload = [], $testmode = false): Refund
     {
-        $testmode = Utility::extractBool($testmode, 'testmode', false);
+        $testmode = Utility::extractBool($payload, 'testmode', false) ??
+            Utility::extractBool($testmode, 'testmode', false);
 
-        if (! $payload instanceof CreateRefundPaymentPayload) {
-            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreateRefundPaymentPayloadFactory::new($payload)
-                ->create();
-        }
+        $request = CreatePaymentRefundRequestFactory::new($paymentId)
+            ->withPayload($payload)
+            ->create();
 
-        /** @var Refund */
-        return $this->send((new CreatePaymentRefundRequest($paymentId, $payload))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**

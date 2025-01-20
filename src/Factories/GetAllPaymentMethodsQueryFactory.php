@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Data\GetAllMethodsQuery;
 use Mollie\Api\Types\MethodQuery;
 
-class GetAllPaymentMethodsQueryFactory extends Factory
+class GetAllPaymentMethodsQueryFactory extends OldFactory
 {
     public function create(): GetAllMethodsQuery
     {

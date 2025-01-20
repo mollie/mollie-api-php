@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetAllPaginatedSubscriptionsQuery;
 
-class GetAllPaginatedSubscriptionsQueryFactory extends Factory
+class GetAllPaginatedSubscriptionsQueryFactory extends OldFactory
 {
     public function create(): GetAllPaginatedSubscriptionsQuery
     {

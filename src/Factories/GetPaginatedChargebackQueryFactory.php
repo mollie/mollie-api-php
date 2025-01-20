@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\GetPaginatedChargebackQuery;
 
-class GetPaginatedChargebackQueryFactory extends Factory
+class GetPaginatedChargebackQueryFactory extends OldFactory
 {
     public function create(): GetPaginatedChargebackQuery
     {

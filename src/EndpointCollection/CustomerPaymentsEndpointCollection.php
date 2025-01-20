@@ -3,7 +3,7 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreatePaymentPayloadFactory;
+use Mollie\Api\Factories\CreatePaymentRequestFactory;
 use Mollie\Api\Factories\GetPaginatedCustomerPaymentsQueryFactory;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\CreatePaymentQuery;
@@ -44,7 +44,7 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     {
         if (! $payload instanceof CreatePaymentPayload) {
             $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreatePaymentPayloadFactory::new($payload)
+            $payload = CreatePaymentRequestFactory::new($payload)
                 ->create();
         }
 

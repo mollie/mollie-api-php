@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\RequestApplePayPaymentSessionPayload;
 
-class ApplePayPaymentSessionPayloadFactory extends Factory
+class ApplePayPaymentSessionPayloadFactory extends OldFactory
 {
     public function create(): RequestApplePayPaymentSessionPayload
     {

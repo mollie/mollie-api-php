@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaymentRefundQueryFactory extends Factory
+class GetPaymentRefundQueryFactory extends OldFactory
 {
     public function create(): GetPaymentRefundQuery
     {

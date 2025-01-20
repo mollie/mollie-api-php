@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\CreateProfilePayload;
 
-class CreateProfilePayloadFactory extends Factory
+class CreateProfilePayloadFactory extends OldFactory
 {
     public function create(): CreateProfilePayload
     {

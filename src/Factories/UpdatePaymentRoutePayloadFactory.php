@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use DateTimeImmutable;
 use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 
-class UpdatePaymentRoutePayloadFactory extends Factory
+class UpdatePaymentRoutePayloadFactory extends OldFactory
 {
     public function create(): UpdatePaymentRoutePayload
     {

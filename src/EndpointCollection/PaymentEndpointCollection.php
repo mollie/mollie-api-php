@@ -3,27 +3,17 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreatePaymentPayloadFactory;
-use Mollie\Api\Factories\CreateRefundPaymentPayloadFactory;
-use Mollie\Api\Factories\GetPaymentQueryFactory;
+use Mollie\Api\Factories\CreatePaymentRequestFactory;
+use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
+use Mollie\Api\Factories\GetPaymentRequestFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Factories\UpdatePaymentPayloadFactory;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-use Mollie\Api\Http\Data\CreatePaymentQuery;
-use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
-use Mollie\Api\Http\Data\GetPaymentQuery;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
+use Mollie\Api\Factories\UpdatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
-use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
-use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
-use Mollie\Api\Http\Requests\GetPaymentRequest;
-use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
 class PaymentEndpointCollection extends EndpointCollection
@@ -33,43 +23,38 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     * @param  array|GetPaymentQuery  $query
-     *
      * @throws ApiException
      */
-    public function get(string $id, $query = [], bool $testmode = false): Payment
+    public function get(string $id, array $query = [], bool $testmode = false): Payment
     {
-        if (! $query instanceof GetPaymentQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = GetPaymentQueryFactory::new($query)
-                ->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
 
-        return $this->send((new GetPaymentRequest($id, $query))->test($testmode));
+        $request = GetPaymentRequestFactory::new($id)
+            ->withQuery($query)
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Creates a payment in Mollie.
      *
-     * @param  CreatePaymentPayload|array  $payload  An array containing details on the payment.
-     * @param  CreatePaymentQuery|array|string  $query  An array of strings or a single string containing the details to include.
+     * @param  array  $payload  An array containing details on the payment.
+     * @param  array  $query  An array of strings or a single string containing the details to include.
      *
      * @throws ApiException
      */
-    public function create($payload = [], $query = [], bool $testmode = false): Payment
+    public function create(array $payload = [], array $query = [], bool $testmode = false): Payment
     {
-        if (! $payload instanceof CreatePaymentPayload) {
-            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreatePaymentPayloadFactory::new($payload)
-                ->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
 
-        if (! $query instanceof CreatePaymentQuery) {
-            $query = CreatePaymentQuery::fromArray(Arr::wrap($query));
-        }
+        $request = CreatePaymentRequestFactory::new()
+            ->withPayload($payload)
+            ->withQuery($query)
+            ->create();
 
         /** @var Payment */
-        return $this->send((new CreatePaymentRequest($payload, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -77,21 +62,18 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     * @param  string  $id
-     * @param  array|UpdatePaymentPayload  $data
-     *
      * @throws ApiException
      */
-    public function update($id, $data = [], bool $testmode = false): ?Payment
+    public function update(string $id, array $data = [], bool $testmode = false): ?Payment
     {
-        if (! $data instanceof UpdatePaymentPayload) {
-            $testmode = Utility::extractBool($data, 'testmode', $testmode);
-            $data = UpdatePaymentPayloadFactory::new($data)
-                ->create();
-        }
+        $testmode = Utility::extractBool($data, 'testmode', $testmode);
+
+        $request = UpdatePaymentRequestFactory::new($id)
+            ->withPayload($data)
+            ->create();
 
         /** @var null|Payment */
-        return $this->send((new UpdatePaymentRequest($id, $data))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -99,7 +81,6 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
-     *
      *
      * @throws ApiException
      */
@@ -114,13 +95,13 @@ class PaymentEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
      *
-     * @param  array|bool  $data
+     * @param  array|bool  $testmode
      *
      * @throws ApiException
      */
-    public function cancel(string $id, $data = []): ?Payment
+    public function cancel(string $id, $testmode = false): ?Payment
     {
-        $testmode = Utility::extractBool($data, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var null|Payment */
         return $this->send((new CancelPaymentRequest($id))->test($testmode));
@@ -132,22 +113,19 @@ class PaymentEndpointCollection extends EndpointCollection
      * The $data parameter may either be an array of endpoint
      * parameters, or an instance of CreateRefundPaymentData.
      *
-     * @param  array|CreateRefundPaymentPayload  $payload
+     * @param  array  $payload
      *
      * @throws ApiException
      */
-    public function refund(Payment $payment, $payload = [], bool $testmode = false): Refund
+    public function refund(Payment $payment, array $payload = [], bool $testmode = false): Refund
     {
-        if (! $payload instanceof CreateRefundPaymentPayload) {
-            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreateRefundPaymentPayloadFactory::new($payload)
-                ->create();
-        }
+        $testmode = Utility::extractBool($payload, 'testmode', $testmode);
 
-        return $this->send((new CreatePaymentRefundRequest(
-            $payment->id,
-            $payload
-        ))->test($testmode));
+        $request = CreatePaymentRefundRequestFactory::new($payment->id)
+            ->withPayload($payload)
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -156,13 +134,20 @@ class PaymentEndpointCollection extends EndpointCollection
     public function page(?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = SortablePaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
 
-        return $this->send((new GetPaginatedPaymentsRequest($query))->test($testmode));
+        $query = SortablePaginatedQueryFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
+
+        return $this->send((new GetPaginatedPaymentsRequest(
+            $query->from,
+            $query->limit,
+            $query->sort,
+        ))->test($testmode));
     }
 
     /**
@@ -174,14 +159,21 @@ class PaymentEndpointCollection extends EndpointCollection
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = SortablePaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $query = SortablePaginatedQueryFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedPaymentsRequest($query))
+            (new GetPaginatedPaymentsRequest(
+                $query->from,
+                $query->limit,
+                $query->sort,
+            ))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

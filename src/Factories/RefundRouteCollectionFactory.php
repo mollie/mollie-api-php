@@ -6,7 +6,7 @@ use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\RefundRoute;
 use Mollie\Api\Utils\Arr;
 
-class RefundRouteCollectionFactory extends Factory
+class RefundRouteCollectionFactory extends OldFactory
 {
     public function create(): DataCollection
     {

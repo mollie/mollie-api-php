@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Data\GetPaymentChargebackQuery;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaymentChargebackQueryFactory extends Factory
+class GetPaymentChargebackQueryFactory extends OldFactory
 {
     public function create(): GetPaymentChargebackQuery
     {

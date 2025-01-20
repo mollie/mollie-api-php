@@ -6,7 +6,7 @@ use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 
-class CreateClientLinkPayloadFactory extends Factory
+class CreateClientLinkPayloadFactory extends OldFactory
 {
     public function create(): CreateClientLinkPayload
     {

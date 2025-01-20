@@ -5,7 +5,7 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\UpdateCustomerPayload;
 
-class UpdateCustomerPayloadFactory extends Factory
+class UpdateCustomerPayloadFactory extends OldFactory
 {
     public function create(): UpdateCustomerPayload
     {
