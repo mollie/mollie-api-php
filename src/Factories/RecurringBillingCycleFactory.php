@@ -12,9 +12,9 @@ class RecurringBillingCycleFactory extends OldFactory
         return new RecurringBillingCycle(
             $this->get('interval'),
             $this->get('descriptipn'),
-            $this->mapIfNotNull('amount', fn(array $item) => MoneyFactory::new($item)->create()),
+            $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->get('times'),
-            $this->mapIfNotNull('startDate', fn(string $item) => DateTimeImmutable::createFromFormat('Y-m-d', $item)),
+            $this->mapIfNotNull('startDate', fn (string $item) => DateTimeImmutable::createFromFormat('Y-m-d', $item)),
         );
     }
 }

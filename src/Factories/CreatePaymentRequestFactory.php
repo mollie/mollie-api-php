@@ -26,10 +26,10 @@ class CreatePaymentRequestFactory extends Factory
             $this
                 ->mapIfNotNull(
                     'lines',
-                    fn(array $items) => OrderLineCollectionFactory::new($items)->create()
+                    fn (array $items) => OrderLineCollectionFactory::new($items)->create()
                 ),
-            $this->mapIfNotNull('billingAddress', fn(array $item) => Address::fromArray($item)),
-            $this->mapIfNotNull('shippingAddress', fn(array $item) => Address::fromArray($item)),
+            $this->mapIfNotNull('billingAddress', fn (array $item) => Address::fromArray($item)),
+            $this->mapIfNotNull('shippingAddress', fn (array $item) => Address::fromArray($item)),
             $this->payload('locale'),
             $this->payload('method'),
             $this->payload('issuer'),
@@ -39,11 +39,11 @@ class CreatePaymentRequestFactory extends Factory
             $this->payload('captureDelay'),
             $this->mapIfNotNull(
                 'applicationFee',
-                fn(array $item) => ApplicationFeeFactory::new($item)->create()
+                fn (array $item) => ApplicationFeeFactory::new($item)->create()
             ),
             $this->mapIfNotNull(
                 'routing',
-                fn(array $items) => PaymentRouteCollectionFactory::new($items)->create()
+                fn (array $items) => PaymentRouteCollectionFactory::new($items)->create()
             ),
             $this->payload('sequenceType'),
             $this->payload('mandateId'),

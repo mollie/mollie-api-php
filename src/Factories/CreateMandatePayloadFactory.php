@@ -19,7 +19,7 @@ class CreateMandatePayloadFactory extends OldFactory
             $this->get('consumerAccount'),
             $this->get('consumerBic'),
             $this->get('consumerEmail'),
-            $this->mapIfNotNull('signatureDate', fn(string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
+            $this->mapIfNotNull('signatureDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
             $this->get('mandateReference'),
             $this->get('paypalBillingAgreementId'),
         );

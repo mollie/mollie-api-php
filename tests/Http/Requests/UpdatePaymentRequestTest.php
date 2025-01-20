@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;

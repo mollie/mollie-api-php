@@ -17,7 +17,7 @@ class GetEnabledPaymentMethodsQueryFactory extends OldFactory
             $this->get('sequenceType', SequenceType::ONEOFF),
             $this->get('resource', MethodQuery::RESOURCE_PAYMENTS),
             $this->get('locale'),
-            $this->mapIfNotNull('amount', fn(array $item) => MoneyFactory::new($item)->create()),
+            $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->get('billingCountry'),
             $this->get('includeWallets'),
             $this->get('orderLineCategories', []),

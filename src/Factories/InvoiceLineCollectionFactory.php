@@ -9,7 +9,7 @@ class InvoiceLineCollectionFactory extends OldFactory
     public function create(): DataCollection
     {
         return new DataCollection(array_map(
-            fn(array $item) => InvoiceLineFactory::new($item)->create(),
+            fn (array $item) => InvoiceLineFactory::new($item)->create(),
             $this->data
         ));
     }

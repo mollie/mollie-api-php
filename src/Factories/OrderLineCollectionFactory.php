@@ -9,7 +9,7 @@ class OrderLineCollectionFactory extends OldFactory
     public function create(): DataCollection
     {
         return new DataCollection(array_map(
-            fn(array $item) => OrderLineFactory::new($item)->create(),
+            fn (array $item) => OrderLineFactory::new($item)->create(),
             $this->data
         ));
     }

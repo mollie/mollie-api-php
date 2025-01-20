@@ -11,7 +11,7 @@ class CreatePaymentCapturePayloadFactory extends OldFactory
     {
         return new CreatePaymentCapturePayload(
             $this->get('description'),
-            $this->mapIfNotNull('amount', fn(array $item) => MoneyFactory::new($item)->create()),
+            $this->mapIfNotNull('amount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->mapIfNotNull('metadata', Metadata::class)
         );
     }

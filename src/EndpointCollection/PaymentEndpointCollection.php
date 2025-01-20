@@ -3,8 +3,8 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreatePaymentRequestFactory;
 use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
+use Mollie\Api\Factories\CreatePaymentRequestFactory;
 use Mollie\Api\Factories\GetPaymentRequestFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentRequestFactory;
