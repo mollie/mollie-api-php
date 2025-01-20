@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Repositories;
 
-use Mollie\Api\Contracts\ArrayRepository;
+use Mollie\Api\Contracts\Repository;
 use Mollie\Api\Utils\Arr;
 
-class ArrayStore implements ArrayRepository
+class ArrayStore implements Repository
 {
     private array $store = [];
 
@@ -14,7 +14,7 @@ class ArrayStore implements ArrayRepository
         $this->store = $data;
     }
 
-    public function set(array $data): self
+    public function set($data): self
     {
         $this->store = $data;
 
@@ -58,11 +58,23 @@ class ArrayStore implements ArrayRepository
 
     public function all(): array
     {
-        return Arr::resolve($this->store);
+        return $this->store;
     }
 
     public function isEmpty(): bool
     {
         return empty($this->store);
+    }
+
+    public function isNotEmpty(): bool
+    {
+        return !empty($this->store);
+    }
+
+    public function resolve(): static
+    {
+        $this->store = Arr::resolve($this->store);
+
+        return $this;
     }
 }

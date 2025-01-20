@@ -23,6 +23,8 @@ trait HasResponse
 
     public function getPendingRequest(): PendingRequest
     {
-        return $this->response->getPendingRequest();
+        return $this->response
+            ? $this->response->getPendingRequest()
+            : throw new \Exception('Response is not set');
     }
 }

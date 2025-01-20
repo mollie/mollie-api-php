@@ -3,17 +3,24 @@
 namespace Mollie\Api\Repositories;
 
 use Mollie\Api\Contracts\JsonPayloadRepository as JsonBodyRepositoryContract;
+use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Utils\Arr;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
+use Stringable;
 
-class JsonPayloadRepository implements JsonBodyRepositoryContract
+class JsonPayloadRepository implements PayloadRepository, Stringable
 {
     private array $store = [];
 
     public function __construct(array $data = [])
     {
         $this->set($data);
+    }
+
+    public function has(string $key): bool
+    {
+        return Arr::has($this->store, $key);
     }
 
     /**
@@ -28,7 +35,7 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
 
     public function all(): array
     {
-        return Arr::resolve($this->store);
+        return $this->store;
     }
 
     public function add(string $key, $value): self
@@ -78,5 +85,12 @@ class JsonPayloadRepository implements JsonBodyRepositoryContract
     public function toStream(StreamFactoryInterface $streamFactory): StreamInterface
     {
         return $streamFactory->createStream((string) $this);
+    }
+
+    public function resolve(): static
+    {
+        $this->store = Arr::resolve($this->store);
+
+        return $this;
     }
 }

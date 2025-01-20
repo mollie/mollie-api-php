@@ -15,7 +15,7 @@ class SetBody
             return $pendingRequest;
         }
 
-        $body = $request->payload();
+        $body = $request->payload()->resolve();
 
         $pendingRequest->setPayload($body);
 

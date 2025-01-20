@@ -11,15 +11,21 @@ class MergeRequestProperties
         $client = $pendingRequest->getConnector();
         $request = $pendingRequest->getRequest();
 
-        $pendingRequest->headers()->merge(
-            $client->headers()->all(),
-            $request->headers()->all()
-        );
+        $pendingRequest
+            ->headers()
+            ->merge(
+                $client->headers()->all(),
+                $request->headers()->all()
+            )
+            ->resolve();
 
-        $pendingRequest->query()->merge(
-            $client->query()->all(),
-            $request->query()->all()
-        );
+        $pendingRequest
+            ->query()
+            ->merge(
+                $client->query()->all(),
+                $request->query()->all()
+            )
+            ->resolve();
 
         return $pendingRequest;
     }

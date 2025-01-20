@@ -11,9 +11,9 @@ interface Connector extends Authenticatable, IdempotencyContract, SupportsDebugg
 
     public function resolveBaseUrl(): string;
 
-    public function headers(): ArrayRepository;
+    public function headers(): Repository;
 
-    public function query(): ArrayRepository;
+    public function query(): Repository;
 
     public function middleware(): Middleware;
 

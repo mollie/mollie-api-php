@@ -5,35 +5,10 @@ namespace Mollie\Api\Contracts;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 
-interface PayloadRepository
+interface PayloadRepository extends Repository
 {
     /**
-     * @param  mixed  $value
-     */
-    public function set($value): self;
-
-    /**
-     * @return mixed
-     */
-    public function all();
-
-    public function remove(string $key): self;
-
-    public function add(string $key, $value): self;
-
-    /**
-     * @return mixed
-     */
-    public function get(string $key, $default = null);
-
-    public function merge(array ...$arrays): self;
-
-    public function isEmpty(): bool;
-
-    public function isNotEmpty(): bool;
-
-    /**
-     * Convert the body repository into a stream
+     * Convert the repository contents into a stream
      */
     public function toStream(StreamFactoryInterface $streamFactory): StreamInterface;
 }
