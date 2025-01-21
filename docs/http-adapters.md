@@ -43,4 +43,4 @@ Out of the box, the Mollie API client provides several adapters:
 
 - **GuzzleMollieHttpAdapter**: Wraps a Guzzle HTTP client for sending requests.
 - **CurlMollieHttpAdapter**: Uses cURL for sending HTTP requests. This is the default if Guzzle is not available.
-- **PSR18MollieHttpAdapter**: psr-18 compatible adapter
+- **PSR18MollieHttpAdapter**: [PSR-18](https://www.php-fig.org/psr/psr-18/) compatible HTTP adapter
