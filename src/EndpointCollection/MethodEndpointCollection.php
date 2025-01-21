@@ -61,7 +61,7 @@ class MethodEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function allActive($query = [], ?bool $testmode = null): MethodCollection
+    public function allActive($query = [], bool $testmode = false): MethodCollection
     {
         return $this->allEnabled($query, $testmode);
     }

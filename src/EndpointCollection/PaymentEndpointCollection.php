@@ -114,11 +114,11 @@ class PaymentEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
      *
-     * @param  array|bool  $data
+     * @param  array|bool  $testmode
      *
      * @throws ApiException
      */
-    public function cancel(string $id, $data = []): ?Payment
+    public function cancel(string $id, $testmode = []): ?Payment
     {
         $testmode = Utility::extractBool($data, 'testmode', false);
 
