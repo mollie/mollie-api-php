@@ -1,10 +1,14 @@
 name: Fix Code Style
 
-on: [push]
+on:
+  push:
+    paths:
+      - "**.php"
 
 jobs:
-  lint:
+  php-code-styling:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Checkout code
