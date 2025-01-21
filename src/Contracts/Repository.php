@@ -8,9 +8,9 @@ interface Repository
      * Set the entire repository data
      *
      * @param mixed $data Array for array repositories, mixed for payload repositories
-     * @return self
+     * @return static
      */
-    public function set($data): self;
+    public function set($data);
 
     /**
      * Get a value by key
@@ -31,22 +31,22 @@ interface Repository
      *
      * @param string $key
      * @param mixed $value
-     * @return self
+     * @return static
      */
-    public function add(string $key, $value): self;
+    public function add(string $key, $value);
 
     /**
      * Merge data into the repository
      *
      * @param array ...$data
-     * @return self
+     * @return static
      */
-    public function merge(array ...$data): self;
+    public function merge(array ...$data);
 
     /**
      * Remove a key from the repository
      */
-    public function remove(string $key): self;
+    public function remove(string $key);
 
     /**
      * Get all data from the repository
@@ -65,5 +65,10 @@ interface Repository
      */
     public function isNotEmpty(): bool;
 
-    public function resolve(): static;
+    /**
+     * Resolve the repository
+     *
+     * @return static
+     */
+    public function resolve();
 }

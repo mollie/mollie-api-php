@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 
@@ -23,8 +24,10 @@ trait HasResponse
 
     public function getPendingRequest(): PendingRequest
     {
-        return $this->response
-            ? $this->response->getPendingRequest()
-            : throw new \Exception('Response is not set');
+        if (! $this->response) {
+            throw new MollieException('Response is not set');
+        }
+
+        return $this->response->getPendingRequest();
     }
 }

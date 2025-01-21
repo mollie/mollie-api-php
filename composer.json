@@ -58,7 +58,6 @@
   },
   "require-dev": {
     "brianium/paratest": "^6.11",
-    "friendsofphp/php-cs-fixer": "^3.66",
     "guzzlehttp/guzzle": "^7.6",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^9.6",
@@ -82,7 +81,6 @@
     }
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit tests",
-    "format": "./vendor/bin/pint"
+    "test": "./vendor/bin/paratest"
   }
 }

@@ -86,7 +86,7 @@ class JsonPayloadRepository implements PayloadRepository, Stringable
         return $streamFactory->createStream((string) $this);
     }
 
-    public function resolve(): static
+    public function resolve(): self
     {
         $this->store = Arr::resolve($this->store);
 

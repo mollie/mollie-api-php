@@ -71,7 +71,10 @@ class ArrayStore implements Repository
         return ! empty($this->store);
     }
 
-    public function resolve(): static
+    /**
+     * Resolve the repository
+     */
+    public function resolve(): self
     {
         $this->store = Arr::resolve($this->store);
 

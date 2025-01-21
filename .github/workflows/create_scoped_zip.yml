@@ -1,4 +1,4 @@
-name: Create Release Zip
+name: Build Scoped Mollie SDK Release
 
 on:
   release:
@@ -54,12 +54,12 @@ jobs:
       - name: Create release zip
         run: |
           cd build/scoped
-          zip -r ../../mollie-api-php-${{ github.event.release.tag_name }}.zip .
+          zip -r ../../mollie-api-php_build_scoped_${{ github.event.release.tag_name }}.zip .
           cd ../..
 
       - name: Upload zip to release
         uses: softprops/action-gh-release@v2
         with:
-          files: mollie-api-php-${{ github.event.release.tag_name }}.zip
+          files: mollie-api-php_build_scoped_${{ github.event.release.tag_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
