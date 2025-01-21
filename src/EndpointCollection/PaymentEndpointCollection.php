@@ -118,9 +118,9 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @throws ApiException
      */
-    public function cancel(string $id, $testmode = []): ?Payment
+    public function cancel(string $id, $testmode = false): ?Payment
     {
-        $testmode = Utility::extractBool($data, 'testmode', false);
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var null|Payment */
         return $this->send((new CancelPaymentRequest($id))->test($testmode));
