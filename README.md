@@ -8,6 +8,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
 [![Tests](https://img.shields.io/github/actions/workflow/status/mollie/mollie-api-php/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mollie/mollie-api-php/actions/workflows/tests.yml)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mollie/mollie-api-php/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mollie/mollie-api-php/actions?query=workflow%3A"Fix+Code+Style"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
 
 </div>
