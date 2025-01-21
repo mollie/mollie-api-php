@@ -1,12 +1,14 @@
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
-[![Tests](https://img.shields.io/github/actions/workflow/status/mollie/mollie-api-php/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mollie/mollie-api-php/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
-
 <p align="center">
   <img src="https://github.com/mollie/mollie-api-php/assets/7265703/140510a5-ede5-41bf-9d77-0d09b906e8f4" width="128" height="128"/>
 </p>
 
 <h1 align="center">Mollie API client for PHP</h1>
+
+<div align="center">
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
+[![Tests](https://img.shields.io/github/actions/workflow/status/mollie/mollie-api-php/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mollie/mollie-api-php/actions/workflows/tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/mollie/mollie-api-php.svg?style=flat-square)](https://packagist.org/packages/mollie/mollie-api-php)
+</div>
 
 ![mollie-api-php-header](https://github.com/mollie/mollie-api-php/assets/7265703/e79b7770-fe00-4dfe-bb8b-3d5ed221e329)
 
