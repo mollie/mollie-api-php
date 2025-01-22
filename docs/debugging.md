@@ -15,6 +15,23 @@ $mollie = new \Mollie\Api\MollieApiClient();
 $mollie->debug(); // Enables both request and response debugging
 ```
 
+### Enable on Request
+
+To enable debugging for a specific request:
+
+```php
+$request = new CreatePaymentRequest(...);
+
+// enable output for request and response
+$mollie->send($request->debug());
+
+// only debug request
+$mollie->send($request->debugRequest(die: true));
+
+// only debug response
+$mollie->send($request->debugResponse(die: true));
+```
+
 ### Debug Specific Parts
 
 You can choose to debug only requests or only responses:
