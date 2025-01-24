@@ -89,7 +89,7 @@ class ProfileEndpoint extends CollectionEndpointAbstract
     public function update($profileId, array $data = [])
     {
         if (empty($profileId) || strpos($profileId, self::RESOURCE_ID_PREFIX) !== 0) {
-            throw new ApiException("Invalid profile id: '{$profileId}'. An profile id should start with '" . self::RESOURCE_ID_PREFIX . "'.");
+            throw new ApiException("Invalid profile ID: '{$profileId}'. A profile ID should start with '" . self::RESOURCE_ID_PREFIX . "'.");
         }
 
         return parent::rest_update($profileId, $data);
