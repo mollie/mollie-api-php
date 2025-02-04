@@ -10,9 +10,9 @@ use Mollie\Api\Traits\HasRequestProperties;
 
 abstract class Request
 {
+    use HandlesDebugging;
     use HandlesTestmode;
     use HasMiddleware;
-    use HandlesDebugging;
     use HasRequestProperties;
 
     /**

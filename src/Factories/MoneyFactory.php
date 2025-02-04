@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\Money;
 
-class MoneyFactory extends OldFactory
+class MoneyFactory extends Factory
 {
     public function create(): Money
     {

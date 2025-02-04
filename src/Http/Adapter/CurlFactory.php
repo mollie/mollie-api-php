@@ -9,9 +9,11 @@ use Mollie\Api\Types\Method;
 class CurlFactory
 {
     public const DEFAULT_TIMEOUT = 10;
+
     public const DEFAULT_CONNECT_TIMEOUT = 2;
 
     private $handle;
+
     private PendingRequest $pendingRequest;
 
     private function __construct($handle, PendingRequest $pendingRequest)
@@ -75,7 +77,7 @@ class CurlFactory
             case Method::GET:
             default:
                 if ($method !== Method::GET) {
-                    throw new \InvalidArgumentException('Invalid HTTP method: ' . $method);
+                    throw new \InvalidArgumentException('Invalid HTTP method: '.$method);
                 }
 
                 break;
@@ -90,8 +92,7 @@ class CurlFactory
     }
 
     /**
-     * @param int $option
-     * @param mixed $value
+     * @param  mixed  $value
      */
     private function setOption(int $option, $value): void
     {
@@ -107,7 +108,7 @@ class CurlFactory
     {
         $result = [];
         foreach ($headers as $key => $value) {
-            $result[] = $key . ': ' . $value;
+            $result[] = $key.': '.$value;
         }
 
         return $result;

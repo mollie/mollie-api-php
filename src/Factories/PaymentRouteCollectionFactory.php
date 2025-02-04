@@ -8,7 +8,7 @@ use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
-class PaymentRouteCollectionFactory extends OldFactory
+class PaymentRouteCollectionFactory extends Factory
 {
     public function create(): DataCollection
     {
@@ -25,7 +25,7 @@ class PaymentRouteCollectionFactory extends OldFactory
                     fn ($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value)
                 )
             );
-        }, $this->data);
+        }, $this->get());
 
         return new DataCollection($paymentRoutes);
     }

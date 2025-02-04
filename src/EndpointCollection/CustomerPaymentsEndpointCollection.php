@@ -2,18 +2,13 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreatePaymentRequestFactory;
-use Mollie\Api\Factories\GetPaginatedCustomerPaymentsQueryFactory;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-use Mollie\Api\Http\Data\CreatePaymentQuery;
-use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
-use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateCustomerPaymentRequestFactory;
+use Mollie\Api\Factories\GetPaginatedCustomerPaymentsRequestFactory;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
-use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
 class CustomerPaymentsEndpointCollection extends EndpointCollection
@@ -21,12 +16,9 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     /**
      * Create a subscription for a Customer
      *
-     * @param  array|CreatePaymentPayload  $payload
-     * @param  array|CreatePaymentQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createFor(Customer $customer, $payload = [], $query = [], bool $testmode = false): Payment
+    public function createFor(Customer $customer, array $payload = [], array $query = [], bool $testmode = false): Payment
     {
         return $this->createForId($customer->id, $payload, $query, $testmode);
     }
@@ -34,32 +26,25 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     /**
      * Create a subscription for a Customer ID
      *
-     * @param  string  $customerId
-     * @param  array|CreatePaymentPayload  $payload
-     * @param  array|CreatePaymentQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createForId($customerId, $payload = [], $query = [], bool $testmode = false): Payment
+    public function createForId(string $customerId, array $payload = [], array $query = [], bool $testmode = false): Payment
     {
-        if (! $payload instanceof CreatePaymentPayload) {
-            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreatePaymentRequestFactory::new($payload)
-                ->create();
-        }
+        $testmode = Utility::extractBool($payload, 'testmode', $testmode);
 
-        if (! $query instanceof CreatePaymentQuery) {
-            $query = CreatePaymentQuery::fromArray(Arr::wrap($query));
-        }
+        $request = CreateCustomerPaymentRequestFactory::new($customerId)
+            ->withPayload($payload)
+            ->withQuery($query)
+            ->create();
 
         /** @var Payment */
-        return $this->send((new CreateCustomerPaymentRequest($customerId, $payload, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
      * @param  string  $from  The first resource ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
@@ -69,21 +54,21 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
     /**
      * @param  string  $from  The first resource ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedCustomerPaymentsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
 
-        return $this->send((new GetPaginatedCustomerPaymentsRequest(
-            $customerId,
-            $query
-        ))->test($testmode));
+        $request = GetPaginatedCustomerPaymentsRequestFactory::new($customerId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -116,14 +101,16 @@ class CustomerPaymentsEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedCustomerPaymentsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedCustomerPaymentsRequestFactory::new($customerId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedCustomerPaymentsRequest($customerId, $query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

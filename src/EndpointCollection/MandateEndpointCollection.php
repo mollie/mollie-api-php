@@ -2,11 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateMandatePayloadFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Http\Data\CreateMandatePayload;
-use Mollie\Api\Http\Requests\CreateMandateRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateMandateRequestFactory;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
@@ -21,11 +18,10 @@ class MandateEndpointCollection extends EndpointCollection
     /**
      * Creates a mandate for a specific customer.
      *
-     * @param  array|CreateMandatePayload  $payload
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createForCustomer(Customer $customer, $payload = [], bool $testmode = false): Mandate
+    public function createForCustomer(Customer $customer, array $payload = [], bool $testmode = false): Mandate
     {
         return $this->createForCustomerId($customer->id, $payload, $testmode);
     }
@@ -33,26 +29,26 @@ class MandateEndpointCollection extends EndpointCollection
     /**
      * Creates a mandate for a specific customer ID.
      *
-     * @param  array  $payload
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createForCustomerId(string $customerId, $payload = [], bool $testmode = false): Mandate
+    public function createForCustomerId(string $customerId, array $payload = [], bool $testmode = false): Mandate
     {
-        if (! $payload instanceof CreateMandatePayload) {
-            $testmode = Utility::extractBool($payload, 'testmode', $testmode);
-            $payload = CreateMandatePayloadFactory::new($payload)->create();
-        }
+        $testmode = Utility::extractBool($payload, 'testmode', $testmode);
+
+        $request = CreateMandateRequestFactory::new($customerId)
+            ->withPayload($payload)
+            ->create();
 
         /** @var Mandate */
-        return $this->send((new CreateMandateRequest($customerId, $payload))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Retrieve a specific mandate for a customer.
      *
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function getForCustomer(Customer $customer, string $mandateId, array $parameters = []): Mandate
     {
@@ -64,7 +60,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function getForCustomerId(string $customerId, string $mandateId, $testmode = false): Mandate
     {
@@ -78,7 +74,7 @@ class MandateEndpointCollection extends EndpointCollection
      * Revoke a mandate for a specific customer.
      *
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function revokeForCustomer(Customer $customer, string $mandateId, $data = []): void
     {
@@ -90,7 +86,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function revokeForCustomerId(string $customerId, string $mandateId, $testmode = false): void
     {
@@ -103,72 +99,68 @@ class MandateEndpointCollection extends EndpointCollection
      * Retrieves a collection of mandates for the given customer.
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
+     * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForCustomer(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = []): MandateCollection
+    public function pageForCustomer(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
     {
-        return $this->pageForCustomerId($customer->id, $from, $limit, $parameters);
+        return $this->pageForCustomerId($customer->id, $from, $limit, $testmode);
     }
 
     /**
      * Retrieves a collection of mandates for the given customer ID.
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
+     * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForCustomerId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): MandateCollection
+    public function pageForCustomerId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
     {
-        $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var MandateCollection */
-        return $this->send((new GetPaginatedMandateRequest($customerId, $query))->test($testmode));
+        return $this->send(
+            (new GetPaginatedMandateRequest($customerId, $from, $limit))->test($testmode)
+        );
     }
 
     /**
      * Create an iterator for iterating over mandates for the given customer.
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
+     * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iteratorForCustomer(
         Customer $customer,
         ?string $from = null,
         ?int $limit = null,
-        array $parameters = [],
+        $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->iteratorForCustomerId($customer->id, $from, $limit, $parameters, $iterateBackwards);
+        return $this->iteratorForCustomerId($customer->id, $from, $limit, $testmode, $iterateBackwards);
     }
 
     /**
      * Create an iterator for iterating over mandates for the given customer ID.
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
+     * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
     public function iteratorForCustomerId(
         string $customerId,
         ?string $from = null,
         ?int $limit = null,
-        array $filters = [],
+        $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
-        $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         return $this->send(
-            (new GetPaginatedMandateRequest($customerId, $query))
+            (new GetPaginatedMandateRequest($customerId, $from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

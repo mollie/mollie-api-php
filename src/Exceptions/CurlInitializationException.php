@@ -13,6 +13,7 @@ use Throwable;
 class CurlInitializationException extends MollieException
 {
     protected PendingRequest $pendingRequest;
+
     protected string $plainMessage;
 
     public function __construct(

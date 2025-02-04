@@ -16,7 +16,7 @@ class RequestTimeoutException extends NetworkRequestException
         return new self(
             $response->getPendingRequest(),
             null,
-            'The request took too long to complete. ' .
+            'The request took too long to complete. '.
                 sprintf('Error executing API call (%d: %s): %s', 408, $body->title, $body->detail)
         );
     }

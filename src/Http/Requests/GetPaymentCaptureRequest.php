@@ -6,6 +6,8 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Data\GetPaymentCaptureQuery;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaymentCaptureRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -23,18 +25,20 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
 
     private string $captureId;
 
-    private ?GetPaymentCaptureQuery $query;
+    private bool $includePayment;
 
-    public function __construct(string $paymentId, string $captureId, ?GetPaymentCaptureQuery $query = null)
+    public function __construct(string $paymentId, string $captureId, bool $includePayment = false)
     {
         $this->paymentId = $paymentId;
         $this->captureId = $captureId;
-        $this->query = $query;
+        $this->includePayment = $includePayment;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query ? $this->query->toArray() : [];
+        return [
+            'include' => Arr::join($this->includePayment ? [PaymentIncludesQuery::PAYMENT] : []),
+        ]
     }
 
     public function resolveResourcePath(): string

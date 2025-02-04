@@ -2,9 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\ApplePayPaymentSessionPayloadFactory;
-use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\ApplePayPaymentSessionRequestFactory;
 use Mollie\Api\Resources\AnyResource;
 
 class WalletEndpointCollection extends EndpointCollection
@@ -15,15 +14,17 @@ class WalletEndpointCollection extends EndpointCollection
      * @param  array  $parameters  Additional parameters
      * @return AnyResource The payment session data
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function requestApplePayPaymentSession(string $domain, string $validationUrl, array $parameters = []): AnyResource
     {
-        $payload = ApplePayPaymentSessionPayloadFactory::new(array_merge([
-            'domain' => $domain,
-            'validationUrl' => $validationUrl,
-        ], $parameters))->create();
+        $request = ApplePayPaymentSessionRequestFactory::new()
+            ->withPayload(array_merge([
+                'domain' => $domain,
+                'validationUrl' => $validationUrl,
+            ], $parameters))
+            ->create();
 
-        return $this->send(new ApplePayPaymentSessionRequest($payload));
+        return $this->send($request);
     }
 }

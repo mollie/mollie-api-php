@@ -11,16 +11,32 @@ class GetPaginatedBalanceRequest extends PaginatedRequest implements IsIteratabl
 {
     use IsIteratableRequest;
 
-    /**
-     * The resource class the request should be casted to.
-     */
     protected $hydratableResource = BalanceCollection::class;
 
-    /**
-     * Resolve the resource path.
-     */
+    private ?string $from;
+
+    private ?int $limit;
+
+    private ?string $sort;
+
+    public function __construct(?string $from = null, ?int $limit = null, ?string $sort = null)
+    {
+        $this->from = $from;
+        $this->limit = $limit;
+        $this->sort = $sort;
+    }
+
     public function resolveResourcePath(): string
     {
         return 'balances';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+            'sort' => $this->sort,
+        ];
     }
 }

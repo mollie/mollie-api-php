@@ -23,10 +23,15 @@ use Throwable;
 final class PSR18MollieHttpAdapter implements HttpAdapterContract
 {
     private ClientInterface $httpClient;
+
     private RequestFactoryInterface $requestFactory;
+
     private ResponseFactoryInterface $responseFactory;
+
     private StreamFactoryInterface $streamFactory;
+
     private UriFactoryInterface $uriFactory;
+
     private ?Factories $factories = null;
 
     public function __construct(
@@ -72,7 +77,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
             // PSR-18 NetworkExceptionInterface indicates network errors, which are retryable
             throw new RetryableNetworkRequestException(
                 $pendingRequest,
-                'Network error: ' . $e->getMessage()
+                'Network error: '.$e->getMessage()
             );
         } catch (RequestExceptionInterface $e) {
             if (method_exists($e, 'getResponse') && $response = $e->getResponse()) {
@@ -81,7 +86,7 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
 
             throw new RetryableNetworkRequestException(
                 $pendingRequest,
-                'Network error: ' . $e->getMessage()
+                'Network error: '.$e->getMessage()
             );
         }
     }
@@ -109,6 +114,6 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
         $clientClass = get_class($this->httpClient);
         $clientName = substr($clientClass, strrpos($clientClass, '\\') + 1);
 
-        return 'PSR18/' . $clientName;
+        return 'PSR18/'.$clientName;
     }
 }

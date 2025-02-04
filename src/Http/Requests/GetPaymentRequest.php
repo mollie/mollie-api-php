@@ -26,9 +26,13 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
      * Query parameters.
      */
     private bool $embedCaptures = false;
+
     private bool $embedRefunds = false;
+
     private bool $embedChargebacks = false;
+
     private bool $includeQrCode = false;
+
     private bool $includeRemainderDetails = false;
 
     public function __construct(

@@ -3,12 +3,11 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\ProfileCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;
 
-class GetPaginatedProfilesRequest extends PaginatedRequest implements IsIteratable
+class GetPaginatedProfilesRequest extends ResourceHydratableRequest implements IsIteratable
 {
     use IsIteratableRequest;
 
@@ -22,10 +21,24 @@ class GetPaginatedProfilesRequest extends PaginatedRequest implements IsIteratab
      */
     protected $hydratableResource = ProfileCollection::class;
 
+    private ?string $from;
+
+    private ?int $limit;
+
     public function __construct(
-        ?PaginatedQuery $query = null
+        ?string $from = null,
+        ?int $limit = null
     ) {
-        parent::__construct($query);
+        $this->from = $from;
+        $this->limit = $limit;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+        ];
     }
 
     /**

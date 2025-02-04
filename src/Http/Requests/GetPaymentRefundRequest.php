@@ -3,9 +3,9 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaymentRefundQuery;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaymentRefundRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -23,18 +23,20 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
 
     private string $refundId;
 
-    private ?GetPaymentRefundQuery $query = null;
+    private bool $includePayment;
 
-    public function __construct(string $paymentId, string $refundId, ?GetPaymentRefundQuery $query = null)
+    public function __construct(string $paymentId, string $refundId, bool $includePayment = false)
     {
         $this->paymentId = $paymentId;
         $this->refundId = $refundId;
-        $this->query = $query;
+        $this->includePayment = $includePayment;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query ? $this->query->toArray() : [];
+        return [
+            'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
+        ];
     }
 
     /**

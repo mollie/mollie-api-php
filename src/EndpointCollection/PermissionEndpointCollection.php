@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
@@ -18,7 +18,7 @@ class PermissionEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $permissionId, $testmode = false): Permission
     {
@@ -31,7 +31,7 @@ class PermissionEndpointCollection extends EndpointCollection
     /**
      * Retrieve all permissions from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function list(): PermissionCollection
     {

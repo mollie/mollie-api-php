@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
 use Mollie\Api\Factories\CreatePaymentRequestFactory;
 use Mollie\Api\Factories\GetPaymentRequestFactory;
@@ -23,7 +23,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $id, array $query = [], bool $testmode = false): Payment
     {
@@ -42,7 +42,7 @@ class PaymentEndpointCollection extends EndpointCollection
      * @param  array  $payload  An array containing details on the payment.
      * @param  array  $query  An array of strings or a single string containing the details to include.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function create(array $payload = [], array $query = [], bool $testmode = false): Payment
     {
@@ -62,7 +62,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function update(string $id, array $data = [], bool $testmode = false): ?Payment
     {
@@ -82,7 +82,7 @@ class PaymentEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the payment id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function delete(string $id, $data = []): ?Payment
     {
@@ -97,7 +97,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @param  array|bool  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function cancel(string $id, $testmode = false): ?Payment
     {
@@ -113,9 +113,8 @@ class PaymentEndpointCollection extends EndpointCollection
      * The $data parameter may either be an array of endpoint
      * parameters, or an instance of CreateRefundPaymentData.
      *
-     * @param  array  $payload
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function refund(Payment $payment, array $payload = [], bool $testmode = false): Refund
     {

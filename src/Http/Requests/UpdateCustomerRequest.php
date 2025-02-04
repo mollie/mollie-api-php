@@ -3,7 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Http\Data\UpdateCustomerPayload;
+use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -21,17 +21,36 @@ class UpdateCustomerRequest extends ResourceHydratableRequest implements HasPayl
 
     private string $id;
 
-    private UpdateCustomerPayload $payload;
+    private ?string $name;
 
-    public function __construct(string $id, UpdateCustomerPayload $payload)
-    {
+    private ?string $email;
+
+    private ?string $locale;
+
+    private ?Metadata $metadata;
+
+    public function __construct(
+        string $id,
+        ?string $name = null,
+        ?string $email = null,
+        ?string $locale = null,
+        ?Metadata $metadata = null
+    ) {
         $this->id = $id;
-        $this->payload = $payload;
+        $this->name = $name;
+        $this->email = $email;
+        $this->locale = $locale;
+        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array
     {
-        return $this->payload->toArray();
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'locale' => $this->locale,
+            'metadata' => $this->metadata,
+        ];
     }
 
     public function resolveResourcePath(): string

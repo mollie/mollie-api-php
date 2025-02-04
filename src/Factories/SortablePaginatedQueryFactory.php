@@ -4,11 +4,11 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\SortablePaginatedQuery;
 
-class SortablePaginatedQueryFactory extends Factory
+class SortablePaginatedQueryFactory extends RequestFactory
 {
     public static function new(): self
     {
-        return new self();
+        return new self;
     }
 
     public function create(): SortablePaginatedQuery

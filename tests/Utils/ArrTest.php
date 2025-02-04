@@ -34,6 +34,14 @@ class ArrTest extends TestCase
     }
 
     /** @test */
+    public function except(): void
+    {
+        $array = ['foo' => 'bar', 'baz' => 'qux'];
+
+        $this->assertEquals(['foo' => 'bar'], Arr::except($array, ['baz']));
+    }
+
+    /** @test */
     public function forget(): void
     {
         $array = ['foo' => ['bar' => 'baz']];

@@ -4,7 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Data\CreateCustomerPayload;
+use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -17,16 +17,34 @@ class CreateCustomerRequest extends ResourceHydratableRequest implements HasPayl
 
     protected $hydratableResource = Customer::class;
 
-    private CreateCustomerPayload $payload;
+    private ?string $name;
 
-    public function __construct(CreateCustomerPayload $payload)
-    {
-        $this->payload = $payload;
+    private ?string $email;
+
+    private ?string $locale;
+
+    private ?Metadata $metadata;
+
+    public function __construct(
+        ?string $name = null,
+        ?string $email = null,
+        ?string $locale = null,
+        ?Metadata $metadata = null
+    ) {
+        $this->name = $name;
+        $this->email = $email;
+        $this->locale = $locale;
+        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array
     {
-        return $this->payload->toArray();
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'locale' => $this->locale,
+            'metadata' => $this->metadata,
+        ];
     }
 
     public function resolveResourcePath(): string

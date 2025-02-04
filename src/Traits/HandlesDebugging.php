@@ -15,16 +15,13 @@ use Mollie\Api\Utils\Debugger;
  */
 trait HandlesDebugging
 {
-    /**
-     * @var bool
-     */
     private bool $hasSanitizerMiddleware = false;
 
     /**
      * Enable request debugging with an optional custom debugger.
      *
-     * @param callable|null $debugger Custom request debugger function
-     * @param bool $die Whether to die after dumping
+     * @param  callable|null  $debugger  Custom request debugger function
+     * @param  bool  $die  Whether to die after dumping
      * @return $this
      */
     public function debugRequest(?callable $debugger = null, bool $die = false): self
@@ -49,8 +46,8 @@ trait HandlesDebugging
     /**
      * Enable response debugging with an optional custom debugger.
      *
-     * @param callable|null $debugger Custom response debugger function
-     * @param bool $die Whether to die after dumping
+     * @param  callable|null  $debugger  Custom response debugger function
+     * @param  bool  $die  Whether to die after dumping
      * @return $this
      */
     public function debugResponse(?callable $debugger = null, bool $die = false): self
@@ -84,7 +81,7 @@ trait HandlesDebugging
         }
 
         $this->hasSanitizerMiddleware = true;
-        $sanitizer = new RequestSanitizer();
+        $sanitizer = new RequestSanitizer;
 
         $this->middleware()->onFatal(function (MollieException $exception) use ($sanitizer) {
             if ($exception instanceof RequestException) {
@@ -100,7 +97,7 @@ trait HandlesDebugging
     /**
      * Enable both request and response debugging.
      *
-     * @param bool $die Whether to die after dumping
+     * @param  bool  $die  Whether to die after dumping
      * @return $this
      */
     public function debug(bool $die = false): self

@@ -3,13 +3,15 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
+use Mollie\Api\Types\Method;
 
-class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable
+class GetPaginatedBalanceTransactionRequest extends ResourceHydratableRequest implements IsIteratable
 {
     use IsIteratableRequest;
+
+    protected static string $method = Method::GET;
 
     /**
      * The resource class the request should be casted to.
@@ -18,13 +20,26 @@ class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements 
 
     private string $balanceId;
 
+    private ?string $from;
+
+    private ?int $limit;
+
     public function __construct(
         string $balanceId,
-        ?PaginatedQuery $query = null
+        ?string $from = null,
+        ?int $limit = null,
     ) {
-        parent::__construct($query);
-
         $this->balanceId = $balanceId;
+        $this->from = $from;
+        $this->limit = $limit;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+        ];
     }
 
     public function resolveResourcePath(): string

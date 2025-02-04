@@ -67,7 +67,7 @@ try {
      * After completion, the customer will have a pending or valid mandate that can be
      * used for recurring payments and subscriptions.
      */
-    header('Location: ' . $payment->getCheckoutUrl(), true, 303);
+    header('Location: '.$payment->getCheckoutUrl(), true, 303);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo 'API call failed: ' . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }

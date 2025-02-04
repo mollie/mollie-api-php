@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\Recipient;
 
-class RecipientFactory extends OldFactory
+class RecipientFactory extends Factory
 {
     public function create(): Recipient
     {

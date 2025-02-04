@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
@@ -13,48 +13,39 @@ use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
+use Mollie\Api\Utils\Arr;
 
 class SessionEndpointCollection extends EndpointCollection
 {
     /**
      * Retrieve a single session from Mollie.
      *
-     * Will throw a ApiException if the session id is invalid or the resource cannot be found.
-     *
-     * @param  array|AnyData  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function get(string $sessionId, $query = []): Session
+    public function get(string $sessionId, array $query = []): Session
     {
-        if (! $query instanceof AnyData) {
-            $query = AnyData::fromArray($query);
-        }
+        $request = new GetSessionRequest($sessionId);
+
+        $request->query()->set($query);
 
         /** @var Session */
-        return $this->send(new GetSessionRequest($sessionId, $query));
+        return $this->send($request);
     }
 
     /**
      * Creates a session in Mollie.
      *
-     * @param  array|AnyData  $payload
-     * @param  array|AnyData  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function create($payload = [], $query = []): Session
+    public function create(array $payload = [], array $query = []): Session
     {
-        if (! $payload instanceof AnyData) {
-            $payload = AnyData::fromArray($payload);
-        }
+        $request = new CreateSessionRequest;
 
-        if (! $query instanceof AnyData) {
-            $query = AnyData::fromArray($query);
-        }
+        $request->payload()->set($payload);
+        $request->query()->set($query);
 
         /** @var Session */
-        return $this->send(new CreateSessionRequest($payload, $query));
+        return $this->send($request);
     }
 
     /**
@@ -64,16 +55,16 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @param  array|AnyData  $payload
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function update(string $id, $payload = []): Session
     {
-        if (! $payload instanceof AnyData) {
-            $payload = AnyData::fromArray($payload);
-        }
+        $request = new UpdateSessionRequest($id);
+
+        $request->payload()->set($payload);
 
         /** @var Session */
-        return $this->send(new UpdateSessionRequest($id, $payload));
+        return $this->send($request);
     }
 
     /**
@@ -81,7 +72,7 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function cancel(string $id): void
     {
@@ -93,7 +84,7 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first session ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): SessionCollection
     {
@@ -103,8 +94,14 @@ class SessionEndpointCollection extends EndpointCollection
             'filters' => $filters,
         ])->create();
 
+        $request = new GetPaginatedSessionsRequest($query->from, $query->limit, $query->sort);
+
+        foreach (Arr::except($filters, 'sort') as $key => $value) {
+            $request->query()->add($key, $value);
+        }
+
         /** @var SessionCollection */
-        return $this->send(new GetPaginatedSessionsRequest($query));
+        return $this->send($request);
     }
 
     /**
@@ -125,8 +122,14 @@ class SessionEndpointCollection extends EndpointCollection
             'filters' => $filters,
         ])->create();
 
+        $request = new GetPaginatedSessionsRequest($query->from, $query->limit, $query->sort);
+
+        foreach (Arr::except($filters, 'sort') as $key => $value) {
+            $request->query()->add($key, $value);
+        }
+
         return $this->send(
-            (new GetPaginatedSessionsRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

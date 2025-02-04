@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\GetPaginatedSettlementRefundsQueryFactory;
-use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
-use Mollie\Api\Http\Requests\GetPaginatedSettlementRefundsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
@@ -16,11 +14,9 @@ class SettlementRefundEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Refunds from Mollie.
      *
-     * @param  array|GetPaginatedSettlementRefundsQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageFor(Settlement $settlement, $query = [], bool $testmode = false): RefundCollection
+    public function pageFor(Settlement $settlement, array $query = [], bool $testmode = false): RefundCollection
     {
         return $this->pageForId($settlement->id, $query, $testmode);
     }
@@ -28,18 +24,17 @@ class SettlementRefundEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Refunds from Mollie.
      *
-     * @param  array|GetPaginatedSettlementRefundsQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForId(string $settlementId, $query = [], bool $testmode = false): RefundCollection
+    public function pageForId(string $settlementId, array $query = [], bool $testmode = false): RefundCollection
     {
-        if (! $query instanceof GetPaginatedSettlementRefundsQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = GetPaginatedSettlementRefundsQueryFactory::new($query)->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
 
-        return $this->send((new GetPaginatedSettlementRefundsRequest($settlementId, $query))->test($testmode));
+        $request = GetPaginatedSettlementRefundsQueryFactory::new($settlementId)
+            ->withQuery($query)
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -66,14 +61,17 @@ class SettlementRefundEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedSettlementRefundsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedSettlementRefundsQueryFactory::new($settlementId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedSettlementRefundsRequest($settlementId, $query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetPaginatedSettlementCapturesQueryFactory;
-use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
-use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetPaginatedSettlementCapturesRequestFactory;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
@@ -16,11 +14,9 @@ class SettlementCaptureEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Captures from Mollie.
      *
-     * @param  array|GetPaginatedSettlementCapturesQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageFor(Settlement $settlement, $query = [], bool $testmode = false): CaptureCollection
+    public function pageFor(Settlement $settlement, array $query = [], bool $testmode = false): CaptureCollection
     {
         return $this->pageForId($settlement->id, $query, $testmode);
     }
@@ -28,19 +24,18 @@ class SettlementCaptureEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Captures from Mollie.
      *
-     * @param  array|GetPaginatedSettlementCapturesQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForId(string $settlementId, $query = [], bool $testmode = false): CaptureCollection
+    public function pageForId(string $settlementId, array $query = [], bool $testmode = false): CaptureCollection
     {
-        if (! $query instanceof GetPaginatedSettlementCapturesQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = GetPaginatedSettlementCapturesQueryFactory::new($query)->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+
+        $request = GetPaginatedSettlementCapturesRequestFactory::new($settlementId)
+            ->withQuery($query)
+            ->create();
 
         /** @var CaptureCollection */
-        return $this->send((new GetPaginatedSettlementCapturesRequest($settlementId, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -73,14 +68,17 @@ class SettlementCaptureEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedSettlementCapturesQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedSettlementCapturesRequestFactory::new($settlementId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedSettlementCapturesRequest($settlementId, $query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

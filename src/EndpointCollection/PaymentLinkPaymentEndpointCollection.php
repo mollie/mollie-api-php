@@ -2,11 +2,10 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinkPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
-use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Utils\Utility;
@@ -18,7 +17,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first payment ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageFor(PaymentLink $paymentLink, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
@@ -30,11 +29,12 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first payment ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageForId(string $paymentLinkId, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
+
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -42,7 +42,10 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         ])->create();
 
         /** @var PaymentCollection */
-        return $this->send((new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $query))->test($testmode));
+        return $this->send(
+            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $from, $limit, $query->sort))
+                ->test($testmode)
+        );
     }
 
     /**
@@ -81,6 +84,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
+
         $query = SortablePaginatedQueryFactory::new([
             'from' => $from,
             'limit' => $limit,
@@ -88,7 +92,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         ])->create();
 
         return $this->send(
-            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $query))
+            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $from, $limit, $query->sort))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

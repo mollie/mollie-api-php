@@ -51,7 +51,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     private function guardAgainstStrayRequests(string $requestClass): void
     {
         if (! Arr::has($this->expected, $requestClass)) {
-            throw new \RuntimeException('The request class ' . $requestClass . ' is not expected.');
+            throw new \RuntimeException('The request class '.$requestClass.' is not expected.');
         }
     }
 

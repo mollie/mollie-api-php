@@ -58,7 +58,8 @@ class ResourceHydratorTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $mockCollection = new class($this->client) extends ResourceCollection {
+        $mockCollection = new class($this->client) extends ResourceCollection
+        {
             public static string $resource = AnyResource::class;
 
             public static string $collectionName = 'items';

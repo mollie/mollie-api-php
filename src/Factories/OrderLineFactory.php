@@ -4,7 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\OrderLine;
 
-class OrderLineFactory extends OldFactory
+class OrderLineFactory extends Factory
 {
     public function create(): OrderLine
     {
@@ -15,10 +15,10 @@ class OrderLineFactory extends OldFactory
             MoneyFactory::new($this->get('totalAmount'))->create(),
             $this->get('type'),
             $this->get('quantityUnit'),
-            $this->mapIfNotNull('discountAmount', fn (array $item) => MoneyFactory::new($item)->create()),
-            $this->mapIfNotNull('recurring', fn (array $item) => RecurringBillingCycleFactory::new($item)->create()),
+            $this->transformIfNotNull('discountAmount', fn (array $item) => MoneyFactory::new($item)->create()),
+            $this->transformIfNotNull('recurring', fn (array $item) => RecurringBillingCycleFactory::new($item)->create()),
             $this->get('vatRate'),
-            $this->mapIfNotNull('vatAmount', fn (array $item) => MoneyFactory::new($item)->create()),
+            $this->transformIfNotNull('vatAmount', fn (array $item) => MoneyFactory::new($item)->create()),
             $this->get('sku'),
             $this->get('imageUrl'),
             $this->get('productUrl'),

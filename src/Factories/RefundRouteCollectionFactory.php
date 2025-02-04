@@ -6,7 +6,7 @@ use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\RefundRoute;
 use Mollie\Api\Utils\Arr;
 
-class RefundRouteCollectionFactory extends OldFactory
+class RefundRouteCollectionFactory extends Factory
 {
     public function create(): DataCollection
     {
@@ -19,7 +19,7 @@ class RefundRouteCollectionFactory extends OldFactory
                 MoneyFactory::new(Arr::get($item, 'amount'))->create(),
                 Arr::get($item, 'source.organizationId')
             );
-        }, $this->data);
+        }, $this->get());
 
         return new DataCollection($refundRoutes);
     }

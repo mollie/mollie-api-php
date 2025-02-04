@@ -29,7 +29,7 @@ class RequestSanitizer
         $request = $response->getPsrRequest();
 
         // Clear any sensitive payload data
-        $pendingRequest->setPayload(new JsonPayloadRepository());
+        $pendingRequest->setPayload(new JsonPayloadRepository);
 
         // Remove sensitive headers and create a new sanitized request
         foreach ($this->sensitiveHeaders as $header) {

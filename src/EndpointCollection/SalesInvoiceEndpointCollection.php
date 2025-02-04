@@ -2,17 +2,12 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateSalesInvoicePayloadFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Factories\UpdateSalesInvoicePayloadFactory;
-use Mollie\Api\Http\Data\CreateSalesInvoicePayload;
-use Mollie\Api\Http\Data\UpdateSalesInvoicePayload;
-use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateSalesInvoiceRequestFactory;
+use Mollie\Api\Factories\UpdateSalesInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\DeleteSalesInvoiceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSalesInvoicesRequest;
 use Mollie\Api\Http\Requests\GetSalesInvoiceRequest;
-use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Resources\SalesInvoiceCollection;
@@ -22,7 +17,7 @@ class SalesInvoiceEndpointCollection extends EndpointCollection
     /**
      * Retrieve a SalesInvoice from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $id): SalesInvoice
     {
@@ -32,37 +27,35 @@ class SalesInvoiceEndpointCollection extends EndpointCollection
     /**
      * Creates a SalesInvoice in Mollie.
      *
-     * @param  array|CreateSalesInvoicePayload  $payload
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function create($payload = []): SalesInvoice
+    public function create(array $payload = []): SalesInvoice
     {
-        if (! $payload instanceof CreateSalesInvoicePayload) {
-            $payload = CreateSalesInvoicePayloadFactory::new($payload)->create();
-        }
+        $request = CreateSalesInvoiceRequestFactory::new()
+            ->withPayload($payload)
+            ->create();
 
-        return $this->send(new CreateSalesInvoiceRequest($payload));
+        return $this->send($request);
     }
 
     /**
      * Update a specific SalesInvoice resource.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function update(string $id, $payload = []): ?SalesInvoice
+    public function update(string $id, array $payload = []): ?SalesInvoice
     {
-        if (! $payload instanceof UpdateSalesInvoicePayload) {
-            $payload = UpdateSalesInvoicePayloadFactory::new($payload)->create();
-        }
+        $request = UpdateSalesInvoiceRequestFactory::new($id)
+            ->withPayload($payload)
+            ->create();
 
-        return $this->send(new UpdateSalesInvoiceRequest($id, $payload));
+        return $this->send($request);
     }
 
     /**
      * Delete a SalesInvoice from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function delete(string $id): void
     {
@@ -72,16 +65,11 @@ class SalesInvoiceEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of SalesInvoices from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null): SalesInvoiceCollection
     {
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
-
-        return $this->send(new GetPaginatedSalesInvoicesRequest($query));
+        return $this->send(new GetPaginatedSalesInvoicesRequest($from, $limit));
     }
 
     /**
@@ -95,13 +83,8 @@ class SalesInvoiceEndpointCollection extends EndpointCollection
         ?int $limit = null,
         bool $iterateBackwards = false
     ): LazyCollection {
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
-
         return $this->send(
-            (new GetPaginatedSalesInvoicesRequest($query))
+            (new GetPaginatedSalesInvoicesRequest($from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

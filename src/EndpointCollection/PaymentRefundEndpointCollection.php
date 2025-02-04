@@ -3,12 +3,9 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
-use Mollie\Api\Factories\GetPaginatedPaymentRefundQueryFactory;
-use Mollie\Api\Factories\GetPaymentRefundQueryFactory;
-use Mollie\Api\Http\Data\GetPaymentRefundQuery;
+use Mollie\Api\Factories\GetPaginatedPaymentRefundsRequestFactory;
+use Mollie\Api\Factories\GetPaymentRefundRequestFactory;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
-use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
-use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
@@ -22,7 +19,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function createFor(Payment $payment, array $data, $testmode = false): Refund
     {
@@ -32,10 +29,9 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     /**
      * Creates a refund for a specific payment.
      *
-     * @param  array  $payload
      * @param  bool|array  $testmode
      *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function createForId(string $paymentId, array $payload = [], $testmode = false): Refund
     {
@@ -50,7 +46,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     }
 
     /**
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function getFor(Payment $payment, string $refundId, array $parameters = [], bool $testmode = false): Refund
     {
@@ -58,27 +54,25 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     }
 
     /**
-     * @param  array|GetPaymentRefundQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function getForId(string $paymentId, string $refundId, $query = [], bool $testmode = false): Refund
+    public function getForId(string $paymentId, string $refundId, array $query = [], bool $testmode = false): Refund
     {
-        if (! $query instanceof GetPaymentRefundQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = GetPaymentRefundQueryFactory::new($query)
-                ->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+
+        $request = GetPaymentRefundRequestFactory::new($paymentId, $refundId)
+            ->withQuery($query)
+            ->create();
 
         /** @var Refund */
-        return $this->send((new GetPaymentRefundRequest($paymentId, $refundId, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
      * @param  array|bool  $testmode
      * @return null
      *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function cancelForPayment(Payment $payment, string $refundId, $testmode = false)
     {
@@ -89,7 +83,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      * @param  array|bool  $testmode
      * @return null
      *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function cancelForId(string $paymentId, string $refundId, $testmode = false)
     {
@@ -99,22 +93,25 @@ class PaymentRefundEndpointCollection extends EndpointCollection
     }
 
     /**
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function pageForId(string $paymentId, ?string $from = null, ?int $limit = null, array $filters = []): RefundCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedPaymentRefundQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
 
-        return $this->send((new GetPaginatedPaymentRefundsRequest($paymentId, $query))->test($testmode));
+        $request = GetPaginatedPaymentRefundsRequestFactory::new($paymentId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
     public function pageFor(Payment $payment, ?string $from = null, ?int $limit = null, array $filters = []): RefundCollection
     {
@@ -151,14 +148,17 @@ class PaymentRefundEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedPaymentRefundQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedPaymentRefundsRequestFactory::new($paymentId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedPaymentRefundsRequest($paymentId, $query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

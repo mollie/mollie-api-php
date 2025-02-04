@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
 use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
 use Mollie\Api\Resources\Method;
@@ -14,7 +14,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Enable a method for the provided Profile ID.
      * Alias of enableForId for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function createForId(string $profileId, string $id): Method
     {
@@ -25,7 +25,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Enable a method for the provided Profile object.
      * Alias of enableFor for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function createFor(Profile $profile, string $id): Method
     {
@@ -36,7 +36,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Enable a method for the current profile.
      * Alias of enable for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function createForCurrentProfile(string $id): Method
     {
@@ -49,7 +49,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * @param  string  $profileId  The profile's ID or 'me' for the current profile
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function enableForId(string $profileId, string $id): Method
     {
@@ -62,7 +62,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      *
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function enableFor(Profile $profile, string $id): Method
     {
@@ -74,7 +74,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      *
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function enable(string $id): Method
     {
@@ -85,7 +85,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Disable a method for the provided Profile ID.
      * Alias of disableForId for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function deleteForId(string $profileId, string $id): void
     {
@@ -96,7 +96,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Disable a method for the provided Profile object.
      * Alias of disableFor for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function deleteFor(Profile $profile, string $id): void
     {
@@ -107,7 +107,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * Disable a method for the current profile.
      * Alias of disable for backwards compatibility.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function deleteForCurrentProfile(string $id): void
     {
@@ -120,7 +120,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      * @param  string  $profileId  The profile's ID or 'me' for the current profile
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function disableForId(string $profileId, string $id): void
     {
@@ -132,7 +132,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      *
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function disableFor(Profile $profile, string $id): void
     {
@@ -144,7 +144,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      *
      * @param  string  $id  The payment method ID
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function disable(string $id): void
     {

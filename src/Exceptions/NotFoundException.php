@@ -13,7 +13,7 @@ class NotFoundException extends ApiException
 
         return new self(
             $response,
-            'The object referenced by your API request does not exist. ' .
+            'The object referenced by your API request does not exist. '.
                 sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_NOT_FOUND, $body->title, $body->detail),
             ResponseStatusCode::HTTP_NOT_FOUND
         );

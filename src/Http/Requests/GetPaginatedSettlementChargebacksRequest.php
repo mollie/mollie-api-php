@@ -4,26 +4,21 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedSettlementChargebacksQuery;
-use Mollie\Api\Resources\ChargebackCollection;
-use Mollie\Api\Traits\IsIteratableRequest;
 
-class GetPaginatedSettlementChargebacksRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
+class GetPaginatedSettlementChargebacksRequest extends GetPaginatedChargebacksRequest implements IsIteratable, SupportsTestmodeInQuery
 {
-    use IsIteratableRequest;
-
-    /**
-     * The resource class the request should be casted to.
-     */
-    protected $hydratableResource = ChargebackCollection::class;
-
     private string $settlementId;
 
-    public function __construct(string $settlementId, ?GetPaginatedSettlementChargebacksQuery $query = null)
-    {
+    public function __construct(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        ?bool $includePayment = null,
+        ?string $profileId = null
+    ) {
         $this->settlementId = $settlementId;
 
-        parent::__construct($query);
+        parent::__construct($from, $limit, $includePayment, $profileId);
     }
 
     /**

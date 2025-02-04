@@ -14,15 +14,18 @@ use Throwable;
 class ApiException extends RequestException
 {
     protected string $plainMessage;
+
     protected \DateTimeImmutable $raisedAt;
+
     /** @var array<string, \stdClass> */
     protected array $links = [];
 
     /**
-     * @param Response $response The response that caused this exception
-     * @param string $message The error message
-     * @param int $code The error code
-     * @param Throwable|null $previous Previous exception if any
+     * @param  Response  $response  The response that caused this exception
+     * @param  string  $message  The error message
+     * @param  int  $code  The error code
+     * @param  Throwable|null  $previous  Previous exception if any
+     *
      * @throws ApiException
      */
     public function __construct(
@@ -35,7 +38,7 @@ class ApiException extends RequestException
         $this->raisedAt = new DateTimeImmutable;
 
         $formattedRaisedAt = $this->raisedAt->format(DateTimeImmutable::ATOM);
-        $message = "[{$formattedRaisedAt}] " . $message;
+        $message = "[{$formattedRaisedAt}] ".$message;
 
         $object = $response->json();
         if (isset($object->_links)) {

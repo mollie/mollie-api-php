@@ -7,7 +7,7 @@ interface Repository
     /**
      * Set the entire repository data
      *
-     * @param mixed $data Array for array repositories, mixed for payload repositories
+     * @param  mixed  $data  Array for array repositories, mixed for payload repositories
      * @return static
      */
     public function set($data);
@@ -15,8 +15,7 @@ interface Repository
     /**
      * Get a value by key
      *
-     * @param string $key
-     * @param mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function get(string $key, $default = null);
@@ -29,8 +28,7 @@ interface Repository
     /**
      * Add a value to the repository
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  mixed  $value
      * @return static
      */
     public function add(string $key, $value);
@@ -38,7 +36,6 @@ interface Repository
     /**
      * Merge data into the repository
      *
-     * @param array ...$data
      * @return static
      */
     public function merge(array ...$data);

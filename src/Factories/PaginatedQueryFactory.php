@@ -4,13 +4,13 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\PaginatedQuery;
 
-class PaginatedQueryFactory extends OldFactory
+class PaginatedQueryFactory extends RequestFactory
 {
     public function create(): PaginatedQuery
     {
         return new PaginatedQuery(
-            $this->get('from'),
-            $this->get('limit'),
+            $this->query('from'),
+            $this->query('limit'),
         );
     }
 }

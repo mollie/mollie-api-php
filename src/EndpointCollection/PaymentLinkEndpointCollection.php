@@ -2,17 +2,12 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreatePaymentLinkPayloadFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Factories\UpdatePaymentLinkPayloadFactory;
-use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
-use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
-use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreatePaymentLinkRequestFactory;
+use Mollie\Api\Factories\UpdatePaymentLinkRequestFactory;
 use Mollie\Api\Http\Requests\DeletePaymentLinkRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
 use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
-use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
@@ -23,18 +18,16 @@ class PaymentLinkEndpointCollection extends EndpointCollection
     /**
      * Creates a payment link in Mollie.
      *
-     * @param  array|CreatePaymentLinkPayload  $payload  An array containing details on the payment link.
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function create($payload = []): PaymentLink
+    public function create(array $payload = []): PaymentLink
     {
-        if (! $payload instanceof CreatePaymentLinkPayload) {
-            $payload = CreatePaymentLinkPayloadFactory::new($payload)->create();
-        }
+        $request = CreatePaymentLinkRequestFactory::new()
+            ->withPayload($payload)
+            ->create();
 
         /** @var PaymentLink */
-        return $this->send(new CreatePaymentLinkRequest($payload));
+        return $this->send($request);
     }
 
     /**
@@ -44,7 +37,7 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $paymentLinkId, $testmode = false): PaymentLink
     {
@@ -57,25 +50,22 @@ class PaymentLinkEndpointCollection extends EndpointCollection
     /**
      * Update a Payment Link.
      *
-     * @param  array|UpdatePaymentLinkPayload  $payload
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function update(string $paymentLinkId, $payload = [], bool $testmode = false): PaymentLink
+    public function update(string $paymentLinkId, array $payload = [], bool $testmode = false): PaymentLink
     {
-        if (! $payload instanceof UpdatePaymentLinkPayload) {
-            $payload = UpdatePaymentLinkPayloadFactory::new($payload)->create();
-        }
+        $request = UpdatePaymentLinkRequestFactory::new($paymentLinkId)
+            ->withPayload($payload)
+            ->create();
 
         /** @var PaymentLink */
-        return $this->send((new UpdatePaymentLinkRequest($paymentLinkId, $payload))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Delete a Payment Link.
      *
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function delete(string $paymentLinkId, bool $testmode = false): void
     {
@@ -88,19 +78,17 @@ class PaymentLinkEndpointCollection extends EndpointCollection
      * @param  string|null  $from  The first payment link ID you want to include in your list.
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, $testmode = false): PaymentLinkCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
-
         /** @var PaymentLinkCollection */
-        return $this->send((new GetPaginatedPaymentLinksRequest($query))->test($testmode));
+        return $this->send(
+            (new GetPaginatedPaymentLinksRequest($from, $limit))
+                ->test($testmode)
+        );
     }
 
     /**
@@ -116,13 +104,9 @@ class PaymentLinkEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
         return $this->send(
-            (new GetPaginatedPaymentLinksRequest($query))
+            (new GetPaginatedPaymentLinksRequest($from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

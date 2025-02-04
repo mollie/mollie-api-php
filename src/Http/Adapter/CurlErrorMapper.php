@@ -10,6 +10,7 @@ class CurlErrorMapper
 {
     /**
      * Maps CURL error codes to their root causes for better error messages.
+     *
      * @var array<int, string>
      */
     private const ERROR_CATEGORIES = [
@@ -40,6 +41,7 @@ class CurlErrorMapper
 
     /**
      * Errors that are likely temporary and should be retried.
+     *
      * @var array<int>
      */
     private const RETRYABLE_ERRORS = [

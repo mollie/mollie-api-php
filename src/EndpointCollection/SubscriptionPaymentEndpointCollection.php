@@ -2,8 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\PaginatedQueryFactory;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
@@ -19,7 +18,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
      * @param  int|null  $limit  The maximum amount of results you want to retrieve per page.
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageFor(Subscription $subscription, ?string $from = null, ?int $limit = null, $testmode = false): PaymentCollection
     {
@@ -33,7 +32,7 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
      * @param  int|null  $limit  The maximum amount of results you want to retrieve per page.
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageForIds(
         string $customerId,
@@ -43,12 +42,11 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
         $testmode = false
     ): PaymentCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
-        return $this->send((new GetPaginatedSubscriptionPaymentsRequest($customerId, $subscriptionId, $query))->test($testmode));
+        return $this->send(
+            (new GetPaginatedSubscriptionPaymentsRequest($customerId, $subscriptionId, $from, $limit))
+                ->test($testmode)
+        );
     }
 
     /**
@@ -80,13 +78,9 @@ class SubscriptionPaymentEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
         return $this->send(
-            (new GetPaginatedSubscriptionPaymentsRequest($customerId, $subscriptionId, $query))
+            (new GetPaginatedSubscriptionPaymentsRequest($customerId, $subscriptionId, $from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

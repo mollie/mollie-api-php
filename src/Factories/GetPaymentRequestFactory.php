@@ -5,18 +5,13 @@ namespace Mollie\Api\Factories;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Types\PaymentQuery;
 
-class GetPaymentRequestFactory extends Factory
+class GetPaymentRequestFactory extends RequestFactory
 {
     private string $id;
 
     public function __construct(string $id)
     {
         $this->id = $id;
-    }
-
-    public static function new(string $id): self
-    {
-        return new self($id);
     }
 
     public function create(): GetPaymentRequest

@@ -2,17 +2,13 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateProfilePayloadFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Factories\UpdateProfilePayloadFactory;
-use Mollie\Api\Http\Data\CreateProfilePayload;
-use Mollie\Api\Http\Data\UpdateProfilePayload;
-use Mollie\Api\Http\Requests\CreateProfileRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateProfileRequestFactory;
+use Mollie\Api\Factories\UpdateProfileRequestFactory;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
+use Mollie\Api\Http\Requests\GetCurrentProfileRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 use Mollie\Api\Http\Requests\GetProfileRequest;
-use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Profile;
@@ -24,19 +20,16 @@ class ProfileEndpointCollection extends EndpointCollection
     /**
      * Creates a Profile in Mollie.
      *
-     * @param  array|CreateProfilePayload  $payload  An array containing details on the profile.
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function create($payload = []): Profile
+    public function create(array $payload = []): Profile
     {
-        if (! $payload instanceof CreateProfilePayload) {
-            $payload = CreateProfilePayloadFactory::new($payload)
-                ->create();
-        }
+        $request = CreateProfileRequestFactory::new()
+            ->withPayload($payload)
+            ->create();
 
         /** @var Profile */
-        return $this->send(new CreateProfileRequest($payload));
+        return $this->send($request);
     }
 
     /**
@@ -47,7 +40,7 @@ class ProfileEndpointCollection extends EndpointCollection
      * @param  bool|array  $testmode
      * @return Profile|CurrentProfile
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $profileId, $testmode = false): Profile
     {
@@ -62,38 +55,29 @@ class ProfileEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function getCurrent($testmode = false): CurrentProfile
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var CurrentProfile */
-        return $this->send(
-            (new GetProfileRequest('me'))
-                ->setHydratableResource(CurrentProfile::class)
-                ->test($testmode)
-        );
+        return $this->send((new GetCurrentProfileRequest)->test($testmode));
     }
 
     /**
      * Update a specific Profile resource.
      *
-     * Will throw an ApiException if the profile id is invalid or the resource cannot be found.
-     *
-     * @param  array|UpdateProfilePayload  $payload
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function update(string $profileId, $payload = []): ?Profile
+    public function update(string $profileId, array $payload = []): ?Profile
     {
-        if (! $payload instanceof UpdateProfilePayload) {
-            $payload = UpdateProfilePayloadFactory::new($payload)
-                ->create();
-        }
+        $request = UpdateProfileRequestFactory::new($profileId)
+            ->withPayload($payload)
+            ->create();
 
         /** @var Profile|null */
-        return $this->send(new UpdateProfileRequest($profileId, $payload));
+        return $this->send($request);
     }
 
     /**
@@ -102,7 +86,7 @@ class ProfileEndpointCollection extends EndpointCollection
      * Will throw a ApiException if the profile id is invalid or the resource cannot be found.
      * Returns with HTTP status No Content (204) if successful.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function delete(string $profileId): void
     {
@@ -114,17 +98,12 @@ class ProfileEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first profile ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null): ProfileCollection
     {
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
-
         /** @var ProfileCollection */
-        return $this->send(new GetPaginatedProfilesRequest($query));
+        return $this->send(new GetPaginatedProfilesRequest($from, $limit));
     }
 
     /**
@@ -138,13 +117,8 @@ class ProfileEndpointCollection extends EndpointCollection
         ?int $limit = null,
         bool $iterateBackwards = false
     ): LazyCollection {
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
-
         return $this->send(
-            (new GetPaginatedProfilesRequest($query))
+            (new GetPaginatedProfilesRequest($from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

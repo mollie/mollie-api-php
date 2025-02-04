@@ -4,12 +4,12 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedPaymentChargebacksQuery;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaginatedPaymentChargebacksRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
+class GetPaginatedPaymentChargebacksRequest extends ResourceHydratableRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
@@ -25,11 +25,27 @@ class GetPaginatedPaymentChargebacksRequest extends PaginatedRequest implements 
 
     private string $paymentId;
 
-    public function __construct(string $paymentId, ?GetPaginatedPaymentChargebacksQuery $query = null)
-    {
-        parent::__construct($query);
+    private ?int $from;
 
+    private ?int $limit;
+
+    private bool $includePayment;
+
+    public function __construct(string $paymentId, ?int $from = null, ?int $limit = null, bool $includePayment = false)
+    {
         $this->paymentId = $paymentId;
+        $this->from = $from;
+        $this->limit = $limit;
+        $this->includePayment = $includePayment;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+            'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
+        ];
     }
 
     public function resolveResourcePath(): string

@@ -4,13 +4,16 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
+use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
-class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
+class GetPaginatedSettlementRefundsRequest extends ResourceHydratableRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
+
+    protected static string $method = Method::GET;
 
     /**
      * The resource class the request should be casted to.
@@ -19,11 +22,31 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
 
     private string $settlementId;
 
-    public function __construct(string $settlementId, ?GetPaginatedSettlementRefundsQuery $query = null)
-    {
-        $this->settlementId = $settlementId;
+    private ?string $from;
 
-        parent::__construct($query);
+    private ?int $limit;
+
+    private bool $includePayment;
+
+    public function __construct(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        bool $includePayment = false
+    ) {
+        $this->settlementId = $settlementId;
+        $this->from = $from;
+        $this->limit = $limit;
+        $this->includePayment = $includePayment;
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+            'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
+        ];
     }
 
     /**

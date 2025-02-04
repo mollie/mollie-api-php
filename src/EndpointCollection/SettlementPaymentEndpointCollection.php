@@ -2,9 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Http\Data\SortablePaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
@@ -16,11 +15,9 @@ class SettlementPaymentEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Payments from Mollie.
      *
-     * @param  array|SortablePaginatedQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageFor(Settlement $settlement, $query = [], bool $testmode = false): PaymentCollection
+    public function pageFor(Settlement $settlement, array $query = [], bool $testmode = false): PaymentCollection
     {
         return $this->pageForId($settlement->id, $query, $testmode);
     }
@@ -28,18 +25,22 @@ class SettlementPaymentEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Payments from Mollie.
      *
-     * @param  array|SortablePaginatedQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForId(string $settlementId, $query = [], bool $testmode = false): PaymentCollection
+    public function pageForId(string $settlementId, array $query = [], bool $testmode = false): PaymentCollection
     {
-        if (! $query instanceof SortablePaginatedQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = SortablePaginatedQueryFactory::new($query)->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+        $query = SortablePaginatedQueryFactory::new($query)->create();
 
-        return $this->send((new GetPaginatedSettlementPaymentsRequest($settlementId, $query))->test($testmode));
+        return $this->send(
+            (new GetPaginatedSettlementPaymentsRequest(
+                $settlementId,
+                $query->from,
+                $query->limit,
+                $query->sort
+            ))
+                ->test($testmode)
+        );
     }
 
     /**
@@ -70,7 +71,12 @@ class SettlementPaymentEndpointCollection extends EndpointCollection
         ])->create();
 
         return $this->send(
-            (new GetPaginatedSettlementPaymentsRequest($settlementId, $query))
+            (new GetPaginatedSettlementPaymentsRequest(
+                $settlementId,
+                $query->from,
+                $query->limit,
+                $query->sort
+            ))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)
