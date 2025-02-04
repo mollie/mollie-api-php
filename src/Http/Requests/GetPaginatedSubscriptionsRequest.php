@@ -6,13 +6,10 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\SubscriptionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
-use Mollie\Api\Types\Method;
 
-class GetPaginatedSubscriptionsRequest extends ResourceHydratableRequest implements IsIteratable, SupportsTestmodeInQuery
+class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
-
-    protected static string $method = Method::GET;
 
     /**
      * The resource class the request should be casted to.
@@ -21,23 +18,11 @@ class GetPaginatedSubscriptionsRequest extends ResourceHydratableRequest impleme
 
     private string $customerId;
 
-    private ?string $limit;
-
-    private ?string $from;
-
     public function __construct(string $customerId, ?string $limit = null, ?string $from = null)
     {
         $this->customerId = $customerId;
-        $this->limit = $limit;
-        $this->from = $from;
-    }
 
-    protected function defaultQuery(): array
-    {
-        return [
-            'limit' => $this->limit,
-            'from' => $this->from,
-        ];
+        parent::__construct($from, $limit);
     }
 
     /**

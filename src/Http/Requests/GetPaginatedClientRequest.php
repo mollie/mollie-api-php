@@ -6,27 +6,16 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\ClientCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\ClientQuery;
-use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Arr;
 
 class GetPaginatedClientRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;
 
-    protected static string $method = Method::GET;
-
     /**
      * The resource class the request should be casted to.
      */
     protected $hydratableResource = ClientCollection::class;
-
-    private ?string $from;
-
-    private ?int $limit;
-
-    private ?bool $embedOrganization;
-
-    private ?bool $embedOnboarding;
 
     public function __construct(
         ?string $from = null,
@@ -34,22 +23,13 @@ class GetPaginatedClientRequest extends PaginatedRequest implements IsIteratable
         ?bool $embedOrganization = null,
         ?bool $embedOnboarding = null
     ) {
-        $this->from = $from;
-        $this->limit = $limit;
-        $this->embedOrganization = $embedOrganization;
-        $this->embedOnboarding = $embedOnboarding;
-    }
+        parent::__construct($from, $limit);
 
-    protected function defaultQuery(): array
-    {
-        return [
-            'from' => $this->from,
-            'limit' => $this->limit,
-            'embed' => Arr::join([
-                $this->embedOrganization ? ClientQuery::EMBED_ORGANIZATION : null,
-                $this->embedOnboarding ? ClientQuery::EMBED_ONBOARDING : null,
-            ]),
-        ];
+        $this->query()
+            ->add('embed', Arr::join([
+                $embedOrganization ? ClientQuery::EMBED_ORGANIZATION : null,
+                $embedOnboarding ? ClientQuery::EMBED_ONBOARDING : null,
+            ]));
     }
 
     public function resolveResourcePath(): string
