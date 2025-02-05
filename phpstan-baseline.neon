@@ -279,7 +279,7 @@ parameters:
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
-			count: 4
+			count: 5
 			path: src/Http/Data/DataCollection.php
 
 		-
