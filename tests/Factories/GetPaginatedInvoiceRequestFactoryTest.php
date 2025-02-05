@@ -16,7 +16,7 @@ class GetPaginatedInvoiceRequestFactoryTest extends TestCase
                 'from' => 'inv_12345',
                 'limit' => 50,
                 'reference' => 'INV2024-001',
-                'year' => '2024'
+                'year' => '2024',
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedInvoiceRequestFactoryTest extends TestCase
         $request = GetPaginatedInvoiceRequestFactory::new()
             ->withQuery([
                 'limit' => 25,
-                'year' => '2024'
+                'year' => '2024',
             ])
             ->create();
 

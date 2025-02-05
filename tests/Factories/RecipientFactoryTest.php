@@ -27,7 +27,7 @@ class RecipientFactoryTest extends TestCase
             'vatNumber' => null,
             'phone' => '+31612345678',
             'streetAdditional' => 'Floor 3',
-            'region' => 'Noord-Holland'
+            'region' => 'Noord-Holland',
         ])->create();
 
         $this->assertInstanceOf(Recipient::class, $recipient);

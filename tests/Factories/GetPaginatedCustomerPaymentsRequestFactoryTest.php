@@ -18,7 +18,7 @@ class GetPaginatedCustomerPaymentsRequestFactoryTest extends TestCase
                 'from' => 'tr_12345',
                 'limit' => 50,
                 'sort' => 'created_at',
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
@@ -40,7 +40,7 @@ class GetPaginatedCustomerPaymentsRequestFactoryTest extends TestCase
         $request = GetPaginatedCustomerPaymentsRequestFactory::new(self::CUSTOMER_ID)
             ->withQuery([
                 'limit' => 25,
-                'sort' => 'created_at'
+                'sort' => 'created_at',
             ])
             ->create();
 

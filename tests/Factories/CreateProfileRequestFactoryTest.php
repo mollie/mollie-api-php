@@ -19,7 +19,7 @@ class CreateProfileRequestFactoryTest extends TestCase
                 'phone' => '+31612345678',
                 'description' => 'Online store selling premium products',
                 'countriesOfActivity' => ['NL', 'BE', 'DE'],
-                'businessCategory' => 'RETAIL'
+                'businessCategory' => 'RETAIL',
             ])
             ->create();
 
@@ -34,7 +34,7 @@ class CreateProfileRequestFactoryTest extends TestCase
                 'name' => 'My Webshop',
                 'website' => 'https://www.mywebshop.com',
                 'email' => 'info@mywebshop.com',
-                'phone' => '+31612345678'
+                'phone' => '+31612345678',
             ])
             ->create();
 
@@ -50,7 +50,7 @@ class CreateProfileRequestFactoryTest extends TestCase
                 'website' => 'https://www.mywebshop.com',
                 'email' => 'info@mywebshop.com',
                 'phone' => '+31612345678',
-                'description' => 'Online store selling premium products'
+                'description' => 'Online store selling premium products',
             ])
             ->create();
 

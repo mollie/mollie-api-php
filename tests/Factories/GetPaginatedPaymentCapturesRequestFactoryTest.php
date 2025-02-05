@@ -17,7 +17,7 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'cap_12345',
                 'limit' => 50,
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
     {
         $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)
             ->withQuery([
-                'limit' => 25
+                'limit' => 25,
             ])
             ->create();
 

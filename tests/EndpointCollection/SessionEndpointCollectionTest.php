@@ -4,7 +4,6 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;

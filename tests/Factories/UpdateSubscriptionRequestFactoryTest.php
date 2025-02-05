@@ -18,7 +18,7 @@ class UpdateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
+                    'value' => '29.95',
                 ],
                 'description' => 'Updated monthly subscription',
                 'interval' => '1 month',
@@ -26,10 +26,10 @@ class UpdateSubscriptionRequestFactoryTest extends TestCase
                 'times' => 12,
                 'metadata' => [
                     'subscription_id' => '12345',
-                    'plan' => 'premium'
+                    'plan' => 'premium',
                 ],
                 'webhookUrl' => 'https://example.com/webhook',
-                'mandateId' => 'mdt_12345'
+                'mandateId' => 'mdt_12345',
             ])
             ->create();
 
@@ -43,8 +43,8 @@ class UpdateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
-                ]
+                    'value' => '29.95',
+                ],
             ])
             ->create();
 
@@ -58,11 +58,11 @@ class UpdateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
+                    'value' => '29.95',
                 ],
                 'description' => 'Updated monthly subscription',
                 'interval' => '1 month',
-                'times' => 12
+                'times' => 12,
             ])
             ->create();
 

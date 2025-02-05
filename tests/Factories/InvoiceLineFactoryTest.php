@@ -17,12 +17,12 @@ class InvoiceLineFactoryTest extends TestCase
             'vatRate' => '21.00',
             'unitPrice' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
+                'value' => '10.00',
             ],
             'discount' => [
                 'type' => 'percentage',
-                'value' => '10'
-            ]
+                'value' => '10',
+            ],
         ])->create();
 
         $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);
@@ -37,8 +37,8 @@ class InvoiceLineFactoryTest extends TestCase
             'vatRate' => '21.00',
             'unitPrice' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
-            ]
+                'value' => '10.00',
+            ],
         ])->create();
 
         $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);

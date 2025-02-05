@@ -27,7 +27,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                     'postalCode' => '5678CD',
                     'city' => 'Rotterdam',
                     'country' => 'NL',
-                    'locale' => 'nl_NL'
+                    'locale' => 'nl_NL',
                 ],
                 'lines' => [
                     [
@@ -36,25 +36,25 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                         'vatRate' => '21.00',
                         'unitPrice' => [
                             'currency' => 'EUR',
-                            'value' => '100.00'
-                        ]
-                    ]
+                            'value' => '100.00',
+                        ],
+                    ],
                 ],
                 'profileId' => 'pfl_12345',
                 'memo' => 'Please pay within 30 days',
                 'paymentDetails' => [
                     'source' => 'NL55INGB0000000000',
-                    'sourceDescription' => 'ING Bank'
+                    'sourceDescription' => 'ING Bank',
                 ],
                 'emailDetails' => [
                     'subject' => 'Invoice from Example Company',
-                    'body' => 'Please find attached the invoice for your recent purchase.'
+                    'body' => 'Please find attached the invoice for your recent purchase.',
                 ],
                 'webhookUrl' => 'https://example.com/webhook',
                 'discount' => [
                     'type' => 'percentage',
-                    'value' => '10'
-                ]
+                    'value' => '10',
+                ],
             ])
             ->create();
 
@@ -79,7 +79,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                     'postalCode' => '5678CD',
                     'city' => 'Rotterdam',
                     'country' => 'NL',
-                    'locale' => 'nl_NL'
+                    'locale' => 'nl_NL',
                 ],
                 'lines' => [
                     [
@@ -88,10 +88,10 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                         'vatRate' => '21.00',
                         'unitPrice' => [
                             'currency' => 'EUR',
-                            'value' => '100.00'
-                        ]
-                    ]
-                ]
+                            'value' => '100.00',
+                        ],
+                    ],
+                ],
             ])
             ->create();
 
@@ -116,7 +116,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                     'postalCode' => '5678CD',
                     'city' => 'Rotterdam',
                     'country' => 'NL',
-                    'locale' => 'nl_NL'
+                    'locale' => 'nl_NL',
                 ],
                 'lines' => [
                     [
@@ -125,12 +125,12 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                         'vatRate' => '21.00',
                         'unitPrice' => [
                             'currency' => 'EUR',
-                            'value' => '100.00'
-                        ]
-                    ]
+                            'value' => '100.00',
+                        ],
+                    ],
                 ],
                 'memo' => 'Please pay within 30 days',
-                'webhookUrl' => 'https://example.com/webhook'
+                'webhookUrl' => 'https://example.com/webhook',
             ])
             ->create();
 

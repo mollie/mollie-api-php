@@ -18,7 +18,7 @@ class GetPaymentMethodRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'currency' => 'EUR',
                 'profileId' => 'pfl_12345',
-                'include' => ['issuers', 'pricing']
+                'include' => ['issuers', 'pricing'],
             ])
             ->create();
 
@@ -40,7 +40,7 @@ class GetPaymentMethodRequestFactoryTest extends TestCase
         $request = GetPaymentMethodRequestFactory::new(self::METHOD_ID)
             ->withQuery([
                 'locale' => 'nl_NL',
-                'currency' => 'EUR'
+                'currency' => 'EUR',
             ])
             ->create();
 

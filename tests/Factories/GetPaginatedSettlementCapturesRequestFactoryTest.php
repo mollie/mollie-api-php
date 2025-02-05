@@ -17,7 +17,7 @@ class GetPaginatedSettlementCapturesRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'cap_12345',
                 'limit' => 50,
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedSettlementCapturesRequestFactoryTest extends TestCase
     {
         $request = GetPaginatedSettlementCapturesRequestFactory::new(self::SETTLEMENT_ID)
             ->withQuery([
-                'limit' => 25
+                'limit' => 25,
             ])
             ->create();
 

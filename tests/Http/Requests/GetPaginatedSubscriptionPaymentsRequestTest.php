@@ -5,7 +5,6 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;

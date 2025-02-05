@@ -18,12 +18,12 @@ class CreatePaymentCaptureRequestFactoryTest extends TestCase
                 'description' => 'Capture for order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'metadata' => [
                     'order_id' => '12345',
-                    'description' => 'Manual capture for order'
-                ]
+                    'description' => 'Manual capture for order',
+                ],
             ])
             ->create();
 
@@ -38,8 +38,8 @@ class CreatePaymentCaptureRequestFactoryTest extends TestCase
                 'description' => 'Capture for order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
-                ]
+                    'value' => '100.00',
+                ],
             ])
             ->create();
 
@@ -54,8 +54,8 @@ class CreatePaymentCaptureRequestFactoryTest extends TestCase
                 'description' => 'Capture for order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
-                ]
+                    'value' => '100.00',
+                ],
             ])
             ->create();
 

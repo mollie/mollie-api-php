@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Requests\PaginatedRequest;
 use Mollie\Api\Resources\BaseCollection;
 use PHPUnit\Framework\TestCase;

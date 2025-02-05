@@ -2,12 +2,9 @@
 
 namespace Tests\EndpointCollection;
 
-use DateTimeImmutable;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DeletePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;

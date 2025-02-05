@@ -22,7 +22,7 @@ class UpdateProfileRequestFactoryTest extends TestCase
                 'description' => 'Online store selling premium products',
                 'countriesOfActivity' => ['NL', 'BE', 'DE'],
                 'businessCategory' => 'RETAIL',
-                'mode' => 'live'
+                'mode' => 'live',
             ])
             ->create();
 
@@ -34,7 +34,7 @@ class UpdateProfileRequestFactoryTest extends TestCase
     {
         $request = UpdateProfileRequestFactory::new(self::PROFILE_ID)
             ->withPayload([
-                'name' => 'My Updated Webshop'
+                'name' => 'My Updated Webshop',
             ])
             ->create();
 
@@ -50,7 +50,7 @@ class UpdateProfileRequestFactoryTest extends TestCase
                 'website' => 'https://www.mywebshop.com',
                 'email' => 'info@mywebshop.com',
                 'phone' => '+31612345678',
-                'description' => 'Online store selling premium products'
+                'description' => 'Online store selling premium products',
             ])
             ->create();
 

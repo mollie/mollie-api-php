@@ -16,7 +16,7 @@ class GetPaginatedRefundsRequestFactoryTest extends TestCase
                 'from' => 'ref_12345',
                 'limit' => 50,
                 'embed' => ['payment'],
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedRefundsRequestFactoryTest extends TestCase
         $request = GetPaginatedRefundsRequestFactory::new()
             ->withQuery([
                 'limit' => 25,
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 

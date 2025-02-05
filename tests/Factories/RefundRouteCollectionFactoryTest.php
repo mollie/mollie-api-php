@@ -16,21 +16,21 @@ class RefundRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'source' => [
-                    'organizationId' => 'org_123456'
-                ]
+                    'organizationId' => 'org_123456',
+                ],
             ],
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '20.00'
+                    'value' => '20.00',
                 ],
                 'source' => [
-                    'organizationId' => 'org_789012'
-                ]
-            ]
+                    'organizationId' => 'org_789012',
+                ],
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);
@@ -44,12 +44,12 @@ class RefundRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'source' => [
-                    'organizationId' => 'org_123456'
-                ]
-            ]
+                    'organizationId' => 'org_123456',
+                ],
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);
@@ -66,10 +66,10 @@ class RefundRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
-                ]
+                    'value' => '10.00',
+                ],
                 // missing source.organizationId
-            ]
+            ],
         ])->create();
     }
 }

@@ -4,7 +4,6 @@ namespace Tests\Utils;
 
 use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\PaymentRoute;

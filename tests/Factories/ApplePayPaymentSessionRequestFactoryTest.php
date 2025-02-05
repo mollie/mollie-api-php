@@ -15,7 +15,7 @@ class ApplePayPaymentSessionRequestFactoryTest extends TestCase
             ->withPayload([
                 'domain' => 'example.com',
                 'validationUrl' => 'https://example.com/validation',
-                'profileId' => '1234567890'
+                'profileId' => '1234567890',
             ])
             ->create();
 

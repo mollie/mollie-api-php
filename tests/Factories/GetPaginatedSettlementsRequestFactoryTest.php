@@ -15,7 +15,7 @@ class GetPaginatedSettlementsRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'stl_12345',
                 'limit' => 50,
-                'balanceId' => 'bal_12345'
+                'balanceId' => 'bal_12345',
             ])
             ->create();
 
@@ -37,7 +37,7 @@ class GetPaginatedSettlementsRequestFactoryTest extends TestCase
         $request = GetPaginatedSettlementsRequestFactory::new()
             ->withQuery([
                 'limit' => 25,
-                'balanceId' => 'bal_12345'
+                'balanceId' => 'bal_12345',
             ])
             ->create();
 

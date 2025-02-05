@@ -15,7 +15,7 @@ class GetPaginatedClientRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'org_12345',
                 'limit' => 50,
-                'embed' => ['organization', 'onboarding']
+                'embed' => ['organization', 'onboarding'],
             ])
             ->create();
 
@@ -37,7 +37,7 @@ class GetPaginatedClientRequestFactoryTest extends TestCase
         $request = GetPaginatedClientRequestFactory::new()
             ->withQuery([
                 'limit' => 25,
-                'embed' => ['organization']
+                'embed' => ['organization'],
             ])
             ->create();
 

@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\UpdateCustomerPayload;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use PHPUnit\Framework\TestCase;

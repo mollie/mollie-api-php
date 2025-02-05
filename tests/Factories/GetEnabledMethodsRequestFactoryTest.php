@@ -18,13 +18,13 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'billingCountry' => 'NL',
                 'includeWallets' => ['applepay'],
                 'orderLineCategories' => ['digital-goods', 'physical-goods'],
                 'profileId' => 'pfl_12345',
-                'include' => ['issuers', 'pricing']
+                'include' => ['issuers', 'pricing'],
             ])
             ->create();
 
@@ -48,9 +48,9 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
-                'billingCountry' => 'NL'
+                'billingCountry' => 'NL',
             ])
             ->create();
 

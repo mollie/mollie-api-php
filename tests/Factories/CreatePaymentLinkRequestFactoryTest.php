@@ -16,14 +16,14 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
                 'description' => 'Order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'redirectUrl' => 'https://example.com/redirect',
                 'webhookUrl' => 'https://example.com/webhook',
                 'profileId' => 'pfl_12345',
                 'reusable' => true,
                 'expiresAt' => '2024-12-31',
-                'allowedMethods' => ['ideal', 'creditcard']
+                'allowedMethods' => ['ideal', 'creditcard'],
             ])
             ->create();
 
@@ -38,9 +38,9 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
                 'description' => 'Order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
-                'redirectUrl' => 'https://example.com/redirect'
+                'redirectUrl' => 'https://example.com/redirect',
             ])
             ->create();
 
@@ -55,11 +55,11 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
                 'description' => 'Order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'redirectUrl' => 'https://example.com/redirect',
                 'webhookUrl' => 'https://example.com/webhook',
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 

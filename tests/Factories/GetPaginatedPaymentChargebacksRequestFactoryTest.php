@@ -17,7 +17,7 @@ class GetPaginatedPaymentChargebacksRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'chb_12345',
                 'limit' => 50,
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedPaymentChargebacksRequestFactoryTest extends TestCase
     {
         $request = GetPaginatedPaymentChargebacksRequestFactory::new(self::PAYMENT_ID)
             ->withQuery([
-                'limit' => 25
+                'limit' => 25,
             ])
             ->create();
 

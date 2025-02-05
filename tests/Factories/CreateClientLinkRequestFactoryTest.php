@@ -17,17 +17,17 @@ class CreateClientLinkRequestFactoryTest extends TestCase
                     'givenName' => 'John',
                     'familyName' => 'Doe',
                     'email' => 'john@example.com',
-                    'locale' => 'nl_NL'
+                    'locale' => 'nl_NL',
                 ],
                 'name' => 'Example Company',
                 'address' => [
                     'streetAndNumber' => 'Main Street 1',
                     'postalCode' => '1234AB',
                     'city' => 'Amsterdam',
-                    'country' => 'NL'
+                    'country' => 'NL',
                 ],
                 'registrationNumber' => '12345678',
-                'vatNumber' => 'NL123456789B01'
+                'vatNumber' => 'NL123456789B01',
             ])
             ->create();
 
@@ -42,15 +42,15 @@ class CreateClientLinkRequestFactoryTest extends TestCase
                 'owner' => [
                     'givenName' => 'John',
                     'familyName' => 'Doe',
-                    'email' => 'john@example.com'
+                    'email' => 'john@example.com',
                 ],
                 'name' => 'Example Company',
                 'address' => [
                     'streetAndNumber' => 'Main Street 1',
                     'postalCode' => '1234AB',
                     'city' => 'Amsterdam',
-                    'country' => 'NL'
-                ]
+                    'country' => 'NL',
+                ],
             ])
             ->create();
 

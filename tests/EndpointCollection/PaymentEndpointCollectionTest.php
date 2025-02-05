@@ -4,10 +4,7 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-use Mollie\Api\Http\Data\CreateRefundPaymentPayload;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;

@@ -21,14 +21,14 @@ class UpdatePaymentRequestFactoryTest extends TestCase
                 'webhookUrl' => 'https://example.com/webhook',
                 'metadata' => [
                     'order_id' => '12345',
-                    'customer_id' => '67890'
+                    'customer_id' => '67890',
                 ],
                 'method' => 'ideal',
                 'locale' => 'nl_NL',
                 'restrictPaymentMethodsToCountry' => 'NL',
                 'additional' => [
-                    'customField' => 'customValue'
-                ]
+                    'customField' => 'customValue',
+                ],
             ])
             ->create();
 
@@ -40,7 +40,7 @@ class UpdatePaymentRequestFactoryTest extends TestCase
     {
         $request = UpdatePaymentRequestFactory::new(self::PAYMENT_ID)
             ->withPayload([
-                'description' => 'Updated payment description'
+                'description' => 'Updated payment description',
             ])
             ->create();
 
@@ -54,9 +54,9 @@ class UpdatePaymentRequestFactoryTest extends TestCase
             ->withPayload([
                 'description' => 'Updated payment description',
                 'metadata' => [
-                    'order_id' => '12345'
+                    'order_id' => '12345',
                 ],
-                'invalidField' => 'This should be filtered out'
+                'invalidField' => 'This should be filtered out',
             ])
             ->create();
 

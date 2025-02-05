@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use PHPUnit\Framework\TestCase;

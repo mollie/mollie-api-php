@@ -17,7 +17,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
             ->withPayload([
                 'description' => 'Updated payment link description',
                 'archived' => true,
-                'allowedMethods' => ['ideal', 'creditcard']
+                'allowedMethods' => ['ideal', 'creditcard'],
             ])
             ->create();
 
@@ -29,7 +29,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
             ->withPayload([
-                'description' => 'Updated payment link description'
+                'description' => 'Updated payment link description',
             ])
             ->create();
 
@@ -42,7 +42,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
             ->withPayload([
                 'description' => 'Updated payment link description',
-                'archived' => true
+                'archived' => true,
             ])
             ->create();
 

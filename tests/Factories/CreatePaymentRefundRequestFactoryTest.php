@@ -18,24 +18,24 @@ class CreatePaymentRefundRequestFactoryTest extends TestCase
                 'description' => 'Order refund',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'metadata' => [
                     'order_id' => '12345',
-                    'reason' => 'customer_request'
+                    'reason' => 'customer_request',
                 ],
                 'reverseRouting' => true,
                 'routingReversals' => [
                     [
                         'amount' => [
                             'currency' => 'EUR',
-                            'value' => '50.00'
+                            'value' => '50.00',
                         ],
                         'source' => [
-                            'organizationId' => 'org_12345'
-                        ]
-                    ]
-                ]
+                            'organizationId' => 'org_12345',
+                        ],
+                    ],
+                ],
             ])
             ->create();
 
@@ -50,12 +50,12 @@ class CreatePaymentRefundRequestFactoryTest extends TestCase
                 'description' => 'Refund for order #12345',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
+                    'value' => '100.00',
                 ],
                 'metadata' => [
                     'order_id' => '12345',
-                    'reason' => 'customer_request'
-                ]
+                    'reason' => 'customer_request',
+                ],
             ])
             ->create();
 

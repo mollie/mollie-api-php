@@ -20,8 +20,8 @@ class UpdateCustomerRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'metadata' => [
                     'order_id' => '12345',
-                    'customer_type' => 'premium'
-                ]
+                    'customer_type' => 'premium',
+                ],
             ])
             ->create();
 
@@ -33,7 +33,7 @@ class UpdateCustomerRequestFactoryTest extends TestCase
     {
         $request = UpdateCustomerRequestFactory::new(self::CUSTOMER_ID)
             ->withPayload([
-                'name' => 'John Doe'
+                'name' => 'John Doe',
             ])
             ->create();
 
@@ -47,7 +47,7 @@ class UpdateCustomerRequestFactoryTest extends TestCase
             ->withPayload([
                 'name' => 'John Doe',
                 'email' => 'john@example.com',
-                'locale' => 'nl_NL'
+                'locale' => 'nl_NL',
             ])
             ->create();
 

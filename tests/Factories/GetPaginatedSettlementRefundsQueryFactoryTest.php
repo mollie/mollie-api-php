@@ -17,7 +17,7 @@ class GetPaginatedSettlementRefundsQueryFactoryTest extends TestCase
             ->withQuery([
                 'from' => 'ref_12345',
                 'limit' => 50,
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaginatedSettlementRefundsQueryFactoryTest extends TestCase
     {
         $request = GetPaginatedSettlementRefundsQueryFactory::new(self::SETTLEMENT_ID)
             ->withQuery([
-                'limit' => 25
+                'limit' => 25,
             ])
             ->create();
 

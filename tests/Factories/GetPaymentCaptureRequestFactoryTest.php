@@ -16,7 +16,7 @@ class GetPaymentCaptureRequestFactoryTest extends TestCase
     {
         $request = GetPaymentCaptureRequestFactory::new(self::PAYMENT_ID, self::CAPTURE_ID)
             ->withQuery([
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 

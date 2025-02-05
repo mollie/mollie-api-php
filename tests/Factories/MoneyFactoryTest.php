@@ -13,7 +13,7 @@ class MoneyFactoryTest extends TestCase
     {
         $money = MoneyFactory::new([
             'currency' => 'EUR',
-            'value' => '10.00'
+            'value' => '10.00',
         ])->create();
 
         $this->assertInstanceOf(Money::class, $money);

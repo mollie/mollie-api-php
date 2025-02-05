@@ -94,7 +94,7 @@ class Utility
          * If the third argument is a string and the class does not exist,
          * it is assumed that the third argument is the default value.
          */
-        if (func_num_args() === 3 && is_string($composableClass) && !class_exists($composableClass)) {
+        if (func_num_args() === 3 && is_string($composableClass) && ! class_exists($composableClass)) {
             $default = $composableClass;
             $composableClass = null;
         }

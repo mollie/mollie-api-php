@@ -16,10 +16,10 @@ class RecurringBillingCycleFactoryTest extends TestCase
             'descriptipn' => 'Monthly subscription',
             'amount' => [
                 'currency' => 'EUR',
-                'value' => '29.99'
+                'value' => '29.99',
             ],
             'times' => 12,
-            'startDate' => '2024-03-01'
+            'startDate' => '2024-03-01',
         ])->create();
 
         $this->assertInstanceOf(RecurringBillingCycle::class, $cycle);
@@ -30,7 +30,7 @@ class RecurringBillingCycleFactoryTest extends TestCase
     {
         $cycle = RecurringBillingCycleFactory::new([
             'interval' => '1 month',
-            'descriptipn' => 'Monthly subscription'
+            'descriptipn' => 'Monthly subscription',
         ])->create();
 
         $this->assertInstanceOf(RecurringBillingCycle::class, $cycle);

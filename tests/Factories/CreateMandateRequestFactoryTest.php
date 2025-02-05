@@ -22,7 +22,7 @@ class CreateMandateRequestFactoryTest extends TestCase
                 'consumerEmail' => 'john@example.com',
                 'signatureDate' => '2024-01-01',
                 'mandateReference' => 'MANDATE-12345',
-                'paypalBillingAgreementId' => null
+                'paypalBillingAgreementId' => null,
             ])
             ->create();
 
@@ -35,7 +35,7 @@ class CreateMandateRequestFactoryTest extends TestCase
         $request = CreateMandateRequestFactory::new(self::CUSTOMER_ID)
             ->withPayload([
                 'method' => 'directdebit',
-                'consumerName' => 'John Doe'
+                'consumerName' => 'John Doe',
             ])
             ->create();
 
@@ -50,7 +50,7 @@ class CreateMandateRequestFactoryTest extends TestCase
                 'method' => 'directdebit',
                 'consumerName' => 'John Doe',
                 'consumerAccount' => 'NL55INGB0000000000',
-                'consumerBic' => 'INGBNL2A'
+                'consumerBic' => 'INGBNL2A',
             ])
             ->create();
 
@@ -75,7 +75,7 @@ class CreateMandateRequestFactoryTest extends TestCase
 
         CreateMandateRequestFactory::new(self::CUSTOMER_ID)
             ->withPayload([
-                'consumerName' => 'John Doe'
+                'consumerName' => 'John Doe',
             ])
             ->create();
     }
@@ -88,7 +88,7 @@ class CreateMandateRequestFactoryTest extends TestCase
 
         CreateMandateRequestFactory::new(self::CUSTOMER_ID)
             ->withPayload([
-                'method' => 'directdebit'
+                'method' => 'directdebit',
             ])
             ->create();
     }

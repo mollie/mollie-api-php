@@ -18,12 +18,12 @@ class InvoiceLineCollectionFactoryTest extends TestCase
                 'vatRate' => '21.00',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'discount' => [
                     'type' => 'percentage',
-                    'value' => '10'
-                ]
+                    'value' => '10',
+                ],
             ],
             [
                 'description' => 'Second Invoice Line',
@@ -31,9 +31,9 @@ class InvoiceLineCollectionFactoryTest extends TestCase
                 'vatRate' => '21.00',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '15.00'
-                ]
-            ]
+                    'value' => '15.00',
+                ],
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);

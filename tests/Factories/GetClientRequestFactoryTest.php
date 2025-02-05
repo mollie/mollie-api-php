@@ -15,7 +15,7 @@ class GetClientRequestFactoryTest extends TestCase
     {
         $request = GetClientRequestFactory::new(self::CLIENT_ID)
             ->withQuery([
-                'embed' => ['organization', 'onboarding']
+                'embed' => ['organization', 'onboarding'],
             ])
             ->create();
 
@@ -36,7 +36,7 @@ class GetClientRequestFactoryTest extends TestCase
     {
         $request = GetClientRequestFactory::new(self::CLIENT_ID)
             ->withQuery([
-                'embed' => ['organization']
+                'embed' => ['organization'],
             ])
             ->create();
 

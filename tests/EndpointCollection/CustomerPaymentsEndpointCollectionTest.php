@@ -4,7 +4,6 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;

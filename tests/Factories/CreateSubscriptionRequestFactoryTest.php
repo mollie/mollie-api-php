@@ -17,7 +17,7 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
+                    'value' => '29.95',
                 ],
                 'interval' => '1 month',
                 'description' => 'Monthly subscription',
@@ -28,17 +28,17 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
                 'applicationFee' => [
                     'amount' => [
                         'currency' => 'EUR',
-                        'value' => '1.00'
+                        'value' => '1.00',
                     ],
-                    'description' => 'Application fee'
+                    'description' => 'Application fee',
                 ],
                 'metadata' => [
                     'subscription_id' => '12345',
-                    'plan' => 'premium'
+                    'plan' => 'premium',
                 ],
                 'webhookUrl' => 'https://example.com/webhook',
                 'mandateId' => 'mdt_12345',
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
@@ -52,10 +52,10 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
+                    'value' => '29.95',
                 ],
                 'interval' => '1 month',
-                'description' => 'Monthly subscription'
+                'description' => 'Monthly subscription',
             ])
             ->create();
 
@@ -69,13 +69,13 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
             ->withPayload([
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '29.95'
+                    'value' => '29.95',
                 ],
                 'interval' => '1 month',
                 'description' => 'Monthly subscription',
                 'status' => 'active',
                 'times' => 12,
-                'startDate' => '2024-01-01'
+                'startDate' => '2024-01-01',
             ])
             ->create();
 

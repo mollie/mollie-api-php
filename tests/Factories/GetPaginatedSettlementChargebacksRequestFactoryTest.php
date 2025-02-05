@@ -18,7 +18,7 @@ class GetPaginatedSettlementChargebacksRequestFactoryTest extends TestCase
                 'from' => 'chb_12345',
                 'limit' => 50,
                 'include' => ['payment'],
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
@@ -40,7 +40,7 @@ class GetPaginatedSettlementChargebacksRequestFactoryTest extends TestCase
         $request = GetPaginatedSettlementChargebacksRequestFactory::new(self::SETTLEMENT_ID)
             ->withQuery([
                 'limit' => 25,
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 

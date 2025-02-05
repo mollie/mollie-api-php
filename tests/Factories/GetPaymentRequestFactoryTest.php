@@ -16,7 +16,7 @@ class GetPaymentRequestFactoryTest extends TestCase
         $request = GetPaymentRequestFactory::new(self::PAYMENT_ID)
             ->withQuery([
                 'embed' => ['captures', 'refunds', 'chargebacks'],
-                'include' => ['qrCode', 'remainderDetails']
+                'include' => ['qrCode', 'remainderDetails'],
             ])
             ->create();
 
@@ -38,7 +38,7 @@ class GetPaymentRequestFactoryTest extends TestCase
         $request = GetPaymentRequestFactory::new(self::PAYMENT_ID)
             ->withQuery([
                 'embed' => ['captures'],
-                'include' => ['qrCode']
+                'include' => ['qrCode'],
             ])
             ->create();
 

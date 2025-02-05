@@ -12,8 +12,7 @@ class DynamicRequestTest extends TestCase
     /** @test */
     public function it_accepts_valid_resource_class()
     {
-        $request = new class('some-url') extends DynamicRequest
-        {
+        $request = new class('some-url') extends DynamicRequest {
             protected static string $method = Method::GET;
         };
 
@@ -26,8 +25,7 @@ class DynamicRequestTest extends TestCase
     public function it_resolves_correct_resource_path()
     {
         $url = 'https://example.org';
-        $request = new class($url) extends DynamicRequest
-        {
+        $request = new class($url) extends DynamicRequest {
             protected static string $method = Method::GET;
         };
 

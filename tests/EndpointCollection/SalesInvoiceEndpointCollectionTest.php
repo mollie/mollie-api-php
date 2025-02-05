@@ -4,12 +4,10 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateSalesInvoicePayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\InvoiceLine;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\Recipient;
-use Mollie\Api\Http\Data\UpdateSalesInvoicePayload;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
 use Mollie\Api\Http\Requests\DeleteSalesInvoiceRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;

@@ -15,7 +15,7 @@ class GetAllPaginatedSubscriptionsRequestFactoryTest extends TestCase
             ->withQuery([
                 'limit' => 50,
                 'from' => 'sub_12345',
-                'profileId' => 'pfl_12345'
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
@@ -37,7 +37,7 @@ class GetAllPaginatedSubscriptionsRequestFactoryTest extends TestCase
         $request = GetAllPaginatedSubscriptionsRequestFactory::new()
             ->withQuery([
                 'limit' => 25,
-                'from' => 'sub_12345'
+                'from' => 'sub_12345',
             ])
             ->create();
 

@@ -18,8 +18,8 @@ class CreateCustomerRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'metadata' => [
                     'order_id' => '12345',
-                    'customer_type' => 'premium'
-                ]
+                    'customer_type' => 'premium',
+                ],
             ])
             ->create();
 
@@ -32,7 +32,7 @@ class CreateCustomerRequestFactoryTest extends TestCase
         $request = CreateCustomerRequestFactory::new()
             ->withPayload([
                 'name' => 'John Doe',
-                'email' => 'john@example.com'
+                'email' => 'john@example.com',
             ])
             ->create();
 
@@ -46,7 +46,7 @@ class CreateCustomerRequestFactoryTest extends TestCase
             ->withPayload([
                 'name' => 'John Doe',
                 'email' => 'john@example.com',
-                'locale' => 'nl_NL'
+                'locale' => 'nl_NL',
             ])
             ->create();
 

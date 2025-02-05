@@ -16,23 +16,23 @@ class PaymentRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'destination' => [
-                    'organizationId' => 'org_123456'
+                    'organizationId' => 'org_123456',
                 ],
-                'delayUntil' => '2024-12-31'
+                'delayUntil' => '2024-12-31',
             ],
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '20.00'
+                    'value' => '20.00',
                 ],
                 'destination' => [
-                    'organizationId' => 'org_789012'
+                    'organizationId' => 'org_789012',
                 ],
-                'delayUntil' => '2025-01-15'
-            ]
+                'delayUntil' => '2025-01-15',
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);
@@ -46,12 +46,12 @@ class PaymentRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'destination' => [
-                    'organizationId' => 'org_123456'
-                ]
-            ]
+                    'organizationId' => 'org_123456',
+                ],
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);
@@ -68,10 +68,10 @@ class PaymentRouteCollectionFactoryTest extends TestCase
             [
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
-                ]
+                    'value' => '10.00',
+                ],
                 // missing destination.organizationId
-            ]
+            ],
         ])->create();
     }
 }

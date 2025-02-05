@@ -17,7 +17,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
             ->withQuery([
                 'from' => '2024-01-01',
                 'until' => '2024-03-31',
-                'grouping' => 'transaction-categories'
+                'grouping' => 'transaction-categories',
             ])
             ->create();
 
@@ -30,7 +30,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
         $request = GetBalanceReportRequestFactory::new(self::BALANCE_ID)
             ->withQuery([
                 'from' => '2024-01-01',
-                'until' => '2024-03-31'
+                'until' => '2024-03-31',
             ])
             ->create();
 
@@ -55,7 +55,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
 
         GetBalanceReportRequestFactory::new(self::BALANCE_ID)
             ->withQuery([
-                'until' => '2024-03-31'
+                'until' => '2024-03-31',
             ])
             ->create();
     }
@@ -68,7 +68,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
 
         GetBalanceReportRequestFactory::new(self::BALANCE_ID)
             ->withQuery([
-                'from' => '2024-01-01'
+                'from' => '2024-01-01',
             ])
             ->create();
     }

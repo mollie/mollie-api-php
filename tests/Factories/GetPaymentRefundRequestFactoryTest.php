@@ -16,7 +16,7 @@ class GetPaymentRefundRequestFactoryTest extends TestCase
     {
         $request = GetPaymentRefundRequestFactory::new(self::PAYMENT_ID, self::REFUND_ID)
             ->withQuery([
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 

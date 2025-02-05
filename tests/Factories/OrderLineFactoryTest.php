@@ -16,30 +16,30 @@ class OrderLineFactoryTest extends TestCase
             'quantity' => 2,
             'unitPrice' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
+                'value' => '10.00',
             ],
             'totalAmount' => [
                 'currency' => 'EUR',
-                'value' => '20.00'
+                'value' => '20.00',
             ],
             'type' => 'physical',
             'quantityUnit' => 'pcs',
             'discountAmount' => [
                 'currency' => 'EUR',
-                'value' => '5.00'
+                'value' => '5.00',
             ],
             'recurring' => [
                 'times' => 12,
-                'interval' => '1 month'
+                'interval' => '1 month',
             ],
             'vatRate' => '21.00',
             'vatAmount' => [
                 'currency' => 'EUR',
-                'value' => '4.20'
+                'value' => '4.20',
             ],
             'sku' => 'PROD-123',
             'imageUrl' => 'https://example.com/image.jpg',
-            'productUrl' => 'https://example.com/product'
+            'productUrl' => 'https://example.com/product',
         ])->create();
 
         $this->assertInstanceOf(OrderLine::class, $orderLine);
@@ -53,14 +53,14 @@ class OrderLineFactoryTest extends TestCase
             'quantity' => 1,
             'unitPrice' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
+                'value' => '10.00',
             ],
             'totalAmount' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
+                'value' => '10.00',
             ],
             'type' => 'digital',
-            'vatRate' => '21.00'
+            'vatRate' => '21.00',
         ])->create();
 
         $this->assertInstanceOf(OrderLine::class, $orderLine);

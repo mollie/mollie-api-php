@@ -17,8 +17,8 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
                 'locale' => 'nl_NL',
                 'amount' => [
                     'currency' => 'EUR',
-                    'value' => '100.00'
-                ]
+                    'value' => '100.00',
+                ],
             ])
             ->create();
 
@@ -40,7 +40,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
         $request = GetAllPaymentMethodsRequestFactory::new()
             ->withQuery([
                 'include' => ['issuers'],
-                'locale' => 'nl_NL'
+                'locale' => 'nl_NL',
             ])
             ->create();
 

@@ -16,7 +16,7 @@ class UpdatePaymentRouteRequestFactoryTest extends TestCase
     {
         $request = UpdatePaymentRouteRequestFactory::new(self::PAYMENT_ID, self::ROUTE_ID)
             ->withPayload([
-                'releaseDate' => '2024-01-01'
+                'releaseDate' => '2024-01-01',
             ])
             ->create();
 

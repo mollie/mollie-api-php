@@ -18,13 +18,13 @@ class OrderLineCollectionFactoryTest extends TestCase
                 'vatRate' => '21.00',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '10.00'
+                    'value' => '10.00',
                 ],
                 'totalAmount' => [
                     'currency' => 'EUR',
-                    'value' => '20.00'
+                    'value' => '20.00',
                 ],
-                'type' => 'physical'
+                'type' => 'physical',
             ],
             [
                 'description' => 'Second Product',
@@ -32,14 +32,14 @@ class OrderLineCollectionFactoryTest extends TestCase
                 'vatRate' => '21.00',
                 'unitPrice' => [
                     'currency' => 'EUR',
-                    'value' => '15.00'
+                    'value' => '15.00',
                 ],
                 'totalAmount' => [
                     'currency' => 'EUR',
-                    'value' => '15.00'
+                    'value' => '15.00',
                 ],
-                'type' => 'digital'
-            ]
+                'type' => 'digital',
+            ],
         ])->create();
 
         $this->assertInstanceOf(DataCollection::class, $collection);

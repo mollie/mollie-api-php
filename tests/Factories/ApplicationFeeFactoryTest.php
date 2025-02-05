@@ -14,9 +14,9 @@ class ApplicationFeeFactoryTest extends TestCase
         $fee = ApplicationFeeFactory::new([
             'amount' => [
                 'currency' => 'EUR',
-                'value' => '10.00'
+                'value' => '10.00',
             ],
-            'description' => 'Test application fee'
+            'description' => 'Test application fee',
         ])->create();
 
         $this->assertInstanceOf(ApplicationFee::class, $fee);

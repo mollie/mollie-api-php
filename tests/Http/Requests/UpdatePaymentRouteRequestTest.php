@@ -5,7 +5,6 @@ namespace Tests\Http\Requests;
 use DateTime;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\UpdatePaymentRoutePayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
 use PHPUnit\Framework\TestCase;

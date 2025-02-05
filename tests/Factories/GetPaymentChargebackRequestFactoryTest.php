@@ -16,7 +16,7 @@ class GetPaymentChargebackRequestFactoryTest extends TestCase
     {
         $request = GetPaymentChargebackRequestFactory::new(self::PAYMENT_ID, self::CHARGEBACK_ID)
             ->withQuery([
-                'include' => ['payment']
+                'include' => ['payment'],
             ])
             ->create();
 
