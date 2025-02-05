@@ -3,7 +3,6 @@
 /*
  * How to create a new client link in the Mollie API.
  */
-use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;

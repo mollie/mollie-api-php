@@ -5,7 +5,6 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Metadata;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Traits\HasMode;
