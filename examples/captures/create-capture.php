@@ -4,7 +4,6 @@
  * How to prepare a new payment with the Mollie API.
  */
 
-use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
 
@@ -22,10 +21,11 @@ try {
      *   description   Description of the capture.
      *   metadata      Custom metadata that is stored with the payment.
      */
-    $response = $mollie->send(new CreatePaymentCaptureRequest('tr_WDqYK6vllg', new CreatePaymentCapturePayload(
+    $response = $mollie->send(new CreatePaymentCaptureRequest(
+        'tr_WDqYK6vllg',
         'Order #12345',
         new Money('EUR', '5.00')
-    )));
+    ));
 
     $capture = $response->toResource();
 

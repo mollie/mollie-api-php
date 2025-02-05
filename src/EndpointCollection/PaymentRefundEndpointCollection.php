@@ -35,7 +35,7 @@ class PaymentRefundEndpointCollection extends EndpointCollection
      */
     public function createForId(string $paymentId, array $payload = [], $testmode = false): Refund
     {
-        $testmode = Utility::extractBool($payload, 'testmode', false) ??
+        $testmode = Utility::extractBool($payload, 'testmode', false) ?:
             Utility::extractBool($testmode, 'testmode', false);
 
         $request = CreatePaymentRefundRequestFactory::new($paymentId)

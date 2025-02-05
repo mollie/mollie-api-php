@@ -708,14 +708,15 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update(): ?Payment
+    public function update(): Payment
     {
         $additional = [];
         if ($this->method === PaymentMethod::BANKTRANSFER) {
             $additional['dueDate'] = $this->dueDate;
         }
 
-        $payload = new UpdatePaymentPayload(
+        $updateRequest = (new UpdatePaymentRequest(
+            $this->id,
             $this->description,
             $this->redirectUrl,
             $this->cancelUrl,
@@ -725,11 +726,12 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
             $this->locale,
             $this->restrictPaymentMethodsToCountry,
             $additional
-        );
+        ))->test($this->isInTestmode());
 
+        /** @var null|Payment */
         return $this
             ->connector
-            ->send((new UpdatePaymentRequest($this->id, $payload))->test($this->isInTestmode()));
+            ->send($updateRequest);
     }
 
     /**

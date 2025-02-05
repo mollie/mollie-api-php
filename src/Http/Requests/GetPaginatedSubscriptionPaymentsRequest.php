@@ -20,7 +20,7 @@ class GetPaginatedSubscriptionPaymentsRequest extends PaginatedRequest implement
 
     private string $subscriptionId;
 
-    public function __construct(string $customerId, string $subscriptionId, ?string $from = null, ?string $limit = null)
+    public function __construct(string $customerId, string $subscriptionId, ?string $from = null, ?int $limit = null)
     {
         $this->customerId = $customerId;
         $this->subscriptionId = $subscriptionId;

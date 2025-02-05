@@ -17,7 +17,9 @@ class UpdateSessionRequestTest extends TestCase
             UpdateSessionRequest::class => MockResponse::ok('session'),
         ]);
 
-        $request = new UpdateSessionRequest('ses_LQNz4v4Qvk', [
+        $request = new UpdateSessionRequest('ses_LQNz4v4Qvk');
+
+        $request->payload()->set([
             'status' => 'completed',
             'metadata' => [
                 'order_id' => '12345',
@@ -36,8 +38,7 @@ class UpdateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $sessionId = 'ses_LQNz4v4Qvk';
-        $request = new UpdateSessionRequest($sessionId, []);
+        $request = new UpdateSessionRequest($sessionId = 'ses_LQNz4v4Qvk');
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

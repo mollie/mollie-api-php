@@ -19,7 +19,10 @@ abstract class Factory
         }
     }
 
-    public static function new(...$args): self
+    /**
+     * @return static
+     */
+    public static function new(...$args)
     {
         return new static(...$args);
     }
@@ -37,7 +40,7 @@ abstract class Factory
         $keys = (array) $key;
 
         if (empty($keys)) {
-            return $data ?? $default;
+            return empty($data) ? $default : $data;
         }
 
         if ($backupKey !== null) {
@@ -71,8 +74,8 @@ abstract class Factory
      * Map a value to a new form if it is not null.
      *
      * @param  string|array<string>  $key  The key to retrieve the value from the data array.
-     * @param  callable|string  $composable  A callable function to transform the value, or the name of a class to instantiate.
-     * @param  string  $backupKey  The key to retrieve the value from the data array if the first key is null.
+     * @param  callable|string  $resolver  A callable function to transform the value, or the name of a class to instantiate.
+     * @param  string  $composableClass  The class to instantiate if the resolver is a string.
      * @return mixed The transformed value, a new class instance, or null if the value is null.
      */
     protected function transformIfNotNull($key, $resolver, $composableClass = null)

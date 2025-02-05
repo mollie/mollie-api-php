@@ -43,7 +43,7 @@ class CreatePaymentRequestFactory extends RequestFactory
             $this->payload('mandateId'),
             $this->payload('customerId'),
             $this->payload('profileId'),
-            $this->payload('additional') ?? Utility::filterByProperties(CreatePaymentRequest::class, $this->payload()) ?? [],
+            $this->payload('additional') ?: Utility::filterByProperties(CreatePaymentRequest::class, $this->payload()) ?: [],
             $this->query('includeQrCode', false)
         );
     }

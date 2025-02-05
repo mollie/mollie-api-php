@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\ApplicationFee;
-use Mollie\Api\Http\Data\CreateSubscriptionPayload;
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
@@ -52,8 +51,6 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
     private ?string $mandateId;
 
     private ?string $profileId;
-
-    private CreateSubscriptionPayload $payload;
 
     public function __construct(
         string $customerId,

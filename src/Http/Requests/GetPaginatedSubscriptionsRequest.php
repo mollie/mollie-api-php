@@ -18,7 +18,7 @@ class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIte
 
     private string $customerId;
 
-    public function __construct(string $customerId, ?string $limit = null, ?string $from = null)
+    public function __construct(string $customerId, ?string $from = null, ?int $limit = null)
     {
         $this->customerId = $customerId;
 

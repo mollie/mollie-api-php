@@ -4,7 +4,6 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
@@ -53,11 +52,11 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param  array|AnyData  $payload
+     * @param  array  $payload
      *
      * @throws RequestException
      */
-    public function update(string $id, $payload = []): Session
+    public function update(string $id, array $payload = []): Session
     {
         $request = new UpdateSessionRequest($id);
 

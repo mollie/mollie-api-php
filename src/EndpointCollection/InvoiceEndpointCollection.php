@@ -61,7 +61,6 @@ class InvoiceEndpointCollection extends EndpointCollection
             ])
             ->create();
 
-        /** @var InvoiceCollection */
         return $this->send(
             $request
                 ->useIterator()

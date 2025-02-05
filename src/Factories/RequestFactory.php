@@ -10,14 +10,20 @@ abstract class RequestFactory extends Factory
 
     private array $query = [];
 
-    public function withPayload(array $payload): self
+    /**
+     * @return static
+     */
+    public function withPayload(array $payload)
     {
         $this->payload = $payload;
 
         return $this;
     }
 
-    public function withQuery(array $query): self
+    /**
+     * @return static
+     */
+    public function withQuery(array $query)
     {
         $this->query = $query;
 
