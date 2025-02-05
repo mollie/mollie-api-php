@@ -10,7 +10,7 @@ use Mollie\Api\Utils\Arr;
 /**
  * @template T of mixed
  */
-class DataCollection implements Resolvable, Countable
+class DataCollection implements Countable, Resolvable
 {
     /**
      * @var array<T>

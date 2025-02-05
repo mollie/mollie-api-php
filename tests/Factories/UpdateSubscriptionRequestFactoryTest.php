@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class UpdateSubscriptionRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
+
     private const SUBSCRIPTION_ID = 'sub_12345';
 
     /** @test */

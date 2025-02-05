@@ -17,7 +17,7 @@ class CreateSessionRequestTest extends TestCase
             CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
-        $request = new CreateSessionRequest();
+        $request = new CreateSessionRequest;
 
         /** @var Session */
         $session = $client->send($request);
@@ -29,7 +29,7 @@ class CreateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateSessionRequest();
+        $request = new CreateSessionRequest;
 
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }

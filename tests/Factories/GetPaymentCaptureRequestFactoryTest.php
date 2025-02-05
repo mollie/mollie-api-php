@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class GetPaymentCaptureRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
+
     private const CAPTURE_ID = 'cap_12345';
 
     /** @test */

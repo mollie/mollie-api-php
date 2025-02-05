@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class UpdatePaymentRouteRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
+
     private const ROUTE_ID = 'rt_12345';
 
     /** @test */

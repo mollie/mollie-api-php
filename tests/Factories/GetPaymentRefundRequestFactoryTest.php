@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class GetPaymentRefundRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
+
     private const REFUND_ID = 'ref_12345';
 
     /** @test */

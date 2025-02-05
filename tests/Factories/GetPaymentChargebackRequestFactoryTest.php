@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class GetPaymentChargebackRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
+
     private const CHARGEBACK_ID = 'chb_12345';
 
     /** @test */
