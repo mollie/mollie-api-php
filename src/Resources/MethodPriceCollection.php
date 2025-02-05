@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-class MethodPriceCollection extends BaseCollection {}
+class MethodPriceCollection extends BaseCollection
+{
+}

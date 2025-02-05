@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-class IssuerCollection extends BaseCollection {}
+class IssuerCollection extends BaseCollection
+{
+}
