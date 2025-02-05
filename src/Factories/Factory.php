@@ -15,7 +15,7 @@ abstract class Factory
         if ($data instanceof Arrayable) {
             $this->data = $data->toArray();
         } else {
-            $this->data = $data ?? [];
+            $this->data = $data ?: [];
         }
     }
 
@@ -40,7 +40,7 @@ abstract class Factory
         $keys = (array) $key;
 
         if (empty($keys)) {
-            return empty($data) ? $default : $data;
+            return $data;
         }
 
         if ($backupKey !== null) {
