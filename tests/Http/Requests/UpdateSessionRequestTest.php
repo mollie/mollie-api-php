@@ -38,7 +38,8 @@ class UpdateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new DynamicPutRequest($sessionId = 'ses_LQNz4v4Qvk');
+        $sessionId = 'ses_LQNz4v4Qvk';
+        $request = new DynamicPutRequest("sessions/{$sessionId}");
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

@@ -2,15 +2,16 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Utils\Arr;
 use stdClass;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
-class AnyResource extends BaseResource
+class AnyResource extends BaseResource implements Arrayable
 {
-    public array $attributes = [];
+    protected array $attributes = [];
 
     /**
      * @return mixed
@@ -26,5 +27,10 @@ class AnyResource extends BaseResource
     public function fill($attributes): void
     {
         $this->attributes = $attributes instanceof stdClass ? (array) $attributes : $attributes;
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
     }
 }

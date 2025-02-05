@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Types\Method;
 
-class DynamicGetRequest extends DynamicRequest
+class DynamicGetRequest extends DynamicRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.

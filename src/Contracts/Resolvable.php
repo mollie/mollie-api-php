@@ -2,6 +2,4 @@
 
 namespace Mollie\Api\Contracts;
 
-interface Resolvable extends Arrayable
-{
-}
+interface Resolvable extends Arrayable {}

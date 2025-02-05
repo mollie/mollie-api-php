@@ -19,6 +19,7 @@ use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\ResourceWrapper;
 use Mollie\Api\Resources\WrapperResource;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -37,11 +38,12 @@ class MollieApiClientTest extends TestCase
             DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
         ]);
 
+        /** @var AnyResource $response */
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertEquals(
-            (object) ['resource' => 'payment'],
-            $response->json()
+            ['resource' => 'payment'],
+            $response->toArray()
         );
     }
 

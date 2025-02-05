@@ -12,7 +12,10 @@ use Mollie\Api\MollieApiClient;
  */
 trait SendsRequests
 {
-    public function send(Request $request): object
+    /**
+     * @return mixed
+     */
+    public function send(Request $request)
     {
         $pendingRequest = new PendingRequest($this, $request);
         $pendingRequest = $pendingRequest->executeRequestHandlers();

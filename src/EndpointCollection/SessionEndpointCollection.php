@@ -4,18 +4,14 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
-use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\DynamicPutRequest;
-use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
-use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
-use Mollie\Api\Utils\Arr;
 
 class SessionEndpointCollection extends EndpointCollection
 {
@@ -54,7 +50,6 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the session id is invalid or the resource cannot be found.
      *
-     * @param  array  $payload
      *
      * @throws RequestException
      */
@@ -97,6 +92,8 @@ class SessionEndpointCollection extends EndpointCollection
 
         $request = new DynamicPaginatedRequest('sessions', array_merge($filters, $query->toArray()));
 
+        $request->setHydratableResource(SessionCollection::class);
+
         /** @var SessionCollection */
         return $this->send($request);
     }
@@ -120,6 +117,8 @@ class SessionEndpointCollection extends EndpointCollection
         ])->create();
 
         $request = new DynamicPaginatedRequest('sessions', array_merge($filters, $query->toArray()));
+
+        $request->setHydratableResource(SessionCollection::class);
 
         return $this->send(
             $request

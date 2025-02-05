@@ -3,10 +3,11 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class DynamicPutRequest extends DynamicRequest implements HasPayload
+class DynamicPutRequest extends DynamicRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 

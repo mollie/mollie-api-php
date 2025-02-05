@@ -37,28 +37,27 @@ $payment = $mollie->payments->create([
 ]);
 ```
 
-**Advanced: Using typed payloads/queries**
-This approach provides full IDE support and type safety:
+**Advanced: Using typed array params**
+You can use dedicated `Data` objects to add partial type safety to your parameters.
+
 ```php
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\CreatePaymentPayload;
 
-$payment = $mollie->payments->create(
-    new CreatePaymentPayload(
-        description: 'My first API payment',
-        amount: new Money('EUR', '10.00')
-    )
-);
+$payment = $mollie->payments->create([
+    'description' => 'My first API payment',
+    'amount' => new Money('EUR', '10.00')
+]);
 ```
 
-If you have an array and need to interact with the payload or query, you can use a dedicated factory to convert the array into a typed class.
+If you're starting with an array and need to convert it into a structured request, you can use a specific factory designed for this purpose.
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Factories\CreatePaymentPayloadFactory;
+use Mollie\Api\Factories\CreatePaymentRequestFactory;
 
 // Fully untyped data
-$createPaymentPayload = CreatePaymentPayloadFactory::new([
+$createPaymentRequest = CreatePaymentRequestFactory::new([
     'amount' => [
         'currency' => 'EUR',
         'value' => '10.00'
@@ -67,16 +66,13 @@ $createPaymentPayload = CreatePaymentPayloadFactory::new([
 ]);
 
 // Partially untyped
-$createPaymentPayload = CreatePaymentPayloadFactory::new([
+$createPaymentRequest = CreatePaymentRequestFactory::new([
     'amount' => new Money('EUR', '10.00'),
     'description' => 'My first API payment'
 ]);
-
-// Access payload
-$createPaymentPayload->amount->...
 ```
 
-This approach allows you to seamlessly convert arrays into typed objects, providing better IDE support and type safety while working with your data.
+This method lets you effortlessly transform arrays into typed objects, thereby enhancing IDE support and increasing type safety while handling your data.
 
 # Available Endpoints
 

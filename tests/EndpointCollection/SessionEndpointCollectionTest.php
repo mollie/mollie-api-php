@@ -5,12 +5,11 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\DynamicPutRequest;
-use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
 use PHPUnit\Framework\TestCase;
@@ -78,7 +77,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function page()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
+            DynamicPaginatedRequest::class => MockResponse::ok('session-list'),
         ]);
 
         /** @var SessionCollection $sessions */
@@ -96,7 +95,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function iterator()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
+            DynamicPaginatedRequest::class => MockResponse::ok('session-list'),
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'sessions'),
         ]);
 

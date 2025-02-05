@@ -6,7 +6,7 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
+use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
@@ -18,10 +18,12 @@ class GetPaginatedSessionsRequestTest extends TestCase
     public function it_can_get_paginated_sessions()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
+            DynamicPaginatedRequest::class => MockResponse::ok('session-list'),
         ]);
 
-        $request = new GetPaginatedSessionsRequest;
+        $request = new DynamicPaginatedRequest('sessions');
+
+        $request->setHydratableResource(SessionCollection::class);
 
         /** @var SessionCollection */
         $sessions = $client->send($request);
@@ -38,14 +40,16 @@ class GetPaginatedSessionsRequestTest extends TestCase
     public function it_can_iterate_over_sessions()
     {
         $client = new MockMollieClient([
-            GetPaginatedSessionsRequest::class => MockResponse::ok('session-list'),
+            DynamicPaginatedRequest::class => MockResponse::ok('session-list'),
             DynamicGetRequest::class => new SequenceMockResponse(
                 MockResponse::ok('session-list'),
                 MockResponse::ok('empty-list', 'sessions'),
             ),
         ]);
 
-        $request = (new GetPaginatedSessionsRequest)->useIterator();
+        $request = (new DynamicPaginatedRequest('sessions'))->useIterator();
+
+        $request->setHydratableResource(SessionCollection::class);
 
         /** @var LazyCollection */
         $sessions = $client->send($request);
@@ -61,7 +65,7 @@ class GetPaginatedSessionsRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedSessionsRequest;
+        $request = new DynamicPaginatedRequest('sessions');
 
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }
