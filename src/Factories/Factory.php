@@ -19,7 +19,7 @@ abstract class Factory
         }
     }
 
-    public static function new(...$args): static
+    public static function new(...$args): self
     {
         return new static(...$args);
     }

@@ -160,7 +160,7 @@ $client->payments->page();
 Two new collection methods were added which can be used to simplify interacting with collection resources.
 
 - `contains(callable $callback): bool`
-- `filter(callable $callback): static`
+- `filter(callable $callback): self`
 
 ### Testmode is automatically removed..
 ..If an API key is used as authentication.
