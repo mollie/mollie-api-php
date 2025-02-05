@@ -62,7 +62,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
      */
     public static function createClient(): self
     {
-        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory();
+        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory;
 
         $handlerStack = HandlerStack::create();
         $handlerStack->push($retryMiddlewareFactory->retry());
@@ -114,6 +114,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
 
     public function version(): string
     {
-        return 'Guzzle/' . ClientInterface::MAJOR_VERSION;
+        return 'Guzzle/'.ClientInterface::MAJOR_VERSION;
     }
 }

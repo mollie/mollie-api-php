@@ -12,7 +12,7 @@ class AuthenticateRequest
         $authenticator = $pendingRequest->getConnector()->getAuthenticator();
 
         if (! $authenticator) {
-            throw new MissingAuthenticationException();
+            throw new MissingAuthenticationException;
         }
 
         $authenticator->authenticate($pendingRequest);

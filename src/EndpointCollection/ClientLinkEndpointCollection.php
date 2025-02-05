@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateClientLinkPayloadFactory;
-use Mollie\Api\Http\Data\CreateClientLinkPayload;
-use Mollie\Api\Http\Requests\CreateClientLinkRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateClientLinkRequestFactory;
 use Mollie\Api\Resources\ClientLink;
 
 class ClientLinkEndpointCollection extends EndpointCollection
@@ -13,18 +11,17 @@ class ClientLinkEndpointCollection extends EndpointCollection
     /**
      * Creates a client link in Mollie.
      *
-     * @param  array|CreateClientLinkPayload  $payload  An array containing details on the client link.
+     * @param  array  $payload  An array containing details on the client link.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function create($payload = []): ClientLink
+    public function create(array $payload = []): ClientLink
     {
-        if (! $payload instanceof CreateClientLinkPayload) {
-            $payload = CreateClientLinkPayloadFactory::new($payload)
-                ->create();
-        }
+        $request = CreateClientLinkRequestFactory::new()
+            ->withPayload($payload)
+            ->create();
 
         /** @var ClientLink */
-        return $this->send(new CreateClientLinkRequest($payload));
+        return $this->send($request);
     }
 }

@@ -83,22 +83,33 @@ class Utility
      * Compose a value to a new form if it is truthy.
      *
      * @param  mixed  $value
-     * @param  string|callable  $composable
+     * @param  string|callable  $resolver
+     * @param  string|null  $composableClass
      * @param  mixed  $default
      * @return mixed
      */
-    public static function compose($value, $composable, $default = null)
+    public static function compose($value, $resolver, $composableClass = null, $default = null)
     {
-        // If the value is an instance of the composable class, return it.
-        if (is_string($composable) && $value instanceof $composable) {
+        /**
+         * If the third argument is a string and the class does not exist,
+         * it is assumed that the third argument is the default value.
+         */
+        if (func_num_args() === 3 && is_string($composableClass) && ! class_exists($composableClass)) {
+            $default = $composableClass;
+            $composableClass = null;
+        }
+
+        if (is_string($resolver)) {
+            $composableClass = $resolver;
+            $resolver = fn ($value) => new $resolver($value);
+        }
+
+        // If the value is an instance of the target class, return it.
+        if (is_object($value) && $composableClass && $value instanceof $composableClass) {
             return $value;
         }
 
-        $composable = is_string($composable)
-            ? fn ($value) => new $composable($value)
-            : $composable;
-
-        return (bool) $value ? $composable($value) : $default;
+        return (bool) $value ? $resolver($value) : $default;
     }
 
     /**

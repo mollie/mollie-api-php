@@ -2,9 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetPaginatedRefundsQueryFactory;
-use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetPaginatedRefundsRequestFactory;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Utils\Utility;
@@ -16,19 +15,22 @@ class RefundEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first refund ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): RefundCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedRefundsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedRefundsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         /** @var RefundCollection */
-        return $this->send((new GetPaginatedRefundsRequest($query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -44,14 +46,17 @@ class RefundEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedRefundsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedRefundsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedRefundsRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

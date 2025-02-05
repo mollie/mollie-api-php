@@ -2,9 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Factories\GetBalanceReportQueryFactory;
-use Mollie\Api\Http\Data\GetBalanceReportQuery;
-use Mollie\Api\Http\Requests\GetBalanceReportRequest;
+use Mollie\Api\Factories\GetBalanceReportRequestFactory;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Utils\Utility;
@@ -14,30 +12,27 @@ class BalanceReportEndpointCollection extends EndpointCollection
     /**
      * Retrieve a balance report for the provided balance id and parameters.
      *
-     * @param  array|GetBalanceReportQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function getForId(string $balanceId, $query = []): ?BalanceReport
+    public function getForId(string $balanceId, array $query = []): ?BalanceReport
     {
         $testmode = Utility::extractBool($query, 'testmode', false);
 
-        $query = GetBalanceReportQueryFactory::new($query)
+        $request = GetBalanceReportRequestFactory::new($balanceId)
+            ->withQuery($query)
             ->create();
 
         /** @var BalanceReport */
-        return $this->send((new GetBalanceReportRequest($balanceId, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Retrieve the primary balance.
      * This is the balance of your account’s primary currency, where all payments are settled to by default.
      *
-     * @param  array|GetBalanceReportQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function getForPrimary($query = []): BalanceReport
+    public function getForPrimary(array $query = []): ?BalanceReport
     {
         return $this->getForId('primary', $query);
     }
@@ -45,10 +40,10 @@ class BalanceReportEndpointCollection extends EndpointCollection
     /**
      * Retrieve a balance report for the provided balance resource and parameters.
      *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function getFor(Balance $balance, array $parameters = []): BalanceReport
+    public function getFor(Balance $balance, array $query = []): ?BalanceReport
     {
-        return $this->getForId($balance->id, $parameters);
+        return $this->getForId($balance->id, $query);
     }
 }

@@ -4,7 +4,8 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Data\CreatePaymentCapturePayload;
+use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -25,17 +26,31 @@ class CreatePaymentCaptureRequest extends ResourceHydratableRequest implements H
 
     private string $paymentId;
 
-    private CreatePaymentCapturePayload $payload;
+    private string $description;
 
-    public function __construct(string $paymentId, CreatePaymentCapturePayload $payload)
-    {
+    private ?Money $amount;
+
+    private ?Metadata $metadata;
+
+    public function __construct(
+        string $paymentId,
+        string $description,
+        ?Money $amount = null,
+        ?Metadata $metadata = null
+    ) {
         $this->paymentId = $paymentId;
-        $this->payload = $payload;
+        $this->description = $description;
+        $this->amount = $amount;
+        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array
     {
-        return $this->payload->toArray();
+        return [
+            'description' => $this->description,
+            'amount' => $this->amount,
+            'metadata' => $this->metadata,
+        ];
     }
 
     public function resolveResourcePath(): string

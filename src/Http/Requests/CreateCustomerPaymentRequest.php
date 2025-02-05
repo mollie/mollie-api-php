@@ -4,8 +4,11 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-use Mollie\Api\Http\Data\CreatePaymentQuery;
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\ApplicationFee;
+use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Http\Data\Money;
 
 class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -13,10 +16,54 @@ class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPa
 
     public function __construct(
         string $customerId,
-        CreatePaymentPayload $payload,
-        ?CreatePaymentQuery $query = null
+        string $description,
+        Money $amount,
+        ?string $redirectUrl = null,
+        ?string $cancelUrl = null,
+        ?string $webhookUrl = null,
+        ?DataCollection $lines = null,
+        ?Address $billingAddress = null,
+        ?Address $shippingAddress = null,
+        ?string $locale = null,
+        ?string $paymentMethod = null,
+        ?string $issuer = null,
+        ?string $restrictPaymentMethodsToCountry = null,
+        ?Metadata $metadata = null,
+        ?string $captureMode = null,
+        ?string $captureDelay = null,
+        ?ApplicationFee $applicationFee = null,
+        ?DataCollection $routing = null,
+        ?string $sequenceType = null,
+        ?string $mandateId = null,
+        ?string $profileId = null,
+        array $additional = [],
+        bool $includeQrCode = false
     ) {
-        parent::__construct($payload, $query);
+        parent::__construct(
+            $description,
+            $amount,
+            $redirectUrl,
+            $cancelUrl,
+            $webhookUrl,
+            $lines,
+            $billingAddress,
+            $shippingAddress,
+            $locale,
+            $paymentMethod,
+            $issuer,
+            $restrictPaymentMethodsToCountry,
+            $metadata,
+            $captureMode,
+            $captureDelay,
+            $applicationFee,
+            $routing,
+            $sequenceType,
+            $mandateId,
+            null, // customerId is already defined through path
+            $profileId,
+            $additional,
+            $includeQrCode
+        );
 
         $this->customerId = $customerId;
     }

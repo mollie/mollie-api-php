@@ -4,11 +4,10 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateProfilePayload;
-use Mollie\Api\Http\Data\UpdateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetCurrentProfileRequest;
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
@@ -26,13 +25,13 @@ class ProfileEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Profile $profile */
-        $profile = $client->profiles->create(new CreateProfilePayload(
-            'My Test Profile',
-            'https://example.org',
-            'info@example.org',
-            '+31612345678',
-            'test',
-        ));
+        $profile = $client->profiles->create([
+            'name' => 'My Test Profile',
+            'website' => 'https://example.org',
+            'email' => 'info@example.org',
+            'phone' => '+31612345678',
+            'businessCategory' => 'test',
+        ]);
 
         $this->assertProfile($profile);
     }
@@ -54,7 +53,7 @@ class ProfileEndpointCollectionTest extends TestCase
     public function get_current()
     {
         $client = new MockMollieClient([
-            GetProfileRequest::class => MockResponse::ok('current-profile'),
+            GetCurrentProfileRequest::class => MockResponse::ok('current-profile'),
         ]);
 
         /** @var Profile $profile */
@@ -71,10 +70,10 @@ class ProfileEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Profile $profile */
-        $profile = $client->profiles->update('pfl_v9hTwCvYqw', new UpdateProfilePayload(
-            'Updated Profile Name',
-            'https://updated-example.org',
-        ));
+        $profile = $client->profiles->update('pfl_v9hTwCvYqw', [
+            'name' => 'Updated Profile Name',
+            'website' => 'https://updated-example.org',
+        ]);
 
         $this->assertProfile($profile);
     }

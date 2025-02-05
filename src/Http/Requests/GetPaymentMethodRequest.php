@@ -3,9 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaymentMethodQuery;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Types\Method as HttpMethod;
+use Mollie\Api\Types\MethodQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaymentMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -13,19 +14,45 @@ class GetPaymentMethodRequest extends ResourceHydratableRequest implements Suppo
 
     protected $hydratableResource = Method::class;
 
-    private ?GetPaymentMethodQuery $query = null;
-
     private string $methodId;
 
-    public function __construct(string $methodId, ?GetPaymentMethodQuery $query = null)
-    {
+    private ?string $locale;
+
+    private ?string $currency;
+
+    private ?string $profileId;
+
+    private ?bool $includeIssuers;
+
+    private ?bool $includePricing;
+
+    public function __construct(
+        string $methodId,
+        ?string $locale = null,
+        ?string $currency = null,
+        ?string $profileId = null,
+        ?bool $includeIssuers = null,
+        ?bool $includePricing = null
+    ) {
         $this->methodId = $methodId;
-        $this->query = $query;
+        $this->locale = $locale;
+        $this->currency = $currency;
+        $this->profileId = $profileId;
+        $this->includeIssuers = $includeIssuers;
+        $this->includePricing = $includePricing;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query ? $this->query->toArray() : [];
+        return [
+            'locale' => $this->locale,
+            'currency' => $this->currency,
+            'profileId' => $this->profileId,
+            'include' => Arr::join([
+                $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
+                $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
+            ]),
+        ];
     }
 
     public function resolveResourcePath(): string

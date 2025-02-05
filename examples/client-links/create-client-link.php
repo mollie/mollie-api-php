@@ -3,8 +3,6 @@
 /*
  * How to create a new client link in the Mollie API.
  */
-
-use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
@@ -29,13 +27,13 @@ try {
      */
     $response = $mollie
         ->send(
-            new CreateClientLinkRequest(new CreateClientLinkPayload(
+            new CreateClientLinkRequest(
                 new Owner('foo@test.com', 'foo', 'bar', 'nl_NL'),
                 'Foo Company',
                 new OwnerAddress('NL', 'Keizersgracht 313', '1016 EE', 'Amsterdam'),
                 '30204462',
                 'NL123456789B01',
-            ))
+            )
         );
 
     $clientLink = $response->toResource();

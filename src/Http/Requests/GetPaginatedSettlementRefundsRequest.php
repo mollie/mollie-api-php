@@ -4,9 +4,9 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedSettlementRefundsQuery;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
@@ -19,11 +19,18 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
 
     private string $settlementId;
 
-    public function __construct(string $settlementId, ?GetPaginatedSettlementRefundsQuery $query = null)
-    {
+    public function __construct(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        bool $includePayment = false
+    ) {
         $this->settlementId = $settlementId;
 
-        parent::__construct($query);
+        parent::__construct($from, $limit);
+
+        $this->query()
+            ->add('include', $includePayment ? PaymentIncludesQuery::PAYMENT : null);
     }
 
     /**

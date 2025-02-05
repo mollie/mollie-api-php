@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Data\GetAllMethodsQuery;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
+use Mollie\Api\Types\MethodQuery;
 
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {
@@ -18,16 +19,32 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
      */
     protected $hydratableResource = MethodCollection::class;
 
-    private GetAllMethodsQuery $query;
+    private bool $includeIssuers;
 
-    public function __construct(?GetAllMethodsQuery $query = null)
+    private bool $includePricing;
+
+    private ?string $locale;
+
+    private ?Money $amount;
+
+    public function __construct(bool $includeIssuers = false, bool $includePricing = false, ?string $locale = null, ?Money $amount = null)
     {
-        $this->query = $query ?: new GetAllMethodsQuery;
+        $this->includeIssuers = $includeIssuers;
+        $this->includePricing = $includePricing;
+        $this->locale = $locale;
+        $this->amount = $amount;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return [
+            'include' => array_filter([
+                $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
+                $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
+            ]),
+            'locale' => $this->locale,
+            'amount' => $this->amount,
+        ];
     }
 
     public function resolveResourcePath(): string

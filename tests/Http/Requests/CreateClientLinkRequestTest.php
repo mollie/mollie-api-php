@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateClientLinkPayload;
 use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
@@ -20,13 +19,11 @@ class CreateClientLinkRequestTest extends TestCase
             CreateClientLinkRequest::class => MockResponse::created('client-link'),
         ]);
 
-        $payload = new CreateClientLinkPayload(
+        $request = new CreateClientLinkRequest(
             new Owner('test@example.org', 'John', 'Doe'),
             'Test',
             new OwnerAddress('NL')
         );
-
-        $request = new CreateClientLinkRequest($payload);
 
         /** @var ClientLink */
         $clientLink = $client->send($request);

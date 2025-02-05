@@ -4,7 +4,6 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -22,17 +21,27 @@ class UpdatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private string $id;
 
-    private UpdatePaymentLinkPayload $payload;
+    private string $description;
 
-    public function __construct(string $id, UpdatePaymentLinkPayload $payload)
+    private bool $archived;
+
+    private ?array $allowedMethods;
+
+    public function __construct(string $id, string $description, bool $archived = false, ?array $allowedMethods = null)
     {
         $this->id = $id;
-        $this->payload = $payload;
+        $this->description = $description;
+        $this->archived = $archived;
+        $this->allowedMethods = $allowedMethods;
     }
 
     protected function defaultPayload(): array
     {
-        return $this->payload->toArray();
+        return [
+            'description' => $this->description,
+            'archived' => $this->archived,
+            'allowedMethods' => $this->allowedMethods,
+        ];
     }
 
     public function resolveResourcePath(): string

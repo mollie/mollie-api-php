@@ -5,7 +5,6 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
@@ -22,7 +21,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
             GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
-        $request = new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3', new PaginatedQuery);
+        $request = new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3');
 
         /** @var PaymentCollection */
         $payments = $client->send($request);
@@ -48,7 +47,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
             ),
         ]);
 
-        $request = (new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3', new PaginatedQuery))->useIterator();
+        $request = (new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3'))->useIterator();
 
         /** @var LazyCollection */
         $payments = $client->send($request);

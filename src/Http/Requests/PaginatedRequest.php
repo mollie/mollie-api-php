@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Types\Method;
 
 abstract class PaginatedRequest extends ResourceHydratableRequest
@@ -12,18 +11,23 @@ abstract class PaginatedRequest extends ResourceHydratableRequest
      */
     protected static string $method = Method::GET;
 
-    private ?Arrayable $query = null;
+    private ?string $from;
+
+    private ?int $limit;
 
     public function __construct(
-        ?Arrayable $query = null
+        ?string $from = null,
+        ?int $limit = null
     ) {
-        $this->query = $query;
+        $this->from = $from;
+        $this->limit = $limit;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query
-            ? $this->query->toArray()
-            : [];
+        return [
+            'from' => $this->from,
+            'limit' => $this->limit,
+        ];
     }
 }

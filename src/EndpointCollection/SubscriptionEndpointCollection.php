@@ -2,19 +2,13 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\CreateSubscriptionPayloadFactory;
-use Mollie\Api\Factories\GetAllPaginatedSubscriptionsQueryFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Factories\UpdateSubscriptionPayloadFactory;
-use Mollie\Api\Http\Data\CreateSubscriptionPayload;
-use Mollie\Api\Http\Data\UpdateSubscriptionPayload;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateSubscriptionRequestFactory;
+use Mollie\Api\Factories\GetAllPaginatedSubscriptionsRequestFactory;
+use Mollie\Api\Factories\UpdateSubscriptionRequestFactory;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
-use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
-use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
 use Mollie\Api\Http\Requests\GetSubscriptionRequest;
-use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
@@ -28,7 +22,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function getFor(Customer $customer, string $subscriptionId, $testmode = false): Subscription
     {
@@ -40,7 +34,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function getForId(string $customerId, string $subscriptionId, $testmode = false): Subscription
     {
@@ -52,53 +46,49 @@ class SubscriptionEndpointCollection extends EndpointCollection
     /**
      * Creates a subscription for a Customer in Mollie.
      *
-     * @param  array|CreateSubscriptionPayload  $data  An array containing details on the subscription.
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createFor(Customer $customer, $data = [], bool $testmode = false): Subscription
+    public function createFor(Customer $customer, array $payload = [], bool $testmode = false): Subscription
     {
-        return $this->createForId($customer->id, $data, $testmode);
+        return $this->createForId($customer->id, $payload, $testmode);
     }
 
     /**
      * Creates a subscription for a Customer in Mollie.
      *
-     * @param  array|CreateSubscriptionPayload  $data  An array containing details on the subscription.
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function createForId(string $customerId, $data = [], bool $testmode = false): Subscription
+    public function createForId(string $customerId, array $payload = [], bool $testmode = false): Subscription
     {
-        if (! $data instanceof CreateSubscriptionPayload) {
-            $testmode = Utility::extractBool($data, 'testmode', $testmode);
-            $data = CreateSubscriptionPayloadFactory::new($data)->create();
-        }
+        $testmode = Utility::extractBool($payload, 'testmode', $testmode);
 
-        return $this->send((new CreateSubscriptionRequest($customerId, $data))->test($testmode));
+        $request = CreateSubscriptionRequestFactory::new($customerId)
+            ->withPayload($payload)
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Update the given Subscription.
      *
-     * @param  array|UpdateSubscriptionPayload  $data
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function update(string $customerId, string $subscriptionId, $data = [], bool $testmode = false): ?Subscription
+    public function update(string $customerId, string $subscriptionId, array $payload = [], bool $testmode = false): ?Subscription
     {
-        if (! $data instanceof UpdateSubscriptionPayload) {
-            $testmode = Utility::extractBool($data, 'testmode', $testmode);
-            $data = UpdateSubscriptionPayloadFactory::new($data)->create();
-        }
+        $testmode = Utility::extractBool($payload, 'testmode', $testmode);
 
-        return $this->send((new UpdateSubscriptionRequest($customerId, $subscriptionId, $data))->test($testmode));
+        $request = UpdateSubscriptionRequestFactory::new($customerId, $subscriptionId)
+            ->withPayload($payload)
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     /**
      * Cancel the given Subscription.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function cancelFor(Customer $customer, string $subscriptionId, bool $testmode = false): ?Subscription
     {
@@ -108,7 +98,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
     /**
      * Cancel the given Subscription.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function cancelForId(string $customerId, string $subscriptionId, bool $testmode = false): ?Subscription
     {
@@ -118,7 +108,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
     /**
      * Retrieve a page of subscriptions from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $filters = []): SubscriptionCollection
     {
@@ -128,17 +118,13 @@ class SubscriptionEndpointCollection extends EndpointCollection
     /**
      * Retrieve a page of subscriptions from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, array $filters = []): SubscriptionCollection
     {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
-        return $this->send((new GetPaginatedSubscriptionsRequest($customerId, $query))->test($testmode));
+        return $this->send((new GetPaginatedSubscriptionsRequest($customerId, $from, $limit))->test($testmode));
     }
 
     /**
@@ -165,13 +151,9 @@ class SubscriptionEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
         return $this->send(
-            (new GetPaginatedSubscriptionsRequest($customerId, $query))
+            (new GetPaginatedSubscriptionsRequest($customerId, $from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)
@@ -189,13 +171,16 @@ class SubscriptionEndpointCollection extends EndpointCollection
         array $filters = []
     ): SubscriptionCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetAllPaginatedSubscriptionsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
 
-        return $this->send((new GetAllPaginatedSubscriptionsRequest($query))->test($testmode));
+        $request = GetAllPaginatedSubscriptionsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
+
+        return $this->send($request->test($testmode));
     }
 
     public function iteratorForAll(
@@ -205,14 +190,17 @@ class SubscriptionEndpointCollection extends EndpointCollection
         bool $iterateBackwards = true
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetAllPaginatedSubscriptionsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetAllPaginatedSubscriptionsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetAllPaginatedSubscriptionsRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

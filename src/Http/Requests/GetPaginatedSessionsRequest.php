@@ -6,7 +6,7 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\SessionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
-class GetPaginatedSessionsRequest extends PaginatedRequest implements IsIteratable
+class GetPaginatedSessionsRequest extends SortablePaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;
 

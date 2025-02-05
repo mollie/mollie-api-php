@@ -2,12 +2,9 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetClientQueryFactory;
-use Mollie\Api\Factories\GetPaginatedClientQueryFactory;
-use Mollie\Api\Http\Data\GetClientQuery;
-use Mollie\Api\Http\Requests\GetClientRequest;
-use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetClientRequestFactory;
+use Mollie\Api\Factories\GetPaginatedClientRequestFactory;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\ClientCollection;
 use Mollie\Api\Resources\LazyCollection;
@@ -21,18 +18,17 @@ class ClientEndpointCollection extends EndpointCollection
      * The client id corresponds to the organization id, for example "org_1337".
      *
      * @param  string  $id  The client ID.
-     * @param  GetClientQuery|array  $query  The query parameters.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function get(string $id, $query = []): Client
+    public function get(string $id, array $query = []): Client
     {
-        if (! $query instanceof GetClientQuery) {
-            $query = GetClientQueryFactory::new($query)->create();
-        }
+        $request = GetClientRequestFactory::new($id)
+            ->withQuery($query)
+            ->create();
 
         /** @var Client */
-        return $this->send(new GetClientRequest($id, $query));
+        return $this->send($request);
     }
 
     /**
@@ -40,18 +36,20 @@ class ClientEndpointCollection extends EndpointCollection
      *
      * @param  string  $from  The first client ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): ClientCollection
     {
-        $query = GetPaginatedClientQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedClientRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         /** @var ClientCollection */
-        return $this->send(new GetPaginatedClientRequest($query));
+        return $this->send($request);
     }
 
     /**
@@ -62,14 +60,16 @@ class ClientEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $query = GetPaginatedClientQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedClientRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedClientRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

@@ -2,9 +2,12 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Http\Data\CreateSubscriptionPayload;
+use Mollie\Api\Http\Data\ApplicationFee;
+use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -25,17 +28,76 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private string $customerId;
 
-    private CreateSubscriptionPayload $payload;
+    private Money $amount;
 
-    public function __construct(string $customerId, CreateSubscriptionPayload $payload)
-    {
+    private string $interval;
+
+    private string $description;
+
+    private ?string $status;
+
+    private ?int $times;
+
+    private ?DateTimeInterface $startDate;
+
+    private ?string $paymentMethod;
+
+    private ?ApplicationFee $applicationFee;
+
+    private ?Metadata $metadata;
+
+    private ?string $webhookUrl;
+
+    private ?string $mandateId;
+
+    private ?string $profileId;
+
+    public function __construct(
+        string $customerId,
+        Money $amount,
+        string $interval,
+        string $description,
+        ?string $status = null,
+        ?int $times = null,
+        ?DateTimeInterface $startDate = null,
+        ?string $paymentMethod = null,
+        ?ApplicationFee $applicationFee = null,
+        ?Metadata $metadata = null,
+        ?string $webhookUrl = null,
+        ?string $mandateId = null,
+        ?string $profileId = null
+    ) {
         $this->customerId = $customerId;
-        $this->payload = $payload;
+        $this->amount = $amount;
+        $this->interval = $interval;
+        $this->description = $description;
+        $this->status = $status;
+        $this->times = $times;
+        $this->startDate = $startDate;
+        $this->paymentMethod = $paymentMethod;
+        $this->applicationFee = $applicationFee;
+        $this->metadata = $metadata;
+        $this->webhookUrl = $webhookUrl;
+        $this->mandateId = $mandateId;
+        $this->profileId = $profileId;
     }
 
     protected function defaultPayload(): array
     {
-        return $this->payload->toArray();
+        return [
+            'amount' => $this->amount,
+            'interval' => $this->interval,
+            'description' => $this->description,
+            'status' => $this->status,
+            'times' => $this->times,
+            'startDate' => $this->startDate,
+            'method' => $this->paymentMethod,
+            'applicationFee' => $this->applicationFee,
+            'metadata' => $this->metadata,
+            'webhookUrl' => $this->webhookUrl,
+            'mandateId' => $this->mandateId,
+            'profileId' => $this->profileId,
+        ];
     }
 
     /**

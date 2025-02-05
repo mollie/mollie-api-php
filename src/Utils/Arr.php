@@ -48,6 +48,18 @@ class Arr
     }
 
     /**
+     * Remove the given keys from the array.
+     */
+    public static function except(array $array, $keys): array
+    {
+        foreach ((array) $keys as $key) {
+            static::forget($array, $key);
+        }
+
+        return $array;
+    }
+
+    /**
      * Remove an item from an array using "dot" notation.
      */
     public static function forget(array &$array, string $key): void

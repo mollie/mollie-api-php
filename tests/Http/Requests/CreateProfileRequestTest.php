@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateProfilePayload;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use PHPUnit\Framework\TestCase;
@@ -18,15 +17,7 @@ class CreateProfileRequestTest extends TestCase
             CreateProfileRequest::class => MockResponse::created('profile'),
         ]);
 
-        $payload = new CreateProfilePayload(
-            'Test profile',
-            'https://example.org',
-            'test@example.org',
-            'en_US',
-            '+31612345678'
-        );
-
-        $request = new CreateProfileRequest($payload);
+        $request = new CreateProfileRequest('Test profile', 'https://example.org', 'test@example.org', 'en_US', '+31612345678');
 
         /** @var Profile */
         $profile = $client->send($request);
@@ -38,13 +29,7 @@ class CreateProfileRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateProfileRequest(new CreateProfilePayload(
-            'Test profile',
-            'https://example.org',
-            'test@example.org',
-            'en_US',
-            '+31612345678'
-        ));
+        $request = new CreateProfileRequest('Test profile', 'https://example.org', 'test@example.org', 'en_US', '+31612345678');
 
         $this->assertEquals('profiles', $request->resolveResourcePath());
     }

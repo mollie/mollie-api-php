@@ -25,7 +25,7 @@ class CompatibilityChecker
     {
         if (! $this->satisfiesPhpVersion()) {
             throw new IncompatiblePlatformException(
-                'The client requires PHP version >= ' . self::MIN_PHP_VERSION . ', you have ' . PHP_VERSION . '.',
+                'The client requires PHP version >= '.self::MIN_PHP_VERSION.', you have '.PHP_VERSION.'.',
                 IncompatiblePlatformException::INCOMPATIBLE_PHP_VERSION
             );
         }

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Contracts;
 
-interface SupportsTestmodeInPayload extends SupportsTestmode, HasPayload
+interface SupportsTestmodeInPayload extends HasPayload, SupportsTestmode
 {
     //
 }

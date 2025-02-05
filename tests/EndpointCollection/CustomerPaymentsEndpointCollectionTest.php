@@ -4,7 +4,6 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -27,11 +26,11 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
         $customer->id = 'cst_kEn1PlbGa';
 
         /** @var Payment $payment */
-        $payment = $client->customerPayments->createFor($customer, new CreatePaymentPayload(
-            'Test payment',
-            new Money('10.00', 'EUR'),
-            'https://example.org/redirect',
-        ));
+        $payment = $client->customerPayments->createFor($customer, [
+            'description' => 'Test payment',
+            'amount' => new Money('10.00', 'EUR'),
+            'redirectUrl' => 'https://example.org/redirect',
+        ]);
 
         $this->assertPayment($payment);
     }

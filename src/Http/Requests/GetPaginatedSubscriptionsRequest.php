@@ -4,7 +4,6 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\SubscriptionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
@@ -19,11 +18,11 @@ class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIte
 
     private string $customerId;
 
-    public function __construct(string $customerId, ?PaginatedQuery $query = null)
+    public function __construct(string $customerId, ?string $from = null, ?int $limit = null)
     {
         $this->customerId = $customerId;
 
-        parent::__construct($query);
+        parent::__construct($from, $limit);
     }
 
     /**

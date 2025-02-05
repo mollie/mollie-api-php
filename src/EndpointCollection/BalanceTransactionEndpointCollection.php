@@ -5,24 +5,33 @@ declare(strict_types=1);
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Factories\PaginatedQueryFactory;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Utils\Utility;
 
 class BalanceTransactionEndpointCollection extends EndpointCollection
 {
     /**
      * List the transactions for a specific Balance.
      *
-     * @param  array|PaginatedQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function pageFor(Balance $balance, $query = [], bool $testmode = false): BalanceTransactionCollection
+    public function pageFor(Balance $balance, array $query = [], bool $testmode = false): BalanceTransactionCollection
     {
         return $this->pageForId($balance->id, $query, $testmode);
+    }
+
+    /**
+     * List the transactions for the primary Balance.
+     *
+     * @throws \Mollie\Api\Exceptions\RequestException
+     */
+    public function pageForPrimary(array $query = [], bool $testmode = false): BalanceTransactionCollection
+    {
+        /** @var BalanceTransactionCollection */
+        return $this->pageForId('primary', $query, $testmode);
     }
 
     /**
@@ -30,31 +39,17 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      *
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorFor(Balance $balance, array $parameters = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
+    public function iteratorFor(Balance $balance, array $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
     {
-        return $this->iteratorForId($balance->id, $parameters, $iterateBackwards, $testmode);
-    }
-
-    /**
-     * List the transactions for the primary Balance.
-     *
-     * @param  array|PaginatedQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function pageForPrimary($query = [], bool $testmode = false): BalanceTransactionCollection
-    {
-        /** @var BalanceTransactionCollection */
-        return $this->pageForId('primary', $query, $testmode);
+        return $this->iteratorForId($balance->id, $query, $iterateBackwards, $testmode);
     }
 
     /**
      * Create an iterator for iterating over transactions for the primary balance retrieved from Mollie.
      *
-     * @param  array|PaginatedQuery  $query
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForPrimary($query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
+    public function iteratorForPrimary(array $query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
     {
         return $this->iteratorForId('primary', $query, $iterateBackwards);
     }
@@ -62,36 +57,43 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
     /**
      * List the transactions for a specific Balance ID.
      *
-     * @param  array|PaginatedQuery  $query
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\RequestException
      */
-    public function pageForId(string $balanceId, $query = [], bool $testmode = false): BalanceTransactionCollection
+    public function pageForId(string $balanceId, array $query = [], bool $testmode = false): BalanceTransactionCollection
     {
-        if (! $query instanceof PaginatedQuery) {
-            $query = PaginatedQueryFactory::new($query)
-                ->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+
+        $query = PaginatedQueryFactory::new()
+            ->withQuery($query)
+            ->create();
 
         /** @var BalanceTransactionCollection */
-        return $this->send((new GetPaginatedBalanceTransactionRequest($balanceId, $query))->test($testmode));
+        return $this->send((new GetPaginatedBalanceTransactionRequest(
+            $balanceId,
+            $query->from,
+            $query->limit,
+        ))->test($testmode));
     }
 
     /**
      * Create an iterator for iterating over balance transactions for the given balance id retrieved from Mollie.
      *
-     * @param  array|PaginatedQuery  $query
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForId(string $balanceId, $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
+    public function iteratorForId(string $balanceId, array $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
     {
-        if (! $query instanceof PaginatedQuery) {
-            $query = PaginatedQueryFactory::new($query)
-                ->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+
+        $query = PaginatedQueryFactory::new()
+            ->withQuery($query)
+            ->create();
 
         return $this->send(
-            (new GetPaginatedBalanceTransactionRequest($balanceId, $query))
+            (new GetPaginatedBalanceTransactionRequest(
+                $balanceId,
+                $query->from,
+                $query->limit,
+            ))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

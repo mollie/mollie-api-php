@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Resources\Payment;
@@ -19,14 +18,12 @@ class CreatePaymentRequestTest extends TestCase
             CreatePaymentRequest::class => MockResponse::created('payment'),
         ]);
 
-        $payload = new CreatePaymentPayload(
+        $request = new CreatePaymentRequest(
             'Test payment',
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook',
         );
-
-        $request = new CreatePaymentRequest($payload);
 
         /** @var Payment */
         $payment = $client->send($request);
@@ -38,12 +35,12 @@ class CreatePaymentRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreatePaymentRequest(new CreatePaymentPayload(
+        $request = new CreatePaymentRequest(
             'Test payment',
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook'
-        ));
+        );
 
         $this->assertEquals('payments', $request->resolveResourcePath());
     }

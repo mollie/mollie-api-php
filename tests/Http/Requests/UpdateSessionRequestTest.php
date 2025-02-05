@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
@@ -18,14 +17,14 @@ class UpdateSessionRequestTest extends TestCase
             UpdateSessionRequest::class => MockResponse::ok('session'),
         ]);
 
-        $payload = new AnyData([
+        $request = new UpdateSessionRequest('ses_LQNz4v4Qvk');
+
+        $request->payload()->set([
             'status' => 'completed',
             'metadata' => [
                 'order_id' => '12345',
             ],
         ]);
-
-        $request = new UpdateSessionRequest('ses_LQNz4v4Qvk', $payload);
 
         /** @var Session */
         $session = $client->send($request);
@@ -39,8 +38,7 @@ class UpdateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $sessionId = 'ses_LQNz4v4Qvk';
-        $request = new UpdateSessionRequest($sessionId, new AnyData);
+        $request = new UpdateSessionRequest($sessionId = 'ses_LQNz4v4Qvk');
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

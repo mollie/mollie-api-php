@@ -15,6 +15,17 @@ class GetPaginatedSettlementsRequest extends PaginatedRequest implements IsItera
      */
     protected $hydratableResource = SettlementCollection::class;
 
+    public function __construct(
+        ?string $from = null,
+        ?int $limit = null,
+        ?string $balanceId = null
+    ) {
+        parent::__construct($from, $limit);
+
+        $this->query()
+            ->add('balanceId', $balanceId);
+    }
+
     /**
      * Resolve the resource path.
      */

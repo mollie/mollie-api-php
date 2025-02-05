@@ -4,11 +4,10 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\SortablePaginatedQuery;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
-class GetPaginatedPaymentLinkPaymentsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
+class GetPaginatedPaymentLinkPaymentsRequest extends SortablePaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
@@ -19,10 +18,11 @@ class GetPaginatedPaymentLinkPaymentsRequest extends PaginatedRequest implements
 
     private string $paymentLinkId;
 
-    public function __construct(string $paymentLinkId, ?SortablePaginatedQuery $query = null)
+    public function __construct(string $paymentLinkId, ?string $from = null, ?int $limit = null, ?string $sort = null)
     {
-        parent::__construct($query);
         $this->paymentLinkId = $paymentLinkId;
+
+        parent::__construct($from, $limit, $sort);
     }
 
     /**

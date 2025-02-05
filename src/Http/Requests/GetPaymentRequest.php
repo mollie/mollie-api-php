@@ -3,9 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaymentQuery;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -21,19 +22,48 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
 
     private string $id;
 
-    private ?GetPaymentQuery $query = null;
+    /**
+     * Query parameters.
+     */
+    private bool $embedCaptures = false;
+
+    private bool $embedRefunds = false;
+
+    private bool $embedChargebacks = false;
+
+    private bool $includeQrCode = false;
+
+    private bool $includeRemainderDetails = false;
 
     public function __construct(
         string $id,
-        ?GetPaymentQuery $query = null
+        bool $embedCaptures = false,
+        bool $embedRefunds = false,
+        bool $embedChargebacks = false,
+        bool $includeQrCode = false,
+        bool $includeRemainderDetails = false
     ) {
         $this->id = $id;
-        $this->query = $query;
+        $this->embedCaptures = $embedCaptures;
+        $this->embedRefunds = $embedRefunds;
+        $this->embedChargebacks = $embedChargebacks;
+        $this->includeQrCode = $includeQrCode;
+        $this->includeRemainderDetails = $includeRemainderDetails;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query ? $this->query->toArray() : [];
+        return [
+            'embed' => Arr::join([
+                $this->embedCaptures ? PaymentQuery::EMBED_CAPTURES : null,
+                $this->embedRefunds ? PaymentQuery::EMBED_REFUNDS : null,
+                $this->embedChargebacks ? PaymentQuery::EMBED_CHARGEBACKS : null,
+            ]),
+            'include' => Arr::join([
+                $this->includeQrCode ? PaymentQuery::INCLUDE_QR_CODE : null,
+                $this->includeRemainderDetails ? PaymentQuery::INCLUDE_REMAINDER_DETAILS : null,
+            ]),
+        ];
     }
 
     /**

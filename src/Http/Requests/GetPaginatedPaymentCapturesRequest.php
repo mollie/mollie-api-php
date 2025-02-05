@@ -4,19 +4,14 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedPaymentCapturesQuery;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
-use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaginatedPaymentCapturesRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
-
-    /**
-     * Define the HTTP method.
-     */
-    protected static string $method = Method::GET;
 
     /**
      * The resource class the request should be casted to.
@@ -25,17 +20,14 @@ class GetPaginatedPaymentCapturesRequest extends PaginatedRequest implements IsI
 
     private string $paymentId;
 
-    private ?GetPaginatedPaymentCapturesQuery $query;
-
-    public function __construct(string $paymentId, ?GetPaginatedPaymentCapturesQuery $query = null)
+    public function __construct(string $paymentId, ?string $from = null, ?int $limit = null, bool $includePayment = false)
     {
         $this->paymentId = $paymentId;
-        $this->query = $query;
-    }
 
-    protected function defaultQuery(): array
-    {
-        return $this->query ? $this->query->toArray() : [];
+        parent::__construct($from, $limit);
+
+        $this->query()
+            ->add('include', Arr::join($includePayment ? [PaymentIncludesQuery::PAYMENT] : []));
     }
 
     /**

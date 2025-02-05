@@ -13,7 +13,7 @@ class ServiceUnavailableException extends ServerException
 
         return new self(
             $response,
-            'The service is temporarily unavailable. ' .
+            'The service is temporarily unavailable. '.
                 sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE, $body->title, $body->detail),
             ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE
         );

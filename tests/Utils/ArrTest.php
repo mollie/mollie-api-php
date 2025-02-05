@@ -4,7 +4,6 @@ namespace Tests\Utils;
 
 use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\PaymentRoute;
@@ -31,6 +30,14 @@ class ArrTest extends TestCase
 
         $this->assertEquals('baz', Arr::pull($array, 'foo.bar'));
         $this->assertEquals(['foo' => []], $array);
+    }
+
+    /** @test */
+    public function except(): void
+    {
+        $array = ['foo' => 'bar', 'baz' => 'qux'];
+
+        $this->assertEquals(['foo' => 'bar'], Arr::except($array, ['baz']));
     }
 
     /** @test */
@@ -96,11 +103,6 @@ class ArrTest extends TestCase
     /** @test */
     public function resolve(): void
     {
-        $foo = new Foo('bar', new Bar('baz'));
-        $anyData = new AnyData(['foo' => $foo]);
-
-        $this->assertEquals(['foo' => ['foo' => 'bar', 'bar' => 'baz']], Arr::resolve($anyData));
-
         $nullResult = Arr::resolve(null);
         $this->assertEquals([], $nullResult);
 

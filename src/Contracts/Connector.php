@@ -7,7 +7,10 @@ use Mollie\Api\Http\Request;
 
 interface Connector extends Authenticatable, IdempotencyContract, SupportsDebuggingContract, Testable
 {
-    public function send(Request $request): ?object;
+    /**
+     * @return mixed
+     */
+    public function send(Request $request);
 
     public function resolveBaseUrl(): string;
 

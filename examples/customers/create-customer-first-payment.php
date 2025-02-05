@@ -4,12 +4,10 @@
  * How to create a first payment to allow recurring payments later.
  */
 
-use Mollie\Api\Factories\CreatePaymentPayloadFactory;
 use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
-use Mollie\Api\Types\SequenceType;
 
 try {
     /*
@@ -40,19 +38,17 @@ try {
      *
      * @See: https://docs.mollie.com/reference/v2/customers-api/create-customer-payment
      */
-    $payload = CreatePaymentPayloadFactory::new([
-        'description' => "First payment - Order #{$orderId}",
-        'amount' => new Money('EUR', '10.00'),
-        'redirectUrl' => "{$protocol}://{$hostname}/payments/return.php?order_id={$orderId}",
-        'webhookUrl' => "{$protocol}://{$hostname}/payments/webhook.php",
-        'metadata' => new Metadata([
-            'order_id' => $orderId,
-        ]),
-        'sequenceType' => SequenceType::FIRST,
-    ])->create();
-
     $payment = $mollie->send(
-        new CreateCustomerPaymentRequest($customer->id, $payload)
+        new CreateCustomerPaymentRequest(
+            $customer->id,
+            "First payment - Order #{$orderId}",
+            new Money('EUR', '10.00'),
+            "{$protocol}://{$hostname}/payments/return.php?order_id={$orderId}",
+            "{$protocol}://{$hostname}/payments/webhook.php",
+            new Metadata([
+                'order_id' => $orderId,
+            ])
+        )
     );
 
     /*

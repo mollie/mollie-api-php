@@ -3,9 +3,9 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaymentChargebackQuery;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentIncludesQuery;
 
 class GetPaymentChargebackRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -23,18 +23,20 @@ class GetPaymentChargebackRequest extends ResourceHydratableRequest implements S
 
     private string $chargebackId;
 
-    private ?GetPaymentChargebackQuery $query;
+    private bool $includePayment;
 
-    public function __construct(string $paymentId, string $chargebackId, ?GetPaymentChargebackQuery $query = null)
+    public function __construct(string $paymentId, string $chargebackId, bool $includePayment = false)
     {
         $this->paymentId = $paymentId;
         $this->chargebackId = $chargebackId;
-        $this->query = $query;
+        $this->includePayment = $includePayment;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query ? $this->query->toArray() : [];
+        return [
+            'include' => $this->includePayment ? PaymentIncludesQuery::PAYMENT : null,
+        ];
     }
 
     public function resolveResourcePath(): string

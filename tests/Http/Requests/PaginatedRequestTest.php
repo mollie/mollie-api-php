@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Requests;
 
-use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Requests\PaginatedRequest;
 use Mollie\Api\Resources\BaseCollection;
 use PHPUnit\Framework\TestCase;
@@ -14,16 +13,15 @@ class PaginatedRequestTest extends TestCase
     {
         $request = new ConcretePaginatedRequest;
 
-        $this->assertEquals([], $request->query()->all());
+        $this->assertEquals([], $request->query()->resolve()->all());
     }
 
     /** @test */
     public function it_can_handle_query()
     {
-        $query = new ConcreteQuery(['limit' => 10]);
-        $request = new ConcretePaginatedRequest($query);
+        $request = new ConcretePaginatedRequest(null, 10);
 
-        $this->assertEquals(['limit' => 10], $request->query()->all());
+        $this->assertEquals(['limit' => 10], $request->query()->resolve()->all());
     }
 }
 
@@ -34,20 +32,5 @@ class ConcretePaginatedRequest extends PaginatedRequest
     public function resolveResourcePath(): string
     {
         return 'test';
-    }
-}
-
-class ConcreteQuery implements Arrayable
-{
-    private array $parameters;
-
-    public function __construct(array $parameters)
-    {
-        $this->parameters = $parameters;
-    }
-
-    public function toArray(): array
-    {
-        return $this->parameters;
     }
 }

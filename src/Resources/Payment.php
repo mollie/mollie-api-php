@@ -5,7 +5,6 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Metadata;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Traits\HasMode;
@@ -708,14 +707,15 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update(): ?Payment
+    public function update(): Payment
     {
         $additional = [];
         if ($this->method === PaymentMethod::BANKTRANSFER) {
             $additional['dueDate'] = $this->dueDate;
         }
 
-        $payload = new UpdatePaymentPayload(
+        $updateRequest = (new UpdatePaymentRequest(
+            $this->id,
             $this->description,
             $this->redirectUrl,
             $this->cancelUrl,
@@ -725,11 +725,12 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
             $this->locale,
             $this->restrictPaymentMethodsToCountry,
             $additional
-        );
+        ))->test($this->isInTestmode());
 
+        /** @var null|Payment */
         return $this
             ->connector
-            ->send((new UpdatePaymentRequest($this->id, $payload))->test($this->isInTestmode()));
+            ->send($updateRequest);
     }
 
     /**

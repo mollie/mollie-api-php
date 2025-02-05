@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
 use Mollie\Api\Resources\Issuer;
@@ -12,7 +12,7 @@ class MethodIssuerEndpointCollection extends EndpointCollection
     /**
      * Enable an issuer for a specific payment method.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function enable(string $profileId, string $methodId, string $issuerId, ?string $contractId = null): Issuer
     {
@@ -22,7 +22,7 @@ class MethodIssuerEndpointCollection extends EndpointCollection
     /**
      * Disable an issuer for a specific payment method.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function disable(string $profileId, string $methodId, string $issuerId): void
     {

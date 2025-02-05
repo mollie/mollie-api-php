@@ -2,9 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetPaginatedSettlementsQueryFactory;
-use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetPaginatedSettlementsRequestFactory;
 use Mollie\Api\Http\Requests\GetSettlementRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
@@ -17,7 +16,7 @@ class SettlementEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the settlement id is invalid or the resource cannot be found.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $settlementId): Settlement
     {
@@ -27,7 +26,7 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieve the details of the current settlement that has not yet been paid out.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function next(): Settlement
     {
@@ -37,7 +36,7 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieve the details of the open balance of the organization.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function open(): Settlement
     {
@@ -47,17 +46,19 @@ class SettlementEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlements from Mollie.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): SettlementCollection
     {
-        $query = GetPaginatedSettlementsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedSettlementsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
-        return $this->send(new GetPaginatedSettlementsRequest($query));
+        return $this->send($request);
     }
 
     /**
@@ -65,14 +66,16 @@ class SettlementEndpointCollection extends EndpointCollection
      */
     public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $query = GetPaginatedSettlementsQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedSettlementsRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedSettlementsRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

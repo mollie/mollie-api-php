@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use PHPUnit\Framework\TestCase;
@@ -19,13 +18,12 @@ class CreateMandateRequestTest extends TestCase
         ]);
 
         $customerId = 'cst_kEn1PlbGa';
-        $payload = new CreateMandatePayload(
+        $request = new CreateMandateRequest(
+            $customerId,
             'directdebit',
             'John Doe',
             'NL55INGB0000000000'
         );
-
-        $request = new CreateMandateRequest($customerId, $payload);
 
         /** @var Mandate */
         $mandate = $client->send($request);
@@ -38,13 +36,12 @@ class CreateMandateRequestTest extends TestCase
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';
-        $payload = new CreateMandatePayload(
+        $request = new CreateMandateRequest(
+            $customerId,
             'directdebit',
             'John Doe',
             'NL55INGB0000000000'
         );
-
-        $request = new CreateMandateRequest($customerId, $payload);
 
         $this->assertEquals(
             "customers/{$customerId}/mandates",

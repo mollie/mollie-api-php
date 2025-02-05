@@ -15,6 +15,7 @@ use Throwable;
 class NetworkRequestException extends MollieException implements NetworkExceptionInterface
 {
     protected PendingRequest $pendingRequest;
+
     protected string $plainMessage;
 
     public function __construct(

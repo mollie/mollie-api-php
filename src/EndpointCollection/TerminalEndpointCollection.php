@@ -2,8 +2,7 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\PaginatedQueryFactory;
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\LazyCollection;
@@ -20,7 +19,7 @@ class TerminalEndpointCollection extends EndpointCollection
      *
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $id, $testmode = false): Terminal
     {
@@ -36,18 +35,14 @@ class TerminalEndpointCollection extends EndpointCollection
      * @param  string|null  $from  The first terminal ID you want to include in your list.
      * @param  bool|array  $testmode
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, $testmode = false): TerminalCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
         /** @var TerminalCollection */
-        return $this->send((new GetPaginatedTerminalsRequest($query))->test($testmode));
+        return $this->send((new GetPaginatedTerminalsRequest($from, $limit))->test($testmode));
     }
 
     /**
@@ -64,13 +59,9 @@ class TerminalEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-        ])->create();
 
         return $this->send(
-            (new GetPaginatedTerminalsRequest($query))
+            (new GetPaginatedTerminalsRequest($from, $limit))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

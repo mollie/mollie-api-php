@@ -15,6 +15,19 @@ class GetPaginatedInvoiceRequest extends PaginatedRequest implements IsIteratabl
      */
     protected $hydratableResource = InvoiceCollection::class;
 
+    public function __construct(
+        ?string $from = null,
+        ?int $limit = null,
+        ?string $reference = null,
+        ?string $year = null
+    ) {
+        parent::__construct($from, $limit);
+
+        $this->query()
+            ->add('reference', $reference)
+            ->add('year', $year);
+    }
+
     public function resolveResourcePath(): string
     {
         return 'invoices';

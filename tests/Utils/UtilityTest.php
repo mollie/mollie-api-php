@@ -61,10 +61,11 @@ class UtilityTest extends TestCase
     /** @test */
     public function compose()
     {
-        // Test with callable
+        // Test with primitive value and callable resolver
         $composedWithCallable = Utility::compose(5, fn ($x) => $x * 2);
         $this->assertEquals(10, $composedWithCallable);
 
+        // Test with primitive value and class resolver
         $composedWithClass = Utility::compose('test', TestComposable::class);
         $this->assertInstanceOf(TestComposable::class, $composedWithClass);
         $this->assertEquals('test', $composedWithClass->value);
@@ -73,9 +74,27 @@ class UtilityTest extends TestCase
         $composedWithDefault = Utility::compose(false, fn ($x) => $x * 2, 'default');
         $this->assertEquals('default', $composedWithDefault);
 
-        $existingValueIsNotOverriden = Utility::compose(new Metadata(['key' => 'value']), Metadata::class);
-        $this->assertInstanceOf(Metadata::class, $existingValueIsNotOverriden);
+        // Test with matching instance - should return as is
+        $metadata = new Metadata(['key' => 'value']);
+        $existingValueIsNotOverriden = Utility::compose($metadata, Metadata::class);
+        $this->assertSame($metadata, $existingValueIsNotOverriden);
         $this->assertEquals(['key' => 'value'], $existingValueIsNotOverriden->data);
+
+        // Test when third argument is a non-existent class (should be treated as default)
+        $nonExistentClass = Utility::compose(false, fn ($x) => $x * 2, 'NonExistentClass');
+        $this->assertEquals('NonExistentClass', $nonExistentClass);
+
+        // Test with null value and default
+        $nullWithDefault = Utility::compose(null, TestComposable::class, 'default_value');
+        $this->assertEquals('default_value', $nullWithDefault);
+
+        // Test with empty string value
+        $emptyStringValue = Utility::compose('', TestComposable::class, 'default_value');
+        $this->assertEquals('default_value', $emptyStringValue);
+
+        // Test with zero value (should be considered falsy)
+        $zeroValue = Utility::compose(0, TestComposable::class, 'default_value');
+        $this->assertEquals('default_value', $zeroValue);
     }
 
     /** @test */
@@ -146,6 +165,16 @@ class TestFilterClass
 }
 
 class TestComposable
+{
+    public $value;
+
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
+}
+
+class TestSourceClass
 {
     public $value;
 

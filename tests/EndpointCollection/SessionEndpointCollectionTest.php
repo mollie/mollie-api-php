@@ -4,7 +4,6 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
@@ -26,7 +25,7 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->get('ses_123', new AnyData(['include' => 'details']));
+        $session = $client->sessions->get('ses_123', ['include' => 'details']);
 
         $this->assertSession($session);
     }
@@ -39,10 +38,10 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->create(new AnyData([
+        $session = $client->sessions->create([
             'amount' => new Money('EUR', '10.00'),
             'description' => 'Test Session',
-        ]));
+        ]);
 
         $this->assertSession($session);
     }
@@ -55,9 +54,9 @@ class SessionEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->update('ses_123', new AnyData([
+        $session = $client->sessions->update('ses_123', [
             'description' => 'Updated Session',
-        ]));
+        ]);
 
         $this->assertSession($session);
     }

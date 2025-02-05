@@ -2,10 +2,8 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetPaginatedSettlementChargebacksQueryFactory;
-use Mollie\Api\Http\Data\GetPaginatedSettlementChargebacksQuery;
-use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetPaginatedSettlementChargebacksRequestFactory;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Settlement;
@@ -16,11 +14,9 @@ class SettlementChargebackEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Chargebacks from Mollie.
      *
-     * @param  array|GetPaginatedSettlementChargebacksQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageFor(Settlement $settlement, $query = [], bool $testmode = false): ChargebackCollection
+    public function pageFor(Settlement $settlement, array $query = [], bool $testmode = false): ChargebackCollection
     {
         return $this->pageForId($settlement->id, $query, $testmode);
     }
@@ -28,19 +24,18 @@ class SettlementChargebackEndpointCollection extends EndpointCollection
     /**
      * Retrieves a collection of Settlement Chargebacks from Mollie.
      *
-     * @param  array|GetPaginatedSettlementChargebacksQuery  $query
-     *
-     * @throws ApiException
+     * @throws RequestException
      */
-    public function pageForId(string $settlementId, $query = [], bool $testmode = false): ChargebackCollection
+    public function pageForId(string $settlementId, array $query = [], bool $testmode = false): ChargebackCollection
     {
-        if (! $query instanceof GetPaginatedSettlementChargebacksQuery) {
-            $testmode = Utility::extractBool($query, 'testmode', $testmode);
-            $query = GetPaginatedSettlementChargebacksQueryFactory::new($query)->create();
-        }
+        $testmode = Utility::extractBool($query, 'testmode', $testmode);
+
+        $request = GetPaginatedSettlementChargebacksRequestFactory::new($settlementId)
+            ->withQuery($query)
+            ->create();
 
         /** @var ChargebackCollection */
-        return $this->send((new GetPaginatedSettlementChargebacksRequest($settlementId, $query))->test($testmode));
+        return $this->send($request->test($testmode));
     }
 
     /**
@@ -73,14 +68,17 @@ class SettlementChargebackEndpointCollection extends EndpointCollection
         bool $iterateBackwards = false
     ): LazyCollection {
         $testmode = Utility::extractBool($filters, 'testmode', false);
-        $query = GetPaginatedSettlementChargebacksQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+
+        $request = GetPaginatedSettlementChargebacksRequestFactory::new($settlementId)
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedSettlementChargebacksRequest($settlementId, $query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

@@ -2,12 +2,9 @@
 
 namespace Tests\EndpointCollection;
 
-use DateTimeImmutable;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreatePaymentLinkPayload;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\UpdatePaymentLinkPayload;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DeletePaymentLinkRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -28,15 +25,12 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         ]);
 
         /** @var PaymentLink $paymentLink */
-        $paymentLink = $client->paymentLinks->create(new CreatePaymentLinkPayload(
-            'Test payment link',
-            new Money('10.00', 'EUR'),
-            'https://example.org/redirect',
-            'https://example.org/webhook',
-            null,
-            null,
-            new DateTimeImmutable('2023-12-31'),
-        ));
+        $paymentLink = $client->paymentLinks->create([
+            'description' => 'Test payment link',
+            'amount' => new Money('10.00', 'EUR'),
+            'redirectUrl' => 'https://example.org/redirect',
+            'webhookUrl' => 'https://example.org/webhook',
+        ]);
 
         $this->assertPaymentLink($paymentLink);
     }
@@ -62,9 +56,9 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         ]);
 
         /** @var PaymentLink $paymentLink */
-        $paymentLink = $client->paymentLinks->update('pl_4Y0eZitmBnQ6IDoMqZQKh', new UpdatePaymentLinkPayload(
-            'Updated description',
-        ));
+        $paymentLink = $client->paymentLinks->update('pl_4Y0eZitmBnQ6IDoMqZQKh', [
+            'description' => 'Updated description',
+        ]);
 
         $this->assertPaymentLink($paymentLink);
     }

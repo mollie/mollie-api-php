@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use DateTimeInterface;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Types\Method;
 
@@ -21,17 +21,27 @@ class GetBalanceReportRequest extends ResourceHydratableRequest implements Suppo
 
     private string $balanceId;
 
-    private GetBalanceReportQuery $query;
+    private DateTimeInterface $from;
 
-    public function __construct(string $balanceId, GetBalanceReportQuery $query)
+    private DateTimeInterface $until;
+
+    private ?string $grouping;
+
+    public function __construct(string $balanceId, DateTimeInterface $from, DateTimeInterface $until, ?string $grouping = null)
     {
         $this->balanceId = $balanceId;
-        $this->query = $query;
+        $this->from = $from;
+        $this->until = $until;
+        $this->grouping = $grouping;
     }
 
     protected function defaultQuery(): array
     {
-        return $this->query->toArray();
+        return [
+            'from' => $this->from,
+            'until' => $this->until,
+            'grouping' => $this->grouping,
+        ];
     }
 
     /**

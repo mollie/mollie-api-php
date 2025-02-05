@@ -13,7 +13,7 @@ class ForbiddenException extends ApiException
 
         return new self(
             $response,
-            'Your request was understood but not allowed. ' .
+            'Your request was understood but not allowed. '.
                 sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_FORBIDDEN, $body->title, $body->detail),
             ResponseStatusCode::HTTP_FORBIDDEN
         );

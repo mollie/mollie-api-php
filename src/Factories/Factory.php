@@ -3,27 +3,28 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Contracts\Factory as FactoryContract;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
-abstract class Factory implements FactoryContract
+abstract class Factory
 {
-    protected array $data;
+    private array $data;
 
-    public function __construct($data)
+    public function __construct($data = null)
     {
         if ($data instanceof Arrayable) {
             $this->data = $data->toArray();
         } else {
-            $this->data = $data;
+            $this->data = $data ?: [];
         }
     }
 
-    public static function new($data): self
+    /**
+     * @return static
+     */
+    public static function new(...$args)
     {
-        /** @phpstan-ignore-next-line */
-        return new static($data);
+        return new static(...$args);
     }
 
     /**
@@ -32,16 +33,22 @@ abstract class Factory implements FactoryContract
      * @param  string|array<string>  $key
      * @param  mixed  $default
      */
-    protected function get($key, $default = null, $backupKey = 'filters.')
+    protected function get($key = null, $default = null, $data = null, $backupKey = 'filters.')
     {
+        $data = $data ?? $this->data;
+
         $keys = (array) $key;
+
+        if (empty($keys)) {
+            return $data;
+        }
 
         if ($backupKey !== null) {
             $keys[] = $backupKey.$key;
         }
 
         foreach ($keys as $key) {
-            if ($value = Arr::get($this->data, $key, $default)) {
+            if ($value = Arr::get($data, $key, $default)) {
                 return $value;
             }
         }
@@ -49,30 +56,30 @@ abstract class Factory implements FactoryContract
         return $default;
     }
 
-    protected function has($keys): bool
+    protected function has($keys, $data = null): bool
     {
-        return Arr::has($this->data, $keys);
+        return Arr::has($data ?? $this->data, $keys);
     }
 
     /**
      * @param  string|array<string>  $key
      * @param  mixed  $value
      */
-    protected function includes($key, $value, $backupKey = 'filters.'): bool
+    protected function includes($key, $value, $data = null, $backupKey = 'filters.'): bool
     {
-        return Arr::includes($this->data, [$backupKey.$key, $key], $value);
+        return Arr::includes($data ?? $this->data, [$backupKey.$key, $key], $value);
     }
 
     /**
      * Map a value to a new form if it is not null.
      *
      * @param  string|array<string>  $key  The key to retrieve the value from the data array.
-     * @param  callable|string  $composable  A callable function to transform the value, or the name of a class to instantiate.
-     * @param  string  $backupKey  The key to retrieve the value from the data array if the first key is null.
+     * @param  callable|string  $resolver  A callable function to transform the value, or the name of a class to instantiate.
+     * @param  string  $composableClass  The class to instantiate if the resolver is a string.
      * @return mixed The transformed value, a new class instance, or null if the value is null.
      */
-    protected function mapIfNotNull($key, $composable, $backupKey = 'filters.')
+    protected function transformIfNotNull($key, $resolver, $composableClass = null)
     {
-        return Utility::compose($this->get($key, null, $backupKey), $composable);
+        return Utility::compose($this->get($key), $resolver, $composableClass);
     }
 }

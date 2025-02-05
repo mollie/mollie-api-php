@@ -4,7 +4,6 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
@@ -21,12 +20,12 @@ class GetPaginatedSubscriptionPaymentsRequest extends PaginatedRequest implement
 
     private string $subscriptionId;
 
-    public function __construct(string $customerId, string $subscriptionId, ?PaginatedQuery $query = null)
+    public function __construct(string $customerId, string $subscriptionId, ?string $from = null, ?int $limit = null)
     {
         $this->customerId = $customerId;
         $this->subscriptionId = $subscriptionId;
 
-        parent::__construct($query);
+        parent::__construct($from, $limit);
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\PaginatedQuery;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
@@ -19,11 +18,11 @@ class GetPaginatedMandateRequest extends PaginatedRequest implements IsIteratabl
 
     private string $customerId;
 
-    public function __construct(string $customerId, ?PaginatedQuery $query = null)
+    public function __construct(string $customerId, ?string $from = null, ?int $limit = null)
     {
-        parent::__construct($query);
-
         $this->customerId = $customerId;
+
+        parent::__construct($from, $limit);
     }
 
     public function resolveResourcePath(): string

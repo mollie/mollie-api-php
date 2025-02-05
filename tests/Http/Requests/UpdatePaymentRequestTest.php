@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\UpdatePaymentPayload;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
@@ -18,10 +17,11 @@ class UpdatePaymentRequestTest extends TestCase
             UpdatePaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
-        $request = new UpdatePaymentRequest('tr_WDqYK6vllg', new UpdatePaymentPayload(
+        $request = new UpdatePaymentRequest(
+            'tr_WDqYK6vllg',
             'Updated payment description',
             'https://example.com/redirect',
-        ));
+        );
 
         /** @var Payment */
         $payment = $client->send($request);
@@ -33,10 +33,11 @@ class UpdatePaymentRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdatePaymentRequest('tr_WDqYK6vllg', new UpdatePaymentPayload(
+        $request = new UpdatePaymentRequest(
+            'tr_WDqYK6vllg',
             'Updated payment description',
             'https://example.com/redirect',
-        ));
+        );
 
         $this->assertEquals('payments/tr_WDqYK6vllg', $request->resolveResourcePath());
     }

@@ -49,8 +49,9 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * @throws NetworkRequestException
      * @return array{0: array<string, string>, 1: string, 2: int}
+     *
+     * @throws NetworkRequestException
      */
     protected function send(PendingRequest $pendingRequest): array
     {
@@ -67,7 +68,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
             if ($response === false) {
                 $curlErrorNumber = curl_errno($curl);
-                $curlErrorMessage = 'Curl error: ' . curl_error($curl);
+                $curlErrorMessage = 'Curl error: '.curl_error($curl);
 
                 throw CurlErrorMapper::toException($curlErrorNumber, $curlErrorMessage, $pendingRequest);
             }
@@ -101,7 +102,6 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
     }
 
     /**
-     * @param string $response
      * @return array{0: array<string, string>, 1: string, 2: int}
      */
     private function extractResponseDetails($curl, string $response): array

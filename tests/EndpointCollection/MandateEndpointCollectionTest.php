@@ -5,7 +5,6 @@ namespace Tests\EndpointCollection;
 use DateTimeImmutable;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\CreateMandatePayload;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
@@ -28,15 +27,15 @@ class MandateEndpointCollectionTest extends TestCase
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
-        $mandate = $client->mandates->createForCustomer($customer, new CreateMandatePayload(
-            'directdebit',
-            'John Doe',
-            'NL55INGB0000000000',
-            'INGBNL2A',
-            'john.doe@example.com',
-            new DateTimeImmutable('2023-05-07'),
-            'EXAMPLE-CORP-MD13804',
-        ));
+        $mandate = $client->mandates->createForCustomer($customer, [
+            'method' => 'directdebit',
+            'consumerName' => 'John Doe',
+            'iban' => 'NL55INGB0000000000',
+            'bic' => 'INGBNL2A',
+            'email' => 'john.doe@example.com',
+            'signatureDate' => new DateTimeImmutable('2023-05-07'),
+            'mandateReference' => 'EXAMPLE-CORP-MD13804',
+        ]);
 
         $this->assertMandate($mandate);
     }

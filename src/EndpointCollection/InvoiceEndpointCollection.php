@@ -2,11 +2,9 @@
 
 namespace Mollie\Api\EndpointCollection;
 
-use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Factories\GetPaginatedInvoiceQueryFactory;
-use Mollie\Api\Factories\PaginatedQueryFactory;
+use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetPaginatedInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\GetInvoiceRequest;
-use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
 use Mollie\Api\Resources\LazyCollection;
@@ -18,7 +16,7 @@ class InvoiceEndpointCollection extends EndpointCollection
      *
      * Will throw a ApiException if the invoice id is invalid or the resource cannot be found.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function get(string $invoiceId): Invoice
     {
@@ -31,18 +29,20 @@ class InvoiceEndpointCollection extends EndpointCollection
      *
      * @param  string|null  $from  The first invoice ID you want to include in your list.
      *
-     * @throws ApiException
+     * @throws RequestException
      */
     public function page(?string $from = null, ?int $limit = null, array $filters = []): InvoiceCollection
     {
-        $query = GetPaginatedInvoiceQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $filters,
-        ])->create();
+        $request = GetPaginatedInvoiceRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         /** @var InvoiceCollection */
-        return $this->send(new GetPaginatedInvoiceRequest($query));
+        return $this->send($request);
     }
 
     /**
@@ -51,16 +51,18 @@ class InvoiceEndpointCollection extends EndpointCollection
      * @param  string|null  $from  The first invoice ID you want to include in your list.
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iterator(?string $from = null, ?int $limit = null, array $parameters = [], bool $iterateBackwards = false): LazyCollection
+    public function iterator(?string $from = null, ?int $limit = null, array $filters = [], bool $iterateBackwards = false): LazyCollection
     {
-        $query = PaginatedQueryFactory::new([
-            'from' => $from,
-            'limit' => $limit,
-            'filters' => $parameters,
-        ])->create();
+        $request = GetPaginatedInvoiceRequestFactory::new()
+            ->withQuery([
+                'from' => $from,
+                'limit' => $limit,
+                'filters' => $filters,
+            ])
+            ->create();
 
         return $this->send(
-            (new GetPaginatedInvoiceRequest($query))
+            $request
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

@@ -14,7 +14,7 @@ class InvoiceLineFactory extends Factory
             $this->get('quantity'),
             $this->get('vatRate'),
             MoneyFactory::new($this->get('unitPrice'))->create(),
-            $this->mapIfNotNull('discount', fn (array $data) => Discount::fromArray($data))
+            $this->transformIfNotNull('discount', fn (array $data) => Discount::fromArray($data))
         );
     }
 }

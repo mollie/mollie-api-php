@@ -4,9 +4,10 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\GetPaginatedSettlementCapturesQuery;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
+use Mollie\Api\Types\PaymentIncludesQuery;
+use Mollie\Api\Utils\Arr;
 
 class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
@@ -19,11 +20,18 @@ class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements 
 
     private string $settlementId;
 
-    public function __construct(string $settlementId, ?GetPaginatedSettlementCapturesQuery $query = null)
-    {
+    public function __construct(
+        string $settlementId,
+        ?string $from = null,
+        ?int $limit = null,
+        bool $includePayment = false
+    ) {
         $this->settlementId = $settlementId;
 
-        parent::__construct($query);
+        parent::__construct($from, $limit);
+
+        $this->query()
+            ->add('include', Arr::join($includePayment ? [PaymentIncludesQuery::PAYMENT] : []));
     }
 
     /**

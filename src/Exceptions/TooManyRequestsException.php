@@ -13,7 +13,7 @@ class TooManyRequestsException extends ApiException
 
         return new self(
             $response,
-            'Your request exceeded the rate limit. ' .
+            'Your request exceeded the rate limit. '.
                 sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_TOO_MANY_REQUESTS, $body->title, $body->detail),
             ResponseStatusCode::HTTP_TOO_MANY_REQUESTS
         );
