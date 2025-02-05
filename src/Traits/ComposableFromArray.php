@@ -8,7 +8,9 @@ trait ComposableFromArray
 {
     public static function fromArray($data = []): self
     {
-        $data = DataCollection::wrap($data)->toArray();
+        $data = DataCollection::wrap($data)
+            ->values()
+            ->toArray();
 
         /** @phpstan-ignore-next-line */
         return new static(...$data);

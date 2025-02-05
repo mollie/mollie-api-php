@@ -46,6 +46,11 @@ class DataCollection implements Countable, Resolvable
         return new static(Arr::wrap($subject));
     }
 
+    public function values(): self
+    {
+        return new static(array_values($this->items));
+    }
+
     public function toArray(): array
     {
         return $this->items;

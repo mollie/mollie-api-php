@@ -36,11 +36,11 @@ class OwnerAddress implements Arrayable
     public function toArray(): array
     {
         return [
+            'country' => $this->country,
             'streetAndNumber' => $this->streetAndNumber,
             'postalCode' => $this->postalCode,
             'city' => $this->city,
             'region' => $this->region,
-            'country' => $this->country,
         ];
     }
 }
