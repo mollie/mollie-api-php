@@ -20,7 +20,7 @@ class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements 
     public function __construct(
         string $balanceId,
         ?string $from = null,
-        ?int $limit = null,
+        ?int $limit = null
     ) {
         $this->balanceId = $balanceId;
 

@@ -55,7 +55,7 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
         ?int $times = null,
         ?Metadata $metadata = null,
         ?string $webhookUrl = null,
-        ?string $mandateId = null,
+        ?string $mandateId = null
     ) {
         $this->customerId = $customerId;
         $this->subscriptionId = $subscriptionId;

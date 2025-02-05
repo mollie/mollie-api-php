@@ -46,7 +46,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
         ?array $orderLineCategories = null,
         ?string $profileId = null,
         ?bool $includeIssuers = null,
-        ?bool $includePricing = null,
+        ?bool $includePricing = null
     ) {
         $this->sequenceType = $sequenceType;
         $this->resource = $resource;
