@@ -4,7 +4,7 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\CancelSessionRequest;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
 
@@ -14,11 +14,13 @@ class CancelSessionRequestTest extends TestCase
     public function it_can_cancel_session()
     {
         $client = new MockMollieClient([
-            CancelSessionRequest::class => MockResponse::ok('session'),
+            DynamicDeleteRequest::class => MockResponse::ok('session'),
         ]);
 
         $sessionId = 'sess_pNxqdWEFws';
-        $request = new CancelSessionRequest($sessionId);
+        $request = new DynamicDeleteRequest("sessions/{$sessionId}");
+
+        $request->setHydratableResource(Session::class);
 
         /** @var Session */
         $session = $client->send($request);
@@ -31,7 +33,7 @@ class CancelSessionRequestTest extends TestCase
     public function it_resolves_correct_resource_path()
     {
         $sessionId = 'sess_pNxqdWEFws';
-        $request = new CancelSessionRequest($sessionId);
+        $request = new DynamicDeleteRequest("sessions/{$sessionId}");
 
         $this->assertEquals(
             "sessions/{$sessionId}",

@@ -6,11 +6,11 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
-use Mollie\Api\Http\Requests\CreateSessionRequest;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
+use Mollie\Api\Http\Requests\DynamicPutRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
-use Mollie\Api\Http\Requests\GetSessionRequest;
-use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetSessionRequest::class => MockResponse::ok('session'),
+            DynamicGetRequest::class => MockResponse::ok('session'),
         ]);
 
         /** @var Session $session */
@@ -34,7 +34,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            CreateSessionRequest::class => MockResponse::created('session'),
+            DynamicPostRequest::class => MockResponse::created('session'),
         ]);
 
         /** @var Session $session */
@@ -50,7 +50,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function update()
     {
         $client = new MockMollieClient([
-            UpdateSessionRequest::class => MockResponse::ok('session'),
+            DynamicPutRequest::class => MockResponse::ok('session'),
         ]);
 
         /** @var Session $session */
@@ -65,7 +65,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function cancel()
     {
         $client = new MockMollieClient([
-            CancelSessionRequest::class => MockResponse::noContent(),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
         ]);
 
         $client->sessions->cancel('ses_123');

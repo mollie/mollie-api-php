@@ -4,7 +4,7 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\UpdateSessionRequest;
+use Mollie\Api\Http\Requests\DynamicPutRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
 
@@ -14,17 +14,17 @@ class UpdateSessionRequestTest extends TestCase
     public function it_can_update_session()
     {
         $client = new MockMollieClient([
-            UpdateSessionRequest::class => MockResponse::ok('session'),
+            DynamicPutRequest::class => MockResponse::ok('session'),
         ]);
 
-        $request = new UpdateSessionRequest('ses_LQNz4v4Qvk');
-
-        $request->payload()->set([
+        $request = new DynamicPutRequest('ses_LQNz4v4Qvk', [
             'status' => 'completed',
             'metadata' => [
                 'order_id' => '12345',
             ],
         ]);
+
+        $request->setHydratableResource(Session::class);
 
         /** @var Session */
         $session = $client->send($request);
@@ -38,7 +38,7 @@ class UpdateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdateSessionRequest($sessionId = 'ses_LQNz4v4Qvk');
+        $request = new DynamicPutRequest($sessionId = 'ses_LQNz4v4Qvk');
 
         $this->assertEquals("sessions/{$sessionId}", $request->resolveResourcePath());
     }

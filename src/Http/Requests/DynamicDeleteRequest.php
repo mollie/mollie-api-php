@@ -4,12 +4,12 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Types\Method;
 
-class DynamicGetRequest extends DynamicRequest
+class DynamicDeleteRequest extends DynamicRequest
 {
     /**
      * Define the HTTP method.
      */
-    protected static string $method = Method::GET;
+    protected static string $method = Method::DELETE;
 
     public function __construct(
         string $url,

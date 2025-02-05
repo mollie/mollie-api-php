@@ -5,9 +5,12 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
-use Mollie\Api\Http\Requests\CreateSessionRequest;
+use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
+use Mollie\Api\Http\Requests\DynamicPutRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSessionsRequest;
-use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Http\Requests\UpdateSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
@@ -23,9 +26,9 @@ class SessionEndpointCollection extends EndpointCollection
      */
     public function get(string $sessionId, array $query = []): Session
     {
-        $request = new GetSessionRequest($sessionId);
+        $request = new DynamicGetRequest("sessions/{$sessionId}", $query);
 
-        $request->query()->set($query);
+        $request->setHydratableResource(Session::class);
 
         /** @var Session */
         return $this->send($request);
@@ -38,10 +41,9 @@ class SessionEndpointCollection extends EndpointCollection
      */
     public function create(array $payload = [], array $query = []): Session
     {
-        $request = new CreateSessionRequest;
+        $request = new DynamicPostRequest('sessions', $payload, $query);
 
-        $request->payload()->set($payload);
-        $request->query()->set($query);
+        $request->setHydratableResource(Session::class);
 
         /** @var Session */
         return $this->send($request);
@@ -56,11 +58,11 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function update(string $id, array $payload = []): Session
+    public function update(string $id, array $payload = [], array $query = []): Session
     {
-        $request = new UpdateSessionRequest($id);
+        $request = new DynamicPutRequest("sessions/{$id}", $payload, $query);
 
-        $request->payload()->set($payload);
+        $request->setHydratableResource(Session::class);
 
         /** @var Session */
         return $this->send($request);
@@ -75,7 +77,7 @@ class SessionEndpointCollection extends EndpointCollection
      */
     public function cancel(string $id): void
     {
-        $this->send(new CancelSessionRequest($id));
+        $this->send(new DynamicDeleteRequest("sessions/{$id}"));
     }
 
     /**
@@ -93,11 +95,7 @@ class SessionEndpointCollection extends EndpointCollection
             'filters' => $filters,
         ])->create();
 
-        $request = new GetPaginatedSessionsRequest($query->from, $query->limit, $query->sort);
-
-        foreach (Arr::except($filters, 'sort') as $key => $value) {
-            $request->query()->add($key, $value);
-        }
+        $request = new DynamicPaginatedRequest('sessions', array_merge($filters, $query->toArray()));
 
         /** @var SessionCollection */
         return $this->send($request);
@@ -121,11 +119,7 @@ class SessionEndpointCollection extends EndpointCollection
             'filters' => $filters,
         ])->create();
 
-        $request = new GetPaginatedSessionsRequest($query->from, $query->limit, $query->sort);
-
-        foreach (Arr::except($filters, 'sort') as $key => $value) {
-            $request->query()->add($key, $value);
-        }
+        $request = new DynamicPaginatedRequest('sessions', array_merge($filters, $query->toArray()));
 
         return $this->send(
             $request

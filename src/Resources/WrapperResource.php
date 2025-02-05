@@ -17,7 +17,7 @@ class WrapperResource
         $this->wrapper = $wrapper;
     }
 
-    public function getWrapper(): ?string
+    public function getWrapper(): string
     {
         return $this->wrapper;
     }

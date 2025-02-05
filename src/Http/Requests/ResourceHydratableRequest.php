@@ -21,6 +21,9 @@ abstract class ResourceHydratableRequest extends Request
      */
     protected $customHydratableResource = null;
 
+    /**
+     * Determine if the request is hydratable.
+     */
     public function isHydratable(): bool
     {
         return $this->hydratableResource !== null || $this->customHydratableResource !== null;
