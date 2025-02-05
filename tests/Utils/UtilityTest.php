@@ -59,41 +59,41 @@ class UtilityTest extends TestCase
     }
 
     /** @test */
-    public function compose()
+    public function transform()
     {
         // Test with primitive value and callable resolver
-        $composedWithCallable = Utility::compose(5, fn ($x) => $x * 2);
-        $this->assertEquals(10, $composedWithCallable);
+        $transformedWithCallable = Utility::transform(5, fn ($x) => $x * 2);
+        $this->assertEquals(10, $transformedWithCallable);
 
         // Test with primitive value and class resolver
-        $composedWithClass = Utility::compose('test', TestComposable::class);
-        $this->assertInstanceOf(TestComposable::class, $composedWithClass);
-        $this->assertEquals('test', $composedWithClass->value);
+        $transformedWithClass = Utility::transform('test', TestComposable::class);
+        $this->assertInstanceOf(TestComposable::class, $transformedWithClass);
+        $this->assertEquals('test', $transformedWithClass->value);
 
         // Test with falsy value
-        $composedWithDefault = Utility::compose(false, fn ($x) => $x * 2, 'default');
-        $this->assertEquals('default', $composedWithDefault);
+        $transformedWithDefault = Utility::transform(false, fn ($x) => $x * 2, 'default');
+        $this->assertEquals('default', $transformedWithDefault);
 
         // Test with matching instance - should return as is
         $metadata = new Metadata(['key' => 'value']);
-        $existingValueIsNotOverriden = Utility::compose($metadata, Metadata::class);
+        $existingValueIsNotOverriden = Utility::transform($metadata, Metadata::class);
         $this->assertSame($metadata, $existingValueIsNotOverriden);
         $this->assertEquals(['key' => 'value'], $existingValueIsNotOverriden->data);
 
         // Test when third argument is a non-existent class (should be treated as default)
-        $nonExistentClass = Utility::compose(false, fn ($x) => $x * 2, 'NonExistentClass');
+        $nonExistentClass = Utility::transform(false, fn ($x) => $x * 2, 'NonExistentClass');
         $this->assertEquals('NonExistentClass', $nonExistentClass);
 
         // Test with null value and default
-        $nullWithDefault = Utility::compose(null, TestComposable::class, 'default_value');
+        $nullWithDefault = Utility::transform(null, TestComposable::class, 'default_value');
         $this->assertEquals('default_value', $nullWithDefault);
 
         // Test with empty string value
-        $emptyStringValue = Utility::compose('', TestComposable::class, 'default_value');
+        $emptyStringValue = Utility::transform('', TestComposable::class, 'default_value');
         $this->assertEquals('default_value', $emptyStringValue);
 
         // Test with zero value (should be considered falsy)
-        $zeroValue = Utility::compose(0, TestComposable::class, 'default_value');
+        $zeroValue = Utility::transform(0, TestComposable::class, 'default_value');
         $this->assertEquals('default_value', $zeroValue);
     }
 

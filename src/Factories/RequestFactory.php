@@ -78,6 +78,6 @@ abstract class RequestFactory extends Factory
      */
     protected function transformFromResolved($resolvedValue, $composable, $resolver = null)
     {
-        return Utility::compose($resolvedValue, $composable, $resolver);
+        return Utility::transform($resolvedValue, $composable, $resolver);
     }
 }

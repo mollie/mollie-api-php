@@ -1,30 +1,27 @@
-- [x] remove `OrganizationsCollection` and change parent class of `OrganizationEndpoint` to `EndpointAbstract`
-- [x] remove `RouteCollection` and change parent class of `PaymentRouteEndpoint` to `EndpointAbstract`
-- [ ] check naming methods and standardise them (e.g. `SettlementCaptureEndpoint@pageForId()` vs `PaymentChargbackEndpoint@listForId()`)
-- [x] Type cast embedded resources. I.e. when including refunds and chargebacks on a GET payment request, the refunds and chargebacks are not type cast.
-- [x] [PSR-18 Support](https://github.com/mollie/mollie-api-php/issues/703)
-- [ ] ~~rename `MethodEndpoint@all()` or remove it to avoid confusion over `allAvailable()` vs `all()`~~ -> marked as deprecated
-- [x] Add Type: CaptureMode
-- [x] change return types on resources
-- [ ] check resources that have embedded resources whether they need to call an endpoint to provide the data
-- [ ] check endpoint calls in resources for unnecessary code
-	- [x] check if we can add a trait for getPresetOptions and withPresetOptions
-- [x] removed deprecated OrderStatus::REFUNDED OrderLineStatus::REFUNDED
-- [x] refactored collections for easier usage
-- [ ] update documentation
-- [ ] add sessions endpoint (added by @sandervanhooft)
----
-Posting this here for now. For the upgrading steps I have created a separate file. For the changelog we don't have any file yet. May be worth to start a `CHANGELOG.md` file which is automatically filled via a github action from the release notes.
-
 # Upgrading
+
 ## From v2 to v3
+
+### High Impact Changes
+
+#### Removed Endpoints
+
+All `/orders` endpoint have been removed. This removal effects all `Order*Endpoint` classes. The following properties were removed from the `MollieApiClient`:
+
+- `orderPayments`
+- `orderRefunds`
+- `orderLines`
+- `orderPayments`
+
+This removal also effects the `/orders/{orderId}/shipments` endpoints and the corresponding `Shipment*Endpoint` classes. The following properties were removed: `shipments`.
+
 ### Removed unused Collections
 This change should not have any impact on your code, but if you have a type hint for any of the following classes, make sure to remove it
 - `Mollie\Api\Resources\OrganizationCollection`
 - `Mollie\Api\Resources\RouteCollection`
 
 ### Removed deprecations
-The following was removed due to a deprecation
+The following has been deprecated
 - `Mollie\Api\Types\OrderStatus::REFUNDED`
 - `Mollie\Api\Types\OrderLineStatus::REFUNDED`
 - all Orders related endpoints

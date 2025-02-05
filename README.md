@@ -52,18 +52,15 @@ Find our full documentation online on [docs.mollie.com](https://docs.mollie.com)
 #### Example usage ####
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
-$payload = new CreatePaymentPayload(
+/** @var Mollie\Api\Http\Response $response */
+$response = $mollie->send(new CreatePaymentRequest(
     description: 'My first API payment',
     amount: new Money('EUR', '10.00'),
     redirectUrl: 'https://webshop.example.org/order/12345/',
     webhookUrl: 'https://webshop.example.org/mollie-webhook/'
-);
-
-/** @var Mollie\Api\Http\Response $response */
-$response = $mollie->send(new CreatePaymentRequest($payload));
+));
 
 /** @var Mollie\Api\Resources\Payment $payment */
 $payment = $response->toResource();

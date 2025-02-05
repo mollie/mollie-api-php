@@ -80,6 +80,6 @@ abstract class Factory
      */
     protected function transformIfNotNull($key, $resolver, $composableClass = null)
     {
-        return Utility::compose($this->get($key), $resolver, $composableClass);
+        return Utility::transform($this->get($key), $resolver, $composableClass);
     }
 }

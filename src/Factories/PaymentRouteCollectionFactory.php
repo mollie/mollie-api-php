@@ -25,7 +25,7 @@ class PaymentRouteCollectionFactory extends Factory
             return new PaymentRoute(
                 MoneyFactory::new(Arr::get($item, 'amount'))->create(),
                 Arr::get($item, 'destination.organizationId'),
-                Utility::compose(
+                Utility::transform(
                     Arr::get($item, 'delayUntil'),
                     fn ($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value),
                     DateTimeImmutable::class

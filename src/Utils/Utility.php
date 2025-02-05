@@ -88,7 +88,7 @@ class Utility
      * @param  mixed  $default
      * @return mixed
      */
-    public static function compose($value, $resolver, $composableClass = null, $default = null)
+    public static function transform($value, $resolver, $composableClass = null, $default = null)
     {
         /**
          * If the third argument is a string and the class does not exist,
