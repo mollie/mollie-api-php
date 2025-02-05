@@ -56,14 +56,14 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         ];
 
         // Create a sales invoice
-        $payload = new CreateSalesInvoicePayload(
-            'EUR',
-            SalesInvoiceStatus::DRAFT,
-            VatScheme::STANDARD,
-            VatMode::INCLUSIVE,
-            PaymentTerm::DAYS_30,
-            'XXXXX',
-            new Recipient(
+        $payload = [
+            'currency' => 'EUR',
+            'status' => SalesInvoiceStatus::DRAFT,
+            'vatScheme' => VatScheme::STANDARD,
+            'vatMode' => VatMode::INCLUSIVE,
+            'paymentTerm' => PaymentTerm::DAYS_30,
+            'recipientIdentifier' => 'XXXXX',
+            'recipient' => new Recipient(
                 RecipientType::CONSUMER,
                 'darth@vader.deathstar',
                 'Sample Street 12b',
@@ -72,8 +72,8 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
                 'NL',
                 'nl_NL'
             ),
-            new DataCollection($invoiceLines)
-        );
+            'lines' => new DataCollection($invoiceLines),
+        ];
 
         $salesInvoice = $client->salesInvoices->create($payload);
 
@@ -87,10 +87,10 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
             UpdateSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
-        $payload = new UpdateSalesInvoicePayload(
-            SalesInvoiceStatus::PAID,
-            'XXXXX',
-        );
+        $payload = [
+            'status' => SalesInvoiceStatus::PAID,
+            'recipientIdentifier' => 'XXXXX',
+        ];
         $salesInvoice = $client->salesInvoices->update('invoice_123', $payload);
 
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);

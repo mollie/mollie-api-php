@@ -4,7 +4,6 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\AnyData;
 use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
@@ -18,11 +17,7 @@ class GetSessionRequestTest extends TestCase
             GetSessionRequest::class => MockResponse::ok('session'),
         ]);
 
-        $query = new AnyData([
-            'testmode' => true,
-        ]);
-
-        $request = new GetSessionRequest('ses_LQNz4v4Qvk', $query);
+        $request = new GetSessionRequest('ses_LQNz4v4Qvk');
 
         /** @var Session */
         $session = $client->send($request);
@@ -34,11 +29,7 @@ class GetSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $query = new AnyData([
-            'testmode' => true,
-        ]);
-
-        $request = new GetSessionRequest('ses_LQNz4v4Qvk', $query);
+        $request = new GetSessionRequest('ses_LQNz4v4Qvk');
 
         $this->assertEquals(
             'sessions/ses_LQNz4v4Qvk',

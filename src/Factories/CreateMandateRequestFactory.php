@@ -28,7 +28,7 @@ class CreateMandateRequestFactory extends RequestFactory
             $this->payload('consumerAccount'),
             $this->payload('consumerBic'),
             $this->payload('consumerEmail'),
-            $this->transformFromPayload('signatureDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
+            $this->transformFromPayload('signatureDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date), DateTimeImmutable::class),
             $this->payload('mandateReference'),
             $this->payload('paypalBillingAgreementId'),
         );

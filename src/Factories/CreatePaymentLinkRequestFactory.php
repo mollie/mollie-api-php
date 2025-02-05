@@ -11,12 +11,12 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
     {
         return new CreatePaymentLinkRequest(
             $this->payload('description'),
-            $this->transformFromPayload('amount', fn (array $amount) => MoneyFactory::new($amount)->create()),
+            $this->transformFromPayload('amount', fn ($amount) => MoneyFactory::new($amount)->create()),
             $this->payload('redirectUrl'),
             $this->payload('webhookUrl'),
             $this->payload('profileId'),
             $this->payload('reusable'),
-            $this->transformFromPayload('expiresAt', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
+            $this->transformFromPayload('expiresAt', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date), DateTimeImmutable::class),
             $this->payload('allowedMethods'),
         );
     }

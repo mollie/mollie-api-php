@@ -6,9 +6,9 @@ use Mollie\Api\Http\Data\SortablePaginatedQuery;
 
 class SortablePaginatedQueryFactory extends RequestFactory
 {
-    public static function new(): self
+    public static function new(...$args): static
     {
-        return new self;
+        return new static(...$args);
     }
 
     public function create(): SortablePaginatedQuery

@@ -24,12 +24,12 @@ abstract class RequestFactory extends Factory
         return $this;
     }
 
-    protected function payload(string $key, $default = null)
+    protected function payload(?string $key = null, $default = null)
     {
         return $this->get($key, $default, $this->payload);
     }
 
-    protected function query(string $key, $default = null)
+    protected function query(?string $key = null, $default = null)
     {
         return $this->get($key, $default, $this->query);
     }
@@ -57,21 +57,21 @@ abstract class RequestFactory extends Factory
         return $this->has($key, $this->query);
     }
 
-    protected function transformFromPayload($key, $composable)
+    protected function transformFromPayload($key, $resolver, $composableClass = null)
     {
-        return $this->transformFromResolved($this->payload($key), $composable);
+        return $this->transformFromResolved($this->payload($key), $resolver, $composableClass);
     }
 
-    protected function transformFromQuery($key, $composable)
+    protected function transformFromQuery($key, $resolver, $composableClass = null)
     {
-        return $this->transformFromResolved($this->query($key), $composable);
+        return $this->transformFromResolved($this->query($key), $resolver, $composableClass);
     }
 
     /**
      * Map a value to a new form if it is not null.
      */
-    protected function transformFromResolved($resolvedValue, $composable)
+    protected function transformFromResolved($resolvedValue, $composable, $resolver = null)
     {
-        return Utility::compose($resolvedValue, $composable);
+        return Utility::compose($resolvedValue, $composable, $resolver);
     }
 }

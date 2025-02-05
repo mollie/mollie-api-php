@@ -38,7 +38,7 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
     {
         return [
             'include' => Arr::join($this->includePayment ? [PaymentIncludesQuery::PAYMENT] : []),
-        ]
+        ];
     }
 
     public function resolveResourcePath(): string

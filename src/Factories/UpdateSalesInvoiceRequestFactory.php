@@ -24,16 +24,16 @@ class UpdateSalesInvoiceRequestFactory extends RequestFactory
             $this->payload('recipientIdentifier'),
             $this->payload('paymentTerm'),
             $this->payload('memo'),
-            $this->transformFromPayload('paymentDetails', fn (array $data) => PaymentDetails::fromArray($data)),
-            $this->transformFromPayload('emailDetails', fn (array $data) => EmailDetails::fromArray($data)),
-            $this->transformFromPayload('recipient', fn (array $data) => RecipientFactory::new($data)->create()),
+            $this->transformFromPayload('paymentDetails', fn ($data) => PaymentDetails::fromArray($data)),
+            $this->transformFromPayload('emailDetails', fn ($data) => EmailDetails::fromArray($data)),
+            $this->transformFromPayload('recipient', fn ($data) => RecipientFactory::new($data)->create()),
             $this
                 ->transformFromPayload(
                     'lines',
                     fn (array $items) => InvoiceLineCollectionFactory::new($items)->create()
                 ),
             $this->payload('webhookUrl'),
-            $this->transformFromPayload('discount', fn (array $data) => Discount::fromArray($data))
+            $this->transformFromPayload('discount', fn ($data) => Discount::fromArray($data))
         );
     }
 }

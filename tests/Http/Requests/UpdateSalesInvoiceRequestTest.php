@@ -19,11 +19,7 @@ class UpdateSalesInvoiceRequestTest extends TestCase
             UpdateSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
-        $payload = new UpdateSalesInvoicePayload(
-            SalesInvoiceStatus::PAID,
-            'XXXXX',
-        );
-        $request = new UpdateSalesInvoiceRequest('invoice_123', $payload);
+        $request = new UpdateSalesInvoiceRequest('invoice_123', SalesInvoiceStatus::PAID, 'XXXXX');
 
         /** @var SalesInvoice */
         $salesInvoice = $client->send($request);
@@ -35,10 +31,8 @@ class UpdateSalesInvoiceRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdateSalesInvoiceRequest('invoice_123', new UpdateSalesInvoicePayload(
-            SalesInvoiceStatus::PAID,
-            'XXXXX',
-        ));
+        $request = new UpdateSalesInvoiceRequest('invoice_123', SalesInvoiceStatus::PAID, 'XXXXX');
+
         $this->assertEquals('sales-invoices/invoice_123', $request->resolveResourcePath());
     }
 }

@@ -22,14 +22,13 @@ class UpdateSubscriptionRequestTest extends TestCase
         $customerId = 'cst_kEn1PlbGa';
         $subscriptionId = 'sub_rVKGtNd6s3';
 
-        $money = new Money('EUR', '20.00');
-        $payload = new UpdateSubscriptionPayload(
-            $money,
+        $request = new UpdateSubscriptionRequest(
+            $customerId,
+            $subscriptionId,
+            new Money('EUR', '20.00'),
             'Updated subscription',
             '1 month'
         );
-
-        $request = new UpdateSubscriptionRequest($customerId, $subscriptionId, $payload);
 
         $this->assertEquals(
             "customers/{$customerId}/subscriptions/{$subscriptionId}",
@@ -48,11 +47,13 @@ class UpdateSubscriptionRequestTest extends TestCase
     {
         $customerId = 'cst_kEn1PlbGa';
         $subscriptionId = 'sub_rVKGtNd6s3';
-        $request = new UpdateSubscriptionRequest($customerId, $subscriptionId, new UpdateSubscriptionPayload(
+        $request = new UpdateSubscriptionRequest(
+            $customerId,
+            $subscriptionId,
             new Money('EUR', '20.00'),
             'Updated subscription',
             '1 month'
-        ));
+        );
 
         $this->assertEquals("customers/{$customerId}/subscriptions/{$subscriptionId}", $request->resolveResourcePath());
     }

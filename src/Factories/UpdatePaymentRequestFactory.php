@@ -27,7 +27,7 @@ class UpdatePaymentRequestFactory extends RequestFactory
             $this->payload('method'),
             $this->payload('locale'),
             $this->payload('restrictPaymentMethodsToCountry'),
-            $this->payload('additional') ?? Utility::filterByProperties(UpdatePaymentRequest::class, $this->payload),
+            $this->payload('additional') ?? Utility::filterByProperties(UpdatePaymentRequest::class, $this->payload()),
         );
     }
 }

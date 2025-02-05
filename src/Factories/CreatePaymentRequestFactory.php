@@ -2,27 +2,49 @@
 
 namespace Mollie\Api\Factories;
 
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Utils\Utility;
 
-/**
- * @property CreatePaymentRequestableFactory $factory
- */
-class CreatePaymentRequestFactory extends ComposableRequestFactory
+class CreatePaymentRequestFactory extends RequestFactory
 {
-    public function __construct()
-    {
-        $this->factory = CreatePaymentRequestableFactory::new();
-    }
-
     public function create(): CreatePaymentRequest
     {
-        return $this
-            ->factory
-            ->create($this);
-    }
-
-    public function compose(...$data): CreatePaymentRequest
-    {
-        return new CreatePaymentRequest(...$data);
+        return new CreatePaymentRequest(
+            $this->payload('description'),
+            MoneyFactory::new($this->payload('amount'))->create(),
+            $this->payload('redirectUrl'),
+            $this->payload('cancelUrl'),
+            $this->payload('webhookUrl'),
+            $this
+                ->transformFromPayload(
+                    'lines',
+                    fn ($items) => OrderLineCollectionFactory::new($items)->create()
+                ),
+            $this->transformFromPayload('billingAddress', fn ($item) => Address::fromArray($item)),
+            $this->transformFromPayload('shippingAddress', fn ($item) => Address::fromArray($item)),
+            $this->payload('locale'),
+            $this->payload('method'),
+            $this->payload('issuer'),
+            $this->payload('restrictPaymentMethodsToCountry'),
+            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('captureMode'),
+            $this->payload('captureDelay'),
+            $this->transformFromPayload(
+                'applicationFee',
+                fn ($item) => ApplicationFeeFactory::new($item)->create()
+            ),
+            $this->transformFromPayload(
+                'routing',
+                fn ($items) => PaymentRouteCollectionFactory::new($items)->create()
+            ),
+            $this->payload('sequenceType'),
+            $this->payload('mandateId'),
+            $this->payload('customerId'),
+            $this->payload('profileId'),
+            $this->payload('additional') ?? Utility::filterByProperties(CreatePaymentRequest::class, $this->payload()) ?? [],
+            $this->query('includeQrCode', false)
+        );
     }
 }

@@ -25,14 +25,14 @@ class CreateSalesInvoiceRequestFactory extends RequestFactory
             $this
                 ->transformFromPayload(
                     'lines',
-                    fn (array $items) => InvoiceLineCollectionFactory::new($items)->create()
+                    fn ($items) => InvoiceLineCollectionFactory::new($items)->create()
                 ),
             $this->payload('profileId'),
             $this->payload('memo'),
-            $this->transformFromPayload('paymentDetails', fn (array $data) => PaymentDetails::fromArray($data)),
-            $this->transformFromPayload('emailDetails', fn (array $data) => EmailDetails::fromArray($data)),
+            $this->transformFromPayload('paymentDetails', fn ($data) => PaymentDetails::fromArray($data)),
+            $this->transformFromPayload('emailDetails', fn ($data) => EmailDetails::fromArray($data)),
             $this->payload('webhookUrl'),
-            $this->transformFromPayload('discount', fn (array $data) => Discount::fromArray($data))
+            $this->transformFromPayload('discount', fn ($data) => Discount::fromArray($data))
         );
     }
 }

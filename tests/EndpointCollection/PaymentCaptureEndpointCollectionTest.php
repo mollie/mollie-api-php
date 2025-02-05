@@ -24,10 +24,10 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Capture $capture */
-        $capture = $client->paymentCaptures->createForId('tr_7UhSN1zuXS', new CreatePaymentCapturePayload(
-            'Capture for cart #12345',
-            new Money('EUR', '35.95')
-        ));
+        $capture = $client->paymentCaptures->createForId('tr_7UhSN1zuXS', [
+            'description' => 'Capture for cart #12345',
+            'amount' => new Money('EUR', '35.95')
+        ]);
 
         $this->assertCapture($capture);
     }

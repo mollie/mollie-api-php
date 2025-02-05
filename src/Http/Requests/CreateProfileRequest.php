@@ -50,6 +50,7 @@ class CreateProfileRequest extends ResourceHydratableRequest implements HasPaylo
         $this->phone = $phone;
         $this->description = $description;
         $this->countriesOfActivity = $countriesOfActivity;
+        $this->businessCategory = $businessCategory;
     }
 
     protected function defaultPayload(): array

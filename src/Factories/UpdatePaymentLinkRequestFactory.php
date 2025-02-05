@@ -18,7 +18,7 @@ class UpdatePaymentLinkRequestFactory extends RequestFactory
         return new UpdatePaymentLinkRequest(
             $this->paymentLinkId,
             $this->payload('description'),
-            $this->payload('archived'),
+            $this->payload('archived', false),
             $this->payload('allowedMethods'),
         );
     }

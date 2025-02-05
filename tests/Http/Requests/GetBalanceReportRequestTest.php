@@ -5,7 +5,6 @@ namespace Tests\Http\Requests;
 use DateTime;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Data\GetBalanceReportQuery;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\BalanceReport;
 use PHPUnit\Framework\TestCase;
@@ -19,13 +18,7 @@ class GetBalanceReportRequestTest extends TestCase
             GetBalanceReportRequest::class => MockResponse::ok('balance-report'),
         ]);
 
-        $request = new GetBalanceReportRequest(
-            'bal_12345',
-            new GetBalanceReportQuery(
-                new DateTime('2024-01-01'),
-                new DateTime('2024-01-31'),
-            )
-        );
+        $request = new GetBalanceReportRequest('bal_12345', new DateTime('2024-01-01'), new DateTime('2024-01-31'));
 
         /** @var BalanceReport */
         $balanceReport = $client->send($request);
@@ -37,10 +30,7 @@ class GetBalanceReportRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetBalanceReportRequest('bal_12345', new GetBalanceReportQuery(
-            new DateTime('2024-01-01'),
-            new DateTime('2024-01-31'),
-        ));
+        $request = new GetBalanceReportRequest('bal_12345', new DateTime('2024-01-01'), new DateTime('2024-01-31'));
 
         $this->assertEquals('balances/bal_12345/report', $request->resolveResourcePath());
     }

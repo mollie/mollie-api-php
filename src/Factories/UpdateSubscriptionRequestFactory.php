@@ -23,10 +23,10 @@ class UpdateSubscriptionRequestFactory extends RequestFactory
         return new UpdateSubscriptionRequest(
             $this->customerId,
             $this->subscriptionId,
-            $this->transformFromPayload('amount', fn (array $amount) => MoneyFactory::new($amount)->create()),
+            $this->transformFromPayload('amount', fn ($amount) => MoneyFactory::new($amount)->create()),
             $this->payload('description'),
             $this->payload('interval'),
-            $this->transformFromPayload('startDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date)),
+            $this->transformFromPayload('startDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date), DateTimeImmutable::class),
             $this->payload('times'),
             $this->transformFromPayload('metadata', Metadata::class),
             $this->payload('webhookUrl'),

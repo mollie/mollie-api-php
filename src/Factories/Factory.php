@@ -10,12 +10,12 @@ abstract class Factory
 {
     private array $data;
 
-    public function __construct($data)
+    public function __construct($data = null)
     {
         if ($data instanceof Arrayable) {
             $this->data = $data->toArray();
         } else {
-            $this->data = $data;
+            $this->data = $data ?? [];
         }
     }
 
@@ -75,8 +75,8 @@ abstract class Factory
      * @param  string  $backupKey  The key to retrieve the value from the data array if the first key is null.
      * @return mixed The transformed value, a new class instance, or null if the value is null.
      */
-    protected function transformIfNotNull($key, $composable)
+    protected function transformIfNotNull($key, $resolver, $composableClass = null)
     {
-        return Utility::compose($this->get($key), $composable);
+        return Utility::compose($this->get($key), $resolver, $composableClass);
     }
 }

@@ -19,9 +19,7 @@ class UpdatePaymentRouteRequestTest extends TestCase
             UpdatePaymentRouteRequest::class => MockResponse::ok('route'),
         ]);
 
-        $request = new UpdatePaymentRouteRequest('tr_WDqYK6vllg', 'rt_H2wvxEyQcP', new UpdatePaymentRoutePayload(
-            new DateTime('2024-01-01'),
-        ));
+        $request = new UpdatePaymentRouteRequest('tr_WDqYK6vllg', 'rt_H2wvxEyQcP', new DateTime('2024-01-01'));
 
         /** @var Route */
         $route = $client->send($request);
@@ -33,9 +31,7 @@ class UpdatePaymentRouteRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdatePaymentRouteRequest('tr_WDqYK6vllg', 'rt_H2wvxEyQcP', new UpdatePaymentRoutePayload(
-            new DateTime('2024-01-01'),
-        ));
+        $request = new UpdatePaymentRouteRequest('tr_WDqYK6vllg', 'rt_H2wvxEyQcP', new DateTime('2024-01-01'));
 
         $this->assertEquals('payments/tr_WDqYK6vllg/routes/rt_H2wvxEyQcP', $request->resolveResourcePath());
     }

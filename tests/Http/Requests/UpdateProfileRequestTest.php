@@ -18,9 +18,7 @@ class UpdateProfileRequestTest extends TestCase
             UpdateProfileRequest::class => MockResponse::ok('profile'),
         ]);
 
-        $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', new UpdateProfilePayload(
-            'Updated Profile Name',
-        ));
+        $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', 'Updated Profile Name');
 
         /** @var Profile */
         $profile = $client->send($request);
@@ -32,9 +30,7 @@ class UpdateProfileRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', new UpdateProfilePayload(
-            'Updated Profile Name',
-        ));
+        $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', 'Updated Profile Name');
 
         $this->assertEquals('profiles/pfl_v9hTwCvYqw', $request->resolveResourcePath());
     }

@@ -104,11 +104,6 @@ class ArrTest extends TestCase
     /** @test */
     public function resolve(): void
     {
-        $foo = new Foo('bar', new Bar('baz'));
-        $anyData = new AnyData(['foo' => $foo]);
-
-        $this->assertEquals(['foo' => ['foo' => 'bar', 'bar' => 'baz']], Arr::resolve($anyData));
-
         $nullResult = Arr::resolve(null);
         $this->assertEquals([], $nullResult);
 

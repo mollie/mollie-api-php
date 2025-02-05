@@ -126,10 +126,10 @@ class MollieApiClientTest extends TestCase
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
 
-        $response = $client->send(new CreatePaymentRequest(new CreatePaymentPayload(
+        $response = $client->send(new CreatePaymentRequest(
             'test',
             new Money('EUR', '100.00'),
-        )));
+        ));
 
         $usedHeaders = $response->getPendingRequest()->headers()->all();
 
@@ -207,16 +207,16 @@ class MollieApiClientTest extends TestCase
                 MockResponse::noContent(),
             ],
             'post' => [
-                new CreatePaymentRequest(new CreatePaymentPayload(
+                new CreatePaymentRequest(
                     'test',
                     new Money('EUR', '100.00'),
-                )),
+                ),
                 MockResponse::ok('payment'),
             ],
             'patch' => [
-                new UpdatePaymentRequest('tr_payment-id', new UpdatePaymentPayload(
+                new UpdatePaymentRequest('tr_payment-id',
                     'test',
-                )),
+                ),
                 MockResponse::ok('payment'),
             ],
         ];

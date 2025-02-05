@@ -19,7 +19,7 @@ class GetPaginatedPaymentChargebacksRequest extends PaginatedRequest implements 
 
     private string $paymentId;
 
-    public function __construct(string $paymentId, ?int $from = null, ?int $limit = null, bool $includePayment = false)
+    public function __construct(string $paymentId, ?string $from = null, ?int $limit = null, bool $includePayment = false)
     {
         $this->paymentId = $paymentId;
 

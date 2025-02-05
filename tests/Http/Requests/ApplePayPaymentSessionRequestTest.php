@@ -18,13 +18,11 @@ class ApplePayPaymentSessionRequestTest extends TestCase
             ApplePayPaymentSessionRequest::class => MockResponse::ok('apple-pay-session'),
         ]);
 
-        $payload = new RequestApplePayPaymentSessionPayload(
+        $request = new ApplePayPaymentSessionRequest(
             'https://example.com',
             'Example Domain',
-            'EUR'
+            '1234567890'
         );
-
-        $request = new ApplePayPaymentSessionRequest($payload);
 
         /** @var AnyResource */
         $appleSession = $client->send($request);
@@ -36,13 +34,11 @@ class ApplePayPaymentSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $payload = new RequestApplePayPaymentSessionPayload(
+        $request = new ApplePayPaymentSessionRequest(
             'https://example.com',
             'Example Domain',
-            'EUR'
+            '1234567890'
         );
-
-        $request = new ApplePayPaymentSessionRequest($payload);
 
         $this->assertEquals(
             'wallets/applepay/sessions',

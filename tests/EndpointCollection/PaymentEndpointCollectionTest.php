@@ -30,12 +30,12 @@ class PaymentEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Payment $payment */
-        $payment = $client->payments->create(new CreatePaymentPayload(
-            'Test payment',
-            new Money('10.00', 'EUR'),
-            'https://example.org/redirect',
-            'https://example.org/webhook',
-        ));
+        $payment = $client->payments->create([
+            'description' => 'Test payment',
+            'amount' => new Money('10.00', 'EUR'),
+            'redirectUrl' => 'https://example.org/redirect',
+            'webhookUrl' => 'https://example.org/webhook',
+        ]);
 
         $this->assertPayment($payment);
     }
@@ -61,10 +61,10 @@ class PaymentEndpointCollectionTest extends TestCase
         ]);
 
         /** @var Payment $payment */
-        $payment = $client->payments->update('tr_WDqYK6vllg', new UpdatePaymentPayload(
-            'Updated description',
-            'https://example.org/updated-redirect',
-        ));
+        $payment = $client->payments->update('tr_WDqYK6vllg', [
+            'description' => 'Updated description',
+            'redirectUrl' => 'https://example.org/updated-redirect',
+        ]);
 
         $this->assertPayment($payment);
     }
@@ -92,10 +92,10 @@ class PaymentEndpointCollectionTest extends TestCase
         $payment->id = 'tr_WDqYK6vllg';
 
         /** @var Refund $refund */
-        $refund = $client->payments->refund($payment, new CreateRefundPaymentPayload(
-            'Test refund',
-            new Money('5.95', 'EUR'),
-        ));
+        $refund = $client->payments->refund($payment, [
+            'description' => 'Test refund',
+            'amount' => new Money('5.95', 'EUR'),
+        ]);
 
         $this->assertInstanceOf(Refund::class, $refund);
         $this->assertEquals('refund', $refund->resource);

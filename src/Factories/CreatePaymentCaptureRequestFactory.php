@@ -19,7 +19,7 @@ class CreatePaymentCaptureRequestFactory extends RequestFactory
         return new CreatePaymentCaptureRequest(
             $this->paymentId,
             $this->payload('description'),
-            $this->transformFromPayload('amount', fn (array $item) => MoneyFactory::new($item)->create()),
+            $this->transformFromPayload('amount', fn ($item) => MoneyFactory::new($item)->create()),
             $this->transformFromPayload('metadata', Metadata::class)
         );
     }

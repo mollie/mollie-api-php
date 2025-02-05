@@ -22,7 +22,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
             GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
         ]);
 
-        $request = new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3', new PaginatedQuery);
+        $request = new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3');
 
         /** @var PaymentCollection */
         $payments = $client->send($request);
@@ -48,7 +48,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
             ),
         ]);
 
-        $request = (new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3', new PaginatedQuery))->useIterator();
+        $request = (new GetPaginatedSubscriptionPaymentsRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3'))->useIterator();
 
         /** @var LazyCollection */
         $payments = $client->send($request);

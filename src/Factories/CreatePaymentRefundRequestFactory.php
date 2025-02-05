@@ -25,7 +25,7 @@ class CreatePaymentRefundRequestFactory extends RequestFactory
             $this
                 ->transformFromPayload(
                     'routingReversals',
-                    fn (array $items) => RefundRouteCollectionFactory::new($items)->create()
+                    fn ($items) => RefundRouteCollectionFactory::new($items)->create()
                 ),
         );
     }

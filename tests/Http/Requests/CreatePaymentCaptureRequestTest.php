@@ -19,12 +19,11 @@ class CreatePaymentCaptureRequestTest extends TestCase
             CreatePaymentCaptureRequest::class => MockResponse::created('capture'),
         ]);
 
-        $payload = new CreatePaymentCapturePayload(
+        $request = new CreatePaymentCaptureRequest(
+            'tr_123',
             'Test capture',
             new Money('EUR', '10.00')
         );
-
-        $request = new CreatePaymentCaptureRequest('tr_123', $payload);
 
         /** @var Capture */
         $capture = $client->send($request);
@@ -36,10 +35,11 @@ class CreatePaymentCaptureRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreatePaymentCaptureRequest('tr_123', new CreatePaymentCapturePayload(
+        $request = new CreatePaymentCaptureRequest(
+            'tr_123',
             'Test capture',
             new Money('EUR', '10.00')
-        ));
+        );
 
         $this->assertEquals('payments/tr_123/captures', $request->resolveResourcePath());
     }

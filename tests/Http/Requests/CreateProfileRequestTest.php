@@ -18,15 +18,7 @@ class CreateProfileRequestTest extends TestCase
             CreateProfileRequest::class => MockResponse::created('profile'),
         ]);
 
-        $payload = new CreateProfilePayload(
-            'Test profile',
-            'https://example.org',
-            'test@example.org',
-            'en_US',
-            '+31612345678'
-        );
-
-        $request = new CreateProfileRequest($payload);
+        $request = new CreateProfileRequest('Test profile', 'https://example.org', 'test@example.org', 'en_US', '+31612345678');
 
         /** @var Profile */
         $profile = $client->send($request);
@@ -38,13 +30,7 @@ class CreateProfileRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateProfileRequest(new CreateProfilePayload(
-            'Test profile',
-            'https://example.org',
-            'test@example.org',
-            'en_US',
-            '+31612345678'
-        ));
+        $request = new CreateProfileRequest('Test profile', 'https://example.org', 'test@example.org', 'en_US', '+31612345678');
 
         $this->assertEquals('profiles', $request->resolveResourcePath());
     }

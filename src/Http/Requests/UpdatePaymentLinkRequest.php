@@ -25,9 +25,9 @@ class UpdatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private bool $archived;
 
-    private array $allowedMethods;
+    private ?array $allowedMethods;
 
-    public function __construct(string $id, string $description, bool $archived, array $allowedMethods)
+    public function __construct(string $id, string $description, bool $archived = false, ?array $allowedMethods = null)
     {
         $this->id = $id;
         $this->description = $description;

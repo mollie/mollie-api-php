@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Http\Data;
 
+use Countable;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Utils\Arr;
@@ -9,7 +10,7 @@ use Mollie\Api\Utils\Arr;
 /**
  * @template T of mixed
  */
-class DataCollection implements Resolvable
+class DataCollection implements Resolvable, Countable
 {
     /**
      * @var array<T>
@@ -22,6 +23,11 @@ class DataCollection implements Resolvable
     public function __construct(array $items)
     {
         $this->items = $items;
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 
     /**

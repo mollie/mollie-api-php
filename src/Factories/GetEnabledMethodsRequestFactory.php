@@ -17,7 +17,7 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
             $this->query('sequenceType', SequenceType::ONEOFF),
             $this->query('resource', MethodQuery::RESOURCE_PAYMENTS),
             $this->query('locale'),
-            $this->transformFromQuery('amount', MoneyFactory::class),
+            $this->transformFromQuery('amount', fn ($item) => MoneyFactory::new($item)->create()),
             $this->query('billingCountry'),
             $this->query('includeWallets'),
             $this->query('orderLineCategories', []),

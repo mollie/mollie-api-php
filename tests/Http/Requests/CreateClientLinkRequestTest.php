@@ -20,13 +20,11 @@ class CreateClientLinkRequestTest extends TestCase
             CreateClientLinkRequest::class => MockResponse::created('client-link'),
         ]);
 
-        $payload = new CreateClientLinkPayload(
+        $request = new CreateClientLinkRequest(
             new Owner('test@example.org', 'John', 'Doe'),
             'Test',
             new OwnerAddress('NL')
         );
-
-        $request = new CreateClientLinkRequest($payload);
 
         /** @var ClientLink */
         $clientLink = $client->send($request);

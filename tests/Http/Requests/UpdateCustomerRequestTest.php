@@ -18,10 +18,7 @@ class UpdateCustomerRequestTest extends TestCase
             UpdateCustomerRequest::class => MockResponse::ok('customer'),
         ]);
 
-        $request = new UpdateCustomerRequest('cst_kEn1PlbGa', new UpdateCustomerPayload(
-            'Updated Customer Name',
-            'updated@example.com',
-        ));
+        $request = new UpdateCustomerRequest('cst_kEn1PlbGa', 'Updated Customer Name', 'updated@example.com');
 
         /** @var Customer */
         $customer = $client->send($request);
@@ -33,10 +30,7 @@ class UpdateCustomerRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdateCustomerRequest('cst_kEn1PlbGa', new UpdateCustomerPayload(
-            'Updated Customer Name',
-            'updated@example.com',
-        ));
+        $request = new UpdateCustomerRequest('cst_kEn1PlbGa', 'Updated Customer Name', 'updated@example.com');
 
         $this->assertEquals('customers/cst_kEn1PlbGa', $request->resolveResourcePath());
     }

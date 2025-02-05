@@ -18,9 +18,7 @@ class UpdatePaymentLinkRequestTest extends TestCase
             UpdatePaymentLinkRequest::class => MockResponse::ok('payment-link'),
         ]);
 
-        $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', new UpdatePaymentLinkPayload(
-            'Updated payment link',
-        ));
+        $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', 'Updated payment link');
 
         /** @var PaymentLink */
         $paymentLink = $client->send($request);
@@ -32,9 +30,7 @@ class UpdatePaymentLinkRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', new UpdatePaymentLinkPayload(
-            'Updated payment link',
-        ));
+        $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', 'Updated payment link');
 
         $this->assertEquals('payment-links/pl_4Y0eZitmBnQ5jsBYZIBw', $request->resolveResourcePath());
     }

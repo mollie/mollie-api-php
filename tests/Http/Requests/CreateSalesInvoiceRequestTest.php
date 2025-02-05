@@ -37,7 +37,7 @@ class CreateSalesInvoiceRequestTest extends TestCase
         ];
 
         // Create a sales invoice
-        $payload = new CreateSalesInvoicePayload(
+        $request = new CreateSalesInvoiceRequest(
             'EUR',
             SalesInvoiceStatus::DRAFT,
             VatScheme::STANDARD,
@@ -55,7 +55,6 @@ class CreateSalesInvoiceRequestTest extends TestCase
             ),
             new DataCollection($invoiceLines)
         );
-        $request = new CreateSalesInvoiceRequest($payload);
 
         /** @var SalesInvoice */
         $salesInvoice = $client->send($request);
@@ -67,31 +66,16 @@ class CreateSalesInvoiceRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateSalesInvoiceRequest(new CreateSalesInvoicePayload(
+        $request = new CreateSalesInvoiceRequest(
             'EUR',
             SalesInvoiceStatus::DRAFT,
             VatScheme::STANDARD,
             VatMode::INCLUSIVE,
             PaymentTerm::DAYS_30,
             'XXXXX',
-            new Recipient(
-                RecipientType::CONSUMER,
-                'darth@vader.deathstar',
-                'Sample Street 12b',
-                '2000 AA',
-                'Amsterdam',
-                'NL',
-                'nl_NL'
-            ),
-            new DataCollection([
-                new InvoiceLine(
-                    'Monthly subscription fee',
-                    1,
-                    '21',
-                    new Money('EUR', '10,00'),
-                ),
-            ])
-        ));
+            new Recipient(RecipientType::CONSUMER, 'darth@vader.deathstar', 'Sample Street 12b', '2000 AA', 'Amsterdam', 'NL', 'nl_NL'),
+            new DataCollection([new InvoiceLine('Monthly subscription fee', 1, '21', new Money('EUR', '10,00'))])
+        );
 
         $this->assertEquals('sales-invoices', $request->resolveResourcePath());
     }

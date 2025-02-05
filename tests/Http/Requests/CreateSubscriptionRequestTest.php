@@ -19,11 +19,7 @@ class CreateSubscriptionRequestTest extends TestCase
             CreateSubscriptionRequest::class => MockResponse::created('subscription'),
         ]);
 
-        $request = new CreateSubscriptionRequest('cst_123', new CreateSubscriptionPayload(
-            new Money('EUR', '10.00'),
-            '1 month',
-            'Test subscription'
-        ));
+        $request = new CreateSubscriptionRequest('cst_123', new Money('EUR', '10.00'), '1 month', 'Test subscription');
 
         /** @var Subscription */
         $subscription = $client->send($request);
@@ -35,11 +31,7 @@ class CreateSubscriptionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new CreateSubscriptionRequest('cst_123', new CreateSubscriptionPayload(
-            new Money('EUR', '10.00'),
-            '1 month',
-            'Test subscription'
-        ));
+        $request = new CreateSubscriptionRequest('cst_123', new Money('EUR', '10.00'), '1 month', 'Test subscription');
 
         $this->assertEquals('customers/cst_123/subscriptions', $request->resolveResourcePath());
     }
