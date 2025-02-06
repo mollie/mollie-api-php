@@ -9,6 +9,7 @@ use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
 use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
 use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
 use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
+use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
@@ -63,6 +64,7 @@ use Mollie\Api\Utils\Url;
  * @property BalanceReportEndpointCollection $balanceReports
  * @property BalanceTransactionEndpointCollection $balanceTransactions
  * @property ChargebackEndpointCollection $chargebacks
+ * @property CapabilityEndpointCollection $capabilities
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks
  * @property CustomerPaymentsEndpointCollection $customerPayments

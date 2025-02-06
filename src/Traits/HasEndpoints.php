@@ -5,6 +5,7 @@ namespace Mollie\Api\Traits;
 use Mollie\Api\EndpointCollection\BalanceEndpointCollection;
 use Mollie\Api\EndpointCollection\BalanceReportEndpointCollection;
 use Mollie\Api\EndpointCollection\BalanceTransactionEndpointCollection;
+use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
@@ -60,6 +61,7 @@ trait HasEndpoints
             'balances' => BalanceEndpointCollection::class,
             'balanceReports' => BalanceReportEndpointCollection::class,
             'balanceTransactions' => BalanceTransactionEndpointCollection::class,
+            'capabilities' => CapabilityEndpointCollection::class,
             'chargebacks' => ChargebackEndpointCollection::class,
             'clients' => ClientEndpointCollection::class,
             'clientLinks' => ClientLinkEndpointCollection::class,

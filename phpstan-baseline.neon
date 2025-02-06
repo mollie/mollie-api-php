@@ -4,6 +4,16 @@ parameters:
 			message: '#^Variable \$mollie might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
+			path: examples/capabilities/get-capability.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
+			path: examples/capabilities/list-capabilities.php
+
+		-
+			message: "#^Variable \\$mollie might not be defined\\.$#"
+			count: 1
 			path: examples/captures/create-capture.php
 
 		-
