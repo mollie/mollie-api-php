@@ -20,7 +20,6 @@ This removal also effects the `/orders/{orderId}/shipments` endpoints and the co
 |-----------|----------|--------------------------|--------------------------|---------|
 | MethodEndpoint      | MethodEndpointCollection | `allAvailable`      | `all`         | returns all available methods (both enabled and disabled) |
 | | | `all`      | `allEnabled`         | returns only the enabled methods |
-| Order     | Purchase | `getTotal(): float`      | `totalAmount(): float`   |
 
 #### Deprecated Methods
 - `MethodEndpointCollection@allActive()`
