@@ -35,26 +35,6 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
     }
 
     /**
-     * Create an iterator for iterating over balance transactions for the given balance retrieved from Mollie.
-     *
-     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
-     */
-    public function iteratorFor(Balance $balance, array $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
-    {
-        return $this->iteratorForId($balance->id, $query, $iterateBackwards, $testmode);
-    }
-
-    /**
-     * Create an iterator for iterating over transactions for the primary balance retrieved from Mollie.
-     *
-     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
-     */
-    public function iteratorForPrimary(array $query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
-    {
-        return $this->iteratorForId('primary', $query, $iterateBackwards);
-    }
-
-    /**
      * List the transactions for a specific Balance ID.
      *
      * @throws \Mollie\Api\Exceptions\RequestException
@@ -73,6 +53,26 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
             $query->from,
             $query->limit,
         ))->test($testmode));
+    }
+
+    /**
+     * Create an iterator for iterating over balance transactions for the given balance retrieved from Mollie.
+     *
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     */
+    public function iteratorFor(Balance $balance, array $query = [], bool $iterateBackwards = false, bool $testmode = false): LazyCollection
+    {
+        return $this->iteratorForId($balance->id, $query, $iterateBackwards, $testmode);
+    }
+
+    /**
+     * Create an iterator for iterating over transactions for the primary balance retrieved from Mollie.
+     *
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     */
+    public function iteratorForPrimary(array $query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
+    {
+        return $this->iteratorForId('primary', $query, $iterateBackwards);
     }
 
     /**

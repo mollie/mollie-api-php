@@ -5,7 +5,6 @@
 ### High Impact Changes
 
 #### Removed Endpoints
-
 All `/orders` endpoint have been removed. This removal effects all `Order*Endpoint` classes. The following properties were removed from the `MollieApiClient`:
 
 - `orderPayments`
@@ -15,23 +14,43 @@ All `/orders` endpoint have been removed. This removal effects all `Order*Endpoi
 
 This removal also effects the `/orders/{orderId}/shipments` endpoints and the corresponding `Shipment*Endpoint` classes. The following properties were removed: `shipments`.
 
+#### Renamed Method Endpoint
+
+| Old Class | New Class | Old Method Name      | New Method Name      | Notes |
+|-----------|----------|--------------------------|--------------------------|---------|
+| MethodEndpoint      | MethodEndpointCollection | `allAvailable`      | `all`         | returns all available methods (both enabled and disabled) |
+| | | `all`      | `allEnabled`         | returns only the enabled methods |
+| Order     | Purchase | `getTotal(): float`      | `totalAmount(): float`   |
+
+#### Deprecated Methods
+- `MethodEndpointCollection@allActive()`
+
+### Medium Impact Changes
+
+
+### Low Impact Changes
+All `Endpoint` namespaced classes have been moved into a new `EndpointCollection` namespace. Method names like `listFor()`, `pageFor()` and `page()` have been standardized for consistency across the codebase. Some method signatures have been changed in the process.
+
+| **Old Class**                     | **New Class**                            | **Old Method Signature**                                         | **New Method Signature**                                                          |
+|------------------------------------|------------------------------------------|------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `BalanceEndpoint`                 | `BalanceEndpointCollection`             | `get(string $balanceId, array $parameters = [])`                | `get(string $id, array\|bool $testmode = false): Balance`                        |
+|                                    |                                          | `primary(array $parameters = [])`                              | `primary($testmode = false): Balance`                                           |
+| `BalanceTransactionEndpoint`      | `BalanceTransactionEndpointCollection` | `listFor(Balance $balance, array $parameters = [])`            | `pageFor(Balance $balance, array $query = [], bool $testmode = false): BalanceTransactionCollection` |
+| |  | `listForId(string $balanceId, array $parameters = [])`            | `pageFor(Balance $balance, array $query = [], bool $testmode = false): BalanceTransactionCollection` |
+| `CustomerPaymentsEndpoint`      | `CustomerPaymentsEndpointCollection` | `listFor(Customer $customer, ?string $from = null, ?int $limit = null, array $parameters = [])`            | `pageFor(Customer $customer, ?string $from = null, ?int $limit = null, array $filters = []): PaymentCollection` |
+| `MandateEndpoint`      | `MandateEndpointCollection` | `listFor(Customer $customer, $from = null, $limit = null, array $parameters = [])`            | `pageForCustomer(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection` |
+| | | `listForId($customerId, $from = null, $limit = null, array $parameters = [])` | `pageForCustomerId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection` |
+
+#### Removed methods
+**Mollie\Api\EndpointCollection\InvoiceEndpointCollection**
+- `all()` was removed -> use `page()` instead
+
 ### Removed unused Collections
 This change should not have any impact on your code, but if you have a type hint for any of the following classes, make sure to remove it
 - `Mollie\Api\Resources\OrganizationCollection`
 - `Mollie\Api\Resources\RouteCollection`
 
-### Removed deprecations
-The following has been deprecated
-- `Mollie\Api\Types\OrderStatus::REFUNDED`
-- `Mollie\Api\Types\OrderLineStatus::REFUNDED`
-- all Orders related endpoints
-  - properties starting with `orders` prefix or related to any `Order*Endpoint`
-    - `orderPayments`
-    - `orderRefunds`
-    - `orderLines`
-    - `orderPayments`
-  - Shipments endpoint (all properties prefixed with `shipments` / `Shipment*Endpoint`)
-
+---
 ### Removed non-valid method params
 **Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection**
 - `createFor()` and `createForId()` removed third argument `$filters`
@@ -44,10 +63,6 @@ The following has been deprecated
 
 **Mollie\Api\EndpointCollection\PaymentCaptureEndpointCollection**
 - `createFor()` and `createForId()` removed third argument `$filters`
-
-### Removed methods
-**Mollie\Api\EndpointCollection\InvoiceEndpointCollection**
-- `all()` was removed -> use `page()` instead
 
 ### change of function names
 Accross the codebase we have had inconsistent namings like `listFor()` as well as `pageFor()` and `page()`. Those have been standardized. Endpoints that return a paginated response use the `page*()` naming while non-paginated endpoints use `list*()`. The following method names were changed.
@@ -67,16 +82,6 @@ Accross the codebase we have had inconsistent namings like `listFor()` as well a
 **Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection**
 - `paymentRefunds->listFor()` into `paymentRefunds->pageFor()`
 - `paymentRefunds->listForId()` into `paymentRefunds->pageForId()`
-
-**Mollie\Api\EndpointCollection\MethodEndpointCollection**
-- `methods->allAvailable()` has been renamed into `methods->all()` now returns all available methods (both enabled and disabled) - previously returned only all enabled methods
-- former `methods->all()` has been renamed to `methods->allEnabled()`
-- `methods->allActive()` is deprecated
-
-The reasoning behind this change is to make the method names more intuitive:
-- `all()` returns ALL methods (both enabled and disabled)
-- `allEnabled()` returns only the enabled methods (previously called `allActive()`)
-- The `allActive()` method is deprecated and will be removed in v4
 
 **Mollie\Api\EndpointCollection\OnboardingEndpointCollection**
 - `get()` was changed into `status()`
