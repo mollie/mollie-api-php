@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Endpoints;
 
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Resources\Capability;
 use Mollie\Api\Resources\CapabilityCollection;
-use Mollie\Api\Exceptions\ApiException;
 
 class CapabilityEndpoint extends CollectionEndpointAbstract
 {
