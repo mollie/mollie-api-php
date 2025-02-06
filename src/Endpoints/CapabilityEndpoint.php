@@ -4,6 +4,7 @@ namespace Mollie\Api\Endpoints;
 
 use Mollie\Api\Resources\Capability;
 use Mollie\Api\Resources\CapabilityCollection;
+use Mollie\Api\Exceptions\ApiException;
 
 class CapabilityEndpoint extends CollectionEndpointAbstract
 {
@@ -11,7 +12,7 @@ class CapabilityEndpoint extends CollectionEndpointAbstract
 
     protected function getResourceCollectionObject($count, $_links)
     {
-        return new CapabilityCollection($this->client, $count, $_links);
+        return new CapabilityCollection($count, $_links);
     }
 
     protected function getResourceObject()
@@ -22,13 +23,26 @@ class CapabilityEndpoint extends CollectionEndpointAbstract
     /**
      * Retrieve a single capability from Mollie.
      *
-     * @param string $capabilityId
+     * @param string $name
      * @param array $parameters
      * @return \Mollie\Api\Resources\Capability|\Mollie\Api\Resources\BaseResource
      * @throws ApiException
      */
-    public function get(string $capabilityId)
+    public function get(string $name, array $parameters = [])
     {
-        return parent::rest_read($capabilityId, []);
+        return parent::rest_read($name, $parameters);
+    }
+
+    /**
+     * Retrieve all capabilities.
+     *
+     * @param array $parameters
+     *
+     * @return CapabilityCollection
+     * @throws ApiException
+     */
+    public function list(array $parameters = [])
+    {
+        return parent::rest_list(null, null, $parameters);
     }
 }

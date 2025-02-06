@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class CapabilityCollection extends CursorCollection
+class CapabilityCollection extends BaseCollection
 {
     /**
      * @return string
@@ -10,13 +10,5 @@ class CapabilityCollection extends CursorCollection
     public function getCollectionResourceName()
     {
         return "capabilities";
-    }
-
-    /**
-     * @return BaseResource
-     */
-    protected function createResourceObject()
-    {
-        return new Capability($this->client);
     }
 }

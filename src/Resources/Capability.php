@@ -11,6 +11,8 @@ class Capability extends BaseResource
 
     /**
      * @var string
+     *
+     * @example payments
      */
     public $name;
 
@@ -21,6 +23,10 @@ class Capability extends BaseResource
 
     /**
      * @var string
+     *
+     * possible values: disabled, pending, enabled
+     *
+     * @example enabled
      */
     public $status;
 
@@ -40,4 +46,19 @@ class Capability extends BaseResource
      * @var \stdClass
      */
     public $_links;
+
+    public function isEnabled()
+    {
+        return $this->status === 'enabled';
+    }
+
+    public function isPending()
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isDisabled()
+    {
+        return $this->status === 'disabled';
+    }
 }
