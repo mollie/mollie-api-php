@@ -9,7 +9,10 @@ use Mollie\Api\Factories\GetPaymentRequestFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
@@ -99,11 +102,11 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function cancel(string $id, $testmode = false): ?Payment
+    public function cancel(string $id, $testmode = false): Payment
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
-        /** @var null|Payment */
+        /** @var Payment */
         return $this->send((new CancelPaymentRequest($id))->test($testmode));
     }
 
@@ -125,6 +128,23 @@ class PaymentEndpointCollection extends EndpointCollection
             ->create();
 
         return $this->send($request->test($testmode));
+    }
+
+    /**
+     * Release the authorization for the given payment.
+     *
+     * @param Payment|string $paymentId
+     *
+     * @return AnyResource|Response
+     * @throws RequestException
+     */
+    public function releaseAuthorization($paymentId)
+    {
+        $paymentId = $paymentId instanceof Payment ? $paymentId->id : $paymentId;
+
+        $request = new DynamicPostRequest("payments/{$paymentId}/release-authorization");
+
+        return $this->send($request);
     }
 
     /**

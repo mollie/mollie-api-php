@@ -9,9 +9,12 @@ use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
@@ -70,12 +73,14 @@ class PaymentEndpointCollectionTest extends TestCase
     public function cancel()
     {
         $client = new MockMollieClient([
-            CancelPaymentRequest::class => MockResponse::noContent(),
+            CancelPaymentRequest::class => MockResponse::ok('payment'),
         ]);
 
+        /** @var Payment $payment */
         $payment = $client->payments->cancel('tr_WDqYK6vllg');
 
         $this->assertTrue($payment->getResponse()->successful());
+        $this->assertInstanceOf(Payment::class, $payment);
     }
 
     /** @test */
@@ -99,6 +104,21 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($refund->id);
         $this->assertEquals('5.95', $refund->amount->value);
         $this->assertEquals('EUR', $refund->amount->currency);
+    }
+
+    /** @test */
+    public function releaseAuthorization()
+    {
+        $client = new MockMollieClient([
+            DynamicPostRequest::class => MockResponse::noContent(),
+        ]);
+
+        $paymentId = 'tr_WDqYK6vllg';
+
+        /** @var Response $response */
+        $response = $client->payments->releaseAuthorization($paymentId);
+
+        $this->assertTrue($response->successful());
     }
 
     /** @test */
