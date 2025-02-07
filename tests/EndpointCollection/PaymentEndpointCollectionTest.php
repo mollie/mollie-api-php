@@ -14,7 +14,6 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
