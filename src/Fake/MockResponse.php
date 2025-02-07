@@ -59,12 +59,9 @@ class MockResponse
         return new self($body, 201, $resourceKey);
     }
 
-    /**
-     * @param  string|array  $body
-     */
-    public static function noContent($body = [], string $resourceKey = ''): self
+    public static function noContent(string $resourceKey = ''): self
     {
-        return new self($body, 204, $resourceKey);
+        return new self('', 204, $resourceKey);
     }
 
     public static function notFound(string $resourceKey = ''): self

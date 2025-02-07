@@ -6,6 +6,7 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +14,15 @@ use stdClass;
 
 class CursorCollectionTest extends TestCase
 {
+    private Response $response;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->response = $this->createMock(Response::class);
+    }
+
     /** @test */
     public function can_get_next_collection_result_when_next_link_is_available()
     {
@@ -30,6 +40,8 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
+        $collection->setResponse($this->response);
+
         $this->assertTrue($collection->hasNext());
 
         $nextPage = $collection->next();
@@ -46,6 +58,8 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
+
+        $collection->setResponse($this->response);
 
         $this->assertFalse($collection->hasNext());
         $this->assertNull($collection->next());
@@ -67,6 +81,8 @@ class CursorCollectionTest extends TestCase
             ])
         );
 
+        $collection->setResponse($this->response);
+
         $this->assertTrue($collection->hasPrevious());
 
         $previousPage = $collection->previous();
@@ -84,6 +100,8 @@ class CursorCollectionTest extends TestCase
             (object) []
         );
 
+        $collection->setResponse($this->response);
+
         $this->assertFalse($collection->hasPrevious());
         $this->assertNull($collection->previous());
     }
@@ -97,6 +115,8 @@ class CursorCollectionTest extends TestCase
             [],
             (object) []
         );
+
+        $collection->setResponse($this->response);
 
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
@@ -120,6 +140,8 @@ class CursorCollectionTest extends TestCase
                 ],
             ])
         );
+
+        $collection->setResponse($this->response);
 
         $paymentIds = [];
         foreach ($collection->getAutoIterator() as $payment) {

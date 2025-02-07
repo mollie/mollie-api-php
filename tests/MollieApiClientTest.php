@@ -15,6 +15,7 @@ use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Idempotency\FakeIdempotencyKeyGenerator;
@@ -495,6 +496,23 @@ class MollieApiClientTest extends TestCase
         ]);
 
         $client->send($request);
+    }
+
+    /** @test */
+    public function a_response_with_empty_body_is_not_hydrated()
+    {
+        $client = new MockMollieClient([
+            DynamicPostRequest::class => MockResponse::noContent(),
+        ]);
+
+        $request = new DynamicPostRequest('dummy');
+
+        $request->setHydratableResource(new WrapperResource(DummyResourceWrapper::class));
+
+        /** @var Response $response */
+        $response = $client->send($request);
+
+        $this->assertInstanceOf(Response::class, $response);
     }
 }
 

@@ -4,8 +4,8 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
-use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
+use Mollie\Api\Http\Requests\DisableMethodRequest;
+use Mollie\Api\Http\Requests\EnableMethodRequest;
 use Mollie\Api\Resources\Method;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function enable_for_id()
     {
         $client = new MockMollieClient([
-            EnableProfileMethodRequest::class => MockResponse::ok('method', 'ideal'),
+            EnableMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -28,7 +28,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function enable()
     {
         $client = new MockMollieClient([
-            EnableProfileMethodRequest::class => MockResponse::ok('method', 'ideal'),
+            EnableMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */
@@ -41,7 +41,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function disable_for_id()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => MockResponse::noContent(),
+            DisableMethodRequest::class => MockResponse::noContent(),
         ]);
 
         $client->profileMethods->disableForId('pfl_v9hTwCvYqw', 'ideal');
@@ -54,7 +54,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
     public function disable()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => MockResponse::noContent(),
+            DisableMethodRequest::class => MockResponse::noContent(),
         ]);
 
         $client->profileMethods->disable('ideal');

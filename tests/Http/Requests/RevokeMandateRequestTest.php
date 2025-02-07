@@ -14,7 +14,7 @@ class RevokeMandateRequestTest extends TestCase
     public function it_can_revoke_mandate()
     {
         $client = new MockMollieClient([
-            RevokeMandateRequest::class => MockResponse::noContent(''),
+            RevokeMandateRequest::class => MockResponse::noContent(),
         ]);
 
         $customerId = 'cst_kEn1PlbGa';

@@ -2,6 +2,7 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -21,6 +22,10 @@ class LazyCollectionTest extends TestCase
             yield 2;
             yield 3;
         });
+
+        $response = $this->createMock(Response::class);
+
+        $this->collection->setResponse($response);
     }
 
     /** @test */

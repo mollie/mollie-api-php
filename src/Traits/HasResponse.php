@@ -8,14 +8,14 @@ use Mollie\Api\Http\Response;
 
 trait HasResponse
 {
-    protected ?Response $response = null;
+    protected Response $response;
 
-    public function getResponse(): ?Response
+    public function getResponse(): Response
     {
         return $this->response;
     }
 
-    public function setResponse(?Response $response): self
+    public function setResponse(Response $response): self
     {
         $this->response = $response;
 
@@ -24,10 +24,6 @@ trait HasResponse
 
     public function getPendingRequest(): PendingRequest
     {
-        if (! $this->response) {
-            throw new LogicException('Response is not set');
-        }
-
         return $this->response->getPendingRequest();
     }
 }

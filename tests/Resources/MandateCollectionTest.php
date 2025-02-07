@@ -2,6 +2,7 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
@@ -32,6 +33,10 @@ class MandateCollectionTest extends TestCase
             $this->getMandateWithStatus(MandateStatus::INVALID),
             $this->getMandateWithStatus(MandateStatus::PENDING),
         ]);
+
+        $response = $this->createMock(Response::class);
+
+        $collection->setResponse($response);
 
         $valid = $collection->whereStatus(MandateStatus::VALID);
         $invalid = $collection->whereStatus(MandateStatus::INVALID);

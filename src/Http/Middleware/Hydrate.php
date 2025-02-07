@@ -13,7 +13,7 @@ class Hydrate implements ResponseMiddleware
     {
         $request = $response->getRequest();
 
-        if ($request instanceof ResourceHydratableRequest && $request->isHydratable()) {
+        if (!$response->isEmpty() &&$request instanceof ResourceHydratableRequest && $request->isHydratable()) {
             return (new ResourceHydrator)->hydrate($request, $response);
         }
 

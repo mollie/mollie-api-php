@@ -3,6 +3,7 @@
 namespace Tests\Resources;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BaseCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -11,9 +12,12 @@ class BaseCollectionTest extends TestCase
 {
     private Connector $connectorMock;
 
+    private Response $response;
+
     protected function setUp(): void
     {
         $this->connectorMock = $this->createMock(Connector::class);
+        $this->response = $this->createMock(Response::class);
     }
 
     /** @test */
@@ -24,6 +28,8 @@ class BaseCollectionTest extends TestCase
         $links->self = 'https://api.mollie.com/v2/test';
 
         $collection = new TestCollection($this->connectorMock, $items, $links);
+
+        $collection->setResponse($this->response);
 
         $this->assertCount(2, $collection);
         $this->assertSame($items, $collection->getArrayCopy());
@@ -40,6 +46,7 @@ class BaseCollectionTest extends TestCase
         ];
 
         $collection = new TestCollection($this->connectorMock, $items);
+        $collection->setResponse($this->response);
 
         $this->assertTrue($collection->contains(fn ($item) => $item === 'banana'));
     }
@@ -54,7 +61,7 @@ class BaseCollectionTest extends TestCase
         ];
 
         $collection = new TestCollection($this->connectorMock, $items);
-
+        $collection->setResponse($this->response);
         $this->assertFalse($collection->contains(fn ($item) => $item === 'grape'));
     }
 
@@ -68,6 +75,7 @@ class BaseCollectionTest extends TestCase
         ];
 
         $collection = new TestCollection($this->connectorMock, $items);
+        $collection->setResponse($this->response);
         $filtered = $collection->filter(fn ($item) => $item !== 'banana');
 
         $this->assertCount(2, $filtered);
@@ -84,6 +92,7 @@ class BaseCollectionTest extends TestCase
     public function first_returns_first_item()
     {
         $collection = new TestCollection($this->connectorMock, ['item1', 'item2']);
+        $collection->setResponse($this->response);
         $this->assertEquals('item1', $collection->first());
     }
 
@@ -94,7 +103,7 @@ class BaseCollectionTest extends TestCase
             ['id' => 'item1'],
             ['id' => 'item2'],
         ]);
-
+        $collection->setResponse($this->response);
         $this->assertEquals(['id' => 'item2'], $collection->firstWhere('id', 'item2'));
         $this->assertEquals(['id' => 'item1'], $collection->firstWhere(fn ($item) => $item['id'] === 'item1'));
     }

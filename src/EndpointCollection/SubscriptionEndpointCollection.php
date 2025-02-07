@@ -90,7 +90,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function cancelFor(Customer $customer, string $subscriptionId, bool $testmode = false): ?Subscription
+    public function cancelFor(Customer $customer, string $subscriptionId, bool $testmode = false): Subscription
     {
         return $this->cancelForId($customer->id, $subscriptionId, $testmode);
     }
@@ -100,7 +100,7 @@ class SubscriptionEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function cancelForId(string $customerId, string $subscriptionId, bool $testmode = false): ?Subscription
+    public function cancelForId(string $customerId, string $subscriptionId, bool $testmode = false): Subscription
     {
         return $this->send((new CancelSubscriptionRequest($customerId, $subscriptionId))->test($testmode));
     }

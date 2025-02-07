@@ -84,7 +84,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
     public function cancel_for()
     {
         $client = new MockMollieClient([
-            CancelSubscriptionRequest::class => MockResponse::noContent(),
+            CancelSubscriptionRequest::class => MockResponse::ok('subscription'),
         ]);
 
         $customer = new Customer($client);
