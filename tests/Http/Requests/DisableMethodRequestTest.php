@@ -4,22 +4,22 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
+use Mollie\Api\Http\Requests\DisableMethodRequest;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
 
-class DisableProfileMethodRequestTest extends TestCase
+class DisableMethodRequestTest extends TestCase
 {
     /** @test */
     public function it_can_disable_profile_method()
     {
         $client = new MockMollieClient([
-            DisableProfileMethodRequest::class => MockResponse::noContent(''),
+            DisableMethodRequest::class => MockResponse::noContent(),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';
         $methodId = 'ideal';
-        $request = new DisableProfileMethodRequest($profileId, $methodId);
+        $request = new DisableMethodRequest($profileId, $methodId);
 
         /** @var Response */
         $response = $client->send($request);
@@ -33,7 +33,7 @@ class DisableProfileMethodRequestTest extends TestCase
     {
         $profileId = 'pfl_v9hTwCvYqw';
         $methodId = 'ideal';
-        $request = new DisableProfileMethodRequest($profileId, $methodId);
+        $request = new DisableMethodRequest($profileId, $methodId);
 
         $this->assertEquals(
             "profiles/{$profileId}/methods/{$methodId}",

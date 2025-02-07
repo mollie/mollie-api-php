@@ -2,20 +2,15 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Resources\Method;
+use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method as HttpMethod;
 
-class EnableProfileMethodRequest extends ResourceHydratableRequest
+class DisableMethodRequest extends Request
 {
     /**
      * Define the HTTP method.
      */
-    protected static string $method = HttpMethod::POST;
-
-    /**
-     * The resource class the request should be casted to.
-     */
-    protected $hydratableResource = Method::class;
+    protected static string $method = HttpMethod::DELETE;
 
     private string $profileId;
 

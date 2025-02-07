@@ -14,7 +14,7 @@ class EnableMethodIssuerRequestTest extends TestCase
     public function it_can_enable_method_issuer()
     {
         $client = new MockMollieClient([
-            EnableMethodIssuerRequest::class => MockResponse::noContent(''),
+            EnableMethodIssuerRequest::class => MockResponse::ok('issuer'),
         ]);
 
         $profileId = 'pfl_v9hTwCvYqw';
@@ -26,7 +26,7 @@ class EnableMethodIssuerRequestTest extends TestCase
         $issuer = $client->send($request);
 
         $this->assertTrue($issuer->getResponse()->successful());
-        $this->assertEquals(204, $issuer->getResponse()->status());
+        $this->assertInstanceOf(Issuer::class, $issuer);
     }
 
     /** @test */

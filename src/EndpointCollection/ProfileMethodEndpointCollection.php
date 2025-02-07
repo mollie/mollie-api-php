@@ -3,8 +3,8 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
-use Mollie\Api\Http\Requests\DisableProfileMethodRequest;
-use Mollie\Api\Http\Requests\EnableProfileMethodRequest;
+use Mollie\Api\Http\Requests\DisableMethodRequest;
+use Mollie\Api\Http\Requests\EnableMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\Profile;
 
@@ -54,7 +54,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
     public function enableForId(string $profileId, string $id): Method
     {
         /** @var Method */
-        return $this->send(new EnableProfileMethodRequest($profileId, $id));
+        return $this->send(new EnableMethodRequest($profileId, $id));
     }
 
     /**
@@ -124,7 +124,7 @@ class ProfileMethodEndpointCollection extends EndpointCollection
      */
     public function disableForId(string $profileId, string $id): void
     {
-        $this->send(new DisableProfileMethodRequest($profileId, $id));
+        $this->send(new DisableMethodRequest($profileId, $id));
     }
 
     /**
