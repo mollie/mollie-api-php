@@ -4,7 +4,8 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\DynamicPostRequest;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +15,16 @@ class CreateSessionRequestTest extends TestCase
     public function it_can_create_session()
     {
         $client = new MockMollieClient([
-            DynamicPostRequest::class => MockResponse::created('session'),
+            CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
-        $request = new DynamicPostRequest('sessions');
-
-        $request->setHydratableResource(Session::class);
+        $request = new CreateSessionRequest(
+            'https://example.com/redirect',
+            'https://example.com/cancel',
+            new Money('EUR', '10.00'),
+            'My product',
+            'ideal',
+        );
 
         /** @var Session */
         $session = $client->send($request);
@@ -31,8 +36,14 @@ class CreateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new DynamicPostRequest('sessions');
-
+        $request = new CreateSessionRequest(
+            'https://example.com/redirect',
+            'https://example.com/cancel',
+            new Money('EUR', '10.00'),
+            'My product',
+            'ideal',
+            'embedded'
+        );
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }
 }

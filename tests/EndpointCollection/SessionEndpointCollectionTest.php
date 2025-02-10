@@ -5,10 +5,11 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Requests\DynamicDeleteRequest;
+use Mollie\Api\Http\Requests\CancelSessionRequest;
+use Mollie\Api\Http\Requests\GetSessionRequest;
+use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
-use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\DynamicPutRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
@@ -20,11 +21,11 @@ class SessionEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::ok('session'),
+            GetSessionRequest::class => MockResponse::ok('session'),
         ]);
 
         /** @var Session $session */
-        $session = $client->sessions->get('ses_123', ['include' => 'details']);
+        $session = $client->sessions->get('ses_123');
 
         $this->assertSession($session);
     }
@@ -33,13 +34,16 @@ class SessionEndpointCollectionTest extends TestCase
     public function create()
     {
         $client = new MockMollieClient([
-            DynamicPostRequest::class => MockResponse::created('session'),
+            CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
         /** @var Session $session */
         $session = $client->sessions->create([
+            'redirectUrl' => 'https://example.com/redirect',
+            'cancelUrl' => 'https://example.com/cancel',
             'amount' => new Money('EUR', '10.00'),
             'description' => 'Test Session',
+            'method' => 'ideal'
         ]);
 
         $this->assertSession($session);
@@ -64,7 +68,7 @@ class SessionEndpointCollectionTest extends TestCase
     public function cancel()
     {
         $client = new MockMollieClient([
-            DynamicDeleteRequest::class => MockResponse::noContent(),
+            CancelSessionRequest::class => MockResponse::noContent(),
         ]);
 
         $client->sessions->cancel('ses_123');

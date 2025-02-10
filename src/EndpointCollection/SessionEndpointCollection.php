@@ -3,12 +3,15 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\CreateSessionRequestFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
+use Mollie\Api\Http\Requests\CancelSessionRequest;
 use Mollie\Api\Http\Requests\DynamicDeleteRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\DynamicPutRequest;
+use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
@@ -20,14 +23,10 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function get(string $sessionId, array $query = []): Session
+    public function get(string $sessionId): Session
     {
-        $request = new DynamicGetRequest("sessions/{$sessionId}", $query);
-
-        $request->setHydratableResource(Session::class);
-
         /** @var Session */
-        return $this->send($request);
+        return $this->send(new GetSessionRequest($sessionId));
     }
 
     /**
@@ -35,11 +34,11 @@ class SessionEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function create(array $payload = [], array $query = []): Session
+    public function create(array $payload = []): Session
     {
-        $request = new DynamicPostRequest('sessions', $payload, $query);
-
-        $request->setHydratableResource(Session::class);
+        $request = CreateSessionRequestFactory::new()
+            ->withPayload($payload)
+            ->create();
 
         /** @var Session */
         return $this->send($request);
@@ -72,7 +71,7 @@ class SessionEndpointCollection extends EndpointCollection
      */
     public function cancel(string $id): void
     {
-        $this->send(new DynamicDeleteRequest("sessions/{$id}"));
+        $this->send(new CancelSessionRequest($id));
     }
 
     /**
