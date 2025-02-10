@@ -6,11 +6,11 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSessionRequest;
-use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPaginatedRequest;
 use Mollie\Api\Http\Requests\DynamicPutRequest;
+use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Resources\SessionCollection;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +43,7 @@ class SessionEndpointCollectionTest extends TestCase
             'cancelUrl' => 'https://example.com/cancel',
             'amount' => new Money('EUR', '10.00'),
             'description' => 'Test Session',
-            'method' => 'ideal'
+            'method' => 'ideal',
         ]);
 
         $this->assertSession($session);

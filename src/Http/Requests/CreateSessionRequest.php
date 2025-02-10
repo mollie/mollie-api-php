@@ -4,10 +4,10 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Traits\HasJsonPayload;
-use Mollie\Api\Types\Method;
 use Mollie\Api\Resources\Session;
+use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\CheckoutFlow;
+use Mollie\Api\Types\Method;
 
 class CreateSessionRequest extends ResourceHydratableRequest implements HasPayload
 {

@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Types\Method;
 use Mollie\Api\Resources\Session;
+use Mollie\Api\Types\Method;
 
 class CancelSessionRequest extends ResourceHydratableRequest
 {
