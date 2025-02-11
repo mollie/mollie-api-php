@@ -11,6 +11,7 @@ use Mollie\Api\Factories\UpdatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
+use Mollie\Api\Http\Requests\ReleasePaymentAuthorizationRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\LazyCollection;
@@ -142,9 +143,7 @@ class PaymentEndpointCollection extends EndpointCollection
     {
         $paymentId = $paymentId instanceof Payment ? $paymentId->id : $paymentId;
 
-        $request = new DynamicPostRequest("payments/{$paymentId}/release-authorization");
-
-        return $this->send($request);
+        return $this->send(new ReleasePaymentAuthorizationRequest($paymentId));
     }
 
     /**
