@@ -9,7 +9,6 @@ use Mollie\Api\Factories\GetPaymentRequestFactory;
 use Mollie\Api\Factories\SortablePaginatedQueryFactory;
 use Mollie\Api\Factories\UpdatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
-use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\ReleasePaymentAuthorizationRequest;
 use Mollie\Api\Http\Response;
