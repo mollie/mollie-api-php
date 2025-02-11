@@ -5,6 +5,7 @@ namespace Mollie\Api;
 use Mollie\Api\Endpoints\BalanceEndpoint;
 use Mollie\Api\Endpoints\BalanceReportEndpoint;
 use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
+use Mollie\Api\Endpoints\CapabilityEndpoint;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
 use Mollie\Api\Endpoints\ClientLinkEndpoint;
@@ -55,7 +56,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = "2.76.1";
+    public const CLIENT_VERSION = "2.77.1";
 
     /**
      * Endpoint of the remote API.
@@ -108,6 +109,11 @@ class MollieApiClient
      * @var \Mollie\Api\Endpoints\MethodIssuerEndpoint
      */
     public $methodIssuers;
+
+    /**
+     * @var \Mollie\Api\Endpoints\CapabilityEndpoint
+     */
+    public $capabilities;
 
     /**
      * RESTful Customers resource.
@@ -425,6 +431,7 @@ class MollieApiClient
         $this->balanceReports = new BalanceReportEndpoint($this);
         $this->balanceTransactions = new BalanceTransactionEndpoint($this);
         $this->balances = new BalanceEndpoint($this);
+        $this->capabilities = new CapabilityEndpoint($this);
         $this->chargebacks = new ChargebackEndpoint($this);
         $this->clientLinks = new ClientLinkEndpoint($this);
         $this->clients = new ClientEndpoint($this);
