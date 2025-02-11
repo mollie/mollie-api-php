@@ -49,6 +49,15 @@ $mandates = $client->mandates->pageForCustomer(
   Payment::PAID;
   ```
 
+- **Removed `SEQUENCETYPE_` prefix** from SequenceType constants:
+  ```php
+  // Before
+  SequenceType::SEQUENCETYPE_FIRST;
+
+  // After
+  SequenceType::FIRST;
+  ```
+
 - **Collection constructor changes**:
   ```php
   // Before
