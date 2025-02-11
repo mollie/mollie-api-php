@@ -135,7 +135,7 @@ class CapabilityEndpointTest extends BaseEndpointTest
             )
         );
 
-        $capabilities = $this->apiClient->capabilities->list();
+        $capabilities = $this->apiClient->capabilities->all();
 
         $this->assertInstanceOf(CapabilityCollection::class, $capabilities);
         $this->assertCount(2, $capabilities);
