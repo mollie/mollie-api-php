@@ -27,7 +27,7 @@ class MandateEndpointCollectionTest extends TestCase
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
-        $mandate = $client->mandates->createForCustomer($customer, [
+        $mandate = $client->mandates->createFor($customer, [
             'method' => 'directdebit',
             'consumerName' => 'John Doe',
             'iban' => 'NL55INGB0000000000',
@@ -51,7 +51,7 @@ class MandateEndpointCollectionTest extends TestCase
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var Mandate $mandate */
-        $mandate = $client->mandates->getForCustomer($customer, 'mdt_h3gAaD5zP');
+        $mandate = $client->mandates->getFor($customer, 'mdt_h3gAaD5zP');
 
         $this->assertMandate($mandate);
     }
@@ -66,7 +66,7 @@ class MandateEndpointCollectionTest extends TestCase
         $customer = new Customer($client);
         $customer->id = 'cst_4qqhO89gsT';
 
-        $client->mandates->revokeForCustomer($customer, 'mdt_h3gAaD5zP');
+        $client->mandates->revokeFor($customer, 'mdt_h3gAaD5zP');
 
         // Test passes if no exception is thrown
         $this->assertTrue(true);
@@ -83,7 +83,7 @@ class MandateEndpointCollectionTest extends TestCase
         $customer->id = 'cst_4qqhO89gsT';
 
         /** @var MandateCollection $mandates */
-        $mandates = $client->mandates->pageForCustomer($customer);
+        $mandates = $client->mandates->pageFor($customer);
 
         $this->assertInstanceOf(MandateCollection::class, $mandates);
         $this->assertEquals(1, $mandates->count());

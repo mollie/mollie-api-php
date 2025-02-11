@@ -9,7 +9,7 @@ use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\DynamicPostRequest;
+use Mollie\Api\Http\Requests\ReleasePaymentAuthorizationRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
@@ -109,7 +109,7 @@ class PaymentEndpointCollectionTest extends TestCase
     public function releaseAuthorization()
     {
         $client = new MockMollieClient([
-            DynamicPostRequest::class => MockResponse::noContent(),
+            ReleasePaymentAuthorizationRequest::class => MockResponse::noContent(),
         ]);
 
         $paymentId = 'tr_WDqYK6vllg';

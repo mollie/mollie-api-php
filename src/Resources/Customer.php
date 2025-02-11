@@ -155,7 +155,7 @@ class Customer extends BaseResource
      */
     public function createMandate(array $options = [])
     {
-        return $this->connector->mandates->createForCustomer($this, $options, $this->isInTestmode());
+        return $this->connector->mandates->createFor($this, $options, $this->isInTestmode());
     }
 
     /**
@@ -166,7 +166,7 @@ class Customer extends BaseResource
      */
     public function getMandate($mandateId, array $parameters = [])
     {
-        return $this->connector->mandates->getForCustomer($this, $mandateId, $this->withMode($parameters));
+        return $this->connector->mandates->getFor($this, $mandateId, $this->withMode($parameters));
     }
 
     /**
@@ -176,7 +176,7 @@ class Customer extends BaseResource
      */
     public function revokeMandate($mandateId): void
     {
-        $this->connector->mandates->revokeForCustomer($this, $mandateId, $this->withMode());
+        $this->connector->mandates->revokeFor($this, $mandateId, $this->withMode());
     }
 
     /**
@@ -188,7 +188,7 @@ class Customer extends BaseResource
      */
     public function mandates()
     {
-        return $this->connector->mandates->pageForCustomer($this, null, null, $this->withMode());
+        return $this->connector->mandates->pageFor($this, null, null, $this->withMode());
     }
 
     /**

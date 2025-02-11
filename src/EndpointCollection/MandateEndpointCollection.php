@@ -21,9 +21,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function createForCustomer(Customer $customer, array $payload = [], bool $testmode = false): Mandate
+    public function createFor(Customer $customer, array $payload = [], bool $testmode = false): Mandate
     {
-        return $this->createForCustomerId($customer->id, $payload, $testmode);
+        return $this->createForId($customer->id, $payload, $testmode);
     }
 
     /**
@@ -32,7 +32,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function createForCustomerId(string $customerId, array $payload = [], bool $testmode = false): Mandate
+    public function createForId(string $customerId, array $payload = [], bool $testmode = false): Mandate
     {
         $testmode = Utility::extractBool($payload, 'testmode', $testmode);
 
@@ -50,9 +50,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function getForCustomer(Customer $customer, string $mandateId, array $parameters = []): Mandate
+    public function getFor(Customer $customer, string $mandateId, array $parameters = []): Mandate
     {
-        return $this->getForCustomerId($customer->id, $mandateId, $parameters);
+        return $this->getForId($customer->id, $mandateId, $parameters);
     }
 
     /**
@@ -62,7 +62,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function getForCustomerId(string $customerId, string $mandateId, $testmode = false): Mandate
+    public function getForId(string $customerId, string $mandateId, $testmode = false): Mandate
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -76,9 +76,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function revokeForCustomer(Customer $customer, string $mandateId, $data = []): void
+    public function revokeFor(Customer $customer, string $mandateId, $data = []): void
     {
-        $this->revokeForCustomerId($customer->id, $mandateId, $data);
+        $this->revokeForId($customer->id, $mandateId, $data);
     }
 
     /**
@@ -88,7 +88,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function revokeForCustomerId(string $customerId, string $mandateId, $testmode = false): void
+    public function revokeForId(string $customerId, string $mandateId, $testmode = false): void
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -103,9 +103,9 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function pageForCustomer(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
+    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
     {
-        return $this->pageForCustomerId($customer->id, $from, $limit, $testmode);
+        return $this->pageForId($customer->id, $from, $limit, $testmode);
     }
 
     /**
@@ -116,7 +116,7 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function pageForCustomerId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
+    public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
@@ -133,14 +133,14 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForCustomer(
+    public function iteratorFor(
         Customer $customer,
         ?string $from = null,
         ?int $limit = null,
         $testmode = false,
         bool $iterateBackwards = false
     ): LazyCollection {
-        return $this->iteratorForCustomerId($customer->id, $from, $limit, $testmode, $iterateBackwards);
+        return $this->iteratorForId($customer->id, $from, $limit, $testmode, $iterateBackwards);
     }
 
     /**
@@ -150,7 +150,7 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
      */
-    public function iteratorForCustomerId(
+    public function iteratorForId(
         string $customerId,
         ?string $from = null,
         ?int $limit = null,
