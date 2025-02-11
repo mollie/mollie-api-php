@@ -41,7 +41,7 @@ class CapabilityEndpoint extends CollectionEndpointAbstract
      * @return CapabilityCollection
      * @throws ApiException
      */
-    public function list(array $parameters = [])
+    public function all(array $parameters = [])
     {
         return parent::rest_list(null, null, $parameters);
     }
