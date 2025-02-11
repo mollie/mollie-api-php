@@ -12,7 +12,7 @@ class ReleasePaymentAuthorizationRequest extends Request
     private string $paymentId;
 
     public function __construct(
-        string $paymentId,
+        string $paymentId
     ) {
         $this->paymentId = $paymentId;
     }
