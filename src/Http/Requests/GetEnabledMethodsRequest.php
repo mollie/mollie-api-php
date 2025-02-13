@@ -34,6 +34,11 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 
     private ?bool $includeIssuers;
 
+    /**
+     * @deprecated Use GetAllMethodsRequest instead with $includePricing = true
+     *
+     * @var boolean|null
+     */
     private ?bool $includePricing;
 
     public function __construct(
