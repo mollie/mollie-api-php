@@ -39,9 +39,16 @@ class Partner extends BaseResource
      * Will be true if an updated contract is available, requiring the partner’s agreement.
      * Will be null otherwise.
      *
-     * @var bool|null
+     * @var bool
      */
     public $partnerContractUpdateAvailable;
+
+    /**
+     * The date and time the contract will expire, in ISO 8601 format.
+     *
+     * @var string|null
+     */
+    public $partnerContractExpiresAt;
 
     /**
      * @var \stdClass
