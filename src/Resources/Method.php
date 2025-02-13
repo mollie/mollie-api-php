@@ -79,9 +79,9 @@ class Method extends BaseResource
     public function issuers(): IssuerCollection
     {
         /** @var IssuerCollection */
-        return ResourceFactory::createBaseResourceCollection(
+        return ResourceFactory::createResourceCollection(
             $this->connector,
-            Issuer::class,
+            IssuerCollection::class,
             $this->response,
             $this->issuers
         );
@@ -93,9 +93,9 @@ class Method extends BaseResource
     public function pricing(): MethodPriceCollection
     {
         /** @var MethodPriceCollection */
-        return ResourceFactory::createBaseResourceCollection(
+        return ResourceFactory::createResourceCollection(
             $this->connector,
-            MethodPrice::class,
+            MethodPriceCollection::class,
             $this->response,
             $this->pricing
         );

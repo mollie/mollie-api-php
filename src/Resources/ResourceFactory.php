@@ -40,19 +40,19 @@ class ResourceFactory
 
     /**
      * @param  null|array|\ArrayObject  $data
+     * @return ResourceCollection
      */
-    public static function createBaseResourceCollection(
+    public static function createResourceCollection(
         Connector $connector,
-        string $resourceClass,
+        string $resourceCollectionClass,
         Response $response,
         $data = null,
-        ?object $_links = null,
-        ?string $resourceCollectionClass = null
-    ): BaseCollection {
-        return self::instantiateBaseCollection(
+        ?object $_links = null
+    ): ResourceCollection {
+        return self::instantiateResourceCollection(
             $connector,
-            self::determineCollectionClass($resourceClass, $resourceCollectionClass),
-            self::mapToResourceObjects($connector, $data ?? [], $resourceClass, $response),
+            $resourceCollectionClass,
+            self::mapToResourceObjects($connector, $data ?? [], $resourceCollectionClass::getResourceClass(), $response),
             $response,
             $_links
         );
@@ -107,46 +107,24 @@ class ResourceFactory
                     $collectionOrResourceClass,
                     $response
                 )
-                : self::createEmbeddedResourceCollection(
+                : self::createResourceCollection(
                     $connector,
                     $collectionOrResourceClass,
-                    $resourceData,
-                    $response
+                    $response,
+                    $resourceData
                 );
         }
 
         return $result;
     }
 
-    /**
-     * @param  array|\ArrayObject  $data
-     */
-    private static function createEmbeddedResourceCollection(
-        Connector $connector,
-        string $collectionClass,
-        $data,
-        Response $response
-    ): BaseCollection {
-        return self::instantiateBaseCollection(
-            $connector,
-            $collectionClass,
-            self::mapToResourceObjects(
-                $connector,
-                $data,
-                $collectionClass::getResourceClass(),
-                $response
-            ),
-            $response
-        );
-    }
-
-    private static function instantiateBaseCollection(
+    private static function instantiateResourceCollection(
         Connector $connector,
         string $collectionClass,
         array $items,
         Response $response,
         ?object $_links = null
-    ): BaseCollection {
+    ): ResourceCollection {
         return (new $collectionClass($connector, $items, $_links))->setResponse($response);
     }
 
@@ -164,10 +142,5 @@ class ResourceFactory
             ),
             (array) $data
         );
-    }
-
-    private static function determineCollectionClass(string $resourceClass, ?string $resourceCollectionClass): string
-    {
-        return $resourceCollectionClass ?: $resourceClass.'Collection';
     }
 }

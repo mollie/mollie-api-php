@@ -59,13 +59,12 @@ class ResourceHydrator
     {
         $result = $response->json();
 
-        return ResourceFactory::createBaseResourceCollection(
+        return ResourceFactory::createResourceCollection(
             $response->getConnector(),
-            ($targetCollectionClass)::getResourceClass(),
+            $targetCollectionClass,
             $response,
             $result->_embedded->{$targetCollectionClass::getCollectionResourceName()},
             $result->_links,
-            $targetCollectionClass,
         );
     }
 

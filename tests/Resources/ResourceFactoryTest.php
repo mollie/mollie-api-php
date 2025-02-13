@@ -185,7 +185,7 @@ class ResourceFactoryTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_base_resource_collection()
+    public function it_creates_resource_collection()
     {
         $response = $this->createMock(Response::class);
         $data = [
@@ -193,9 +193,9 @@ class ResourceFactoryTest extends TestCase
             ['id' => 'payment-2', 'resource' => 'payment'],
         ];
 
-        $collection = ResourceFactory::createBaseResourceCollection(
+        $collection = ResourceFactory::createResourceCollection(
             $this->createMock(MollieApiClient::class),
-            Payment::class,
+            PaymentCollection::class,
             $response,
             $data
         );
@@ -204,27 +204,6 @@ class ResourceFactoryTest extends TestCase
         $this->assertCount(2, $collection);
         $this->assertInstanceOf(Payment::class, $collection[0]);
         $this->assertEquals('payment-1', $collection[0]->id);
-    }
-
-    /** @test */
-    public function it_creates_base_resource_collection_with_custom_collection_class()
-    {
-        $response = $this->createMock(Response::class);
-        $data = [
-            ['id' => 'payment-1', 'resource' => 'payment'],
-        ];
-
-        $collection = ResourceFactory::createBaseResourceCollection(
-            $this->createMock(MollieApiClient::class),
-            Payment::class,
-            $response,
-            $data,
-            null,
-            CustomPaymentCollection::class
-        );
-
-        $this->assertInstanceOf(CustomPaymentCollection::class, $collection);
-        $this->assertCount(1, $collection);
     }
 
     /** @test */
