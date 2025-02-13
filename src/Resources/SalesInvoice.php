@@ -60,6 +60,7 @@ class SalesInvoice extends BaseResource
      * @var object
      */
     public $paymentDetails;
+
     /**
      * @var object
      */

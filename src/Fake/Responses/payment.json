@@ -1,0 +1,37 @@
+{
+  "resource": "payment",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "test",
+  "createdAt": "2018-03-13T14:02:29+00:00",
+  "amount": {
+    "value": "20.00",
+    "currency": "EUR"
+  },
+  "description": "My first API payment",
+  "method": "ideal",
+  "metadata": {
+    "order_id": "1234"
+  },
+  "status": "open",
+  "isCancelable": false,
+  "expiresAt": "2018-03-13T14:17:29+00:00",
+  "details": null,
+  "profileId": "pfl_2A1gacu42V",
+  "sequenceType": "oneoff",
+  "redirectUrl": "https://example.org/redirect",
+  "webhookUrl": "https://example.org/webhook",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "checkout": {
+      "href": "...",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

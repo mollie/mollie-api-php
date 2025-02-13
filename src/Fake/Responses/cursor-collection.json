@@ -1,0 +1,15 @@
+{
+  "count": 1,
+  "_links": {
+    "self": {
+      "href": "https:\/\/api.mollie.com\/v2\/payments?from={{ RESOURCE_ID }}"
+    }
+  },
+  "_embedded": {
+    "payments": [
+      {
+        "id": "{{ RESOURCE_ID }}"
+      }
+    ]
+  }
+}

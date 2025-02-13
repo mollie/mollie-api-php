@@ -1,0 +1,65 @@
+name: Build Scoped Mollie SDK Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-scripts --no-progress
+
+      - name: Install PHP-Scoper
+        run: |
+          composer global require humbug/php-scoper
+          echo "${HOME}/.composer/vendor/bin" >> $GITHUB_PATH
+
+      - name: Create scoper config
+        run: |
+          cat > scoper.inc.php <<EOF
+          <?php
+          return [
+              'prefix' => 'MollieVendor',
+              'finders' => [],
+              'exclude-namespaces' => ['Mollie\\Api'],
+              'exclude-files' => [],
+          ];
+          EOF
+
+      - name: Scope dependencies
+        run: php-scoper add-prefix --output-dir=./build/scoped
+
+      - name: Setup autoloader
+        run: |
+          cd build/scoped
+          composer dump-autoload --classmap-authoritative
+          php examples/initialize.php
+          # Swap autoloader files to handle both scoped and non-scoped classes
+          mv vendor/autoload.php vendor/composer-autoload.php
+          sed -i.bak 's/autoload.php/composer-autoload.php/g' vendor/scoper-autoload.php
+          mv vendor/scoper-autoload.php vendor/autoload.php
+          rm vendor/*.bak
+
+      - name: Create release zip
+        run: |
+          cd build/scoped
+          zip -r ../../mollie-api-php_build_scoped_${{ github.event.release.tag_name }}.zip .
+          cd ../..
+
+      - name: Upload zip to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mollie-api-php_build_scoped_${{ github.event.release.tag_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

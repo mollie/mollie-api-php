@@ -1,0 +1,33 @@
+{
+  "resource": "chargeback",
+  "id": "{{ RESOURCE_ID }}",
+  "amount": {
+    "currency": "USD",
+    "value": "43.38"
+  },
+  "settlementAmount": {
+    "currency": "EUR",
+    "value": "-35.07"
+  },
+  "reason": {
+    "code": "AC01",
+    "description": "Account identifier incorrect (i.e. invalid IBAN)"
+  },
+  "paymentId": "tr_7UhSN1zuXS",
+  "createdAt": "2023-03-14T17:09:02.0Z",
+  "reversedAt": null,
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "payment": {
+      "href": "https://api.mollie.com/v2/payments/tr_7UhSN1zuXS",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

@@ -1,8 +1,8 @@
 ## Specifications
 
-  - API Version: 
+  - API Version:
+  - SDK Version:
 
 ## Describe the issue
 
 ...
-

@@ -2,13 +2,15 @@
 
 namespace Mollie\Api\Resources;
 
-class CapabilityCollection extends BaseCollection
+class CapabilityCollection extends ResourceCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
      */
-    public function getCollectionResourceName()
-    {
-        return "capabilities";
-    }
+    public static string $collectionName = 'capabilities';
+
+    /**
+     * Resource class name.
+     */
+    public static string $resource = Capability::class;
 }

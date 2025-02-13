@@ -11,7 +11,7 @@ try {
     /*
      * Initialize the Mollie API library with your API key or OAuth access token.
      */
-    require "../initialize.php";
+    require '../initialize.php';
 
     /*
      * Create a sales invoice
@@ -45,7 +45,7 @@ try {
         ],
     ]);
 
-    echo "<p>New sales invoice created with ID: " . htmlspecialchars($salesInvoice->id) . "</p>";
+    echo '<p>New sales invoice created with ID: '.htmlspecialchars($salesInvoice->id).'</p>';
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
-    echo "API call failed: " . htmlspecialchars($e->getMessage());
+    echo 'API call failed: '.htmlspecialchars($e->getMessage());
 }
