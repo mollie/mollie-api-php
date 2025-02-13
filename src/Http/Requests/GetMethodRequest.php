@@ -8,7 +8,7 @@ use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Utils\Arr;
 
-class GetPaymentMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
+class GetMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = HttpMethod::GET;
 

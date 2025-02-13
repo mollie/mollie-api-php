@@ -6,7 +6,7 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetAllMethodsRequest;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
-use Mollie\Api\Http\Requests\GetPaymentMethodRequest;
+use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ class MethodEndpointCollectionTest extends TestCase
     public function get()
     {
         $client = new MockMollieClient([
-            GetPaymentMethodRequest::class => MockResponse::ok('method', 'ideal'),
+            GetMethodRequest::class => MockResponse::ok('method', 'ideal'),
         ]);
 
         /** @var Method $method */

@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Requests\GetPaymentMethodRequest;
+use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Types\MethodQuery;
 
-class GetPaymentMethodRequestFactory extends RequestFactory
+class GetMethodRequestFactory extends RequestFactory
 {
     private string $id;
 
@@ -14,12 +14,12 @@ class GetPaymentMethodRequestFactory extends RequestFactory
         $this->id = $id;
     }
 
-    public function create(): GetPaymentMethodRequest
+    public function create(): GetMethodRequest
     {
         $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
         $includePricing = $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
 
-        return new GetPaymentMethodRequest(
+        return new GetMethodRequest(
             $this->id,
             $this->query('locale'),
             $this->query('currency'),

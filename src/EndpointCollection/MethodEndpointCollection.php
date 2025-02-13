@@ -5,7 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\GetAllPaymentMethodsRequestFactory;
 use Mollie\Api\Factories\GetEnabledMethodsRequestFactory;
-use Mollie\Api\Factories\GetPaymentMethodRequestFactory;
+use Mollie\Api\Factories\GetMethodRequestFactory;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Utils\Utility;
@@ -70,7 +70,7 @@ class MethodEndpointCollection extends EndpointCollection
     {
         $testmode = Utility::extractBool($query, 'testmode', $testmode);
 
-        $request = GetPaymentMethodRequestFactory::new($methodId)
+        $request = GetMethodRequestFactory::new($methodId)
             ->withQuery($query)
             ->create();
 
