@@ -52,7 +52,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $cancelUrl = null,
         ?string $webhookUrl = null,
         ?Metadata $metadata = null,
-        ?string $paymentMethod = null,
+        ?string $method = null,
         ?string $locale = null,
         ?string $restrictPaymentMethodsToCountry = null,
         array $additional = []
@@ -63,7 +63,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         $this->cancelUrl = $cancelUrl;
         $this->webhookUrl = $webhookUrl;
         $this->metadata = $metadata;
-        $this->paymentMethod = $paymentMethod;
+        $this->paymentMethod = $method;
         $this->locale = $locale;
         $this->restrictPaymentMethodsToCountry = $restrictPaymentMethodsToCountry;
         $this->additional = $additional;
@@ -77,7 +77,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
             'cancelUrl' => $this->cancelUrl,
             'webhookUrl' => $this->webhookUrl,
             'metadata' => $this->metadata,
-            'paymentMethod' => $this->paymentMethod,
+            'method' => $this->paymentMethod,
             'locale' => $this->locale,
             'restrictPaymentMethodsToCountry' => $this->restrictPaymentMethodsToCountry,
         ], $this->additional);

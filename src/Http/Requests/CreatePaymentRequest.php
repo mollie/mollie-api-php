@@ -97,7 +97,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         ?Address $billingAddress = null,
         ?Address $shippingAddress = null,
         ?string $locale = null,
-        ?string $paymentMethod = null,
+        ?string $method = null,
         ?string $issuer = null,
         ?string $restrictPaymentMethodsToCountry = null,
         ?Metadata $metadata = null,
@@ -121,7 +121,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         $this->billingAddress = $billingAddress;
         $this->shippingAddress = $shippingAddress;
         $this->locale = $locale;
-        $this->paymentMethod = $paymentMethod;
+        $this->paymentMethod = $method;
         $this->issuer = $issuer;
         $this->restrictPaymentMethodsToCountry = $restrictPaymentMethodsToCountry;
         $this->metadata = $metadata;

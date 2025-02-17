@@ -43,7 +43,7 @@ class CreateMandateRequest extends ResourceHydratableRequest implements HasPaylo
 
     public function __construct(
         string $customerId,
-        string $paymentMethod,
+        string $method,
         string $consumerName,
         ?string $consumerAccount = null,
         ?string $consumerBic = null,
@@ -53,7 +53,7 @@ class CreateMandateRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $paypalBillingAgreementId = null
     ) {
         $this->customerId = $customerId;
-        $this->paymentMethod = $paymentMethod;
+        $this->paymentMethod = $method;
         $this->consumerName = $consumerName;
         $this->consumerAccount = $consumerAccount;
         $this->consumerBic = $consumerBic;

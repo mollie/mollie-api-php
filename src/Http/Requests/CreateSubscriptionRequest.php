@@ -60,7 +60,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
         ?string $status = null,
         ?int $times = null,
         ?DateTimeInterface $startDate = null,
-        ?string $paymentMethod = null,
+        ?string $method = null,
         ?ApplicationFee $applicationFee = null,
         ?Metadata $metadata = null,
         ?string $webhookUrl = null,
@@ -74,7 +74,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
         $this->status = $status;
         $this->times = $times;
         $this->startDate = $startDate;
-        $this->paymentMethod = $paymentMethod;
+        $this->paymentMethod = $method;
         $this->applicationFee = $applicationFee;
         $this->metadata = $metadata;
         $this->webhookUrl = $webhookUrl;
