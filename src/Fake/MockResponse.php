@@ -3,7 +3,6 @@
 namespace Mollie\Api\Fake;
 
 use Mollie\Api\Traits\HasDefaultFactories;
-use Mollie\Api\Utils\Arr;
 use Psr\Http\Message\ResponseInterface;
 
 class MockResponse
@@ -77,6 +76,11 @@ class MockResponse
         return new self($body, 422, $resourceKey);
     }
 
+    public static function list(string $resourceKey = ''): ListResponseBuilder
+    {
+        return new ListResponseBuilder($resourceKey);
+    }
+
     public function createPsrResponse(): ResponseInterface
     {
         $psrResponse = $this
@@ -102,19 +106,19 @@ class MockResponse
             return $body;
         }
 
-        $path = Arr::join([
-            __DIR__,
-            'Responses',
-            $body.'.json',
-        ], DIRECTORY_SEPARATOR);
-
-        $contents = file_get_contents($path);
+        /** @var string $contents */
+        $contents = FakeResponseLoader::load($body);
 
         if (! empty($this->resourceKey)) {
             $contents = str_replace('{{ RESOURCE_ID }}', $this->resourceKey, $contents);
         }
 
         return $contents;
+    }
+
+    public function json(): array
+    {
+        return json_decode($this->body(), true);
     }
 
     private function isJson($string): bool
