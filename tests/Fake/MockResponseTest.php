@@ -2,7 +2,9 @@
 
 namespace Tests\Fake;
 
+use Mollie\Api\Fake\ListResponseBuilder;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;
 
 class MockResponseTest extends TestCase
@@ -45,5 +47,13 @@ class MockResponseTest extends TestCase
 
         $this->assertStringContainsString('tr_12345', $body);
         $this->assertStringNotContainsString('{{ RESOURCE_ID }}', $body);
+    }
+
+    /** @test */
+    public function list_returns_list_builder()
+    {
+        $response = MockResponse::list(PaymentCollection::class);
+
+        $this->assertInstanceOf(ListResponseBuilder::class, $response);
     }
 }

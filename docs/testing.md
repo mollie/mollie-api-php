@@ -1,55 +1,104 @@
 # Testing with Mollie API Client
 
-## Overview
+## Test Mode Configuration
 
-Version 3 of the Mollie API client refines the handling of the test mode parameter:
+### Key Concepts
+- Test mode is automatically determined by API key prefix (`test_` or `live_`)
+- Explicit `testmode` parameter available for OAuth scenarios
+- Configure at global client level or per individual request
 
-- **Automatic Removal of Test Mode**: When using an API key, the test mode parameter is managed based on the key prefix (`test_` or `live_`).
-- **Explicit Test Mode Control**: For operations requiring explicit control, such as when using OAuth tokens, you can still pass the `testmode` parameter.
-
-## Enabling Test Mode
-
-### Global Test Mode
-
-You can enable test mode globally on the Mollie client. This setting will apply test mode to all operations performed with the client.
-
+### Global Configuration
 ```php
 use Mollie\Api\MollieApiClient;
 
 $mollie = new MollieApiClient();
 $mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
-$mollie->test(true); // Enable test mode globally
+$mollie->test(true); // Applies to all subsequent requests
 ```
 
-### Per Request Test Mode
-
-For specific control, you can enable test mode per request. This is useful for mixed-mode operations.
-
+### Per-Request Configuration
 ```php
-// Creating a payment in test mode
-use Mollie\Api\MollieApiClient;
-use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-use Mollie\Api\Http\Requests\CreatePaymentRequest;
-
-$mollie = new MollieApiClient();
-$createPaymentRequest = new CreatePaymentRequest(
-    new CreatePaymentPayload(
-        'Test payment',
-        new Money('EUR', '10.00'),
-        'https://example.org/redirect',
-        'https://example.org/webhook'
-    )
-);
-
+// Payment request with test mode
+$createPaymentRequest = new CreatePaymentRequest(/* ... */);
 $mollie->send($createPaymentRequest->test(true));
+
+// Endpoint collection example
+$customer = $mollie->customers->get('cust_12345678', testmode: true);
 ```
 
-### Using Test Mode with Endpoint Collections
+## API Mocking
 
-When using endpoint collections, pass the test mode parameter directly to methods that support it.
+### Basic Usage
+Simulate API responses without network calls:
 
 ```php
-// Fetch a customer in test mode
-$customer = $mollie->customers->get('cust_12345678', testmode: true);
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => new MockResponse(
+        body: [
+            'resource' => 'payment',
+            'id' => 'tr_xxxxxxxxxxxx',
+            'mode' => 'test',
+            'amount' => [
+                'value' => '20.00',
+                'currency' => 'EUR'
+            ],
+            'description' => 'Test',
+            'status' => 'open',
+            // ...
+        ],
+        status: 200
+    )
+]);
+
+$payment = $client->send(new GetPaymentRequest('tr_xxxxxxxxxxxx'));
+```
+
+### MockResponse Options
+Configure responses using:
+- **Arrays**: Direct data structure
+- **Strings**: JSON payloads or predefined fixture names
+- **Callables**: Dynamic response generation
+
+```php
+// Array response
+MockResponse::create([
+    'id' => 'tr_xxxxxxxxxxxx',
+    'amount' => ['value' => '20.00', 'currency' => 'EUR']
+]);
+
+// Fixture response
+MockResponse::create('payment');
+
+// Dynamic response
+MockResponse::create(function (PendingRequest $request) {
+    return ['amount' => $request->hasParameter('amount') ? 10 : 20];
+});
+```
+
+### Working with Collections
+Create paginated list responses:
+
+```php
+use Mollie\Api\Resources\PaymentCollection;
+
+$client = MollieApiClient::fake([
+    GetPaginatedPaymentsRequest::class => MockResponse::list(PaymentCollection::class)
+        ->add([
+            'resource' => 'payment',
+            'id' => 'tr_xxxxxxxxxxxx',
+            'mode' => 'test',
+            'amount' => [
+                'value' => '20.00',
+                'currency' => 'EUR'
+            ],
+            'description' => 'Test',
+            'status' => 'open',
+            // ...
+        ])
+        ->create()
+]);
 ```
