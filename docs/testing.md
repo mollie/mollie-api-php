@@ -102,3 +102,53 @@ $client = MollieApiClient::fake([
         ->create()
 ]);
 ```
+
+### Handling Embedded Resources
+Simulate HAL+JSON embedded resources using the `_embedded` property:
+
+**Key Concepts**
+- Use `MockResponse::resource()` to start building a resource response
+- Chain `embed()` calls to add related collections
+- Maintain resource relationships with fluent interface
+
+```php
+use Mollie\Api\Resources\Payment;
+use Mollie\Api\Resources\RefundCollection;
+use Mollie\Api\Resources\ChargebackCollection;
+
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => MockResponse::resource(Payment::class)
+        ->with([  // Main resource properties
+            'resource' => 'payment',
+            'id' => 'tr_xxxxxxxxxxxx',
+            'amount' => [
+                'value' => '20.00',
+                'currency' => 'EUR'
+            ]
+        ])
+        ->embed(RefundCollection::class)  // First embedded collection
+            ->add([
+                'resource' => 'refund',
+                'id' => 're_12345',
+                'amount' => [
+                    'value' => '10.00',
+                    'currency' => 'EUR'
+                ]
+            ])
+        ->embed(ChargebackCollection::class)  // Second embedded collection
+            ->add([
+                'resource' => 'chargeback',
+                'id' => 'chb_12345',
+                'amount' => [
+                    'value' => '20.00',
+                    'currency' => 'EUR'
+                ]
+            ])
+        ->create()
+]);
+
+// Resulting response will contain:
+// - Payment details in main body
+// - Refunds in _embedded.refunds
+// - Chargebacks in _embedded.chargebacks
+```
