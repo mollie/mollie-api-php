@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Tests\Http\Requests;
+namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;

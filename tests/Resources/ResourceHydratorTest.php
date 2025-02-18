@@ -1,6 +1,6 @@
 <?php
 
-namespace Mollie\Api\Tests\Resources;
+namespace Tests\Resources;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\IsWrapper;
