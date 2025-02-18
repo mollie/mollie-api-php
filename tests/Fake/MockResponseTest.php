@@ -3,8 +3,8 @@
 namespace Tests\Fake;
 
 use Mollie\Api\Fake\ListResponseBuilder;
-use Mollie\Api\Fake\ResourceResponseBuilder;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Fake\ResourceResponseBuilder;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use PHPUnit\Framework\TestCase;

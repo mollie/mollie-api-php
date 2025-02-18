@@ -86,7 +86,7 @@ class ResourceResponseBuilder
             /** @var string $collectionClass */
             $collectionClass = $parameters[0];
 
-            if (!isset($this->embeddedBuilders[$collectionClass])) {
+            if (! isset($this->embeddedBuilders[$collectionClass])) {
                 $this->embeddedBuilders[$collectionClass] = new ListResponseBuilder($collectionClass);
             }
 
