@@ -76,9 +76,14 @@ class MockResponse
         return new self($body, 422, $resourceKey);
     }
 
-    public static function list(string $resourceKey = ''): ListResponseBuilder
+    public static function list(string $resourceKey): ListResponseBuilder
     {
         return new ListResponseBuilder($resourceKey);
+    }
+
+    public static function resource(string $resourceKey): ResourceResponseBuilder
+    {
+        return new ResourceResponseBuilder($resourceKey);
     }
 
     public function createPsrResponse(): ResponseInterface

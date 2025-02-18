@@ -41,12 +41,13 @@ class ListResponseBuilder
     {
         $contents = FakeResponseLoader::load('empty-list');
 
-        $contents = str_replace('{{ RESOURCE_ID }}', $this->collectionClass::$collectionName, $contents);
+        $collectionKey = $this->collectionClass::$collectionName;
+        $contents = str_replace('{{ RESOURCE_ID }}', $collectionKey, $contents);
 
         $data = json_decode($contents, true);
 
         $data['count'] = count($this->items);
-        $data['_embedded'][$this->collectionClass::$collectionName] = $this->items;
+        $data['_embedded'][$collectionKey] = $this->items;
 
         return new MockResponse($data);
     }
