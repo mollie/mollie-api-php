@@ -295,7 +295,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public $_links;
 
     /**
-     * @var \stdClass[]
+     * @var \stdClass
      */
     public $_embedded;
 
@@ -594,7 +594,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->connector, $this->response);
+            return RefundCollection::withResponse($this->response, $this->connector);
         }
 
         return $this
@@ -636,7 +636,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function captures(): CaptureCollection
     {
         if (! isset($this->_links->captures->href)) {
-            return new CaptureCollection($this->connector, $this->response);
+            return CaptureCollection::withResponse($this->response, $this->connector);
         }
 
         return $this
@@ -667,7 +667,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->connector, $this->response);
+            return ChargebackCollection::withResponse($this->response, $this->connector);
         }
 
         return $this
@@ -720,7 +720,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
             $this->redirectUrl,
             $this->cancelUrl,
             $this->webhookUrl,
-            new Metadata($this->metadata),
+            new Metadata((array) $this->metadata),
             $this->method,
             $this->locale,
             $this->restrictPaymentMethodsToCountry,

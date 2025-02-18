@@ -14,7 +14,10 @@ trait HasResponse
         return $this->response;
     }
 
-    public function setResponse(Response $response): self
+    /**
+     * @return $this
+     */
+    public function setResponse(Response $response)
     {
         $this->response = $response;
 

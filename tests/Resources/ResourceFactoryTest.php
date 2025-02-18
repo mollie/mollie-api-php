@@ -81,8 +81,7 @@ class ResourceFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Payment::class, $payment);
-        /** @phpstan-ignore-next-line */
-        $this->assertInstanceOf(RefundCollection::class, $payment->_embedded->refunds);
+        $this->assertInstanceOf(RefundCollection::class, $payment->refunds());
     }
 
     /** @test */
@@ -121,7 +120,6 @@ class ResourceFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Client::class, $client);
-        /** @phpstan-ignore-next-line */
         $this->assertInstanceOf(Onboarding::class, $client->_embedded->onboarding);
     }
 

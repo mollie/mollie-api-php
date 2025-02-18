@@ -2,11 +2,15 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
 class PaymentLink extends BaseResource
 {
+    use HasMode;
+
     /**
      * Id of the payment link (on the Mollie platform).
      *
@@ -136,12 +140,10 @@ class PaymentLink extends BaseResource
      */
     public function update(): ?PaymentLink
     {
-        $body = $this->withTestmode([
+        return $this->connector->paymentLinks->update($this->id, $this->withMode([
             'description' => $this->description,
             'archived' => $this->archived,
-        ]);
-
-        return $this->connector->paymentLinks->update($this->id, $body);
+        ]));
     }
 
     /**
@@ -153,11 +155,9 @@ class PaymentLink extends BaseResource
      */
     public function archive()
     {
-        $data = $this->withTestmode([
+        return $this->connector->paymentLinks->update($this->id, $this->withMode([
             'archived' => true,
-        ]);
-
-        return $this->connector->paymentLinks->update($this->id, $data);
+        ]));
     }
 
     /**
@@ -171,19 +171,7 @@ class PaymentLink extends BaseResource
             $this,
             $from,
             $limit,
-            $this->withTestmode($filters)
+            $this->withMode($filters)
         );
-    }
-
-    /**
-     * Apply the preset options.
-     *
-     * @return array
-     */
-    private function withTestmode(array $options)
-    {
-        return array_merge([
-            'testmode' => $this->mode === 'test',
-        ], $options);
     }
 }

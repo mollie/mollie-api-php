@@ -7,12 +7,14 @@ parameters:
 			path: examples/capabilities/get-capability.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/capabilities/list-capabilities.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Variable \$mollie might not be defined\.$#'
+			identifier: variable.undefined
 			count: 1
 			path: examples/captures/create-capture.php
 
@@ -291,6 +293,12 @@ parameters:
 			identifier: new.static
 			count: 5
 			path: src/Http/Data/DataCollection.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Resources/ResourceCollection.php
 
 		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'

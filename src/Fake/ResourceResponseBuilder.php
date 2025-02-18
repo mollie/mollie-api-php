@@ -5,11 +5,14 @@ namespace Mollie\Api\Fake;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Traits\ForwardsCalls;
+use ReflectionClass;
 
 /**
  * Builder for creating mock responses for Mollie API resources.
  *
  * @method self embed(string $collectionClass) Embed a collection of resources into the response
+ * @method self add(array $data) Add a resource to the embedded response
+ * @method self addMany(array $data) Add multiple resources to the embedded response
  */
 class ResourceResponseBuilder
 {
@@ -49,7 +52,12 @@ class ResourceResponseBuilder
      */
     public function create(): MockResponse
     {
-        $data = $this->data;
+        $reflection = new ReflectionClass($this->resourceClass);
+        $baseName = strtolower($reflection->getShortName());
+
+        $sampleContents = json_decode(FakeResponseLoader::load($baseName), true);
+
+        $data = array_merge(['_links' => $sampleContents['_links']], $this->data);
         $data['_embedded'] = [];
 
         foreach ($this->embeddedBuilders as $key => $builder) {
@@ -61,20 +69,6 @@ class ResourceResponseBuilder
 
         if (empty($data['_embedded'])) {
             unset($data['_embedded']);
-        }
-
-        // add standard links
-        if (empty($data['_links'])) {
-            $data['_links'] = [
-                'self' => [
-                    'href' => '...',
-                    'type' => 'application/hal+json',
-                ],
-                'documentation' => [
-                    'href' => '...',
-                    'type' => 'text/html',
-                ],
-            ];
         }
 
         return new MockResponse($data);

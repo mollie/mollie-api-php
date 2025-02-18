@@ -31,7 +31,7 @@ class Client extends BaseResource implements EmbeddedResourcesContract
     public $_links;
 
     /**
-     * @var \stdClass[]
+     * @var \stdClass
      */
     public $_embedded;
 

@@ -8,5 +8,8 @@ interface IsResponseAware extends ViableResponse
 {
     public function getResponse(): Response;
 
-    public function setResponse(Response $response): self;
+    /**
+     * @return $this
+     */
+    public function setResponse(Response $response);
 }

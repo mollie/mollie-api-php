@@ -199,7 +199,7 @@ class Subscription extends BaseResource
     public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->connector, $this->response);
+            return PaymentCollection::withResponse($this->response, $this->connector);
         }
 
         return $this

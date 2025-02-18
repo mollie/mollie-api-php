@@ -253,6 +253,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('Method undefinedMethod does not exist');
 
+        /** @phpstan-ignore-next-line */
         $builder->undefinedMethod();
     }
 
