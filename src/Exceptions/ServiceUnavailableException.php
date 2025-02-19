@@ -9,12 +9,16 @@ class ServiceUnavailableException extends ServerException
 {
     public static function fromResponse(Response $response): self
     {
-        $body = $response->json();
+        $message = 'The service is temporarily unavailable.';
+        $body = $response->body();
+
+        if (!$response->isEmpty()) {
+            $message .= sprintf(' Server response: %s', $body);
+        }
 
         return new self(
             $response,
-            'The service is temporarily unavailable. '.
-                sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE, $body->title, $body->detail),
+            $message,
             ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE
         );
     }

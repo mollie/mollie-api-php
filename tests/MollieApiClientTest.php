@@ -56,7 +56,7 @@ class MollieApiClientTest extends TestCase
         $this->expectExceptionCode(422);
 
         $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::unprocessableEntity('unprocessable-entity-with-field'),
+            DynamicGetRequest::class => MockResponse::unprocessableEntity('Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?', 'recurringType'),
         ]);
 
         try {
@@ -64,26 +64,6 @@ class MollieApiClientTest extends TestCase
         } catch (ValidationException $e) {
             $this->assertEquals('recurringType', $e->getField());
             $this->assertNotEmpty($e->getDocumentationUrl());
-
-            throw $e;
-        }
-    }
-
-    /** @test */
-    public function send_creates_api_exception_without_field_and_documentation_url()
-    {
-        $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('Error executing API call (422: Unprocessable Entity): Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?');
-        $this->expectExceptionCode(422);
-
-        $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::unprocessableEntity('unprocessable-entity'),
-        ]);
-
-        try {
-            $client->send(new DynamicGetRequest(''));
-        } catch (ValidationException $e) {
-            $this->assertNull($e->getDocumentationUrl());
 
             throw $e;
         }

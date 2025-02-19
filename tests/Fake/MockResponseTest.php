@@ -66,4 +66,20 @@ class MockResponseTest extends TestCase
 
         $this->assertInstanceOf(ResourceResponseBuilder::class, $response);
     }
+
+    /** @test */
+    public function not_found_returns_404_status_code()
+    {
+        $response = MockResponse::notFound();
+
+        $this->assertEquals(404, $response->createPsrResponse()->getStatusCode());
+    }
+
+    /** @test */
+    public function unprocessable_entity_returns_422_status_code()
+    {
+        $response = MockResponse::unprocessableEntity();
+
+        $this->assertEquals(422, $response->createPsrResponse()->getStatusCode());
+    }
 }

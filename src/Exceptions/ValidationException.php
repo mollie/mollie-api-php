@@ -30,11 +30,10 @@ class ValidationException extends ApiException
     public static function fromResponse(Response $response): self
     {
         $body = $response->json();
-        $field = ! empty($body->field) ? $body->field : null;
 
         return new self(
             $response,
-            $field,
+            $body->field,
             'We could not process your request due to validation errors. '.
                 sprintf('Error executing API call (%d: %s): %s', 422, $body->title, $body->detail),
             ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY

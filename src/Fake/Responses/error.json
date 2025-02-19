@@ -1,0 +1,12 @@
+{
+  "status": "{{ CODE }}",
+  "title": "{{ TITLE }}",
+  "detail": "{{ DETAIL }}",
+  "field": "{{ FIELD }}",
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/overview/handling-errors",
+      "type": "text/html"
+    }
+  }
+}

@@ -63,17 +63,19 @@ class MockResponse
         return new self('', 204, $resourceKey);
     }
 
-    public static function notFound(string $resourceKey = ''): self
+    public static function notFound(string $description = 'No resource found'): self
     {
-        return new self('', 404, $resourceKey);
+        return static::error(404, 'Not Found', $description);
     }
 
-    /**
-     * @param  string|array  $body
-     */
-    public static function unprocessableEntity($body = [], string $resourceKey = ''): self
+    public static function unprocessableEntity(string $description = 'The request cannot be processed.', string $field = null): self
     {
-        return new self($body, 422, $resourceKey);
+        return static::error(422, 'Unprocessable Entity', $description, $field);
+    }
+
+    public static function error(int $status, string $title, string $detail, string $field = null): self
+    {
+        return (new ErrorResponseBuilder($status, $title, $detail, $field))->create();
     }
 
     public static function list(string $resourceKey): ListResponseBuilder
