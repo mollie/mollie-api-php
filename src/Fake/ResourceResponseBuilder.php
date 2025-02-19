@@ -63,14 +63,21 @@ class ResourceResponseBuilder
             $this->data
         );
 
-        krsort($data);
-
         foreach ($this->embeddedBuilders as $key => $builder) {
             $embeddedResponse = $builder->create();
             $embeddedData = $embeddedResponse->json();
 
             $data['_embedded'] = array_merge($data['_embedded'], $embeddedData['_embedded']);
         }
+
+        // reorder the data for dev's convenience
+        $data = array_merge(
+            $this->data,
+            [
+                '_embedded' => $data['_embedded'],
+                '_links' => $data['_links']
+            ]
+        );
 
         if (empty($data['_embedded'])) {
             unset($data['_embedded']);
