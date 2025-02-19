@@ -60,15 +60,18 @@ class ApiException extends RequestException
 
     public static function fromResponse(Response $response): self
     {
+        $body = $response->json();
+        $status = $response->status();
+
         return new self(
             $response,
             sprintf(
                 'Error executing API call (%d: %s): %s',
-                $response->status(),
-                $response->json()->title ?? 'Unknown',
-                $response->json()->detail ?? 'Unknown'
+                $status,
+                $body->title ?? 'Unknown',
+                $body->detail ?? 'Unknown'
             ),
-            $response->status(),
+            $status,
             null
         );
     }
