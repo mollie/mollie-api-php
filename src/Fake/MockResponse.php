@@ -68,12 +68,12 @@ class MockResponse
         return static::error(404, 'Not Found', $description);
     }
 
-    public static function unprocessableEntity(string $description = 'The request cannot be processed.', string $field = null): self
+    public static function unprocessableEntity(string $description = 'The request cannot be processed.', string $field = 'test'): self
     {
         return static::error(422, 'Unprocessable Entity', $description, $field);
     }
 
-    public static function error(int $status, string $title, string $detail, string $field = null): self
+    public static function error(int $status, string $title, string $detail, ?string $field = null): self
     {
         return (new ErrorResponseBuilder($status, $title, $detail, $field))->create();
     }

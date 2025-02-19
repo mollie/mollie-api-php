@@ -185,7 +185,7 @@ $response = MockResponse::error(
 
 // Special characters handling
 $detail = 'Invalid parameter "recurringType" - did you mean "sequenceType"?';
-$response = MockResponse::unprocessableEntity($detail);
+$response = MockResponse::unprocessableEntity($detail, 'field');
 ```
 
 **Error Response Structure**
