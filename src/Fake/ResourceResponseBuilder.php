@@ -57,8 +57,13 @@ class ResourceResponseBuilder
 
         $sampleContents = json_decode(FakeResponseLoader::load($baseName), true);
 
-        $data = array_merge(['_links' => $sampleContents['_links']], $this->data);
-        $data['_embedded'] = [];
+        $data = array_merge(
+            ['_embedded' => []],
+            ['_links' => $sampleContents['_links']],
+            $this->data
+        );
+
+        krsort($data);
 
         foreach ($this->embeddedBuilders as $key => $builder) {
             $embeddedResponse = $builder->create();
