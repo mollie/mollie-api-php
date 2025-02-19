@@ -152,3 +152,49 @@ $client = MollieApiClient::fake([
 // - Refunds in _embedded.refunds
 // - Chargebacks in _embedded.chargebacks
 ```
+
+### Handling Error Responses
+Simulate API error responses using dedicated helper methods or the generic error builder:
+
+**Common Error Shortcuts**
+```php
+use Mollie\Api\Fake\MockResponse;
+
+// 404 Not Found
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => MockResponse::notFound('No payment exists with token tr_xxxxxxxxxxx')
+]);
+
+// 422 Validation Error (with optional field reference)
+$client = MollieApiClient::fake([
+    CreatePaymentRequest::class => MockResponse::unprocessableEntity(
+        detail: 'Amount must be at least €1.00',
+        field: 'amount'
+    )
+]);
+```
+
+**Generic Error Builder**
+```php
+// Custom status code example
+$response = MockResponse::error(
+    status: 403,
+    title: 'Forbidden',
+    detail: 'Insufficient permissions to access this resource'
+);
+
+// Special characters handling
+$detail = 'Invalid parameter "recurringType" - did you mean "sequenceType"?';
+$response = MockResponse::unprocessableEntity($detail);
+```
+
+**Error Response Structure**
+All errors follow Mollie's standardized format:
+```json
+{
+    "status": 404,
+    "title": "Not Found",
+    "detail": "No payment exists with token tr_xxxxxxxxxxx",
+    "field": "amount"  // Only present for validation errors
+}
+```
