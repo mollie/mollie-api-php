@@ -75,7 +75,7 @@ class ResourceResponseBuilder
             $this->data,
             [
                 '_embedded' => $data['_embedded'],
-                '_links' => $data['_links']
+                '_links' => $data['_links'],
             ]
         );
 
