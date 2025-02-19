@@ -12,7 +12,7 @@ class ServiceUnavailableException extends ServerException
         $message = 'The service is temporarily unavailable.';
         $body = $response->body();
 
-        if (!$response->isEmpty()) {
+        if (! $response->isEmpty()) {
             $message .= sprintf(' Server response: %s', $body);
         }
 
