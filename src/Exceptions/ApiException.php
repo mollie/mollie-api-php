@@ -58,6 +58,21 @@ class ApiException extends RequestException
         parent::__construct($response, $message, $code, $previous);
     }
 
+    public static function fromResponse(Response $response): self
+    {
+        return new self(
+            $response,
+            sprintf(
+                'Error executing API call (%d: %s): %s',
+                $response->status(),
+                $response->json()->title ?? 'Unknown',
+                $response->json()->detail ?? 'Unknown'
+            ),
+            $response->status(),
+            null
+        );
+    }
+
     public function getDocumentationUrl(): ?string
     {
         return $this->getUrl('documentation');

@@ -43,17 +43,7 @@ class ConvertResponseToException implements ResponseMiddleware
             case ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE:
                 throw ServiceUnavailableException::fromResponse($response);
             default:
-                throw new ApiException(
-                    $response,
-                    sprintf(
-                        'Error executing API call (%d: %s): %s',
-                        $status,
-                        $response->json()->title ?? 'Unknown',
-                        $response->json()->detail ?? 'Unknown'
-                    ),
-                    $status,
-                    null
-                );
+                throw ApiException::fromResponse($response);
         }
     }
 }
