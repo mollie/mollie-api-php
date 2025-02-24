@@ -76,19 +76,9 @@ $line->amount;        // Object containing line amount
 
 - OAuth access token is required to access invoices
 - Invoices are generated monthly for your Mollie account
-- Invoice status can be:
-  - `open`: Not yet paid
-  - `paid`: Invoice has been paid
 - Each invoice line represents a different type of fee:
   - Transaction fees per payment method
   - Refund fees
   - Chargeback fees
   - Other service fees
 - The PDF invoice is available through the `_links.pdf.href` URL
-- All amounts include:
-  - `currency`: The currency code (e.g., "EUR")
-  - `value`: The amount as a string
-- VAT details:
-  - Dutch VAT is charged to EU customers without VAT number
-  - EU customers with VAT number receive invoices without VAT
-  - Non-EU customers receive invoices without VAT
