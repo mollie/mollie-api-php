@@ -82,29 +82,29 @@ For detailed documentation about using this PHP client, see the following guides
 
 These guides provide in-depth explanations and examples for advanced usage of the client.
 
-## Examples
+## Recipes
 
-The Mollie API client comes with a variety of examples to help you understand how to implement various API features. These examples are a great resource for learning how to integrate Mollie payments into your application.
+The Mollie API client comes with a variety of recipes to help you understand how to implement various API features. These recipes are a great resource for learning how to integrate Mollie payments into your application.
 
-Here are some of the key examples included:
+Here are some of the key recipes included:
 
-- **Create Payment**: Demonstrates how to create a new payment.
-  - [Create a simple payment](examples/payments/create-payment.php)
-  - [Create an iDEAL payment](examples/payments/create-ideal-payment.php)
-  - [Create a payment with manual capture](examples/payments/create-capturable-payment.php)
+- **Payments**: Demonstrates how to handle various payment scenarios.
+  - [Create a payment](docs/recipes/payments/create-payment.md)
+  - [Create a capturable payment](docs/recipes/payments/create-capturable-payment.md)
+  - [Handle webhooks](docs/recipes/payments/handle-webhook.md)
+  - [Refund payments](docs/recipes/payments/refund-payment.md)
 
-- **Manage Customers**: Shows how to manage customers in your Mollie account.
-  - [Create a customer](examples/customers/create-customer.php)
-  - [Update a customer](examples/customers/update-customer.php)
-  - [Delete a customer](examples/customers/delete-customer.php)
+- **Customers**: Shows how to manage customers and their payments.
+  - [Manage customers](docs/recipes/customers/manage-customers.md)
+  - [Customer payments](docs/recipes/customers/customer-payments.md)
 
 - **Subscriptions and Recurring Payments**:
-  - [Create a customer for recurring payments](examples/customers/create-customer-first-payment.php)
-  - [Create a recurring payment](examples/customers/create-customer-recurring-payment.php)
+  - [Manage mandates](docs/recipes/mandates/manage-mandates.md)
+  - [Manage subscriptions](docs/recipes/subscriptions/manage-subscriptions.md)
 
-For a full list of examples, please refer to the [examples directory](examples/).
+For a full list of recipes, please refer to the [recipes directory](docs/recipes/).
 
-These examples are designed to be run in a safe testing environment. Make sure to use your test API keys and review each example's code before integrating it into your production environment.
+These recipes are designed to help you integrate Mollie into your application. Make sure to use your test API keys when testing the integration.
 
 ## Upgrading
 
