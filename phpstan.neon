@@ -3,7 +3,6 @@ parameters:
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests
-        - %currentWorkingDirectory%/examples
     excludePaths:
         - %currentWorkingDirectory%/vendor
     treatPhpDocTypesAsCertain: false
