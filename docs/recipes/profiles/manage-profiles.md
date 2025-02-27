@@ -58,14 +58,12 @@ try {
     // Update an existing profile
     $profile = $mollie->send(
         new UpdateProfileRequest(
-            profileId: 'pfl_v9hTwCvYqw',
-            parameters: [
-                'name' => 'Updated Website Name',
-                'website' => 'https://www.updated-website.com',
-                'email' => 'info@updated-website.com',
-                'phone' => '+31208202071',
-                'businessCategory' => 'MARKETPLACES'
-            ]
+            id: 'pfl_v9hTwCvYqw',
+            name: 'Updated Website Name',
+            website: 'https://www.updated-website.com',
+            email: 'info@updated-website.com',
+            phone: '+31208202071',
+            businessCategory: 'MARKETPLACES'
         )
     );
 
