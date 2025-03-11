@@ -127,6 +127,11 @@ class PaymentMethod
     public const MBWAY = "mbway";
 
     /**
+     * @link https://www.mollie.com/en/payments/multibanco
+     */
+    public const MULTIBANCO = "multibanco";
+
+    /**
      * @link https://www.mollie.com/en/payments/mybank
      */
     public const MYBANK = 'mybank';
