@@ -122,6 +122,11 @@ class PaymentMethod
     public const KLARNA_SLICE_IT = 'klarnasliceit';
 
     /**
+     * @link https://www.mollie.com/en/payments/mb-way
+     */
+    public const MBWAY = "mbway";
+
+    /**
      * @link https://www.mollie.com/en/payments/mybank
      */
     public const MYBANK = 'mybank';
