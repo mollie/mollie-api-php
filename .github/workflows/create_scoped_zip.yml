@@ -44,7 +44,29 @@ jobs:
         run: |
           cd build/scoped
           composer dump-autoload --classmap-authoritative
-          php examples/initialize.php
+
+          # Create a simple test script to verify the autoloader works
+          cat > test_autoloader.php <<EOF
+          <?php
+          /*
+           * Make sure to disable the display of errors in production code!
+           */
+          ini_set('display_errors', '1');
+          ini_set('display_startup_errors', '1');
+          error_reporting(E_ALL);
+
+          require_once __DIR__ . "/vendor/autoload.php";
+
+          /*
+           * Initialize the Mollie API client to verify autoloading works
+           */
+          \$mollie = new \Mollie\Api\MollieApiClient();
+          echo "Autoloader verification successful.\n";
+          EOF
+
+          # Run the test script
+          php test_autoloader.php
+
           # Swap autoloader files to handle both scoped and non-scoped classes
           mv vendor/autoload.php vendor/composer-autoload.php
           sed -i.bak 's/autoload.php/composer-autoload.php/g' vendor/scoper-autoload.php
