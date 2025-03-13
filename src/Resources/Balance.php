@@ -2,8 +2,18 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Balance extends BaseResource
 {
+    use HasMode;
+
+    /**
+     * Resource id prefix. Used to validate resource id's.
+     */
     /**
      * Indicates this is a balance resource. The value will always be "balance" here.
      *
@@ -23,6 +33,7 @@ class Balance extends BaseResource
      * The identifier uniquely referring this balance. Mollie assigns this identifier at balance creation.
      *
      * @example bal_gVMhHKqSSRYJyPsuoPABC
+     *
      * @var string
      */
     public $id;
@@ -31,6 +42,7 @@ class Balance extends BaseResource
      * UTC datetime the balance was created in ISO-8601 format.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -67,6 +79,7 @@ class Balance extends BaseResource
 
     /**
      * The total amount that is in the process of being transferred from your balance to your verified bank account.
+     *
      * @var \stdClass
      */
     public $outgoingAmount;

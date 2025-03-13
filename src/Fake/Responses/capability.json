@@ -1,0 +1,28 @@
+{
+  "resource": "capability",
+  "name": "{{ RESOURCE_ID }}",
+  "requirements": [
+    {
+      "name": "legal-representatives",
+      "dueDate": null,
+      "status": "requested"
+    }
+  ],
+  "status": "pending",
+  "statusReason": "onboarding-information-needed",
+  "organizationId": "org_12345678",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "dashboard": {
+      "href": "https://my.mollie.com/dashboard/...",
+      "type": "text/html"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

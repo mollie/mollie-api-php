@@ -1,0 +1,42 @@
+{
+  "resource": "balance",
+  "id": "bal_gVMhHKqSSRYJyPsuoPNFH",
+  "mode": "live",
+  "createdAt": "2019-01-10T10:23:41+00:00",
+  "currency": "EUR",
+  "status": "active",
+  "availableAmount": {
+    "value": "0.00",
+    "currency": "EUR"
+  },
+  "incomingAmount": {
+    "value": "0.00",
+    "currency": "EUR"
+  },
+  "outgoingAmount": {
+    "value": "0.00",
+    "currency": "EUR"
+  },
+  "transferFrequency": "twice-a-month",
+  "transferThreshold": {
+    "value": "5.00",
+    "currency": "EUR"
+  },
+  "transferReference": "Mollie payout",
+  "transferDestination": {
+    "type": "bank-account",
+    "beneficiaryName": "Jack Bauer",
+    "bankAccount": "NL53INGB0654422370",
+    "bankAccountId": "bnk_jrty3f"
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

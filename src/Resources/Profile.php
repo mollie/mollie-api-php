@@ -3,9 +3,12 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\ProfileStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Profile extends BaseResource
 {
     /**
@@ -45,6 +48,7 @@ class Profile extends BaseResource
      * This parameter is deprecated and will be removed in 2022. Please use the businessCategory parameter instead.
      *
      * @deprecated
+     *
      * @var int|null
      */
     public $categoryCode;
@@ -70,6 +74,7 @@ class Profile extends BaseResource
      * UTC datetime the profile was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -79,161 +84,121 @@ class Profile extends BaseResource
      */
     public $_links;
 
-    /**
-     * @return bool
-     */
-    public function isUnverified()
+    public function isUnverified(): bool
     {
-        return $this->status == ProfileStatus::STATUS_UNVERIFIED;
+        return $this->status == ProfileStatus::UNVERIFIED;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->status == ProfileStatus::VERIFIED;
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->status == ProfileStatus::BLOCKED;
     }
 
     /**
-     * @return bool
-     */
-    public function isVerified()
-    {
-        return $this->status == ProfileStatus::STATUS_VERIFIED;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBlocked()
-    {
-        return $this->status == ProfileStatus::STATUS_BLOCKED;
-    }
-
-    /**
-     * @return \Mollie\Api\Resources\Profile
      * @throws ApiException
      */
-    public function update()
+    public function update(): ?Profile
     {
         $body = [
-            "name" => $this->name,
-            "website" => $this->website,
-            "email" => $this->email,
-            "phone" => $this->phone,
-            "businessCategory" => $this->businessCategory,
-            "mode" => $this->mode,
+            'name' => $this->name,
+            'website' => $this->website,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'businessCategory' => $this->businessCategory,
+            'mode' => $this->mode,
         ];
 
-        $result = $this->client->profiles->update($this->id, $body);
-
-        return ResourceFactory::createFromApiResult($result, new Profile($this->client));
+        return $this->connector->profiles->update($this->id, $body);
     }
 
     /**
      * Retrieves all chargebacks associated with this profile
      *
-     * @return ChargebackCollection
      * @throws ApiException
      */
-    public function chargebacks()
+    public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return new ChargebackCollection($this->client, 0, null);
+            return ChargebackCollection::withResponse($this->response, $this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->chargebacks->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->chargebacks,
-            Chargeback::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send((new DynamicGetRequest($this->_links->chargebacks->href))->setHydratableResource(ChargebackCollection::class));
     }
 
     /**
      * Retrieves all methods activated on this profile
      *
-     * @return MethodCollection
      * @throws ApiException
      */
-    public function methods()
+    public function methods(): MethodCollection
     {
         if (! isset($this->_links->methods->href)) {
-            return new MethodCollection(0, null);
+            return MethodCollection::withResponse($this->response, $this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->methods->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->methods,
-            Method::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send((new DynamicGetRequest($this->_links->methods->href))->setHydratableResource(MethodCollection::class));
     }
 
     /**
      * Enable a payment method for this profile.
      *
-     * @param string $methodId
-     * @param array $data
-     * @return Method
+     *
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = [])
+    public function enableMethod(string $methodId): Method
     {
-        return $this->client->profileMethods->createFor($this, $methodId, $data);
+        return $this->connector->profileMethods->createFor($this, $methodId);
     }
 
     /**
      * Disable a payment method for this profile.
      *
-     * @param string $methodId
-     * @param array $data
-     * @return Method
+     *
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = [])
+    public function disableMethod(string $methodId): void
     {
-        return $this->client->profileMethods->deleteFor($this, $methodId, $data);
+        $this->connector->profileMethods->deleteFor($this, $methodId);
     }
 
     /**
      * Retrieves all payments associated with this profile
      *
-     * @return PaymentCollection
      * @throws ApiException
      */
-    public function payments()
+    public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return new PaymentCollection($this->client, 0, null);
+            return PaymentCollection::withResponse($this->response, $this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->payments->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->methods,
-            Method::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send((new DynamicGetRequest($this->_links->payments->href))->setHydratableResource(PaymentCollection::class));
     }
 
     /**
      * Retrieves all refunds associated with this profile
      *
-     * @return RefundCollection
      * @throws ApiException
      */
-    public function refunds()
+    public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return new RefundCollection($this->client, 0, null);
+            return RefundCollection::withResponse($this->response, $this->connector);
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->refunds->href);
-
-        return ResourceFactory::createCursorResourceCollection(
-            $this->client,
-            $result->_embedded->refunds,
-            Refund::class,
-            $result->_links
-        );
+        return $this
+            ->connector
+            ->send((new DynamicGetRequest($this->_links->refunds->href))->setHydratableResource(RefundCollection::class));
     }
 }

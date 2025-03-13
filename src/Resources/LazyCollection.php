@@ -4,6 +4,8 @@ namespace Mollie\Api\Resources;
 
 use Iterator;
 use IteratorAggregate;
+use Mollie\Api\Contracts\IsResponseAware;
+use Mollie\Api\Traits\HasResponse;
 
 /**
  * @template TKey of array-key
@@ -11,15 +13,17 @@ use IteratorAggregate;
  *
  * @implements IteratorAggregate<TKey, TValue>
  */
-class LazyCollection implements IteratorAggregate
+class LazyCollection implements IsResponseAware, IteratorAggregate
 {
+    use HasResponse;
+
     /**
      * @var callable
      */
     private $source;
 
     /**
-     * @param callable $source
+     * @param  callable  $source
      */
     public function __construct($source)
     {
@@ -28,8 +32,6 @@ class LazyCollection implements IteratorAggregate
 
     /**
      * Get all items in the collection.
-     *
-     * @return array
      */
     public function all(): array
     {
@@ -39,7 +41,7 @@ class LazyCollection implements IteratorAggregate
     /**
      * Get an item from the collection by key.
      *
-     * @param TKey $key
+     * @param  TKey  $key
      * @return TValue|null
      */
     public function get($key)
@@ -56,24 +58,23 @@ class LazyCollection implements IteratorAggregate
     /**
      * Run a filter over each of the items.
      *
-     * @param (callable(TValue, TKey): bool)  $callback
-     * @return self
+     * @param  (callable(TValue, TKey): bool)  $callback
      */
     public function filter(callable $callback): self
     {
-        return new self(function () use ($callback) {
+        return (new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 if ($callback($value, $key)) {
                     yield $key => $value;
                 }
             }
-        });
+        }))->setResponse($this->response);
     }
 
     /**
      * Get the first item from the collection passing the given truth test.
      *
-     * @param (callable(TValue, TKey): bool)|null  $callback
+     * @param  (callable(TValue, TKey): bool)|null  $callback
      * @return TValue|null
      */
     public function first(?callable $callback = null)
@@ -102,27 +103,26 @@ class LazyCollection implements IteratorAggregate
      *
      * @template TMapValue
      *
-     * @param callable(TValue, TKey): TMapValue  $callback
+     * @param  callable(TValue, TKey): TMapValue  $callback
      * @return static<TKey, TMapValue>
      */
     public function map(callable $callback): self
     {
-        return new self(function () use ($callback) {
+        return (new self(function () use ($callback) {
             foreach ($this as $key => $value) {
                 yield $key => $callback($value, $key);
             }
-        });
+        }))->setResponse($this->response);
     }
 
     /**
      * Take the first {$limit} items.
      *
-     * @param int $limit
      * @return static
      */
     public function take(int $limit): self
     {
-        return new self(function () use ($limit) {
+        return (new self(function () use ($limit) {
             $iterator = $this->getIterator();
 
             while ($limit--) {
@@ -136,14 +136,13 @@ class LazyCollection implements IteratorAggregate
                     $iterator->next();
                 }
             }
-        });
+        }))->setResponse($this->response);
     }
 
     /**
      * Determine if all items pass the given truth test.
      *
-     * @param (callable(TValue, TKey): bool) $callback
-     * @return bool
+     * @param  (callable(TValue, TKey): bool)  $callback
      */
     public function every(callable $callback): bool
     {
@@ -160,8 +159,6 @@ class LazyCollection implements IteratorAggregate
 
     /**
      * Count the number of items in the collection.
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -184,7 +181,7 @@ class LazyCollection implements IteratorAggregate
      * @template TIteratorKey of array-key
      * @template TIteratorValue
      *
-     * @param IteratorAggregate<TIteratorValue>|(callable(): \Generator<TIteratorKey, TIteratorValue>)  $source
+     * @param  IteratorAggregate<TIteratorValue>|(callable(): \Generator<TIteratorKey, TIteratorValue>)  $source
      * @return Iterator<TIteratorValue>
      */
     protected function makeIterator($source): Iterator
