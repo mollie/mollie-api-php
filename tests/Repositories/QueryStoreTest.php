@@ -21,9 +21,9 @@ class QueryStoreTest extends TestCase
                     'bool_false' => false,
                     'nested' => [
                         'inner_bool' => true,
-                        'inner_string' => 'nested value'
-                    ]
-                ]
+                        'inner_string' => 'nested value',
+                    ],
+                ],
             ],
         ];
     }
@@ -59,7 +59,7 @@ class QueryStoreTest extends TestCase
         $store = new QueryStore([
             'string' => 'value',
             'number' => 42,
-            'array' => ['one', 'two']
+            'array' => ['one', 'two'],
         ]);
 
         $store->resolve();

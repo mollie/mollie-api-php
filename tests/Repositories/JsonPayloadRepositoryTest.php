@@ -16,7 +16,7 @@ class JsonPayloadRepositoryTest extends TestCase
     {
         return [
             'standard_repository' => [
-                'data' => ['foo' => 'bar', 'nested' => ['key' => 'value']]
+                'data' => ['foo' => 'bar', 'nested' => ['key' => 'value']],
             ],
         ];
     }
@@ -28,7 +28,7 @@ class JsonPayloadRepositoryTest extends TestCase
     {
         return [
             'empty_repository' => [
-                'data' => []
+                'data' => [],
             ],
         ];
     }
@@ -249,7 +249,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
         $repository = new JsonPayloadRepository([
             'arrayable' => $arrayable,
-            'normal' => 'value'
+            'normal' => 'value',
         ]);
 
         $repository->resolve();

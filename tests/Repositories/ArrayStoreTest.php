@@ -14,7 +14,7 @@ class ArrayStoreTest extends TestCase
     {
         return [
             'standard_store' => [
-                'data' => ['foo' => 'bar', 'nested' => ['key' => 'value']]
+                'data' => ['foo' => 'bar', 'nested' => ['key' => 'value']],
             ],
         ];
     }
@@ -26,7 +26,7 @@ class ArrayStoreTest extends TestCase
     {
         return [
             'empty_store' => [
-                'data' => []
+                'data' => [],
             ],
         ];
     }
@@ -218,7 +218,7 @@ class ArrayStoreTest extends TestCase
 
         $store = new ArrayStore([
             'arrayable' => $arrayable,
-            'normal' => 'value'
+            'normal' => 'value',
         ]);
 
         $store->resolve();
