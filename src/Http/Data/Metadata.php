@@ -15,6 +15,6 @@ class Metadata implements Stringable
 
     public function __toString(): string
     {
-        return @json_encode($this->data);
+        return empty($this->data) ? '' : @json_encode($this->data);
     }
 }
