@@ -3,7 +3,7 @@
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\Repository;
-use Mollie\Api\Repositories\ArrayStore;
+use Mollie\Api\Repositories\QueryStore;
 
 trait HasQuery
 {
@@ -11,7 +11,7 @@ trait HasQuery
 
     public function query(): Repository
     {
-        return $this->queryStore ??= new ArrayStore($this->defaultQuery());
+        return $this->queryStore ??= new QueryStore($this->defaultQuery());
     }
 
     protected function defaultQuery(): array

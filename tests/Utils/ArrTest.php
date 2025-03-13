@@ -92,6 +92,37 @@ class ArrTest extends TestCase
     }
 
     /** @test */
+    public function map(): void
+    {
+        // Test with a callback that only needs the value
+        $array = ['a' => 1, 'b' => 2, 'c' => 3];
+        $result = Arr::map($array, function ($value) {
+            return $value * 2;
+        });
+        $this->assertEquals(['a' => 2, 'b' => 4, 'c' => 6], $result);
+
+        // Test with a callback that uses both value and key
+        $result = Arr::map($array, function ($value, $key) {
+            return $key . $value;
+        });
+        $this->assertEquals(['a' => 'a1', 'b' => 'b2', 'c' => 'c3'], $result);
+
+        // Test with associative array
+        $assocArray = ['first' => 'John', 'last' => 'Doe'];
+        $result = Arr::map($assocArray, function ($value) {
+            return strtoupper($value);
+        });
+        $this->assertEquals(['first' => 'JOHN', 'last' => 'DOE'], $result);
+
+        // Test with empty array
+        $emptyArray = [];
+        $result = Arr::map($emptyArray, function ($value) {
+            return $value * 2;
+        });
+        $this->assertEquals([], $result);
+    }
+
+    /** @test */
     public function includes(): void
     {
         $array = ['includes' => ['payment']];

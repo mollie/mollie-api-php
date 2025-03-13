@@ -7,7 +7,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Repositories\ArrayStore;
 use PHPUnit\Framework\TestCase;
 
-class BearetTokenAuthenticatorTest extends TestCase
+class BearerTokenAuthenticatorTest extends TestCase
 {
     /**
      * @test

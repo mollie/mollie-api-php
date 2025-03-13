@@ -7,11 +7,11 @@ use Mollie\Api\Utils\Arr;
 
 class ArrayStore implements Repository
 {
-    private array $store = [];
+    protected array $store = [];
 
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
-        $this->store = $data;
+        $this->set($data);
     }
 
     public function set($data): self

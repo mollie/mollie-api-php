@@ -58,11 +58,11 @@ class DataCollection implements Countable, Resolvable
 
     public function map(callable $callback): self
     {
-        return new static(array_map($callback, $this->items));
+        return new static(Arr::map($this->items, $callback));
     }
 
-    public function filter(): self
+    public function filter($callback = null): self
     {
-        return new static(array_filter($this->items));
+        return new static(array_filter($this->items, $callback));
     }
 }

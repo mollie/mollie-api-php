@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Utils;
 
+use ArgumentCountError;
 use DateTimeInterface;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
@@ -139,6 +140,22 @@ class Arr
     }
 
     /**
+     * Map the given array using the given callback.
+     */
+    public static function map(array $array, callable $callback)
+    {
+        $keys = array_keys($array);
+
+        try {
+            $items = array_map($callback, $array, $keys);
+        } catch (ArgumentCountError) {
+            $items = array_map($callback, $array);
+        }
+
+        return array_combine($keys, $items);
+    }
+
+    /**
      * Check if a value exists in an array of includes.
      *
      * @param  string|array<string>  $key
@@ -165,11 +182,14 @@ class Arr
      * Resolve the values of the given array.
      *
      * @param  mixed  $values
+     * @param  callable|null  $mapResolver
      */
-    public static function resolve($values): array
+    public static function resolve($values, $mapResolver = null): array
     {
         return DataCollection::wrap($values)
-            ->map(function ($value) {
+            ->map(function ($value) use ($mapResolver) {
+                $value = is_callable($mapResolver) ? $mapResolver($value) : $value;
+
                 if ($value instanceof Resolvable) {
                     return static::resolve($value->toArray());
                 }
@@ -188,7 +208,7 @@ class Arr
 
                 return $value;
             })
-            ->filter()
+            ->filter(fn ($value) => ! empty($value) || is_bool($value))
             ->toArray();
     }
 }
