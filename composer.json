@@ -53,6 +53,7 @@
     "ext-openssl": "*",
     "composer/ca-bundle": "^1.4",
     "nyholm/psr7": "^1.8",
+    "psr/http-client": "^1.0",
     "psr/http-factory": "^1.1",
     "psr/http-message": "^2.0"
   },
