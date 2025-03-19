@@ -9,7 +9,7 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\TestCase;
-use Stringable;
+use Mollie\Api\Contracts\Stringable;
 
 class ArrTest extends TestCase
 {

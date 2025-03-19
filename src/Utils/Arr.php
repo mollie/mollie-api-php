@@ -7,7 +7,7 @@ use DateTimeInterface;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Http\Data\DataCollection;
-use Stringable;
+use Mollie\Api\Contracts\Stringable;
 
 class Arr
 {

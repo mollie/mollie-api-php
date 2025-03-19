@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http\Data;
 
-use Stringable;
+use Mollie\Api\Contracts\Stringable;
 
 class Metadata implements Stringable
 {

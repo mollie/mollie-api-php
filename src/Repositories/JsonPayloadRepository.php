@@ -5,7 +5,7 @@ namespace Mollie\Api\Repositories;
 use Mollie\Api\Contracts\PayloadRepository;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
-use Stringable;
+use Mollie\Api\Contracts\Stringable;
 
 class JsonPayloadRepository extends ArrayStore implements PayloadRepository, Stringable
 {
