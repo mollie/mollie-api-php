@@ -4,12 +4,12 @@ namespace Tests\Utils;
 
 use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
+use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\TestCase;
-use Mollie\Api\Contracts\Stringable;
 
 class ArrTest extends TestCase
 {
