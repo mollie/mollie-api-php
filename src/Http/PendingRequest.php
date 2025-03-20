@@ -57,10 +57,10 @@ class PendingRequest
         $this->middleware()->merge($request->middleware(), $connector->middleware());
 
         $this
+            ->tap(new AddTestmodeIfEnabled)
+            ->tap(new SetUserAgent)
             ->tap(new MergeRequestProperties)
             ->tap(new SetBody)
-            ->tap(new SetUserAgent)
-            ->tap(new AddTestmodeIfEnabled)
             ->tap(new AuthenticateRequest)
             ->tap(new RemoveTestmodeFromApiAuthenticatedRequests);
 

@@ -266,7 +266,7 @@ class MollieApiClientTest extends TestCase
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertTrue($response->getPendingRequest()->query()->has('testmode'));
-        $this->assertTrue($response->getPendingRequest()->query()->get('testmode'));
+        $this->assertEquals('true', $response->getPendingRequest()->query()->get('testmode'));
     }
 
     /** @test */
@@ -298,7 +298,7 @@ class MollieApiClientTest extends TestCase
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertTrue($response->getPendingRequest()->query()->has('testmode'));
-        $this->assertTrue($response->getPendingRequest()->query()->get('testmode'));
+        $this->assertEquals('true', $response->getPendingRequest()->query()->get('testmode'));
     }
 
     /** @test */
