@@ -10,7 +10,6 @@ use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Utils\Arr;
 
 class DataTransformer
 {

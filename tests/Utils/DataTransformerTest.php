@@ -2,7 +2,6 @@
 
 namespace Tests\Utils;
 
-use Mollie\Api\Utils\DataTransformer;
 use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
@@ -13,6 +12,7 @@ use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
+use Mollie\Api\Utils\DataTransformer;
 use PHPUnit\Framework\TestCase;
 
 class DataTransformerTest extends TestCase
