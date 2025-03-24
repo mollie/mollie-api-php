@@ -5,20 +5,16 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
-use Mollie\Api\Contracts\SupportsTestmode;
-use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
-use Mollie\Api\Http\PendingRequest\AddTestmodeIfEnabled;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
+use Mollie\Api\Http\PendingRequest\HandleTestmode;
+use Mollie\Api\Http\PendingRequest\MergeBody;
 use Mollie\Api\Http\PendingRequest\MergeRequestProperties;
-use Mollie\Api\Http\PendingRequest\RemoveTestmodeFromApiAuthenticatedRequests;
-use Mollie\Api\Http\PendingRequest\SetBody;
 use Mollie\Api\Http\PendingRequest\SetUserAgent;
 use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
@@ -57,12 +53,11 @@ class PendingRequest
         $this->middleware()->merge($request->middleware(), $connector->middleware());
 
         $this
-            ->tap(new AddTestmodeIfEnabled)
             ->tap(new SetUserAgent)
             ->tap(new MergeRequestProperties)
-            ->tap(new SetBody)
+            ->tap(new MergeBody)
             ->tap(new AuthenticateRequest)
-            ->tap(new RemoveTestmodeFromApiAuthenticatedRequests);
+            ->tap(new HandleTestmode);
 
         $this
             ->middleware()
@@ -74,44 +69,6 @@ class PendingRequest
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
             ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH);
-    }
-
-    public function setTestmode(bool $testmode): self
-    {
-        if (! $this->request instanceof SupportsTestmode) {
-            return $this;
-        }
-
-        if ($this->request instanceof SupportsTestmodeInQuery) {
-            $this->query()->add('testmode', $testmode);
-        } elseif ($this->request instanceof SupportsTestmodeInPayload) {
-            $payload = $this->payload();
-
-            if ($payload === null) {
-                return $this;
-            }
-
-            $payload->add('testmode', $testmode);
-        }
-
-        return $this;
-    }
-
-    public function getTestmode(): bool
-    {
-        if (! $this->request instanceof SupportsTestmode) {
-            return false;
-        }
-
-        if ($this->request instanceof SupportsTestmodeInQuery) {
-            return $this->query()->get('testmode', false);
-        }
-
-        $payload = $this->payload();
-
-        return $payload
-            ? $payload->get('testmode', false)
-            : false;
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self

@@ -2,12 +2,6 @@
 
 namespace Tests\Utils;
 
-use DateTimeImmutable;
-use Mollie\Api\Contracts\Resolvable;
-use Mollie\Api\Contracts\Stringable;
-use Mollie\Api\Http\Data\DataCollection;
-use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\TestCase;
 
@@ -129,69 +123,5 @@ class ArrTest extends TestCase
 
         $this->assertTrue(Arr::includes($array, 'includes', 'payment'));
         $this->assertFalse(Arr::includes($array, 'includes', 'refund'));
-    }
-
-    /** @test */
-    public function resolve(): void
-    {
-        $nullResult = Arr::resolve(null);
-        $this->assertEquals([], $nullResult);
-
-        $resolvesDateTime = Arr::resolve(['dateTime' => DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01')]);
-        $this->assertEquals(['dateTime' => '2024-01-01'], $resolvesDateTime);
-
-        $filtersResult = Arr::resolve(['some' => null, 'bar' => 'baz']);
-        $this->assertEquals(['bar' => 'baz'], $filtersResult);
-
-        $dataCollectionResult = Arr::resolve(new DataCollection([
-            new PaymentRoute(
-                new Money('EUR', '10.00'),
-                'org_1234567890',
-                null
-            ),
-        ]));
-
-        $this->assertEquals([
-            [
-                'amount' => ['currency' => 'EUR', 'value' => '10.00'],
-                'destination' => ['type' => 'organization', 'organizationId' => 'org_1234567890'],
-            ],
-        ], $dataCollectionResult);
-    }
-}
-
-class Foo implements Resolvable
-{
-    public string $foo;
-
-    public Bar $bar;
-
-    public function __construct(string $foo, Bar $bar)
-    {
-        $this->foo = $foo;
-        $this->bar = $bar;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'foo' => $this->foo,
-            'bar' => $this->bar,
-        ];
-    }
-}
-
-class Bar implements Stringable
-{
-    public string $bar;
-
-    public function __construct(string $bar)
-    {
-        $this->bar = $bar;
-    }
-
-    public function __toString(): string
-    {
-        return $this->bar;
     }
 }

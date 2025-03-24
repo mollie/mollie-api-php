@@ -6,6 +6,7 @@ use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Utils\DataTransformer;
 
 /**
  * @mixin MollieApiClient
@@ -19,6 +20,8 @@ trait SendsRequests
     {
         $pendingRequest = new PendingRequest($this, $request);
         $pendingRequest = $pendingRequest->executeRequestHandlers();
+
+        $pendingRequest = (new DataTransformer())->transform($pendingRequest);
 
         try {
             $response = $this->httpClient->sendRequest($pendingRequest);

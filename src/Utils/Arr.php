@@ -3,11 +3,6 @@
 namespace Mollie\Api\Utils;
 
 use ArgumentCountError;
-use DateTimeInterface;
-use Mollie\Api\Contracts\Arrayable;
-use Mollie\Api\Contracts\Resolvable;
-use Mollie\Api\Contracts\Stringable;
-use Mollie\Api\Http\Data\DataCollection;
 
 class Arr
 {
@@ -176,39 +171,5 @@ class Arr
         }
 
         return false;
-    }
-
-    /**
-     * Resolve the values of the given array.
-     *
-     * @param  mixed  $values
-     * @param  callable|null  $mapResolver
-     */
-    public static function resolve($values, $mapResolver = null): array
-    {
-        return DataCollection::wrap($values)
-            ->map(function ($value) use ($mapResolver) {
-                $value = is_callable($mapResolver) ? $mapResolver($value) : $value;
-
-                if ($value instanceof Resolvable) {
-                    return static::resolve($value->toArray());
-                }
-
-                if ($value instanceof Arrayable) {
-                    return $value->toArray();
-                }
-
-                if ($value instanceof Stringable) {
-                    return $value->__toString();
-                }
-
-                if ($value instanceof DateTimeInterface) {
-                    return $value->format('Y-m-d');
-                }
-
-                return $value;
-            })
-            ->filter(fn ($value) => ! empty($value) || is_bool($value))
-            ->toArray();
     }
 }

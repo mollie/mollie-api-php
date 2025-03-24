@@ -5,7 +5,7 @@ namespace Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Http\PendingRequest;
 
-class SetBody
+class MergeBody
 {
     public function __invoke(PendingRequest $pendingRequest): PendingRequest
     {
@@ -15,7 +15,7 @@ class SetBody
             return $pendingRequest;
         }
 
-        $body = $request->payload()->resolve();
+        $body = $request->payload();
 
         $pendingRequest->setPayload($body);
 

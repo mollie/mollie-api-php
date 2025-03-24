@@ -204,25 +204,4 @@ class ArrayStoreTest extends TestCase
         $store = new ArrayStore($data);
         $this->assertFalse($store->isNotEmpty());
     }
-
-    /** @test */
-    public function resolve_resolves_array_values()
-    {
-        // Create a mock object that implements Arrayable
-        $arrayable = new class implements \Mollie\Api\Contracts\Arrayable {
-            public function toArray(): array
-            {
-                return ['resolved' => 'value'];
-            }
-        };
-
-        $store = new ArrayStore([
-            'arrayable' => $arrayable,
-            'normal' => 'value',
-        ]);
-
-        $store->resolve();
-
-        $this->assertEquals(['arrayable' => ['resolved' => 'value'], 'normal' => 'value'], $store->all());
-    }
 }
