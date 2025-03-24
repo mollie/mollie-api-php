@@ -235,25 +235,4 @@ class JsonPayloadRepositoryTest extends TestCase
         // Assert the result is the same as our mocked stream
         $this->assertSame($stream, $result);
     }
-
-    /** @test */
-    public function resolve_resolves_array_values()
-    {
-        // Create a mock object that implements Arrayable
-        $arrayable = new class implements \Mollie\Api\Contracts\Arrayable {
-            public function toArray(): array
-            {
-                return ['resolved' => 'value'];
-            }
-        };
-
-        $repository = new JsonPayloadRepository([
-            'arrayable' => $arrayable,
-            'normal' => 'value',
-        ]);
-
-        $repository->resolve();
-
-        $this->assertEquals(['arrayable' => ['resolved' => 'value'], 'normal' => 'value'], $repository->all());
-    }
 }

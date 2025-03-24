@@ -61,11 +61,4 @@ interface Repository
      * Check if the repository is not empty
      */
     public function isNotEmpty(): bool;
-
-    /**
-     * Resolve the repository
-     *
-     * @return static
-     */
-    public function resolve();
 }

@@ -13,7 +13,7 @@ class PaginatedRequestTest extends TestCase
     {
         $request = new ConcretePaginatedRequest;
 
-        $this->assertEquals([], $request->query()->resolve()->all());
+        $this->assertEquals(['from' => null, 'limit' => null], $request->query()->all());
     }
 
     /** @test */
@@ -21,7 +21,7 @@ class PaginatedRequestTest extends TestCase
     {
         $request = new ConcretePaginatedRequest(null, 10);
 
-        $this->assertEquals(['limit' => 10], $request->query()->resolve()->all());
+        $this->assertEquals(['from' => null, 'limit' => 10], $request->query()->all());
     }
 }
 
