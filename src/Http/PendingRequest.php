@@ -5,8 +5,6 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
-use Mollie\Api\Contracts\SupportsTestmodeInPayload;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
@@ -80,7 +78,7 @@ class PendingRequest
      * testmode parameter. This allows the developer to react to requests
      * being made in testmode independent of the testmode parameter being set.
      *
-     * @return boolean
+     * @return bool
      */
     public function getTestmode(): bool
     {
@@ -90,7 +88,7 @@ class PendingRequest
 
         $authenticator = $this->connector->getAuthenticator();
 
-        if (!$authenticator instanceof ApiKeyAuthenticator) {
+        if (! $authenticator instanceof ApiKeyAuthenticator) {
             return false;
         }
 
