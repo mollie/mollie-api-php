@@ -6,6 +6,7 @@ use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Middleware\Hydrate;
@@ -69,6 +70,29 @@ class PendingRequest
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
             ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH);
+    }
+
+    /**
+     * We are returning on whether the request is actually
+     * made in testmode and not if the request is sent with a
+     * testmode parameter. This allows the developer to react to requests
+     * being made in testmode independent of the testmode parameter being set.
+     *
+     * @return bool
+     */
+    public function getTestmode(): bool
+    {
+        if ($this->connector->getTestmode() || $this->request->getTestmode()) {
+            return true;
+        }
+
+        $authenticator = $this->connector->getAuthenticator();
+
+        if (! $authenticator instanceof ApiKeyAuthenticator) {
+            return false;
+        }
+
+        return $authenticator->isTestToken();
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self
