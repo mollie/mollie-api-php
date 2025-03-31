@@ -31,7 +31,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
-        $requestClass = get_class($request = $pendingRequest->getRequest());
+        $requestClass = get_class($pendingRequest->getRequest());
 
         $this->guardAgainstStrayRequests($requestClass);
 
@@ -43,7 +43,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             $pendingRequest,
         );
 
-        $this->recorded[] = [$request, $response];
+        $this->recorded[] = [$pendingRequest, $response];
 
         return $response;
     }
@@ -89,7 +89,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             return $this->recorded;
         }
 
-        return array_filter($this->recorded, fn ($recorded) => $callback($recorded[0], $recorded[1]));
+        return array_filter($this->recorded, fn ($recorded) => call_user_func_array($callback, $recorded));
     }
 
     /**
@@ -98,7 +98,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
     public function assertSent($callback): void
     {
         if (is_string($callback)) {
-            $callback = fn ($request) => get_class($request) === $callback;
+            $callback = fn (PendingRequest $request) => get_class($request->getRequest()) === $callback;
         }
 
         PHPUnit::assertTrue(

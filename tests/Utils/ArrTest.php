@@ -64,13 +64,23 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::exists($array, 'bar'));
     }
 
-    /** @test */
-    public function join(): void
+    /**
+     * @test
+     * @dataProvider joinDataProvider
+     */
+    public function join(array $array, string $expected, string $glue = ','): void
     {
-        $array = ['foo', 'bar', 'baz'];
+        $this->assertEquals($expected, Arr::join($array, $glue));
+    }
 
-        $this->assertEquals('foo, bar, baz', Arr::join($array));
-        $this->assertEquals('foo-bar-baz', Arr::join($array, '-'));
+    public function joinDataProvider(): array
+    {
+        return [
+            'default' => [['foo', 'bar', 'baz'], 'foo,bar,baz'],
+            'custom separator' => [['foo', 'bar', 'baz'], 'foo-bar-baz', '-'],
+            'with nulls' => [['foo', null, 'baz'], 'foo,baz'],
+            'with nulls and custom separator' => [['foo', null, 'baz'], 'foo-baz', '-'],
+        ];
     }
 
     /** @test */

@@ -119,9 +119,9 @@ class Arr
     /**
      * Join array elements with a string.
      */
-    public static function join(array $array, string $glue = ', '): string
+    public static function join(array $array, string $glue = ','): string
     {
-        return implode($glue, $array);
+        return implode($glue, array_filter($array));
     }
 
     /**

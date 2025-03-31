@@ -95,8 +95,8 @@ class MockMollieHttpAdapterTest extends TestCase
         $adapter->assertSent(DynamicGetRequest::class);
 
         // Test assertSent with callback
-        $adapter->assertSent(function ($request) use ($pendingRequest) {
-            return $request === $pendingRequest->getRequest();
+        $adapter->assertSent(function (PendingRequest $request) use ($pendingRequest) {
+            return $request->getRequest() === $pendingRequest->getRequest();
         });
 
         // Test assertSentCount
@@ -117,11 +117,11 @@ class MockMollieHttpAdapterTest extends TestCase
         // Test recorded without callback
         $recorded = $adapter->recorded();
         $this->assertCount(1, $recorded);
-        $this->assertSame($pendingRequest->getRequest(), $recorded[0][0]);
+        $this->assertSame($pendingRequest->getRequest(), $recorded[0][0]->getRequest());
 
         // Test recorded with callback
-        $this->assertCount(1, $adapter->recorded(function ($request) use ($pendingRequest) {
-            return $request === $pendingRequest->getRequest();
-        }));
+        $adapter->assertSent(function (PendingRequest$request) use ($pendingRequest) {
+            return $request->getRequest() === $pendingRequest->getRequest();
+        });
     }
 }
