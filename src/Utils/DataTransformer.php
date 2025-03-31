@@ -50,7 +50,7 @@ class DataTransformer
             ->map(function ($value) use ($mapResolver) {
                 $value = is_callable($mapResolver) ? $mapResolver($value) : $value;
 
-                if ($value instanceof Resolvable || $value instanceof PayloadRepository) {
+                if ($value instanceof Resolvable) {
                     return $this->resolve($value->toArray());
                 }
 
