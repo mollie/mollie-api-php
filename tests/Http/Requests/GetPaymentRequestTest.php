@@ -3,6 +3,7 @@
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
@@ -22,6 +23,12 @@ class GetPaymentRequestTest extends TestCase
 
         $this->assertTrue($payment->getResponse()->successful());
         $this->assertInstanceOf(Payment::class, $payment);
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertEmpty($pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
     }
 
     /** @test */
