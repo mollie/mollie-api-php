@@ -4,6 +4,10 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
+use Mollie\Api\Http\Response;
+use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
@@ -41,6 +45,13 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
      */
     private ?bool $includePricing;
 
+    /**
+     * Whether to filter out methods with a status of null.
+     *
+     * @var bool
+     */
+    private bool $filtersNullStatus = true;
+
     public function __construct(
         string $sequenceType = SequenceType::ONEOFF,
         string $resource = MethodQuery::RESOURCE_PAYMENTS,
@@ -63,6 +74,29 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
         $this->profileId = $profileId;
         $this->includeIssuers = $includeIssuers;
         $this->includePricing = $includePricing;
+
+        $this->middleware()->onResponse(function ($result) {
+            if ($this->filtersNullStatus && $result instanceof MethodCollection) {
+                return $result
+                    ->filter(fn (Method $method) => $method->status !== null);
+            }
+
+            return $result;
+        }, 'filter_null_status', MiddlewarePriority::LOW);
+    }
+
+    public function withoutNullStatus(): self
+    {
+        $this->filtersNullStatus = true;
+
+        return $this;
+    }
+
+    public function withNullStatus(): self
+    {
+        $this->filtersNullStatus = false;
+
+        return $this;
     }
 
     protected function defaultQuery(): array
