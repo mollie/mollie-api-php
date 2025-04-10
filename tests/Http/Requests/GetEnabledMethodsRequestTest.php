@@ -112,7 +112,7 @@ class GetEnabledMethodsRequestTest extends TestCase
                     'size1x' => 'https://www.mollie.com/external/icons/payment-methods/ideal.png',
                     'size2x' => 'https://www.mollie.com/external/icons/payment-methods/ideal%402x.png',
                     'svg' => 'https://www.mollie.com/external/icons/payment-methods/ideal.svg',
-                ]
+                ],
             ],
             [
                 'resource' => 'method',
@@ -123,7 +123,7 @@ class GetEnabledMethodsRequestTest extends TestCase
                     'size1x' => 'https://www.mollie.com/external/icons/payment-methods/creditcard.png',
                     'size2x' => 'https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png',
                     'svg' => 'https://www.mollie.com/external/icons/payment-methods/creditcard.svg',
-                ]
+                ],
             ],
             [
                 'resource' => 'method',
@@ -134,8 +134,8 @@ class GetEnabledMethodsRequestTest extends TestCase
                     'size1x' => 'https://www.mollie.com/external/icons/payment-methods/voucher.png',
                     'size2x' => 'https://www.mollie.com/external/icons/payment-methods/voucher%402x.png',
                     'svg' => 'https://www.mollie.com/external/icons/payment-methods/voucher.svg',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

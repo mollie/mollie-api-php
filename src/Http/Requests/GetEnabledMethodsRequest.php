@@ -5,8 +5,6 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Mollie\Api\Http\Response;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
