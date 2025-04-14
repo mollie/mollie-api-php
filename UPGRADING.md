@@ -8,7 +8,7 @@ The codebase has significant improvements, focusing on modern PHP practices, enh
 
 ### Removed Endpoints & Classes
 
-Mollie is deprecating the Order and Shipment endpoints. Use the recently enhanced Payment endpoint instead.
+Mollie is deprecating the Order and Shipment endpoints so v3 is discontinuing support for these. Use the recently enhanced Payment endpoint instead.
 
 > Note: Support for Klarna, Billie, in3 and vouchers will be added to Mollie's Payment API later - consider delaying to upgrade this package if you rely on these specific payment methods.
 > 
@@ -28,15 +28,15 @@ Mollie is deprecating the Order and Shipment endpoints. Use the recently enhance
 ### Class & Method Renames
 
 #### Endpoint Class Changes
-| Old Class                          | New Class                               | Method Changes                           |
-|------------------------------------|-----------------------------------------|------------------------------------------|
-| `MethodEndpoint`                   | `MethodEndpointCollection`             | `allAvailable()` → `all()`<br>`all()` → `allEnabled()` |
-| `BalanceTransactionEndpoint`       | `BalanceTransactionEndpointCollection` | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `CustomerPaymentsEndpoint`         | `CustomerPaymentsEndpointCollection`   | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `MandateEndpoint`                  | `MandateEndpointCollection`            | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `PaymentRefundEndpoint`            | `PaymentRefundEndpointCollection`      | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `OnboardingEndpoint`               | `OnboardingEndpointCollection`         | `get()` → `status()`                     |
-| `SubscriptionEndpoint`             | `SubscriptionEndpointCollection`       | `page()` → `allFor()`                    |
+| Old Class                    | New Class                              | Method Changes                                             |
+|------------------------------|----------------------------------------|------------------------------------------------------------|
+| `MethodEndpoint`             | `MethodEndpointCollection`             | `allAvailable()` → `all()`<br>`all()` → `allEnabled()`     |
+| `BalanceTransactionEndpoint` | `BalanceTransactionEndpointCollection` | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `CustomerPaymentsEndpoint`   | `CustomerPaymentsEndpointCollection`   | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `MandateEndpoint`            | `MandateEndpointCollection`            | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `PaymentRefundEndpoint`      | `PaymentRefundEndpointCollection`      | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `OnboardingEndpoint`         | `OnboardingEndpointCollection`         | `get()` → `status()`                                       |
+| `SubscriptionEndpoint`       | `SubscriptionEndpointCollection`       | `page()` → `allFor()`                                      |
 
 #### Signature Changes
 You can now use named parameters for improved readability and flexibility:
