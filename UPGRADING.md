@@ -1,31 +1,50 @@
 # Upgrading from v2 to v3
 
+Welcome to Mollie API PHP v3! This guide will help you smoothly transition from v2 to v3.
+
+The codebase has significant improvements, focusing on modern PHP practices, enhanced type safety, and offers a more intuitive developer experience.
+
 ## Breaking Changes
 
-### 1. Removed Endpoints & Classes
-- **Full order system removal**:
+### Deprecations
+
+#### MethodEndpointCollection.allActive() 
+
+The method `MethodEndpointCollection.allActive()` has been removed. Use `MethodEndpointCollection.allEnabled()` instead.
+
+#### Order endpoint
+
+Orders: Mollie is deprecating the Order and Shipment endpoints so these have been removed from `mollie-api-php`. The same functionality is now available through the Payment endpoint as well. So, use the Payment endpoint instead.
+
   - All `/orders/*` endpoints and related classes (`Order*Endpoint`)
   - Removed `MollieApiClient` properties:
     ```php
-    $client->orderPayments;   // Removed
+    $client->orderPayments;  // Removed
     $client->orderRefunds;   // Removed
     $client->orderLines;     // Removed
     $client->shipments;      // Removed
     ```
 
-### 2. Method & Class Renames
+#### Integration code examples
+
+To prevent misuse the code samples in `/examples` were replaced by markdown "recipes", which can be found in `/docs/recipes`.
+
+### Class & Method Renames
+
 #### Endpoint Class Changes
-| Old Class                          | New Class                               | Method Changes                           |
-|------------------------------------|-----------------------------------------|------------------------------------------|
-| `MethodEndpoint`                   | `MethodEndpointCollection`             | `allAvailable()` → `all()`<br>`all()` → `allEnabled()` |
-| `BalanceTransactionEndpoint`       | `BalanceTransactionEndpointCollection` | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `CustomerPaymentsEndpoint`         | `CustomerPaymentsEndpointCollection`   | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `MandateEndpoint`                  | `MandateEndpointCollection`            | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `PaymentRefundEndpoint`            | `PaymentRefundEndpointCollection`      | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
-| `OnboardingEndpoint`               | `OnboardingEndpointCollection`         | `get()` → `status()`                     |
-| `SubscriptionEndpoint`             | `SubscriptionEndpointCollection`       | `page()` → `allFor()`                    |
+| Old Class                    | New Class                              | Method Changes                                             |
+|------------------------------|----------------------------------------|------------------------------------------------------------|
+| `MethodEndpoint`             | `MethodEndpointCollection`             | `allAvailable()` → `all()`<br>`all()` → `allEnabled()`     |
+| `BalanceTransactionEndpoint` | `BalanceTransactionEndpointCollection` | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `CustomerPaymentsEndpoint`   | `CustomerPaymentsEndpointCollection`   | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `MandateEndpoint`            | `MandateEndpointCollection`            | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `PaymentRefundEndpoint`      | `PaymentRefundEndpointCollection`      | `listFor()` → `pageFor()`<br>`listForId()` → `pageForId()` |
+| `OnboardingEndpoint`         | `OnboardingEndpointCollection`         | `get()` → `status()`                                       |
+| `SubscriptionEndpoint`       | `SubscriptionEndpointCollection`       | `page()` → `allFor()`                                      |
 
 #### Signature Changes
+You can now use named parameters for improved readability and flexibility:
+
 ```php
 // Before (v2)
 $mandates = $client->mandates->listFor($customer, 0, 10);
@@ -39,8 +58,9 @@ $mandates = $client->mandates->pageForCustomer(
 );
 ```
 
-### 3. Constant & Collection Changes
-- **Removed `STATUS_` prefix**:
+### Constant & Collection Changes
+
+- **Streamlined constants** - Redundant prefixes have been removed for a cleaner API:
   ```php
   // Before
   Payment::STATUS_PAID;
@@ -49,7 +69,7 @@ $mandates = $client->mandates->pageForCustomer(
   Payment::PAID;
   ```
 
-- **Removed `SEQUENCETYPE_` prefix** from SequenceType constants:
+- **Simplified SequenceType constants**:
   ```php
   // Before
   SequenceType::SEQUENCETYPE_FIRST;
@@ -58,7 +78,7 @@ $mandates = $client->mandates->pageForCustomer(
   SequenceType::FIRST;
   ```
 
-- **Collection constructor changes**:
+- **Cleaner collection initialization**:
   ```php
   // Before
   new PaymentCollection(10, $payments);
@@ -67,10 +87,29 @@ $mandates = $client->mandates->pageForCustomer(
   new PaymentCollection($payments);
   ```
 
+### Test Mode Handling
+
+- **Automatic detection** with API keys
+- **Explicit parameter** for organization credentials:
+  ```php
+  // Get payment link in test mode
+  $link = $client->paymentLinks->get('pl_123', testmode: true);
+  ```
+  
+Read the full testing documentation [here](docs/testing.md).
+
+### Removed Collections
+
+- `OrganizationCollection`
+- `RouteCollection`
+
 ## New Features
 
-### 1. Modern HTTP Handling
+### Modern HTTP Handling
+
 #### PSR-18 Support
+You can now use any PSR-18 compatible HTTP client:
+
 ```php
 use Mollie\Api\HttpAdapter\PSR18MollieHttpAdapter;
 
@@ -83,8 +122,11 @@ $adapter = new PSR18MollieHttpAdapter(
 $client = new MollieApiClient($adapter);
 ```
 
-### 2. Enhanced Request Handling
+### Enhanced Request Handling
+
 #### Typed Request Objects
+You can now say goodbye to array-based payloads and hello to type-safe request objects:
+
 ```php
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
@@ -97,24 +139,22 @@ $request = new CreatePaymentRequest(
 $payment = $client->send($request);
 ```
 
-### 3. Collection Improvements
+Read the full request documentation [here](docs/requests.md).
+
+### Collection Improvements
+
+Collections now feature powerful functional methods for more expressive code:
+
 ```php
 // New methods
 $activePayments = $payments->filter(fn($p) => $p->isActive());
 $hasRefunds = $payments->contains(fn($p) => $p->hasRefunds());
 ```
 
-## Configuration Changes
+### Method Issuer Contracts
 
-### 1. Test Mode Handling
-- **Automatic detection** with API keys
-- **Explicit parameter** for organization credentials:
-  ```php
-  // Get payment link in test mode
-  $link = $client->paymentLinks->get('pl_123', testmode: true);
-  ```
+You can now easily manage method issuers with optional contract IDs:
 
-### 2. Method Issuer Contracts
 ```php
 $client->methodIssuers->enable(
     profileId: 'pfl_123',
@@ -124,19 +164,6 @@ $client->methodIssuers->enable(
 );
 ```
 
-## Deprecations
+## Further reading
 
-### 1. Method Deprecations
-- `MethodEndpointCollection@allActive()` - Use `allEnabled()`
-- Array-style payloads (migrate to typed requests)
-
-### 2. Removed Collections
-- `OrganizationCollection`
-- `RouteCollection`
-
-## Migration Checklist
-1. Replace all `listFor()`/`page()` calls with new method names
-2. Update status constant references (remove `STATUS_` prefix)
-3. Migrate collection instantiation to new constructor format
-4. Add `testmode` parameters where using organization credentials
-5. Convert array payloads to typed request objects (recommended)
+Usage guides for the PHP client can be found in the [docs](docs). For more information on the Mollie API, check out [the official Mollie docs](https://docs.mollie.com).
