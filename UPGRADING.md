@@ -6,24 +6,28 @@ The codebase has significant improvements, focusing on modern PHP practices, enh
 
 ## Breaking Changes
 
-### Removed Endpoints & Classes
+### Deprecations
 
-Mollie is deprecating the Order and Shipment endpoints so v3 is discontinuing support for these. Use the recently enhanced Payment endpoint instead.
+#### MethodEndpointCollection.allActive() 
 
-> Note: Support for Klarna, Billie, in3 and vouchers will be added to Mollie's Payment API later - consider delaying to upgrade this package if you rely on these specific payment methods.
-> 
-> Keep an eye on the [Mollie Changelog](https://docs.mollie.com/changelog/) to stay informed. 
+The method `MethodEndpointCollection.allActive()` has been removed. Use `MethodEndpointCollection.allEnabled()` instead.
 
-**Removed:**
+#### Order endpoint
 
-- All `/orders/*` endpoints and related classes (`Order*Endpoint`)
-- Removed `MollieApiClient` properties:
-  ```php
-  $client->orderPayments;  // Removed
-  $client->orderRefunds;   // Removed
-  $client->orderLines;     // Removed
-  $client->shipments;      // Removed
-  ```
+Orders: Mollie is deprecating the Order and Shipment endpoints so these have been removed from `mollie-api-php`. The same functionality is now available through the Payment endpoint as well. So, use the Payment endpoint instead.
+
+  - All `/orders/*` endpoints and related classes (`Order*Endpoint`)
+  - Removed `MollieApiClient` properties:
+    ```php
+    $client->orderPayments;  // Removed
+    $client->orderRefunds;   // Removed
+    $client->orderLines;     // Removed
+    $client->shipments;      // Removed
+    ```
+
+#### Integration code examples
+
+To prevent misuse the code samples in `/examples` were replaced by markdown "recipes", which can be found in `/docs/recipes`.
 
 ### Class & Method Renames
 
@@ -159,12 +163,6 @@ $client->methodIssuers->enable(
     contractId: 'contract_789'  // Optional
 );
 ```
-
-## Deprecations
-
-- `MethodEndpointCollection@allActive()` - Use `allEnabled()`
-- Array-style payloads (migrate to typed requests)
-- To prevent misuse the code samples in `/examples` were replaced by markdown based recipes in `/docs/recipes` 
 
 ## Further reading
 
