@@ -51,8 +51,6 @@ class PendingRequest
         $this->method = $request->getMethod();
         $this->url = Url::join($connector->resolveBaseUrl(), $request->resolveResourcePath());
 
-        $this->middleware()->merge($request->middleware(), $connector->middleware());
-
         $this
             ->tap(new SetUserAgent)
             ->tap(new MergeRequestProperties)
@@ -68,8 +66,11 @@ class PendingRequest
 
             /** On response */
             ->onResponse(new ResetIdempotencyKey, 'idempotency')
+            ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH)
             ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
-            ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH);
+
+            /** Merge the middleware */
+            ->merge($connector->middleware(), $request->middleware());
     }
 
     /**
