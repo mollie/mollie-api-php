@@ -1,16 +1,15 @@
 <?php
+
 namespace Mollie\Api\Idempotency;
 
-use Mollie\Api\Exceptions\IncompatiblePlatform;
+use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
+use Mollie\Api\Exceptions\IncompatiblePlatformException;
 
 class DefaultIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
 {
     const DEFAULT_LENGTH = 16;
 
-    /**
-     * @var int
-     */
-    protected $length;
+    protected int $length;
 
     public function __construct($length = self::DEFAULT_LENGTH)
     {
@@ -18,10 +17,9 @@ class DefaultIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
     }
 
     /**
-     * @throws \Mollie\Api\Exceptions\IncompatiblePlatform
-     * @return string
+     * @throws \Mollie\Api\Exceptions\IncompatiblePlatformException
      */
-    public function generate()
+    public function generate(): string
     {
         $length = $this->length;
 
@@ -33,9 +31,9 @@ class DefaultIdempotencyKeyGenerator implements IdempotencyKeyGeneratorContract
             try {
                 $bytes = random_bytes($size);
             } catch (\Exception $e) {
-                throw new IncompatiblePlatform(
+                throw new IncompatiblePlatformException(
                     'PHP function random_bytes missing. Consider overriding the DefaultIdempotencyKeyGenerator with your own.',
-                    IncompatiblePlatform::INCOMPATIBLE_RANDOM_BYTES_FUNCTION
+                    IncompatiblePlatformException::INCOMPATIBLE_RANDOM_BYTES_FUNCTION
                 );
             }
 

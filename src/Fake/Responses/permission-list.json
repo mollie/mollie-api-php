@@ -1,0 +1,41 @@
+{
+  "count": 2,
+  "_embedded": {
+    "permissions": [
+      {
+        "resource": "permission",
+        "id": "payments.read",
+        "description": "View your payments",
+        "granted": true,
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          }
+        }
+      },
+      {
+        "resource": "permission",
+        "id": "payments.write",
+        "description": "Create new payments",
+        "granted": false,
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "count": 1,
+  "_embedded": {
+    "subscriptions": [
+      {
+        "resource": "subscription",
+        "id": "sub_rVKGtNd6s3",
+        "mode": "live",
+        "amount": {
+          "currency": "EUR",
+          "value": "25.00"
+        },
+        "times": 4,
+        "timesRemaining": 4,
+        "interval": "3 months",
+        "startDate": "2023-06-01",
+        "nextPaymentDate": "2023-09-01",
+        "description": "Quarterly payment",
+        "method": null,
+        "status": "active",
+        "webhookUrl": "https://webshop.example.org/payments/webhook",
+        "customerId": "cst_stTC2WHAuS",
+        "mandateId": "mdt_38HS4fsS",
+        "createdAt": "2023-04-06T13:10:19.0Z",
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "customer": {
+            "href": "https://api.mollie.com/v2/customers/cst_stTC2WHAuS",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/subscriptions?from=sub_mnXbwhMfvo&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

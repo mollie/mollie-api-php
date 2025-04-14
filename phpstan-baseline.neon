@@ -1,321 +1,139 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 1
-			path: examples/capabilities/get-capability.php
+			path: src/Factories/Factory.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/capabilities/list-capabilities.php
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 5
+			path: src/Http/Data/DataCollection.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 1
-			path: examples/captures/create-capture.php
+			path: src/Resources/ResourceCollection.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/captures/get-capture.php
+			path: tests/EndpointCollection/CustomerEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/captures/list-captures.php
+			path: tests/EndpointCollection/MandateEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$_links\.$#'
+			identifier: property.notFound
 			count: 1
-			path: examples/client-links/create-client-link.php
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$description\.$#'
+			identifier: property.notFound
 			count: 1
-			path: examples/customers/create-customer-first-payment.php
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\Issuer\:\:\$status\.$#'
+			identifier: property.notFound
 			count: 1
-			path: examples/customers/create-customer-payment.php
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/customers/create-customer-recurring-payment.php
+			path: tests/EndpointCollection/MethodIssuerEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/customers/create-customer.php
+			path: tests/EndpointCollection/PaymentLinkEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/customers/delete-customer.php
+			path: tests/EndpointCollection/PaymentRefundEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/customers/list-customer-payments.php
+			path: tests/EndpointCollection/ProfileEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/customers/update-customer.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/invoices/list-invoices.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/mandates/create-mandate.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/mandates/list-mandates.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/mandates/revoke-mandate.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 2
-			path: examples/orders/cancel-order-lines.php
+			path: tests/EndpointCollection/ProfileMethodEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/orders/cancel-order.php
+			path: tests/EndpointCollection/SalesInvoiceEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/orders/create-order.php
+			path: tests/EndpointCollection/SessionEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/orders/list-methods.php
+			path: tests/EndpointCollection/SubscriptionEndpointCollectionTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
 			count: 1
-			path: examples/orders/list-orders.php
+			path: tests/Http/Auth/AccessTokenAuthenticatorTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$customField\.$#'
+			identifier: property.notFound
 			count: 1
-			path: examples/orders/refund-order-completely.php
+			path: tests/Resources/ResourceFactoryTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$id\.$#'
+			identifier: property.notFound
 			count: 1
-			path: examples/orders/refund-order-partially.php
+			path: tests/Resources/ResourceFactoryTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Property Tests\\Utils\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
+			identifier: property.unused
 			count: 1
-			path: examples/orders/update-order-line.php
+			path: tests/Utils/UtilityTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Trait Tests\\Utils\\TestTraitBase is used zero times and is not analysed\.$#'
+			identifier: trait.unused
 			count: 1
-			path: examples/orders/update-order-lines-multiple.php
+			path: tests/Utils/UtilityTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Trait Tests\\Utils\\TestTraitMain is used zero times and is not analysed\.$#'
+			identifier: trait.unused
 			count: 1
-			path: examples/orders/update-order.php
+			path: tests/Utils/UtilityTest.php
 
 		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
+			message: '#^Trait Tests\\Utils\\TestTraitNested is used zero times and is not analysed\.$#'
+			identifier: trait.unused
 			count: 1
-			path: examples/orders/webhook.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 2
-			path: examples/pagination/backwards.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 2
-			path: examples/pagination/basic_usage.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payment-links/create-payment-link.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payment-links/list-payment-links.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/create-capturable-payment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 2
-			path: examples/payments/create-ideal-payment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 2
-			path: examples/payments/create-payment-oauth.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/create-payment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/list-methods.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/list-payments.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/refund-payment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/return.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/update-payment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/payments/webhook.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/profiles/create-profile.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/profiles/delete-profile.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/profiles/list-profiles.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/profiles/update-profile.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sales-invoices/create-sales-invoice.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sales-invoices/delete-sales-invoice.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sales-invoices/list-sales-invoices.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sales-invoices/update-sales-invoice.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sessions/cancel-session.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sessions/create-session.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sessions/list-sessions.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/sessions/update-session.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/settlements/list-settlements.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/create-shipment-all.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/create-shipment-partial.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/get-shipment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/list-shipments.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/shipments/update-shipment.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/subscriptions/cancel-subscription.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/subscriptions/create-subscription.php
-
-		-
-			message: "#^Variable \\$mollie might not be defined\\.$#"
-			count: 1
-			path: examples/subscriptions/update-subscription.php
-
-		-
-			message: "#^Result of method Mollie\\\\Api\\\\Endpoints\\\\PaymentLinkEndpoint\\:\\:delete\\(\\) \\(void\\) is used\\.$#"
-			count: 1
-			path: tests/Mollie/API/Endpoints/PaymentLinkEndpointTest.php
+			path: tests/Utils/UtilityTest.php

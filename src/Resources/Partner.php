@@ -2,6 +2,9 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Partner extends BaseResource
 {
     /**

@@ -9,26 +9,22 @@ class CurrentProfile extends Profile
     /**
      * Enable a payment method for this profile.
      *
-     * @param string $methodId
-     * @param array $data
-     * @return Method
+     *
      * @throws ApiException
      */
-    public function enableMethod($methodId, array $data = [])
+    public function enableMethod(string $methodId): Method
     {
-        return $this->client->profileMethods->createForCurrentProfile($methodId, $data);
+        return $this->connector->profileMethods->createForCurrentProfile($methodId);
     }
 
     /**
      * Disable a payment method for this profile.
      *
-     * @param string $methodId
-     * @param array $data
-     * @return Method
+     *
      * @throws ApiException
      */
-    public function disableMethod($methodId, array $data = [])
+    public function disableMethod(string $methodId): void
     {
-        return $this->client->profileMethods->deleteForCurrentProfile($methodId, $data);
+        $this->connector->profileMethods->deleteForCurrentProfile($methodId);
     }
 }

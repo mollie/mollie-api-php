@@ -4,6 +4,9 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\ApprovalPrompt;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class ClientLink extends BaseResource
 {
     /**
@@ -15,6 +18,7 @@ class ClientLink extends BaseResource
      * Id of the client link.
      *
      * @example csr_vZCnNQsV2UtfXxYifWKWH
+     *
      * @var string
      */
     public $id;

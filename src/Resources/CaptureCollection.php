@@ -5,18 +5,12 @@ namespace Mollie\Api\Resources;
 class CaptureCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
      */
-    public function getCollectionResourceName()
-    {
-        return "captures";
-    }
+    public static string $collectionName = 'captures';
 
     /**
-     * @return BaseResource
+     * Resource class name.
      */
-    protected function createResourceObject()
-    {
-        return new Capture($this->client);
-    }
+    public static string $resource = Capture::class;
 }

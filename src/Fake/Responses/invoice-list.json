@@ -1,0 +1,61 @@
+{
+  "count": 1,
+  "_embedded": {
+    "invoices": [
+      {
+        "resource": "invoice",
+        "id": "inv_xBEbP9rvAq",
+        "reference": "2023.10000",
+        "vatNumber": "NL001234567B01",
+        "status": "open",
+        "netAmount": {
+          "currency": "EUR",
+          "value": "45.00"
+        },
+        "vatAmount": {
+          "currency": "EUR",
+          "value": "9.45"
+        },
+        "grossAmount": {
+          "currency": "EUR",
+          "value": "54.45"
+        },
+        "lines": [
+          {
+            "period": "2023-09",
+            "description": "iDEAL payment fees",
+            "count": 100,
+            "vatPercentage": 21,
+            "amount": {
+              "currency": "EUR",
+              "value": "45.00"
+            }
+          }
+        ],
+        "issuedAt": "2023-09-01",
+        "dueAt": "2023-09-14",
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/invoices?from=inv_TUhzbAFMrt&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

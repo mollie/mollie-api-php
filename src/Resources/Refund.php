@@ -2,11 +2,16 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\RefundStatus;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Refund extends BaseResource
 {
-    use HasPresetOptions;
+    use HasMode;
 
     /**
      * Id of the payment method.
@@ -33,6 +38,7 @@ class Refund extends BaseResource
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -98,87 +104,71 @@ class Refund extends BaseResource
      */
     public $metadata;
 
-    /**
-     * @return bool
-     */
-    public function canBeCanceled()
+    public function canBeCanceled(): bool
     {
         return $this->isQueued() || $this->isPending();
     }
 
     /**
      * Is this refund queued?
-     *
-     * @return bool
      */
-    public function isQueued()
+    public function isQueued(): bool
     {
-        return $this->status === RefundStatus::STATUS_QUEUED;
+        return $this->status === RefundStatus::QUEUED;
     }
 
     /**
      * Is this refund pending?
-     *
-     * @return bool
      */
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === RefundStatus::STATUS_PENDING;
+        return $this->status === RefundStatus::PENDING;
     }
 
     /**
      * Is this refund processing?
-     *
-     * @return bool
      */
-    public function isProcessing()
+    public function isProcessing(): bool
     {
-        return $this->status === RefundStatus::STATUS_PROCESSING;
+        return $this->status === RefundStatus::PROCESSING;
     }
 
     /**
      * Is this refund transferred to consumer?
-     *
-     * @return bool
      */
-    public function isTransferred()
+    public function isTransferred(): bool
     {
-        return $this->status === RefundStatus::STATUS_REFUNDED;
+        return $this->status === RefundStatus::REFUNDED;
     }
 
     /**
      * Is this refund failed?
-     *
-     * @return bool
      */
-    public function isFailed()
+    public function isFailed(): bool
     {
-        return $this->status === RefundStatus::STATUS_FAILED;
+        return $this->status === RefundStatus::FAILED;
     }
 
     /**
      * Is this refund canceled?
-     *
-     * @return bool
      */
-    public function isCanceled()
+    public function isCanceled(): bool
     {
-        return $this->status === RefundStatus::STATUS_CANCELED;
+        return $this->status === RefundStatus::CANCELED;
     }
 
     /**
      * Cancel the refund.
-     * Returns null if successful.
      *
-     * @return null
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function cancel()
+    public function cancel(): void
     {
-        return $this->client->paymentRefunds->cancelForId(
-            $this->paymentId,
-            $this->id,
-            $this->getPresetOptions()
-        );
+        $this
+            ->connector
+            ->send((new CancelPaymentRefundRequest(
+                $this->paymentId,
+                $this->id
+            ))->test($this->isInTestmode()));
     }
 }

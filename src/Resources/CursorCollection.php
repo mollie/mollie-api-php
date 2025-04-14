@@ -3,110 +3,77 @@
 namespace Mollie\Api\Resources;
 
 use Generator;
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Response;
 
-abstract class CursorCollection extends BaseCollection
+abstract class CursorCollection extends ResourceCollection
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
-
-    /**
-     * @param MollieApiClient $client
-     * @param int $count
-     * @param \stdClass|null $_links
-     */
-    final public function __construct(MollieApiClient $client, $count, $_links)
-    {
-        parent::__construct($count, $_links);
-
-        $this->client = $client;
-    }
-
-    /**
-     * @return BaseResource
-     */
-    abstract protected function createResourceObject();
-
     /**
      * Return the next set of resources when available
      *
-     * @return CursorCollection|null
+     * @return null|CursorCollection|Response
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function next()
+    public function next()
     {
         if (! $this->hasNext()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->next->href);
-
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+        return $this->fetchCollection($this->_links->next->href);
     }
 
     /**
      * Return the previous set of resources when available
      *
-     * @return CursorCollection|null
+     * @return null|CursorCollection|Response
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    final public function previous()
+    public function previous()
     {
         if (! $this->hasPrevious()) {
             return null;
         }
 
-        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_GET, $this->_links->previous->href);
+        return $this->fetchCollection($this->_links->previous->href);
+    }
 
-        $collection = new static($this->client, $result->count, $result->_links);
-
-        foreach ($result->_embedded->{$collection->getCollectionResourceName()} as $dataResult) {
-            $collection[] = ResourceFactory::createFromApiResult($dataResult, $this->createResourceObject());
-        }
-
-        return $collection;
+    /**
+     * @return CursorCollection|Response
+     */
+    private function fetchCollection(string $url)
+    {
+        return $this
+            ->connector
+            ->send((new DynamicGetRequest($url))->setHydratableResource(static::class));
     }
 
     /**
      * Determine whether the collection has a next page available.
-     *
-     * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return isset($this->_links->next->href);
     }
 
     /**
      * Determine whether the collection has a previous page available.
-     *
-     * @return bool
      */
-    public function hasPrevious()
+    public function hasPrevious(): bool
     {
         return isset($this->_links->previous->href);
     }
 
     /**
      * Iterate over a CursorCollection and yield its elements.
-     *
-     * @param bool $iterateBackwards
-     *
-     * @return LazyCollection
      */
     public function getAutoIterator(bool $iterateBackwards = false): LazyCollection
     {
         $page = $this;
 
-        return new LazyCollection(function () use ($page, $iterateBackwards): Generator {
+        return (new LazyCollection(function () use ($page, $iterateBackwards): Generator {
             while (true) {
                 foreach ($page as $item) {
                     yield $item;
@@ -120,6 +87,6 @@ abstract class CursorCollection extends BaseCollection
                     ? $page->previous()
                     : $page->next();
             }
-        });
+        }))->setResponse($this->response);
     }
 }

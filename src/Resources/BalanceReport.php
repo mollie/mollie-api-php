@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class BalanceReport extends BaseResource
 {
     /**
@@ -17,6 +20,7 @@ class BalanceReport extends BaseResource
      * The ID of the balance this report was generated for.
      *
      * @example bal_gVMhHKqSSRYJyPsuoPNFH
+     *
      * @var string
      */
     public $balanceId;
@@ -27,23 +31,25 @@ class BalanceReport extends BaseResource
      *
      *
      * @example Europe/Amsterdam
+     *
      * @var string
      */
     public $timeZone;
 
     /**
-     * The start date of the report, in YYYY-MM-DD format. The "from" date is ‘inclusive’, and in Central European Time.
+     * The start date of the report, in YYYY-MM-DD format. The "from" date is 'inclusive', and in Central European Time.
      * This means a report with for example "from: 2020-01-01" will include movements of "2020-01-01 0:00:00 CET" and
      * onwards.
      *
      *
      * @example 2020-01-01
+     *
      * @var string
      */
     public $from;
 
     /**
-     * The end date of the report, in YYYY-MM-DD format. The "until" date is ‘exclusive’, and in Central European Time.
+     * The end date of the report, in YYYY-MM-DD format. The "until" date is 'exclusive', and in Central European Time.
      * This means a report with for example "until: 2020-02-01" will include movements up
      * until "2020-01-31 23:59:59 CET".
      *

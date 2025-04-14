@@ -1,0 +1,23 @@
+{
+  "resource": "terminal",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "live",
+  "status": "active",
+  "brand": "PAX",
+  "model": "A920",
+  "serialNumber": "1234567890",
+  "currency": "EUR",
+  "description": "Terminal #12345",
+  "profileId": "pfl_QkEhN94Ba",
+  "createdAt": "2022-02-12T11:58:35.0Z",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "count": 1,
+  "_embedded": {
+    "sessions": [
+      {
+        "resource": "session",
+        "id": "ses_*",
+        "mode": "live",
+        "status": "created",
+        "amount": {
+          "value": "10.00",
+          "currency": "EUR"
+        },
+        "description": "Order #12345",
+        "method": "paypal",
+        "methodDetails": {
+          "checkoutFlow": "express"
+        },
+        "nextAction": "redirect",
+        "createdAt": "2024-01-10T12:06:28+00:00",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/sessions/ses_*",
+            "type": "application/hal+json"
+          },
+          "redirect": {
+            "href": "https://paypalc.com/order/dghjfidf;gj",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "...",
+            "type": "text/html"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/sessions?from=ses_*&limit=5",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

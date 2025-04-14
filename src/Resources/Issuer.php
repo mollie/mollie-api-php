@@ -2,6 +2,9 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Issuer extends BaseResource
 {
     /**
@@ -22,6 +25,7 @@ class Issuer extends BaseResource
      * The payment method this issuer belongs to.
      *
      * @see Mollie_API_Object_Method
+     *
      * @var string
      */
     public $method;

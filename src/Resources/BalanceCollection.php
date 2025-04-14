@@ -5,18 +5,12 @@ namespace Mollie\Api\Resources;
 class BalanceCollection extends CursorCollection
 {
     /**
-     * @return string
+     * The name of the collection resource in Mollie's API.
      */
-    public function getCollectionResourceName()
-    {
-        return "balances";
-    }
+    public static string $collectionName = 'balances';
 
     /**
-     * @return BaseResource
+     * Resource class name.
      */
-    protected function createResourceObject()
-    {
-        return new Balance($this->client);
-    }
+    public static string $resource = Balance::class;
 }

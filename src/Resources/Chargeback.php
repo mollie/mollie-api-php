@@ -2,6 +2,9 @@
 
 namespace Mollie\Api\Resources;
 
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class Chargeback extends BaseResource
 {
     /**
@@ -29,6 +32,7 @@ class Chargeback extends BaseResource
      * UTC datetime the payment was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $createdAt;
@@ -65,6 +69,7 @@ class Chargeback extends BaseResource
      * UTC datetime the date and time the chargeback was reversed in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
      * @var string|null
      */
     public $reversedAt;

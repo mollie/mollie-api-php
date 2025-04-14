@@ -2,30 +2,26 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\IsResponseAware;
+use Mollie\Api\Traits\HasResponse;
 
 #[\AllowDynamicProperties]
-abstract class BaseResource
+abstract class BaseResource implements IsResponseAware
 {
-    /**
-     * @var MollieApiClient
-     */
-    protected $client;
+    use HasResponse;
+
+    protected Connector $connector;
 
     /**
      * Indicates the type of resource.
-     *
-     * @example payment
      *
      * @var string
      */
     public $resource;
 
-    /**
-     * @param MollieApiClient $client
-     */
-    public function __construct(MollieApiClient $client)
+    public function __construct(Connector $connector)
     {
-        $this->client = $client;
+        $this->connector = $connector;
     }
 }

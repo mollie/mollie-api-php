@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Traits\HasMode;
+
+/**
+ * @property \Mollie\Api\MollieApiClient $connector
+ */
 class BalanceTransaction extends BaseResource
 {
+    use HasMode;
+
     /**
      * Indicates this is a balance transaction resource. The value will always be "balance_transaction" here.
      *
@@ -25,6 +32,7 @@ class BalanceTransaction extends BaseResource
      * The identifier uniquely referring this balance transaction. Mollie assigns this identifier at creation.
      *
      * @example baltr_QM24QwzUWR4ev4Xfgyt29d
+     *
      * @var string
      */
     public $id;
@@ -40,6 +48,7 @@ class BalanceTransaction extends BaseResource
      * UTC datetime the balance transaction was created in ISO-8601 format.
      *
      * @example "2021-12-25T10:30:54+00:00"
+     *
      * @var string
      */
     public $createdAt;
@@ -49,6 +58,7 @@ class BalanceTransaction extends BaseResource
      * for example when it concerns a refund, the amount will be negative.
      *
      * @example {"currency":"EUR", "value":"100.00"}
+     *
      * @var \stdClass
      */
     public $resultAmount;
