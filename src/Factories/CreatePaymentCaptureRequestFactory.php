@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
 
 class CreatePaymentCaptureRequestFactory extends RequestFactory
@@ -20,7 +19,7 @@ class CreatePaymentCaptureRequestFactory extends RequestFactory
             $this->paymentId,
             $this->payload('description'),
             $this->transformFromPayload('amount', fn ($item) => MoneyFactory::new($item)->create()),
-            $this->transformFromPayload('metadata', Metadata::class)
+            $this->payload('metadata')
         );
     }
 }

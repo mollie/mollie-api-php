@@ -6,7 +6,6 @@ How to prepare a new payment with the Mollie API.
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 try {
@@ -17,7 +16,7 @@ try {
             redirectUrl: 'https://example.org/return',
             cancelUrl: 'https://example.org/cancel',
             webhookUrl: 'https://example.org/webhook',
-            metadata: new Metadata(['order_id' => $orderId])
+            metadata: ['order_id' => $orderId]
         )
     );
 

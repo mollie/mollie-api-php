@@ -5,7 +5,6 @@ namespace Mollie\Api\Http\Requests;
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -39,7 +38,7 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?int $times;
 
-    private ?Metadata $metadata;
+    private ?array $metadata;
 
     private ?string $webhookUrl;
 
@@ -53,7 +52,7 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
         ?string $interval = null,
         ?DateTimeInterface $startDate = null,
         ?int $times = null,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?string $webhookUrl = null,
         ?string $mandateId = null
     ) {

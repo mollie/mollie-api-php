@@ -4,7 +4,6 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Traits\HasMode;
@@ -270,7 +269,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * During creation of the payment you can set custom metadata that is stored with
      * the payment, and given back whenever you retrieve that payment.
      *
-     * @var \stdClass|mixed|null
+     * @var \stdClass|array|null
      */
     public $metadata;
 
@@ -720,7 +719,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
             $this->redirectUrl,
             $this->cancelUrl,
             $this->webhookUrl,
-            new Metadata((array) $this->metadata),
+            (array)$this->metadata,
             $this->method,
             $this->locale,
             $this->restrictPaymentMethodsToCountry,

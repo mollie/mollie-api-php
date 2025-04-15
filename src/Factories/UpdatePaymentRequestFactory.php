@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Utils\Utility;
 
@@ -23,7 +22,7 @@ class UpdatePaymentRequestFactory extends RequestFactory
             $this->payload('redirectUrl'),
             $this->payload('cancelUrl'),
             $this->payload('webhookUrl'),
-            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('metadata'),
             $this->payload('method'),
             $this->payload('locale'),
             $this->payload('restrictPaymentMethodsToCountry'),

@@ -2,7 +2,7 @@
 
 namespace Tests\Utils;
 
-use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Utils\Utility;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
@@ -75,10 +75,10 @@ class UtilityTest extends TestCase
         $this->assertEquals('default', $transformedWithDefault);
 
         // Test with matching instance - should return as is
-        $metadata = new Metadata(['key' => 'value']);
-        $existingValueIsNotOverriden = Utility::transform($metadata, Metadata::class);
-        $this->assertSame($metadata, $existingValueIsNotOverriden);
-        $this->assertEquals(['key' => 'value'], $existingValueIsNotOverriden->data);
+        $money = new Money('EUR', '100');
+        $existingValueIsNotOverriden = Utility::transform($money, Money::class);
+        $this->assertSame($money, $existingValueIsNotOverriden);
+        $this->assertEquals(['currency' => 'EUR', 'value' => '100'], $existingValueIsNotOverriden->toArray());
 
         // Test when third argument is a non-existent class (should be treated as default)
         $nonExistentClass = Utility::transform(false, fn ($x) => $x * 2, 'NonExistentClass');

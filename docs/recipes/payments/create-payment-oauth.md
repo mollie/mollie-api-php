@@ -6,7 +6,6 @@ How to create a payment using OAuth authentication with the Mollie API.
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\ListProfilesRequest;
 
@@ -19,7 +18,7 @@ try {
     $profiles = $mollie->send(
         new ListProfilesRequest()
     );
-    
+
     $profile = $profiles[0]; // Select the correct profile for this merchant
 
     // Generate a unique order ID
@@ -34,7 +33,7 @@ try {
             redirectUrl: 'https://example.com/return.php?order_id=' . $orderId,
             cancelUrl: 'https://example.com/cancel.php',
             webhookUrl: 'https://example.com/webhook.php',
-            metadata: new Metadata(['order_id' => $orderId])
+            metadata: ['order_id' => $orderId]
         )
     );
 
