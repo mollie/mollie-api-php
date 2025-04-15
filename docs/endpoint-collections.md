@@ -761,7 +761,6 @@ try {
 ## Common Data Types
 
 - `Money` - For handling currency amounts
-- `Metadata` - For handling custom metadata
 - `DataCollection` - For handling collections of data
 - `Data` - Base class for payload/query objects
 

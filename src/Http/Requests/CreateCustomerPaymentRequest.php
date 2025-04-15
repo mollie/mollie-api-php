@@ -7,7 +7,6 @@ use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 
 class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPayload, SupportsTestmodeInPayload
@@ -28,7 +27,7 @@ class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPa
         ?string $method = null,
         ?string $issuer = null,
         ?string $restrictPaymentMethodsToCountry = null,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?string $captureMode = null,
         ?string $captureDelay = null,
         ?ApplicationFee $applicationFee = null,

@@ -6,7 +6,6 @@ How to create and manage payments for customers using the Mollie API.
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Types\SequenceType;
 
@@ -22,9 +21,9 @@ try {
             ),
             redirectUrl: 'https://example.com/payments/return?order_id=12345',
             webhookUrl: 'https://example.com/payments/webhook',
-            metadata: new Metadata([
+            metadata: [
                 'order_id' => '12345'
-            ]),
+            ],
             sequenceType: SequenceType::FIRST // This creates a mandate for future payments
         )
     );
@@ -40,7 +39,6 @@ try {
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Types\SequenceType;
 
@@ -55,9 +53,9 @@ try {
                 value: '29.95'
             ),
             webhookUrl: 'https://example.com/payments/webhook',
-            metadata: new Metadata([
+            metadata: new [
                 'order_id' => '12346'
-            ]),
+            ],
             sequenceType: SequenceType::RECURRING // This uses the mandate created by the first payment
         )
     );
@@ -88,15 +86,15 @@ try {
         echo "- Description: {$payment->description}\n";
         echo "- Amount: {$payment->amount->currency} {$payment->amount->value}\n";
         echo "- Status: {$payment->status}\n";
-        
+
         if ($payment->hasRefunds()) {
             echo "- Has been (partially) refunded\n";
         }
-        
+
         if ($payment->hasChargebacks()) {
             echo "- Has been charged back\n";
         }
-        
+
         echo "\n";
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {

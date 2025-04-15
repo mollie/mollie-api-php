@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\ApplicationFee;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -44,7 +43,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?ApplicationFee $applicationFee;
 
-    private ?Metadata $metadata;
+    private ?array $metadata;
 
     private ?string $webhookUrl;
 
@@ -62,7 +61,7 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
         ?DateTimeInterface $startDate = null,
         ?string $method = null,
         ?ApplicationFee $applicationFee = null,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?string $webhookUrl = null,
         ?string $mandateId = null,
         ?string $profileId = null

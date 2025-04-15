@@ -3,7 +3,6 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeImmutable;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 
 class UpdateSubscriptionRequestFactory extends RequestFactory
@@ -28,7 +27,7 @@ class UpdateSubscriptionRequestFactory extends RequestFactory
             $this->payload('interval'),
             $this->transformFromPayload('startDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date), DateTimeImmutable::class),
             $this->payload('times'),
-            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('metadata'),
             $this->payload('webhookUrl'),
             $this->payload('mandateId')
         );

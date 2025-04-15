@@ -5,7 +5,6 @@ How to create, update, and delete customers using the Mollie API.
 ## Create a Customer
 
 ```php
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
 
 try {
@@ -15,9 +14,9 @@ try {
             name: 'Luke Skywalker',
             email: 'luke@example.com',
             locale: 'en_US',
-            metadata: new Metadata([
+            metadata: [
                 'isJedi' => true
-            ])
+            ]
         )
     );
 
@@ -30,7 +29,6 @@ try {
 ## Update a Customer
 
 ```php
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\GetCustomerRequest;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 
@@ -49,9 +47,9 @@ try {
             name: 'Luke Sky',
             email: 'luke@example.com',
             locale: 'en_US',
-            metadata: new Metadata([
+            metadata: [
                 'isJedi' => true
-            ])
+            ]
             // Fields we don't specify will keep their current values
         )
     );

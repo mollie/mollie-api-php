@@ -7,7 +7,6 @@ use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Http\Data\PaymentRoute;
@@ -57,7 +56,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
 
     private ?string $restrictPaymentMethodsToCountry;
 
-    private ?Metadata $metadata;
+    private ?array $metadata;
 
     private ?string $captureMode;
 
@@ -100,7 +99,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $method = null,
         ?string $issuer = null,
         ?string $restrictPaymentMethodsToCountry = null,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?string $captureMode = null,
         ?string $captureDelay = null,
         ?ApplicationFee $applicationFee = null,

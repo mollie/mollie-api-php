@@ -6,7 +6,6 @@ How to create a payment that can be captured manually with the Mollie API.
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Types\PaymentMethod;
 
@@ -22,7 +21,7 @@ try {
             redirectUrl: "https://example.com/return.php?order_id={$orderId}",
             cancelUrl: "https://example.com/cancel.php",
             webhookUrl: "https://example.com/webhook.php",
-            metadata: new Metadata(['order_id' => $orderId]),
+            metadata: ['order_id' => $orderId],
             method: PaymentMethod::CREDITCARD,
             captureMode: 'manual'
         )
