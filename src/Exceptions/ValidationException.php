@@ -8,11 +8,11 @@ use Throwable;
 
 class ValidationException extends ApiException
 {
-    private string $field;
+    private ?string $field;
 
     public function __construct(
         Response $response,
-        string $field,
+        ?string $field,
         string $message,
         int $code = ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY,
         ?Throwable $previous = null
@@ -33,7 +33,7 @@ class ValidationException extends ApiException
 
         return new self(
             $response,
-            $body->field,
+            $body->field ?? null,
             'We could not process your request due to validation errors. '.
                 sprintf('Error executing API call (%d: %s): %s', 422, $body->title, $body->detail),
             ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY
