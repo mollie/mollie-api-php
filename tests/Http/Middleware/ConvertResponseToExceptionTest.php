@@ -64,6 +64,7 @@ class ConvertResponseToExceptionTest extends TestCase
                 $cases[] = [$status, $exception, $field];
             }
         }
+
         return $cases;
     }
 }
