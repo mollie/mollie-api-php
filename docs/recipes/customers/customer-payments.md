@@ -53,7 +53,7 @@ try {
                 value: '29.95'
             ),
             webhookUrl: 'https://example.com/payments/webhook',
-            metadata: new [
+            metadata: [
                 'order_id' => '12346'
             ],
             sequenceType: SequenceType::RECURRING // This uses the mandate created by the first payment
