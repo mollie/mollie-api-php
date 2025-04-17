@@ -46,7 +46,7 @@ $payment = $mollie->payments->create([
 _The `_links` property of the `$payment` object will contain an object `checkout` with a `href` property, which is a URL that points directly to the online banking environment of the selected issuer.
 A short way of retrieving this URL can be achieved by using the `$payment->getCheckoutUrl()`._
 
-For a more in-depth example, see [Example - iDEAL payment](https://github.com/mollie/mollie-api-php/blob/master/examples/payments/create-ideal-payment.php).
+For a more in-depth example, see [Example - iDEAL payment](./recipes/payments/create-ideal-payment.md).
 
 #### Retrieving Payments ####
 **[Retrieve Payment Documentation](https://docs.mollie.com/reference/v2/payments-api/get-payment)**
@@ -68,7 +68,7 @@ Or retrieve a collection of payments.
 $payments = $mollie->payments->page();
 ```
 
-For an extensive example of listing payments with the details and status, see [Example - List Payments](https://github.com/mollie/mollie-api-php/blob/master/examples/payments/list-payments.php).
+For an extensive example of listing payments with the details and status, see [Example - List Payments](./recipes/payments/list-payments.md).
 
 #### Refunding payments ####
 **[Refund Payment Documentation](https://docs.mollie.com/reference/v2/refunds-api/create-payment-refund)**
@@ -88,6 +88,7 @@ $refund = $payment->refund([
 ```
 
 #### Payment webhook ####
-When the payment status changes, the `webhookUrl` you specified during payment creation will be called. You can use the `id` from the POST parameters to check the status and take appropriate actions. For more details, refer to [Example - Webhook](https://github.com/mollie/mollie-api-php/blob/master/examples/payments/webhook.php).
+When the payment status changes, the `webhookUrl` you specified during payment creation will be called. You can use the `id` from the POST parameters to check the status and take appropriate actions.
+For more details, refer to [Example - Webhook](./recipes/payments/handle-webhook.md).
 
-For a working example, see [Example - Refund payment](https://github.com/mollie/mollie-api-php/blob/master/examples/payments/refund-payment.php).
+For a working example, see [Example - Refund payment](./recipes/payments/refund-payment.md).
