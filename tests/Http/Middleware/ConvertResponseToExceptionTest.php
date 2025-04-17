@@ -20,51 +20,52 @@ use PHPUnit\Framework\TestCase;
 class ConvertResponseToExceptionTest extends TestCase
 {
     /**
-     * @dataProvider exceptionProvider
+     * @dataProvider provideStatusCodesAndExceptions
+     * @test
      */
-    public function test_it_throws_the_correct_exception($statusCode, $expectedException, $field)
-    {
+    public function middleware_converts_response_to_appropriate_exception(
+        int $statusCode,
+        string $expectedExceptionClass,
+        ?string $field
+    ): void {
         /** @var Response&MockObject $response */
         $response = $this->createMock(Response::class);
         $response->method('successful')->willReturn(false);
         $response->method('status')->willReturn($statusCode);
-        $response->method('json')->willReturn((object)[
+        $response->method('json')->willReturn((object) [
             'title' => 'Test',
             'detail' => 'Test detail',
             'field' => $field,
         ]);
-        $response->method('isEmpty')->willReturn(false);
-        $response->method('body')->willReturn('body');
-        $response->method('getPsrRequest')->willReturn($this->createMock(\Psr\Http\Message\RequestInterface::class));
-        $response->method('getPendingRequest')->willReturn($this->createMock(\Mollie\Api\Http\PendingRequest::class));
 
-        $middleware = new ConvertResponseToException();
+    $middleware = new ConvertResponseToException();
 
-        $this->expectException($expectedException);
-        $middleware->__invoke($response);
+        $this->expectException($expectedExceptionClass);
+
+        $middleware($response);
     }
 
-    public static function exceptionProvider()
+    public static function provideStatusCodesAndExceptions(): array
     {
-        $statuses = [
-            [ResponseStatusCode::HTTP_UNAUTHORIZED, UnauthorizedException::class],
-            [ResponseStatusCode::HTTP_FORBIDDEN, ForbiddenException::class],
-            [ResponseStatusCode::HTTP_NOT_FOUND, NotFoundException::class],
-            [ResponseStatusCode::HTTP_METHOD_NOT_ALLOWED, MethodNotAllowedException::class],
-            [ResponseStatusCode::HTTP_REQUEST_TIMEOUT, RequestTimeoutException::class],
-            [ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY, ValidationException::class],
-            [ResponseStatusCode::HTTP_TOO_MANY_REQUESTS, TooManyRequestsException::class],
-            [ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE, ServiceUnavailableException::class],
-            [999, ApiException::class], // default case
+        $statusMap = [
+            ResponseStatusCode::HTTP_UNAUTHORIZED => UnauthorizedException::class,
+            ResponseStatusCode::HTTP_FORBIDDEN => ForbiddenException::class,
+            ResponseStatusCode::HTTP_NOT_FOUND => NotFoundException::class,
+            ResponseStatusCode::HTTP_METHOD_NOT_ALLOWED => MethodNotAllowedException::class,
+            ResponseStatusCode::HTTP_REQUEST_TIMEOUT => RequestTimeoutException::class,
+            ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY => ValidationException::class,
+            ResponseStatusCode::HTTP_TOO_MANY_REQUESTS => TooManyRequestsException::class,
+            ResponseStatusCode::HTTP_SERVICE_UNAVAILABLE => ServiceUnavailableException::class,
+            999 => ApiException::class,
         ];
-        $fields = [null, 'foo'];
-        $cases = [];
-        foreach ($statuses as [$status, $exception]) {
-            foreach ($fields as $field) {
-                $cases[] = [$status, $exception, $field];
-            }
-        }
 
-        return $cases;
+        return array_merge(...array_map(
+            fn ($status, $exception) => [
+                [$status, $exception, null],
+                [$status, $exception, 'foo'],
+            ],
+            array_keys($statusMap),
+            array_values($statusMap)
+        ));
     }
 }
