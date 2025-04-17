@@ -38,7 +38,7 @@ class ConvertResponseToExceptionTest extends TestCase
             'field' => $field,
         ]);
 
-    $middleware = new ConvertResponseToException();
+        $middleware = new ConvertResponseToException();
 
         $this->expectException($expectedExceptionClass);
 
