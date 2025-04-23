@@ -140,7 +140,7 @@ class MockResponse
         return [
             'body' => $this->body(),
             'status' => $this->json()['status'] ?? 200,
-            'resourceKey' => $this->json()['resource_key'] ?? ''
+            'resourceKey' => $this->json()['resource_key'] ?? '',
         ];
     }
 
