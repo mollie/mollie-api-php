@@ -2,6 +2,7 @@
 
 namespace Tests\Http\Middleware;
 
+use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\ForbiddenException;
 use Mollie\Api\Exceptions\MethodNotAllowedException;
@@ -11,7 +12,10 @@ use Mollie\Api\Exceptions\ServiceUnavailableException;
 use Mollie\Api\Exceptions\TooManyRequestsException;
 use Mollie\Api\Exceptions\UnauthorizedException;
 use Mollie\Api\Exceptions\ValidationException;
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Middleware\ConvertResponseToException;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,6 +41,7 @@ class ConvertResponseToExceptionTest extends TestCase
             'detail' => 'Test detail',
             'field' => $field,
         ]);
+        $response->method('getPsrRequest')->willReturn(new Request('GET', ''));
 
         $middleware = new ConvertResponseToException();
 
