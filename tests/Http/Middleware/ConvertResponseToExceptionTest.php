@@ -2,6 +2,7 @@
 
 namespace Tests\Http\Middleware;
 
+use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\ForbiddenException;
 use Mollie\Api\Exceptions\MethodNotAllowedException;
@@ -37,6 +38,7 @@ class ConvertResponseToExceptionTest extends TestCase
             'detail' => 'Test detail',
             'field' => $field,
         ]);
+        $response->method('getPsrRequest')->willReturn(new Request('GET', ''));
 
         $middleware = new ConvertResponseToException();
 
