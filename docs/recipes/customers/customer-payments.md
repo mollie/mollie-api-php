@@ -75,13 +75,14 @@ use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 
 try {
     // Get all payments for a customer
-    $response = $mollie->send(
+    /** @var PaymentCollection */
+    $payments = $mollie->send(
         new GetPaginatedCustomerPaymentsRequest(
             customerId: 'cst_8wmqcHMN4U'
         )
     );
 
-    foreach ($response->toResource() as $payment) {
+    foreach ($payments as $payment) {
         echo "Payment {$payment->id}:\n";
         echo "- Description: {$payment->description}\n";
         echo "- Amount: {$payment->amount->currency} {$payment->amount->value}\n";
