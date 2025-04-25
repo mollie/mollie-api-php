@@ -82,13 +82,13 @@ class Mandate extends BaseResource
     /**
      * Revoke the mandate
      */
-    public function revoke(): ?Mandate
+    public function revoke(): void
     {
         if (! isset($this->customerId)) {
-            return $this;
+            return;
         }
 
-        return $this
+        $this
             ->connector
             ->mandates
             ->revokeForId(
