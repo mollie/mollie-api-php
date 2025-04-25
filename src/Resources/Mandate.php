@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\MandateStatus;
 
