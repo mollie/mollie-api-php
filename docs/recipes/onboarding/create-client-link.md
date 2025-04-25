@@ -6,12 +6,14 @@ How to create a client link to onboard new merchants to Mollie through your app.
 
 ```php
 use Mollie\Api\Http\Data\Owner;
+use Mollie\Api\Resources\ClientLink;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 
 try {
     // Create a client link for a new merchant
-    $response = $mollie->send(
+    /** @var ClientLink $clientLink */
+    $clientLink = $mollie->send(
         new CreateClientLinkRequest(
             owner: new Owner(
                 email: 'merchant@example.com',
@@ -30,8 +32,6 @@ try {
             vatNumber: 'NL123456789B01'
         )
     );
-
-    $clientLink = $response->toResource();
 
     // Generate the redirect URL for the merchant
     $redirectUrl = $clientLink->getRedirectUrl(

@@ -5,18 +5,19 @@ How to retrieve and list captures for a payment using the Mollie API.
 ## Get a Single Capture
 
 ```php
+use Mollie\Api\Resources\Capture;
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 
 try {
     // Retrieve a specific capture
-    $response = $mollie->send(
+    /** @var Capture $capture */
+    $capture = $mollie->send(
         new GetPaymentCaptureRequest(
             paymentId: 'tr_WDqYK6vllg',
             captureId: 'cpt_4qqhO89gsT'
         )
     );
 
-    $capture = $response->toResource();
     echo "Captured {$capture->amount->currency} {$capture->amount->value}\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
@@ -26,17 +27,21 @@ try {
 ## List All Captures
 
 ```php
+use Mollie\Api\Resources\Capture;
+use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 
 try {
     // List all captures for a payment
-    $response = $mollie->send(
-        new GetPaginatedPaymentCapturesRequest(
+    /** @var LazyCollection $captures */
+    $captures = $mollie->send(
+        (new GetPaginatedPaymentCapturesRequest(
             paymentId: 'tr_WDqYK6vllg'
-        )
+        ))->useIterator()
     );
 
-    foreach ($response->toResource() as $capture) {
+    /** @var Capture $capture */
+    foreach ($captures as $capture) {
         echo "Capture {$capture->id}:\n";
         echo "- Amount: {$capture->amount->currency} {$capture->amount->value}\n";
         echo "- Status: {$capture->status}\n";
