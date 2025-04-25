@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\MandateStatus;
 
 /**
@@ -10,6 +11,8 @@ use Mollie\Api\Types\MandateStatus;
  */
 class Mandate extends BaseResource
 {
+    use HasMode;
+
     /**
      * @var string
      */
@@ -88,10 +91,11 @@ class Mandate extends BaseResource
 
         return $this
             ->connector
-            ->send((new RevokeMandateRequest(
+            ->mandates
+            ->revokeForId(
                 $this->customerId,
                 $this->id,
-            ))->test($this->mode === 'test'))
-            ->toResource();
+                $this->isInTestmode()
+            );
     }
 }
