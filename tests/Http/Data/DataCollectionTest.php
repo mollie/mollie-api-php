@@ -139,7 +139,9 @@ class DataCollectionTest extends TestCase
     public function filters_items_correctly($input, $callback, $expected)
     {
         $collection = new DataCollection($input);
+
         $filtered = $collection->filter($callback);
+
         $this->assertSame($expected, $filtered->toArray());
     }
 
