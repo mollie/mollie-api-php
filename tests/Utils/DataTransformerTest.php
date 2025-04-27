@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\PaymentRoute;
@@ -46,12 +47,34 @@ class DataTransformerTest extends TestCase
         $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01'));
         $pendingRequest->payload()->add('empty', null);
         $pendingRequest->payload()->add('valid', 'data');
+        $pendingRequest->payload()->add('address', new Address(
+            null,
+            'John',
+            'Doe',
+            null,
+            '123 Main St',
+            null,
+            '12345',
+            null,
+            null,
+            'Anytown',
+            null,
+            'BE'
+        ));
 
         $result = $this->transformer->transform($pendingRequest);
 
         $this->assertEquals('2024-01-01', $result->payload()->get('dateTime'));
         $this->assertFalse($result->payload()->has('empty'));
         $this->assertEquals('data', $result->payload()->get('valid'));
+        $this->assertEqualsCanonicalizing([
+            'givenName' => 'John',
+            'familyName' => 'Doe',
+            'streetAndNumber' => '123 Main St',
+            'postalCode' => '12345',
+            'city' => 'Anytown',
+            'country' => 'BE',
+        ], $result->payload()->get('address'));
     }
 
     /** @test */

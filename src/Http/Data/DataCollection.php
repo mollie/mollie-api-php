@@ -56,6 +56,14 @@ class DataCollection implements Countable, Resolvable
         return $this->items;
     }
 
+    /**
+     * @return mixed
+     */
+    public function pipe(callable $callback)
+    {
+        return $callback($this);
+    }
+
     public function map(callable $callback): self
     {
         return new static(Arr::map($this->items, $callback));
@@ -63,6 +71,13 @@ class DataCollection implements Countable, Resolvable
 
     public function filter($callback = null): self
     {
+        /**
+         * PHP 7.4 and below does not support nullable callbacks.
+         */
+        if ($callback === null) {
+            return new static(array_filter($this->items));
+        }
+
         return new static(array_filter($this->items, $callback));
     }
 }
