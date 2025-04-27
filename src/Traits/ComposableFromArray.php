@@ -14,7 +14,8 @@ trait ComposableFromArray
         $data = $data instanceof Arrayable ? $data->toArray() : $data;
 
         $reflection = new ReflectionClass(static::class);
-        $parameters = $reflection->getConstructor()?->getParameters();
+        $constructor = $reflection->getConstructor();
+        $parameters = $constructor ? $constructor->getParameters() : [];
 
         return DataCollection::wrap($parameters)
             ->map(function (ReflectionParameter $parameter) use ($data) {
