@@ -56,6 +56,14 @@ class DataCollection implements Countable, Resolvable
         return $this->items;
     }
 
+    /**
+     * @return mixed
+     */
+    public function pipe(callable $callback)
+    {
+        return $callback($this);
+    }
+
     public function map(callable $callback): self
     {
         return new static(Arr::map($this->items, $callback));
