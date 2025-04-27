@@ -55,7 +55,7 @@ class DataTransformer
                 }
 
                 if ($value instanceof Arrayable) {
-                    return $value->toArray();
+                    return array_filter($value->toArray(), fn ($value) => $this->filterEmptyValues($value));
                 }
 
                 if ($value instanceof Stringable) {
@@ -68,8 +68,13 @@ class DataTransformer
 
                 return $value;
             })
-            ->filter(fn ($value) => ! empty($value) || is_bool($value))
+            ->filter(fn ($value) => $this->filterEmptyValues($value))
             ->toArray();
+    }
+
+    private function filterEmptyValues($value)
+    {
+        return ! empty($value) || is_bool($value);
     }
 
     private function transformBooleans($value)
