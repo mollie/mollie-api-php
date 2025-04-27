@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Mollie\Api\Http\Data\OwnerAddress;
+use PHPUnit\Framework\TestCase;
 
 class OwnerAddressTest extends TestCase
 {

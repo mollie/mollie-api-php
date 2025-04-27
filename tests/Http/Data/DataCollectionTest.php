@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Data;
 
-use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Http\Data\DataCollection;
 use PHPUnit\Framework\TestCase;
 
 class DataCollectionTest extends TestCase
@@ -63,7 +63,10 @@ class DataCollectionTest extends TestCase
     public static function provideWrapSubjects()
     {
         $mockArrayable = new class implements Arrayable {
-            public function toArray(): array { return [3, 4]; }
+            public function toArray(): array
+            {
+                return [3, 4];
+            }
         };
 
         return [
@@ -101,7 +104,7 @@ class DataCollectionTest extends TestCase
         $collection = new DataCollection([1, 2, 3]);
 
         $result = $collection->pipe(function ($c) {
-            return $c->map(fn($v) => $v * 2);
+            return $c->map(fn ($v) => $v * 2);
         });
 
         $this->assertSame([2, 4, 6], $result->toArray());
@@ -123,9 +126,9 @@ class DataCollectionTest extends TestCase
     public static function provideMapCases()
     {
         return [
-            'increment' => [[1, 2, 3], fn($v) => $v + 1, [2, 3, 4]],
-            'halve' => [[2, 4, 6], fn($v) => $v / 2, [1, 2, 3]],
-            'empty' => [[], fn($v) => $v, []],
+            'increment' => [[1, 2, 3], fn ($v) => $v + 1, [2, 3, 4]],
+            'halve' => [[2, 4, 6], fn ($v) => $v / 2, [1, 2, 3]],
+            'empty' => [[], fn ($v) => $v, []],
         ];
     }
 
@@ -143,10 +146,10 @@ class DataCollectionTest extends TestCase
     public static function provideFilterCases()
     {
         return [
-            'even values' => [[1, 2, 3, 4], fn($v) => $v % 2 === 0, [1 => 2, 3 => 4]],
-            'greater than two' => [[1, 3, 5], fn($v) => $v > 2, [1 => 3, 2 => 5]],
+            'even values' => [[1, 2, 3, 4], fn ($v) => $v % 2 === 0, [1 => 2, 3 => 4]],
+            'greater than two' => [[1, 3, 5], fn ($v) => $v > 2, [1 => 3, 2 => 5]],
             'no callback' => [[1, 2, 3], null, [1, 2, 3]],
-            'empty input' => [[], fn($v) => true, []],
+            'empty input' => [[], fn ($v) => true, []],
         ];
     }
 }

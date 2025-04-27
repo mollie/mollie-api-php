@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Mollie\Api\Http\Data\PaymentDetails;
+use PHPUnit\Framework\TestCase;
 
 class PaymentDetailsTest extends TestCase
 {
