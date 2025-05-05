@@ -53,7 +53,7 @@ $payment->getCheckoutUrl(); // "https://www.mollie.com/checkout/select-method/7U
 
 ## Additional Notes
 
-- Manual capturing is currently only supported for credit card payments and Klarna
+- Manual capturing is currently only supported for credit card payments, Billie, Riverty, and Klarna
 - For Klarna payments, submitting more data like order lines and addresses is required
 - After the payment is authorized, you'll need to capture it manually to actually charge the customer
 - The payment will remain in the 'authorized' status until you either capture or cancel it
