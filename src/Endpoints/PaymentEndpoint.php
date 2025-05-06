@@ -187,15 +187,15 @@ class PaymentEndpoint extends CollectionEndpointAbstract
      *
      * @param Payment|string $paymentId
      *
-     * @return \stdClass
+     * @return void
      * @throws ApiException
      */
-    public function releaseAuthorization($paymentId)
+    public function releaseAuthorization($paymentId): void
     {
         $paymentId = $paymentId instanceof Payment ? $paymentId->id : $paymentId;
 
         $resource = "{$this->getResourcePath()}/" . urlencode($paymentId) . "/release-authorization";
 
-        return $this->client->performHttpCall(self::REST_CREATE, $resource);
+        $this->client->performHttpCall(self::REST_CREATE, $resource);
     }
 }

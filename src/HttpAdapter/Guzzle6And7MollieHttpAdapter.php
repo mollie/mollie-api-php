@@ -25,11 +25,6 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     public const DEFAULT_CONNECT_TIMEOUT = 2;
 
     /**
-     * HTTP status code for an empty ok response.
-     */
-    public const HTTP_NO_CONTENT = 204;
-
-    /**
      * @var \GuzzleHttp\ClientInterface
      */
     protected $httpClient;
@@ -157,12 +152,9 @@ final class Guzzle6And7MollieHttpAdapter implements MollieHttpAdapterInterface
     private function parseResponseBody(ResponseInterface $response)
     {
         $body = (string) $response->getBody();
-        if (empty($body)) {
-            if ($response->getStatusCode() === self::HTTP_NO_CONTENT) {
-                return null;
-            }
 
-            throw new ApiException("No response body found.");
+        if (empty($body) && $response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
+            return null;
         }
 
         $object = @json_decode($body);
