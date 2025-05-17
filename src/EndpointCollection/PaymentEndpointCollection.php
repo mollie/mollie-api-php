@@ -87,7 +87,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function delete(string $id, $data = []): ?Payment
+    public function delete(string $id, $data = []): Payment
     {
         return $this->cancel($id, $data);
     }
