@@ -3,14 +3,17 @@
 namespace Mollie\Api\Http\Data;
 
 use Countable;
+use IteratorAggregate;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Utils\Arr;
+use ArrayIterator;
+use Traversable;
 
 /**
  * @template T of mixed
  */
-class DataCollection implements Countable, Resolvable
+class DataCollection implements Countable, Resolvable, IteratorAggregate
 {
     /**
      * @var array<T>
@@ -23,6 +26,16 @@ class DataCollection implements Countable, Resolvable
     public function __construct(array $items)
     {
         $this->items = $items;
+    }
+
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+
+    public static function collect(array $items): self
+    {
+        return new static($items);
     }
 
     public function count(): int
@@ -64,6 +77,17 @@ class DataCollection implements Countable, Resolvable
         return $callback($this);
     }
 
+    public function each(callable $callback): self
+    {
+        foreach ($this as $key => $item) {
+            if ($callback($item, $key) === false) {
+                break;
+            }
+        }
+
+        return $this;
+    }
+
     public function map(callable $callback): self
     {
         return new static(Arr::map($this->items, $callback));
@@ -79,5 +103,31 @@ class DataCollection implements Countable, Resolvable
         }
 
         return new static(array_filter($this->items, $callback));
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->items);
+    }
+
+    /**
+     * Determine if the collection contains a given item.
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    public function contains($value): bool
+    {
+        if ($value instanceof \Closure) {
+            foreach ($this->items as $item) {
+                if ($value($item)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return in_array($value, $this->items, true);
     }
 }

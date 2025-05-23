@@ -1,0 +1,150 @@
+<?php
+
+namespace Tests\Resources;
+
+use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\IsWrapper;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+use Mollie\Api\Http\Response;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\AnyResource;
+use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\CursorCollection;
+use Mollie\Api\Resources\LazyCollection;
+use Mollie\Api\Resources\ResourceCollection;
+use Mollie\Api\Resources\ResourceFactory;
+use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Resources\ResourceResolver;
+use Mollie\Api\Resources\WrapperResource;
+use Mollie\Api\Traits\IsIteratableRequest;
+use PHPUnit\Framework\TestCase;
+
+class ResourceResolverTest extends TestCase
+{
+    private ResourceResolver $resolver;
+    private MollieApiClient $client;
+    private ResourceHydrator $hydrator;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->client = $this->createMock(MollieApiClient::class);
+        $this->hydrator = $this->createMock(ResourceHydrator::class);
+        $this->resolver = new ResourceResolver($this->hydrator);
+    }
+
+    /** @test */
+    public function it_resolves_to_a_simple_resource()
+    {
+        $request = $this->createMock(ResourceHydratableRequest::class);
+        $response = $this->createMock(Response::class);
+
+        $request->expects($this->once())
+            ->method('getHydratableResource')
+            ->willReturn(AnyResource::class);
+
+        $response->expects($this->once())
+            ->method('getConnector')
+            ->willReturn($this->client);
+
+        $response->expects($this->once())
+            ->method('json')
+            ->willReturn(['id' => 'test_123']);
+
+        $this->hydrator->expects($this->once())
+            ->method('hydrate')
+            ->willReturn(new AnyResource($this->client));
+
+        $result = $this->resolver->resolve($request, $response);
+
+        $this->assertInstanceOf(AnyResource::class, $result);
+    }
+
+    /** @test */
+    public function it_resolves_to_a_collection()
+    {
+        $request = $this->createMock(ResourceHydratableRequest::class);
+        $response = $this->createMock(Response::class);
+
+        $request->expects($this->once())
+            ->method('getHydratableResource')
+            ->willReturn(CustomCollection::class);
+
+        $response->expects($this->once())
+            ->method('getConnector')
+            ->willReturn($this->client);
+
+        $response->expects($this->once())
+            ->method('json')
+            ->willReturn((object) [
+                '_embedded' => (object) ['items' => []],
+                '_links' => (object) []
+            ]);
+
+        $this->hydrator->expects($this->once())
+            ->method('hydrateCollection')
+            ->willReturn(new CustomCollection($this->client));
+
+        $result = $this->resolver->resolve($request, $response);
+
+        $this->assertInstanceOf(CustomCollection::class, $result);
+    }
+
+    /** @test */
+    public function it_resolves_to_a_decorated_resource()
+    {
+        $request = $this->createMock(ResourceHydratableRequest::class);
+        $response = $this->createMock(Response::class);
+
+        $decoratedResource = new WrapperResource(CustomDecorator::class);
+
+        $request->expects($this->exactly(2))
+            ->method('getHydratableResource')
+            ->willReturnOnConsecutiveCalls($decoratedResource, AnyResource::class);
+
+        $request->expects($this->once())
+            ->method('resetHydratableResource')
+            ->willReturnSelf();
+
+        $response->expects($this->once())
+            ->method('getConnector')
+            ->willReturn($this->client);
+
+        $this->hydrator->expects($this->once())
+            ->method('hydrate')
+            ->willReturn(new AnyResource($this->client));
+
+        $result = $this->resolver->resolve($request, $response);
+
+        $this->assertInstanceOf(CustomDecorator::class, $result);
+    }
+
+    /** @test */
+    public function it_returns_response_when_no_resource_target()
+    {
+        $request = $this->createMock(ResourceHydratableRequest::class);
+        $response = $this->createMock(Response::class);
+
+        $request->expects($this->once())
+            ->method('getHydratableResource')
+            ->willReturn('InvalidClass');
+
+        $result = $this->resolver->resolve($request, $response);
+
+        $this->assertSame($response, $result);
+    }
+}
+
+class CustomCollection extends CursorCollection
+{
+    public static string $resource = AnyResource::class;
+    public static string $collectionName = 'items';
+}
+
+class CustomDecorator implements IsWrapper
+{
+    public static function fromResource($resource): self
+    {
+        return new self();
+    }
+}

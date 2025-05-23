@@ -154,4 +154,52 @@ class DataCollectionTest extends TestCase
             'empty input' => [[], fn ($v) => true, []],
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider provideContainsCases
+     */
+    public function contains_checks_for_items_correctly($input, $search, $expected)
+    {
+        $collection = new DataCollection($input);
+
+        $this->assertSame($expected, $collection->contains($search));
+    }
+
+    public static function provideContainsCases()
+    {
+        return [
+            // Direct value checks
+            'simple value exists' => [[1, 2, 3], 2, true],
+            'simple value does not exist' => [[1, 2, 3], 4, false],
+            'string value exists' => [['a', 'b', 'c'], 'b', true],
+            'string value does not exist' => [['a', 'b', 'c'], 'd', false],
+            'empty collection' => [[], 1, false],
+            'null value' => [[null], null, true],
+            'false value' => [[false], false, true],
+            'zero value' => [[0], 0, true],
+
+            // Callback checks
+            'callback finds match' => [
+                [1, 2, 3],
+                fn ($item) => $item > 2,
+                true
+            ],
+            'callback finds no match' => [
+                [1, 2, 3],
+                fn ($item) => $item > 3,
+                false
+            ],
+            'callback with associative array' => [
+                ['a' => 1, 'b' => 2],
+                fn ($item) => $item === 2,
+                true
+            ],
+            'empty collection with callback' => [
+                [],
+                fn ($item) => true,
+                false
+            ],
+        ];
+    }
 }
