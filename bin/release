@@ -29,8 +29,20 @@ if ! git diff-index --quiet HEAD --; then
     exit 1
 fi
 
-# Get default branch from GitHub
-DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef -q '.defaultBranchRef.name')
+# Get default branch from GitHub with better error handling
+echo "🔍 Getting default branch from GitHub..."
+DEFAULT_BRANCH_JSON=$(gh repo view --json defaultBranchRef 2>/dev/null)
+if [ $? -ne 0 ]; then
+    echo "❌ Error: Failed to get repository information from GitHub"
+    echo "   Please check your GitHub CLI authentication and repository access"
+    exit 1
+fi
+
+DEFAULT_BRANCH=$(echo "$DEFAULT_BRANCH_JSON" | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
+if [ -z "$DEFAULT_BRANCH" ]; then
+    echo "⚠️  Warning: Could not determine default branch, using 'main'"
+    DEFAULT_BRANCH="main"
+fi
 
 echo "📌 Local HEAD: $(git rev-parse HEAD)"
 echo "📌 GitHub default branch: $DEFAULT_BRANCH"
@@ -41,7 +53,12 @@ git fetch origin
 
 # Check if local branch is up-to-date with remote
 LOCAL_HEAD=$(git rev-parse HEAD)
-REMOTE_HEAD=$(git rev-parse origin/$DEFAULT_BRANCH)
+REMOTE_HEAD=$(git rev-parse origin/$DEFAULT_BRANCH 2>/dev/null)
+
+if [ -z "$REMOTE_HEAD" ]; then
+    echo "❌ Error: Could not find remote branch origin/$DEFAULT_BRANCH"
+    exit 1
+fi
 
 if [ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]; then
     echo "❌ Error: Local branch is not up-to-date with remote"
@@ -99,11 +116,42 @@ echo "🏷️  Creating tag v$VERSION..."
 git tag -a "v$VERSION" -m "Release $VERSION"
 git push origin "v$VERSION"
 
+echo "⏱️  Waiting for GitHub to recognize the new tag..."
+sleep 3
+
+# Verify tag exists on GitHub
+echo "🔍 Verifying tag exists on GitHub..."
+TAG_CHECK=$(gh release list --repo mollie/mollie-api-php 2>/dev/null | grep "v$VERSION" || echo "")
+if [ -n "$TAG_CHECK" ]; then
+    echo "❌ Error: Release v$VERSION already exists on GitHub"
+    exit 1
+fi
+
+# Double-check that we can see the tag
+GH_TAG_CHECK=$(gh api repos/mollie/mollie-api-php/git/refs/tags/v$VERSION 2>/dev/null || echo "not_found")
+if [ "$GH_TAG_CHECK" = "not_found" ]; then
+    echo "⚠️  Warning: Tag not immediately visible on GitHub, waiting longer..."
+    sleep 5
+fi
+
 echo "🚀 Creating GitHub release..."
 
-# Generate release from current HEAD
-gh release create "v$VERSION" \
+# Generate release from current HEAD with better error handling
+RELEASE_OUTPUT=$(gh release create "v$VERSION" \
   --target "$(git rev-parse HEAD)" \
-  --generate-notes
+  --generate-notes 2>&1)
 
-echo "✅ Release v$VERSION created successfully!"
+if [ $? -eq 0 ]; then
+    echo "✅ Release v$VERSION created successfully!"
+    echo "$RELEASE_OUTPUT"
+else
+    echo "❌ Error: Failed to create GitHub release"
+    echo "$RELEASE_OUTPUT"
+    echo ""
+    echo "🔍 Troubleshooting tips:"
+    echo "   1. Check if you have write permissions to the repository"
+    echo "   2. Verify your GitHub CLI authentication: gh auth status"
+    echo "   3. Try creating the release manually on GitHub.com"
+    echo "   4. Check if the tag was created successfully: git tag -l | grep v$VERSION"
+    exit 1
+fi
