@@ -2,12 +2,15 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Traits\HasJsonPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 
-class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInQuery
+class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInPayload
 {
+    use HasJsonPayload;
+
     protected static string $method = Method::DELETE;
 
     protected string $paymentId;
