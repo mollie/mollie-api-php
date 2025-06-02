@@ -5,7 +5,22 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v1.0.0-test...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.0.6...HEAD)
+
+## [v3.0.6](https://github.com/mollie/mollie-api-php/compare/v1.0.0-test...v3.0.6) - 2025-06-02
+
+### What's Changed
+
+* Amend capturable recipe by @fjbender in https://github.com/mollie/mollie-api-php/pull/796
+* fix: exchange wrong request name by @Naoray in https://github.com/mollie/mollie-api-php/pull/797
+* Removes nullability from delete() method, as it cannot return null by @Sjustein in https://github.com/mollie/mollie-api-php/pull/802
+* fix: use payload instead of query params for testmode by @Naoray in https://github.com/mollie/mollie-api-php/pull/803
+
+### New Contributors
+
+* @Sjustein made their first contribution in https://github.com/mollie/mollie-api-php/pull/802
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.5...v3.0.6
 
 ## [v1.0.0-test](https://github.com/mollie/mollie-api-php/compare/v3.0.5...v1.0.0-test) - 2025-06-02
 
