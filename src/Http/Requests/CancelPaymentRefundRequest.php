@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Http\Request;
-use Mollie\Api\Types\Method;
-use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Http\Request;
+use Mollie\Api\Traits\HasJsonPayload;
+use Mollie\Api\Types\Method;
 
 class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInPayload
 {
