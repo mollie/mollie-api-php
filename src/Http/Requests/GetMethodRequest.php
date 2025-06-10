@@ -28,7 +28,7 @@ class GetMethodRequest extends ResourceHydratableRequest implements SupportsTest
         ?string $locale = null,
         ?string $currency = null,
         ?string $profileId = null,
-        ?bool $includeIssuers = null,
+        ?bool $includeIssuers = null
     ) {
         $this->methodId = $methodId;
         $this->locale = $locale;

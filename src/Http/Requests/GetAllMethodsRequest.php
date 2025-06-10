@@ -35,7 +35,7 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
         bool $includePricing = false,
         ?string $locale = null,
         ?Money $amount = null,
-        ?string $profileId = null,
+        ?string $profileId = null
     ) {
         $this->includeIssuers = $includeIssuers;
         $this->includePricing = $includePricing;
