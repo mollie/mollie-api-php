@@ -136,10 +136,26 @@ fi
 
 echo "🚀 Creating GitHub release..."
 
-# Generate release from current HEAD with better error handling
-RELEASE_OUTPUT=$(gh release create "v$VERSION" \
-  --target "$(git rev-parse HEAD)" \
-  --generate-notes 2>&1)
+# Find the most recent tag to use as starting point for release notes
+echo "🔍 Finding previous tag for release notes..."
+PREVIOUS_TAG=$(git tag -l --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+
+if [ -n "$PREVIOUS_TAG" ]; then
+    echo "📝 Using $PREVIOUS_TAG as starting point for release notes"
+    # Generate release from current HEAD with explicit previous tag
+    RELEASE_OUTPUT=$(gh release create "v$VERSION" \
+      --target "$(git rev-parse HEAD)" \
+      --latest \
+      --generate-notes \
+      --notes-start-tag "$PREVIOUS_TAG" 2>&1)
+else
+    echo "⚠️  No previous tag found, generating release notes from repository start"
+    # Generate release from current HEAD with better error handling
+    RELEASE_OUTPUT=$(gh release create "v$VERSION" \
+      --target "$(git rev-parse HEAD)" \
+      --latest \
+      --generate-notes 2>&1)
+fi
 
 if [ $? -eq 0 ]; then
     echo "✅ Release v$VERSION created successfully!"
