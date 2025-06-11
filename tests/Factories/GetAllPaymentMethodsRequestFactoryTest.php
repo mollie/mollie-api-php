@@ -19,6 +19,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
                     'currency' => 'EUR',
                     'value' => '100.00',
                 ],
+                'profileId' => 'pfl_12345',
             ])
             ->create();
 
