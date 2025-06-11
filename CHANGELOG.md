@@ -5,7 +5,24 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.1.3...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.1.4...HEAD)
+
+## [v3.1.4](https://github.com/mollie/mollie-api-php/compare/v3.1.3...v3.1.4) - 2025-06-11
+
+### What's Changed
+
+* Main by @Naoray in https://github.com/mollie/mollie-api-php/pull/804
+* feat: add status reason to payment resource by @Naoray in https://github.com/mollie/mollie-api-php/pull/806
+* Fix/include resources by @Naoray in https://github.com/mollie/mollie-api-php/pull/808
+* fix: allow profileId in AllMethods factory by @joester89 in https://github.com/mollie/mollie-api-php/pull/809
+* Fix 400 Bad Request on DELETE when store array is empty by @cswiers in https://github.com/mollie/mollie-api-php/pull/810
+
+### New Contributors
+
+* @joester89 made their first contribution in https://github.com/mollie/mollie-api-php/pull/809
+* @cswiers made their first contribution in https://github.com/mollie/mollie-api-php/pull/810
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.6...v3.1.4
 
 ## [v3.1.3](https://github.com/mollie/mollie-api-php/compare/v3.1.2...v3.1.3) - 2025-06-11
 
