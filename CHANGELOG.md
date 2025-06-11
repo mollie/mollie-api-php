@@ -5,7 +5,11 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.1.2...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.1.3...HEAD)
+
+## [v3.1.3](https://github.com/mollie/mollie-api-php/compare/v3.1.2...v3.1.3) - 2025-06-11
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.1.3...v3.1.3
 
 ## [v3.1.2](https://github.com/mollie/mollie-api-php/compare/v3.1.1...v3.1.2) - 2025-06-10
 
