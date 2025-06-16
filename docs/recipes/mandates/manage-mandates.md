@@ -28,12 +28,12 @@ try {
 ## List Mandates
 
 ```php
-use Mollie\Api\Http\Requests\ListCustomerMandatesRequest;
+use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 
 try {
     // List all mandates for a customer
     $response = $mollie->send(
-        new ListCustomerMandatesRequest(
+        new GetPaginatedMandateRequest(
             customerId: 'cst_8wmqcHMN4U'
         )
     );

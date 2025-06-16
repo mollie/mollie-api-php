@@ -31,13 +31,11 @@ try {
 ## List Payment Links
 
 ```php
-use Mollie\Api\Http\Requests\ListPaymentLinksRequest;
+use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
 
 try {
     // List all payment links
-    $response = $mollie->send(
-        new ListPaymentLinksRequest()
-    );
+    $response = $mollie->send(new GetPaginatedPaymentLinksRequest);
 
     foreach ($response as $paymentLink) {
         echo "Payment Link {$paymentLink->id}:\n";

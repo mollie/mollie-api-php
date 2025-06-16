@@ -29,13 +29,11 @@ try {
 ## List Profiles
 
 ```php
-use Mollie\Api\Http\Requests\ListProfilesRequest;
+use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 
 try {
     // List all profiles
-    $response = $mollie->send(
-        new ListProfilesRequest()
-    );
+    $response = $mollie->send(new GetPaginatedProfilesRequest);
 
     foreach ($response as $profile) {
         echo "Profile {$profile->id}:\n";

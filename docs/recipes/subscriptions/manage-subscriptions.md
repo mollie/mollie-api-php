@@ -36,12 +36,12 @@ try {
 ## List Subscriptions
 
 ```php
-use Mollie\Api\Http\Requests\ListCustomerSubscriptionsRequest;
+use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
 
 try {
     // List all subscriptions for a customer
     $response = $mollie->send(
-        new ListCustomerSubscriptionsRequest(
+        new GetPaginatedSubscriptionsRequest(
             customerId: 'cst_8wmqcHMN4U'
         )
     );
