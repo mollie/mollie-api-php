@@ -91,13 +91,13 @@ class WebhookEndpointCollection extends EndpointCollection
         ?string $from = null,
         ?int $limit = null,
         ?string $sort = null,
-        ?string $eventTypes = null,
+        ?string $eventTypes = null
     ): WebhookCollection {
         $request = new GetPaginatedWebhooksRequest(
             $from,
             $limit,
             $sort,
-            $eventTypes,
+            $eventTypes
         );
 
         /** @var WebhookCollection */
@@ -116,13 +116,13 @@ class WebhookEndpointCollection extends EndpointCollection
         ?string $sort = null,
         ?string $eventTypes = null,
         bool $iterateBackwards = false,
-        bool $test = false,
+        bool $test = false
     ): LazyCollection {
         $request = new GetPaginatedWebhooksRequest(
             $from,
             $limit,
             $sort,
-            $eventTypes,
+            $eventTypes
         );
 
         return $this->send(

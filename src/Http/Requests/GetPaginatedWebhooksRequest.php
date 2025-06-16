@@ -24,7 +24,7 @@ class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements Is
         ?string $from = null,
         ?int $limit = null,
         ?string $sort = null,
-        $eventTypes = null,
+        $eventTypes = null
     ) {
         parent::__construct($from, $limit, $sort);
 
