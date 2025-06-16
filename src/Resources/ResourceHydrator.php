@@ -40,12 +40,18 @@ class ResourceHydrator
 
     /**
      * Hydrate a collection with data.
+     *
+     * @param ResourceCollection $collection
+     * @param array|object $items
+     * @param Response $response
+     * @param object|null $_links
+     * @return ResourceCollection
      */
     public function hydrateCollection(
         ResourceCollection $collection,
-        array|object $items,
+        $items,
         Response $response,
-        ?object $_links = null
+        $_links = null
     ): ResourceCollection {
         // Convert object to array for consistent handling
         if (is_object($items)) {
