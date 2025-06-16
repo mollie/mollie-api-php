@@ -37,6 +37,7 @@ class ResourceFactoryTest extends TestCase
     public function it_creates_a_decorated_resource()
     {
         $connector = $this->createMock(MollieApiClient::class);
+        /** @var Onboarding $resource */
         $resource = ResourceFactory::create($connector, Onboarding::class);
 
         $resource->status = 'completed';

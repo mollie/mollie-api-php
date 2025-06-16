@@ -13,6 +13,7 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Resources\AnyResource;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
@@ -125,11 +126,11 @@ class ResourceHydratorTest extends TestCase
     /** @test */
     public function it_hydrates_a_simple_resource()
     {
-        $resource = new class($this->client) extends BaseResource {};
         $data = ['id' => 'test_123', 'name' => 'Test Resource'];
         $response = $this->createMock(Response::class);
 
-        $this->hydrator->hydrate($resource, $data, $response);
+        /** @var AnyResource $resource */
+        $resource = $this->hydrator->hydrate(new AnyResource($this->client), $data, $response);
 
         $this->assertEquals('test_123', $resource->id);
         $this->assertEquals('Test Resource', $resource->name);
