@@ -2,11 +2,14 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class DynamicDeleteRequest extends DynamicRequest implements SupportsTestmodeInQuery
+class DynamicDeleteRequest extends DynamicRequest implements SupportsTestmodeInPayload
 {
+    use HasJsonPayload;
+
     /**
      * Define the HTTP method.
      */

@@ -24,19 +24,19 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
 
     private string $captureId;
 
-    private bool $includePayment;
+    private bool $embedPayment;
 
-    public function __construct(string $paymentId, string $captureId, bool $includePayment = false)
+    public function __construct(string $paymentId, string $captureId, bool $embedPayment = false)
     {
         $this->paymentId = $paymentId;
         $this->captureId = $captureId;
-        $this->includePayment = $includePayment;
+        $this->embedPayment = $embedPayment;
     }
 
     protected function defaultQuery(): array
     {
         return [
-            'include' => Arr::join($this->includePayment ? [PaymentIncludesQuery::PAYMENT] : []),
+            'embed' => Arr::join($this->embedPayment ? [PaymentIncludesQuery::PAYMENT] : []),
         ];
     }
 

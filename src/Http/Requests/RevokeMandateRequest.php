@@ -2,12 +2,15 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Request;
+use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class RevokeMandateRequest extends Request implements SupportsTestmodeInQuery
+class RevokeMandateRequest extends Request implements SupportsTestmodeInPayload
 {
+    use HasJsonPayload;
+
     /**
      * Define the HTTP method.
      */

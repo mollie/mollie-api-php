@@ -11,7 +11,7 @@ class JsonPayloadRepository extends ArrayStore implements PayloadRepository, Str
 {
     public function __toString(): string
     {
-        return @json_encode($this->store);
+        return ! empty($this->store) ? @json_encode($this->store) : "";
     }
 
     public function toStream(StreamFactoryInterface $streamFactory): StreamInterface

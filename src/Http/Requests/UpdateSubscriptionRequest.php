@@ -4,13 +4,13 @@ namespace Mollie\Api\Http\Requests;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdateSubscriptionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInQuery
+class UpdateSubscriptionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
