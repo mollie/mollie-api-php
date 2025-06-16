@@ -73,7 +73,7 @@ class ResourceResolverTest extends TestCase
             ->method('json')
             ->willReturn((object) [
                 '_embedded' => (object) ['items' => []],
-                '_links' => (object) []
+                '_links' => (object) [],
             ]);
 
         $mockCollection = new CustomCollection($this->client);

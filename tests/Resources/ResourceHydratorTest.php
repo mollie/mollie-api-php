@@ -6,7 +6,6 @@ use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\Onboarding;
@@ -38,8 +37,8 @@ class ResourceHydratorTest extends TestCase
             "createdAt" => "2018-03-13T14:02:29+00:00",
             "amount" => [
                 "value" => "20.00",
-                "currency" => "EUR"
-            ]
+                "currency" => "EUR",
+            ],
         ];
 
         $resource = new Payment($this->client);
@@ -67,11 +66,11 @@ class ResourceHydratorTest extends TestCase
                         "id" => "re_4qqhO89gsT",
                         "amount" => [
                             "value" => "20.00",
-                            "currency" => "EUR"
-                        ]
-                    ]
-                ]
-            ]
+                            "currency" => "EUR",
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $resource = new Payment($this->client);
@@ -92,9 +91,9 @@ class ResourceHydratorTest extends TestCase
                 "onboarding" => (object) [
                     "resource" => "onboarding",
                     "name" => "Mollie B.V.",
-                    "status" => "completed"
-                ]
-            ]
+                    "status" => "completed",
+                ],
+            ],
         ];
 
         $resource = new Client($this->client);
@@ -111,7 +110,7 @@ class ResourceHydratorTest extends TestCase
         $collection = new PaymentCollection($this->client);
         $items = [
             ['id' => 'payment-1', 'resource' => 'payment'],
-            ['id' => 'payment-2', 'resource' => 'payment']
+            ['id' => 'payment-2', 'resource' => 'payment'],
         ];
         $response = $this->createMock(Response::class);
         $response->method('getConnector')->willReturn($this->client);
@@ -148,8 +147,8 @@ class ResourceHydratorTest extends TestCase
 
         $data = [
             '_embedded' => (object) [
-                'unknown' => ['id' => 'test']
-            ]
+                'unknown' => ['id' => 'test'],
+            ],
         ];
 
         $response = $this->createMock(Response::class);

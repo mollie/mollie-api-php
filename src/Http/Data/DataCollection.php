@@ -2,12 +2,12 @@
 
 namespace Mollie\Api\Http\Data;
 
+use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Utils\Arr;
-use ArrayIterator;
 use Traversable;
 
 /**

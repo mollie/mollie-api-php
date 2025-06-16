@@ -44,8 +44,8 @@ class ResourceFactoryTest extends TestCase
         $resource->canReceiveSettlements = true;
         $resource->_links = (object) [
             'dashboard' => (object) [
-                'href' => 'https://dashboard.mollie.com'
-            ]
+                'href' => 'https://dashboard.mollie.com',
+            ],
         ];
 
         $decoratedResource = ResourceFactory::createDecoratedResource(

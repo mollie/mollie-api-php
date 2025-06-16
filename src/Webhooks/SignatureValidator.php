@@ -3,9 +3,9 @@
 namespace Mollie\Api\Webhooks;
 
 use Mollie\Api\Exceptions\InvalidSignatureException;
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Utils\Arr;
 use Psr\Http\Message\RequestInterface;
-use Mollie\Api\Http\Data\DataCollection;
 
 class SignatureValidator
 {
@@ -117,7 +117,7 @@ class SignatureValidator
                 $payload
             ));
 
-        if (!$validSignatureFound && !empty($signatures)) {
+        if (! $validSignatureFound && ! empty($signatures)) {
             throw new InvalidSignatureException('Invalid webhook signature');
         }
 

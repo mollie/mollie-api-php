@@ -102,12 +102,13 @@ class SignatureValidator
 
                 if (hash_equals($expectedSignature, $providedSignature)) {
                     $validSignatureFound = true;
+
                     break 2; // Valid signature found, exit both loops
                 }
             }
         }
 
-        if (!$validSignatureFound && !empty($signatures)) {
+        if (! $validSignatureFound && ! empty($signatures)) {
             throw new InvalidSignatureException('Invalid webhook signature');
         }
 

@@ -48,7 +48,7 @@ class SignatureValidatorTest extends TestCase
         $verifier = new SignatureValidator([
             'invalid_secret',
             self::SIGNING_SECRET,
-            'another_invalid_secret'
+            'another_invalid_secret',
         ]);
         $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
 
@@ -75,7 +75,7 @@ class SignatureValidatorTest extends TestCase
         $result3 = $verifier->validatePayload(self::PAYLOAD, [
             'invalid_signature',
             $signature,
-            'another_invalid_signature'
+            'another_invalid_signature',
         ]);
 
         $this->assertTrue($result1);
@@ -90,7 +90,7 @@ class SignatureValidatorTest extends TestCase
     {
         $verifier = new SignatureValidator([
             self::SIGNING_SECRET,
-            self::ALTERNATE_SECRET
+            self::ALTERNATE_SECRET,
         ]);
 
         $originalSignature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);

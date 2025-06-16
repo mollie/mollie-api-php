@@ -38,7 +38,7 @@ class ResourceFactory
      */
     public static function createDecoratedResource($resource, string $decorator): IsWrapper
     {
-        if (!is_subclass_of($decorator, IsWrapper::class)) {
+        if (! is_subclass_of($decorator, IsWrapper::class)) {
             throw new \InvalidArgumentException("The decorator class '{$decorator}' does not implement the ResourceDecorator interface.");
         }
 

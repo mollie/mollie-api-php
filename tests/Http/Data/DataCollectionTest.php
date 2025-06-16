@@ -183,22 +183,22 @@ class DataCollectionTest extends TestCase
             'callback finds match' => [
                 [1, 2, 3],
                 fn ($item) => $item > 2,
-                true
+                true,
             ],
             'callback finds no match' => [
                 [1, 2, 3],
                 fn ($item) => $item > 3,
-                false
+                false,
             ],
             'callback with associative array' => [
                 ['a' => 1, 'b' => 2],
                 fn ($item) => $item === 2,
-                true
+                true,
             ],
             'empty collection with callback' => [
                 [],
                 fn ($item) => true,
-                false
+                false,
             ],
         ];
     }
