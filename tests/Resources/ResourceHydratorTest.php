@@ -6,6 +6,7 @@ use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
+use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\Client;
 use Mollie\Api\Resources\Onboarding;
@@ -13,7 +14,6 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceHydrator;
-use Mollie\Api\Resources\AnyResource;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
