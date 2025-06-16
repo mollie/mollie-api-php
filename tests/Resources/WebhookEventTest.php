@@ -18,8 +18,8 @@ class WebhookEventTest extends TestCase
             'entity' => (object) [
                 'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
                 'resource' => 'payment-link',
-                'status' => 'paid'
-            ]
+                'status' => 'paid',
+            ],
         ];
 
         $this->assertTrue($webhookEvent->hasEntity());
@@ -32,7 +32,7 @@ class WebhookEventTest extends TestCase
 
         $webhookEvent = new WebhookEvent($client);
         $webhookEvent->_embedded = (object) [
-            'entity' => null
+            'entity' => null,
         ];
 
         $this->assertFalse($webhookEvent->hasEntity());
@@ -57,12 +57,12 @@ class WebhookEventTest extends TestCase
         $entity = (object) [
             'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
             'resource' => 'payment-link',
-            'status' => 'paid'
+            'status' => 'paid',
         ];
 
         $webhookEvent = new WebhookEvent($client);
         $webhookEvent->_embedded = (object) [
-            'entity' => $entity
+            'entity' => $entity,
         ];
 
         $this->assertSame($entity, $webhookEvent->getEntity());
@@ -75,7 +75,7 @@ class WebhookEventTest extends TestCase
 
         $webhookEvent = new WebhookEvent($client);
         $webhookEvent->_embedded = (object) [
-            'entity' => null
+            'entity' => null,
         ];
 
         $this->assertNull($webhookEvent->getEntity());

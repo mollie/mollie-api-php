@@ -78,6 +78,6 @@ class WebhookEvent extends BaseResource
      */
     public function hasEntity(): bool
     {
-        return !empty($this->_embedded->entity);
+        return ! empty($this->_embedded->entity);
     }
 }

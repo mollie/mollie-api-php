@@ -92,8 +92,7 @@ class WebhookEndpointCollection extends EndpointCollection
         ?int $limit = null,
         ?string $sort = null,
         ?string $eventTypes = null,
-    ): WebhookCollection
-    {
+    ): WebhookCollection {
         $request = new GetPaginatedWebhooksRequest(
             $from,
             $limit,
@@ -118,8 +117,7 @@ class WebhookEndpointCollection extends EndpointCollection
         ?string $eventTypes = null,
         bool $iterateBackwards = false,
         bool $test = false,
-    ): LazyCollection
-    {
+    ): LazyCollection {
         $request = new GetPaginatedWebhooksRequest(
             $from,
             $limit,
