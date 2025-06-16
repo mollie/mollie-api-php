@@ -68,7 +68,7 @@ class ResourceResolverTest extends TestCase
 
         $request->expects($this->once())
             ->method('getHydratableResource')
-            ->willReturn(CustomCollection::class);
+            ->willReturn(FooCollection::class);
 
         $response->expects($this->once())
             ->method('getConnector')
@@ -83,11 +83,11 @@ class ResourceResolverTest extends TestCase
 
         $this->hydrator->expects($this->once())
             ->method('hydrateCollection')
-            ->willReturn(new CustomCollection($this->client));
+            ->willReturn(new FooCollection($this->client));
 
         $result = $this->resolver->resolve($request, $response);
 
-        $this->assertInstanceOf(CustomCollection::class, $result);
+        $this->assertInstanceOf(FooCollection::class, $result);
     }
 
     /** @test */
@@ -96,7 +96,7 @@ class ResourceResolverTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $decoratedResource = new WrapperResource(CustomDecorator::class);
+        $decoratedResource = new WrapperResource(FooDecorator::class);
 
         $request->expects($this->exactly(2))
             ->method('getHydratableResource')
@@ -116,7 +116,7 @@ class ResourceResolverTest extends TestCase
 
         $result = $this->resolver->resolve($request, $response);
 
-        $this->assertInstanceOf(CustomDecorator::class, $result);
+        $this->assertInstanceOf(FooDecorator::class, $result);
     }
 
     /** @test */
@@ -135,13 +135,13 @@ class ResourceResolverTest extends TestCase
     }
 }
 
-class CustomCollection extends CursorCollection
+class FooCollection extends CursorCollection
 {
     public static string $resource = AnyResource::class;
     public static string $collectionName = 'items';
 }
 
-class CustomDecorator implements IsWrapper
+class FooDecorator implements IsWrapper
 {
     public static function fromResource($resource): self
     {
