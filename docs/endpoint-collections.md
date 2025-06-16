@@ -724,6 +724,74 @@ $session = $mollie->wallets->requestApplePayPaymentSession([
 ]);
 ```
 
+## Webhooks
+
+[Official Documentation](https://docs.mollie.com/reference/v2/webhooks-api/create-webhook)
+
+**Available Payloads:**
+- `CreateWebhookPayload` - For creating new webhooks
+- `UpdateWebhookPayload` - For updating existing webhooks
+
+**Available Queries:**
+- `GetPaginatedWebhooksQuery` - For listing webhooks with pagination
+
+### Webhook Management
+
+```php
+use Mollie\Api\Types\WebhookEventType;
+
+// Create a webhook
+$webhook = $mollie->webhooks->create([
+    'url' => 'https://example.com/webhook',
+    'description' => 'Payment notifications',
+    'events' => [
+        WebhookEventType::PAYMENT_LINK_PAID,
+        WebhookEventType::PROFILE_VERIFIED
+    ],
+    'secret' => 'my-secret-key-123'
+]);
+
+// Get a webhook
+$webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
+
+// Update a webhook
+$webhook = $mollie->webhooks->update('wh_4KgGJJSZpH', [
+    'url' => 'https://updated-example.com/webhook',
+    'description' => 'Updated description'
+]);
+
+// Delete a webhook
+$mollie->webhooks->delete('wh_4KgGJJSZpH');
+
+// Test a webhook
+$mollie->webhooks->test('wh_4KgGJJSZpH');
+
+// List webhooks
+$webhooks = $mollie->webhooks->page();
+
+// Using convenience methods on webhook resource
+$webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
+$webhook->update(['description' => 'New description']);
+$webhook->delete();
+$webhook->test();
+```
+
+### Webhook Events
+
+```php
+// Get a webhook event
+$webhookEvent = $mollie->webhookEvents->get('whev_abc123');
+
+// Check event status using helper methods
+if ($webhookEvent->wasDelivered()) {
+    echo "Webhook was successfully delivered\n";
+} elseif ($webhookEvent->failed()) {
+    echo "Webhook delivery failed: {$webhookEvent->error}\n";
+} elseif ($webhookEvent->hasRetryPending()) {
+    echo "Retry pending at: {$webhookEvent->nextRetryAt}\n";
+}
+```
+
 ## Common Patterns
 
 ### Pagination
