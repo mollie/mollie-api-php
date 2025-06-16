@@ -83,10 +83,14 @@ class Method extends BaseResource
             IssuerCollection::class
         );
 
+        if ($this->issuers === null) {
+            return $collection;
+        }
+
         /** @var IssuerCollection */
         $collection = (new ResourceHydrator())->hydrateCollection(
             $collection,
-            $this->issuers,
+            (array) $this->issuers,
             $this->response
         );
 
@@ -103,10 +107,14 @@ class Method extends BaseResource
             MethodPriceCollection::class
         );
 
+        if ($this->pricing === null) {
+            return $collection;
+        }
+
         /** @var MethodPriceCollection */
         $collection = (new ResourceHydrator())->hydrateCollection(
             $collection,
-            $this->pricing,
+            (array) $this->pricing,
             $this->response
         );
 

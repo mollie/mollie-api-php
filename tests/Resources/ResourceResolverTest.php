@@ -2,21 +2,15 @@
 
 namespace Tests\Resources;
 
-use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\CursorCollection;
-use Mollie\Api\Resources\LazyCollection;
-use Mollie\Api\Resources\ResourceCollection;
-use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Resources\ResourceResolver;
 use Mollie\Api\Resources\WrapperResource;
-use Mollie\Api\Traits\IsIteratableRequest;
 use PHPUnit\Framework\TestCase;
 
 class ResourceResolverTest extends TestCase
@@ -49,11 +43,12 @@ class ResourceResolverTest extends TestCase
 
         $response->expects($this->once())
             ->method('json')
-            ->willReturn(['id' => 'test_123']);
+            ->willReturn((object) ['id' => 'test_123']);
 
+        $mockResource = new AnyResource($this->client);
         $this->hydrator->expects($this->once())
             ->method('hydrate')
-            ->willReturn(new AnyResource($this->client));
+            ->willReturn($mockResource);
 
         $result = $this->resolver->resolve($request, $response);
 
@@ -68,7 +63,7 @@ class ResourceResolverTest extends TestCase
 
         $request->expects($this->once())
             ->method('getHydratableResource')
-            ->willReturn(FooCollection::class);
+            ->willReturn(CustomCollection::class);
 
         $response->expects($this->once())
             ->method('getConnector')
@@ -81,13 +76,14 @@ class ResourceResolverTest extends TestCase
                 '_links' => (object) []
             ]);
 
+        $mockCollection = new CustomCollection($this->client);
         $this->hydrator->expects($this->once())
             ->method('hydrateCollection')
-            ->willReturn(new FooCollection($this->client));
+            ->willReturn($mockCollection);
 
         $result = $this->resolver->resolve($request, $response);
 
-        $this->assertInstanceOf(FooCollection::class, $result);
+        $this->assertInstanceOf(CustomCollection::class, $result);
     }
 
     /** @test */
@@ -96,7 +92,7 @@ class ResourceResolverTest extends TestCase
         $request = $this->createMock(ResourceHydratableRequest::class);
         $response = $this->createMock(Response::class);
 
-        $decoratedResource = new WrapperResource(FooDecorator::class);
+        $decoratedResource = new WrapperResource(CustomDecorator::class);
 
         $request->expects($this->exactly(2))
             ->method('getHydratableResource')
@@ -110,13 +106,14 @@ class ResourceResolverTest extends TestCase
             ->method('getConnector')
             ->willReturn($this->client);
 
+        $mockResource = new AnyResource($this->client);
         $this->hydrator->expects($this->once())
             ->method('hydrate')
-            ->willReturn(new AnyResource($this->client));
+            ->willReturn($mockResource);
 
         $result = $this->resolver->resolve($request, $response);
 
-        $this->assertInstanceOf(FooDecorator::class, $result);
+        $this->assertInstanceOf(CustomDecorator::class, $result);
     }
 
     /** @test */
@@ -135,13 +132,13 @@ class ResourceResolverTest extends TestCase
     }
 }
 
-class FooCollection extends CursorCollection
+class CustomCollection extends CursorCollection
 {
     public static string $resource = AnyResource::class;
     public static string $collectionName = 'items';
 }
 
-class FooDecorator implements IsWrapper
+class CustomDecorator implements IsWrapper
 {
     public static function fromResource($resource): self
     {

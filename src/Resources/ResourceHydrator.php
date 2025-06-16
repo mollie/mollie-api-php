@@ -13,16 +13,22 @@ class ResourceHydrator
     /**
      * Hydrate a response into a resource or collection
      *
+     * @param object|array $data
      * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
      */
-    public function hydrate(BaseResource $resource, array $data, Response $response)
+    public function hydrate(BaseResource $resource, $data, Response $response)
     {
+        // Convert object to array for consistent handling
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
+
         if ($resource instanceof AnyResource) {
             $resource->fill($data);
         } else {
             foreach ($data as $property => $value) {
                 $resource->{$property} = $this->holdsEmbeddedResources($resource, $property, $value)
-                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, dd($value), $response)
+                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, $value, $response)
                     : $value;
             }
         }
@@ -37,10 +43,15 @@ class ResourceHydrator
      */
     public function hydrateCollection(
         ResourceCollection $collection,
-        array $items,
+        array|object $items,
         Response $response,
         ?object $_links = null
     ): ResourceCollection {
+        // Convert object to array for consistent handling
+        if (is_object($items)) {
+            $items = (array) $items;
+        }
+
         $hydratedItems = array_map(
             fn ($item) => $this->hydrate(
                 ResourceFactory::create($response->getConnector(), $collection::getResourceClass()),
@@ -49,6 +60,10 @@ class ResourceHydrator
             ),
             $items
         );
+
+        if ($_links !== null) {
+            $collection->_links = $_links;
+        }
 
         return $collection
             ->setItems($hydratedItems)
@@ -66,7 +81,7 @@ class ResourceHydrator
         Connector $connector,
         object $resource,
         object $embedded,
-        ?Response $response
+        Response $response
     ): object {
         $result = new \stdClass;
 
