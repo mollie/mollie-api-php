@@ -21,6 +21,13 @@ abstract class ResourceCollection extends BaseCollection
         return static::$resource;
     }
 
+    public function setItems(array $items): self
+    {
+        $this->exchangeArray($items);
+
+        return $this;
+    }
+
     /**
      * @return $this
      */

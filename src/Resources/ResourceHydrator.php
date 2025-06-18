@@ -2,10 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Contracts\IsWrapper;
-use Mollie\Api\Http\Request;
-use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 
 class ResourceHydrator
@@ -13,68 +13,106 @@ class ResourceHydrator
     /**
      * Hydrate a response into a resource or collection
      *
+     * @param object|array $data
      * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
      */
-    public function hydrate(ResourceHydratableRequest $request, Response $response)
+    public function hydrate(BaseResource $resource, $data, Response $response)
     {
-        $targetResourceClass = $request->getHydratableResource();
-
-        if ($targetResourceClass instanceof WrapperResource) {
-            $response = $this->hydrate(
-                // Reset the hydratable resource to the original resource class.
-                $request->resetHydratableResource(),
-                $response,
-            );
-
-            return ResourceFactory::createDecoratedResource($response, $targetResourceClass->getWrapper());
+        // Convert object to array for consistent handling
+        if (is_object($data)) {
+            $data = (array) $data;
         }
 
-        if ($this->isCollectionTarget($targetResourceClass)) {
-            $collection = $this->buildResultCollection($response, $targetResourceClass);
-
-            return $this->unwrapIterator($request, $collection);
+        if ($resource instanceof AnyResource) {
+            $resource->fill($data);
+        } else {
+            foreach ($data as $property => $value) {
+                $resource->{$property} = $this->holdsEmbeddedResources($resource, $property, $value)
+                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, $value, $response)
+                    : $value;
+            }
         }
 
-        if ($this->isResourceTarget($targetResourceClass)) {
-            return ResourceFactory::createFromApiResult($response->getConnector(), $response, $targetResourceClass);
-        }
+        $resource->setResponse($response);
 
-        return $response;
+        return $resource;
     }
 
     /**
-     * @return BaseCollection|LazyCollection
+     * Hydrate a collection with data.
+     *
+     * @param ResourceCollection $collection
+     * @param array|object $items
+     * @param Response $response
+     * @param object|null $_links
+     * @return ResourceCollection
      */
-    private function unwrapIterator(Request $request, BaseCollection $collection)
-    {
-        if ($request instanceof IsIteratable && $request->iteratorEnabled()) {
-            /** @var CursorCollection $collection */
-            return $collection->getAutoIterator($request->iteratesBackwards());
+    public function hydrateCollection(
+        ResourceCollection $collection,
+        $items,
+        Response $response,
+        $_links = null
+    ): ResourceCollection {
+        // Convert object to array for consistent handling
+        if (is_object($items)) {
+            $items = (array) $items;
         }
 
-        return $collection;
-    }
-
-    private function buildResultCollection(Response $response, string $targetCollectionClass): BaseCollection
-    {
-        $result = $response->json();
-
-        return ResourceFactory::createResourceCollection(
-            $response->getConnector(),
-            $targetCollectionClass,
-            $response,
-            $result->_embedded->{$targetCollectionClass::getCollectionResourceName()},
-            $result->_links,
+        $hydratedItems = array_map(
+            fn ($item) => $this->hydrate(
+                ResourceFactory::create($response->getConnector(), $collection::getResourceClass()),
+                $item,
+                $response
+            ),
+            $items
         );
+
+        if ($_links !== null) {
+            $collection->_links = $_links;
+        }
+
+        return $collection
+            ->setItems($hydratedItems)
+            ->setResponse($response);
     }
 
-    private function isCollectionTarget(string $targetResourceClass): bool
+    private function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
-        return is_subclass_of($targetResourceClass, BaseCollection::class);
+        return $key === '_embedded'
+            && ! is_null($value)
+            && $resource instanceof EmbeddedResourcesContract;
     }
 
-    private function isResourceTarget(string $targetResourceClass): bool
-    {
-        return is_subclass_of($targetResourceClass, BaseResource::class);
+    private function parseEmbeddedResources(
+        Connector $connector,
+        object $resource,
+        object $embedded,
+        Response $response
+    ): object {
+        $result = new \stdClass;
+
+        foreach ($embedded as $resourceKey => $resourceData) {
+            $collectionOrResourceClass = $resource->getEmbeddedResourcesMap()[$resourceKey] ?? null;
+
+            if (is_null($collectionOrResourceClass)) {
+                throw new EmbeddedResourcesNotParseableException(
+                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
+                );
+            }
+
+            $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)
+                ? $this->hydrate(
+                    ResourceFactory::create($connector, $collectionOrResourceClass),
+                    $resourceData,
+                    $response
+                )
+                : $this->hydrateCollection(
+                    ResourceFactory::createCollection($connector, $collectionOrResourceClass),
+                    $resourceData,
+                    $response
+                );
+        }
+
+        return $result;
     }
 }
