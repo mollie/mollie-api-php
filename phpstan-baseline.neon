@@ -100,6 +100,12 @@ parameters:
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1
+			path: tests/EndpointCollection/WebhookEndpointCollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
 			path: tests/Http/Auth/AccessTokenAuthenticatorTest.php
 
 		-
@@ -113,6 +119,12 @@ parameters:
 			identifier: property.notFound
 			count: 1
 			path: tests/Resources/ResourceFactoryTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Resources/WebhookTest.php
 
 		-
 			message: '#^Property Tests\\Utils\\TestPropertiesClass\:\:\$privateProp is unused\.$#'

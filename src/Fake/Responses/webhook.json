@@ -1,0 +1,20 @@
+{
+  "resource": "webhook",
+  "id": "wh_4KgGJJSZpH",
+  "url": "https://example.com/webhook",
+  "profileId": "pfl_v9hTwCvYqw",
+  "createdAt": "2023-12-25T10:30:54+00:00",
+  "name": "My webhook",
+  "eventTypes": "payment-link.paid",
+  "status": "enabled",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/webhooks/wh_4KgGJJSZpH",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/webhooks-api/get-webhook",
+      "type": "text/html"
+    }
+  }
+}

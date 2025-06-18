@@ -44,6 +44,8 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
@@ -98,6 +100,8 @@ use Mollie\Api\Utils\Url;
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals
  * @property WalletEndpointCollection $wallets
+ * @property WebhookEndpointCollection $webhooks
+ * @property WebhookEventEndpointCollection $webhookEvents
  * @property HttpAdapterContract $httpClient
  */
 class MollieApiClient implements Connector
