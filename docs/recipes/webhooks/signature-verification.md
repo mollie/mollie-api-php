@@ -1,24 +1,27 @@
 # Webhook Signature Verification
 
-This recipe shows you how to verify Mollie webhook signatures in your application.
+This recipe shows you how to verify Mollie webhook signatures in your application using the `SignatureValidator` class.
+
+## Basic Example
 
 ```php
-use Mollie\Api\MollieApiClient;
+use Mollie\Api\Webhooks\SignatureValidator;
 use Mollie\Api\Exceptions\InvalidSignatureException;
 
-$mollie = new MollieApiClient();
-$signingSecret = "your_webhook_signing_secret";
+$signingSecret = "foobar";
 
 $request = \GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 $requestBody = (string)$request->getBody();
 $signature = $request->getHeader("X-Mollie-Signature");
 
 try {
-    $event = $mollie->parseWebhookEvent($requestBody, $signature, $signingSecret);
+    $validator = new SignatureValidator($signingSecret);
+    $isValid = $validator->validatePayload($requestBody, $signature);
 
-    // Process the webhook event
-    if ($event === \Mollie\Api\WebhookEventType::PAYMENT_PAID) {
-        // Handle payment.paid event
+    if ($isValid) {
+        // Process the verified webhook event
+    } else {
+        // Legacy webhook without signature
     }
 
     return new \GuzzleHttp\Psr7\Response(200);
@@ -36,70 +39,53 @@ For more information about webhooks and signature verification, see the [Webhook
 During key rotation or migration periods, you can verify signatures against multiple secrets:
 
 ```php
+use Mollie\Api\Webhooks\SignatureValidator;
+use Mollie\Api\Exceptions\InvalidSignatureException;
+
 $signingSecrets = [
     "current_secret",
     "previous_secret"
 ];
 
-$event = $mollie->parseWebhookEvent(
-    $requestBody,
-    $signature,
-    $signingSecrets
-);
-```
+try {
+    $validator = new SignatureValidator($signingSecrets);
+    $isValid = $validator->validatePayload($requestBody, $signature);
 
-### Manual Signature Verification
+    if ($isValid) {
+        processWebhook($webhookData);
+    } else {
+        // Handle legacy webhook
+        processLegacyWebhook($webhookData);
+    }
 
-If you need more control over the verification process, you can use the `SignatureValidator` directly:
-
-```php
-use Mollie\Api\Webhooks\SignatureValidator;
-
-$validator = new SignatureValidator($signingSecret);
-
-// Verify a PSR-7 request
-$isValid = $validator->validateRequest($request);
-
-// Or verify raw payload and signature
-$isValid = $validator->validatePayload($requestBody, $signature);
-```
-
-### Legacy Webhooks
-
-The SDK automatically handles legacy webhooks (those without signatures) by returning `false` instead of throwing an exception. This allows for a smooth transition period:
-
-```php
-if ($validator->validateRequest($request) === false) {
-    // Handle legacy webhook
-    return new \GuzzleHttp\Psr7\Response(200);
+} catch (InvalidSignatureException $e) {
+    http_response_code(400);
+    echo 'Invalid signature';
 }
 ```
 
-## Security Considerations
+### PSR-7 Request Validation
 
-1. Always verify webhook signatures to ensure the request came from Mollie
-2. Use HTTPS for your webhook endpoint
-3. Keep your signing secrets secure and rotate them periodically
-4. Consider using multiple signing secrets during key rotation
-5. Return appropriate HTTP status codes:
-   - 200: Successfully processed
-   - 400: Invalid signature or unexpected event type
-   - 500: Internal server error
+If you're using PSR-7 compatible requests:
 
-## Best Practices
+```php
+use Mollie\Api\Webhooks\SignatureValidator;
+use Psr\Http\Message\ServerRequestInterface;
 
-1. Always wrap signature verification in a try-catch block
-2. Log invalid signatures for security monitoring
-3. Use the SDK's built-in verification methods instead of implementing your own
-4. Consider implementing a webhook queue for high-volume scenarios
-5. Keep your SDK up to date to benefit from security improvements
+$signingSecret = "your_webhook_signing_secret";
+$validator = new SignatureValidator($signingSecret);
 
-## Troubleshooting
+try {
+    $isValid = $validator->validateRequest($request);
 
-If you're having issues with signature verification:
+    if ($isValid) {
+        // Signature is valid
+    } else {
+        // Legacy webhook (no signature)
+    }
 
-1. Ensure you're using the correct signing secret from your Mollie dashboard
-2. Verify that the request body hasn't been modified
-3. Check that the signature header is being properly forwarded
-4. Confirm that your server's time is correctly synchronized
-5. Review your webhook logs for any patterns in failed verifications
+    return new Response(200, [], 'OK');
+} catch (InvalidSignatureException $e) {
+    return new Response(400, [], 'Invalid signature');
+}
+```
