@@ -63,7 +63,7 @@ class DataTransformer
                 }
 
                 if ($value instanceof DateTimeInterface) {
-                    return $value->format('Y-m-d');
+                    return $value->format('Y-m-d\TH:i:sP');
                 }
 
                 return $value;
