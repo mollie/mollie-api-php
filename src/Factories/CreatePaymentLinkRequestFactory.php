@@ -16,7 +16,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             $this->payload('webhookUrl'),
             $this->payload('profileId'),
             $this->payload('reusable'),
-            $this->getExpiresAt(),
+            $this->transformFromPayload('expiresAt', fn (string $date) => $this->getExpiresAt($date), DateTimeImmutable::class),
             $this->payload('allowedMethods'),
         );
     }
@@ -27,10 +27,8 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
      *
      * @return \DateTimeImmutable|null
      */
-    protected function getExpiresAt(): ?\DateTimeImmutable
+    protected function getExpiresAt(?string $expiresAt): ?\DateTimeImmutable
     {
-        $expiresAt = null;
-
         if ($dateString = $this->payload('expiresAt')) {
             // Clean up any extra whitespace in the date string
             $dateString = preg_replace('/\s+/', '', $dateString);
