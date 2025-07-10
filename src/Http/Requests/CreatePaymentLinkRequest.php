@@ -61,7 +61,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     protected function defaultPayload(): array
     {
-        $payload = [
+        return [
             'description' => $this->description,
             'amount' => $this->amount,
             'redirectUrl' => $this->redirectUrl,
@@ -71,8 +71,6 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'expiresAt' => $this->expiresAt,
             'allowedMethods' => $this->allowedMethods,
         ];
-
-        return $payload;
     }
 
     /**
