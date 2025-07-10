@@ -25,6 +25,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
     /**
      * This is a backwards compatibility fix.
      * On launch the expiresAt field was accepting a Y-m-d date string, while it should have only accepted Y-m-d\TH:i:sP.
+     * We now need to support both formats.
      *
      * @return \DateTimeImmutable|null
      */

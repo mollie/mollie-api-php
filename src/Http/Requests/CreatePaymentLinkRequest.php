@@ -68,14 +68,10 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'webhookUrl' => $this->webhookUrl,
             'profileId' => $this->profileId,
             'reusable' => $this->reusable,
+            'expiresAt' => $this->expiresAt,
             'allowedMethods' => $this->allowedMethods,
         ];
-        
-        // Format the expiresAt date in the format expected by the API
-        if ($this->expiresAt instanceof DateTimeInterface) {
-            $payload['expiresAt'] = $this->expiresAt->format('Y-m-d\TH:i:sP');
-        }
-        
+
         return $payload;
     }
 
