@@ -3,7 +3,6 @@
 namespace Tests\Utils;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Fake\MockMollieClient;

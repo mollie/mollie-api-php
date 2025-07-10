@@ -41,7 +41,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             }
 
             // If the date string doesn't contain timezone information, add UTC
-            if (!preg_match('/[+-][0-9]{2}:?[0-9]{2}$/', $dateString)) {
+            if (! preg_match('/[+-][0-9]{2}:?[0-9]{2}$/', $dateString)) {
                 $dateString .= '+00:00';
             }
 
