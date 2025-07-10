@@ -45,7 +45,7 @@ class DataTransformerTest extends TestCase
     public function it_transforms_payload_data(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat('Y-m-d\TH:i:sP', '2024-01-01T11:00:00+00:00'));
+        $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat(DATE_ATOM, '2024-01-01T11:00:00+00:00'));
         $pendingRequest->payload()->add('empty', null);
         $pendingRequest->payload()->add('valid', 'data');
         $pendingRequest->payload()->add('address', new Address(
