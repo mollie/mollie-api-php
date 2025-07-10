@@ -35,7 +35,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
         if ($dateString = $this->payload('expiresAt')) {
 
             // If the date string doesn't contain time information, add it
-            if (! str_contains($dateString, 'T')) {
+            if (strpos($dateString, 'T') === false) {
                 $dateString .= 'T00:00:00';
             }
 
