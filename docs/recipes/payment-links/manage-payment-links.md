@@ -16,7 +16,7 @@ try {
                 'value' => '10.00'
             ],
             'description' => 'Bicycle tires',
-            'expiresAt' => '2024-12-31', // optional
+            'expiresAt' => '2026-01-01T12:00:00', // optional
             'webhookUrl' => 'https://example.com/webhook' // optional
         ])
     );
@@ -57,9 +57,9 @@ $paymentLink->id;           // "pl_4Y0eZitmBnQ6IDoMqZQKh"
 $paymentLink->description;  // "Bicycle tires"
 $paymentLink->amount;       // Object containing amount and currency
 $paymentLink->status;       // "paid", "open", "expired"
-$paymentLink->createdAt;    // "2024-02-24T12:13:14+00:00"
-$paymentLink->paidAt;       // "2024-02-24T12:15:16+00:00" (optional)
-$paymentLink->expiresAt;    // "2024-12-31" (optional)
+$paymentLink->createdAt;    // "2024-02-24T12:13:14.)Z"
+$paymentLink->paidAt;       // "2024-02-24T12:15:16.0Z" (optional)
+$paymentLink->expiresAt;    // "2026-01-01T00:00:00.0Z" (optional)
 $paymentLink->webhookUrl;   // "https://example.com/webhook" (optional)
 ```
 
