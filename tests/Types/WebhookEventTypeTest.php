@@ -18,6 +18,10 @@ class WebhookEventTypeTest extends TestCase
     {
         $expectedEventTypes = [
             'payment-link.paid',
+            'profile.created',
+            'profile.verified',
+            'profile.blocked',
+            'profile.deleted',
         ];
 
         $this->assertEquals($expectedEventTypes, WebhookEventType::getAll());
