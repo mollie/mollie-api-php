@@ -44,7 +44,7 @@ class DataTransformerTest extends TestCase
     public function it_transforms_payload_data(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01'));
+        $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat(DATE_ATOM, '2024-01-01T11:00:00+00:00'));
         $pendingRequest->payload()->add('empty', null);
         $pendingRequest->payload()->add('valid', 'data');
         $pendingRequest->payload()->add('address', new Address(
@@ -64,7 +64,7 @@ class DataTransformerTest extends TestCase
 
         $result = $this->transformer->transform($pendingRequest);
 
-        $this->assertEquals('2024-01-01', $result->payload()->get('dateTime'));
+        $this->assertEquals('2024-01-01T11:00:00+00:00', $result->payload()->get('dateTime'));
         $this->assertFalse($result->payload()->has('empty'));
         $this->assertEquals('data', $result->payload()->get('valid'));
         $this->assertEqualsCanonicalizing([

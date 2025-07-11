@@ -50,7 +50,10 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
 
     private ?string $locale;
 
-    private ?string $paymentMethod;
+    /**
+     * @var array|string|null
+     */
+    private $paymentMethod;
 
     private ?string $issuer;
 
@@ -86,6 +89,9 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
 
     private bool $includeQrCode;
 
+    /**
+     * @param array|string|null $method
+     */
     public function __construct(
         string $description,
         Money $amount,
@@ -96,7 +102,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         ?Address $billingAddress = null,
         ?Address $shippingAddress = null,
         ?string $locale = null,
-        ?string $method = null,
+        $method = null,
         ?string $issuer = null,
         ?string $restrictPaymentMethodsToCountry = null,
         ?array $metadata = null,
