@@ -72,6 +72,7 @@ try {
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
+use Mollie\Api\Resources\PaymentCollection;
 
 try {
     // Get all payments for a customer

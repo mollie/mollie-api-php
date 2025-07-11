@@ -5,13 +5,13 @@ How to create, list, and revoke mandates for recurring payments using the Mollie
 ## Create a Mandate
 
 ```php
-use Mollie\Api\Http\Requests\CreateCustomerMandateRequest;
+use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Types\MandateMethod;
 
 try {
     // Create a SEPA Direct Debit mandate
     $mandate = $mollie->send(
-        new CreateCustomerMandateRequest(
+        new CreateMandateRequest(
             customerId: 'cst_8wmqcHMN4U',
             method: MandateMethod::DIRECTDEBIT,
             consumerName: 'B. A. Example',
@@ -28,12 +28,12 @@ try {
 ## List Mandates
 
 ```php
-use Mollie\Api\Http\Requests\ListCustomerMandatesRequest;
+use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 
 try {
     // List all mandates for a customer
     $response = $mollie->send(
-        new ListCustomerMandatesRequest(
+        new GetPaginatedMandateRequest(
             customerId: 'cst_8wmqcHMN4U'
         )
     );
@@ -53,12 +53,12 @@ try {
 ## Revoke a Mandate
 
 ```php
-use Mollie\Api\Http\Requests\RevokeCustomerMandateRequest;
+use Mollie\Api\Http\Requests\RevokeMandateRequest;
 
 try {
     // Revoke a specific mandate
     $mollie->send(
-        new RevokeCustomerMandateRequest(
+        new RevokeMandateRequest(
             customerId: 'cst_8wmqcHMN4U',
             mandateId: 'mdt_h3gAaD5zP'
         )

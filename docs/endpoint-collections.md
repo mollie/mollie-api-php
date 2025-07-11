@@ -839,4 +839,4 @@ try {
 - `SortablePaginatedQueryFactory` - For creating sortable paginated queries
 
 **Payload Factories:**
-- `CreatePaymentPayloadFactory` - For creating payment payloads
+- `CreatePaymentRequestFactory` - For creating payment payloads
