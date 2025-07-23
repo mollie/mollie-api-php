@@ -85,7 +85,7 @@ $allEventTypes = WebhookEventType::getAll();
   - Cannot be `localhost` URLs (use ngrok for local testing)
 
 - **Event Types**:
-  - Currently only `payment-link.paid` events are supported
+  - Check out [the Mollie documentation](https://docs.mollie.com/reference/webhooks-new#event-types) to see what events are supported.
   - Additional event types will be added in future updates
   - Subscribe only to events you need to reduce noise
 
