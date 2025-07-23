@@ -1,0 +1,30 @@
+{
+  "resource": "event",
+  "id": "whe_gQMMaGqAVA",
+  "type": "payment-link.paid",
+  "entityId": "pl_4Y0eZitmBnQ5jsBYZIBw",
+  "createdAt": "2023-12-25T10:30:54+00:00",
+  "_embedded": {
+    "entity": {
+      "id": "pl_4Y0eZitmBnQ5jsBYZIBw",
+      "resource": "payment-link",
+      "status": "paid",
+      "amount": {
+        "value": "10.00",
+        "currency": "EUR"
+      },
+      "description": "Test payment link",
+      "createdAt": "2023-12-25T09:30:54+00:00"
+    }
+  },
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/webhook-events/whe_gQMMaGqAVA",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/webhook-events-api/get-webhook-event",
+      "type": "text/html"
+    }
+  }
+}
