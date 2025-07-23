@@ -63,6 +63,7 @@ $webhook->_links;      // Object containing webhook links
 
 ## Available Event Types
 
+This endpoint is under active development. Keep an eye on the Mollie documentation to see what events are being supported.
 Currently, only one event type is supported:
 
 ```php
