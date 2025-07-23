@@ -81,7 +81,6 @@ $allEventTypes = WebhookEventType::getAll();
 - **Webhook URL Requirements**:
   - There are no security requirements for test mode. However, in order to receive live mode events, the URL needs to be secured with an up-to-date HTTPS connection.
   - Must respond with HTTP 200 status code
-  - Should process webhooks quickly (within 2 seconds)
   - Cannot be `localhost` URLs (use ngrok for local testing)
 
 - **Event Types**:
