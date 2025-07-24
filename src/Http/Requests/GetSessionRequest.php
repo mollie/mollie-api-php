@@ -20,6 +20,6 @@ class GetSessionRequest extends ResourceHydratableRequest
 
     public function resolveResourcePath(): string
     {
-        return 'sessions/' . $this->id;
+        return 'sessions/'.$this->id;
     }
 }

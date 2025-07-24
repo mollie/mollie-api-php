@@ -13,7 +13,7 @@ use Traversable;
 /**
  * @template T of mixed
  */
-class DataCollection implements Countable, Resolvable, IteratorAggregate
+class DataCollection implements Countable, IteratorAggregate, Resolvable
 {
     /**
      * @var array<T>
@@ -113,8 +113,7 @@ class DataCollection implements Countable, Resolvable, IteratorAggregate
     /**
      * Determine if the collection contains a given item.
      *
-     * @param mixed $value
-     * @return bool
+     * @param  mixed  $value
      */
     public function contains($value): bool
     {

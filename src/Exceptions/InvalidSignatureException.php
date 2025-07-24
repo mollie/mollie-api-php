@@ -2,6 +2,4 @@
 
 namespace Mollie\Api\Exceptions;
 
-class InvalidSignatureException extends MollieException
-{
-}
+class InvalidSignatureException extends MollieException {}

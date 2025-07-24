@@ -16,7 +16,7 @@ class PendingRequestTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->client = new MockMollieClient();
+        $this->client = new MockMollieClient;
     }
 
     /**

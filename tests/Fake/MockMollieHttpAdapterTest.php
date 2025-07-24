@@ -120,7 +120,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $this->assertSame($pendingRequest->getRequest(), $recorded[0][0]->getRequest());
 
         // Test recorded with callback
-        $adapter->assertSent(function (PendingRequest$request) use ($pendingRequest) {
+        $adapter->assertSent(function (PendingRequest $request) use ($pendingRequest) {
             return $request->getRequest() === $pendingRequest->getRequest();
         });
     }

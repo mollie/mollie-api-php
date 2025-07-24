@@ -11,7 +11,9 @@ use Psr\Http\Message\StreamInterface;
 class SignatureValidatorTest extends TestCase
 {
     private const SIGNING_SECRET = 'test_webhook_secret';
+
     private const ALTERNATE_SECRET = 'alternate_webhook_secret';
+
     private const PAYLOAD = '{"id":"tr_12345","event_type":"payment-link.paid"}';
 
     /**
@@ -33,7 +35,7 @@ class SignatureValidatorTest extends TestCase
     public function verifies_valid_signature_with_prefix()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
-        $signature = 'sha256=' . hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
+        $signature = 'sha256='.hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
 
         $result = $verifier->validatePayload(self::PAYLOAD, $signature);
 
@@ -164,7 +166,7 @@ class SignatureValidatorTest extends TestCase
     /**
      * @test
      */
-    public function verifyRequest_validates_signature_from_psr7_request()
+    public function verify_request_validates_signature_from_psr7_request()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
         $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
@@ -185,7 +187,7 @@ class SignatureValidatorTest extends TestCase
     /**
      * @test
      */
-    public function verifyRequest_returns_false_for_legacy_webhook()
+    public function verify_request_returns_false_for_legacy_webhook()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
 

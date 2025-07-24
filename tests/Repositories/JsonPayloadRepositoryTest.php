@@ -43,12 +43,13 @@ class JsonPayloadRepositoryTest extends TestCase
     /** @test */
     public function constructor_with_empty_array_creates_empty_repository()
     {
-        $repository = new JsonPayloadRepository();
+        $repository = new JsonPayloadRepository;
         $this->assertEquals([], $repository->all());
     }
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function has_returns_true_when_key_exists(array $data)
@@ -59,6 +60,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function has_returns_false_when_key_does_not_exist(array $data)
@@ -69,6 +71,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function set_replaces_all_data(array $data)
@@ -80,6 +83,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function all_returns_all_data(array $data)
@@ -90,6 +94,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function add_adds_new_key_value_pair(array $data)
@@ -101,6 +106,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function get_returns_value_by_key(array $data)
@@ -111,6 +117,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function get_returns_default_when_key_not_found(array $data)
@@ -121,6 +128,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function merge_merges_arrays_into_repository(array $data)
@@ -134,6 +142,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function remove_removes_key_from_repository(array $data)
@@ -145,6 +154,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider emptyRepositoryProvider
      */
     public function is_empty_returns_true_when_repository_is_empty(array $data)
@@ -155,6 +165,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function is_empty_returns_false_when_repository_is_not_empty(array $data)
@@ -165,6 +176,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function is_not_empty_returns_true_when_repository_is_not_empty(array $data)
@@ -175,6 +187,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider emptyRepositoryProvider
      */
     public function is_not_empty_returns_false_when_repository_is_empty(array $data)
@@ -185,6 +198,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function to_string_returns_json_encoded_data(array $data)
@@ -195,6 +209,7 @@ class JsonPayloadRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardRepositoryProvider
      */
     public function to_stream_returns_stream_with_json_data(array $data)
@@ -205,7 +220,8 @@ class JsonPayloadRepositoryTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
 
         // Create a concrete implementation of StreamFactoryInterface
-        $streamFactory = new class($stream) implements StreamFactoryInterface {
+        $streamFactory = new class($stream) implements StreamFactoryInterface
+        {
             private $stream;
 
             public function __construct($stream)

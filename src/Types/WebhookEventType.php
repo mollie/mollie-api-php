@@ -28,12 +28,9 @@ class WebhookEventType
      * A profile was deleted.
      */
     public const PROFILE_DELETED = 'profile.deleted';
-    
 
     /**
      * Get all available webhook event types.
-     *
-     * @return array
      */
     public static function getAll(): array
     {

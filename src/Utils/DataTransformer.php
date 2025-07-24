@@ -9,10 +9,17 @@ use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 
 class DataTransformer
 {
+    /**
+     * This is a backwards compatibility fix for when we had no Date and DateTime class.
+     */
+    private bool $isCreatePaymentLinkRequest = false;
+
     public function transform(PendingRequest $pendingRequest): PendingRequest
     {
         if ($pendingRequest->query()->isNotEmpty()) {
@@ -24,6 +31,8 @@ class DataTransformer
         if (! $pendingRequest->getRequest() instanceof HasPayload) {
             return $pendingRequest;
         }
+
+        $this->setBackwardsFixFlag($pendingRequest);
 
         /** @var PayloadRepository $payload */
         $payload = $pendingRequest->payload();
@@ -59,11 +68,18 @@ class DataTransformer
                 }
 
                 if ($value instanceof Stringable) {
-                    return $value->__toString();
+                    return (string) $value;
                 }
 
+                /**
+                 * Backwards compatibility for before Date|DateTime got introduced.
+                 */
                 if ($value instanceof DateTimeInterface) {
-                    return $value->format(DATE_ATOM);
+                    $format = $this->isCreatePaymentLinkRequest
+                        ? DateTimeInterface::ATOM
+                        : Date::FORMAT;
+
+                    return $value->format($format);
                 }
 
                 return $value;
@@ -94,5 +110,10 @@ class DataTransformer
         }
 
         return $value;
+    }
+
+    private function setBackwardsFixFlag(PendingRequest $pendingRequest): void
+    {
+        $this->isCreatePaymentLinkRequest = $pendingRequest->getRequest() instanceof CreatePaymentLinkRequest;
     }
 }

@@ -10,6 +10,7 @@ class DataCollectionTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider provideArraysForConstruction
      */
     public function can_be_constructed_and_converted_to_array($items)
@@ -30,6 +31,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideArraysForCount
      */
     public function counts_items_correctly($items, $expectedCount)
@@ -50,6 +52,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrapSubjects
      */
     public function wraps_various_subjects_correctly($subject, $expected)
@@ -62,7 +65,8 @@ class DataCollectionTest extends TestCase
 
     public static function provideWrapSubjects()
     {
-        $mockArrayable = new class implements Arrayable {
+        $mockArrayable = new class implements Arrayable
+        {
             public function toArray(): array
             {
                 return [3, 4];
@@ -78,6 +82,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideValuesCollections
      */
     public function returns_values_collection($input, $expected)
@@ -112,6 +117,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideMapCases
      */
     public function maps_items_correctly($input, $callback, $expected)
@@ -134,6 +140,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideFilterCases
      */
     public function filters_items_correctly($input, $callback, $expected)
@@ -157,6 +164,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideContainsCases
      */
     public function contains_checks_for_items_correctly($input, $search, $expected)

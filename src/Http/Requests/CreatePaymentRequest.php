@@ -90,7 +90,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
     private bool $includeQrCode;
 
     /**
-     * @param array|string|null $method
+     * @param  array|string|null  $method
      */
     public function __construct(
         string $description,

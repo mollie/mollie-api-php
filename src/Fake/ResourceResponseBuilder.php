@@ -25,13 +25,12 @@ class ResourceResponseBuilder
     /** @var array<string, ListResponseBuilder> */
     private array $embeddedBuilders = [];
 
-    /** @var ?string */
     private ?string $currentEmbedKey = null;
 
     public function __construct(string $resourceClass)
     {
         if (! is_subclass_of($resourceClass, BaseResource::class)) {
-            throw new LogicException('Resource class must be a subclass of ' . BaseResource::class);
+            throw new LogicException('Resource class must be a subclass of '.BaseResource::class);
         }
 
         $this->resourceClass = $resourceClass;

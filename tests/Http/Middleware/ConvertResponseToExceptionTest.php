@@ -22,6 +22,7 @@ class ConvertResponseToExceptionTest extends TestCase
 {
     /**
      * @dataProvider provideStatusCodesAndExceptions
+     *
      * @test
      */
     public function middleware_converts_response_to_appropriate_exception(
@@ -40,7 +41,7 @@ class ConvertResponseToExceptionTest extends TestCase
         ]);
         $response->method('getPsrRequest')->willReturn(new Request('GET', ''));
 
-        $middleware = new ConvertResponseToException();
+        $middleware = new ConvertResponseToException;
 
         $this->expectException($expectedExceptionClass);
 

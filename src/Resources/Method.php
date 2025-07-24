@@ -89,7 +89,7 @@ class Method extends BaseResource
         }
 
         /** @var IssuerCollection */
-        $collection = (new ResourceHydrator())->hydrateCollection(
+        $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->issuers,
             $this->response
@@ -114,7 +114,7 @@ class Method extends BaseResource
         }
 
         /** @var MethodPriceCollection */
-        $collection = (new ResourceHydrator())->hydrateCollection(
+        $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->pricing,
             $this->response

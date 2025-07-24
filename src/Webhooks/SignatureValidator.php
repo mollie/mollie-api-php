@@ -30,7 +30,7 @@ class SignatureValidator
     /**
      * Create a new WebhookSignatureVerifier instance.
      *
-     * @param string|string[] $signingSecrets One or more signing secrets
+     * @param  string|string[]  $signingSecrets  One or more signing secrets
      */
     public function __construct($signingSecrets)
     {
@@ -40,10 +40,11 @@ class SignatureValidator
     /**
      * Static method for simpler usage.
      *
-     * @param RequestInterface|string $input PSR-7 request or raw payload
-     * @param string|string[] $signingSecrets One or more signing secrets
-     * @param string|string[]|null $signatures Required if $input is a string payload
+     * @param  RequestInterface|string  $input  PSR-7 request or raw payload
+     * @param  string|string[]  $signingSecrets  One or more signing secrets
+     * @param  string|string[]|null  $signatures  Required if $input is a string payload
      * @return bool True if valid signature or legacy webhook
+     *
      * @throws InvalidSignatureException If all signatures are invalid
      */
     public static function validate($input, $signingSecrets, $signatures = null): bool
@@ -64,8 +65,9 @@ class SignatureValidator
     /**
      * Verify a PSR-7 compatible request.
      *
-     * @param RequestInterface $request The PSR-7 request
+     * @param  RequestInterface  $request  The PSR-7 request
      * @return bool True if valid, false if legacy webhook (no signature)
+     *
      * @throws InvalidSignatureException If signature validation fails
      */
     public function validateRequest(RequestInterface $request): bool
@@ -84,9 +86,10 @@ class SignatureValidator
     /**
      * Verify webhook payload with provided signature(s).
      *
-     * @param string $payload Raw request body
-     * @param string|string[] $signatures One or more signatures to validate
+     * @param  string  $payload  Raw request body
+     * @param  string|string[]  $signatures  One or more signatures to validate
      * @return bool True if any signature is valid
+     *
      * @throws InvalidSignatureException If all signatures are invalid
      */
     public function validatePayload(string $payload, $signatures): bool
@@ -104,9 +107,10 @@ class SignatureValidator
     /**
      * Verify signatures against all configured signing secrets.
      *
-     * @param string $payload The raw request payload
-     * @param array $signatures The signatures to verify
+     * @param  string  $payload  The raw request payload
+     * @param  array  $signatures  The signatures to verify
      * @return bool True if any signature matches any secret
+     *
      * @throws InvalidSignatureException If all signatures are invalid
      */
     private function validateSignatures(string $payload, array $signatures): bool

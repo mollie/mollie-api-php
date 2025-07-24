@@ -7,6 +7,7 @@ use Mollie\Api\Resources\BaseResource;
 class WebhookEvent
 {
     private string $type;
+
     private BaseResource $resource;
 
     public function __construct(string $type, BaseResource $resource)

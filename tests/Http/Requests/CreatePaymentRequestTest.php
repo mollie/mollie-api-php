@@ -4,6 +4,7 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Resources\Payment;
@@ -23,6 +24,9 @@ class CreatePaymentRequestTest extends TestCase
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook',
+            additional: [
+                'dueDate' => new Date('2025-01-01'),
+            ]
         );
 
         /** @var Payment */

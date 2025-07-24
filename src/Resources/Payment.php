@@ -726,7 +726,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
             $this->redirectUrl,
             $this->cancelUrl,
             $this->webhookUrl,
-            (array)$this->metadata,
+            (array) $this->metadata,
             $this->method,
             $this->locale,
             $this->restrictPaymentMethodsToCountry,

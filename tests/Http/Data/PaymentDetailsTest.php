@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class PaymentDetailsTest extends TestCase
 {
-    public function testFromArrayCreatesCorrectObject()
+    public function test_from_array_creates_correct_object()
     {
         $object = PaymentDetails::fromArray($data = [
             'source' => 'banktransfer',

@@ -73,8 +73,6 @@ class WebhookEvent extends BaseResource
 
     /**
      * Check if this webhook event has embedded entity data.
-     *
-     * @return bool
      */
     public function hasEntity(): bool
     {

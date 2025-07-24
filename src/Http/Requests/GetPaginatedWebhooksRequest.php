@@ -18,7 +18,7 @@ class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements Is
     protected $hydratableResource = WebhookCollection::class;
 
     /**
-     * @param string|array|null $eventTypes
+     * @param  string|array|null  $eventTypes
      */
     public function __construct(
         ?string $from = null,
