@@ -2,4 +2,6 @@
 
 namespace Mollie\Api\Exceptions;
 
-class LogicException extends MollieException {}
+class LogicException extends MollieException
+{
+}

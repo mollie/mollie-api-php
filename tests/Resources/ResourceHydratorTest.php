@@ -140,8 +140,7 @@ class ResourceHydratorTest extends TestCase
     /** @test */
     public function it_throws_exception_for_unmapped_embedded_resources()
     {
-        $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract
-        {
+        $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract {
             public function getEmbeddedResourcesMap(): array
             {
                 return [];

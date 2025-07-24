@@ -65,8 +65,7 @@ class DataCollectionTest extends TestCase
 
     public static function provideWrapSubjects()
     {
-        $mockArrayable = new class implements Arrayable
-        {
+        $mockArrayable = new class implements Arrayable {
             public function toArray(): array
             {
                 return [3, 4];

@@ -220,8 +220,7 @@ class JsonPayloadRepositoryTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
 
         // Create a concrete implementation of StreamFactoryInterface
-        $streamFactory = new class($stream) implements StreamFactoryInterface
-        {
+        $streamFactory = new class($stream) implements StreamFactoryInterface {
             private $stream;
 
             public function __construct($stream)
