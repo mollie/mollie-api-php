@@ -24,9 +24,6 @@ class CreatePaymentRequestTest extends TestCase
             new Money('EUR', '10.00'),
             'https://example.org/redirect',
             'https://example.org/webhook',
-            additional: [
-                'dueDate' => new Date('2025-01-01'),
-            ]
         );
 
         /** @var Payment */
