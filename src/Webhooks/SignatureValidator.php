@@ -85,7 +85,7 @@ class SignatureValidator
      * Verify webhook payload with provided signature(s).
      *
      * @param string $payload Raw request body
-     * @param string|string[] $signatures One or more signatures to validate
+     * @param string|string[]|null $signatures One or more signatures to validate
      * @return bool True if any signature is valid
      * @throws InvalidSignatureException If all signatures are invalid
      */
