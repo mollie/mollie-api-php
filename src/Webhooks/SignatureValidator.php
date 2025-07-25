@@ -85,13 +85,13 @@ class SignatureValidator
      * Verify webhook payload with provided signature(s).
      *
      * @param string $payload Raw request body
-     * @param string|string[] $signatures One or more signatures to validate
+     * @param string|string[]|null $signatures One or more signatures to validate
      * @return bool True if any signature is valid
      * @throws InvalidSignatureException If all signatures are invalid
      */
     public function validatePayload(string $payload, $signatures): bool
     {
-        $signatures = is_array($signatures) ? $signatures : [$signatures];
+        $signatures = is_array($signatures) ? $signatures : array_filter([$signatures]);
 
         if (empty($signatures)) {
             // No signatures found - treat as legacy webhook
