@@ -91,7 +91,7 @@ class SignatureValidator
      */
     public function validatePayload(string $payload, $signatures): bool
     {
-        $signatures = is_array($signatures) ? $signatures : [$signatures];
+        $signatures = is_array($signatures) ? $signatures : array_filter([$signatures]);
 
         if (empty($signatures)) {
             // No signatures found - treat as legacy webhook

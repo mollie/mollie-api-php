@@ -201,4 +201,14 @@ class SignatureValidatorTest extends TestCase
 
         $this->assertFalse($result);
     }
+
+    /** @test */
+    public function can_handle_null_signatures_on_validate_payload()
+    {
+        $verifier = new SignatureValidator(self::SIGNING_SECRET);
+
+        $isLegacyWebhook = !$verifier->validatePayload(self::PAYLOAD, null);
+
+        $this->assertTrue($isLegacyWebhook);
+    }
 }
