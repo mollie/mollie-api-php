@@ -141,9 +141,17 @@ class SignatureValidator
     {
         return DataCollection::collect($this->signingSecrets)
             ->contains(function ($secret) use ($payload, $providedSignature) {
-                $expectedSignature = hash_hmac('sha256', $payload, $secret);
+                $expectedSignature = self::createSignature($payload, $secret);
 
                 return hash_equals($expectedSignature, $providedSignature);
             });
+    }
+
+    /**
+     * Create a signature for a given payload and secret.
+     */
+    public static function createSignature(string $payload, string $secret): string
+    {
+        return hash_hmac('sha256', $payload, $secret);
     }
 }
