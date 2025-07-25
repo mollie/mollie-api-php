@@ -55,6 +55,9 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?string $profileId;
 
+    /**
+     * @param Date|DateTimeInterface|null $startDate
+     */
     public function __construct(
         string $customerId,
         Money $amount,

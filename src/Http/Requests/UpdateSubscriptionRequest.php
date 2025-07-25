@@ -48,6 +48,9 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?string $mandateId;
 
+    /**
+     * @param Date|DateTimeInterface|null $startDate
+     */
     public function __construct(
         string $customerId,
         string $subscriptionId,
