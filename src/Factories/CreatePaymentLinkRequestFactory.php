@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTimeImmutable;
 use DateTimeInterface;
+use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 
 class CreatePaymentLinkRequestFactory extends RequestFactory
@@ -17,7 +17,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             $this->payload('webhookUrl'),
             $this->payload('profileId'),
             $this->payload('reusable'),
-            $this->getExpiresAt(),
+            $this->transformFromPayload('expiresAt', fn ($date) => $this->getExpiresAt($date), DateTime::class),
             $this->payload('allowedMethods'),
         );
     }
@@ -27,28 +27,29 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
      * On launch the expiresAt field was accepting a Y-m-d date string, while it should have only accepted Y-m-d\TH:i:sP.
      * We now need to support both formats.
      *
-     * @return \DateTimeImmutable|null
+     * @param  null|string|DateTimeInterface  $date
      */
-    protected function getExpiresAt(): ?\DateTimeImmutable
+    protected function getExpiresAt($date): ?DateTime
     {
-        $expiresAt = null;
-
-        if ($dateString = $this->payload('expiresAt')) {
-
-            // If the date string doesn't contain time information, add it
-            if (strpos($dateString, 'T') === false) {
-                $dateString .= 'T00:00:00';
-            }
-
-            // If the date string doesn't contain timezone information, add UTC
-            if (! preg_match('/[+-][0-9]{2}:?[0-9]{2}$/', $dateString)) {
-                $dateString .= '+00:00';
-            }
-
-            // Parse with the consistent format
-            $expiresAt = DateTimeImmutable::createFromFormat(DateTimeInterface::ISO8601, $dateString);
+        if (is_null($date)) {
+            return null;
         }
 
-        return $expiresAt;
+        if ($date instanceof DateTimeInterface) {
+            return new DateTime($date);
+        }
+
+        // If the date string doesn't contain time information, add it
+        /** @var string $date */
+        if (strpos($date, 'T') === false) {
+            $date .= 'T00:00:00';
+        }
+
+        // If the date string doesn't contain timezone information, add UTC
+        if (! preg_match('/[+-][0-9]{2}:?[0-9]{2}$/', $date)) {
+            $date .= '+00:00';
+        }
+
+        return new DateTime($date);
     }
 }

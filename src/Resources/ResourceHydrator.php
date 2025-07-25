@@ -13,7 +13,7 @@ class ResourceHydrator
     /**
      * Hydrate a response into a resource or collection
      *
-     * @param object|array $data
+     * @param  object|array  $data
      * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
      */
     public function hydrate(BaseResource $resource, $data, Response $response)
@@ -41,11 +41,8 @@ class ResourceHydrator
     /**
      * Hydrate a collection with data.
      *
-     * @param ResourceCollection $collection
-     * @param array|object $items
-     * @param Response $response
-     * @param object|null $_links
-     * @return ResourceCollection
+     * @param  array|object  $items
+     * @param  object|null  $_links
      */
     public function hydrateCollection(
         ResourceCollection $collection,

@@ -4,6 +4,7 @@ namespace Mollie\Api\Http\Requests;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -35,7 +36,10 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private ?bool $reusable;
 
-    private ?DateTimeInterface $expiresAt;
+    /**
+     * @var DateTime|DateTimeInterface
+     */
+    private $expiresAt;
 
     private ?array $allowedMethods;
 
@@ -46,7 +50,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         ?string $webhookUrl = null,
         ?string $profileId = null,
         ?bool $reusable = null,
-        ?DateTimeInterface $expiresAt = null,
+        $expiresAt = null,
         ?array $allowedMethods = null
     ) {
         $this->description = $description;

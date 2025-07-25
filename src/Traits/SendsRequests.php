@@ -21,7 +21,7 @@ trait SendsRequests
         $pendingRequest = new PendingRequest($this, $request);
         $pendingRequest = $pendingRequest->executeRequestHandlers();
 
-        $pendingRequest = (new DataTransformer())->transform($pendingRequest);
+        $pendingRequest = (new DataTransformer)->transform($pendingRequest);
 
         try {
             $response = $this->httpClient->sendRequest($pendingRequest);

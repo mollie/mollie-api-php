@@ -16,7 +16,9 @@ use PHPUnit\Framework\TestCase;
 class ResourceResolverTest extends TestCase
 {
     private ResourceResolver $resolver;
+
     private MollieApiClient $client;
+
     private ResourceHydrator $hydrator;
 
     protected function setUp(): void
@@ -135,6 +137,7 @@ class ResourceResolverTest extends TestCase
 class CustomCollection extends CursorCollection
 {
     public static string $resource = AnyResource::class;
+
     public static string $collectionName = 'items';
 }
 
@@ -142,6 +145,6 @@ class CustomDecorator implements IsWrapper
 {
     public static function fromResource($resource): self
     {
-        return new self();
+        return new self;
     }
 }

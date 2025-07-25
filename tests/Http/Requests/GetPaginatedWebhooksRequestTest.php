@@ -22,7 +22,7 @@ class GetPaginatedWebhooksRequestTest extends TestCase
             GetPaginatedWebhooksRequest::class => MockResponse::ok('webhook-list'),
         ]);
 
-        $request = new GetPaginatedWebhooksRequest();
+        $request = new GetPaginatedWebhooksRequest;
 
         /** @var WebhookCollection */
         $webhooks = $client->send($request);
@@ -48,7 +48,7 @@ class GetPaginatedWebhooksRequestTest extends TestCase
             ),
         ]);
 
-        $request = (new GetPaginatedWebhooksRequest())->useIterator();
+        $request = (new GetPaginatedWebhooksRequest)->useIterator();
 
         /** @var LazyCollection */
         $webhooks = $client->send($request);
@@ -64,7 +64,7 @@ class GetPaginatedWebhooksRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new GetPaginatedWebhooksRequest();
+        $request = new GetPaginatedWebhooksRequest;
 
         $this->assertEquals('webhooks', $request->resolveResourcePath());
     }

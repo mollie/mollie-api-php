@@ -19,6 +19,6 @@ class ReleasePaymentAuthorizationRequest extends Request
 
     public function resolveResourcePath(): string
     {
-        return 'payments/' . $this->paymentId . '/release-authorization';
+        return 'payments/'.$this->paymentId.'/release-authorization';
     }
 }

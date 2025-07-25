@@ -44,7 +44,7 @@ class GetEnabledMethodsRequestTest extends TestCase
                 ->create(),
         ]);
 
-        $request = new GetEnabledMethodsRequest();
+        $request = new GetEnabledMethodsRequest;
 
         /** @var MethodCollection */
         $methods = $client->send($request);
@@ -77,7 +77,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         ]);
 
         // Create a request with filtersNullStatus = false
-        $request = new GetEnabledMethodsRequest();
+        $request = new GetEnabledMethodsRequest;
 
         $request->withNullStatus();
 

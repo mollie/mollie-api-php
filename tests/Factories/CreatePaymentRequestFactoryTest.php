@@ -82,6 +82,7 @@ class CreatePaymentRequestFactoryTest extends TestCase
                 'profileId' => 'pfl_12345',
                 'additional' => [
                     'customField' => 'customValue',
+                    'dueDate' => '2025-01-01',
                 ],
             ])
             ->withQuery([

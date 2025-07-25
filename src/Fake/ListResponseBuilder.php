@@ -15,7 +15,7 @@ class ListResponseBuilder
         string $collectionClass
     ) {
         if (! is_subclass_of($collectionClass, ResourceCollection::class)) {
-            throw new LogicException('Collection class must be a subclass of ' . ResourceCollection::class);
+            throw new LogicException('Collection class must be a subclass of '.ResourceCollection::class);
         }
 
         $this->collectionClass = $collectionClass;

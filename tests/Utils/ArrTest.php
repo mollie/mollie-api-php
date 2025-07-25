@@ -66,6 +66,7 @@ class ArrTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider joinDataProvider
      */
     public function join(array $array, string $expected, string $glue = ','): void
@@ -107,7 +108,7 @@ class ArrTest extends TestCase
 
         // Test with a callback that uses both value and key
         $result = Arr::map($array, function ($value, $key) {
-            return $key . $value;
+            return $key.$value;
         });
         $this->assertEquals(['a' => 'a1', 'b' => 'b2', 'c' => 'c3'], $result);
 
