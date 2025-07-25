@@ -207,7 +207,7 @@ class SignatureValidatorTest extends TestCase
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
 
-        $isLegacyWebhook = !$verifier->validatePayload(self::PAYLOAD, null);
+        $isLegacyWebhook = ! $verifier->validatePayload(self::PAYLOAD, null);
 
         $this->assertTrue($isLegacyWebhook);
     }
