@@ -22,7 +22,7 @@ class SignatureValidatorTest extends TestCase
     public function verifies_valid_signature()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
-        $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
+        $signature = SignatureValidator::createSignature(self::PAYLOAD, self::SIGNING_SECRET);
 
         $result = $verifier->validatePayload(self::PAYLOAD, $signature);
 
@@ -35,7 +35,7 @@ class SignatureValidatorTest extends TestCase
     public function verifies_valid_signature_with_prefix()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
-        $signature = 'sha256='.hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
+        $signature = 'sha256=' . SignatureValidator::createSignature(self::PAYLOAD, self::SIGNING_SECRET);
 
         $result = $verifier->validatePayload(self::PAYLOAD, $signature);
 
@@ -52,7 +52,7 @@ class SignatureValidatorTest extends TestCase
             self::SIGNING_SECRET,
             'another_invalid_secret',
         ]);
-        $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
+        $signature = SignatureValidator::createSignature(self::PAYLOAD, self::SIGNING_SECRET);
 
         $result = $verifier->validatePayload(self::PAYLOAD, $signature);
 
@@ -65,7 +65,7 @@ class SignatureValidatorTest extends TestCase
     public function verifies_valid_signature_from_different_header_formats()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
-        $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
+        $signature = SignatureValidator::createSignature(self::PAYLOAD, self::SIGNING_SECRET);
 
         // Test with single string
         $result1 = $verifier->validatePayload(self::PAYLOAD, $signature);
@@ -95,8 +95,8 @@ class SignatureValidatorTest extends TestCase
             self::ALTERNATE_SECRET,
         ]);
 
-        $originalSignature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
-        $newSignature = hash_hmac('sha256', self::PAYLOAD, self::ALTERNATE_SECRET);
+        $originalSignature = SignatureValidator::createSignature(self::PAYLOAD, self::SIGNING_SECRET);
+        $newSignature = SignatureValidator::createSignature(self::PAYLOAD, self::ALTERNATE_SECRET);
 
         $result1 = $verifier->validatePayload(self::PAYLOAD, $originalSignature);
         $result2 = $verifier->validatePayload(self::PAYLOAD, $newSignature);
@@ -202,5 +202,15 @@ class SignatureValidatorTest extends TestCase
         $result = $verifier->validateRequest($request);
 
         $this->assertFalse($result);
+    }
+
+    /** @test */
+    public function can_handle_null_signatures_on_validate_payload()
+    {
+        $verifier = new SignatureValidator(self::SIGNING_SECRET);
+
+        $isLegacyWebhook = ! $verifier->validatePayload(self::PAYLOAD, null);
+
+        $this->assertTrue($isLegacyWebhook);
     }
 }

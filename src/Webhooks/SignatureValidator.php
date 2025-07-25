@@ -12,7 +12,7 @@ class SignatureValidator
     /**
      * Signature header name.
      */
-    private const SIGNATURE_HEADER = 'X-Mollie-Signature';
+    public const SIGNATURE_HEADER = 'X-Mollie-Signature';
 
     /**
      * Signature prefix in header.
@@ -86,15 +86,15 @@ class SignatureValidator
     /**
      * Verify webhook payload with provided signature(s).
      *
-     * @param  string  $payload  Raw request body
-     * @param  string|string[]  $signatures  One or more signatures to validate
+     * @param string $payload Raw request body
+     * @param string|string[]|null $signatures One or more signatures to validate
      * @return bool True if any signature is valid
      *
      * @throws InvalidSignatureException If all signatures are invalid
      */
     public function validatePayload(string $payload, $signatures): bool
     {
-        $signatures = is_array($signatures) ? $signatures : [$signatures];
+        $signatures = is_array($signatures) ? $signatures : array_filter([$signatures]);
 
         if (empty($signatures)) {
             // No signatures found - treat as legacy webhook
@@ -145,9 +145,17 @@ class SignatureValidator
     {
         return DataCollection::collect($this->signingSecrets)
             ->contains(function ($secret) use ($payload, $providedSignature) {
-                $expectedSignature = hash_hmac('sha256', $payload, $secret);
+                $expectedSignature = self::createSignature($payload, $secret);
 
                 return hash_equals($expectedSignature, $providedSignature);
             });
+    }
+
+    /**
+     * Create a signature for a given payload and secret.
+     */
+    public static function createSignature(string $payload, string $secret): string
+    {
+        return hash_hmac('sha256', $payload, $secret);
     }
 }
