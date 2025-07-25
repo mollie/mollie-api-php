@@ -12,7 +12,7 @@ class SignatureValidator
     /**
      * Signature header name.
      */
-    private const SIGNATURE_HEADER = 'X-Mollie-Signature';
+    public const SIGNATURE_HEADER = 'X-Mollie-Signature';
 
     /**
      * Signature prefix in header.
