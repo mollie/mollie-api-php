@@ -5,7 +5,17 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.3.2...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.3.3...HEAD)
+
+## [v3.3.3](https://github.com/mollie/mollie-api-php/compare/v3.3.2...v3.3.3) - 2025-08-12
+
+### What's Changed
+
+* fix: signature validator handling null signatures by @Naoray in https://github.com/mollie/mollie-api-php/pull/822
+* Fix/819 signature date invalid by @Naoray in https://github.com/mollie/mollie-api-php/pull/820
+* Fix/823 inconsistencies on payment link request by @Naoray in https://github.com/mollie/mollie-api-php/pull/824
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.3.0...v3.3.3
 
 ## [v3.3.2](https://github.com/mollie/mollie-api-php/compare/v3.3.1...v3.3.2) - 2025-07-25
 
