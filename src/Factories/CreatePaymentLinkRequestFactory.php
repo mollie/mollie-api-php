@@ -19,6 +19,8 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             $this->payload('reusable'),
             $this->transformFromPayload('expiresAt', fn ($date) => $this->getExpiresAt($date), DateTime::class),
             $this->payload('allowedMethods'),
+            $this->payload('sequenceType'),
+            $this->payload('customerId'),
         );
     }
 

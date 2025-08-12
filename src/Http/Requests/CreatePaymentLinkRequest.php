@@ -4,13 +4,14 @@ namespace Mollie\Api\Http\Requests;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasPayload
+class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -43,6 +44,10 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private ?array $allowedMethods;
 
+    private ?string $sequenceType;
+
+    private ?string $customerId;
+
     public function __construct(
         string $description,
         ?Money $amount = null,
@@ -51,7 +56,9 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         ?string $profileId = null,
         ?bool $reusable = null,
         $expiresAt = null,
-        ?array $allowedMethods = null
+        ?array $allowedMethods = null,
+        ?string $sequenceType = null,
+        ?string $customerId = null
     ) {
         $this->description = $description;
         $this->amount = $amount;
@@ -61,6 +68,8 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         $this->reusable = $reusable;
         $this->expiresAt = $expiresAt;
         $this->allowedMethods = $allowedMethods;
+        $this->sequenceType = $sequenceType;
+        $this->customerId = $customerId;
     }
 
     protected function defaultPayload(): array
@@ -74,6 +83,8 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'reusable' => $this->reusable,
             'expiresAt' => $this->expiresAt,
             'allowedMethods' => $this->allowedMethods,
+            'sequenceType' => $this->sequenceType,
+            'customerId' => $this->customerId,
         ];
     }
 
