@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTimeImmutable;
 use Mollie\Api\Exceptions\LogicException;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 
 class UpdatePaymentRouteRequestFactory extends RequestFactory
@@ -20,20 +20,14 @@ class UpdatePaymentRouteRequestFactory extends RequestFactory
 
     public function create(): UpdatePaymentRouteRequest
     {
-        if (! $releaseDate = $this->payload('releaseDate')) {
+        if (! $this->payloadHas('releaseDate')) {
             throw new LogicException('Release date is required');
-        }
-
-        $dateTime = DateTimeImmutable::createFromFormat('Y-m-d', $releaseDate);
-
-        if ($dateTime === false) {
-            throw new LogicException('Invalid release date format. Expected Y-m-d');
         }
 
         return new UpdatePaymentRouteRequest(
             $this->paymentId,
             $this->routeId,
-            $dateTime,
+            $this->transformFromPayload('releaseDate', fn ($date) => new Date($date), Date::class),
         );
     }
 }

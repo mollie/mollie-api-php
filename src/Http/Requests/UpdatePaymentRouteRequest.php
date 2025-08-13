@@ -5,6 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Resources\Route;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -27,9 +28,15 @@ class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements Has
 
     private string $routeId;
 
-    private DateTimeInterface $releaseDate;
+    /**
+     * @var DateTimeInterface|Date
+     */
+    private $releaseDate;
 
-    public function __construct(string $paymentId, string $routeId, DateTimeInterface $releaseDate)
+    /**
+     * @param  DateTimeInterface|Date  $releaseDate
+     */
+    public function __construct(string $paymentId, string $routeId, $releaseDate)
     {
         $this->paymentId = $paymentId;
         $this->routeId = $routeId;
