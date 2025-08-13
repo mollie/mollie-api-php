@@ -17,22 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.3.3](https://github.com/mollie/mollie-api-php/compare/v3.3.2...v3.3.3) - 2025-08-12
 
-### What's Changed
-
-* fix: signature validator handling null signatures by @Naoray in https://github.com/mollie/mollie-api-php/pull/822
-* Fix/819 signature date invalid by @Naoray in https://github.com/mollie/mollie-api-php/pull/820
+## What's Changed
 * Fix/823 inconsistencies on payment link request by @Naoray in https://github.com/mollie/mollie-api-php/pull/824
 
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.3.0...v3.3.3
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.3.2...v3.3.3
 
 ## [v3.3.2](https://github.com/mollie/mollie-api-php/compare/v3.3.1...v3.3.2) - 2025-07-25
 
-### What's Changed
-
-* fix: signature validator handling null signatures by @Naoray in https://github.com/mollie/mollie-api-php/pull/822
+## What's Changed
 * Fix/819 signature date invalid by @Naoray in https://github.com/mollie/mollie-api-php/pull/820
 
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.3.0...v3.3.2
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.3.1...v3.3.2
 
 ## [v3.3.1](https://github.com/mollie/mollie-api-php/compare/v3.3.0...v3.3.1) - 2025-07-25
 
@@ -44,13 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.3.0](https://github.com/mollie/mollie-api-php/compare/v3.2.0...v3.3.0) - 2025-07-25
 
-### What's Changed
-
-* Feat/add create webhook endpoint by @Naoray in https://github.com/mollie/mollie-api-php/pull/812
-* Feat/webhook signature verification by @Naoray in https://github.com/mollie/mollie-api-php/pull/813
+## What's Changed
 * Feat/expose webhook signature header by @Naoray in https://github.com/mollie/mollie-api-php/pull/821
-
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.1.5...v3.3.0
+* Feat/expose webhook signature creation by @Naoray 
 
 ## [v3.2.0](https://github.com/mollie/mollie-api-php/compare/v3.1.5...v3.2.0) - 2025-07-23
 
@@ -79,20 +72,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.1.4](https://github.com/mollie/mollie-api-php/compare/v3.1.3...v3.1.4) - 2025-06-11
 
-### What's Changed
-
-* Main by @Naoray in https://github.com/mollie/mollie-api-php/pull/804
-* feat: add status reason to payment resource by @Naoray in https://github.com/mollie/mollie-api-php/pull/806
-* Fix/include resources by @Naoray in https://github.com/mollie/mollie-api-php/pull/808
-* fix: allow profileId in AllMethods factory by @joester89 in https://github.com/mollie/mollie-api-php/pull/809
+## What's Changed
 * Fix 400 Bad Request on DELETE when store array is empty by @cswiers in https://github.com/mollie/mollie-api-php/pull/810
 
-### New Contributors
-
-* @joester89 made their first contribution in https://github.com/mollie/mollie-api-php/pull/809
+## New Contributors
 * @cswiers made their first contribution in https://github.com/mollie/mollie-api-php/pull/810
 
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.6...v3.1.4
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.1.3...v3.1.4
 
 ## [v3.1.3](https://github.com/mollie/mollie-api-php/compare/v3.1.2...v3.1.3) - 2025-06-11
 
@@ -100,23 +86,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.1.2](https://github.com/mollie/mollie-api-php/compare/v3.1.1...v3.1.2) - 2025-06-10
 
-### What's Changed
-
-* Main by @Naoray in https://github.com/mollie/mollie-api-php/pull/804
-* feat: add status reason to payment resource by @Naoray in https://github.com/mollie/mollie-api-php/pull/806
-* Fix/include resources by @Naoray in https://github.com/mollie/mollie-api-php/pull/808
-
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.6...v3.1.2
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.1.1...v3.1.2
 
 ## [v3.1.1](https://github.com/mollie/mollie-api-php/compare/v3.1.0...v3.1.1) - 2025-06-10
 
-### What's Changed
-
-* Main by @Naoray in https://github.com/mollie/mollie-api-php/pull/804
-* feat: add status reason to payment resource by @Naoray in https://github.com/mollie/mollie-api-php/pull/806
+## What's Changed
 * Fix/include resources by @Naoray in https://github.com/mollie/mollie-api-php/pull/808
 
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.6...v3.1.1
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.1.0...v3.1.1
 
 ## [v3.1.0](https://github.com/mollie/mollie-api-php/compare/v3.0.6...v3.1.0) - 2025-06-05
 
