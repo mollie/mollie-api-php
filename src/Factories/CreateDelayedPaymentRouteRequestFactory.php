@@ -3,9 +3,9 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Exceptions\LogicException;
-use Mollie\Api\Http\Requests\CreateDelayedRouteRequest;
+use Mollie\Api\Http\Requests\CreateDelayedPaymentRouteRequest;
 
-class CreateDelayedRouteRequestFactory extends RequestFactory
+class CreateDelayedPaymentRouteRequestFactory extends RequestFactory
 {
     private string $paymentId;
 
@@ -14,7 +14,7 @@ class CreateDelayedRouteRequestFactory extends RequestFactory
         $this->paymentId = $paymentId;
     }
 
-    public function create(): CreateDelayedRouteRequest
+    public function create(): CreateDelayedPaymentRouteRequest
     {
         if (! $this->payloadHas('amount')) {
             throw new LogicException('Amount is required');
@@ -24,7 +24,7 @@ class CreateDelayedRouteRequestFactory extends RequestFactory
             throw new LogicException('Destination is required');
         }
 
-        return new CreateDelayedRouteRequest(
+        return new CreateDelayedPaymentRouteRequest(
             $this->paymentId,
             $this->transformFromPayload('amount', fn ($item) => MoneyFactory::new($item)->create()),
             $destination,

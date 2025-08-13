@@ -4,7 +4,7 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\CreateDelayedRouteRequest;
+use Mollie\Api\Http\Requests\CreateDelayedPaymentRouteRequest;
 use Mollie\Api\Http\Requests\ListPaymentRoutesRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
@@ -17,7 +17,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
     public function create_delayed_route_for_id()
     {
         $client = new MockMollieClient([
-            CreateDelayedRouteRequest::class => MockResponse::ok('route'),
+            CreateDelayedPaymentRouteRequest::class => MockResponse::ok('route'),
         ]);
 
         $amount = ['value' => '10.00', 'currency' => 'EUR'];
@@ -38,7 +38,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
     public function create_delayed_route_for_id_without_release_date()
     {
         $client = new MockMollieClient([
-            CreateDelayedRouteRequest::class => MockResponse::ok('route'),
+            CreateDelayedPaymentRouteRequest::class => MockResponse::ok('route'),
         ]);
 
         $amount = ['value' => '10.00', 'currency' => 'EUR'];

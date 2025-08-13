@@ -3,7 +3,7 @@
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
-use Mollie\Api\Factories\CreateDelayedRouteRequestFactory;
+use Mollie\Api\Factories\CreateDelayedPaymentRouteRequestFactory;
 use Mollie\Api\Factories\UpdatePaymentRouteRequestFactory;
 use Mollie\Api\Http\Requests\ListPaymentRoutesRequest;
 use Mollie\Api\Resources\Payment;
@@ -34,7 +34,7 @@ class PaymentRouteEndpointCollection extends EndpointCollection
             'destination' => $destination,
         ];
 
-        $request = CreateDelayedRouteRequestFactory::new($paymentId)
+        $request = CreateDelayedPaymentRouteRequestFactory::new($paymentId)
             ->withPayload($payload)
             ->create();
 

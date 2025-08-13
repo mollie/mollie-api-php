@@ -9,7 +9,7 @@ use Mollie\Api\Resources\Route;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CreateDelayedRouteRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
+class CreateDelayedPaymentRouteRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
