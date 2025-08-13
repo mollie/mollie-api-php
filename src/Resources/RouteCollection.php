@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Resources;
 
-class RouteCollection extends CursorCollection
+class RouteCollection extends ResourceCollection
 {
     /**
      * The name of the collection resource in Mollie's API.
