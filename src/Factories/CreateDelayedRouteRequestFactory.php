@@ -16,7 +16,7 @@ class CreateDelayedRouteRequestFactory extends RequestFactory
 
     public function create(): CreateDelayedRouteRequest
     {
-        if (! $amount = $this->payload('amount')) {
+        if (! $this->payloadHas('amount')) {
             throw new LogicException('Amount is required');
         }
 
@@ -26,7 +26,7 @@ class CreateDelayedRouteRequestFactory extends RequestFactory
 
         return new CreateDelayedRouteRequest(
             $this->paymentId,
-            MoneyFactory::new($amount)->create(),
+            $this->transformFromPayload('amount', fn ($item) => MoneyFactory::new($item)->create()),
             $destination,
         );
     }
