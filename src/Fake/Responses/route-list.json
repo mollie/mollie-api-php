@@ -4,20 +4,35 @@
     "routes": [
       {
         "resource": "route",
-        "id": "rt_9dk4al1n",
+        "id": "crt_kSq9CDTa6FzW7c6gpYq3J",
+        "paymentId": "tr_sva3o24VKn",
+        "createdAt": "2024-05-22T15:11:19+02:00",
+        "description": "Payment for Order #12345",
         "amount": {
-          "value": "3.50",
+          "value": "1.00",
           "currency": "EUR"
         },
         "destination": {
           "type": "organization",
-          "organizationId": "org_23456"
+          "organizationId": "org_123"
         },
-        "releaseDate": "2026-01-01"
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "...",
+            "type": "text/html"
+          }
+        }
       },
       {
         "resource": "route",
-        "id": "rt_ikw93sr2",
+        "id": "crt_kSq9CDTa6FzW7c6gpYq3K",
+        "paymentId": "tr_sva3o24VKv",
+        "createdAt": "2024-05-22T15:11:19+02:00",
+        "description": "Payment for Order #67890",
         "amount": {
           "value": "4.00",
           "currency": "EUR"
@@ -26,7 +41,16 @@
           "type": "organization",
           "organizationId": "org_56789"
         },
-        "releaseDate": "2026-01-12"
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "...",
+            "type": "text/html"
+          }
+        }
       }
     ]
   },
