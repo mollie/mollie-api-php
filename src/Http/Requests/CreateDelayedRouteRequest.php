@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Money;
@@ -34,8 +33,7 @@ class CreateDelayedRouteRequest extends ResourceHydratableRequest implements Has
         string $paymentId,
         Money $amount,
         array $destination,
-    )
-    {
+    ) {
         $this->paymentId = $paymentId;
         $this->amount = $amount;
         $this->destination = $destination;
