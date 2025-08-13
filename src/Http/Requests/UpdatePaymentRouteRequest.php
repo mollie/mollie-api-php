@@ -29,6 +29,8 @@ class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements Has
     private string $routeId;
 
     /**
+     * This attribute is intentionally not typed because of legacy support.
+     *
      * @var DateTimeInterface|Date
      */
     private $releaseDate;
