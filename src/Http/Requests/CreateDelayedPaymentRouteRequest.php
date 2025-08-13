@@ -32,7 +32,7 @@ class CreateDelayedPaymentRouteRequest extends ResourceHydratableRequest impleme
     public function __construct(
         string $paymentId,
         Money $amount,
-        array $destination,
+        array $destination
     ) {
         $this->paymentId = $paymentId;
         $this->amount = $amount;

@@ -33,7 +33,6 @@ class PaymentRouteEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($route->destination);
         $this->assertNotEmpty($route->releaseDate);
     }
-
     /** @test */
     public function create_delayed_route_for_id_without_release_date()
     {
