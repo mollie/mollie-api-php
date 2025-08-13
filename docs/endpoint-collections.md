@@ -427,6 +427,17 @@ $chargebacks = $mollie->paymentChargebacks->pageFor($payment);
 ### Payment Routes
 
 ```php
+// Create a delayed route
+$route = $mollie->paymentRoutes->createFor(
+    $payment,
+    ['value' => '10.00', 'currency' => 'EUR'],
+    ['type' => 'organization', 'organizationId' => 'org_12345'],
+    '2025-01-01'  // optional release date
+);
+
+// List payment routes
+$routes = $mollie->paymentRoutes->listFor($payment);
+
 // Update release date for a route
 $route = $mollie->paymentRoutes->updateReleaseDateFor(
     $payment,

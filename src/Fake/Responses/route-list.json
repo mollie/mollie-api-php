@@ -1,0 +1,43 @@
+{
+  "count": 2,
+  "_embedded": {
+    "routes": [
+      {
+        "resource": "route",
+        "id": "rt_9dk4al1n",
+        "amount": {
+          "value": "3.50",
+          "currency": "EUR"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_23456"
+        },
+        "releaseDate": "2026-01-01"
+      },
+      {
+        "resource": "route",
+        "id": "rt_ikw93sr2",
+        "amount": {
+          "value": "4.00",
+          "currency": "EUR"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_56789"
+        },
+        "releaseDate": "2026-01-12"
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

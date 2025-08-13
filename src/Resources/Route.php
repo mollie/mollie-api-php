@@ -15,6 +15,13 @@ class Route extends BaseResource
     public $id;
 
     /**
+     * The unique identifier of the related payment.
+     *
+     * @var string
+     */
+    public $paymentId;
+
+    /**
      * Amount object containing the value and currency
      *
      * @var \stdClass
