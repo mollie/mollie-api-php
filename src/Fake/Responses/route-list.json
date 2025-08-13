@@ -1,0 +1,67 @@
+{
+  "count": 2,
+  "_embedded": {
+    "routes": [
+      {
+        "resource": "route",
+        "id": "crt_kSq9CDTa6FzW7c6gpYq3J",
+        "paymentId": "tr_sva3o24VKn",
+        "createdAt": "2024-05-22T15:11:19+02:00",
+        "description": "Payment for Order #12345",
+        "amount": {
+          "value": "1.00",
+          "currency": "EUR"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_123"
+        },
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "...",
+            "type": "text/html"
+          }
+        }
+      },
+      {
+        "resource": "route",
+        "id": "crt_kSq9CDTa6FzW7c6gpYq3K",
+        "paymentId": "tr_sva3o24VKv",
+        "createdAt": "2024-05-22T15:11:19+02:00",
+        "description": "Payment for Order #67890",
+        "amount": {
+          "value": "4.00",
+          "currency": "EUR"
+        },
+        "destination": {
+          "type": "organization",
+          "organizationId": "org_56789"
+        },
+        "_links": {
+          "self": {
+            "href": "...",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "...",
+            "type": "text/html"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}
