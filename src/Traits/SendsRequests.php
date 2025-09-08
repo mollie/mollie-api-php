@@ -4,6 +4,7 @@ namespace Mollie\Api\Traits;
 
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\MollieApiClient;
@@ -78,8 +79,10 @@ trait SendsRequests
 
         if ($lastException instanceof MollieException) {
             $lastException = $pendingRequest->executeFatalHandlers($lastException);
+            throw $lastException;
         }
 
-        throw $lastException;
+        // This should be unreachable, but keep a safe fallback for static analysis
+        throw new LogicException('Request failed after retries without a final exception.');
     }
 }

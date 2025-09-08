@@ -22,5 +22,5 @@ interface HttpAdapterContract
      *
      * @example Guzzle/6.3
      */
-    public function version(): ?string;
+    public function version(): string;
 }

@@ -44,10 +44,7 @@ class SendsRequestsRetryTest extends TestCase
                 return new Response($psrResponse, $pendingRequest->createPsrRequest(), $pendingRequest);
             }
 
-            public function version(): ?string
-            {
-                return 'test/adapter';
-            }
+            public function version(): string { return 'test/adapter'; }
         };
 
         $client = new MollieApiClient($adapter);
@@ -76,10 +73,7 @@ class SendsRequestsRetryTest extends TestCase
                 throw new RetryableNetworkRequestException($pendingRequest, 'temporary');
             }
 
-            public function version(): ?string
-            {
-                return 'test/adapter';
-            }
+            public function version(): string { return 'test/adapter'; }
         };
 
         $client = new MollieApiClient($adapter);
@@ -112,10 +106,7 @@ class SendsRequestsRetryTest extends TestCase
                 throw new NetworkRequestException($pendingRequest, null, 'non-retryable');
             }
 
-            public function version(): ?string
-            {
-                return 'test/adapter';
-            }
+            public function version(): string { return 'test/adapter'; }
         };
 
         $client = new MollieApiClient($adapter);
