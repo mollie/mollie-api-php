@@ -28,7 +28,10 @@ class SendsRequestsRetryHooksTest extends TestCase
                 throw new RetryableNetworkRequestException($pendingRequest, 'temporary');
             }
 
-            public function version(): string { return 'test/adapter'; }
+            public function version(): string
+            {
+                return 'test/adapter';
+            }
         };
 
         $client = new MollieApiClient($adapter);
