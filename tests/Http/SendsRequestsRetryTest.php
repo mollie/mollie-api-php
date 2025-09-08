@@ -23,8 +23,11 @@ class SendsRequestsRetryTest extends TestCase
 
             public int $attempts = 0;
 
-            public function __construct(private int $failuresBeforeSuccess)
+            private int $failuresBeforeSuccess;
+
+            public function __construct(int $failuresBeforeSuccess)
             {
+                $this->failuresBeforeSuccess = $failuresBeforeSuccess;
             }
 
             public function sendRequest(PendingRequest $pendingRequest): Response
