@@ -2,12 +2,12 @@
 
 namespace Tests\Http;
 
+use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\NetworkRequestException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Traits\HasDefaultFactories;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
@@ -23,7 +23,9 @@ class SendsRequestsRetryTest extends TestCase
 
             public int $attempts = 0;
 
-            public function __construct(private int $failuresBeforeSuccess) {}
+            public function __construct(private int $failuresBeforeSuccess)
+            {
+            }
 
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
@@ -42,7 +44,10 @@ class SendsRequestsRetryTest extends TestCase
                 return new Response($psrResponse, $pendingRequest->createPsrRequest(), $pendingRequest);
             }
 
-            public function version(): ?string { return 'test/adapter'; }
+            public function version(): ?string
+            {
+                return 'test/adapter';
+            }
         };
 
         $client = new MollieApiClient($adapter);
@@ -67,10 +72,14 @@ class SendsRequestsRetryTest extends TestCase
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
                 $this->attempts++;
+
                 throw new RetryableNetworkRequestException($pendingRequest, 'temporary');
             }
 
-            public function version(): ?string { return 'test/adapter'; }
+            public function version(): ?string
+            {
+                return 'test/adapter';
+            }
         };
 
         $client = new MollieApiClient($adapter);
@@ -99,10 +108,14 @@ class SendsRequestsRetryTest extends TestCase
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
                 $this->attempts++;
+
                 throw new NetworkRequestException($pendingRequest, null, 'non-retryable');
             }
 
-            public function version(): ?string { return 'test/adapter'; }
+            public function version(): ?string
+            {
+                return 'test/adapter';
+            }
         };
 
         $client = new MollieApiClient($adapter);

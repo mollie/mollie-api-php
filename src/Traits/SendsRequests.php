@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Traits;
 
-use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Exceptions\MollieException;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\MollieApiClient;
