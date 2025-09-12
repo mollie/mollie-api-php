@@ -81,6 +81,11 @@ class PaymentMethod
     public const GIROPAY = 'giropay';
 
     /**
+     * @link https://www.mollie.com/en/payments/googlepay
+     */
+    public const GOOGLEPAY = 'googlepay';
+
+    /**
      * @link https://www.mollie.com/en/payments/in3
      */
     public const IN3 = 'in3';
