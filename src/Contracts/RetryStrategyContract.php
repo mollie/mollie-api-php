@@ -19,4 +19,3 @@ interface RetryStrategyContract
      */
     public function delayBeforeAttemptMs(int $attempt): int;
 }
-

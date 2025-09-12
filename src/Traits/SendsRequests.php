@@ -6,9 +6,9 @@ use Mollie\Api\Contracts\RetryStrategyContract;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
-use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Utils\DataTransformer;
 

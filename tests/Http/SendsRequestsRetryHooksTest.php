@@ -4,13 +4,13 @@ namespace Tests\Http;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
-use Mollie\Api\Http\LinearRetryStrategy;
 
 class SendsRequestsRetryHooksTest extends TestCase
 {
