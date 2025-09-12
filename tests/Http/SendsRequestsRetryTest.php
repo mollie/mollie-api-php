@@ -11,6 +11,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
+use Mollie\Api\Http\LinearRetryStrategy;
 
 class SendsRequestsRetryTest extends TestCase
 {
@@ -54,8 +55,7 @@ class SendsRequestsRetryTest extends TestCase
         };
 
         $client = new MollieApiClient($adapter);
-        $client->setMaxRetries($attemptsToFail); // allow exactly enough retries
-        $client->setRetryDelayIncreaseMs(0); // speed up test
+        $client->setRetryStrategy(new LinearRetryStrategy($attemptsToFail, 0)); // allow exactly enough retries, fast
 
         $client->setAccessToken('access_test_token');
         $response = $client->send(new DynamicGetRequest('/'));
@@ -86,8 +86,7 @@ class SendsRequestsRetryTest extends TestCase
         };
 
         $client = new MollieApiClient($adapter);
-        $client->setMaxRetries(2);
-        $client->setRetryDelayIncreaseMs(0);
+        $client->setRetryStrategy(new LinearRetryStrategy(2, 0));
 
         $client->setAccessToken('access_test_token');
         $this->expectException(RetryableNetworkRequestException::class);
@@ -122,8 +121,7 @@ class SendsRequestsRetryTest extends TestCase
         };
 
         $client = new MollieApiClient($adapter);
-        $client->setMaxRetries(5); // should not matter
-        $client->setRetryDelayIncreaseMs(0);
+        $client->setRetryStrategy(new LinearRetryStrategy(5, 0)); // should not matter
 
         $client->setAccessToken('access_test_token');
         $this->expectException(NetworkRequestException::class);

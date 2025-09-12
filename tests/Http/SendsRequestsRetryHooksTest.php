@@ -10,6 +10,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
+use Mollie\Api\Http\LinearRetryStrategy;
 
 class SendsRequestsRetryHooksTest extends TestCase
 {
@@ -36,8 +37,7 @@ class SendsRequestsRetryHooksTest extends TestCase
 
         $client = new MollieApiClient($adapter);
         $client->setAccessToken('access_test_token');
-        $client->setMaxRetries(2);
-        $client->setRetryDelayIncreaseMs(0);
+        $client->setRetryStrategy(new LinearRetryStrategy(2, 0));
 
         $fatalCount = 0;
         $client->middleware()->onFatal(function () use (&$fatalCount) {

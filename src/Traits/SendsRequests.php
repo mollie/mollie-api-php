@@ -2,11 +2,13 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Contracts\RetryStrategyContract;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
+use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Utils\DataTransformer;
 
@@ -16,32 +18,21 @@ use Mollie\Api\Utils\DataTransformer;
 trait SendsRequests
 {
     /**
-     * The maximum number of retries for retryable network errors.
+     * Strategy that defines retry behavior.
      */
-    protected int $maxRetries = 5;
+    protected RetryStrategyContract $retryStrategy;
 
-    /**
-     * The base delay in milliseconds added per retry attempt (linear backoff).
-     * Example: attempt 1 => 1000ms, attempt 2 => 2000ms, etc.
-     */
-    protected int $retryDelayIncreaseMs = 1000;
-
-    /**
-     * Configure the maximum number of retries for retryable network errors.
-     */
-    public function setMaxRetries(int $maxRetries): self
+    protected function initializeSendsRequests(): void
     {
-        $this->maxRetries = max(0, $maxRetries);
-
-        return $this;
+        $this->retryStrategy = $this->retryStrategy ?? new LinearRetryStrategy();
     }
 
     /**
-     * Configure the linear backoff delay increase in milliseconds.
+     * Set a custom retry strategy implementation.
      */
-    public function setRetryDelayIncreaseMs(int $delayMs): self
+    public function setRetryStrategy(RetryStrategyContract $strategy): self
     {
-        $this->retryDelayIncreaseMs = max(0, $delayMs);
+        $this->retryStrategy = $strategy;
 
         return $this;
     }
@@ -58,10 +49,11 @@ trait SendsRequests
 
         $lastException = null;
 
-        for ($attempt = 0; $attempt <= $this->maxRetries; $attempt++) {
+        for ($attempt = 0; $attempt <= $this->retryStrategy->maxRetries(); $attempt++) {
             if ($attempt > 0) {
-                $delayUs = $attempt * $this->retryDelayIncreaseMs * 1000;
-                usleep($delayUs);
+                $delayMs = $this->retryStrategy->delayBeforeAttemptMs($attempt);
+
+                usleep($delayMs * 1000);
             }
 
             try {
