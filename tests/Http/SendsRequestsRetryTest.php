@@ -121,7 +121,6 @@ class SendsRequestsRetryTest extends TestCase
         };
 
         $client = new MollieApiClient($adapter);
-        $client->setRetryStrategy(new LinearRetryStrategy(5, 0)); // should not matter
 
         $client->setAccessToken('access_test_token');
         $this->expectException(NetworkRequestException::class);
