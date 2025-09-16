@@ -41,7 +41,7 @@ class ListResponseBuilder
     {
         $contents = FakeResponseLoader::load('empty-list');
 
-        $collectionKey = $this->collectionClass::$collectionName;
+        $collectionKey = $this->collectionClass::getCollectionResourceName();
         $contents = str_replace('{{ RESOURCE_ID }}', $collectionKey, $contents);
 
         $data = json_decode($contents, true);

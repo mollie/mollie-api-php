@@ -107,7 +107,7 @@ class Arr
     }
 
     /**
-     * Check if an item or items exist in an array using "dot" notation.
+     * Check if an item or items exist in an array.
      *
      * @param  mixed  $key
      */
