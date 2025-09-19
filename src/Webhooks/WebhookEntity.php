@@ -14,7 +14,6 @@ use Mollie\Api\Utils\Utility;
 
 class WebhookEntity
 {
-
     private string $resourceType;
 
     private string $id;
@@ -56,8 +55,12 @@ class WebhookEntity
     /**
      * @return array|object
      */
-    public function getData()
+    public function getData(?string $key = null)
     {
+        if ($key) {
+            return Arr::get($this->data, $key);
+        }
+
         return $this->data;
     }
 
@@ -67,6 +70,8 @@ class WebhookEntity
     public function asResource(Connector $connector): BaseResource
     {
         $targetClass = $this->resolveTargetResourceClass();
+
+        // @todo: handle test mode
         $request = $this->tryCreateGetRequest($targetClass);
 
         if ($request instanceof ResourceHydratableRequest) {

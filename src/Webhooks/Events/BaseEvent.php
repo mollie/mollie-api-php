@@ -32,4 +32,31 @@ abstract class BaseEvent
     }
 
     abstract public static function type(): string;
+
+    public function entity(): WebhookEntity
+    {
+        return $this->getEntitySafely();
+    }
+
+    public function entityData(?string $key = null): mixed
+    {
+        return $this->getEntitySafely()->getData($key);
+    }
+
+    private function getEntitySafely(): WebhookEntity
+    {
+        $this->guardAgainstMissingEntity();
+
+        /** @var WebhookEntity $entity */
+        $entity = $this->entity;
+
+        return $entity;
+    }
+
+    private function guardAgainstMissingEntity()
+    {
+        if (! $this->entity) {
+            throw new \Exception('Event entity not found. Make sure to subscribe to full event payloads.');
+        }
+    }
 }

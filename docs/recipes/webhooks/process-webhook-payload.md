@@ -1,32 +1,18 @@
----
-title: Process webhook payloads
-description: Map Mollie webhook payloads to concrete event handlers and resources.
----
+# Process webhook payloads
 
-- Map incoming POST body to an event handler:
+Webhooks are your application's way of staying in the loop with Mollie's payment events. When something important happens (like a payment being completed, refunded, or failed), Mollie sends a notification to your endpoint. This guide shows you how to safely process these webhook payloads and extract the juicy details you need.
 
-  $mapper = new \Mollie\Api\Webhooks\WebhookEventMapper();
-  $event = $mapper->processWebhookPayload($payload, $optionalConnector);
-  if (! $event) {
-      // Unknown/unsupported event type
-  }
+```php
+// 🔎 Signature verification...
+// ...
 
-- Access event metadata and embedded resource:
+// 🎉 if verified Webhook, we can process it
+$event = (new WebhookEventMapper())->processPayload($request->getParsedBody());
 
-  $type = $event->event->getType();
-  $resource = $event->event->getResource();
+// Extract the entity ID (e.g., payment ID, customer ID, etc.)
+$entityId = $event->entityData('id');
 
-Connector behavior
-
-- Without connector: returns a lightweight `StandaloneResource` for simple data access.
-- With connector: hydrates a strongly-typed resource; follow-up API calls are available.
-
-Extensibility
-
-- Register custom event handlers using `WebhookEventMapper::register($type, $handlerClass)`.
-- Register or override resource mappings via `ResourceRegistry`.
-
-Validation and errors
-
-- `WebhookEventMapper` validates required fields: `id`, `type`, `entityId`, `createdAt`.
-- Throws `InvalidArgumentException` on invalid payloads.
+// 🚀 Get the full resource object for direct interaction
+// This only works if you subscribe to full event payloads
+$resource = $event->entity()->asResource($mollie);
+```
