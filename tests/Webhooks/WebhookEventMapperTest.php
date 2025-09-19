@@ -64,7 +64,7 @@ class WebhookEventMapperTest extends TestCase
             'type' => 'unsupported.event.type',
             'entityId' => 'test123',
             'createdAt' => '2023-12-25T10:30:54+00:00',
-            '_links' => []
+            '_links' => [],
         ]);
     }
 
@@ -75,7 +75,7 @@ class WebhookEventMapperTest extends TestCase
             'id' => 'whev_test123',
             'type' => 'payment-link.paid',
             // Missing entityId and createdAt
-            '_links' => []
+            '_links' => [],
         ];
 
         $this->expectException(\InvalidArgumentException::class);
@@ -92,7 +92,7 @@ class WebhookEventMapperTest extends TestCase
             'type' => 'payment-link.paid',
             'entityId' => 'pl_test123',
             'createdAt' => '2023-12-25T10:30:54+00:00',
-            '_links' => []
+            '_links' => [],
         ];
 
         $this->expectException(\InvalidArgumentException::class);

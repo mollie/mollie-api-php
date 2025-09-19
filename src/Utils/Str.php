@@ -31,6 +31,7 @@ class Str
         $value = str_replace('-', ' ', $value);
         // Convert to StudlyCase words, removing spaces
         $value = preg_replace('/\s+/u', '', ucwords($value));
+
         // Insert delimiter before capitals and lowercase the result
         return static::lower(preg_replace('/(.)(?=[A-Z])/u', '$1'.$delimiter, $value));
     }

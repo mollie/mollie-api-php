@@ -2,12 +2,12 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Config;
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Config;
 use Mollie\Api\Utils\Str;
 
 class ResourceResolver

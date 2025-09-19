@@ -2,8 +2,8 @@
 
 namespace Mollie\Api\Webhooks;
 
-use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Config;
+use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\AnyResource;

@@ -5,8 +5,8 @@ namespace Mollie\Api\Webhooks;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
-use Mollie\Api\Webhooks\Events\BaseEvent;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
+use Mollie\Api\Webhooks\Events\BaseEvent;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
@@ -69,8 +69,7 @@ class WebhookEventMapper
         DateTime $createdAt,
         object $links,
         ?WebhookEntity $entity = null
-    ): BaseEvent
-    {
+    ): BaseEvent {
         if (! Arr::exists($this->map, $type)) {
             throw new \InvalidArgumentException("Unsupported event type: {$type}");
         }
@@ -110,7 +109,7 @@ class WebhookEventMapper
         $requiredFields = ['id', 'type', 'entityId', 'createdAt'];
 
         foreach ($requiredFields as $field) {
-            if (!Arr::exists($payload, $field) || empty(Arr::get($payload, $field))) {
+            if (! Arr::exists($payload, $field) || empty(Arr::get($payload, $field))) {
                 throw new \InvalidArgumentException("Missing or empty required field: {$field}");
             }
         }
@@ -127,7 +126,7 @@ class WebhookEventMapper
         $embedded = Arr::get($payload, '_embedded', []);
         $entityData = array_pop($embedded);
 
-        if (!$entityData) {
+        if (! $entityData) {
             return null;
         }
 

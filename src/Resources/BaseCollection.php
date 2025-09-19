@@ -3,10 +3,9 @@
 namespace Mollie\Api\Resources;
 
 use ArrayObject;
+use Mollie\Api\Config;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
-use Mollie\Api\Config;
-use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Traits\HasResponse;
 use Mollie\Api\Utils\Arr;
 

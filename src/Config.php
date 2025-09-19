@@ -30,13 +30,13 @@ class Config
     {
         $resolver = self::$resourceRegistryResolver;
 
-        if (!is_callable($resolver)) {
+        if (! is_callable($resolver)) {
             return ResourceRegistry::default();
         }
 
         $registry = call_user_func($resolver);
 
-        if (!$registry instanceof ResourceRegistry) {
+        if (! $registry instanceof ResourceRegistry) {
             return ResourceRegistry::default();
         }
 

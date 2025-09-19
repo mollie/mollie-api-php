@@ -3,10 +3,8 @@
 namespace Mollie\Api\Fake;
 
 use Mollie\Api\Exceptions\LogicException;
-use Mollie\Api\Resources\ResourceRegistry;
-use Mollie\Api\Webhooks\Events\BaseEvent;
 use Mollie\Api\Utils\Str;
-use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Webhooks\Events\BaseEvent;
 
 class MockEvent
 {
@@ -56,7 +54,7 @@ class MockEvent
     {
         $eventBlueprintData = $this->loadEventBlueprintData();
 
-        if (!$this->fullPayload) {
+        if (! $this->fullPayload) {
             return $eventBlueprintData;
         }
 
@@ -76,7 +74,7 @@ class MockEvent
 
         $eventBlueprint = str_replace('{{ TYPE }}', $this->eventClass::type(), $eventBlueprint);
 
-        if (!empty($this->entityId)) {
+        if (! empty($this->entityId)) {
             $eventBlueprint = str_replace('{{ RESOURCE_ID }}', $this->entityId, $eventBlueprint);
         }
 
