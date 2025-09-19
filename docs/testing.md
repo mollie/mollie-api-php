@@ -65,16 +65,16 @@ Configure responses using:
 
 ```php
 // Array response
-MockResponse::create([
+MockResponse::created([
     'id' => 'tr_xxxxxxxxxxxx',
     'amount' => ['value' => '20.00', 'currency' => 'EUR']
 ]);
 
 // Fixture response
-MockResponse::create('payment');
+MockResponse::created('payment');
 
 // Dynamic response
-MockResponse::create(function (PendingRequest $request) {
+MockResponse::created(function (PendingRequest $request) {
     return ['amount' => $request->hasParameter('amount') ? 10 : 20];
 });
 ```
