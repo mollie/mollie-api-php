@@ -89,3 +89,27 @@ match (true) {
     // ... handle other event types
 }
 ```
+
+### Testing Webhooks
+
+Testing webhooks is crucial to ensure your application handles all event types correctly. The SDK provides several tools to help you test webhook scenarios.
+
+Use `MockEvent` to create realistic webhook payloads for testing:
+
+```php
+use Mollie\Api\Fake\MockEvent;
+use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
+
+// Create a mock PaymentLinkPaid event
+$paymentLinkEventPayload = MockEvent::for(PaymentLinkPaid::class)
+    ->entityId('pl_1234567890')
+    ->full()  // Include full resource data
+    ->create();
+
+// Create a mock BalanceTransactionCreated event
+$balanceEventPayload = MockEvent::for(BalanceTransactionCreated::class)
+    ->entityId('bt_9876543210')
+    ->simple()  // Webhook request without any resource data besides entityId
+    ->create();
+```
