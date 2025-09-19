@@ -2,6 +2,7 @@
 
 namespace Tests\Resources;
 
+use Mollie\Api\Config;
 use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
@@ -9,6 +10,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\CursorCollection;
 use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Resources\ResourceRegistry;
 use Mollie\Api\Resources\ResourceResolver;
 use Mollie\Api\Resources\WrapperResource;
 use PHPUnit\Framework\TestCase;
@@ -83,6 +85,10 @@ class ResourceResolverTest extends TestCase
             ->method('hydrateCollection')
             ->willReturn($mockCollection);
 
+        $registry = ResourceRegistry::default();
+        $registry->register(AnyResource::class, 'items');
+
+        Config::setResourceRegistryResolver(fn () => $registry);
         $result = $this->resolver->resolve($request, $response);
 
         $this->assertInstanceOf(CustomCollection::class, $result);

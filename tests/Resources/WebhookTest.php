@@ -9,7 +9,7 @@ use Mollie\Api\Http\Requests\TestWebhookRequest;
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Webhook;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 use PHPUnit\Framework\TestCase;
 
 class WebhookTest extends TestCase

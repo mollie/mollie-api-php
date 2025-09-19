@@ -1,0 +1,17 @@
+{
+  "resource": "event",
+  "id": "event_GvJ8WHrp5isUdRub9CJyH",
+  "type": "{{ TYPE }}",
+  "entityId": "{{ RESOURCE_ID }}",
+  "createdAt": "2024-12-16T15:59:04.0Z",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/events/event_GvJ8WHrp5isUdRub9CJyH",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/guides/webhooks",
+      "type": "text/html"
+    }
+  }
+}
