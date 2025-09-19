@@ -144,6 +144,7 @@ class ResourceRegistry
             Partner::class => 'partners',
             Payment::class => 'payments',
             PaymentLink::class => 'payment-links',
+            Permission::class => 'permissions',
             Profile::class => 'profiles',
             Refund::class => 'refunds',
             Route::class => 'routes',

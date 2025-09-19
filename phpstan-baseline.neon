@@ -19,6 +19,12 @@ parameters:
 			path: src/Resources/ResourceCollection.php
 
 		-
+			message: '#^Dead catch \- Throwable is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/Webhooks/WebhookEntity.php
+
+		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1
@@ -103,6 +109,18 @@ parameters:
 			path: tests/EndpointCollection/WebhookEndpointCollectionTest.php
 
 		-
+			message: '#^Call to an undefined method Mollie\\Api\\Fake\\ResourceResponseBuilder\:\:add\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/Fake/ResourceResponseBuilderTest.php
+
+		-
+			message: '#^Call to an undefined method Mollie\\Api\\Fake\\ResourceResponseBuilder\:\:embed\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: tests/Fake/ResourceResponseBuilderTest.php
+
+		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1
@@ -131,27 +149,3 @@ parameters:
 			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/Resources/WebhookTest.php
-
-		-
-			message: '#^Property Tests\\Utils\\TestPropertiesClass\:\:\$privateProp is unused\.$#'
-			identifier: property.unused
-			count: 1
-			path: tests/Utils/UtilityTest.php
-
-		-
-			message: '#^Trait Tests\\Utils\\TestTraitBase is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Utils/UtilityTest.php
-
-		-
-			message: '#^Trait Tests\\Utils\\TestTraitMain is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Utils/UtilityTest.php
-
-		-
-			message: '#^Trait Tests\\Utils\\TestTraitNested is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: tests/Utils/UtilityTest.php

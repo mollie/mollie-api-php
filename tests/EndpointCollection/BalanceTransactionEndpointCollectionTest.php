@@ -17,7 +17,7 @@ class BalanceTransactionEndpointCollectionTest extends TestCase
     public function page_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transactions'),
+            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transaction-list'),
         ]);
 
         $balance = new Balance($client);
@@ -38,7 +38,7 @@ class BalanceTransactionEndpointCollectionTest extends TestCase
     public function iterator_for()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transactions'),
+            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transaction-list'),
             DynamicGetRequest::class => MockResponse::ok('empty-list', 'balance_transactions'),
         ]);
 

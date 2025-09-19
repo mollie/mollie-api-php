@@ -14,11 +14,15 @@ class Arr
      */
     public static function get(array $array, string $keys, $default = null)
     {
+        if (static::exists($array, $keys)) {
+            return $array[$keys];
+        }
+
         $keys = explode('.', $keys);
         $value = $array;
 
         foreach ($keys as $key) {
-            if (! is_array($value) || ! array_key_exists($key, $value)) {
+            if (! is_array($value) || ! static::exists($value, $key)) {
                 return $default;
             }
 

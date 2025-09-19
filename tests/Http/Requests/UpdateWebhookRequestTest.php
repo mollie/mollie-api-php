@@ -6,7 +6,7 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;
 use Mollie\Api\Resources\Webhook;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 use PHPUnit\Framework\TestCase;
 
 class UpdateWebhookRequestTest extends TestCase

@@ -17,7 +17,7 @@ abstract class Temporal implements Stringable
     public function __construct($date)
     {
         if (! $date instanceof DateTimeInterface) {
-            $date = DateTimeImmutable::createFromFormat($this->getFormat(), $date);
+            $date = new DateTimeImmutable($date);
 
             $this->guardInvalidDate($date);
         }
@@ -31,6 +31,11 @@ abstract class Temporal implements Stringable
     public function __toString(): string
     {
         return $this->date->format($this->getFormat());
+    }
+
+    public function getRaw(): DateTimeInterface
+    {
+        return $this->date;
     }
 
     /**
