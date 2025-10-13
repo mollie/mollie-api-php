@@ -32,14 +32,14 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
 
     private TransferParty $destination;
 
-    private ?string $category;
+    private string $category;
 
     public function __construct(
         Money $amount,
         string $description,
         TransferParty $source,
         TransferParty $destination,
-        ?string $category = null
+        string $category
     ) {
         $this->amount = $amount;
         $this->description = $description;

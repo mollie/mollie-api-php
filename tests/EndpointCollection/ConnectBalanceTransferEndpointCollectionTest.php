@@ -95,6 +95,5 @@ class ConnectBalanceTransferEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($balanceTransfer->destination);
         $this->assertNotEmpty($balanceTransfer->description);
         $this->assertNotEmpty($balanceTransfer->createdAt);
-        $this->assertNotEmpty($balanceTransfer->_links);
     }
 }

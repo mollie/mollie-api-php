@@ -57,6 +57,7 @@ class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
                     'id' => 'org_destination456',
                     'description' => 'Minimal transfer to destination',
                 ],
+                'category' => 'purchase',
             ])
             ->create();
 

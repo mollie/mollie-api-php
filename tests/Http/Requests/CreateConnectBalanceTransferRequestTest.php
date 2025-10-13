@@ -54,7 +54,8 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
             new TransferParty(
                 'org_87654321',
                 'Payment to Organization B'
-            )
+            ),
+            ConnectBalanceTransferCategory::PURCHASE
         );
 
         $this->assertEquals('connect/balance-transfers', $request->resolveResourcePath());

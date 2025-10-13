@@ -20,15 +20,5 @@
   "category": "manual_correction",
   "executedAt": "2023-12-25T10:31:00+00:00",
   "mode": "live",
-  "createdAt": "2023-12-25T10:30:54+00:00",
-  "_links": {
-    "self": {
-      "href": "https://api.mollie.com/v2/connect/balance-transfers/cbt_4KgGJJSZpH",
-      "type": "application/hal+json"
-    },
-    "documentation": {
-      "href": "https://docs.mollie.com/reference/v2/connect-api/get-connect-balance-transfer",
-      "type": "text/html"
-    }
-  }
+  "createdAt": "2023-12-25T10:30:54+00:00"
 }
