@@ -29,11 +29,16 @@ class ConnectBalanceTransferEndpointCollectionTest extends TestCase
             ],
             'description' => 'Transfer from balance A to balance B',
             'source' => [
-                'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPABC',
+                'type' => 'organization',
+                'id' => 'org_12345678',
+                'description' => 'Payment from Organization A',
             ],
             'destination' => [
-                'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPXYZ',
+                'type' => 'organization',
+                'id' => 'org_87654321',
+                'description' => 'Payment to Organization B',
             ],
+            'category' => 'manual_correction',
         ]);
 
         $this->assertConnectBalanceTransfer($balanceTransfer);

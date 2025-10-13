@@ -52,36 +52,37 @@ $balanceTransfer->resource;               // "connect-balance-transfer"
 $balanceTransfer->amount->currency;       // "EUR"
 $balanceTransfer->amount->value;          // "100.00"
 $balanceTransfer->description;            // "Transfer from balance A to balance B"
-$balanceTransfer->source->balanceId;      // "bal_gVMhHKqSSRYJyPsuoPABC"
-$balanceTransfer->source->balance;        // Object containing source balance details (optional)
-$balanceTransfer->destination->balanceId; // "bal_gVMhHKqSSRYJyPsuoPXYZ"
-$balanceTransfer->destination->balance;   // Object containing destination balance details (optional)
+$balanceTransfer->status;                 // "created", "failed", "succeeded"
+$balanceTransfer->statusReason;           // Object with status reason (if applicable)
+$balanceTransfer->category;               // "manual_correction", "purchase", "refund", etc.
+$balanceTransfer->source->type;           // "organization"
+$balanceTransfer->source->id;             // "org_12345678"
+$balanceTransfer->source->description;    // "Payment from Organization A"
+$balanceTransfer->destination->type;      // "organization"
+$balanceTransfer->destination->id;        // "org_87654321"
+$balanceTransfer->destination->description; // "Payment to Organization B"
+$balanceTransfer->executedAt;             // "2023-12-25T10:31:00+00:00" (null if not executed)
+$balanceTransfer->mode;                   // "live" or "test"
 $balanceTransfer->createdAt;              // "2023-12-25T10:30:54+00:00"
 $balanceTransfer->_links;                 // Object containing relevant URLs
 ```
 
-## Balance Details
+## Transfer Party Details
 
-If balance details are embedded in the response, you can access them:
+Access the transfer party information:
 
 ```php
-// Source balance details (if embedded)
-if (isset($balanceTransfer->source->balance)) {
-    $sourceBalance = $balanceTransfer->source->balance;
-    echo "Source Balance:\n";
-    echo "- ID: {$sourceBalance->id}\n";
-    echo "- Currency: {$sourceBalance->currency}\n";
-    echo "- Status: {$sourceBalance->status}\n";
-}
+// Source party details
+echo "Source Organization:\n";
+echo "- Type: {$balanceTransfer->source->type}\n";  // "organization"
+echo "- ID: {$balanceTransfer->source->id}\n";      // Organization token
+echo "- Description: {$balanceTransfer->source->description}\n";
 
-// Destination balance details (if embedded)
-if (isset($balanceTransfer->destination->balance)) {
-    $destBalance = $balanceTransfer->destination->balance;
-    echo "Destination Balance:\n";
-    echo "- ID: {$destBalance->id}\n";
-    echo "- Currency: {$destBalance->currency}\n";
-    echo "- Status: {$destBalance->status}\n";
-}
+// Destination party details
+echo "Destination Organization:\n";
+echo "- Type: {$balanceTransfer->destination->type}\n";
+echo "- ID: {$balanceTransfer->destination->id}\n";
+echo "- Description: {$balanceTransfer->destination->description}\n";
 ```
 
 ## Additional Notes

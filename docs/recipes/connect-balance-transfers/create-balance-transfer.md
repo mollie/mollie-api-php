@@ -6,7 +6,9 @@ How to create a balance transfer between two connected Mollie balances using the
 
 ```php
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
+use Mollie\Api\Types\ConnectBalanceTransferCategory;
 
 try {
     // Initialize the Mollie client with your OAuth access token
@@ -21,8 +23,15 @@ try {
                 value: '100.00'
             ),
             description: 'Transfer from balance A to balance B',
-            sourceBalanceId: 'bal_gVMhHKqSSRYJyPsuoPABC',
-            destinationBalanceId: 'bal_gVMhHKqSSRYJyPsuoPXYZ'
+            source: new TransferParty(
+                id: 'org_12345678',
+                description: 'Payment from Organization A'
+            ),
+            destination: new TransferParty(
+                id: 'org_87654321',
+                description: 'Payment to Organization B'
+            ),
+            category: ConnectBalanceTransferCategory::MANUAL_CORRECTION
         )
     );
 
@@ -46,11 +55,16 @@ try {
         ],
         'description' => 'Transfer from balance A to balance B',
         'source' => [
-            'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPABC'
+            'type' => 'organization',
+            'id' => 'org_12345678',
+            'description' => 'Payment from Organization A'
         ],
         'destination' => [
-            'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPXYZ'
-        ]
+            'type' => 'organization',
+            'id' => 'org_87654321',
+            'description' => 'Payment to Organization B'
+        ],
+        'category' => 'manual_correction'
     ]);
 
     echo "Balance transfer created: {$balanceTransfer->id}\n";
@@ -67,16 +81,56 @@ $balanceTransfer->resource;               // "connect-balance-transfer"
 $balanceTransfer->amount->currency;       // "EUR"
 $balanceTransfer->amount->value;          // "100.00"
 $balanceTransfer->description;            // "Transfer from balance A to balance B"
-$balanceTransfer->source->balanceId;      // "bal_gVMhHKqSSRYJyPsuoPABC"
-$balanceTransfer->destination->balanceId; // "bal_gVMhHKqSSRYJyPsuoPXYZ"
+$balanceTransfer->status;                 // "created", "failed", "succeeded"
+$balanceTransfer->statusReason;           // Object with status reason (if applicable)
+$balanceTransfer->category;               // "manual_correction", "purchase", "refund", etc.
+$balanceTransfer->source->type;           // "organization"
+$balanceTransfer->source->id;             // "org_12345678"
+$balanceTransfer->source->description;    // "Payment from Organization A"
+$balanceTransfer->destination->type;      // "organization"
+$balanceTransfer->destination->id;        // "org_87654321"
+$balanceTransfer->destination->description; // "Payment to Organization B"
+$balanceTransfer->executedAt;             // "2023-12-25T10:31:00+00:00" (null if not executed)
+$balanceTransfer->mode;                   // "live" or "test"
 $balanceTransfer->createdAt;              // "2023-12-25T10:30:54+00:00"
 ```
+
+## Transfer Status
+
+The transfer status indicates the current state of the transfer:
+
+```php
+// Check transfer status
+if ($balanceTransfer->status === 'succeeded') {
+    echo "Transfer completed successfully\n";
+    echo "Executed at: {$balanceTransfer->executedAt}\n";
+} elseif ($balanceTransfer->status === 'failed') {
+    echo "Transfer failed\n";
+    if ($balanceTransfer->statusReason) {
+        echo "Reason: " . json_encode($balanceTransfer->statusReason) . "\n";
+    }
+}
+```
+
+## Transfer Categories
+
+Different transfer categories may have different fees:
+
+- `invoice_collection` - Collecting invoice payments
+- `purchase` - Purchase-related transfers
+- `chargeback` - Chargeback transfers
+- `refund` - Refund transfers
+- `service_penalty` - Service penalty fees
+- `discount_compensation` - Discount compensations
+- `manual_correction` - Manual corrections
+- `other_fee` - Other fees
 
 ## Additional Notes
 
 - **OAuth Required**: You need an OAuth access token to create balance transfers. API keys are not supported for this endpoint.
 - **Balance Ownership**: You can only transfer funds between balances that belong to organizations connected through your OAuth app.
 - **Transfer Speed**: Balance transfers are processed immediately. The funds are moved instantly between the balances.
+- **Status Tracking**: Monitor the `status` field to track transfer completion. Check `executedAt` for the exact completion time.
 - **Currency Requirements**:
   - Both balances must use the same currency
   - The transfer amount must match the balance currency

@@ -113,8 +113,16 @@ $transfer->resource;               // "connect-balance-transfer"
 $transfer->amount->currency;       // "EUR"
 $transfer->amount->value;          // "100.00"
 $transfer->description;            // "Transfer from balance A to balance B"
-$transfer->source->balanceId;      // "bal_gVMhHKqSSRYJyPsuoPABC"
-$transfer->destination->balanceId; // "bal_gVMhHKqSSRYJyPsuoPXYZ"
+$transfer->status;                 // "created", "failed", "succeeded"
+$transfer->category;               // "manual_correction", "purchase", "refund", etc.
+$transfer->source->type;           // "organization"
+$transfer->source->id;             // "org_12345678"
+$transfer->source->description;    // "Payment from Organization A"
+$transfer->destination->type;      // "organization"
+$transfer->destination->id;        // "org_87654321"
+$transfer->destination->description; // "Payment to Organization B"
+$transfer->executedAt;             // "2023-12-25T10:31:00+00:00" (null if not executed)
+$transfer->mode;                   // "live" or "test"
 $transfer->createdAt;              // "2023-12-25T10:30:54+00:00"
 ```
 

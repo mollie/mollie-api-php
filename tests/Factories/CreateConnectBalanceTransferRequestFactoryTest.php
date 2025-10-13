@@ -19,11 +19,16 @@ class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
                 ],
                 'description' => 'Transfer from balance A to balance B',
                 'source' => [
-                    'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPABC',
+                    'type' => 'organization',
+                    'id' => 'org_12345678',
+                    'description' => 'Payment from Organization A',
                 ],
                 'destination' => [
-                    'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPXYZ',
+                    'type' => 'organization',
+                    'id' => 'org_87654321',
+                    'description' => 'Payment to Organization B',
                 ],
+                'category' => 'manual_correction',
             ])
             ->create();
 
@@ -43,10 +48,14 @@ class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
                 ],
                 'description' => 'Minimal transfer',
                 'source' => [
-                    'balanceId' => 'bal_source123',
+                    'type' => 'organization',
+                    'id' => 'org_source123',
+                    'description' => 'Minimal transfer from source',
                 ],
                 'destination' => [
-                    'balanceId' => 'bal_destination456',
+                    'type' => 'organization',
+                    'id' => 'org_destination456',
+                    'description' => 'Minimal transfer to destination',
                 ],
             ])
             ->create();

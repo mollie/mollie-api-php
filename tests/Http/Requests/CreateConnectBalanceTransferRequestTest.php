@@ -5,8 +5,11 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
+use Mollie\Api\Types\ConnectBalanceTransferCategory;
+use Mollie\Api\Types\TransferPartyType;
 use PHPUnit\Framework\TestCase;
 
 class CreateConnectBalanceTransferRequestTest extends TestCase
@@ -21,8 +24,15 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
         $request = new CreateConnectBalanceTransferRequest(
             new Money('EUR', '100.00'),
             'Transfer from balance A to balance B',
-            'bal_gVMhHKqSSRYJyPsuoPABC',
-            'bal_gVMhHKqSSRYJyPsuoPXYZ'
+            new TransferParty(
+                'org_12345678',
+                'Payment from Organization A'
+            ),
+            new TransferParty(
+                'org_87654321',
+                'Payment to Organization B'
+            ),
+            ConnectBalanceTransferCategory::MANUAL_CORRECTION
         );
 
         /** @var ConnectBalanceTransfer */
@@ -38,8 +48,14 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
         $request = new CreateConnectBalanceTransferRequest(
             new Money('EUR', '100.00'),
             'Transfer from balance A to balance B',
-            'bal_gVMhHKqSSRYJyPsuoPABC',
-            'bal_gVMhHKqSSRYJyPsuoPXYZ'
+            new TransferParty(
+                'org_12345678',
+                'Payment from Organization A'
+            ),
+            new TransferParty(
+                'org_87654321',
+                'Payment to Organization B'
+            )
         );
 
         $this->assertEquals('connect/balance-transfers', $request->resolveResourcePath());

@@ -5,6 +5,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
@@ -27,20 +28,24 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
 
     private string $description;
 
-    private string $sourceBalanceId;
+    private TransferParty $source;
 
-    private string $destinationBalanceId;
+    private TransferParty $destination;
+
+    private ?string $category;
 
     public function __construct(
         Money $amount,
         string $description,
-        string $sourceBalanceId,
-        string $destinationBalanceId
+        TransferParty $source,
+        TransferParty $destination,
+        ?string $category = null
     ) {
         $this->amount = $amount;
         $this->description = $description;
-        $this->sourceBalanceId = $sourceBalanceId;
-        $this->destinationBalanceId = $destinationBalanceId;
+        $this->source = $source;
+        $this->destination = $destination;
+        $this->category = $category;
     }
 
     protected function defaultPayload(): array
@@ -48,12 +53,9 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
         return [
             'amount' => $this->amount,
             'description' => $this->description,
-            'source' => [
-                'balanceId' => $this->sourceBalanceId,
-            ],
-            'destination' => [
-                'balanceId' => $this->destinationBalanceId,
-            ],
+            'source' => $this->source,
+            'destination' => $this->destination,
+            'category' => $this->category,
         ];
     }
 
