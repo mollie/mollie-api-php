@@ -1,0 +1,40 @@
+{
+  "resource": "connect-balance-transfer",
+  "id": "cbt_4KgGJJSZpH",
+  "amount": {
+    "currency": "EUR",
+    "value": "100.00"
+  },
+  "source": {
+    "balanceId": "bal_gVMhHKqSSRYJyPsuoPABC",
+    "balance": {
+      "resource": "balance",
+      "id": "bal_gVMhHKqSSRYJyPsuoPABC",
+      "mode": "live",
+      "currency": "EUR",
+      "status": "active"
+    }
+  },
+  "destination": {
+    "balanceId": "bal_gVMhHKqSSRYJyPsuoPXYZ",
+    "balance": {
+      "resource": "balance",
+      "id": "bal_gVMhHKqSSRYJyPsuoPXYZ",
+      "mode": "live",
+      "currency": "EUR",
+      "status": "active"
+    }
+  },
+  "description": "Transfer from balance A to balance B",
+  "createdAt": "2023-12-25T10:30:54+00:00",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/connect/balance-transfers/cbt_4KgGJJSZpH",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/connect-api/get-connect-balance-transfer",
+      "type": "text/html"
+    }
+  }
+}
