@@ -9,7 +9,6 @@ use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\ConnectBalanceTransferCategory;
-use Mollie\Api\Types\TransferPartyType;
 use PHPUnit\Framework\TestCase;
 
 class CreateConnectBalanceTransferRequestTest extends TestCase
