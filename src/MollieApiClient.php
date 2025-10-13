@@ -175,9 +175,9 @@ class MollieApiClient implements Connector
         return Url::join($this->apiEndpoint, self::API_VERSION);
     }
 
-    public static function fake(array $expectedResponses = []): MockMollieClient
+    public static function fake(array $expectedResponses = [], bool $retainRequests = false): MockMollieClient
     {
-        return new MockMollieClient($expectedResponses);
+        return new MockMollieClient($expectedResponses, $retainRequests);
     }
 
     public function __serialize(): array
