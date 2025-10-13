@@ -50,7 +50,7 @@ try {
 }
 ```
 
-####**** Key Rotation
+#### Key Rotation
 
 During key rotation or migration periods, you can verify signatures against multiple secrets:
 
@@ -88,6 +88,27 @@ match (true) {
     $event instanceof BalanceTransactionCreated => $this->handleBalanceTransactionCreated(),
     // ... handle other event types
 }
+```
+
+#### Using custom webhook Events
+If the API is ahead of this SDK's implementation of new Events, you can create your own Events as temporary workaround and pass it into the `WebhookEventMapper`
+
+```php
+// Event class
+use Mollie\Api\Webhooks\Events\BaseEvent;
+
+class SomeEventHappened extends BaseEvent
+{
+    public static function type(): string
+    {
+        return 'some.event_happened'; // needs to match the eventType from the documentation
+    }
+}
+
+// passing into event mapper and processing payload
+$event = (new WebhookEventMapper([
+    'some.event_happened' => SomeEventHappened::class
+]))->processPayload($request->getParsedBody());
 ```
 
 ### Testing Webhooks
