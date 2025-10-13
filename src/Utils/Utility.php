@@ -8,19 +8,6 @@ use ReflectionProperty;
 class Utility
 {
     /**
-     * Get the class basename from an object or class string.
-     * Mirrors Laravel's Str::classBasename behavior.
-     *
-     * @param  object|class-string  $class
-     */
-    public static function classBasename($class): string
-    {
-        $class = is_object($class) ? get_class($class) : $class;
-
-        return basename(str_replace('\\', '/', $class));
-    }
-
-    /**
      * Returns all traits used by a class, its parent classes and trait of their traits.
      *
      * @param  object|class-string  $class

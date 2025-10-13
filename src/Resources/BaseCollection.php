@@ -16,8 +16,6 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
 
     /**
      * The name of the collection resource in Mollie's API.
-     *
-     * @deprecated Use ResourceRegistry to resolve plural names instead.
      */
     public static string $collectionName = '';
 
@@ -80,19 +78,10 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
 
     public static function getCollectionResourceName(): string
     {
-        // Preferred: resolve via registry using the declared resource class on the collection
-        if (property_exists(static::class, 'resource') && is_string(static::$resource ?? null)) {
-            /** @var class-string<BaseResource> $resourceClass */
-            $resourceClass = static::$resource;
-
-            return ResourceRegistry::default()->pluralOf($resourceClass);
+        if (empty(static::$collectionName)) {
+            throw new \RuntimeException('Collection name not set');
         }
 
-        // Deprecated fallback: read static::$collectionName if set
-        if (! empty(static::$collectionName)) {
-            return static::$collectionName;
-        }
-
-        throw new \RuntimeException('Collection name not set');
+        return static::$collectionName;
     }
 }
