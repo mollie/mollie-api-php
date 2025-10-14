@@ -73,7 +73,7 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         ?EmailDetails $emailDetails = null,
         ?string $webhookUrl = null,
         ?Discount $discount = null,
-        ?bool $isEInvoice = null,
+        ?bool $isEInvoice = null
     ) {
         $this->currency = $currency;
         $this->status = $status;
