@@ -19,11 +19,14 @@ class MockMollieHttpAdapter implements HttpAdapterContract
      */
     private array $expected;
 
+    private bool $retainRequests;
+
     private array $recorded = [];
 
-    public function __construct(array $expectedResponses = [])
+    public function __construct(array $expectedResponses = [], bool $retainRequests = false)
     {
         $this->expected = $expectedResponses;
+        $this->retainRequests = $retainRequests;
     }
 
     /**
@@ -63,13 +66,13 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         $mockedResponse = Arr::get($this->expected, $requestClass);
 
         if ($mockedResponse instanceof Closure) {
-            Arr::forget($this->expected, $requestClass);
+            $this->forgetRequest($requestClass);
 
             return $mockedResponse($pendingRequest);
         }
 
         if (! ($mockedResponse instanceof SequenceMockResponse)) {
-            Arr::forget($this->expected, $requestClass);
+            $this->forgetRequest($requestClass);
 
             return $mockedResponse;
         }
@@ -77,7 +80,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         $response = $mockedResponse->pop();
 
         if ($mockedResponse->isEmpty()) {
-            Arr::forget($this->expected, $requestClass);
+            $this->forgetRequest($requestClass);
         }
 
         return $response;
@@ -90,6 +93,13 @@ class MockMollieHttpAdapter implements HttpAdapterContract
         }
 
         return array_filter($this->recorded, fn ($recorded) => call_user_func_array($callback, $recorded));
+    }
+
+    private function forgetRequest(string $requestClass): void
+    {
+        if (! $this->retainRequests) {
+            Arr::forget($this->expected, $requestClass);
+        }
     }
 
     /**

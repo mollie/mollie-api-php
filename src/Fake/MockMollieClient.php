@@ -9,11 +9,11 @@ use Mollie\Api\MollieApiClient;
  */
 class MockMollieClient extends MollieApiClient
 {
-    public function __construct(array $expectedResponses = [])
+    public function __construct(array $expectedResponses = [], bool $retainRequests = false)
     {
         parent::__construct();
 
-        $this->httpClient = new MockMollieHttpAdapter($expectedResponses);
+        $this->httpClient = new MockMollieHttpAdapter($expectedResponses, $retainRequests);
 
         $this->setAccessToken('access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     }
