@@ -2,10 +2,11 @@
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\Method;
 
-class GetSalesInvoiceRequest extends ResourceHydratableRequest
+class GetSalesInvoiceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.

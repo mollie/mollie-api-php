@@ -3,6 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Discount;
 use Mollie\Api\Http\Data\EmailDetails;
@@ -13,7 +14,7 @@ use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload
+class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -46,6 +47,8 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     private ?Discount $discount;
 
+    private ?bool $isEInvoice;
+
     public function __construct(
         string $id,
         string $status,
@@ -57,7 +60,8 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         ?Recipient $recipient = null,
         ?DataCollection $lines = null,
         ?string $webhookUrl = null,
-        ?Discount $discount = null
+        ?Discount $discount = null,
+        ?bool $isEInvoice = null
     ) {
         $this->id = $id;
         $this->status = $status;
@@ -70,6 +74,7 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         $this->lines = $lines;
         $this->webhookUrl = $webhookUrl;
         $this->discount = $discount;
+        $this->isEInvoice = $isEInvoice;
     }
 
     public function defaultPayload(): array
@@ -85,6 +90,7 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
             'lines' => $this->lines,
             'webhookUrl' => $this->webhookUrl,
             'discount' => $this->discount,
+            'isEInvoice' => $this->isEInvoice,
         ];
     }
 
