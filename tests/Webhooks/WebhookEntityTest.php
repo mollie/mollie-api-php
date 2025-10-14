@@ -87,6 +87,7 @@ class WebhookEntityTest extends TestCase
         $client->assertSent(function ($pendingRequest) {
             /** @var GetPaymentLinkRequest $request */
             $request = $pendingRequest->getRequest();
+
             return $request->getTestmode() === true;
         });
     }
