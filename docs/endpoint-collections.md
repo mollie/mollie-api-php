@@ -80,9 +80,6 @@ This method lets you effortlessly transform arrays into typed objects, thereby e
 
 [Official Documentation](https://docs.mollie.com/reference/v2/balances-api/get-balance)
 
-**Available Queries:**
-- `GetPaginatedBalanceQuery` - For listing balances with pagination
-
 ### Balance Information
 
 ```php
@@ -100,9 +97,6 @@ $balances = $mollie->balances->page();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/balance-reports-api/get-balance-report)
 
-**Available Queries:**
-- `GetBalanceReportQuery` - For retrieving balance reports
-
 ### Balance Report Details
 
 ```php
@@ -117,9 +111,6 @@ $report = $mollie->balanceReports->getForId('bal_12345', [
 ## Balance Transactions
 
 [Official Documentation](https://docs.mollie.com/reference/v2/balance-transactions-api/list-balance-transactions)
-
-**Available Queries:**
-- `GetPaginatedBalanceQuery` - For listing balance transactions with pagination
 
 ### Balance Transaction Management
 
@@ -137,9 +128,6 @@ foreach ($mollie->balanceTransactions->iteratorFor($balance) as $transaction) {
 
 [Official Documentation](https://docs.mollie.com/reference/v2/chargebacks-api/get-chargeback)
 
-**Available Queries:**
-- `GetPaginatedChargebacksQuery` - For listing chargebacks with pagination
-
 ### Chargeback Management
 
 ```php
@@ -155,9 +143,6 @@ foreach ($mollie->chargebacks->iterator() as $chargeback) {
 ## Clients
 
 [Official Documentation](https://docs.mollie.com/reference/v2/clients-api/get-client)
-
-**Available Queries:**
-- `GetClientQuery` - For retrieving client details
 
 ### Client Management
 
@@ -177,10 +162,6 @@ $clients = $mollie->clients->page(
 ## Customers
 
 [Official Documentation](https://docs.mollie.com/reference/v2/customers-api/create-customer)
-
-**Available Payloads:**
-- `CreateCustomerPayload` - For creating new customers
-- `UpdateCustomerPayload` - For updating existing customers
 
 ### Customer Management
 
@@ -210,9 +191,6 @@ $customers = $mollie->customers->page();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/invoices-api/get-invoice)
 
-**Available Queries:**
-- `GetPaginatedInvoiceQuery` - For listing invoices with pagination
-
 ### Invoice Management
 
 ```php
@@ -229,9 +207,6 @@ $invoices = $mollie->invoices->page(
 ## Mandates
 
 [Official Documentation](https://docs.mollie.com/reference/v2/mandates-api/create-mandate)
-
-**Available Payloads:**
-- `CreateMandatePayload` - For creating new mandates
 
 ### Mandate Management
 
@@ -259,11 +234,6 @@ $mandates = $mollie->mandates->pageFor($customer);
 ## Methods
 
 [Official Documentation](https://docs.mollie.com/reference/v2/methods-api/get-method)
-
-**Available Queries:**
-- `GetPaymentMethodQuery` - For retrieving method details
-- `GetAllMethodsQuery` - For listing all available methods
-- `GetEnabledPaymentMethodsQuery` - For listing enabled methods
 
 ### Payment Methods
 
@@ -305,9 +275,6 @@ $mollie->methodIssuers->disable(
 
 [Official Documentation](https://docs.mollie.com/reference/v2/onboarding-api/get-onboarding-status)
 
-**Available Queries:**
-- `GetOnboardingStatusQuery` - For retrieving onboarding status
-
 ### Onboarding Management
 
 ```php
@@ -318,9 +285,6 @@ $onboarding = $mollie->onboarding->status();
 ## Organizations
 
 [Official Documentation](https://docs.mollie.com/reference/v2/organizations-api/get-organization)
-
-**Available Queries:**
-- `GetOrganizationQuery` - For retrieving organization details
 
 ### Organization Management
 
@@ -339,9 +303,6 @@ $partner = $mollie->organizations->partnerStatus();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/permissions-api/get-permission)
 
-**Available Queries:**
-- `GetPermissionQuery` - For retrieving permission details
-
 ### Permission Management
 
 ```php
@@ -356,29 +317,19 @@ $permissions = $mollie->permissions->list();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/payments-api/create-payment)
 
-**Available Payloads:**
-- `CreatePaymentPayload` - For creating new payments
-- `UpdatePaymentPayload` - For updating existing payments
-
-**Available Queries:**
-- `GetPaymentQuery` - For retrieving payments with optional embeds
-- `GetPaginatedPaymentsQuery` - For listing payments with pagination
-
 ### Payment Management
 
 ```php
-// Create a payment using typed payload
-use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
-
-$payload = new CreatePaymentPayload(
-    description: 'Order #12345',
-    amount: new Money('EUR', '10.00'),
-    redirectUrl: 'https://webshop.example.org/order/12345/',
-    webhookUrl: 'https://webshop.example.org/mollie-webhook/'
-);
-
-$payment = $mollie->payments->create($payload);
+// Create a payment
+$payment = $mollie->payments->create([
+    'description' => 'Order #12345',
+    'amount' => [
+        'currency' => 'EUR',
+        'value' => '10.00'
+    ],
+    'redirectUrl' => 'https://webshop.example.org/order/12345/',
+    'webhookUrl' => 'https://webshop.example.org/mollie-webhook/'
+]);
 
 // Get a payment
 $payment = $mollie->payments->get('tr_7UhSN1zuXS');
@@ -399,20 +350,9 @@ $payments = $mollie->payments->page();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/payment-links-api/create-payment-link)
 
-**Available Payloads:**
-- `CreatePaymentLinkPayload` - For creating payment links
-- `UpdatePaymentLinkPayload` - For updating payment links
-
 ### Payment Captures
 
 [Official Documentation](https://docs.mollie.com/reference/v2/captures-api/get-capture)
-
-**Available Payloads:**
-- `CreatePaymentCapturePayload` - For creating captures
-
-**Available Queries:**
-- `GetPaymentCaptureQuery` - For retrieving capture details
-- `GetPaginatedPaymentCapturesQuery` - For listing captures
 
 ### Payment Chargebacks
 
@@ -450,23 +390,17 @@ $route = $mollie->paymentRoutes->updateReleaseDateFor(
 
 [Official Documentation](https://docs.mollie.com/reference/v2/profiles-api/create-profile)
 
-**Available Payloads:**
-- `CreateProfilePayload` - For creating new profiles
-
-**Available Factories:**
-- `ProfileFactory` - For creating profile instances
-
 ### Profile Management
 
 ```php
 // Create a profile
-$profile = $mollie->profiles->create(new CreateProfilePayload(
-    'My Test Profile',
-    'https://example.org',
-    'info@example.org',
-    '+31612345678',
-    'test'
-));
+$profile = $mollie->profiles->create([
+    'name' => 'My Test Profile',
+    'website' => 'https://example.org',
+    'email' => 'info@example.org',
+    'phone' => '+31612345678',
+    'mode' => 'test'
+]);
 
 // Get a profile
 $profile = $mollie->profiles->get('pfl_v9hTwCvYqw');
@@ -506,13 +440,6 @@ $mollie->profileMethods->disable(
 
 [Official Documentation](https://docs.mollie.com/reference/v2/refunds-api/create-refund)
 
-**Available Payloads:**
-- `CreateRefundPaymentPayload` - For creating refunds on payments
-- `CreateRefundOrderPayload` - For creating refunds on orders
-
-**Available Queries:**
-- `GetPaginatedRefundsQuery` - For listing refunds with pagination
-
 ### Refund Management
 
 ```php
@@ -532,13 +459,6 @@ $refunds = $mollie->refunds->page();
 ## Sales Invoices
 
 [Official Documentation TBA]
-
-**Available Payloads:**
-- `CreateSalesInvoicePayload` - For creating sales invoices
-- `UpdateSalesInvoicePayload` - For updating existing sales invoices
-
-**Available Queries:**
-- `GetPaginatedSalesInvoiceQuery` - For listing sales invoices with pagination
 
 ### Sales Invoice Management
 
@@ -599,12 +519,6 @@ $salesInvoices = $mollie->salesInvoices->page();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/sessions-api/create-session)
 
-**Available Payloads:**
-- `CreateSessionPayload` - For creating sessions
-
-**Available Queries:**
-- `GetPaginatedSessionsQuery` - For listing sessions with pagination
-
 ### Session Management
 
 ```php
@@ -624,9 +538,6 @@ $session = $mollie->sessions->get('sessionId');
 ## Settlements
 
 [Official Documentation](https://docs.mollie.com/reference/v2/settlements-api/get-settlement)
-
-**Available Queries:**
-- `GetPaginatedSettlementsQuery` - For listing settlements with pagination
 
 ### Settlement Management
 
@@ -678,12 +589,6 @@ foreach ($mollie->settlementPayments->iteratorFor($settlement) as $payment) {
 
 [Official Documentation](https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription)
 
-**Available Payloads:**
-- `CreateSubscriptionPayload` - For creating subscriptions
-
-**Available Queries:**
-- `GetAllPaginatedSubscriptionsQuery` - For listing all subscriptions
-
 ### Subscription Management
 
 ```php
@@ -705,9 +610,6 @@ $subscriptions = $mollie->subscriptions->pageForCustomer('customerId');
 
 [Official Documentation](https://docs.mollie.com/reference/v2/terminals-api/get-terminal)
 
-**Available Queries:**
-- `GetPaginatedTerminalsQuery` - For listing terminals with pagination
-
 ### Terminal Management
 
 ```php
@@ -722,9 +624,6 @@ $terminals = $mollie->terminals->page();
 
 [Official Documentation](https://docs.mollie.com/reference/v2/wallets-api/request-apple-pay-payment-session)
 
-**Available Payloads:**
-- `RequestApplePayPaymentSessionPayload` - For requesting Apple Pay payment sessions
-
 ### Wallet Management
 
 ```php
@@ -738,13 +637,6 @@ $session = $mollie->wallets->requestApplePayPaymentSession([
 ## Webhooks
 
 [Official Documentation](https://docs.mollie.com/reference/v2/webhooks-api/create-webhook)
-
-**Available Payloads:**
-- `CreateWebhookPayload` - For creating new webhooks
-- `UpdateWebhookPayload` - For updating existing webhooks
-
-**Available Queries:**
-- `GetPaginatedWebhooksQuery` - For listing webhooks with pagination
 
 ### Webhook Management
 
@@ -836,18 +728,3 @@ try {
     echo "API call failed: {$e->getMessage()}";
 }
 ```
-
-## Common Data Types
-
-- `Money` - For handling currency amounts
-- `DataCollection` - For handling collections of data
-- `Data` - Base class for payload/query objects
-
-## Factories
-
-**Query Factories:**
-- `PaginatedQueryFactory` - For creating paginated queries
-- `SortablePaginatedQueryFactory` - For creating sortable paginated queries
-
-**Payload Factories:**
-- `CreatePaymentRequestFactory` - For creating payment payloads
