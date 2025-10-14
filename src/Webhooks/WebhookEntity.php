@@ -31,7 +31,7 @@ class WebhookEntity
         $this->resourceType = $resourceType;
         $this->id = $id;
         $this->data = $data;
-        $this->mode = Arr::get($data, 'mode');
+        $this->mode = $this->getData('mode');
     }
 
     /**
@@ -60,7 +60,7 @@ class WebhookEntity
     }
 
     /**
-     * @return array|object
+     * @return mixed
      */
     public function getData(?string $key = null)
     {

@@ -19,9 +19,9 @@ class FakeResponseLoader
             $key.'.json',
         ], DIRECTORY_SEPARATOR);
 
-        $contents = file_get_contents($path);
-
-        if (! $contents) {
+        try {
+            $contents = file_get_contents($path);
+        } catch (\Throwable $e) {
             throw new LogicException("{$lookupFolder} file {$path} not found");
         }
 
