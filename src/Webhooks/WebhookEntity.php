@@ -4,27 +4,34 @@ namespace Mollie\Api\Webhooks;
 
 use Mollie\Api\Config;
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\SupportsTestmode;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceRegistry;
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
 class WebhookEntity
 {
+    use HasMode;
+
     private string $resourceType;
 
     private string $id;
 
     private array $data;
 
+    private ?string $mode = null;
+
     public function __construct(string $resourceType, string $id, array $data)
     {
         $this->resourceType = $resourceType;
         $this->id = $id;
         $this->data = $data;
+        $this->mode = Arr::get($data, 'mode');
     }
 
     /**
@@ -71,8 +78,11 @@ class WebhookEntity
     {
         $targetClass = $this->resolveTargetResourceClass();
 
-        // @todo: handle test mode
         $request = $this->tryCreateGetRequest($targetClass);
+
+        if ($request instanceof SupportsTestmode) {
+            $request = $request->test($this->isInTestmode());
+        }
 
         if ($request instanceof ResourceHydratableRequest) {
             return $connector->send($request);
