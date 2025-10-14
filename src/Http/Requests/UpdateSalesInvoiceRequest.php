@@ -90,7 +90,7 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
             'lines' => $this->lines,
             'webhookUrl' => $this->webhookUrl,
             'discount' => $this->discount,
-            'isEInvoice' => $this->isEInvoice
+            'isEInvoice' => $this->isEInvoice,
         ];
     }
 

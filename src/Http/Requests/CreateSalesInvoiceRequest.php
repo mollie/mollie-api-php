@@ -109,7 +109,7 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
             'emailDetails' => $this->emailDetails,
             'webhookUrl' => $this->webhookUrl,
             'discount' => $this->discount,
-            'isEInvoice' => $this->isEInvoice
+            'isEInvoice' => $this->isEInvoice,
         ];
     }
 
