@@ -3,8 +3,6 @@
 namespace Mollie\Api\Fake;
 
 use Closure;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\TooManyRedirectsException;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
