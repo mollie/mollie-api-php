@@ -3,12 +3,17 @@
 namespace Mollie\Api\Fake;
 
 use Closure;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
 use Mollie\Api\Contracts\HttpAdapterContract;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Mollie\Api\Utils\Arr;
 use PHPUnit\Framework\Assert as PHPUnit;
+use Psr\Http\Client\NetworkExceptionInterface;
+use Psr\Http\Client\RequestExceptionInterface;
 
 class MockMollieHttpAdapter implements HttpAdapterContract
 {
@@ -35,7 +40,13 @@ class MockMollieHttpAdapter implements HttpAdapterContract
 
         $this->guardAgainstStrayRequests($requestClass);
 
-        $mockedResponse = $this->getResponse($requestClass, $pendingRequest);
+        try {
+            $mockedResponse = $this->getResponse($requestClass, $pendingRequest);
+        } catch (NetworkExceptionInterface $e) {
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
+        } catch (RequestExceptionInterface $e) {
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
+        }
 
         $response = new Response(
             $mockedResponse->createPsrResponse(),
