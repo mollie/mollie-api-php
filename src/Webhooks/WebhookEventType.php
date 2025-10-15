@@ -57,4 +57,16 @@ class WebhookEventType
             self::ALL,
         ];
     }
+
+    public static function getAllNextGenWebhookEventTypes(): array
+    {
+        return [
+            self::PAYMENT_LINK_PAID,
+            self::BALANCE_TRANSACTION_CREATED,
+            self::SALES_INVOICE_CREATED,
+            self::SALES_INVOICE_ISSUED,
+            self::SALES_INVOICE_CANCELED,
+            self::SALES_INVOICE_PAID,
+        ];
+    }
 }
