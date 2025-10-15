@@ -67,6 +67,7 @@ class WebhookEventType
             self::SALES_INVOICE_ISSUED,
             self::SALES_INVOICE_CANCELED,
             self::SALES_INVOICE_PAID,
+            self::ALL,
         ];
     }
 }
