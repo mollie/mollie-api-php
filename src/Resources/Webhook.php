@@ -2,9 +2,10 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Factories\UpdateWebhookRequestFactory;
 use Mollie\Api\Http\Requests\DeleteWebhookRequest;
 use Mollie\Api\Http\Requests\TestWebhookRequest;
-use Mollie\Api\Http\Requests\UpdateWebhookRequest;
+use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\WebhookStatus;
 
 /**
@@ -12,6 +13,8 @@ use Mollie\Api\Types\WebhookStatus;
  */
 class Webhook extends BaseResource
 {
+    use HasMode;
+
     /**
      * Indicates the response contains a webhook subscription object.
      * Will always contain the string "webhook" for this endpoint.
@@ -58,7 +61,7 @@ class Webhook extends BaseResource
     /**
      * The events types that are subscribed.
      *
-     * @var string
+     * @var array<string>
      */
     public $eventTypes;
 
@@ -69,6 +72,22 @@ class Webhook extends BaseResource
      * @var string
      */
     public $status;
+
+    /**
+     * The webhook's secret.
+     *
+     * Only available once after creation.
+     *
+     * @var string|null
+     */
+    public $webhookSecret;
+
+    /**
+     * The webhook's mode.
+     *
+     * @var string
+     */
+    public $mode;
 
     /**
      * @var \stdClass
@@ -90,6 +109,11 @@ class Webhook extends BaseResource
         return $this->status === WebhookStatus::BLOCKED;
     }
 
+    public function deleted(): bool
+    {
+        return $this->status === WebhookStatus::DELETED;
+    }
+
     /**
      * Update this webhook.
      *
@@ -97,15 +121,12 @@ class Webhook extends BaseResource
      */
     public function update(array $data = []): Webhook
     {
-        $request = new UpdateWebhookRequest(
-            $this->id,
-            $data['url'] ?? $this->url,
-            $data['name'] ?? $this->name,
-            $data['eventTypes'] ?? $this->eventTypes
-        );
+        $request = UpdateWebhookRequestFactory::new($this->id)
+            ->withPayload($data)
+            ->create();
 
         /** @var Webhook */
-        return $this->connector->send($request);
+        return $this->connector->send($request->test($this->isInTestmode()));
     }
 
     /**
@@ -115,7 +136,7 @@ class Webhook extends BaseResource
      */
     public function delete(): void
     {
-        $this->connector->send(new DeleteWebhookRequest($this->id));
+        $this->connector->send(new DeleteWebhookRequest($this->id)->test($this->isInTestmode()));
     }
 
     /**
@@ -126,6 +147,6 @@ class Webhook extends BaseResource
     public function test(): AnyResource
     {
         /** @var AnyResource */
-        return $this->connector->send(new TestWebhookRequest($this->id));
+        return $this->connector->send(new TestWebhookRequest($this->id)->test($this->isInTestmode()));
     }
 }
