@@ -25,7 +25,7 @@ class WebhookTest extends TestCase
         $webhook->id = 'wh_4KgGJJSZpH';
         $webhook->url = 'https://example.com/webhook';
         $webhook->name = 'My webhook';
-        $webhook->eventTypes = WebhookEventType::PAYMENT_LINK_PAID;
+        $webhook->eventTypes = [WebhookEventType::PAYMENT_LINK_PAID];
 
         /** @var Webhook $updatedWebhook */
         $updatedWebhook = $webhook->update([
