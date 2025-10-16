@@ -136,7 +136,7 @@ class Webhook extends BaseResource
      */
     public function delete(): void
     {
-        $this->connector->send(new DeleteWebhookRequest($this->id)->test($this->isInTestmode()));
+        $this->connector->send((new DeleteWebhookRequest($this->id))->test($this->isInTestmode()));
     }
 
     /**
@@ -147,6 +147,6 @@ class Webhook extends BaseResource
     public function test(): AnyResource
     {
         /** @var AnyResource */
-        return $this->connector->send(new TestWebhookRequest($this->id)->test($this->isInTestmode()));
+        return $this->connector->send((new TestWebhookRequest($this->id))->test($this->isInTestmode()));
     }
 }
