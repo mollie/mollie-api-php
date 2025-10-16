@@ -28,7 +28,7 @@ class WebhookEventMapperTest extends TestCase
             ->create();
 
         $fullEventPayload = MockEvent::for($expectedClass, 'entity_test')
-            ->full()
+            ->snapshot()
             ->create();
 
         $event = $this->mapper->processPayload($simpleEventPayload);

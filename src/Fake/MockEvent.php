@@ -12,7 +12,7 @@ class MockEvent
 
     private string $entityId = '';
 
-    private bool $fullPayload = false;
+    private bool $isSnapshot = false;
 
     public function __construct(string $eventClass, string $entityId = '')
     {
@@ -36,16 +36,16 @@ class MockEvent
         return $this;
     }
 
-    public function full(): self
+    public function snapshot(): self
     {
-        $this->fullPayload = true;
+        $this->isSnapshot = true;
 
         return $this;
     }
 
     public function simple(): self
     {
-        $this->fullPayload = false;
+        $this->isSnapshot = false;
 
         return $this;
     }
@@ -54,7 +54,7 @@ class MockEvent
     {
         $eventBlueprintData = $this->loadEventBlueprintData();
 
-        if (! $this->fullPayload) {
+        if (! $this->isSnapshot) {
             return $eventBlueprintData;
         }
 
