@@ -5,15 +5,9 @@ namespace Mollie\Api\Fake;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Traits\ForwardsCalls;
-use ReflectionClass;
+use Mollie\Api\Utils\Str;
+use Mollie\Api\Utils\Utility;
 
-/**
- * Builder for creating mock responses for Mollie API resources.
- *
- * @method self embed(string $collectionClass) Embed a collection of resources into the response
- * @method self add(array $data) Add a resource to the embedded response
- * @method self addMany(array $data) Add multiple resources to the embedded response
- */
 class ResourceResponseBuilder
 {
     use ForwardsCalls;
@@ -51,8 +45,7 @@ class ResourceResponseBuilder
      */
     public function create(): MockResponse
     {
-        $reflection = new ReflectionClass($this->resourceClass);
-        $baseName = strtolower($reflection->getShortName());
+        $baseName = Str::snake(Utility::classBasename($this->resourceClass), '-');
 
         $sampleContents = json_decode(FakeResponseLoader::load($baseName), true);
 
