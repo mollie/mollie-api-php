@@ -34,7 +34,7 @@ class SequenceMockResponse
      * @deprecated use shift instead
      * @return Closure|MockResponse
      */
-    public function pop(): MockResponse
+    public function pop()
     {
         return $this->shift();
     }
