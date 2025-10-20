@@ -56,6 +56,10 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     public ?Discount $discount;
 
+    public ?string $customerId;
+
+    public ?string $mandateId;
+
     public ?bool $isEInvoice;
 
     public function __construct(
@@ -73,6 +77,8 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         ?EmailDetails $emailDetails = null,
         ?string $webhookUrl = null,
         ?Discount $discount = null,
+        ?string $customerId = null,
+        ?string $mandateId = null,
         ?bool $isEInvoice = null
     ) {
         $this->currency = $currency;
@@ -89,6 +95,8 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         $this->emailDetails = $emailDetails;
         $this->webhookUrl = $webhookUrl;
         $this->discount = $discount;
+        $this->customerId = $customerId;
+        $this->mandateId = $mandateId;
         $this->isEInvoice = $isEInvoice;
     }
 
@@ -109,6 +117,8 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
             'emailDetails' => $this->emailDetails,
             'webhookUrl' => $this->webhookUrl,
             'discount' => $this->discount,
+            'customerId' => $this->customerId,
+            'mandateId' => $this->mandateId,
             'isEInvoice' => $this->isEInvoice,
         ];
     }

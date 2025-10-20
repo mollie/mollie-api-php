@@ -33,6 +33,8 @@ class CreateSalesInvoiceRequestFactory extends RequestFactory
             $this->transformFromPayload('emailDetails', fn ($data) => EmailDetails::fromArray($data)),
             $this->payload('webhookUrl'),
             $this->transformFromPayload('discount', fn ($data) => Discount::fromArray($data)),
+            $this->payload('customerId'),
+            $this->payload('mandateId'),
             $this->payload('isEInvoice')
         );
     }
