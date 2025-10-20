@@ -4,7 +4,6 @@ namespace Tests\Fake;
 
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
-use Mollie\Api\Http\PendingRequest;
 use PHPUnit\Framework\TestCase;
 
 class SequenceMockResponseTest extends TestCase
