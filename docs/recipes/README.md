@@ -12,6 +12,7 @@ The recipes are organized by resource type:
 - `captures/` - Payment capture operations
 - `chargebacks/` - Chargeback handling
 - `refunds/` - Refund operations
+- `connect-balance-transfers/` - Connect balance transfer operations
 - `webhooks/` - Webhook management and events
 
 Each recipe includes:

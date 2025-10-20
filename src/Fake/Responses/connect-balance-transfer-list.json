@@ -1,0 +1,82 @@
+{
+  "_embedded": {
+    "connect_balance_transfers": [
+      {
+        "resource": "connect-balance-transfer",
+        "id": "cbt_4KgGJJSZpH",
+        "amount": {
+          "currency": "EUR",
+          "value": "100.00"
+        },
+        "source": {
+          "type": "organization",
+          "id": "org_12345678",
+          "description": "Payment from Organization A"
+        },
+        "destination": {
+          "type": "organization",
+          "id": "org_87654321",
+          "description": "Payment to Organization B"
+        },
+        "description": "Transfer from balance A to balance B",
+        "status": "succeeded",
+        "category": "manual_correction",
+        "executedAt": "2023-12-25T10:31:00+00:00",
+        "mode": "live",
+        "createdAt": "2023-12-25T10:30:54+00:00",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/connect/balance-transfers/cbt_4KgGJJSZpH",
+            "type": "application/hal+json"
+          }
+        }
+      },
+      {
+        "resource": "connect-balance-transfer",
+        "id": "cbt_8KhHNOSdpL",
+        "amount": {
+          "currency": "EUR",
+          "value": "250.00"
+        },
+        "source": {
+          "type": "organization",
+          "id": "org_12345678",
+          "description": "Monthly transfer from Org A"
+        },
+        "destination": {
+          "type": "organization",
+          "id": "org_99887766",
+          "description": "Monthly transfer to Org C"
+        },
+        "description": "Monthly balance transfer",
+        "status": "succeeded",
+        "category": "purchase",
+        "executedAt": "2023-12-26T10:31:15+00:00",
+        "mode": "live",
+        "createdAt": "2023-12-26T10:30:54+00:00",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/connect/balance-transfers/cbt_8KhHNOSdpL",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "count": 2,
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/connect-api/list-connect-balance-transfers",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "https://api.mollie.com/v2/connect/balance-transfers?limit=50",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/connect/balance-transfers?from=cbt_8KhHNOSdpL&limit=50",
+      "type": "application/hal+json"
+    }
+  }
+}
