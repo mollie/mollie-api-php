@@ -70,6 +70,18 @@ $client = MollieApiClient::fake([
         MockResponse::ok(['second' => 'response']),
     )
 ])
+=======
+To verify that a request was sent, use `assertSent` or `assertSentCount`.
+
+```php
+$client->send(new GetPaymentRequest('tr_xxxxxxxxxxxx', embedRefunds: true));
+
+$client->assertSent(GetPaymentRequest::class);
+$client->assertSent(function (PendingRequest $pendingRequest, Response $response) {
+    return $pendingRequest->query()->get('embed') === 'refunds';
+});
+
+$client->assertSentCount(1);
 ```
 
 ### MockResponse Options

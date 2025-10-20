@@ -40,3 +40,14 @@ To send a request using the Mollie API client, you typically need to:
 
    $this->assertEquals(200, $payment->getResponse()->status());
    ```
+
+## Adding unsupported properties
+If the SDK is not up to date with the API, you can manually add a property to a request via the `query()` or `payload()` methods.
+
+```php
+$someRequestUsingPayload = new SomePayloadRequest(...);
+$someRequestUsingPayload->payload()->add('foo', 'bar');
+
+$someRequestUsingQueryParams = new SomeQueryRequest(...);
+$someRequestUsingQueryParams->query()->add('foo', 'bar');
+```
