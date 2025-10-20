@@ -35,6 +35,7 @@ class CreateSalesInvoiceRequestFactory extends RequestFactory
             $this->transformFromPayload('discount', fn ($data) => Discount::fromArray($data)),
             $this->payload('customerId'),
             $this->payload('mandateId')
+            $this->payload('isEInvoice')
         );
     }
 }
