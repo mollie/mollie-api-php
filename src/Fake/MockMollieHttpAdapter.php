@@ -77,7 +77,7 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             return $mockedResponse;
         }
 
-        $response = $mockedResponse->pop();
+        $response = $mockedResponse->shift();
 
         if ($mockedResponse->isEmpty()) {
             $this->forgetRequest($requestClass);
