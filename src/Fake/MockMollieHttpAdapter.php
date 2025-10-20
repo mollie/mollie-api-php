@@ -83,6 +83,10 @@ class MockMollieHttpAdapter implements HttpAdapterContract
             $this->forgetRequest($requestClass);
         }
 
+        if ($response instanceof Closure) {
+            $response = $response($pendingRequest);
+        }
+
         return $response;
     }
 

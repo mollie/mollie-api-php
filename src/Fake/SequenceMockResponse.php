@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Fake;
 
+use Closure;
+
 class SequenceMockResponse
 {
     /**
@@ -16,7 +18,10 @@ class SequenceMockResponse
         $this->responses = $responses;
     }
 
-    public function pop(): MockResponse
+    /**
+     * @return Closure|MockResponse
+     */
+    public function pop()
     {
         if (! isset($this->responses[$this->index])) {
             throw new \RuntimeException('No more responses available.');
