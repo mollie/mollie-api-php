@@ -74,6 +74,7 @@ For detailed documentation about using this PHP client, see the following guides
 - [Responses](docs/responses.md) - Handling and understanding responses from the API.
 - [Testing](docs/testing.md) - Guidelines for testing with the Mollie API client.
 - [Debugging](docs/debugging.md) - How to debug API requests and responses safely.
+- [Webhooks](docs/webhooks.md) - How to process Webhook requests
 
 These guides provide in-depth explanations and examples for advanced usage of the client.
 

@@ -4,7 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateWebhookRequestFactory;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 use PHPUnit\Framework\TestCase;
 
 class CreateWebhookRequestFactoryTest extends TestCase

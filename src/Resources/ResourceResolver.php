@@ -2,11 +2,13 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Config;
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
+use Mollie\Api\Utils\Str;
 
 class ResourceResolver
 {
@@ -50,17 +52,29 @@ class ResourceResolver
         return $response;
     }
 
+    /**
+     * @param Response $response
+     * @param class-string<ResourceCollection> $targetCollectionClass
+     * @return BaseCollection
+     */
     private function resolveCollection(Response $response, string $targetCollectionClass): BaseCollection
     {
         $result = $response->json();
+
         $collection = ResourceFactory::createCollection(
             $response->getConnector(),
             $targetCollectionClass
         );
 
+        $kebabCollectionKey = Config::resourceRegistry()->pluralOf($targetCollectionClass::getResourceClass());
+
+        $data = isset($result->_embedded->{$kebabCollectionKey})
+            ? $result->_embedded->{$kebabCollectionKey}
+            : $result->_embedded->{Str::snake($kebabCollectionKey)};
+
         return $this->hydrator->hydrateCollection(
             $collection,
-            $result->_embedded->{$targetCollectionClass::getCollectionResourceName()},
+            $data,
             $response,
             $result->_links
         );

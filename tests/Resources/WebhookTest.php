@@ -9,7 +9,7 @@ use Mollie\Api\Http\Requests\TestWebhookRequest;
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Webhook;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 use PHPUnit\Framework\TestCase;
 
 class WebhookTest extends TestCase
@@ -25,7 +25,7 @@ class WebhookTest extends TestCase
         $webhook->id = 'wh_4KgGJJSZpH';
         $webhook->url = 'https://example.com/webhook';
         $webhook->name = 'My webhook';
-        $webhook->eventTypes = WebhookEventType::PAYMENT_LINK_PAID;
+        $webhook->eventTypes = [WebhookEventType::PAYMENT_LINK_PAID];
 
         /** @var Webhook $updatedWebhook */
         $updatedWebhook = $webhook->update([
