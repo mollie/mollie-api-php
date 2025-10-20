@@ -61,16 +61,21 @@ $payment = $client->send(new GetPaymentRequest('tr_xxxxxxxxxxxx'));
 ```
 
 ### Sequence Mock Responses
-To return different responses for the same request type, use `SequenceMockResponse` and pass `MockResponse` instances in the order they should occur.
+To return different responses for the same request type, use `SequenceMockResponse` and pass `MockResponse` or `Closure` (which return `MockResponse` instances) in the order they should occur.
 
 ```php
 $client = MollieApiClient::fake([
     DynamicGetRequest::class => new SequenceMockResponse(
         MockResponse::ok(['first' => 'response']),
         MockResponse::ok(['second' => 'response']),
+        function (PendingRequest $pendingRequest) {
+            //...
+
+            return MockResponse::ok(['third' => 'response']);
+        }
     )
 ])
-=======
+
 To verify that a request was sent, use `assertSent` or `assertSentCount`.
 
 ```php
@@ -88,7 +93,7 @@ $client->assertSentCount(1);
 Configure responses using:
 - **Arrays**: Direct data structure
 - **Strings**: JSON payloads or predefined fixture names
-- **Callables**: Dynamic response generation
+- **Callables**: Dynamic response generation *or* intercepting assertions
 
 ```php
 // Array response
@@ -104,6 +109,13 @@ MockResponse::created('payment');
 MockResponse::created(function (PendingRequest $request) {
     return ['amount' => $request->hasParameter('amount') ? 10 : 20];
 });
+
+// Intercepting assertions
+function (PendingRequest $request) use ($idempotencyKey) {
+    $this->assertEquals($idempotencyKey, $request->headers()->get('Idempotency-Key'));
+
+    return MockResponse::created('payment');
+}
 ```
 
 ### Working with Collections

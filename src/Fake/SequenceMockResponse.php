@@ -2,37 +2,45 @@
 
 namespace Mollie\Api\Fake;
 
+use Closure;
+
 class SequenceMockResponse
 {
     /**
-     * @var array<MockResponse>
+     * @var array<Closure|MockResponse>
      */
     private array $responses;
-
-    private int $index = 0;
 
     public function __construct(...$responses)
     {
         $this->responses = $responses;
     }
 
-    public function pop(): MockResponse
+    /**
+     * @return Closure|MockResponse
+     */
+    public function shift()
     {
-        if (! isset($this->responses[$this->index])) {
+        if (empty($this->responses)) {
             throw new \RuntimeException('No more responses available.');
         }
 
-        $response = $this->responses[$this->index];
-
-        unset($this->responses[$this->index]);
-
-        $this->index++;
+        $response = array_shift($this->responses);
 
         return $response;
     }
 
+    /**
+     * @deprecated use shift instead
+     * @return Closure|MockResponse
+     */
+    public function pop(): MockResponse
+    {
+        return $this->shift();
+    }
+
     public function isEmpty(): bool
     {
-        return count($this->responses) === 0;
+        return empty($this->responses);
     }
 }
