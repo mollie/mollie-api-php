@@ -55,11 +55,11 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
     public ?string $webhookUrl;
 
     public ?Discount $discount;
-  
+
     public ?string $customerId;
 
     public ?string $mandateId;
-  
+
     public ?bool $isEInvoice;
 
     public function __construct(
@@ -78,7 +78,7 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         ?string $webhookUrl = null,
         ?Discount $discount = null,
         ?string $customerId = null,
-        ?string $mandateId = null
+        ?string $mandateId = null,
         ?bool $isEInvoice = null
     ) {
         $this->currency = $currency;
