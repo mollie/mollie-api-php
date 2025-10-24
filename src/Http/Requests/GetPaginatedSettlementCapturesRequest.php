@@ -31,7 +31,7 @@ class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements 
         parent::__construct($from, $limit);
 
         $this->query()
-            ->add('include', Arr::join($includePayment ? [PaymentIncludesQuery::PAYMENT] : []));
+            ->add('embed', Arr::join($includePayment ? [PaymentIncludesQuery::PAYMENT] : []));
     }
 
     /**
