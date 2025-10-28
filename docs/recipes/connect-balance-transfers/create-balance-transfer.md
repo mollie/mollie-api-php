@@ -128,6 +128,7 @@ Different transfer categories may have different fees:
 ## Additional Notes
 
 - **OAuth Required**: You need an OAuth access token to create balance transfers. API keys are not supported for this endpoint.
+- **Sub-merchant consent**: You must have a documented consent from your sub-merchants authorizing balance movements.
 - **Balance Ownership**: You can only transfer funds between balances that belong to organizations connected through your OAuth app.
 - **Transfer Speed**: Balance transfers are processed immediately. The funds are moved instantly between the balances.
 - **Status Tracking**: Monitor the `status` field to track transfer completion. Check `executedAt` for the exact completion time.
