@@ -44,7 +44,8 @@ class DataTransformerTest extends TestCase
     {
         $pendingRequest = $this->createPostRequest();
         $pendingRequest->payload()->add('dateTime', '2024-01-01T11:00:00+00:00');
-        $pendingRequest->payload()->add('empty', null);
+        $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('null', null);
         $pendingRequest->payload()->add('valid', 'data');
         $pendingRequest->payload()->add('address', new Address(
             null,
@@ -65,6 +66,7 @@ class DataTransformerTest extends TestCase
 
         $this->assertEquals('2024-01-01T11:00:00+00:00', (string) $result->payload()->get('dateTime'));
         $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('null'));
         $this->assertEquals('data', $result->payload()->get('valid'));
         $this->assertEqualsCanonicalizing([
             'givenName' => 'John',
