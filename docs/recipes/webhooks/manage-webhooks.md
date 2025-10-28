@@ -29,7 +29,7 @@ try {
 
 ```php
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 
 try {
     // Update webhook properties

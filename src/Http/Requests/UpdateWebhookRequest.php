@@ -8,6 +8,7 @@ use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Arr;
+use Mollie\Api\Utils\Utility;
 
 class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -25,9 +26,15 @@ class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPaylo
 
     private string $id;
 
-    private string $url;
+    /**
+     * @var string|null
+     */
+    private $url;
 
-    private string $name;
+    /**
+     * @var string|null
+     */
+    private $name;
 
     /**
      * @var string|array
@@ -36,8 +43,8 @@ class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPaylo
 
     public function __construct(
         string $id,
-        string $url,
-        string $name,
+        $url,
+        $name,
         $eventTypes
     ) {
         $this->id = $id;
@@ -51,7 +58,10 @@ class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPaylo
         return [
             'url' => $this->url,
             'name' => $this->name,
-            'eventTypes' => is_string($this->eventTypes) ? $this->eventTypes : Arr::join($this->eventTypes),
+            'eventTypes' => Utility::transform(
+                $this->eventTypes,
+                fn ($eventTypes) => is_string($eventTypes) ? $eventTypes : Arr::join($eventTypes),
+            ),
         ];
     }
 

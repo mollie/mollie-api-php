@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use ArrayObject;
+use Mollie\Api\Config;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Traits\HasResponse;
@@ -16,6 +17,8 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
 
     /**
      * The name of the collection resource in Mollie's API.
+     *
+     * @deprecated Use ResourceRegistry to resolve plural names instead.
      */
     public static string $collectionName = '';
 
@@ -78,10 +81,23 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
 
     public static function getCollectionResourceName(): string
     {
-        if (empty(static::$collectionName)) {
-            throw new \RuntimeException('Collection name not set');
+        // Preferred: resolve via registry using the declared resource class on the collection
+        if (method_exists(static::class, 'getResourceClass')) {
+            /** @var class-string<BaseResource> $resourceClass */
+            $resourceClass = static::getResourceClass();
+
+            $registry = Config::resourceRegistry();
+
+            if ($registry->isRegistered($resourceClass)) {
+                return $registry->pluralOf($resourceClass);
+            }
         }
 
-        return static::$collectionName;
+        // Deprecated fallback: read static::$collectionName if set
+        if (! empty(static::$collectionName)) {
+            return static::$collectionName;
+        }
+
+        throw new \RuntimeException('Collection name not set');
     }
 }

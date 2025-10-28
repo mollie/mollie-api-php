@@ -24,18 +24,23 @@ try {
     $validator = new SignatureValidator($signingSecret);
 
     /**
-     * Any validate method will throw an InvalidSignatureException if a
-     * signature header is present but does not contain a valid signature
+     * Validate the webhook signature
      *
-     * For psr7Requests you can also use the validateRequest($psr7Request)
+     * This method will throw an InvalidSignatureException if:
+     * - A signature header is present but doesn't contain a valid signature
+     * - The payload has been tampered with
+     *
+     * For PSR-7 requests, you can also use validateRequest($psr7Request)
      */
     $isValid = $validator->validatePayload($requestBody, $signature);
 
-    if ($isValid) {
-        // Process the verified webhook event
-    } else {
-        // Legacy webhook without signature
+    if (!$isValid) {
+        // Handle invalid signature
+        http_response_code(400);
+        exit('Invalid signature');
     }
+
+    // Signature is valid - proceed with webhook processing
 
 } catch (InvalidSignatureException $e) {
     // Log the invalid signature attempt for security monitoring
@@ -45,7 +50,7 @@ try {
 }
 ```
 
-### Key Rotation
+#### Key Rotation
 
 During key rotation or migration periods, you can verify signatures against multiple secrets:
 
@@ -57,4 +62,75 @@ $signingSecrets = [
 
 $validator = new SignatureValidator($signingSecrets);
 $isValid = $validator->validatePayload($requestBody, $signature);
+```
+
+### Processing Webhook Payloads
+
+Once you've verified the webhook signature, you can safely process the payload:
+
+```php
+use Mollie\Api\Webhooks\WebhookEventMapper;
+use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+
+// Process the webhook payload into an event object
+$event = (new WebhookEventMapper())->processPayload($request->getParsedBody());
+
+// Extract the entity ID (e.g., payment ID, customer ID, etc.)
+$entityId = $event->entityData('id');
+
+// Get the full resource object for direct interaction
+// This only works if you subscribe to full event payloads
+$resource = $event->entity()->asResource($mollie);
+
+// Handle different event types
+match (true) {
+    $event instanceof PaymentLinkPaid => $this->handlePaymentLinkPaid(),
+    $event instanceof BalanceTransactionCreated => $this->handleBalanceTransactionCreated(),
+    // ... handle other event types
+}
+```
+
+#### Using custom webhook Events
+If the API is ahead of this SDK's implementation of new Events, you can create your own Events as temporary workaround and pass it into the `WebhookEventMapper`
+
+```php
+// Event class
+use Mollie\Api\Webhooks\Events\BaseEvent;
+
+class SomeEventHappened extends BaseEvent
+{
+    public static function type(): string
+    {
+        return 'some.event_happened'; // needs to match the eventType from the documentation
+    }
+}
+
+// passing into event mapper and processing payload
+$event = (new WebhookEventMapper([
+    'some.event_happened' => SomeEventHappened::class
+]))->processPayload($request->getParsedBody());
+```
+
+### Testing Webhooks
+
+Testing webhooks is crucial to ensure your application handles all event types correctly. The SDK provides several tools to help you test webhook scenarios.
+
+Use `MockEvent` to create realistic webhook payloads for testing:
+
+```php
+use Mollie\Api\Fake\MockEvent;
+use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
+
+// Create a mock PaymentLinkPaid event
+$paymentLinkEventPayload = MockEvent::for(PaymentLinkPaid::class)
+    ->entityId('pl_1234567890')
+    ->full()  // Include full resource data
+    ->create();
+
+// Create a mock BalanceTransactionCreated event
+$balanceEventPayload = MockEvent::for(BalanceTransactionCreated::class)
+    ->entityId('bt_9876543210')
+    ->simple()  // Webhook request without any resource data besides entityId
+    ->create();
 ```

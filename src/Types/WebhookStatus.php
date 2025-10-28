@@ -18,4 +18,9 @@ class WebhookStatus
      * The webhook is disabled and will not receive events.
      */
     public const DISABLED = 'disabled';
+
+    /**
+     * The webhook is deleted and will not receive events.
+     */
+    public const DELETED = 'deleted';
 }

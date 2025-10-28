@@ -14,7 +14,7 @@ class GetPaginatedBalanceTransactionRequestTest extends TestCase
     public function it_can_get_paginated_balance_transactions()
     {
         $client = new MockMollieClient([
-            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transactions'),
+            GetPaginatedBalanceTransactionRequest::class => MockResponse::ok('balance-transaction-list'),
         ]);
 
         $balanceId = 'bal_gVMhHKqSSRYJyPsuoPNFH';

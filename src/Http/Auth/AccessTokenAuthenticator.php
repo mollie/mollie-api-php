@@ -9,7 +9,7 @@ class AccessTokenAuthenticator extends BearerTokenAuthenticator
     public function __construct(
         string $token
     ) {
-        if (! preg_match('/^access_\w+$/', trim($token))) {
+        if (! TokenValidator::isAccessToken($token)) {
             throw new InvalidAuthenticationException($token, "Invalid OAuth access token. An access token must start with 'access_'.");
         }
 
