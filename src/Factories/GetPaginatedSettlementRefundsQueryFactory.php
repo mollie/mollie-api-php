@@ -16,7 +16,8 @@ class GetPaginatedSettlementRefundsQueryFactory extends RequestFactory
 
     public function create(): GetPaginatedSettlementRefundsRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT)
+            || $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementRefundsRequest(
             $this->settlementId,
