@@ -13,6 +13,12 @@ parameters:
 			path: src/Http/Data/DataCollection.php
 
 		-
+			message: '#^Deprecated in PHP 8\.0\: Required parameter \$amount follows optional parameter \$description\.$#'
+			identifier: parameter.requiredAfterOptional
+			count: 1
+			path: src/Http/Requests/CreatePaymentRefundRequest.php
+
+		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
 			count: 1
