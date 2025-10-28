@@ -3,10 +3,10 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Resources\SalesInvoice;
+use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\Method;
 
-class GetSalesInvoiceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
+class GetConnectBalanceTransferRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
      * Define the HTTP method.
@@ -16,7 +16,7 @@ class GetSalesInvoiceRequest extends ResourceHydratableRequest implements Suppor
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SalesInvoice::class;
+    protected $hydratableResource = ConnectBalanceTransfer::class;
 
     private string $id;
 
@@ -25,8 +25,11 @@ class GetSalesInvoiceRequest extends ResourceHydratableRequest implements Suppor
         $this->id = $id;
     }
 
+    /**
+     * The resource path.
+     */
     public function resolveResourcePath(): string
     {
-        return "sales-invoices/{$this->id}";
+        return "connect/balance-transfers/{$this->id}";
     }
 }

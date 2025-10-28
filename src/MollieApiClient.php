@@ -13,6 +13,7 @@ use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\ConnectBalanceTransferEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection;
 use Mollie\Api\EndpointCollection\InvoiceEndpointCollection;
@@ -69,6 +70,7 @@ use Mollie\Api\Utils\Url;
  * @property CapabilityEndpointCollection $capabilities
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks
+ * @property ConnectBalanceTransferEndpointCollection $connectBalanceTransfers
  * @property CustomerPaymentsEndpointCollection $customerPayments
  * @property CustomerEndpointCollection $customers
  * @property InvoiceEndpointCollection $invoices
@@ -175,9 +177,9 @@ class MollieApiClient implements Connector
         return Url::join($this->apiEndpoint, self::API_VERSION);
     }
 
-    public static function fake(array $expectedResponses = []): MockMollieClient
+    public static function fake(array $expectedResponses = [], bool $retainRequests = false): MockMollieClient
     {
-        return new MockMollieClient($expectedResponses);
+        return new MockMollieClient($expectedResponses, $retainRequests);
     }
 
     public function __serialize(): array

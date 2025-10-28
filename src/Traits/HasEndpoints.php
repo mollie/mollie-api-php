@@ -9,6 +9,7 @@ use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\ConnectBalanceTransferEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection;
 use Mollie\Api\EndpointCollection\InvoiceEndpointCollection;
@@ -67,6 +68,7 @@ trait HasEndpoints
             'chargebacks' => ChargebackEndpointCollection::class,
             'clients' => ClientEndpointCollection::class,
             'clientLinks' => ClientLinkEndpointCollection::class,
+            'connectBalanceTransfers' => ConnectBalanceTransferEndpointCollection::class,
             'customerPayments' => CustomerPaymentsEndpointCollection::class,
             'customers' => CustomerEndpointCollection::class,
             'invoices' => InvoiceEndpointCollection::class,

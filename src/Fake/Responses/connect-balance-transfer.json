@@ -1,0 +1,24 @@
+{
+  "resource": "connect-balance-transfer",
+  "id": "cbt_4KgGJJSZpH",
+  "amount": {
+    "currency": "EUR",
+    "value": "100.00"
+  },
+  "source": {
+    "type": "organization",
+    "id": "org_12345678",
+    "description": "Payment from Organization A"
+  },
+  "destination": {
+    "type": "organization",
+    "id": "org_87654321",
+    "description": "Payment to Organization B"
+  },
+  "description": "Transfer from balance A to balance B",
+  "status": "succeeded",
+  "category": "manual_correction",
+  "executedAt": "2023-12-25T10:31:00+00:00",
+  "mode": "live",
+  "createdAt": "2023-12-25T10:30:54+00:00"
+}

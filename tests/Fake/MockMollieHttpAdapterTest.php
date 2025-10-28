@@ -30,6 +30,23 @@ class MockMollieHttpAdapterTest extends TestCase
     }
 
     /** @test */
+    public function it_can_retain_requests()
+    {
+        $adapter = new MockMollieHttpAdapter([
+            DynamicGetRequest::class => MockResponse::ok(['test' => 'data']),
+        ], true);
+
+        $pendingRequest = new PendingRequest(new MockMollieClient, new DynamicGetRequest(''));
+
+        $response = $adapter->sendRequest($pendingRequest);
+        $response2 = $adapter->sendRequest($pendingRequest);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals('{"test":"data"}', $response->body());
+        $this->assertEquals('{"test":"data"}', $response2->body());
+    }
+
+    /** @test */
     public function can_handle_callback_for_expected_response()
     {
         $adapter = new MockMollieHttpAdapter([

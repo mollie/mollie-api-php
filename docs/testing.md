@@ -29,7 +29,10 @@ $customer = $mollie->customers->get('cust_12345678', testmode: true);
 ## API Mocking
 
 ### Basic Usage
-Simulate API responses without network calls:
+API responses can be simulated without network calls by using the `MollieApiClient::fake()` method. Each Request/Response pair passed to the fake method is consumed after a matching request.
+
+> [!NOTE]
+> To keep pairs available for reuse after they've been matched, use the `retainRequests` parameter: `MollieApiClient::fake([...], retainRequests: true)`
 
 ```php
 use Mollie\Api\MollieApiClient;
@@ -57,6 +60,22 @@ $client = MollieApiClient::fake([
 $payment = $client->send(new GetPaymentRequest('tr_xxxxxxxxxxxx'));
 ```
 
+### Sequence Mock Responses
+To return different responses for the same request type, use `SequenceMockResponse` and pass `MockResponse` or `Closure` (which return `MockResponse` instances) in the order they should occur.
+
+```php
+$client = MollieApiClient::fake([
+    DynamicGetRequest::class => new SequenceMockResponse(
+        MockResponse::ok(['first' => 'response']),
+        MockResponse::ok(['second' => 'response']),
+        function (PendingRequest $pendingRequest) {
+            //...
+
+            return MockResponse::ok(['third' => 'response']);
+        }
+    )
+])
+
 To verify that a request was sent, use `assertSent` or `assertSentCount`.
 
 ```php
@@ -74,7 +93,7 @@ $client->assertSentCount(1);
 Configure responses using:
 - **Arrays**: Direct data structure
 - **Strings**: JSON payloads or predefined fixture names
-- **Callables**: Dynamic response generation
+- **Callables**: Dynamic response generation *or* intercepting assertions
 
 ```php
 // Array response
@@ -90,6 +109,13 @@ MockResponse::created('payment');
 MockResponse::created(function (PendingRequest $request) {
     return ['amount' => $request->hasParameter('amount') ? 10 : 20];
 });
+
+// Intercepting assertions
+function (PendingRequest $request) use ($idempotencyKey) {
+    $this->assertEquals($idempotencyKey, $request->headers()->get('Idempotency-Key'));
+
+    return MockResponse::created('payment');
+}
 ```
 
 ### Working with Collections
@@ -122,7 +148,7 @@ Simulate HAL+JSON embedded resources using the `_embedded` property:
 **Key Concepts**
 - Use `MockResponse::resource()` to start building a resource response
 - Chain `embed()` calls to add related collections
-- Maintain resource relationships with fluent interface
+- Maintain resource relationships with a fluent interface
 
 ```php
 use Mollie\Api\Resources\Payment;
@@ -166,7 +192,7 @@ $client = MollieApiClient::fake([
 // - Chargebacks in _embedded.chargebacks
 ```
 
-### Handling Error Responses
+### Error Response Mocking
 Simulate API error responses using dedicated helper methods or the generic error builder:
 
 **Common Error Shortcuts**
