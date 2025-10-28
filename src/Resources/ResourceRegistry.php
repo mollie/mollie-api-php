@@ -133,6 +133,7 @@ class ResourceRegistry
             Chargeback::class => 'chargebacks',
             Client::class => 'clients',
             ClientLink::class => 'client-links',
+            ConnectBalanceTransfer::class => 'connect-balance-transfers',
             Customer::class => 'customers',
             Invoice::class => 'invoices',
             Issuer::class => 'issuers',
