@@ -1,6 +1,6 @@
 # Webhooks
 
-Mollie uses webhooks to notify your application about events that occur in your Mollie account. This guide explains how to work with Mollie webhooks in your application securely and efficiently.
+Mollie uses webhooks to notify your application about events that occur in your Mollie account. This guide explains how to work with Mollie webhooks in your application securely and efficiently. Mollie currently supports two types of webhooks: the (soon to be labeled) "legacy webhooks" and "next-gen webhooks". This guide is about the next-gen webhooks.
 
 ## Overview
 
@@ -87,7 +87,7 @@ match (true) {
     $event instanceof PaymentLinkPaid => $this->handlePaymentLinkPaid(),
     $event instanceof BalanceTransactionCreated => $this->handleBalanceTransactionCreated(),
     // ... handle other event types
-}
+};
 ```
 
 #### Using custom webhook Events
