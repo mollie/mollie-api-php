@@ -7,6 +7,8 @@ use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\BaseEvent;
+use Mollie\Api\Webhooks\Events\ConnectBalanceTransferFailed;
+use Mollie\Api\Webhooks\Events\ConnectBalanceTransferSucceeded;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
@@ -91,6 +93,8 @@ class WebhookEventMapper
         $this->map = array_merge([
             PaymentLinkPaid::type() => PaymentLinkPaid::class,
             BalanceTransactionCreated::type() => BalanceTransactionCreated::class,
+            ConnectBalanceTransferFailed::type() => ConnectBalanceTransferFailed::class,
+            ConnectBalanceTransferSucceeded::type() => ConnectBalanceTransferSucceeded::class,
             SalesInvoiceCreated::type() => SalesInvoiceCreated::class,
             SalesInvoiceIssued::type() => SalesInvoiceIssued::class,
             SalesInvoiceCanceled::type() => SalesInvoiceCanceled::class,
