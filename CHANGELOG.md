@@ -5,28 +5,41 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.5.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.6.0...HEAD)
+
+## [v3.6.0](https://github.com/mollie/mollie-api-php/compare/v3.5.0...v3.6.0) - 2025-11-05
+
+### What's Changed
+
+* Feat/add balance transfer webhook events by @sandervanhooft in https://github.com/mollie/mollie-api-php/pull/842
+* Fixed webhook docs typo and explained next-gen webhook focus by @sandervanhooft in https://github.com/mollie/mollie-api-php/pull/841
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.5.0...v3.6.0
 
 ## [v3.5.0](https://github.com/mollie/mollie-api-php/compare/v3.4.0...v3.5.0) - 2025-10-28
 
 ### Added
+
 * Feat/add retry logic by @Naoray in https://github.com/mollie/mollie-api-php/pull/826
 * Feat/add fake retain requests option by @Naoray in https://github.com/mollie/mollie-api-php/pull/830
 * feat: add isEInvoice param and add support for testmode in all sales-… by @Naoray in https://github.com/mollie/mollie-api-php/pull/832
 * feat: add customerId and mandateId to create sales invoice request by @Naoray in https://github.com/mollie/mollie-api-php/pull/834
 * Feat/add balance transfer endpoint by @Naoray in https://github.com/mollie/mollie-api-php/pull/831
 * Feat/add webhook mapping and events by @Naoray in https://github.com/mollie/mollie-api-php/pull/829
-    - global Config that serves as a lookup map to easily map resources to their respective collection keys
-    - `MockEvent` to easily test event handling
-    - `Str` utility class
-    - `classBasename` to `Utility`
-    - `WebhookEntity` to serve as Container for Resource data received through webhooks (-> can be transformed into BaseResource)
-    - Webhook Events that are instanced via the `WebhookEventMapper`
- 
+  - global Config that serves as a lookup map to easily map resources to their respective collection keys
+  - `MockEvent` to easily test event handling
+  - `Str` utility class
+  - `classBasename` to `Utility`
+  - `WebhookEntity` to serve as Container for Resource data received through webhooks (-> can be transformed into BaseResource)
+  - Webhook Events that are instanced via the `WebhookEventMapper`
+  
+
 ### Changed
+
 - Feat/make sequence mock responses consume callables by @Naoray in https://github.com/mollie/mollie-api-php/pull/833
 
 ### Fixed
+
 * Change include to embed just like in GetPaginatedChargebacksRequest.php #837 by @Naoray in https://github.com/mollie/mollie-api-php/pull/838
 * Allow description on CreatePaymentRefundRequest to be empty by @Naoray in https://github.com/mollie/mollie-api-php/pull/839
 
