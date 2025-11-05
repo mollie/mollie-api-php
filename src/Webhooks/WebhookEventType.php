@@ -17,7 +17,7 @@ class WebhookEventType
     /**
      * Connect balance transfer events
      */
-    const CONNECT_BALANCE_TRANSFER_SUCCEEDED = 'connect-balance-transfer.succeeded';
+    public const CONNECT_BALANCE_TRANSFER_SUCCEEDED = 'connect-balance-transfer.succeeded';
 
     /**
      * Sales invoice events
