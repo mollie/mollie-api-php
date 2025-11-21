@@ -25,4 +25,9 @@ class Money implements Arrayable
             'value' => $this->value,
         ];
     }
+
+    public static function fromArray(array $payload): self
+    {
+        return new self($payload['currency'], $payload['value']);
+    }
 }
