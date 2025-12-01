@@ -5,7 +5,20 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.6.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.7.0...HEAD)
+
+## [v3.7.0](https://github.com/mollie/mollie-api-php/compare/v3.6.0...v3.7.0) - 2025-12-01
+
+### What's Changed
+
+* Add GOOGLEPAY and SWISH payment methods  by @samdejongobc in https://github.com/mollie/mollie-api-php/pull/844
+* Add fromArray to Money by @Naoray in https://github.com/mollie/mollie-api-php/pull/846
+
+### New Contributors
+
+* @samdejongobc made their first contribution in https://github.com/mollie/mollie-api-php/pull/844
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.6.0...v3.7.0
 
 ## [v3.6.0](https://github.com/mollie/mollie-api-php/compare/v3.5.0...v3.6.0) - 2025-11-05
 
