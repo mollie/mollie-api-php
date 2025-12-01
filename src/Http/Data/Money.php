@@ -3,9 +3,12 @@
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
+use Mollie\Api\Traits\ComposableFromArray;
 
 class Money implements Arrayable
 {
+    use ComposableFromArray;
+
     public string $currency;
 
     public string $value;
@@ -24,10 +27,5 @@ class Money implements Arrayable
             'currency' => $this->currency,
             'value' => $this->value,
         ];
-    }
-
-    public static function fromArray(array $payload): self
-    {
-        return new self($payload['currency'], $payload['value']);
     }
 }
