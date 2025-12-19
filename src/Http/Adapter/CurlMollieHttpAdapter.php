@@ -50,7 +50,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
             return $this->extractResponseDetails($curl, $response);
         } finally {
-            if ($curl !== null) {
+            if ($curl !== null && PHP_MAJOR_VERSION < 8) {
                 curl_close($curl);
             }
         }
