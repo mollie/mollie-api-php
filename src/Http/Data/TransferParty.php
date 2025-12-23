@@ -9,11 +9,11 @@ class TransferParty implements Arrayable
 {
     use ComposableFromArray;
 
-    private string $type;
+    public string $type;
 
-    private string $id;
+    public string $id;
 
-    private string $description;
+    public string $description;
 
     public function __construct(
         string $id,
