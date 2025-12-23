@@ -81,6 +81,11 @@ class ConnectBalanceTransfer extends BaseResource
     public $category;
 
     /**
+     * @var \stdClass|null
+     */
+    public $metadata;
+
+    /**
      * The date and time when the transfer was completed, in ISO 8601 format.
      * This parameter is omitted if the transfer is not executed (yet).
      *
