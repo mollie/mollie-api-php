@@ -29,6 +29,10 @@ class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
                     'description' => 'Payment to Organization B',
                 ],
                 'category' => 'manual_correction',
+                'metadata' => [
+                    'order_id' => '12345',
+                    'description' => 'Manual correction for order',
+                ],
             ])
             ->create();
 

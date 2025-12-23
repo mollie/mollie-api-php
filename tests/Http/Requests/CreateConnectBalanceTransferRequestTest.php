@@ -31,7 +31,11 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
                 'org_87654321',
                 'Payment to Organization B'
             ),
-            ConnectBalanceTransferCategory::MANUAL_CORRECTION
+            ConnectBalanceTransferCategory::MANUAL_CORRECTION,
+            [
+                'order_id' => '12345',
+                'description' => 'Manual correction for order',
+            ]
         );
 
         /** @var ConnectBalanceTransfer */

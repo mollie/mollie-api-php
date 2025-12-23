@@ -14,7 +14,8 @@ class CreateConnectBalanceTransferRequestFactory extends RequestFactory
             $this->payload('description'),
             $this->transformFromPayload('source', fn ($item) => TransferParty::fromArray($item)),
             $this->transformFromPayload('destination', fn ($item) => TransferParty::fromArray($item)),
-            $this->payload('category')
+            $this->payload('category'),
+            $this->payload('metadata')
         );
     }
 }

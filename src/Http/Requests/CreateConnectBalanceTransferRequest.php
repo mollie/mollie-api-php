@@ -34,18 +34,22 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
 
     private string $category;
 
+    private ?array $metadata;
+
     public function __construct(
         Money $amount,
         string $description,
         TransferParty $source,
         TransferParty $destination,
-        string $category
+        string $category,
+        ?array $metadata = null
     ) {
         $this->amount = $amount;
         $this->description = $description;
         $this->source = $source;
         $this->destination = $destination;
         $this->category = $category;
+        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array
@@ -56,6 +60,7 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
             'source' => $this->source,
             'destination' => $this->destination,
             'category' => $this->category,
+            'metadata' => $this->metadata,
         ];
     }
 
