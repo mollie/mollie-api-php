@@ -83,5 +83,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: mollie-api-php_build_scoped_${{ github.event.release.tag_name }}.zip
+          tag_name: ${{ github.event.release.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

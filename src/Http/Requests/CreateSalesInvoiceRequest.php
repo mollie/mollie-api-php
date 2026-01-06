@@ -3,6 +3,7 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Discount;
 use Mollie\Api\Http\Data\EmailDetails;
@@ -16,7 +17,7 @@ use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 
-class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload
+class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -55,6 +56,12 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     public ?Discount $discount;
 
+    public ?string $customerId;
+
+    public ?string $mandateId;
+
+    public ?bool $isEInvoice;
+
     public function __construct(
         string $currency,
         string $status,
@@ -69,7 +76,10 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         ?PaymentDetails $paymentDetails = null,
         ?EmailDetails $emailDetails = null,
         ?string $webhookUrl = null,
-        ?Discount $discount = null
+        ?Discount $discount = null,
+        ?string $customerId = null,
+        ?string $mandateId = null,
+        ?bool $isEInvoice = null
     ) {
         $this->currency = $currency;
         $this->status = $status;
@@ -85,6 +95,9 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
         $this->emailDetails = $emailDetails;
         $this->webhookUrl = $webhookUrl;
         $this->discount = $discount;
+        $this->customerId = $customerId;
+        $this->mandateId = $mandateId;
+        $this->isEInvoice = $isEInvoice;
     }
 
     public function defaultPayload(): array
@@ -104,6 +117,9 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
             'emailDetails' => $this->emailDetails,
             'webhookUrl' => $this->webhookUrl,
             'discount' => $this->discount,
+            'customerId' => $this->customerId,
+            'mandateId' => $this->mandateId,
+            'isEInvoice' => $this->isEInvoice,
         ];
     }
 

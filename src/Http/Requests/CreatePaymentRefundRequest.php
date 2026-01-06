@@ -5,7 +5,6 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DataCollection;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Traits\HasJsonPayload;
@@ -31,7 +30,7 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
 
     private Money $amount;
 
-    private ?Metadata $metadata;
+    private ?array $metadata;
 
     private ?bool $reverseRouting;
 
@@ -39,9 +38,9 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
 
     public function __construct(
         string $paymentId,
-        string $description,
+        string $description = '',
         Money $amount,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?bool $reverseRouting = null,
         ?DataCollection $routingReversals = null
     ) {

@@ -87,7 +87,7 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function delete(string $id, $data = []): ?Payment
+    public function delete(string $id, $data = []): Payment
     {
         return $this->cancel($id, $data);
     }
@@ -133,9 +133,9 @@ class PaymentEndpointCollection extends EndpointCollection
     /**
      * Release the authorization for the given payment.
      *
-     * @param Payment|string $paymentId
-     *
+     * @param  Payment|string  $paymentId
      * @return AnyResource|Response
+     *
      * @throws RequestException
      */
     public function releaseAuthorization($paymentId)

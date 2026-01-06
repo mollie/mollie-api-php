@@ -1,0 +1,31 @@
+{
+  "resource": "balance_transaction",
+  "id": "baltr_*",
+  "type": "refund",
+  "resultAmount": {
+    "currency": "EUR",
+    "value": "-10.25"
+  },
+  "initialAmount": {
+    "currency": "EUR",
+    "value": "-10.00"
+  },
+  "deductions": {
+    "currency": "EUR",
+    "value": "-0.25"
+  },
+  "context": {
+    "paymentId": "tr_7UhSN1zuXS",
+    "refundId": "re_4qqhO89gsT"
+  },
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

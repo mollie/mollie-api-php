@@ -13,6 +13,7 @@ use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\ConnectBalanceTransferEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection;
 use Mollie\Api\EndpointCollection\InvoiceEndpointCollection;
@@ -44,6 +45,8 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
@@ -67,6 +70,7 @@ use Mollie\Api\Utils\Url;
  * @property CapabilityEndpointCollection $capabilities
  * @property ClientEndpointCollection $clients
  * @property ClientLinkEndpointCollection $clientLinks
+ * @property ConnectBalanceTransferEndpointCollection $connectBalanceTransfers
  * @property CustomerPaymentsEndpointCollection $customerPayments
  * @property CustomerEndpointCollection $customers
  * @property InvoiceEndpointCollection $invoices
@@ -98,6 +102,8 @@ use Mollie\Api\Utils\Url;
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals
  * @property WalletEndpointCollection $wallets
+ * @property WebhookEndpointCollection $webhooks
+ * @property WebhookEventEndpointCollection $webhookEvents
  * @property HttpAdapterContract $httpClient
  */
 class MollieApiClient implements Connector
@@ -116,7 +122,7 @@ class MollieApiClient implements Connector
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = '3.0.0';
+    public const CLIENT_VERSION = '3.7.0';
 
     /**
      * Endpoint of the remote API.
@@ -171,9 +177,9 @@ class MollieApiClient implements Connector
         return Url::join($this->apiEndpoint, self::API_VERSION);
     }
 
-    public static function fake(array $expectedResponses = []): MockMollieClient
+    public static function fake(array $expectedResponses = [], bool $retainRequests = false): MockMollieClient
     {
-        return new MockMollieClient($expectedResponses);
+        return new MockMollieClient($expectedResponses, $retainRequests);
     }
 
     public function __serialize(): array

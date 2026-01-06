@@ -23,7 +23,8 @@ class GetAllPaymentMethodsRequestFactory extends RequestFactory
             $includeIssuers,
             $includePricing,
             $this->query('locale'),
-            $this->transformFromQuery('amount', fn ($item) => MoneyFactory::new($item)->create())
+            $this->transformFromQuery('amount', fn ($item) => MoneyFactory::new($item)->create()),
+            $this->query('profileId')
         );
     }
 }

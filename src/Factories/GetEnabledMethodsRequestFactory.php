@@ -15,11 +15,6 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
             ? (bool) $this->query('includeIssuers')
             : $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
 
-        // Legacy: historically this factory accepted `includePricing` directly; Mollie uses `include=pricing`.
-        $includePricing = $this->queryHas('includePricing')
-            ? (bool) $this->query('includePricing')
-            : $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
-
         return new GetEnabledMethodsRequest(
             $this->query('sequenceType', SequenceType::ONEOFF),
             $this->query('resource', MethodQuery::RESOURCE_PAYMENTS),
@@ -30,7 +25,6 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
             $this->query('orderLineCategories', []),
             $this->query('profileId'),
             $includeIssuers,
-            $includePricing,
         );
     }
 }

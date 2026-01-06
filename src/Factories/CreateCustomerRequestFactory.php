@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
 
 class CreateCustomerRequestFactory extends RequestFactory
@@ -13,7 +12,7 @@ class CreateCustomerRequestFactory extends RequestFactory
             $this->payload('name'),
             $this->payload('email'),
             $this->payload('locale'),
-            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('metadata'),
         );
     }
 }

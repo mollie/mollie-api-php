@@ -4,10 +4,8 @@ namespace Mollie\Api\Http\Adapter;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\NetworkRequestException;
-use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
-use Mollie\Api\Http\ResponseStatusCode;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Throwable;
 
@@ -16,36 +14,13 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
     use HasDefaultFactories;
 
     /**
-     * The maximum number of retries
-     */
-    public const MAX_RETRIES = 5;
-
-    /**
-     * The amount of milliseconds the delay is being increased with on each retry.
-     */
-    public const DELAY_INCREASE_MS = 1000;
-
-    /**
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function sendRequest(PendingRequest $pendingRequest): Response
     {
-        $lastException = null;
-        for ($i = 0; $i <= self::MAX_RETRIES; $i++) {
-            usleep($i * self::DELAY_INCREASE_MS);
+        [$headers, $body, $statusCode] = $this->send($pendingRequest);
 
-            try {
-                [$headers, $body, $statusCode] = $this->send($pendingRequest);
-
-                return $this->createResponse($pendingRequest, $statusCode, $headers, $body);
-            } catch (RetryableNetworkRequestException $e) {
-                $lastException = $e;
-            } catch (NetworkRequestException $e) {
-                return $this->createResponse($pendingRequest, ResponseStatusCode::HTTP_GATEWAY_TIMEOUT, [], null, $e);
-            }
-        }
-
-        return $this->createResponse($pendingRequest, ResponseStatusCode::HTTP_GATEWAY_TIMEOUT, [], null, $lastException);
+        return $this->createResponse($pendingRequest, $statusCode, $headers, $body);
     }
 
     /**
@@ -75,7 +50,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
             return $this->extractResponseDetails($curl, $response);
         } finally {
-            if ($curl !== null) {
+            if ($curl !== null && PHP_MAJOR_VERSION < 8) {
                 curl_close($curl);
             }
         }

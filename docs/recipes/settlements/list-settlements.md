@@ -5,13 +5,11 @@ How to list settlements using the Mollie API.
 ## List Settlements
 
 ```php
-use Mollie\Api\Http\Requests\ListSettlementsRequest;
+use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
 
 try {
     // List all settlements
-    $response = $mollie->send(
-        new ListSettlementsRequest()
-    );
+    $response = $mollie->send(new GetPaginatedSettlementsRequest);
 
     foreach ($response as $settlement) {
         echo "Settlement {$settlement->reference}:\n";

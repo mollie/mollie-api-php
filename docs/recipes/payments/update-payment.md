@@ -5,7 +5,6 @@ How to update an existing payment using the Mollie API.
 ## The Code
 
 ```php
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 
@@ -24,7 +23,7 @@ try {
             id: $payment->id,
             description: "Order #{$newOrderId}",
             redirectUrl: 'https://example.com/return.php?order_id=' . $newOrderId,
-            metadata: new Metadata(['order_id' => $newOrderId])
+            metadata: ['order_id' => $newOrderId]
             // Fields we don't specify will keep their current values:
             // - webhookUrl
             // - cancelUrl

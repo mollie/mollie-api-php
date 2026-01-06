@@ -6,7 +6,6 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
-use Mollie\Api\Utils\Arr;
 
 class GetMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -24,22 +23,18 @@ class GetMethodRequest extends ResourceHydratableRequest implements SupportsTest
 
     private ?bool $includeIssuers;
 
-    private ?bool $includePricing;
-
     public function __construct(
         string $methodId,
         ?string $locale = null,
         ?string $currency = null,
         ?string $profileId = null,
-        ?bool $includeIssuers = null,
-        ?bool $includePricing = null
+        ?bool $includeIssuers = null
     ) {
         $this->methodId = $methodId;
         $this->locale = $locale;
         $this->currency = $currency;
         $this->profileId = $profileId;
         $this->includeIssuers = $includeIssuers;
-        $this->includePricing = $includePricing;
     }
 
     protected function defaultQuery(): array
@@ -48,10 +43,7 @@ class GetMethodRequest extends ResourceHydratableRequest implements SupportsTest
             'locale' => $this->locale,
             'currency' => $this->currency,
             'profileId' => $this->profileId,
-            'include' => Arr::join([
-                $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
-                $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
-            ]),
+            'include' => $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
         ];
     }
 

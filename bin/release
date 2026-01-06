@@ -1,0 +1,158 @@
+#!/bin/bash
+
+VERSION=$1
+
+# Check if version is provided
+if [ -z "$VERSION" ]; then
+    echo "❌ Error: Version number is required"
+    echo "Usage: ./bin/release <version>"
+    echo "Example: ./bin/release 1.0.0"
+    exit 1
+fi
+
+# Check if gh CLI is installed
+if ! command -v gh &> /dev/null; then
+    echo "❌ Error: GitHub CLI (gh) is not installed"
+    echo "Please install it from: https://cli.github.com/"
+    exit 1
+fi
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "❌ Error: Not in a git repository"
+    exit 1
+fi
+
+# Check if there are uncommitted changes
+if ! git diff-index --quiet HEAD --; then
+    echo "❌ Error: There are uncommitted changes. Please commit or stash them first."
+    exit 1
+fi
+
+# Get default branch from GitHub with better error handling
+echo "🔍 Getting default branch from GitHub..."
+DEFAULT_BRANCH_JSON=$(gh repo view --json defaultBranchRef 2>/dev/null)
+if [ $? -ne 0 ]; then
+    echo "❌ Error: Failed to get repository information from GitHub"
+    echo "   Please check your GitHub CLI authentication and repository access"
+    exit 1
+fi
+
+DEFAULT_BRANCH=$(echo "$DEFAULT_BRANCH_JSON" | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
+if [ -z "$DEFAULT_BRANCH" ]; then
+    echo "⚠️  Warning: Could not determine default branch, using 'main'"
+    DEFAULT_BRANCH="main"
+fi
+
+echo "📌 Local HEAD: $(git rev-parse HEAD)"
+echo "📌 GitHub default branch: $DEFAULT_BRANCH"
+
+# Fetch latest changes from remote
+echo "🔄 Fetching latest changes from remote..."
+git fetch origin
+
+# Check if local branch is up-to-date with remote
+LOCAL_HEAD=$(git rev-parse HEAD)
+REMOTE_HEAD=$(git rev-parse origin/$DEFAULT_BRANCH 2>/dev/null)
+
+if [ -z "$REMOTE_HEAD" ]; then
+    echo "❌ Error: Could not find remote branch origin/$DEFAULT_BRANCH"
+    exit 1
+fi
+
+if [ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]; then
+    echo "❌ Error: Local branch is not up-to-date with remote"
+    echo "   Local HEAD:  $LOCAL_HEAD"
+    echo "   Remote HEAD: $REMOTE_HEAD"
+    echo "   Please pull the latest changes: git pull origin $DEFAULT_BRANCH"
+    exit 1
+fi
+
+echo "✅ Local repository is up-to-date with remote"
+
+# Define the path to MollieApiClient.php
+MOLLIE_CLIENT_FILE="src/MollieApiClient.php"
+
+# Check if MollieApiClient.php exists
+if [ ! -f "$MOLLIE_CLIENT_FILE" ]; then
+    echo "❌ Error: MollieApiClient.php not found at $MOLLIE_CLIENT_FILE"
+    exit 1
+fi
+
+# Check if tag already exists
+if git tag -l | grep -q "^v$VERSION$"; then
+    echo "❌ Error: Tag v$VERSION already exists"
+    exit 1
+fi
+
+echo "🔄 Updating CLIENT_VERSION to $VERSION in MollieApiClient.php..."
+
+# Update the CLIENT_VERSION constant in MollieApiClient.php
+if sed -i.bak "s/public const CLIENT_VERSION = '[^']*'/public const CLIENT_VERSION = '$VERSION'/g" "$MOLLIE_CLIENT_FILE"; then
+    echo "✅ CLIENT_VERSION updated successfully"
+    # Remove backup file created by sed
+    rm "${MOLLIE_CLIENT_FILE}.bak"
+else
+    echo "❌ Error: Failed to update CLIENT_VERSION"
+    exit 1
+fi
+
+# Check if the version was actually updated
+if grep -q "CLIENT_VERSION = '$VERSION'" "$MOLLIE_CLIENT_FILE"; then
+    echo "✅ Version update verified"
+else
+    echo "❌ Error: Version update verification failed"
+    exit 1
+fi
+
+# Commit the version update
+echo "📝 Committing version update..."
+git add "$MOLLIE_CLIENT_FILE"
+git commit -m "Update CLIENT_VERSION to $VERSION"
+
+echo "🏷️  Creating tag v$VERSION..."
+
+# Create tag and push
+git tag -a "v$VERSION" -m "Release $VERSION"
+git push origin "v$VERSION"
+
+echo "⏱️  Waiting for GitHub to recognize the new tag..."
+sleep 3
+
+# Verify tag exists on GitHub
+echo "🔍 Verifying tag exists on GitHub..."
+TAG_CHECK=$(gh release list --repo mollie/mollie-api-php 2>/dev/null | grep "v$VERSION" || echo "")
+if [ -n "$TAG_CHECK" ]; then
+    echo "❌ Error: Release v$VERSION already exists on GitHub"
+    exit 1
+fi
+
+# Double-check that we can see the tag
+GH_TAG_CHECK=$(gh api repos/mollie/mollie-api-php/git/refs/tags/v$VERSION 2>/dev/null || echo "not_found")
+if [ "$GH_TAG_CHECK" = "not_found" ]; then
+    echo "⚠️  Warning: Tag not immediately visible on GitHub, waiting longer..."
+    sleep 5
+fi
+
+echo "🚀 Creating GitHub release..."
+
+# Generate release from current HEAD with better error handling
+RELEASE_OUTPUT=$(gh release create "v$VERSION" \
+  --target "$(git rev-parse HEAD)" \
+  --latest \
+  --generate-notes 2>&1)
+
+if [ $? -eq 0 ]; then
+    echo "✅ Release v$VERSION created successfully!"
+    echo "$RELEASE_OUTPUT"
+else
+    echo "❌ Error: Failed to create GitHub release"
+    echo "$RELEASE_OUTPUT"
+    echo ""
+    echo "🔍 Troubleshooting tips:"
+    echo "   1. Check if you have write permissions to the repository"
+    echo "   2. Verify your GitHub CLI authentication: gh auth status"
+    echo "   3. Try creating the release manually on GitHub.com"
+    echo "   4. Check if the tag was created successfully: git tag -l | grep v$VERSION"
+    exit 1
+fi

@@ -3,7 +3,6 @@
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\Address;
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Types\PaymentQuery;
 use Mollie\Api\Utils\Utility;
@@ -34,7 +33,7 @@ class CreatePaymentRequestFactory extends RequestFactory
             $this->payload('method'),
             $this->payload('issuer'),
             $this->payload('restrictPaymentMethodsToCountry'),
-            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('metadata'),
             $this->payload('captureMode'),
             $this->payload('captureDelay'),
             $this->transformFromPayload(

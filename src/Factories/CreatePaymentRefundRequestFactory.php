@@ -2,7 +2,6 @@
 
 namespace Mollie\Api\Factories;
 
-use Mollie\Api\Http\Data\Metadata;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 
 class CreatePaymentRefundRequestFactory extends RequestFactory
@@ -18,9 +17,9 @@ class CreatePaymentRefundRequestFactory extends RequestFactory
     {
         return new CreatePaymentRefundRequest(
             $this->paymentId,
-            $this->payload('description'),
+            $this->payload('description', ''),
             MoneyFactory::new($this->payload('amount'))->create(),
-            $this->transformFromPayload('metadata', Metadata::class),
+            $this->payload('metadata'),
             $this->payload('reverseRouting'),
             $this
                 ->transformFromPayload(

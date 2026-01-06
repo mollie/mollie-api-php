@@ -8,7 +8,7 @@ The codebase has significant improvements, focusing on modern PHP practices, enh
 
 ### Deprecations
 
-#### MethodEndpointCollection.allActive() 
+#### MethodEndpointCollection.allActive()
 
 The method `MethodEndpointCollection.allActive()` has been removed. Use `MethodEndpointCollection.allEnabled()` instead.
 
@@ -28,6 +28,41 @@ Orders: Mollie is deprecating the Order and Shipment endpoints so these have bee
 #### Integration code examples
 
 To prevent misuse the code samples in `/examples` were replaced by markdown "recipes", which can be found in `/docs/recipes`.
+
+### Metadata Type Restriction
+
+In v2, when making API requests, the metadata parameter accepted any type (string, array, object, etc.). In v3, metadata in request payloads is restricted to only accept arrays. Make sure to update your code to provide metadata as arrays when making API requests.
+
+```php
+// Before (v2) - Using legacy array approach
+$client->payments->create([
+    "amount" => [
+        "currency" => "EUR",
+        "value" => "10.00"
+    ],
+    "metadata" => "some string"      // Worked in v2
+]);
+
+// After (v3) - Using legacy array approach
+$client->payments->create([
+    "amount" => [
+        "currency" => "EUR",
+        "value" => "10.00"
+    ],
+    "metadata" => ["key" => "value"] // Only arrays are accepted in v3
+]);
+
+// After (v3) - Using request class
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
+
+$request = new CreatePaymentRequest(
+    description: "My payment",
+    amount: new Money("EUR", "10.00"),
+    metadata: ["key" => "value"]     // Only arrays are accepted
+);
+$payment = $client->send($request);
+```
 
 ### Class & Method Renames
 
@@ -95,7 +130,7 @@ $mandates = $client->mandates->pageForCustomer(
   // Get payment link in test mode
   $link = $client->paymentLinks->get('pl_123', testmode: true);
   ```
-  
+
 Read the full testing documentation [here](docs/testing.md).
 
 ### Removed Collections

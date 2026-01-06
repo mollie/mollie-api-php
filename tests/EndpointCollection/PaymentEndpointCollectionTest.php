@@ -106,7 +106,7 @@ class PaymentEndpointCollectionTest extends TestCase
     }
 
     /** @test */
-    public function releaseAuthorization()
+    public function release_authorization()
     {
         $client = new MockMollieClient([
             ReleasePaymentAuthorizationRequest::class => MockResponse::noContent(),

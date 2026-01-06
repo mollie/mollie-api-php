@@ -9,11 +9,11 @@ class MockResponse
 {
     use HasDefaultFactories;
 
-    private int $status;
+    protected int $status;
 
-    private string $resourceKey;
+    protected string $resourceKey;
 
-    private string $body;
+    protected string $body;
 
     /**
      * @param  string|array|callable  $body
@@ -133,5 +133,21 @@ class MockResponse
         json_decode($string);
 
         return json_last_error() == JSON_ERROR_NONE;
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'body' => $this->body(),
+            'status' => $this->json()['status'] ?? 200,
+            'resourceKey' => $this->json()['resource_key'] ?? '',
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->body = $data['body'];
+        $this->status = $data['status'];
+        $this->resourceKey = $data['resourceKey'];
     }
 }

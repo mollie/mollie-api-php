@@ -3,13 +3,12 @@
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
-use Mollie\Api\Http\Data\Metadata;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInQuery
+class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -30,7 +29,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
 
     private ?string $webhookUrl;
 
-    private ?Metadata $metadata;
+    private ?array $metadata;
 
     private ?string $paymentMethod;
 
@@ -51,7 +50,7 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $redirectUrl = null,
         ?string $cancelUrl = null,
         ?string $webhookUrl = null,
-        ?Metadata $metadata = null,
+        ?array $metadata = null,
         ?string $method = null,
         ?string $locale = null,
         ?string $restrictPaymentMethodsToCountry = null,

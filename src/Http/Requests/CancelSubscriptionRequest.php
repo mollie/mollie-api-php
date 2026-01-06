@@ -2,12 +2,15 @@
 
 namespace Mollie\Api\Http\Requests;
 
-use Mollie\Api\Contracts\SupportsTestmodeInQuery;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Resources\Subscription;
+use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
-class CancelSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
+class CancelSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {
+    use HasJsonPayload;
+
     /**
      * Define the HTTP method.
      */

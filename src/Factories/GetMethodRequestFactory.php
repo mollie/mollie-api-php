@@ -21,18 +21,12 @@ class GetMethodRequestFactory extends RequestFactory
             ? (bool) $this->query('includeIssuers')
             : $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
 
-        // Legacy: historically this factory accepted `includePricing` directly; Mollie uses `include=pricing`.
-        $includePricing = $this->queryHas('includePricing')
-            ? (bool) $this->query('includePricing')
-            : $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
-
         return new GetMethodRequest(
             $this->id,
             $this->query('locale'),
             $this->query('currency'),
             $this->query('profileId'),
             $includeIssuers,
-            $includePricing,
         );
     }
 }
