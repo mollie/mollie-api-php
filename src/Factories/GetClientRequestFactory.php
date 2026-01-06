@@ -17,7 +17,6 @@ class GetClientRequestFactory extends RequestFactory
     public function create(): GetClientRequest
     {
         $embedOrganization = $this->queryIncludes('embed', ClientQuery::EMBED_ORGANIZATION);
-
         $embedOnboarding = $this->queryIncludes('embed', ClientQuery::EMBED_ONBOARDING);
 
         return new GetClientRequest(
