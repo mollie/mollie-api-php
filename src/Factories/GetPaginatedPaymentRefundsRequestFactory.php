@@ -16,13 +16,16 @@ class GetPaginatedPaymentRefundsRequestFactory extends RequestFactory
 
     public function create(): GetPaginatedPaymentRefundsRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        // Legacy: historically this factory accepted `includePayment` directly; Mollie uses `include=payment`.
+        $includePayment = $this->queryHas('includePayment')
+            ? (bool) $this->query('includePayment')
+            : $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedPaymentRefundsRequest(
             $this->paymentId,
             $this->query('from'),
             $this->query('limit'),
-            $this->query('includePayment', $includePayment),
+            $includePayment,
         );
     }
 }

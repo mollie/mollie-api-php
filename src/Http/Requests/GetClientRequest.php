@@ -25,8 +25,11 @@ class GetClientRequest extends ResourceHydratableRequest
 
     private ?bool $embedOnboarding;
 
-    public function __construct(string $id, ?bool $embedOrganization = null, ?bool $embedOnboarding = null)
-    {
+    public function __construct(
+        string $id,
+        ?bool $embedOrganization = null,
+        ?bool $embedOnboarding = null
+    ) {
         $this->id = $id;
         $this->embedOrganization = $embedOrganization;
         $this->embedOnboarding = $embedOnboarding;

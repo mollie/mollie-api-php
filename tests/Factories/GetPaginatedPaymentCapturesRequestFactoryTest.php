@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedPaymentCapturesRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
+use Mollie\Api\Types\PaymentIncludesQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
@@ -22,6 +23,20 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaginatedPaymentCapturesRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
+    }
+
+    /** @test */
+    public function create_supports_legacy_include_payments_query_key()
+    {
+        $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)
+            ->withQuery([
+                'includePayments' => true,
+            ])
+            ->create();
+
+        $this->assertInstanceOf(GetPaginatedPaymentCapturesRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
     /** @test */

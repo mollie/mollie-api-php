@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetEnabledMethodsRequestFactory;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
+use Mollie\Api\Types\MethodQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetEnabledMethodsRequestFactoryTest extends TestCase
@@ -29,6 +30,21 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetEnabledMethodsRequest::class, $request);
+        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
+    }
+
+    /** @test */
+    public function create_supports_legacy_include_flags()
+    {
+        $request = GetEnabledMethodsRequestFactory::new()
+            ->withQuery([
+                'includeIssuers' => true,
+                'includePricing' => true,
+            ])
+            ->create();
+
+        $this->assertInstanceOf(GetEnabledMethodsRequest::class, $request);
+        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
     }
 
     /** @test */

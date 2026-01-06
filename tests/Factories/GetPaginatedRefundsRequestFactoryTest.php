@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedRefundsRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedRefundsRequest;
+use Mollie\Api\Types\PaymentIncludesQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedRefundsRequestFactoryTest extends TestCase
@@ -21,6 +22,20 @@ class GetPaginatedRefundsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaginatedRefundsRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('embed'));
+    }
+
+    /** @test */
+    public function create_supports_legacy_embed_payment_query_key()
+    {
+        $request = GetPaginatedRefundsRequestFactory::new()
+            ->withQuery([
+                'embedPayment' => true,
+            ])
+            ->create();
+
+        $this->assertInstanceOf(GetPaginatedRefundsRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('embed'));
     }
 
     /** @test */

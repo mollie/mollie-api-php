@@ -19,12 +19,15 @@ class GetPaymentCaptureRequestFactory extends RequestFactory
 
     public function create(): GetPaymentCaptureRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        // Legacy: historically this factory accepted `includePayment` directly; Mollie uses `include=payment`.
+        $includePayment = $this->queryHas('includePayment')
+            ? (bool) $this->query('includePayment')
+            : $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaymentCaptureRequest(
             $this->paymentId,
             $this->captureId,
-            $this->query('includePayment', $includePayment),
+            $includePayment,
         );
     }
 }

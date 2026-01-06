@@ -10,8 +10,15 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
 {
     public function create(): GetEnabledMethodsRequest
     {
-        $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
-        $includePricing = $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
+        // Legacy: historically this factory accepted `includeIssuers` directly; Mollie uses `include=issuers`.
+        $includeIssuers = $this->queryHas('includeIssuers')
+            ? (bool) $this->query('includeIssuers')
+            : $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
+
+        // Legacy: historically this factory accepted `includePricing` directly; Mollie uses `include=pricing`.
+        $includePricing = $this->queryHas('includePricing')
+            ? (bool) $this->query('includePricing')
+            : $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
 
         return new GetEnabledMethodsRequest(
             $this->query('sequenceType', SequenceType::ONEOFF),
@@ -22,8 +29,8 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
             $this->query('includeWallets'),
             $this->query('orderLineCategories', []),
             $this->query('profileId'),
-            $this->query('includeIssuers', $includeIssuers),
-            $this->query('includePricing', $includePricing),
+            $includeIssuers,
+            $includePricing,
         );
     }
 }

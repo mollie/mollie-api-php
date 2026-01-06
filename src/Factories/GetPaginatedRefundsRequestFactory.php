@@ -9,12 +9,15 @@ class GetPaginatedRefundsRequestFactory extends RequestFactory
 {
     public function create(): GetPaginatedRefundsRequest
     {
-        $embedPayment = $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
+        // Legacy: historically this factory accepted `embedPayment` directly; Mollie uses `embed=payment`.
+        $embedPayment = $this->queryHas('embedPayment')
+            ? (bool) $this->query('embedPayment')
+            : $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedRefundsRequest(
             $this->query('from'),
             $this->query('limit'),
-            $this->query('embedPayment', $embedPayment),
+            $embedPayment,
             $this->query('profileId')
         );
     }

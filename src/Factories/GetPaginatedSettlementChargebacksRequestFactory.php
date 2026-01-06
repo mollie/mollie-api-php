@@ -16,14 +16,17 @@ class GetPaginatedSettlementChargebacksRequestFactory extends RequestFactory
 
     public function create(): GetPaginatedSettlementChargebacksRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        // Legacy: historically this factory accepted `includePayment` directly; Mollie uses `include=payment`.
+        $includePayment = $this->queryHas('includePayment')
+            ? (bool) $this->query('includePayment')
+            : $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementChargebacksRequest(
             $this->settlementId,
             $this->query('from'),
             $this->query('limit'),
-            $this->query('includePayment', $includePayment),
-            $this->query('profileId')
+            $includePayment,
+            $this->query('profileId'),
         );
     }
 }
