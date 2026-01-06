@@ -30,7 +30,7 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetEnabledMethodsRequest::class, $request);
-        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
+        $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetEnabledMethodsRequest::class, $request);
-        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
+        $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
     /** @test */

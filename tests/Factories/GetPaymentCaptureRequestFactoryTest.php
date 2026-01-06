@@ -18,12 +18,12 @@ class GetPaymentCaptureRequestFactoryTest extends TestCase
     {
         $request = GetPaymentCaptureRequestFactory::new(self::PAYMENT_ID, self::CAPTURE_ID)
             ->withQuery([
-                'include' => ['payment'],
+                'embed' => ['payment'],
             ])
             ->create();
 
         $this->assertInstanceOf(GetPaymentCaptureRequest::class, $request);
-        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('embed'));
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class GetPaymentCaptureRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaymentCaptureRequest::class, $request);
-        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('embed'));
     }
 
     /** @test */

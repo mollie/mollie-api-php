@@ -25,7 +25,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetAllMethodsRequest::class, $request);
-        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
+        $this->assertEquals(MethodQuery::INCLUDE_ISSUERS.','.MethodQuery::INCLUDE_PRICING, $request->query()->get('include'));
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetAllMethodsRequest::class, $request);
-        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS, MethodQuery::INCLUDE_PRICING], $request->query()->get('include'));
+        $this->assertEquals(MethodQuery::INCLUDE_ISSUERS.','.MethodQuery::INCLUDE_PRICING, $request->query()->get('include'));
     }
 
     /** @test */
@@ -62,6 +62,6 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetAllMethodsRequest::class, $request);
-        $this->assertEquals([MethodQuery::INCLUDE_ISSUERS], $request->query()->get('include'));
+        $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 }
