@@ -19,7 +19,6 @@ class GetPaymentRefundRequestFactory extends RequestFactory
 
     public function create(): GetPaymentRefundRequest
     {
-        // Legacy: historically this factory accepted `includePayment` directly; Mollie uses `include=payment`.
         $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaymentRefundRequest(

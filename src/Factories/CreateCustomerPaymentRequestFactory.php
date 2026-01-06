@@ -18,7 +18,6 @@ class CreateCustomerPaymentRequestFactory extends RequestFactory
 
     public function create(): CreateCustomerPaymentRequest
     {
-        // Legacy: historically this factory accepted `includeQrCode` directly; Mollie uses `include=details.qrCode`.
         $includeQrCode = $this->queryIncludes('include', PaymentQuery::INCLUDE_QR_CODE);
 
         return new CreateCustomerPaymentRequest(

@@ -10,7 +10,6 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
 {
     public function create(): GetEnabledMethodsRequest
     {
-        // Legacy: historically this factory accepted `includeIssuers` directly; Mollie uses `include=issuers`.
         $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
 
         return new GetEnabledMethodsRequest(

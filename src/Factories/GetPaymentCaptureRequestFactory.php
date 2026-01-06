@@ -19,7 +19,6 @@ class GetPaymentCaptureRequestFactory extends RequestFactory
 
     public function create(): GetPaymentCaptureRequest
     {
-        // Legacy: historically this factory accepted `includePayment` directly; this endpoint uses `embed=payment`.
         $embedPayment = $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaymentCaptureRequest(
