@@ -17,15 +17,13 @@ class GetPaginatedSettlementRefundsQueryFactory extends RequestFactory
     public function create(): GetPaginatedSettlementRefundsRequest
     {
         // Legacy: historically this factory accepted `includePayment` directly; this endpoint uses `embed=payment`.
-        $includePayment = $this->queryHas('includePayment')
-            ? (bool) $this->query('includePayment')
-            : $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
+        $includePayment = $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementRefundsRequest(
             $this->settlementId,
             $this->query('from'),
             $this->query('limit'),
-            $includePayment,
+            $this->query('includePayment', $includePayment),
         );
     }
 }

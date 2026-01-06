@@ -20,14 +20,12 @@ class GetPaymentChargebackRequestFactory extends RequestFactory
     public function create(): GetPaymentChargebackRequest
     {
         // Legacy: historically this factory accepted `includePayment` directly; Mollie uses `include=payment`.
-        $includePayment = $this->queryHas('includePayment')
-            ? (bool) $this->query('includePayment')
-            : $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaymentChargebackRequest(
             $this->paymentId,
             $this->chargebackId,
-            $includePayment,
+            $this->query('includePayment', $includePayment),
         );
     }
 }

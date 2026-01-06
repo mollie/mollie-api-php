@@ -17,15 +17,13 @@ class GetPaginatedSettlementCapturesRequestFactory extends RequestFactory
     public function create(): GetPaginatedSettlementCapturesRequest
     {
         // Legacy: historically this factory accepted `includePayment` directly; this endpoint uses `embed=payment`.
-        $includePayment = $this->queryHas('includePayment')
-            ? (bool) $this->query('includePayment')
-            : $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
+        $includePayment = $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementCapturesRequest(
             $this->settlementId,
             $this->query('from'),
             $this->query('limit'),
-            $includePayment,
+            $this->query('includePayment', $includePayment),
         );
     }
 }

@@ -17,16 +17,14 @@ class GetMethodRequestFactory extends RequestFactory
     public function create(): GetMethodRequest
     {
         // Legacy: historically this factory accepted `includeIssuers` directly; Mollie uses `include=issuers`.
-        $includeIssuers = $this->queryHas('includeIssuers')
-            ? (bool) $this->query('includeIssuers')
-            : $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
+        $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
 
         return new GetMethodRequest(
             $this->id,
             $this->query('locale'),
             $this->query('currency'),
             $this->query('profileId'),
-            $includeIssuers,
+            $this->query('includeIssuers', $includeIssuers),
         );
     }
 }

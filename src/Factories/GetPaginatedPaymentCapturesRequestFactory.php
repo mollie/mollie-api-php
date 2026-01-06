@@ -17,15 +17,13 @@ class GetPaginatedPaymentCapturesRequestFactory extends RequestFactory
     public function create(): GetPaginatedPaymentCapturesRequest
     {
         // Legacy: historically this factory accepted `includePayments` directly; Mollie uses `include=payment`.
-        $includePayments = $this->queryHas('includePayments')
-            ? (bool) $this->query('includePayments')
-            : $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        $includePayments = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedPaymentCapturesRequest(
             $this->paymentId,
             $this->query('from'),
             $this->query('limit'),
-            $includePayments
+            $this->query('includePayments', $includePayments),
         );
     }
 }
