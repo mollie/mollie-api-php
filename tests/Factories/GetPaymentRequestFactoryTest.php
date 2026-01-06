@@ -22,6 +22,7 @@ class GetPaymentRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaymentRequest::class, $request);
+        $this->assertEquals(PaymentQuery::EMBED_CAPTURES.','.PaymentQuery::EMBED_REFUNDS.','.PaymentQuery::EMBED_CHARGEBACKS, $request->query()->get('embed'));
         $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE.','.PaymentQuery::INCLUDE_REMAINDER_DETAILS, $request->query()->get('include'));
     }
 
@@ -45,6 +46,7 @@ class GetPaymentRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaymentRequest::class, $request);
+        $this->assertEquals(PaymentQuery::EMBED_CAPTURES, $request->query()->get('embed'));
         $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE, $request->query()->get('include'));
     }
 }
