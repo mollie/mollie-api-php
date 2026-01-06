@@ -4,6 +4,7 @@ namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
+use Mollie\Api\Types\PaymentQuery;
 use Mollie\Api\Utils\Utility;
 
 class CreateCustomerPaymentRequestFactory extends RequestFactory
@@ -17,6 +18,8 @@ class CreateCustomerPaymentRequestFactory extends RequestFactory
 
     public function create(): CreateCustomerPaymentRequest
     {
+        $includeQrCode = $this->queryIncludes('include', PaymentQuery::INCLUDE_QR_CODE);
+
         return new CreateCustomerPaymentRequest(
             $this->customerId,
             $this->payload('description'),
@@ -50,7 +53,7 @@ class CreateCustomerPaymentRequestFactory extends RequestFactory
             $this->payload('mandateId'),
             $this->payload('profileId'),
             $this->payload('additional') ?: Utility::filterByProperties(CreateCustomerPaymentRequest::class, $this->payload()) ?: [],
-            $this->query('includeQrCode', false)
+            $this->query('includeQrCode', $includeQrCode),
         );
     }
 }

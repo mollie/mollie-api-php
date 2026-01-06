@@ -23,7 +23,7 @@ class GetPaginatedSettlementCapturesRequestFactory extends RequestFactory
             $this->settlementId,
             $this->query('from'),
             $this->query('limit'),
-            $this->query('includePayment', $includePayment)
+            $this->query('includePayment', $includePayment),
         );
     }
 }

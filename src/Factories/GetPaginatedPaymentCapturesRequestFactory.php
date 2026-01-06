@@ -22,7 +22,7 @@ class GetPaginatedPaymentCapturesRequestFactory extends RequestFactory
             $this->paymentId,
             $this->query('from'),
             $this->query('limit'),
-            $this->query('includePayments', $includePayments)
+            $this->query('includePayments', $includePayments),
         );
     }
 }
