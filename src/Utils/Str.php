@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Utils;
 
+use Mollie\Api\Utils\Arr;
+
 class Str
 {
     /**
@@ -45,5 +47,19 @@ class Str
         $result = strstr($subject, (string) $search, true);
 
         return $result === false ? $subject : $result;
+    }
+
+    /**
+     * Match a string against one or more patterns and return the matches.
+     *
+     * @param string $subject The string to match
+     * @param string $pattern The regex pattern to match against
+     * @return array<string>|false Returns matches array if pattern matches, false otherwise
+     */
+    public static function match(string $subject, string $pattern)
+    {
+        preg_match($pattern, $subject, $matches);
+
+        return empty($matches) ? false : $matches;
     }
 }
