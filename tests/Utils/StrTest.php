@@ -94,4 +94,39 @@ class StrTest extends TestCase
             'custom delimiter dash' => ['FooBar', 'foo-bar', '-'],
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider matchProvider
+     */
+    public function match(string $subject, $pattern, $expected): void
+    {
+        $result = Str::match($subject, $pattern);
+
+        if ($expected === false) {
+            $this->assertFalse($result);
+        } else {
+            $this->assertIsArray($result);
+            $this->assertCount(count($expected), $result);
+            foreach ($expected as $index => $value) {
+                $this->assertSame($value, $result[$index]);
+            }
+        }
+    }
+
+    public function matchProvider(): array
+    {
+        return [
+            'simple match' => ['hello', '/^([a-z]+)$/', ['hello', 'hello']],
+            'match with groups' => ['EUR 10.00', '/^([A-Z]{3})\s+([\d.]+)$/i', ['EUR 10.00', 'EUR', '10.00']],
+            'match currency last' => ['10.00 EUR', '/^([\d.]+)\s+([A-Z]{3})$/i', ['10.00 EUR', '10.00', 'EUR']],
+            'case insensitive match' => ['HELLO', '/^([a-z]+)$/i', ['HELLO', 'HELLO']],
+            'no match returns false' => ['123', '/^([a-z]+)$/', false],
+            'empty string no match' => ['', '/^([a-z]+)$/', false],
+            'pattern with digits' => ['12345', '/^(\d+)$/', ['12345', '12345']],
+            'pattern with word boundaries' => ['this is a word', '/\b(word)\b/', ['word', 'word']],
+            'pattern with multiple groups' => ['2024-01-15', '/^(\d{4})-(\d{2})-(\d{2})$/', ['2024-01-15', '2024', '01', '15']],
+            'unicode pattern' => ['café', '/^([\p{L}]+)$/u', ['café', 'café']],
+        ];
+    }
 }
