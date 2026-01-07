@@ -17,6 +17,9 @@ use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 
+/**
+ * @see https://docs.mollie.com/reference/create-sales-invoice
+ */
 class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;

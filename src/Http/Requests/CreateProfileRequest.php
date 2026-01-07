@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Profile;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/profiles-api/create-profile
+ */
 class CreateProfileRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

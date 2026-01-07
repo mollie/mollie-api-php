@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/mandates-api/get-mandate
+ */
 class GetMandateRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

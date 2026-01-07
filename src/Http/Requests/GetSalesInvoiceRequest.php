@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/get-sales-invoice
+ */
 class GetSalesInvoiceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

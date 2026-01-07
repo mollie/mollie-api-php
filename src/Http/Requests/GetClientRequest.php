@@ -7,6 +7,9 @@ use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/clients-api/get-client
+ */
 class GetClientRequest extends ResourceHydratableRequest
 {
     /**

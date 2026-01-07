@@ -63,6 +63,12 @@ use Mollie\Api\Traits\SendsRequests;
 use Mollie\Api\Utils\Url;
 
 /**
+ * Main Mollie API Client
+ *
+ * Access endpoint collections via magic properties:
+ * @example $client->payments->get('tr_xxx')
+ * @example $client->customers->create(['name' => 'John Doe'])
+ *
  * @property BalanceEndpointCollection $balances
  * @property BalanceReportEndpointCollection $balanceReports
  * @property BalanceTransactionEndpointCollection $balanceTransactions

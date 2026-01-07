@@ -7,6 +7,9 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/test-webhook
+ */
 class TestWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {
     use HasJsonPayload;

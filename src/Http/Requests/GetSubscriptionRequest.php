@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription
+ */
 class GetSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

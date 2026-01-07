@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Types\Method as HttpMethod;
 
+/**
+ * @see https://docs.mollie.com/reference/enable-method
+ */
 class EnableMethodRequest extends ResourceHydratableRequest
 {
     /**

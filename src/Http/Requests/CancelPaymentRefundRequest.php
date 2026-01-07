@@ -7,6 +7,9 @@ use Mollie\Api\Http\Request;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/refunds-api/cancel-refund
+ */
 class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInPayload
 {
     use HasJsonPayload;
