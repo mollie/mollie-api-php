@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Method;
 use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/methods-api/get-method
+ */
 class GetMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = HttpMethod::GET;

@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Issuer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method as HttpMethod;
 
+/**
+ * @see https://docs.mollie.com/reference/enable-method-issuer
+ */
 class EnableMethodIssuerRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

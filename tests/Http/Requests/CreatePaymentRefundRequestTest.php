@@ -47,4 +47,24 @@ class CreatePaymentRefundRequestTest extends TestCase
             $request->resolveResourcePath()
         );
     }
+
+    /** @test */
+    public function it_can_create_refund_request_using_factory_method()
+    {
+        $client = new MockMollieClient([
+            CreatePaymentRefundRequest::class => MockResponse::created('refund'),
+        ]);
+
+        $request = CreatePaymentRefundRequest::for(
+            'tr_WDqYK6vllg',
+            new Money('EUR', '10.00'),
+            'Order cancellation'
+        );
+
+        /** @var Refund */
+        $refund = $client->send($request);
+
+        $this->assertTrue($refund->getResponse()->successful());
+        $this->assertInstanceOf(Refund::class, $refund);
+    }
 }

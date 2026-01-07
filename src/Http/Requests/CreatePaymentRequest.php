@@ -15,6 +15,9 @@ use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Types\PaymentQuery;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/payments-api/create-payment
+ */
 class CreatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
