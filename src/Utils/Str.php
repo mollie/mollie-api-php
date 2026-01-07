@@ -2,8 +2,6 @@
 
 namespace Mollie\Api\Utils;
 
-use Mollie\Api\Utils\Arr;
-
 class Str
 {
     /**

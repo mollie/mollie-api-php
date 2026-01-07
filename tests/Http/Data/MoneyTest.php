@@ -139,15 +139,15 @@ class MoneyTest extends TestCase
         return [
             'invalid format' => [
                 'invalid',
-                "Invalid money string format: 'invalid'. Expected format: 'EUR 10.00' or '10.00 EUR'"
+                "Invalid money string format: 'invalid'. Expected format: 'EUR 10.00' or '10.00 EUR'",
             ],
             'empty string' => [
                 '',
-                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'"
+                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'",
             ],
             'whitespace only' => [
                 '   ',
-                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'"
+                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'",
             ],
             'missing space' => ['EUR10.00'],
             'invalid currency format' => ['EU 10.00'],
