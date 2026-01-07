@@ -19,7 +19,7 @@ class Capability extends BaseResource
     public $name;
 
     /**
-     * @var \stdClass
+     * @var array
      */
     public $requirements;
 
