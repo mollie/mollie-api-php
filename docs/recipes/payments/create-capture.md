@@ -16,7 +16,7 @@ try {
         new CreatePaymentCaptureRequest(
             paymentId: 'tr_WDqYK6vllg',
             description: 'Order #12345',
-            amount: new Money(currency: 'EUR', value: '5.00')
+            amount: Money::euro('5.00')
         )
     );
 
