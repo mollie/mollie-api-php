@@ -3,7 +3,7 @@
   "name": "{{ RESOURCE_ID }}",
   "requirements": [
     {
-      "name": "legal-representatives",
+      "id": "legal-representatives",
       "dueDate": null,
       "status": "requested"
     }
