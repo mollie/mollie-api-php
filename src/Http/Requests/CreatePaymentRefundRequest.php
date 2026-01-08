@@ -38,8 +38,8 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
 
     public function __construct(
         string $paymentId,
-        string $description = '',
         Money $amount,
+        string $description = '',
         ?array $metadata = null,
         ?bool $reverseRouting = null,
         ?DataCollection $routingReversals = null

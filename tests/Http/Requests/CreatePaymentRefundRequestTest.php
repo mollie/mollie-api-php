@@ -20,8 +20,8 @@ class CreatePaymentRefundRequestTest extends TestCase
 
         $request = new CreatePaymentRefundRequest(
             'tr_WDqYK6vllg',
-            'Order cancellation',
-            new Money('EUR', '10.00')
+            new Money('EUR', '10.00'),
+            'Order cancellation'
         );
 
         /** @var Refund */
@@ -38,8 +38,8 @@ class CreatePaymentRefundRequestTest extends TestCase
 
         $request = new CreatePaymentRefundRequest(
             $paymentId,
-            'Order cancellation',
-            new Money('EUR', '10.00')
+            new Money('EUR', '10.00'),
+            'Order cancellation'
         );
 
         $this->assertEquals(
