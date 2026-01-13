@@ -9,7 +9,7 @@ use Mollie\Api\Exceptions\UnrecognizedClientException;
 class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
 {
     /**
-     * @param  \GuzzleHttp\ClientInterface|HttpAdapterContract|null|\stdClass  $httpClient
+     * @param  \Symfony\Contracts\HttpClient\HttpClientInterface|\GuzzleHttp\ClientInterface|HttpAdapterContract|null $httpClient
      *
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
@@ -25,6 +25,10 @@ class MollieHttpAdapterPicker implements MollieHttpAdapterPickerContract
 
         if ($httpClient instanceof \GuzzleHttp\ClientInterface) {
             return new GuzzleMollieHttpAdapter($httpClient);
+        }
+
+        if ($httpClient instanceof \Symfony\Contracts\HttpClient\HttpClientInterface) {
+            return new SymfonyMollieHttpAdapter($httpClient);
         }
 
         throw new UnrecognizedClientException('The provided http client or adapter was not recognized.');

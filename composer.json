@@ -62,7 +62,8 @@
     "guzzlehttp/guzzle": "^7.6",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^9.6",
-    "symfony/var-dumper": "^5.4|^6.4|^7.2"
+    "symfony/http-client": "^5.4|^6.4|^7.4|^8",
+    "symfony/var-dumper": "^5.4|^6.4|^7.4|^8"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."

@@ -140,7 +140,7 @@ class MollieApiClient implements Connector
     protected HttpAdapterContract $httpClient;
 
     /**
-     * @param  \GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\HttpAdapterContract|null  $client
+     * @param  \Symfony\Contracts\HttpClient\HttpClientInterface|\GuzzleHttp\ClientInterface|\Mollie\Api\Contracts\HttpAdapterContract|null  $client
      *
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatformException|\Mollie\Api\Exceptions\UnrecognizedClientException
      */

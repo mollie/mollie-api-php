@@ -7,7 +7,9 @@ use Mollie\Api\Exceptions\UnrecognizedClientException;
 use Mollie\Api\Fake\MockMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
+use Mollie\Api\Http\Adapter\SymfonyMollieHttpAdapter;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
 
 class MollieHttpAdapterPickerTest extends TestCase
 {
@@ -45,12 +47,23 @@ class MollieHttpAdapterPickerTest extends TestCase
     }
 
     /** @test */
+    public function wraps_a_symfony_client_into_an_adapter()
+    {
+        $picker = new MollieHttpAdapterPicker;
+        $httpClient = new MockHttpClient();
+
+        $adapter = $picker->pickHttpAdapter($httpClient);
+
+        $this->assertInstanceOf(SymfonyMollieHttpAdapter::class, $adapter);
+    }
+
+    /** @test */
     public function throws_an_exception_when_receiving_an_unrecognized_client()
     {
         $this->expectExceptionObject(new UnrecognizedClientException('The provided http client or adapter was not recognized'));
         $picker = new MollieHttpAdapterPicker;
         $unsupportedClient = (object) ['foo' => 'bar'];
 
-        $picker->pickHttpAdapter($unsupportedClient);
+        $picker->pickHttpAdapter($unsupportedClient); // @phpstan-ignore argument.type
     }
 }
