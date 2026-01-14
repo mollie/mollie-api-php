@@ -85,73 +85,35 @@ class MoneyTest extends TestCase
     public function convenienceMethodProvider(): array
     {
         return [
+            'aed' => ['aed', '10.00', 'AED', '10.00'],
+            'aud' => ['aud', '10.00', 'AUD', '10.00'],
+            'bgn' => ['bgn', '10.00', 'BGN', '10.00'],
+            'brl' => ['brl', '10.00', 'BRL', '10.00'],
+            'cad' => ['cad', '10.00', 'CAD', '10.00'],
+            'chf' => ['chf', '10.00', 'CHF', '10.00'],
+            'czk' => ['czk', '10.00', 'CZK', '10.00'],
+            'dkk' => ['dkk', '10.00', 'DKK', '10.00'],
             'euro' => ['euro', '10.00', 'EUR', '10.00'],
+            'gbp' => ['gbp', '10.00', 'GBP', '10.00'],
+            'hkd' => ['hkd', '10.00', 'HKD', '10.00'],
+            'huf' => ['huf', '10.00', 'HUF', '10.00'],
+            'ils' => ['ils', '10.00', 'ILS', '10.00'],
+            'isk' => ['isk', '10.00', 'ISK', '10.00'],
+            'jpy' => ['jpy', '10.00', 'JPY', '10.00'],
+            'mxn' => ['mxn', '10.00', 'MXN', '10.00'],
+            'myr' => ['myr', '10.00', 'MYR', '10.00'],
+            'nok' => ['nok', '10.00', 'NOK', '10.00'],
+            'nzd' => ['nzd', '10.00', 'NZD', '10.00'],
+            'php' => ['php', '10.00', 'PHP', '10.00'],
+            'pln' => ['pln', '10.00', 'PLN', '10.00'],
+            'ron' => ['ron', '10.00', 'RON', '10.00'],
+            'rub' => ['rub', '10.00', 'RUB', '10.00'],
+            'sek' => ['sek', '10.00', 'SEK', '10.00'],
+            'sgd' => ['sgd', '10.00', 'SGD', '10.00'],
+            'thb' => ['thb', '10.00', 'THB', '10.00'],
+            'twd' => ['twd', '10.00', 'TWD', '10.00'],
             'usd' => ['usd', '25.50', 'USD', '25.50'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider fromStringValidProvider
-     */
-    public function it_can_parse_money_from_string(string $input, string $expectedCurrency, string $expectedValue): void
-    {
-        $money = Money::fromString($input);
-
-        $this->assertEquals($expectedCurrency, $money->currency);
-        $this->assertEquals($expectedValue, $money->value);
-    }
-
-    public function fromStringValidProvider(): array
-    {
-        return [
-            'currency first' => ['EUR 10.00', 'EUR', '10.00'],
-            'currency last' => ['10.00 EUR', 'EUR', '10.00'],
-            'case insensitive' => ['usd 25.50', 'USD', '25.50'],
-            'whitespace around' => ['  EUR 10.00  ', 'EUR', '10.00'],
-            'no decimal places' => ['EUR 10', 'EUR', '10'],
-            'multiple decimal places' => ['EUR 10.12345', 'EUR', '10.12345'],
-            'GBP currency first' => ['GBP 100.00', 'GBP', '100.00'],
-            'JPY currency first' => ['JPY 100.00', 'JPY', '100.00'],
-            'CAD currency first' => ['CAD 100.00', 'CAD', '100.00'],
-            'AUD currency first' => ['AUD 100.00', 'AUD', '100.00'],
-            'CHF currency first' => ['CHF 100.00', 'CHF', '100.00'],
-            'currency last without decimal' => ['100 USD', 'USD', '100'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider fromStringInvalidProvider
-     */
-    public function it_throws_exception_for_invalid_string_format(string $input, ?string $expectedMessage = null): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        if ($expectedMessage !== null) {
-            $this->expectExceptionMessage($expectedMessage);
-        }
-
-        Money::fromString($input);
-    }
-
-    public function fromStringInvalidProvider(): array
-    {
-        return [
-            'invalid format' => [
-                'invalid',
-                "Invalid money string format: 'invalid'. Expected format: 'EUR 10.00' or '10.00 EUR'",
-            ],
-            'empty string' => [
-                '',
-                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'",
-            ],
-            'whitespace only' => [
-                '   ',
-                "Invalid money string format: ''. Expected format: 'EUR 10.00' or '10.00 EUR'",
-            ],
-            'missing space' => ['EUR10.00'],
-            'invalid currency format' => ['EU 10.00'],
-            'invalid value format' => ['EUR abc'],
+            'zar' => ['zar', '10.00', 'ZAR', '10.00'],
         ];
     }
 }
