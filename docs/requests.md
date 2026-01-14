@@ -66,7 +66,7 @@ $createPaymentRequest = new CreatePaymentRequest(
 
 ## Money Object Convenience Methods
 
-Creating `Money` objects is now easier with convenience methods:
+Creating `Money` objects is now easier with convenience methods for all Mollie supported currencies:
 
 ```php
 use Mollie\Api\Http\Data\Money;
@@ -74,9 +74,10 @@ use Mollie\Api\Http\Data\Money;
 // Using convenience methods
 $amount = Money::euro('10.00');
 $amount = Money::usd('10.00');
-
-// Parse from string
-$amount = Money::fromString('EUR 10.00');  // Parses "EUR 10.00" or "10.00 EUR"
+$amount = Money::gbp('10.00');
+$amount = Money::jpy('1000.00');
+// ... and all other supported currencies (AED, AUD, BGN, BRL, CAD, CHF, CZK, DKK, HKD, HUF, ILS, ISK, MXN, MYR, NOK, NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TWD, ZAR)
+// See [Mollie's multicurrency documentation](https://docs.mollie.com/docs/multicurrency) for the complete list of supported currencies.
 
 // Traditional constructor still works
 $amount = new Money('EUR', '10.00');
