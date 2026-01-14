@@ -1,31 +1,40 @@
 {
   "resource": "session",
   "id": "{{ RESOURCE_ID }}",
+  "clientAccessToken": "dddiweodh23973yo23d2h...",
+  "status": "open",
   "mode": "live",
-  "status": "created",
   "amount": {
-    "value": "10.00",
-    "currency": "EUR"
+    "currency": "EUR",
+    "value": "10.00"
   },
   "description": "Order #12345",
-  "method": "paypal",
-  "methodDetails": {
-    "checkoutFlow": "express"
+  "redirectUrl": "https://example.com/redirect",
+  "cancelUrl": "https://example.com/cancel",
+  "metadata": {
+    "orderId": "12345"
   },
-  "nextAction": "redirect",
-  "createdAt": "2024-01-10T12:06:28+00:00",
+  "payment": {
+    "webhookUrl": "https://webshop.example.org/payments/webhook"
+  },
+  "lines": [
+    {
+      "description": "Product A",
+      "quantity": 1,
+      "unitPrice": {
+        "currency": "EUR",
+        "value": "10.00"
+      },
+      "totalAmount": {
+        "currency": "EUR",
+        "value": "10.00"
+      }
+    }
+  ],
   "_links": {
     "self": {
       "href": "https://api.mollie.com/v2/sessions/{{ RESOURCE_ID }}",
       "type": "application/hal+json"
-    },
-    "redirect": {
-      "href": "https://paypalc.com/order/dghjfidf;gj",
-      "type": "application/hal+json"
-    },
-    "documentation": {
-      "href": "...",
-      "type": "text/html"
     }
   }
 }
