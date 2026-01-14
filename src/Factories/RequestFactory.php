@@ -30,14 +30,14 @@ abstract class RequestFactory extends Factory
         return $this;
     }
 
-    protected function payload(?string $key = null, $default = null)
+    protected function payload(?string $key = null, $default = null, $backupKey = 'payment.')
     {
-        return $this->get($key, $default, $this->payload);
+        return $this->get($key, $default, $this->payload, $backupKey);
     }
 
-    protected function query(?string $key = null, $default = null)
+    protected function query(?string $key = null, $default = null, $backupKey = 'filters.')
     {
-        return $this->get($key, $default, $this->query);
+        return $this->get($key, $default, $this->query, $backupKey);
     }
 
     protected function payloadIncludes(string $key, $value)
