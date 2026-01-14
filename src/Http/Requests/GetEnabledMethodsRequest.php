@@ -12,6 +12,9 @@ use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Types\SequenceType;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ */
 class GetEnabledMethodsRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = HttpMethod::GET;

@@ -11,21 +11,23 @@ class PaymentDetails implements Arrayable
 
     public string $source;
 
-    public ?string $sourceDescription;
+    public ?string $sourceReference;
 
     public function __construct(
         string $source,
-        ?string $sourceDescription = null
+        /** @deprecated use $sourceReference instead */
+        ?string $sourceDescription = null,
+        ?string $sourceReference = null
     ) {
         $this->source = $source;
-        $this->sourceDescription = $sourceDescription;
+        $this->sourceReference = $sourceDescription ?? $sourceReference;
     }
 
     public function toArray(): array
     {
         return [
             'source' => $this->source,
-            'sourceDescription' => $this->sourceDescription,
+            'sourceReference' => $this->sourceReference,
         ];
     }
 }

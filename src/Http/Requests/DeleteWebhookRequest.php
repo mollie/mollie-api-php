@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/delete-webhook
+ */
 class DeleteWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {
     use HasJsonPayload;

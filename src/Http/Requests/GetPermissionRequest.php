@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/permissions-api/get-permission
+ */
 class GetPermissionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;

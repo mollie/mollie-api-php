@@ -8,6 +8,9 @@ use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ */
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {
     /**

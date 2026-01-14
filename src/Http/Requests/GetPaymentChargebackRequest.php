@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
+/**
+ * @see https://docs.mollie.com/reference/get-chargeback
+ */
 class GetPaymentChargebackRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
