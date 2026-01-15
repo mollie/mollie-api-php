@@ -5,11 +5,14 @@ namespace Tests;
 use GuzzleHttp\Client;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Exceptions\InvalidAuthenticationException;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Adapter\GuzzleMollieHttpAdapter;
+use Mollie\Api\Http\Auth\AccessTokenAuthenticator;
+use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\PendingRequest;
@@ -90,6 +93,46 @@ class MollieApiClientTest extends TestCase
         $this->assertNotEmpty($client_copy->customerPayments);
         $this->assertNotEmpty($client_copy->payments);
         $this->assertNotEmpty($client_copy->methods);
+    }
+
+    /** @test */
+    public function set_token_uses_access_token_authenticator_for_access_tokens()
+    {
+        $client = new MollieApiClient($this->createMock(Client::class));
+
+        $client->setToken('access_xxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+        $this->assertInstanceOf(AccessTokenAuthenticator::class, $client->getAuthenticator());
+    }
+
+    /** @test */
+    public function set_token_uses_api_key_authenticator_for_test_keys()
+    {
+        $client = new MollieApiClient($this->createMock(Client::class));
+
+        $client->setToken('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+        $this->assertInstanceOf(ApiKeyAuthenticator::class, $client->getAuthenticator());
+    }
+
+    /** @test */
+    public function set_token_uses_api_key_authenticator_for_live_keys()
+    {
+        $client = new MollieApiClient($this->createMock(Client::class));
+
+        $client->setToken('live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+        $this->assertInstanceOf(ApiKeyAuthenticator::class, $client->getAuthenticator());
+    }
+
+    /** @test */
+    public function set_token_throws_for_invalid_tokens()
+    {
+        $client = new MollieApiClient($this->createMock(Client::class));
+
+        $this->expectException(InvalidAuthenticationException::class);
+
+        $client->setToken('invalid_token');
     }
 
     /**
