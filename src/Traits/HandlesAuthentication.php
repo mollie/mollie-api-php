@@ -6,6 +6,7 @@ use Mollie\Api\Contracts\Authenticator;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Auth\AccessTokenAuthenticator;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
+use Mollie\Api\Http\Auth\TokenValidator;
 
 trait HandlesAuthentication
 {
@@ -33,6 +34,20 @@ trait HandlesAuthentication
         $this->authenticator = new AccessTokenAuthenticator($accessToken);
 
         return $this;
+    }
+
+    /**
+     * @param  string  $token  API key (test_/live_) or OAuth access token (access_)
+     *
+     * @throws ApiException
+     */
+    public function setToken(string $token): self
+    {
+        if (TokenValidator::isAccessToken($token)) {
+            return $this->setAccessToken($token);
+        }
+
+        return $this->setApiKey($token);
     }
 
     public function getAuthenticator(): ?Authenticator
