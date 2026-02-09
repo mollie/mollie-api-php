@@ -42,8 +42,10 @@ Initializing the Mollie API client, and setting your API key.
 
 ```php
 $mollie = new \Mollie\Api\MollieApiClient();
-$mollie->setApiKey("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+$mollie->setToken("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 ```
+
+The `setToken` method automatically detects whether you're using an API key (`test_`/`live_`) or an OAuth access token (`access_`). You can also use `setApiKey()` or `setAccessToken()` directly if you prefer to be explicit.
 
 Find our full documentation online on [docs.mollie.com](https://docs.mollie.com).
 
