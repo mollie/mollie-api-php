@@ -33,9 +33,9 @@ class ClientLink extends BaseResource
     /**
      * Get the redirect URL where the customer can complete the payment.
      *
-     * @return string|null
+     * @return string
      */
-    public function getRedirectUrl(string $client_id, string $state, array $scopes = [], string $approval_prompt = ApprovalPrompt::AUTO)
+    public function getRedirectUrl(string $client_id, string $state, array $scopes = [], string $approval_prompt = ApprovalPrompt::AUTO): string
     {
         if (! in_array($approval_prompt, [ApprovalPrompt::AUTO, ApprovalPrompt::FORCE])) {
             throw new \Exception('Invalid approval_prompt. Please use "auto" or "force".');
