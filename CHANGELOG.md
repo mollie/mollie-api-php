@@ -9,12 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
-### What's Changed
-
-* feat: add metadata to connect balance transfer by @Naoray in https://github.com/mollie/mollie-api-php/pull/848
-* Fix cURL deprecation notice for PHP 8.5 and higher by @RobinvanderVliet in https://github.com/mollie/mollie-api-php/pull/847
-* fix: make TransferParty data accessible for debugging by @Naoray in https://github.com/mollie/mollie-api-php/pull/849
-* Sandervanhooft fix/inclusion qr mismatch by @Naoray in https://github.com/mollie/mollie-api-php/pull/851
+## What's Changed
 * Fix: Don't call deprecated `setAccessible()` by @derrabus in https://github.com/mollie/mollie-api-php/pull/852
 * Fix documented `Capability::$requirements` structure by @derrabus in https://github.com/mollie/mollie-api-php/pull/853
 * feat(auth): add setToken helper for api keys by @Naoray in https://github.com/mollie/mollie-api-php/pull/859
@@ -23,13 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Remove incorrect null return type from ClientLink::getRedirectUrl() by @Naoray in https://github.com/mollie/mollie-api-php/pull/865
 * Remove incorrect null return type from ClientLink::getRedirectUrl()   by @NormanAlbert91 in https://github.com/mollie/mollie-api-php/pull/862
 
-### New Contributors
-
-* @RobinvanderVliet made their first contribution in https://github.com/mollie/mollie-api-php/pull/847
+## New Contributors
 * @derrabus made their first contribution in https://github.com/mollie/mollie-api-php/pull/852
 * @NormanAlbert91 made their first contribution in https://github.com/mollie/mollie-api-php/pull/862
 
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.7.0...v3.9.0
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0
 
 ## [v3.8.0](https://github.com/mollie/mollie-api-php/compare/v3.7.0...v3.8.0) - 2026-01-06
 
