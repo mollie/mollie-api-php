@@ -96,7 +96,7 @@ $someRequestUsingQueryParams->query()->add('foo', 'bar');
 
 ## Parameter Ordering Notes
 
-Some request classes have optional parameters before required parameters in their constructors. This can trigger PHP 8+ deprecation warnings when using positional arguments. To avoid this:
+For legacy reasons, some request classes have optional parameters before required parameters in their constructors. This can trigger PHP 8+ deprecation warnings when using positional arguments. To avoid this:
 
 1. **Use named parameters** (recommended for PHP 8.0+):
    ```php
