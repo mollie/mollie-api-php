@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\WebhookEvent;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/get-webhook-event
+ */
 class GetWebhookEventRequest extends ResourceHydratableRequest
 {
     /**

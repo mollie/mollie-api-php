@@ -25,6 +25,12 @@ parameters:
 			path: src/Resources/ResourceCollection.php
 
 		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 29
+			path: src/Traits/HasCurrencyConvenienceMethods.php
+
+		-
 			message: '#^Dead catch \- Throwable is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1

@@ -10,6 +10,9 @@ use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/webhooks-api/update-webhook
+ */
 class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;

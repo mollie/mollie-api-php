@@ -15,10 +15,7 @@ try {
         new CreateCustomerPaymentRequest(
             customerId: 'cst_8wmqcHMN4U',
             description: 'First payment - Order #12345',
-            amount: new Money(
-                currency: 'EUR',
-                value: '29.95'
-            ),
+            amount: Money::euro('29.95'),  // Using convenience method
             redirectUrl: 'https://example.com/payments/return?order_id=12345',
             webhookUrl: 'https://example.com/payments/webhook',
             metadata: [
@@ -48,10 +45,7 @@ try {
         new CreateCustomerPaymentRequest(
             customerId: 'cst_8wmqcHMN4U',
             description: 'Recurring payment - Order #12346',
-            amount: new Money(
-                currency: 'EUR',
-                value: '29.95'
-            ),
+            amount: Money::euro('29.95'),  // Using convenience method
             webhookUrl: 'https://example.com/payments/webhook',
             metadata: [
                 'order_id' => '12346'

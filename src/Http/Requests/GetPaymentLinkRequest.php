@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/payment-links-api/get-payment-link
+ */
 class GetPaymentLinkRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

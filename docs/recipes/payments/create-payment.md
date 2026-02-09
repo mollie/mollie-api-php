@@ -12,7 +12,7 @@ try {
     $payment = $mollie->send(
         new CreatePaymentRequest(
             description: "Order #{$orderId}",
-            amount: new Money(currency: 'EUR', value: '10.00'),
+            amount: Money::euro('10.00'),
             redirectUrl: 'https://example.org/return',
             cancelUrl: 'https://example.org/cancel',
             webhookUrl: 'https://example.org/webhook',

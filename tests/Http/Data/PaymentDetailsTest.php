@@ -9,7 +9,7 @@ class PaymentDetailsTest extends TestCase
     {
         $object = PaymentDetails::fromArray($data = [
             'source' => 'banktransfer',
-            'sourceDescription' => 'Bank Transfer',
+            'sourceReference' => 'Bank Transfer',
         ]);
 
         $this->assertInstanceOf(PaymentDetails::class, $object);
