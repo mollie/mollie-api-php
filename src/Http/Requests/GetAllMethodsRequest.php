@@ -9,7 +9,7 @@ use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Utils\Arr;
 
 /**
- * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ * @see https://docs.mollie.com/reference/list-all-methods
  */
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {
