@@ -4,7 +4,9 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Resources\Session;
 use PHPUnit\Framework\TestCase;
@@ -18,12 +20,20 @@ class CreateSessionRequestTest extends TestCase
             CreateSessionRequest::class => MockResponse::created('session'),
         ]);
 
+        $lines = new DataCollection([
+            new OrderLine(
+                'Product A',
+                1,
+                new Money('EUR', '10.00'),
+                new Money('EUR', '10.00')
+            ),
+        ]);
+
         $request = new CreateSessionRequest(
-            'https://example.com/redirect',
-            'https://example.com/cancel',
             new Money('EUR', '10.00'),
             'My product',
-            'ideal',
+            'https://example.com/redirect',
+            $lines
         );
 
         /** @var Session */
@@ -36,13 +46,20 @@ class CreateSessionRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
+        $lines = new DataCollection([
+            new OrderLine(
+                'Product A',
+                1,
+                new Money('EUR', '10.00'),
+                new Money('EUR', '10.00')
+            ),
+        ]);
+
         $request = new CreateSessionRequest(
-            'https://example.com/redirect',
-            'https://example.com/cancel',
             new Money('EUR', '10.00'),
             'My product',
-            'ideal',
-            'embedded'
+            'https://example.com/redirect',
+            $lines
         );
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }

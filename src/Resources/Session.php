@@ -29,27 +29,11 @@ class Session extends BaseResource
     public $status;
 
     /**
-     * UTC datetime indicating the time at which the Session failed in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
-     */
-    public $failedAt;
-
-    /**
-     * Unique identifier to record the Userʼs authentication with a method
+     * Client access token for the session.
      *
      * @var string
      */
-    public $authenticationId;
-
-    /**
-     * Indicates the next action to take in the payment preparation flow.
-     *
-     * @var string
-     */
-    public $nextAction;
+    public $clientAccessToken;
 
     /**
      * The URL the buyer will be redirected to in case the
@@ -85,36 +69,53 @@ class Session extends BaseResource
     public $description;
 
     /**
-     * Payment method currently selected by the shopper.
-     *
-     * @var string
-     */
-    public $method;
-
-    /**
-     * All additional information relating to the selected method.
-     *
-     * @var \stdClass
-     */
-    public $methodDetails;
-
-    /**
      * The person and the address the payment is shipped to.
      *
-     * @deprecated
-     *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $shippingAddress;
 
     /**
      * The person and the address the payment is billed to.
      *
-     * @deprecated
-     *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $billingAddress;
+
+    /**
+     * ID of the customer the session is created for.
+     *
+     * @var string|null
+     */
+    public $customerId;
+
+    /**
+     * Sequence type for recurring payments.
+     *
+     * @var string|null
+     */
+    public $sequenceType;
+
+    /**
+     * Metadata associated with the session.
+     *
+     * @var object|array|null
+     */
+    public $metadata;
+
+    /**
+     * Payment settings for the session.
+     *
+     * @var \stdClass|null
+     */
+    public $payment;
+
+    /**
+     * Order lines for the session.
+     *
+     * @var array|object[]|null
+     */
+    public $lines;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
@@ -123,24 +124,19 @@ class Session extends BaseResource
      */
     public $_links;
 
-    public function isCreated()
+    public function isOpen()
     {
-        return $this->status === SessionStatus::STATUS_CREATED;
+        return $this->status === SessionStatus::OPEN;
     }
 
-    public function isReadyForProcessing()
+    public function isExpired()
     {
-        return $this->status === SessionStatus::STATUS_READY_FOR_PROCESSING;
+        return $this->status === SessionStatus::EXPIRED;
     }
 
     public function isCompleted()
     {
-        return $this->status === SessionStatus::STATUS_COMPLETED;
-    }
-
-    public function hasFailed()
-    {
-        return $this->status === SessionStatus::STATUS_FAILED;
+        return $this->status === SessionStatus::COMPLETED;
     }
 
     /**
