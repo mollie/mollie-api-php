@@ -3,13 +3,17 @@
 namespace Mollie\Api\Resources;
 
 /**
+ * OAuth permission returned by the Permissions API.
+ *
  * @property \Mollie\Api\MollieApiClient $connector
+ * @link https://docs.mollie.com/docs/permissions Full list of permission IDs (scopes)
  */
 class Permission extends BaseResource
 {
     /**
-     * @var string
+     * Permission ID (scope), e.g. payments.read, onboarding.write.
      *
+     * @var string
      * @example payments.read
      */
     public $id;

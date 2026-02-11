@@ -301,7 +301,7 @@ $partner = $mollie->organizations->partnerStatus();
 
 ## Permissions
 
-[Official Documentation](https://docs.mollie.com/reference/v2/permissions-api/get-permission)
+[API Reference](https://docs.mollie.com/reference/v2/permissions-api/get-permission) · [Full list of permission scopes](https://docs.mollie.com/docs/permissions)
 
 ### Permission Management
 
