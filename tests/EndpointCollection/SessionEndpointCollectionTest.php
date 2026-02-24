@@ -39,11 +39,23 @@ class SessionEndpointCollectionTest extends TestCase
 
         /** @var Session $session */
         $session = $client->sessions->create([
-            'redirectUrl' => 'https://example.com/redirect',
-            'cancelUrl' => 'https://example.com/cancel',
             'amount' => new Money('EUR', '10.00'),
             'description' => 'Test Session',
-            'method' => 'ideal',
+            'redirectUrl' => 'https://example.com/redirect',
+            'lines' => [
+                [
+                    'description' => 'Product A',
+                    'quantity' => 1,
+                    'unitPrice' => [
+                        'currency' => 'EUR',
+                        'value' => '10.00',
+                    ],
+                    'totalAmount' => [
+                        'currency' => 'EUR',
+                        'value' => '10.00',
+                    ],
+                ],
+            ],
         ]);
 
         $this->assertSession($session);
