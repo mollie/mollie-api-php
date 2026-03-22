@@ -12,6 +12,9 @@ use Mollie\Api\Types\MethodQuery;
 use Mollie\Api\Types\SequenceType;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ */
 class GetEnabledMethodsRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = HttpMethod::GET;
@@ -37,16 +40,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
     private ?bool $includeIssuers;
 
     /**
-     * @deprecated Use GetAllMethodsRequest instead with $includePricing = true
-     *
-     * @var bool|null
-     */
-    private ?bool $includePricing;
-
-    /**
      * Whether to filter out methods with a status of null.
-     *
-     * @var bool
      */
     private bool $filtersNullStatus = true;
 
@@ -59,8 +53,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
         ?array $includeWallets = null,
         ?array $orderLineCategories = null,
         ?string $profileId = null,
-        ?bool $includeIssuers = null,
-        ?bool $includePricing = null
+        ?bool $includeIssuers = null
     ) {
         $this->sequenceType = $sequenceType;
         $this->resource = $resource;
@@ -71,7 +64,6 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
         $this->orderLineCategories = $orderLineCategories;
         $this->profileId = $profileId;
         $this->includeIssuers = $includeIssuers;
-        $this->includePricing = $includePricing;
 
         $this->middleware()->onResponse(function ($result) {
             if ($this->filtersNullStatus && $result instanceof MethodCollection) {
@@ -108,10 +100,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
             'includeWallets' => Arr::join($this->includeWallets ?? []),
             'orderLineCategories' => Arr::join($this->orderLineCategories ?? []),
             'profileId' => $this->profileId,
-            'include' => array_filter([
-                $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
-                $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
-            ]),
+            'include' => $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
         ];
     }
 

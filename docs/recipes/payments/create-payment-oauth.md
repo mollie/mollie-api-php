@@ -7,7 +7,7 @@ How to create a payment using OAuth authentication with the Mollie API.
 ```php
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
-use Mollie\Api\Http\Requests\ListProfilesRequest;
+use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
 
 try {
     // Initialize the Mollie client with your OAuth access token
@@ -15,9 +15,7 @@ try {
     $mollie->setAccessToken('access_xxx');
 
     // Get the first available profile since OAuth tokens don't belong to a specific profile
-    $profiles = $mollie->send(
-        new ListProfilesRequest()
-    );
+    $profiles = $mollie->send(new GetPaginatedProfilesRequest);
 
     $profile = $profiles[0]; // Select the correct profile for this merchant
 
@@ -60,7 +58,7 @@ $payment->createdAt;        // "2024-02-24T12:13:14+00:00"
 ## Additional Notes
 
 - OAuth access tokens don't belong to a specific profile, so you need to specify the `profileId` parameter
-- Get the profile ID by listing the available profiles with `ListProfilesRequest`
+- Get the profile ID by listing the available profiles with `GetPaginatedProfilesRequest`
 - OAuth tokens are required for certain features like routing payments
 - Make sure to handle the webhook to process payment status updates
 - Store your OAuth tokens securely and refresh them when needed

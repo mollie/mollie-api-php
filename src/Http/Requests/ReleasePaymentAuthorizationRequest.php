@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/release-authorization
+ */
 class ReleasePaymentAuthorizationRequest extends Request
 {
     protected static string $method = Method::POST;
@@ -19,6 +22,6 @@ class ReleasePaymentAuthorizationRequest extends Request
 
     public function resolveResourcePath(): string
     {
-        return 'payments/' . $this->paymentId . '/release-authorization';
+        return 'payments/'.$this->paymentId.'/release-authorization';
     }
 }

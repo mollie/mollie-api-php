@@ -38,7 +38,6 @@ class GetPaginatedCustomerPaymentsRequestTest extends TestCase
         }
     }
 
-
     /** @test */
     public function it_can_iterate_over_customer_payments()
     {

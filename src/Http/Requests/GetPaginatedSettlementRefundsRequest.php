@@ -30,7 +30,7 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
         parent::__construct($from, $limit);
 
         $this->query()
-            ->add('include', $includePayment ? PaymentIncludesQuery::PAYMENT : null);
+            ->add('embed', $includePayment ? PaymentIncludesQuery::PAYMENT : null);
     }
 
     /**

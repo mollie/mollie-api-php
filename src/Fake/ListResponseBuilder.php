@@ -15,7 +15,7 @@ class ListResponseBuilder
         string $collectionClass
     ) {
         if (! is_subclass_of($collectionClass, ResourceCollection::class)) {
-            throw new LogicException('Collection class must be a subclass of ' . ResourceCollection::class);
+            throw new LogicException('Collection class must be a subclass of '.ResourceCollection::class);
         }
 
         $this->collectionClass = $collectionClass;
@@ -41,7 +41,7 @@ class ListResponseBuilder
     {
         $contents = FakeResponseLoader::load('empty-list');
 
-        $collectionKey = $this->collectionClass::$collectionName;
+        $collectionKey = $this->collectionClass::getCollectionResourceName();
         $contents = str_replace('{{ RESOURCE_ID }}', $collectionKey, $contents);
 
         $data = json_decode($contents, true);

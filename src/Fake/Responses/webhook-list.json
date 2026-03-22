@@ -1,0 +1,54 @@
+{
+  "_embedded": {
+    "webhooks": [
+      {
+        "resource": "webhook",
+        "id": "wh_4KgGJJSZpH",
+        "url": "https://example.com/webhook",
+        "profileId": "pfl_v9hTwCvYqw",
+        "createdAt": "2023-12-25T10:30:54+00:00",
+        "name": "My webhook",
+        "eventTypes": "payment-link.paid",
+        "status": "enabled",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/webhooks/wh_4KgGJJSZpH",
+            "type": "application/hal+json"
+          }
+        }
+      },
+      {
+        "resource": "webhook",
+        "id": "wh_8KhHNOSdpL",
+        "url": "https://example.com/webhook2",
+        "profileId": "pfl_v9hTwCvYqw",
+        "createdAt": "2023-12-26T10:30:54+00:00",
+        "name": "My second webhook",
+        "eventTypes": "profile.verified",
+        "status": "enabled",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/webhooks/wh_8KhHNOSdpL",
+            "type": "application/hal+json"
+          }
+        }
+      }
+    ]
+  },
+  "count": 2,
+  "_links": {
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/v2/webhooks-api/list-webhooks",
+      "type": "text/html"
+    },
+    "self": {
+      "href": "https://api.mollie.com/v2/webhooks?limit=50",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": {
+      "href": "https://api.mollie.com/v2/webhooks?from=wh_8KhHNOSdpL&limit=5",
+      "type": "application/hal+json"
+    }
+  }
+}

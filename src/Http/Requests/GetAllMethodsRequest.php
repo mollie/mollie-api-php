@@ -6,7 +6,11 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\MethodCollection;
 use Mollie\Api\Types\Method as HttpMethod;
 use Mollie\Api\Types\MethodQuery;
+use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/list-all-methods
+ */
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {
     /**
@@ -27,23 +31,32 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
 
     private ?Money $amount;
 
-    public function __construct(bool $includeIssuers = false, bool $includePricing = false, ?string $locale = null, ?Money $amount = null)
-    {
+    private ?string $profileId;
+
+    public function __construct(
+        bool $includeIssuers = false,
+        bool $includePricing = false,
+        ?string $locale = null,
+        ?Money $amount = null,
+        ?string $profileId = null
+    ) {
         $this->includeIssuers = $includeIssuers;
         $this->includePricing = $includePricing;
         $this->locale = $locale;
         $this->amount = $amount;
+        $this->profileId = $profileId;
     }
 
     protected function defaultQuery(): array
     {
         return [
-            'include' => array_filter([
+            'include' => Arr::join([
                 $this->includeIssuers ? MethodQuery::INCLUDE_ISSUERS : null,
                 $this->includePricing ? MethodQuery::INCLUDE_PRICING : null,
             ]),
             'locale' => $this->locale,
             'amount' => $this->amount,
+            'profileId' => $this->profileId,
         ];
     }
 

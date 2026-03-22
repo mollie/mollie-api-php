@@ -2,7 +2,6 @@
 
 namespace Tests\Utils;
 
-use DateTimeImmutable;
 use Mollie\Api\Contracts\Resolvable;
 use Mollie\Api\Contracts\Stringable;
 use Mollie\Api\Fake\MockMollieClient;
@@ -22,7 +21,7 @@ class DataTransformerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transformer = new DataTransformer();
+        $this->transformer = new DataTransformer;
     }
 
     /** @test */
@@ -44,8 +43,9 @@ class DataTransformerTest extends TestCase
     public function it_transforms_payload_data(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->payload()->add('dateTime', DateTimeImmutable::createFromFormat('Y-m-d', '2024-01-01'));
-        $pendingRequest->payload()->add('empty', null);
+        $pendingRequest->payload()->add('dateTime', '2024-01-01T11:00:00+00:00');
+        $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('null', null);
         $pendingRequest->payload()->add('valid', 'data');
         $pendingRequest->payload()->add('address', new Address(
             null,
@@ -64,8 +64,9 @@ class DataTransformerTest extends TestCase
 
         $result = $this->transformer->transform($pendingRequest);
 
-        $this->assertEquals('2024-01-01', $result->payload()->get('dateTime'));
+        $this->assertEquals('2024-01-01T11:00:00+00:00', (string) $result->payload()->get('dateTime'));
         $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('null'));
         $this->assertEquals('data', $result->payload()->get('valid'));
         $this->assertEqualsCanonicalizing([
             'givenName' => 'John',
@@ -132,7 +133,7 @@ class DataTransformerTest extends TestCase
     private function createGetRequest(): PendingRequest
     {
         return new PendingRequest(
-            new MockMollieClient(),
+            new MockMollieClient,
             new DynamicGetRequest('')
         );
     }
@@ -140,7 +141,7 @@ class DataTransformerTest extends TestCase
     private function createPostRequest(): PendingRequest
     {
         return new PendingRequest(
-            new MockMollieClient(),
+            new MockMollieClient,
             new DynamicPostRequest('')
         );
     }
@@ -150,6 +151,7 @@ class DataTransformerTest extends TestCase
 class Foo implements Resolvable
 {
     public string $foo;
+
     public Bar $bar;
 
     public function __construct(string $foo, Bar $bar)

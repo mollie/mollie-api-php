@@ -7,12 +7,12 @@
         "name": "payments",
         "requirements": [
           {
-            "name": "legal-representatives",
+            "id": "legal-representatives",
             "dueDate": null,
             "status": "requested"
           },
           {
-            "name": "bank-account",
+            "id": "bank-account",
             "dueDate": null,
             "status": "requested"
           }
@@ -36,7 +36,7 @@
         "name": "capital",
         "requirements": [
           {
-            "name": "legal-representatives",
+            "id": "legal-representatives",
             "dueDate": "2024-05-14T01:29:09.0Z",
             "status": "past-due"
           }

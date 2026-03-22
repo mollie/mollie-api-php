@@ -5,11 +5,15 @@ namespace Mollie\Api\Http\Requests;
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription
+ */
 class UpdateSubscriptionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
@@ -34,7 +38,10 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?string $interval;
 
-    private ?DateTimeInterface $startDate;
+    /**
+     * @var Date|DateTimeInterface
+     */
+    private $startDate;
 
     private ?int $times;
 
@@ -44,13 +51,16 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
 
     private ?string $mandateId;
 
+    /**
+     * @param Date|DateTimeInterface|null $startDate
+     */
     public function __construct(
         string $customerId,
         string $subscriptionId,
         ?Money $amount = null,
         ?string $description = null,
         ?string $interval = null,
-        ?DateTimeInterface $startDate = null,
+        $startDate = null,
         ?int $times = null,
         ?array $metadata = null,
         ?string $webhookUrl = null,

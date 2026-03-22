@@ -17,7 +17,7 @@ class CreatePaymentRefundRequestFactory extends RequestFactory
     {
         return new CreatePaymentRefundRequest(
             $this->paymentId,
-            $this->payload('description'),
+            $this->payload('description', ''),
             MoneyFactory::new($this->payload('amount'))->create(),
             $this->payload('metadata'),
             $this->payload('reverseRouting'),

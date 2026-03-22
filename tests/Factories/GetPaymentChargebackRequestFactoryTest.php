@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaymentChargebackRequestFactory;
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
+use Mollie\Api\Types\PaymentIncludesQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentChargebackRequestFactoryTest extends TestCase
@@ -22,6 +23,20 @@ class GetPaymentChargebackRequestFactoryTest extends TestCase
             ->create();
 
         $this->assertInstanceOf(GetPaymentChargebackRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
+    }
+
+    /** @test */
+    public function create_supports_legacy_include_payment_query_key()
+    {
+        $request = GetPaymentChargebackRequestFactory::new(self::PAYMENT_ID, self::CHARGEBACK_ID)
+            ->withQuery([
+                'includePayment' => true,
+            ])
+            ->create();
+
+        $this->assertInstanceOf(GetPaymentChargebackRequest::class, $request);
+        $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
     /** @test */

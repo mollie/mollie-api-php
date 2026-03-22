@@ -19,12 +19,12 @@ class GetPaymentCaptureRequestFactory extends RequestFactory
 
     public function create(): GetPaymentCaptureRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        $embedPayment = $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaymentCaptureRequest(
             $this->paymentId,
             $this->captureId,
-            $this->query('includePayment', $includePayment),
+            $this->query('includePayment', $embedPayment),
         );
     }
 }

@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/settlements-api/get-settlement
+ */
 class GetSettlementRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;

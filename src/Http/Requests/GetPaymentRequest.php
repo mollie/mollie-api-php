@@ -8,6 +8,9 @@ use Mollie\Api\Types\Method;
 use Mollie\Api\Types\PaymentQuery;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/payments-api/get-payment
+ */
 class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

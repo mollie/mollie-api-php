@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTimeImmutable;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
 
 class CreateSubscriptionRequestFactory extends RequestFactory
@@ -23,7 +23,7 @@ class CreateSubscriptionRequestFactory extends RequestFactory
             $this->payload('description'),
             $this->payload('status'),
             $this->payload('times'),
-            $this->transformFromPayload('startDate', fn (string $date) => DateTimeImmutable::createFromFormat('Y-m-d', $date), DateTimeImmutable::class),
+            $this->transformFromPayload('startDate', fn (string $date) => new Date($date), Date::class),
             $this->payload('method'),
             $this->transformFromPayload('applicationFee', fn ($fee) => ApplicationFeeFactory::new($fee)->create()),
             $this->payload('metadata'),

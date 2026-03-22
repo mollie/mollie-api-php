@@ -10,6 +10,7 @@ class DataCollectionTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider provideArraysForConstruction
      */
     public function can_be_constructed_and_converted_to_array($items)
@@ -30,6 +31,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideArraysForCount
      */
     public function counts_items_correctly($items, $expectedCount)
@@ -50,6 +52,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideWrapSubjects
      */
     public function wraps_various_subjects_correctly($subject, $expected)
@@ -78,6 +81,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideValuesCollections
      */
     public function returns_values_collection($input, $expected)
@@ -112,6 +116,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideMapCases
      */
     public function maps_items_correctly($input, $callback, $expected)
@@ -134,6 +139,7 @@ class DataCollectionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider provideFilterCases
      */
     public function filters_items_correctly($input, $callback, $expected)
@@ -152,6 +158,55 @@ class DataCollectionTest extends TestCase
             'greater than two' => [[1, 3, 5], fn ($v) => $v > 2, [1 => 3, 2 => 5]],
             'no callback' => [[1, 2, 3], null, [1, 2, 3]],
             'empty input' => [[], fn ($v) => true, []],
+        ];
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider provideContainsCases
+     */
+    public function contains_checks_for_items_correctly($input, $search, $expected)
+    {
+        $collection = new DataCollection($input);
+
+        $this->assertSame($expected, $collection->contains($search));
+    }
+
+    public static function provideContainsCases()
+    {
+        return [
+            // Direct value checks
+            'simple value exists' => [[1, 2, 3], 2, true],
+            'simple value does not exist' => [[1, 2, 3], 4, false],
+            'string value exists' => [['a', 'b', 'c'], 'b', true],
+            'string value does not exist' => [['a', 'b', 'c'], 'd', false],
+            'empty collection' => [[], 1, false],
+            'null value' => [[null], null, true],
+            'false value' => [[false], false, true],
+            'zero value' => [[0], 0, true],
+
+            // Callback checks
+            'callback finds match' => [
+                [1, 2, 3],
+                fn ($item) => $item > 2,
+                true,
+            ],
+            'callback finds no match' => [
+                [1, 2, 3],
+                fn ($item) => $item > 3,
+                false,
+            ],
+            'callback with associative array' => [
+                ['a' => 1, 'b' => 2],
+                fn ($item) => $item === 2,
+                true,
+            ],
+            'empty collection with callback' => [
+                [],
+                fn ($item) => true,
+                false,
+            ],
         ];
     }
 }

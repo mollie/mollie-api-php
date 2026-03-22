@@ -92,6 +92,11 @@ class SalesInvoice extends BaseResource
     public $discount;
 
     /**
+     * @var bool
+     */
+    public $isEInvoice;
+
+    /**
      * @var object
      */
     public $amountDue;

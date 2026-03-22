@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/customers-api/update-customer
+ */
 class UpdateCustomerRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

@@ -33,10 +33,6 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
      */
     public const DEFAULT_CONNECT_TIMEOUT = 2;
 
-    /**
-     * Maximum number of retries for retryable errors.
-     */
-    public const MAX_RETRIES = 5;
 
     protected ClientInterface $httpClient;
 
@@ -62,10 +58,7 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
      */
     public static function createClient(): self
     {
-        $retryMiddlewareFactory = new GuzzleRetryMiddlewareFactory;
-
         $handlerStack = HandlerStack::create();
-        $handlerStack->push($retryMiddlewareFactory->retry());
 
         $client = new Client([
             RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath(),

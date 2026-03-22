@@ -17,7 +17,6 @@ class GetMethodRequestFactory extends RequestFactory
     public function create(): GetMethodRequest
     {
         $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
-        $includePricing = $this->queryIncludes('include', MethodQuery::INCLUDE_PRICING);
 
         return new GetMethodRequest(
             $this->id,
@@ -25,7 +24,6 @@ class GetMethodRequestFactory extends RequestFactory
             $this->query('currency'),
             $this->query('profileId'),
             $this->query('includeIssuers', $includeIssuers),
-            $this->query('includePricing', $includePricing),
         );
     }
 }

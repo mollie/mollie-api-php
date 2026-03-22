@@ -133,9 +133,9 @@ class PaymentEndpointCollection extends EndpointCollection
     /**
      * Release the authorization for the given payment.
      *
-     * @param Payment|string $paymentId
-     *
+     * @param  Payment|string  $paymentId
      * @return AnyResource|Response
+     *
      * @throws RequestException
      */
     public function releaseAuthorization($paymentId)

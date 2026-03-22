@@ -2,9 +2,9 @@
 
 namespace Mollie\Api\Factories;
 
-use DateTimeImmutable;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Http\Data\DataCollection;
+use Mollie\Api\Http\Data\Date;
 use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
@@ -27,8 +27,8 @@ class PaymentRouteCollectionFactory extends Factory
                 Arr::get($item, 'destination.organizationId'),
                 Utility::transform(
                     Arr::get($item, 'delayUntil'),
-                    fn ($value) => DateTimeImmutable::createFromFormat('Y-m-d', $value),
-                    DateTimeImmutable::class
+                    fn ($value) => new Date($value),
+                    Date::class
                 )
             );
         }, $this->get());

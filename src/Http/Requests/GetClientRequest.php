@@ -7,6 +7,9 @@ use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/clients-api/get-client
+ */
 class GetClientRequest extends ResourceHydratableRequest
 {
     /**
@@ -25,8 +28,11 @@ class GetClientRequest extends ResourceHydratableRequest
 
     private ?bool $embedOnboarding;
 
-    public function __construct(string $id, ?bool $embedOrganization = null, ?bool $embedOnboarding = null)
-    {
+    public function __construct(
+        string $id,
+        ?bool $embedOrganization = null,
+        ?bool $embedOnboarding = null
+    ) {
         $this->id = $id;
         $this->embedOrganization = $embedOrganization;
         $this->embedOnboarding = $embedOnboarding;

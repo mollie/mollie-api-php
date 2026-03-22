@@ -23,8 +23,10 @@ class MethodQuery
     ];
 
     const WALLET_APPLEPAY = 'applepay';
+    const WALLET_GOOGLEPAY = 'googlepay';
 
     const WALLETS = [
         self::WALLET_APPLEPAY,
+        self::WALLET_GOOGLEPAY,
     ];
 }

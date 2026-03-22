@@ -40,6 +40,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function set_replaces_all_data(array $data)
@@ -51,6 +52,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function get_returns_value_by_key(array $data)
@@ -61,6 +63,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function get_returns_nested_value_by_dot_notation(array $data)
@@ -71,6 +74,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function get_returns_default_when_key_not_found(array $data)
@@ -81,6 +85,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function add_adds_new_key_value_pair(array $data)
@@ -92,6 +97,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function has_returns_true_when_key_exists(array $data)
@@ -102,6 +108,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function has_returns_true_when_nested_key_exists(array $data)
@@ -112,6 +119,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function has_returns_false_when_key_does_not_exist(array $data)
@@ -122,6 +130,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function merge_merges_arrays_into_store(array $data)
@@ -135,6 +144,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function remove_removes_key_from_store(array $data)
@@ -146,6 +156,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function remove_removes_nested_key_from_store(array $data)
@@ -157,6 +168,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function all_returns_all_data(array $data)
@@ -167,6 +179,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider emptyStoreProvider
      */
     public function is_empty_returns_true_when_store_is_empty(array $data)
@@ -177,6 +190,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function is_empty_returns_false_when_store_is_not_empty(array $data)
@@ -187,6 +201,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider standardStoreProvider
      */
     public function is_not_empty_returns_true_when_store_is_not_empty(array $data)
@@ -197,6 +212,7 @@ class ArrayStoreTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider emptyStoreProvider
      */
     public function is_not_empty_returns_false_when_store_is_empty(array $data)

@@ -16,13 +16,14 @@ class GetPaginatedSettlementCapturesRequestFactory extends RequestFactory
 
     public function create(): GetPaginatedSettlementCapturesRequest
     {
-        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT);
+        $includePayment = $this->queryIncludes('include', PaymentIncludesQuery::PAYMENT)
+            || $this->queryIncludes('embed', PaymentIncludesQuery::PAYMENT);
 
         return new GetPaginatedSettlementCapturesRequest(
             $this->settlementId,
             $this->query('from'),
             $this->query('limit'),
-            $this->query('includePayment', $includePayment)
+            $this->query('includePayment', $includePayment),
         );
     }
 }

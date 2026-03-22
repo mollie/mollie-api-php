@@ -9,6 +9,7 @@ use Mollie\Api\EndpointCollection\CapabilityEndpointCollection;
 use Mollie\Api\EndpointCollection\ChargebackEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientEndpointCollection;
 use Mollie\Api\EndpointCollection\ClientLinkEndpointCollection;
+use Mollie\Api\EndpointCollection\ConnectBalanceTransferEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerEndpointCollection;
 use Mollie\Api\EndpointCollection\CustomerPaymentsEndpointCollection;
 use Mollie\Api\EndpointCollection\InvoiceEndpointCollection;
@@ -40,6 +41,8 @@ use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
+use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
 use Mollie\Api\MollieApiClient;
 
 /**
@@ -65,6 +68,7 @@ trait HasEndpoints
             'chargebacks' => ChargebackEndpointCollection::class,
             'clients' => ClientEndpointCollection::class,
             'clientLinks' => ClientLinkEndpointCollection::class,
+            'connectBalanceTransfers' => ConnectBalanceTransferEndpointCollection::class,
             'customerPayments' => CustomerPaymentsEndpointCollection::class,
             'customers' => CustomerEndpointCollection::class,
             'invoices' => InvoiceEndpointCollection::class,
@@ -96,6 +100,8 @@ trait HasEndpoints
             'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
             'terminals' => TerminalEndpointCollection::class,
             'wallets' => WalletEndpointCollection::class,
+            'webhooks' => WebhookEndpointCollection::class,
+            'webhookEvents' => WebhookEventEndpointCollection::class,
         ];
 
         foreach ($endpointClasses as $name => $class) {

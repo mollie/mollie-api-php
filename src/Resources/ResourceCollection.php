@@ -21,8 +21,15 @@ abstract class ResourceCollection extends BaseCollection
         return static::$resource;
     }
 
+    public function setItems(array $items): self
+    {
+        $this->exchangeArray($items);
+
+        return $this;
+    }
+
     /**
-     * @return $this
+     * @return static
      */
     public static function withResponse(Response $response, Connector $connector, $items = [], ?\stdClass $_links = null): self
     {

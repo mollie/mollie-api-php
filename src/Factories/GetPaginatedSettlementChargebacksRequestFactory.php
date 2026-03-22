@@ -23,7 +23,7 @@ class GetPaginatedSettlementChargebacksRequestFactory extends RequestFactory
             $this->query('from'),
             $this->query('limit'),
             $this->query('includePayment', $includePayment),
-            $this->query('profileId')
+            $this->query('profileId'),
         );
     }
 }

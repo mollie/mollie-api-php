@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateCustomerPaymentRequestFactory;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
+use Mollie\Api\Types\PaymentQuery;
 use PHPUnit\Framework\TestCase;
 
 class CreateCustomerPaymentRequestFactoryTest extends TestCase
@@ -86,11 +87,12 @@ class CreateCustomerPaymentRequestFactoryTest extends TestCase
                 ],
             ])
             ->withQuery([
-                'includeQrCode' => true,
+                'include' => [PaymentQuery::INCLUDE_QR_CODE],
             ])
             ->create();
 
         $this->assertInstanceOf(CreateCustomerPaymentRequest::class, $request);
+        $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE, $request->query()->get('include'));
     }
 
     /** @test */

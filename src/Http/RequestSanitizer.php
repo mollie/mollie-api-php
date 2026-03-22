@@ -40,7 +40,9 @@ class RequestSanitizer
 
         // Update the PSR request in the response using reflection since it's protected
         $reflectionResponse = new ReflectionProperty($response, 'psrRequest');
-        $reflectionResponse->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $reflectionResponse->setAccessible(true);
+        }
         $reflectionResponse->setValue($response, $request);
 
         return $exception;
