@@ -24,6 +24,7 @@ class MandateMethodTest extends TestCase
     {
         return [
             [PaymentMethod::APPLEPAY, MandateMethod::CREDITCARD],
+            [PaymentMethod::BACS, MandateMethod::BACS],
             [PaymentMethod::CREDITCARD, MandateMethod::CREDITCARD],
             [PaymentMethod::BANCONTACT, MandateMethod::DIRECTDEBIT],
             [PaymentMethod::BELFIUS, MandateMethod::DIRECTDEBIT],
