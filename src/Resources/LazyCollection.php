@@ -47,7 +47,7 @@ class LazyCollection implements IsResponseAware, IteratorAggregate
     public function get($key)
     {
         foreach ($this as $outerKey => $outerValue) {
-            if ($outerKey == $key) {
+            if ($outerKey === $key) {
                 return $outerValue;
             }
         }
