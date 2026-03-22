@@ -49,6 +49,15 @@ class CreatePaymentRefundRequestTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_when_amount_is_null()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The amount parameter is required.');
+
+        new CreatePaymentRefundRequest('tr_WDqYK6vllg', 'Order cancellation');
+    }
+
+    /** @test */
     public function it_can_create_refund_request_using_factory_method()
     {
         $client = new MockMollieClient([

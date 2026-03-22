@@ -39,27 +39,18 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
 
     private ?DataCollection $routingReversals;
 
-    /**
-     * @deprecated When using positional arguments, this triggers a PHP 8+ deprecation warning
-     *             because optional parameter $description comes before required parameter $amount.
-     *             Use named parameters instead: new CreatePaymentRefundRequest(paymentId: $id, amount: $amount, description: $desc)
-     *             Or use the factory method: CreatePaymentRefundRequest::for($id, $amount, $desc)
-     *
-     * @param string $paymentId The payment ID to refund
-     * @param string $description Optional description for the refund
-     * @param Money $amount The amount to refund (required)
-     * @param array|null $metadata Optional metadata
-     * @param bool|null $reverseRouting Optional reverse routing flag
-     * @param DataCollection|null $routingReversals Optional routing reversals
-     */
     public function __construct(
         string $paymentId,
         string $description = '',
-        Money $amount,
+        ?Money $amount = null,
         ?array $metadata = null,
         ?bool $reverseRouting = null,
         ?DataCollection $routingReversals = null
     ) {
+        if ($amount === null) {
+            throw new \InvalidArgumentException('The amount parameter is required.');
+        }
+
         $this->paymentId = $paymentId;
         $this->description = $description;
         $this->amount = $amount;
