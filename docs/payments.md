@@ -1,6 +1,6 @@
 ##### Multicurrency #####
 Since API v2.0 it is now possible to create non-EUR payments for your customers.
-A full list of available currencies can be found [in our documentation](https://docs.mollie.com/guides/multicurrency).
+A full list of available currencies can be found [in our documentation](https://docs.mollie.com/docs/multicurrency).
 
 ```php
 $payment = $mollie->payments->create([
