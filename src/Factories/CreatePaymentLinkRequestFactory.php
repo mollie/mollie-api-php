@@ -3,6 +3,7 @@
 namespace Mollie\Api\Factories;
 
 use DateTimeInterface;
+use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 
@@ -21,6 +22,10 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             $this->payload('allowedMethods'),
             $this->payload('sequenceType'),
             $this->payload('customerId'),
+            $this->transformFromPayload('lines', fn ($items) => ! empty($items) ? OrderLineCollectionFactory::new($items)->create() : null),
+            $this->transformFromPayload('billingAddress', fn ($item) => Address::fromArray($item)),
+            $this->transformFromPayload('shippingAddress', fn ($item) => Address::fromArray($item)),
+            $this->transformFromPayload('minimumAmount', fn ($amount) => MoneyFactory::new($amount)->create()),
         );
     }
 
