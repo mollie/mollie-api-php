@@ -9,6 +9,9 @@ use Mollie\Api\Resources\Capture;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/captures-api/create-capture
+ */
 class CreatePaymentCaptureRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;

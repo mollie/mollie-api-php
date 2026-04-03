@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method as HttpMethod;
 
+/**
+ * @see https://docs.mollie.com/reference/disable-method-issuer
+ */
 class DisableMethodIssuerRequest extends Request
 {
     /**

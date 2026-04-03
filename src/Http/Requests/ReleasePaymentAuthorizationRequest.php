@@ -5,6 +5,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/release-authorization
+ */
 class ReleasePaymentAuthorizationRequest extends Request
 {
     protected static string $method = Method::POST;

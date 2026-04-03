@@ -7,6 +7,9 @@ use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @see https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription
+ */
 class CancelSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {
     use HasJsonPayload;

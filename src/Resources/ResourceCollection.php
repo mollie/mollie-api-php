@@ -28,7 +28,10 @@ abstract class ResourceCollection extends BaseCollection
         return $this;
     }
 
-    public static function withResponse(Response $response, Connector $connector, $items = [], ?\stdClass $_links = null): static
+    /**
+     * @return static
+     */
+    public static function withResponse(Response $response, Connector $connector, $items = [], ?\stdClass $_links = null): self
     {
         $collection = new static($connector, $items, $_links);
 

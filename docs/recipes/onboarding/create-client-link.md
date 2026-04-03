@@ -74,9 +74,40 @@ $clientLink->expiresAt;   // "2024-02-25T12:13:14+00:00"
   - Random and unique
   - Stored in your session
   - Verified when the merchant returns to prevent CSRF attacks
-- Available scopes:
-  - `onboarding.read`: View onboarding status
-  - `onboarding.write`: Update onboarding information
+- Available scopes (see [Permissions](https://docs.mollie.com/docs/permissions)):
+  - `balances.read`: View the merchant's balances information
+  - `balance-transfers.read`: View the merchant's balance transfers
+  - `balance-transfers.write`: Create balance transfers for the merchant
+  - `customers.read`: View the merchant's customers
+  - `customers.write`: Manage the merchant's customers
+  - `external-accounts.read`: View the merchant's external accounts
+  - `external-accounts.write`: Manage the merchant's external accounts
+  - `invoices.read`: View the merchant's invoices
+  - `mandates.read`: View the merchant's mandates
+  - `mandates.write`: Manage the merchant's mandates
+  - `onboarding.read`: View the merchant's onboarding status
+  - `onboarding.write`: Submit onboarding data for the merchant
+  - `orders.read`: View the merchant's orders
+  - `orders.write`: Manage the merchant's orders
+  - `organizations.read`: View the merchant's organizational details
+  - `organizations.write`: Change the merchant's organizational details
+  - `payment-links.read`: View the merchant's payment links
+  - `payment-links.write`: Create payment links for the merchant
+  - `payments.read`: View the merchant's payments, chargebacks and payment methods
+  - `payments.write`: Create payments for the merchant (added to the merchant's balance)
+  - `persons.read`: View the merchant's persons and stakeholders
+  - `persons.write`: Manage the merchant's persons and stakeholders
+  - `profiles.read`: View the merchant's website profiles
+  - `profiles.write`: Manage the merchant's website profiles
+  - `refunds.read`: View the merchant's refunds
+  - `refunds.write`: Create or cancel refunds
+  - `settlements.read`: View the merchant's settlements
+  - `shipments.read`: View the merchant's order shipments
+  - `shipments.write`: Manage the merchant's order shipments
+  - `subscriptions.read`: View the merchant's subscriptions
+  - `subscriptions.write`: Manage the merchant's subscriptions
+  - `terminals.read`: View the merchant's point-of-sale terminals
+  - `terminals.write`: Manage the merchant's point-of-sale terminals
 - The merchant will need to:
   1. Create a Mollie account or log in
   2. Connect their account to your app
