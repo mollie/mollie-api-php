@@ -166,15 +166,4 @@ class Session extends BaseResource
         $this->connector->sessions->cancel($this->id);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRedirectUrl()
-    {
-        if (empty($this->_links->redirect)) {
-            return null;
-        }
-
-        return $this->_links->redirect->href;
-    }
 }
