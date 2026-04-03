@@ -5,6 +5,8 @@ namespace Mollie\Api\Http\Requests;
 use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\PaymentLink;
@@ -51,6 +53,14 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private ?string $customerId;
 
+    private ?DataCollection $lines;
+
+    private ?Address $billingAddress;
+
+    private ?Address $shippingAddress;
+
+    private ?Money $minimumAmount;
+
     public function __construct(
         string $description,
         ?Money $amount = null,
@@ -61,7 +71,11 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         $expiresAt = null,
         ?array $allowedMethods = null,
         ?string $sequenceType = null,
-        ?string $customerId = null
+        ?string $customerId = null,
+        ?DataCollection $lines = null,
+        ?Address $billingAddress = null,
+        ?Address $shippingAddress = null,
+        ?Money $minimumAmount = null
     ) {
         $this->description = $description;
         $this->amount = $amount;
@@ -73,6 +87,10 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         $this->allowedMethods = $allowedMethods;
         $this->sequenceType = $sequenceType;
         $this->customerId = $customerId;
+        $this->lines = $lines;
+        $this->billingAddress = $billingAddress;
+        $this->shippingAddress = $shippingAddress;
+        $this->minimumAmount = $minimumAmount;
     }
 
     protected function defaultPayload(): array
@@ -80,6 +98,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         return [
             'description' => $this->description,
             'amount' => $this->amount,
+            'minimumAmount' => $this->minimumAmount,
             'redirectUrl' => $this->redirectUrl,
             'webhookUrl' => $this->webhookUrl,
             'profileId' => $this->profileId,
@@ -88,6 +107,9 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'allowedMethods' => $this->allowedMethods,
             'sequenceType' => $this->sequenceType,
             'customerId' => $this->customerId,
+            'lines' => $this->lines,
+            'billingAddress' => $this->billingAddress,
+            'shippingAddress' => $this->shippingAddress,
         ];
     }
 

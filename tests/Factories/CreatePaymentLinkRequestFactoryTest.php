@@ -3,7 +3,10 @@
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePaymentLinkRequestFactory;
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\DateTime;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -151,5 +154,84 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
 
         $payload = $request->payload()->all();
         $this->assertNull($payload['expiresAt']);
+    }
+
+    /** @test */
+    public function it_maps_lines_billing_and_shipping_address_and_minimum_amount()
+    {
+        $request = CreatePaymentLinkRequestFactory::new()
+            ->withPayload([
+                'description' => 'Klarna order',
+                'redirectUrl' => 'https://example.com/redirect',
+                'minimumAmount' => [
+                    'currency' => 'EUR',
+                    'value' => '10.00',
+                ],
+                'lines' => [
+                    [
+                        'description' => 'Bicycle tire',
+                        'quantity' => 2,
+                        'unitPrice' => ['currency' => 'EUR', 'value' => '12.48'],
+                        'totalAmount' => ['currency' => 'EUR', 'value' => '24.95'],
+                        'vatRate' => '21.00',
+                        'vatAmount' => ['currency' => 'EUR', 'value' => '4.34'],
+                    ],
+                ],
+                'billingAddress' => [
+                    'givenName' => 'John',
+                    'familyName' => 'Doe',
+                    'email' => 'john.doe@example.org',
+                    'streetAndNumber' => 'Keizersgracht 126',
+                    'postalCode' => '1015 CW',
+                    'city' => 'Amsterdam',
+                    'country' => 'NL',
+                ],
+                'shippingAddress' => [
+                    'givenName' => 'John',
+                    'familyName' => 'Doe',
+                    'email' => 'john.doe@example.org',
+                    'streetAndNumber' => 'Keizersgracht 126',
+                    'postalCode' => '1015 CW',
+                    'city' => 'Amsterdam',
+                    'country' => 'NL',
+                ],
+            ])
+            ->create();
+
+        $this->assertInstanceOf(CreatePaymentLinkRequest::class, $request);
+
+        $payload = $request->payload()->all();
+
+        $this->assertInstanceOf(Money::class, $payload['minimumAmount']);
+        $this->assertEquals('EUR', $payload['minimumAmount']->currency);
+        $this->assertEquals('10.00', $payload['minimumAmount']->value);
+
+        $this->assertInstanceOf(DataCollection::class, $payload['lines']);
+        $this->assertCount(1, $payload['lines']);
+
+        $this->assertInstanceOf(Address::class, $payload['billingAddress']);
+        $this->assertEquals('John', $payload['billingAddress']->givenName);
+        $this->assertEquals('NL', $payload['billingAddress']->country);
+
+        $this->assertInstanceOf(Address::class, $payload['shippingAddress']);
+        $this->assertEquals('Amsterdam', $payload['shippingAddress']->city);
+    }
+
+    /** @test */
+    public function it_returns_null_for_optional_klarna_fields_when_not_provided()
+    {
+        $request = CreatePaymentLinkRequestFactory::new()
+            ->withPayload([
+                'description' => 'Order #12345',
+                'redirectUrl' => 'https://example.com/redirect',
+            ])
+            ->create();
+
+        $payload = $request->payload()->all();
+
+        $this->assertNull($payload['lines']);
+        $this->assertNull($payload['billingAddress']);
+        $this->assertNull($payload['shippingAddress']);
+        $this->assertNull($payload['minimumAmount']);
     }
 }

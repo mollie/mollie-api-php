@@ -87,6 +87,34 @@ class PaymentLink extends BaseResource
     public $amount;
 
     /**
+     * The minimum amount. Only used for payment links without a fixed amount.
+     *
+     * @var \stdClass|null
+     */
+    public $minimumAmount;
+
+    /**
+     * The order lines for this payment link (used for Klarna and other BNPL methods).
+     *
+     * @var array|null
+     */
+    public $lines;
+
+    /**
+     * The billing address for this payment link.
+     *
+     * @var \stdClass|null
+     */
+    public $billingAddress;
+
+    /**
+     * The shipping address for this payment link.
+     *
+     * @var \stdClass|null
+     */
+    public $shippingAddress;
+
+    /**
      * Description of the payment link that is shown to the customer during the payment,
      * and possibly on the bank or credit card statement.
      *
