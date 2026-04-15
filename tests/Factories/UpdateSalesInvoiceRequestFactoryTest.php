@@ -6,6 +6,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\UpdateSalesInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
+use Mollie\Api\Types\PaymentTerm;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSalesInvoiceRequestFactoryTest extends TestCase
@@ -19,7 +20,7 @@ class UpdateSalesInvoiceRequestFactoryTest extends TestCase
             ->withPayload([
                 'status' => 'draft',
                 'recipientIdentifier' => 'cst_12345',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'memo' => 'Please pay within 30 days',
                 'paymentDetails' => [
                     'source' => 'NL55INGB0000000000',

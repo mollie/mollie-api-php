@@ -20,7 +20,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                 'status' => 'draft',
                 'vatScheme' => 'standard',
                 'vatMode' => 'inclusive',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'recipientIdentifier' => 'cst_12345',
                 'recipient' => [
                     'type' => 'organization',
@@ -109,7 +109,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                 'status' => 'draft',
                 'vatScheme' => 'standard',
                 'vatMode' => 'inclusive',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'recipientIdentifier' => 'cst_12345',
                 'recipient' => [
                     'type' => 'organization',

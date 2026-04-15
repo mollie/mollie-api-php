@@ -11,9 +11,9 @@ class GetAllPaginatedSubscriptionsRequestFactory extends RequestFactory
     public function create(): GetAllPaginatedSubscriptionsRequest
     {
         return new GetAllPaginatedSubscriptionsRequest(
-            $this->query('limit'),
-            $this->query('from'),
-            $this->query('profileId')
+            from: $this->query('from'),
+            limit: $this->query('limit'),
+            profileId: $this->query('profileId'),
         );
     }
 }
