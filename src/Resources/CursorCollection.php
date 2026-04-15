@@ -8,6 +8,11 @@ use Generator;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 
+/**
+ * @template TItem of object
+ *
+ * @extends ResourceCollection<TItem>
+ */
 abstract class CursorCollection extends ResourceCollection
 {
     /**

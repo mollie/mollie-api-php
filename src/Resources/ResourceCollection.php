@@ -7,6 +7,11 @@ namespace Mollie\Api\Resources;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Http\Response;
 
+/**
+ * @template TItem of object
+ *
+ * @extends BaseCollection<TItem>
+ */
 abstract class ResourceCollection extends BaseCollection
 {
     /**

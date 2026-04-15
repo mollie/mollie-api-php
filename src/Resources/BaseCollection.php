@@ -11,6 +11,11 @@ use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Traits\HasResponse;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @template TItem of object
+ *
+ * @extends ArrayObject<int, TItem>
+ */
 abstract class BaseCollection extends ArrayObject implements IsResponseAware
 {
     use HasResponse;
