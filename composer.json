@@ -47,7 +47,7 @@
     }
   ],
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^8.2",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
@@ -58,8 +58,8 @@
     "psr/http-message": "^1.1|^2.0"
   },
   "require-dev": {
-    "brianium/paratest": "^6.11",
     "guzzlehttp/guzzle": "^7.6",
+    "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^9.6",
     "symfony/var-dumper": "^5.4|^6.4|^7.2"
@@ -82,6 +82,6 @@
     }
   },
   "scripts": {
-    "test": "./vendor/bin/paratest"
+    "test": "./vendor/bin/pest --parallel"
   }
 }
