@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
 
+## [4.0.0] - UNRELEASED
+
+PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and the [`mollie/mollie-api-php-rector`](https://github.com/mollie/mollie-api-php-rector) package for automated v3 → v4 codemods.
+
+### Breaking changes
+
+- **PHP 8.2+ required.** PHP 7.4, 8.0, 8.1 dropped. CI matrix is 8.2, 8.3, 8.4.
+- **Type constants → string-backed enums.** All 37 classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). Resource `$status`-style properties are typed `EnumName|string`.
+- **Resource properties typed.** Fields previously typed `\stdClass` are now concrete value objects. Property names are unchanged — `$payment->amount->value` and `->currency` still work.
+- **Value objects are `readonly class`.** `Money`, `Address`, `OrderLine` etc. cannot be subclassed by non-readonly children. Prefer the new `Macroable` extension point.
+- **Constructor signatures via promotion.** Named arguments unchanged; positional callers may need to reorder.
+- **`declare(strict_types=1)` everywhere.** Audit integration code for implicit coercions.
+- **`Macroable` on `Money`** — undefined methods now throw `BadMethodCallException` instead of PHP's default fatal error.
+- **PHPUnit + Paratest → Pest v3** in `require-dev` (consumer impact only if running SDK tests).
+
+### Added
+
+- Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
+- `Money::fromMinorUnits(string $currency, int $amount)` with a currency-exponent map (EUR=2, JPY=0, BHD=3, …). Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
+- `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN`.
+- `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
+- Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.
+- Lazy `iterator()` pagination on collection endpoints — single page in memory at a time.
+- `Macroable` trait for `Money` (and other value objects) for custom factories without subclassing.
+- `ValidationException` exposes per-field errors; `TooManyRequestsException` exposes `retryAfterSeconds`; `Response` exposes header access.
+
+### Changed
+
+- Reflection-based two-tier `ResourceHydrator`.
+- Constructor promotion applied across Request and Exception classes.
+
+### Removed
+
+- PHP 7.4 / 8.0 / 8.1 support.
+- Paratest dev dependency (Pest has `--parallel` built in).
+
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
 ## What's Changed
