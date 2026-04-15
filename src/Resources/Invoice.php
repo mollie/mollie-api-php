@@ -89,16 +89,16 @@ class Invoice extends BaseResource
 
     public function isPaid(): bool
     {
-        return $this->status == InvoiceStatus::PAID;
+        return $this->status === InvoiceStatus::PAID;
     }
 
     public function isOpen(): bool
     {
-        return $this->status == InvoiceStatus::OPEN;
+        return $this->status === InvoiceStatus::OPEN;
     }
 
     public function isOverdue(): bool
     {
-        return $this->status == InvoiceStatus::OVERDUE;
+        return $this->status === InvoiceStatus::OVERDUE;
     }
 }

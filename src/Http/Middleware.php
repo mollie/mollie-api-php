@@ -56,9 +56,9 @@ class Middleware
     public function onFatal(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
     {
         $this->onFatal->add(static function (MollieException $exception) use ($callback) {
-            $callback($exception);
+            $result = $callback($exception);
 
-            return $exception;
+            return $result instanceof MollieException ? $result : $exception;
         }, $name, $priority);
 
         return $this;
