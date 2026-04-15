@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Data;
 
-class Date extends Temporal
+readonly class Date extends Temporal
 {
     public const FORMAT = 'Y-m-d';
 

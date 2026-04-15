@@ -6,75 +6,26 @@ namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
 
-class Recipient implements Arrayable
+readonly class Recipient implements Arrayable
 {
-    public string $type;
-
-    public ?string $title;
-
-    public ?string $givenName;
-
-    public ?string $familyName;
-
-    public ?string $organizationName;
-
-    public ?string $organizationNumber;
-
-    public ?string $vatNumber;
-
-    public string $email;
-
-    public ?string $phone;
-
-    public string $streetAndNumber;
-
-    public ?string $streetAdditional;
-
-    public string $postalCode;
-
-    public string $city;
-
-    public ?string $region;
-
-    public string $country;
-
-    public string $locale;
-
     public function __construct(
-        string $type,
-        string $email,
-        string $streetAndNumber,
-        string $postalCode,
-        string $city,
-        string $country,
-        string $locale,
-        ?string $title = null,
-        ?string $givenName = null,
-        ?string $familyName = null,
-        ?string $organizationName = null,
-        ?string $organizationNumber = null,
-        ?string $vatNumber = null,
-        ?string $phone = null,
-        ?string $streetAdditional = null,
-        ?string $region = null
-    ) {
-        $this->type = $type;
-        $this->title = $title;
-        $this->givenName = $givenName;
-        $this->familyName = $familyName;
-        $this->organizationName = $organizationName;
-        $this->organizationNumber = $organizationNumber;
-        $this->vatNumber = $vatNumber;
-        $this->email = $email;
-        $this->phone = $phone;
-        $this->streetAndNumber = $streetAndNumber;
-        $this->streetAdditional = $streetAdditional;
-        $this->postalCode = $postalCode;
-        $this->city = $city;
-        $this->region = $region;
-        $this->country = $country;
-        $this->locale = $locale;
-    }
+        public string $type,
+        public string $email,
+        public string $streetAndNumber,
+        public string $postalCode,
+        public string $city,
+        public string $country,
+        public string $locale,
+        public ?string $title = null,
+        public ?string $givenName = null,
+        public ?string $familyName = null,
+        public ?string $organizationName = null,
+        public ?string $organizationNumber = null,
+        public ?string $vatNumber = null,
+        public ?string $phone = null,
+        public ?string $streetAdditional = null,
+        public ?string $region = null,
+    ) {}
 
     public function toArray(): array
     {

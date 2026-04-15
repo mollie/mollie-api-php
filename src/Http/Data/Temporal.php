@@ -9,22 +9,20 @@ use DateTimeInterface;
 use InvalidArgumentException;
 use Mollie\Api\Contracts\Stringable;
 
-abstract class Temporal implements Stringable
+abstract readonly class Temporal implements Stringable
 {
     protected DateTimeInterface $date;
 
-    /**
-     * @param  DateTimeInterface|string  $date
-     */
-    public function __construct($date)
+    public function __construct(DateTimeInterface|string $date)
     {
         if (! $date instanceof DateTimeInterface) {
-            $date = new DateTimeImmutable($date);
-
-            $this->guardInvalidDate($date);
+            try {
+                $date = new DateTimeImmutable($date);
+            } catch (\Exception $e) {
+                throw new InvalidArgumentException('Invalid date format', 0, $e);
+            }
         }
 
-        /** @var DateTimeInterface $date */
         $this->date = $date;
     }
 
@@ -38,15 +36,5 @@ abstract class Temporal implements Stringable
     public function getRaw(): DateTimeInterface
     {
         return $this->date;
-    }
-
-    /**
-     * @param  DateTimeInterface|false  $date
-     */
-    private function guardInvalidDate($date): void
-    {
-        if ($date === false) {
-            throw new InvalidArgumentException('Invalid date format');
-        }
     }
 }
