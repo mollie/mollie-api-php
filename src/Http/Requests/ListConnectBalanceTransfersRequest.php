@@ -16,7 +16,7 @@ class ListConnectBalanceTransfersRequest extends SortablePaginatedRequest implem
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ConnectBalanceTransferCollection::class;
+    protected ?string $hydratableResource = ConnectBalanceTransferCollection::class;
 
     /**
      * The resource path.

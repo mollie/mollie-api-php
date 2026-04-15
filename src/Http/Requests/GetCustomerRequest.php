@@ -15,13 +15,12 @@ class GetCustomerRequest extends ResourceHydratableRequest implements SupportsTe
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Customer::class;
+    protected ?string $hydratableResource = Customer::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     /**

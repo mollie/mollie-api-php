@@ -29,68 +29,26 @@ class CreateSubscriptionRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Subscription::class;
-
-    private string $customerId;
-
-    private Money $amount;
-
-    private string $interval;
-
-    private string $description;
-
-    private ?string $status;
-
-    private ?int $times;
-
-    /**
-     * @var Date|DateTimeInterface
-     */
-    private $startDate;
+    protected ?string $hydratableResource = Subscription::class;
 
     private ?string $paymentMethod;
 
-    private ?ApplicationFee $applicationFee;
-
-    private ?array $metadata;
-
-    private ?string $webhookUrl;
-
-    private ?string $mandateId;
-
-    private ?string $profileId;
-
-    /**
-     * @param Date|DateTimeInterface|null $startDate
-     */
     public function __construct(
-        string $customerId,
-        Money $amount,
-        string $interval,
-        string $description,
-        ?string $status = null,
-        ?int $times = null,
-        $startDate = null,
+        private string $customerId,
+        private Money $amount,
+        private string $interval,
+        private string $description,
+        private ?string $status = null,
+        private ?int $times = null,
+        private Date|DateTimeInterface|null $startDate = null,
         ?string $method = null,
-        ?ApplicationFee $applicationFee = null,
-        ?array $metadata = null,
-        ?string $webhookUrl = null,
-        ?string $mandateId = null,
-        ?string $profileId = null
+        private ?ApplicationFee $applicationFee = null,
+        private ?array $metadata = null,
+        private ?string $webhookUrl = null,
+        private ?string $mandateId = null,
+        private ?string $profileId = null,
     ) {
-        $this->customerId = $customerId;
-        $this->amount = $amount;
-        $this->interval = $interval;
-        $this->description = $description;
-        $this->status = $status;
-        $this->times = $times;
-        $this->startDate = $startDate;
         $this->paymentMethod = $method;
-        $this->applicationFee = $applicationFee;
-        $this->metadata = $metadata;
-        $this->webhookUrl = $webhookUrl;
-        $this->mandateId = $mandateId;
-        $this->profileId = $profileId;
     }
 
     protected function defaultPayload(): array

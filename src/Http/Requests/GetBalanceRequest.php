@@ -15,13 +15,12 @@ class GetBalanceRequest extends ResourceHydratableRequest implements SupportsTes
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Balance::class;
+    protected ?string $hydratableResource = Balance::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     /**

@@ -18,13 +18,12 @@ class CancelPaymentRequest extends ResourceHydratableRequest implements Supports
 
     protected static string $method = Method::DELETE;
 
-    protected $hydratableResource = Payment::class;
+    protected ?string $hydratableResource = Payment::class;
 
-    protected string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

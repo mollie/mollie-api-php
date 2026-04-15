@@ -17,32 +17,20 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = Session::class;
-
-    private string $redirectUrl;
-
-    private string $cancelUrl;
-
-    private Money $amount;
-
-    private string $description;
+    protected ?string $hydratableResource = Session::class;
 
     private string $paymentMethod;
 
     private string $checkoutFlow;
 
     public function __construct(
-        string $redirectUrl,
-        string $cancelUrl,
-        Money $amount,
-        string $description,
+        private string $redirectUrl,
+        private string $cancelUrl,
+        private Money $amount,
+        private string $description,
         string $method,
-        ?string $checkoutFlow = null
+        ?string $checkoutFlow = null,
     ) {
-        $this->redirectUrl = $redirectUrl;
-        $this->cancelUrl = $cancelUrl;
-        $this->amount = $amount;
-        $this->description = $description;
         $this->paymentMethod = $method;
         $this->checkoutFlow = $checkoutFlow ?? CheckoutFlow::Express->value;
     }

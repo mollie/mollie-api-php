@@ -15,7 +15,7 @@ class GetPaginatedProfilesRequest extends PaginatedRequest implements IsIteratab
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ProfileCollection::class;
+    protected ?string $hydratableResource = ProfileCollection::class;
 
     /**
      * Resolve the resource path.

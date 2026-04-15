@@ -22,19 +22,14 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Refund::class;
+    protected ?string $hydratableResource = Refund::class;
 
-    private string $paymentId;
-
-    private string $refundId;
-
-    private bool $includePayment;
-
-    public function __construct(string $paymentId, string $refundId, bool $includePayment = false)
+    public function __construct(
+        private string $paymentId,
+        private string $refundId,
+        private bool $includePayment = false,
+    )
     {
-        $this->paymentId = $paymentId;
-        $this->refundId = $refundId;
-        $this->includePayment = $includePayment;
     }
 
     protected function defaultQuery(): array

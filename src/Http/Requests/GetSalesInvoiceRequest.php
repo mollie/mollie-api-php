@@ -21,13 +21,12 @@ class GetSalesInvoiceRequest extends ResourceHydratableRequest implements Suppor
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SalesInvoice::class;
+    protected ?string $hydratableResource = SalesInvoice::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

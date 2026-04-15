@@ -14,14 +14,11 @@ class GetSettlementRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Settlement::class;
-
-    private string $id;
+    protected ?string $hydratableResource = Settlement::class;
 
     public function __construct(
-        string $id
+        private string $id,
     ) {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

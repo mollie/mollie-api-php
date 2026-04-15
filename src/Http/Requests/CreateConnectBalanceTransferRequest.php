@@ -24,34 +24,16 @@ class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest impl
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ConnectBalanceTransfer::class;
-
-    private Money $amount;
-
-    private string $description;
-
-    private TransferParty $source;
-
-    private TransferParty $destination;
-
-    private string $category;
-
-    private ?array $metadata;
+    protected ?string $hydratableResource = ConnectBalanceTransfer::class;
 
     public function __construct(
-        Money $amount,
-        string $description,
-        TransferParty $source,
-        TransferParty $destination,
-        string $category,
-        ?array $metadata = null
+        private Money $amount,
+        private string $description,
+        private TransferParty $source,
+        private TransferParty $destination,
+        private string $category,
+        private ?array $metadata = null,
     ) {
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->source = $source;
-        $this->destination = $destination;
-        $this->category = $category;
-        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array

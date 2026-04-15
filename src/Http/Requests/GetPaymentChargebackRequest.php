@@ -22,19 +22,14 @@ class GetPaymentChargebackRequest extends ResourceHydratableRequest implements S
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Chargeback::class;
+    protected ?string $hydratableResource = Chargeback::class;
 
-    private string $paymentId;
-
-    private string $chargebackId;
-
-    private bool $includePayment;
-
-    public function __construct(string $paymentId, string $chargebackId, bool $includePayment = false)
+    public function __construct(
+        private string $paymentId,
+        private string $chargebackId,
+        private bool $includePayment = false,
+    )
     {
-        $this->paymentId = $paymentId;
-        $this->chargebackId = $chargebackId;
-        $this->includePayment = $includePayment;
     }
 
     protected function defaultQuery(): array

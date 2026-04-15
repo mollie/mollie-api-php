@@ -23,37 +23,16 @@ class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTes
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Payment::class;
-
-    private string $id;
-
-    /**
-     * Query parameters.
-     */
-    private bool $embedCaptures = false;
-
-    private bool $embedRefunds = false;
-
-    private bool $embedChargebacks = false;
-
-    private bool $includeQrCode = false;
-
-    private bool $includeRemainderDetails = false;
+    protected ?string $hydratableResource = Payment::class;
 
     public function __construct(
-        string $id,
-        bool $embedCaptures = false,
-        bool $embedRefunds = false,
-        bool $embedChargebacks = false,
-        bool $includeQrCode = false,
-        bool $includeRemainderDetails = false
+        private string $id,
+        private bool $embedCaptures = false,
+        private bool $embedRefunds = false,
+        private bool $embedChargebacks = false,
+        private bool $includeQrCode = false,
+        private bool $includeRemainderDetails = false,
     ) {
-        $this->id = $id;
-        $this->embedCaptures = $embedCaptures;
-        $this->embedRefunds = $embedRefunds;
-        $this->embedChargebacks = $embedChargebacks;
-        $this->includeQrCode = $includeQrCode;
-        $this->includeRemainderDetails = $includeRemainderDetails;
     }
 
     protected function defaultQuery(): array

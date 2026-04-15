@@ -20,16 +20,13 @@ class EnableMethodRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Method::class;
+    protected ?string $hydratableResource = Method::class;
 
-    private string $profileId;
-
-    private string $methodId;
-
-    public function __construct(string $profileId, string $methodId)
+    public function __construct(
+        private string $profileId,
+        private string $methodId,
+    )
     {
-        $this->profileId = $profileId;
-        $this->methodId = $methodId;
     }
 
     public function resolveResourcePath(): string

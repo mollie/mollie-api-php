@@ -28,81 +28,27 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = SalesInvoice::class;
-
-    private string $currency;
-
-    private string $status;
-
-    private string $vatScheme = VatScheme::Standard->value;
-
-    private string $vatMode = VatMode::Exclusive->value;
-
-    private string $paymentTerm = PaymentTerm::Days30->value;
-
-    public string $recipientIdentifier;
-
-    public Recipient $recipient;
-
-    /**
-     * @var DataCollection<InvoiceLine>
-     */
-    public DataCollection $lines;
-
-    public ?string $profileId;
-
-    public ?string $memo;
-
-    public ?PaymentDetails $paymentDetails;
-
-    public ?EmailDetails $emailDetails;
-
-    public ?string $webhookUrl;
-
-    public ?Discount $discount;
-
-    public ?string $customerId;
-
-    public ?string $mandateId;
-
-    public ?bool $isEInvoice;
+    protected ?string $hydratableResource = SalesInvoice::class;
 
     public function __construct(
-        string $currency,
-        string $status,
-        string $vatScheme,
-        string $vatMode,
-        string $paymentTerm,
-        string $recipientIdentifier,
-        Recipient $recipient,
-        DataCollection $lines,
-        ?string $profileId = null,
-        ?string $memo = null,
-        ?PaymentDetails $paymentDetails = null,
-        ?EmailDetails $emailDetails = null,
-        ?string $webhookUrl = null,
-        ?Discount $discount = null,
-        ?string $customerId = null,
-        ?string $mandateId = null,
-        ?bool $isEInvoice = null
+        private string $currency,
+        private string $status,
+        private string $vatScheme,
+        private string $vatMode,
+        private string $paymentTerm,
+        private string $recipientIdentifier,
+        private Recipient $recipient,
+        private DataCollection $lines,
+        private ?string $profileId = null,
+        private ?string $memo = null,
+        private ?PaymentDetails $paymentDetails = null,
+        private ?EmailDetails $emailDetails = null,
+        private ?string $webhookUrl = null,
+        private ?Discount $discount = null,
+        private ?string $customerId = null,
+        private ?string $mandateId = null,
+        private ?bool $isEInvoice = null,
     ) {
-        $this->currency = $currency;
-        $this->status = $status;
-        $this->vatScheme = $vatScheme;
-        $this->vatMode = $vatMode;
-        $this->paymentTerm = $paymentTerm;
-        $this->recipientIdentifier = $recipientIdentifier;
-        $this->recipient = $recipient;
-        $this->lines = $lines;
-        $this->profileId = $profileId;
-        $this->memo = $memo;
-        $this->paymentDetails = $paymentDetails;
-        $this->emailDetails = $emailDetails;
-        $this->webhookUrl = $webhookUrl;
-        $this->discount = $discount;
-        $this->customerId = $customerId;
-        $this->mandateId = $mandateId;
-        $this->isEInvoice = $isEInvoice;
     }
 
     public function defaultPayload(): array

@@ -17,7 +17,7 @@ class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements Is
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = WebhookCollection::class;
+    protected ?string $hydratableResource = WebhookCollection::class;
 
     /**
      * @param  string|array|null  $eventTypes

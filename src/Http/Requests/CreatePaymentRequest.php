@@ -32,119 +32,36 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Payment::class;
+    protected ?string $hydratableResource = Payment::class;
 
-    private string $description;
+    private string|array|null $paymentMethod;
 
-    private Money $amount;
-
-    private ?string $redirectUrl;
-
-    private ?string $cancelUrl;
-
-    private ?string $webhookUrl;
-
-    /**
-     * @var DataCollection<OrderLine>|null
-     */
-    private ?DataCollection $lines;
-
-    private ?Address $billingAddress;
-
-    private ?Address $shippingAddress;
-
-    private ?string $locale;
-
-    /**
-     * @var array|string|null
-     */
-    private $paymentMethod;
-
-    private ?string $issuer;
-
-    private ?string $restrictPaymentMethodsToCountry;
-
-    private ?array $metadata;
-
-    private ?string $captureMode;
-
-    private ?string $captureDelay;
-
-    private ?ApplicationFee $applicationFee;
-
-    /**
-     * @var DataCollection<PaymentRoute>|null
-     */
-    private ?DataCollection $routing;
-
-    private ?string $sequenceType;
-
-    private ?string $mandateId;
-
-    private ?string $customerId;
-
-    private ?string $profileId;
-
-    /**
-     * Method specific data.
-     *
-     * s. https://docs.mollie.com/reference/extra-payment-parameters#payment-creation-request-parameters
-     */
-    private array $additional = [];
-
-    private bool $includeQrCode;
-
-    /**
-     * @param  array|string|null  $method
-     */
     public function __construct(
-        string $description,
-        Money $amount,
-        ?string $redirectUrl = null,
-        ?string $cancelUrl = null,
-        ?string $webhookUrl = null,
-        ?DataCollection $lines = null,
-        ?Address $billingAddress = null,
-        ?Address $shippingAddress = null,
-        ?string $locale = null,
-        $method = null,
-        ?string $issuer = null,
-        ?string $restrictPaymentMethodsToCountry = null,
-        ?array $metadata = null,
-        ?string $captureMode = null,
-        ?string $captureDelay = null,
-        ?ApplicationFee $applicationFee = null,
-        ?DataCollection $routing = null,
-        ?string $sequenceType = null,
-        ?string $mandateId = null,
-        ?string $customerId = null,
-        ?string $profileId = null,
-        array $additional = [],
-        bool $includeQrCode = false
+        private string $description,
+        private Money $amount,
+        private ?string $redirectUrl = null,
+        private ?string $cancelUrl = null,
+        private ?string $webhookUrl = null,
+        private ?DataCollection $lines = null,
+        private ?Address $billingAddress = null,
+        private ?Address $shippingAddress = null,
+        private ?string $locale = null,
+        string|array|null $method = null,
+        private ?string $issuer = null,
+        private ?string $restrictPaymentMethodsToCountry = null,
+        private ?array $metadata = null,
+        private ?string $captureMode = null,
+        private ?string $captureDelay = null,
+        private ?ApplicationFee $applicationFee = null,
+        private ?DataCollection $routing = null,
+        private ?string $sequenceType = null,
+        private ?string $mandateId = null,
+        private ?string $customerId = null,
+        private ?string $profileId = null,
+        private array $additional = [],
+        private bool $includeQrCode = false,
     ) {
-        $this->description = $description;
-        $this->amount = $amount;
-        $this->redirectUrl = $redirectUrl;
-        $this->cancelUrl = $cancelUrl;
-        $this->webhookUrl = $webhookUrl;
-        $this->lines = $lines;
-        $this->billingAddress = $billingAddress;
-        $this->shippingAddress = $shippingAddress;
-        $this->locale = $locale;
         $this->paymentMethod = $method;
-        $this->issuer = $issuer;
-        $this->restrictPaymentMethodsToCountry = $restrictPaymentMethodsToCountry;
-        $this->metadata = $metadata;
-        $this->captureMode = $captureMode;
-        $this->captureDelay = $captureDelay;
-        $this->applicationFee = $applicationFee;
-        $this->routing = $routing;
-        $this->sequenceType = $sequenceType;
-        $this->mandateId = $mandateId;
-        $this->customerId = $customerId;
-        $this->profileId = $profileId;
-        $this->additional = $additional;
-        $this->includeQrCode = $includeQrCode;
     }
 
     protected function defaultPayload(): array

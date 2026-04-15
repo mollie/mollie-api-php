@@ -25,42 +25,18 @@ class UpdatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = PaymentLink::class;
-
-    private string $id;
-
-    private string $description;
-
-    private bool $archived;
-
-    private ?array $allowedMethods;
-
-    private ?DataCollection $lines;
-
-    private ?Address $billingAddress;
-
-    private ?Address $shippingAddress;
-
-    private ?Money $minimumAmount;
+    protected ?string $hydratableResource = PaymentLink::class;
 
     public function __construct(
-        string $id,
-        string $description,
-        bool $archived = false,
-        ?array $allowedMethods = null,
-        ?DataCollection $lines = null,
-        ?Address $billingAddress = null,
-        ?Address $shippingAddress = null,
-        ?Money $minimumAmount = null
+        private string $id,
+        private string $description,
+        private bool $archived = false,
+        private ?array $allowedMethods = null,
+        private ?DataCollection $lines = null,
+        private ?Address $billingAddress = null,
+        private ?Address $shippingAddress = null,
+        private ?Money $minimumAmount = null,
     ) {
-        $this->id = $id;
-        $this->description = $description;
-        $this->archived = $archived;
-        $this->allowedMethods = $allowedMethods;
-        $this->lines = $lines;
-        $this->billingAddress = $billingAddress;
-        $this->shippingAddress = $shippingAddress;
-        $this->minimumAmount = $minimumAmount;
     }
 
     protected function defaultPayload(): array

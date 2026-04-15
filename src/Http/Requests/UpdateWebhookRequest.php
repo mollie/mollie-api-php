@@ -27,35 +27,14 @@ class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Webhook::class;
-
-    private string $id;
-
-    /**
-     * @var string|null
-     */
-    private $url;
-
-    /**
-     * @var string|null
-     */
-    private $name;
-
-    /**
-     * @var string|array
-     */
-    private $eventTypes;
+    protected ?string $hydratableResource = Webhook::class;
 
     public function __construct(
-        string $id,
-        $url,
-        $name,
-        $eventTypes
+        private string $id,
+        private $url,
+        private $name,
+        private $eventTypes,
     ) {
-        $this->id = $id;
-        $this->url = $url;
-        $this->name = $name;
-        $this->eventTypes = $eventTypes;
     }
 
     protected function defaultPayload(): array

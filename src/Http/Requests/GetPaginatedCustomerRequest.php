@@ -13,7 +13,7 @@ class GetPaginatedCustomerRequest extends PaginatedRequest implements IsIteratab
 {
     use IsIteratableRequest;
 
-    protected $hydratableResource = CustomerCollection::class;
+    protected ?string $hydratableResource = CustomerCollection::class;
 
     public function resolveResourcePath(): string
     {

@@ -18,14 +18,11 @@ class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInPa
 
     protected static string $method = Method::DELETE;
 
-    protected string $paymentId;
-
-    protected string $id;
-
-    public function __construct(string $paymentId, string $id)
+    public function __construct(
+        private string $paymentId,
+        private string $id,
+    )
     {
-        $this->paymentId = $paymentId;
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

@@ -18,7 +18,7 @@ class GetCurrentProfileRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = CurrentProfile::class;
+    protected ?string $hydratableResource = CurrentProfile::class;
 
     public function resolveResourcePath(): string
     {

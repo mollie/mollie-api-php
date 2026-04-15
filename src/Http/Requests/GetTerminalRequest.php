@@ -18,13 +18,12 @@ class GetTerminalRequest extends ResourceHydratableRequest implements SupportsTe
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Terminal::class;
+    protected ?string $hydratableResource = Terminal::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     /**

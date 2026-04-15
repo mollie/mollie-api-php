@@ -15,11 +15,10 @@ class DeleteSalesInvoiceRequest extends Request implements SupportsTestmodeInPay
 
     protected static string $method = Method::DELETE;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

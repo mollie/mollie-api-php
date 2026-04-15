@@ -29,7 +29,7 @@ class PaginatedRequestTest extends TestCase
 
 class ConcretePaginatedRequest extends PaginatedRequest
 {
-    protected $hydratableResource = BaseCollection::class;
+    protected ?string $hydratableResource = BaseCollection::class;
 
     public function resolveResourcePath(): string
     {

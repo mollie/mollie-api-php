@@ -22,22 +22,13 @@ class GetClientRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Client::class;
-
-    private string $id;
-
-    private ?bool $embedOrganization;
-
-    private ?bool $embedOnboarding;
+    protected ?string $hydratableResource = Client::class;
 
     public function __construct(
-        string $id,
-        ?bool $embedOrganization = null,
-        ?bool $embedOnboarding = null
+        private string $id,
+        private ?bool $embedOrganization = null,
+        private ?bool $embedOnboarding = null,
     ) {
-        $this->id = $id;
-        $this->embedOrganization = $embedOrganization;
-        $this->embedOnboarding = $embedOnboarding;
     }
 
     protected function defaultQuery(): array

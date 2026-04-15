@@ -11,10 +11,8 @@ abstract class ResourceHydratableRequest extends Request
 {
     /**
      * The original resource class the request should be hydrated into.
-     *
-     * @var string|null
      */
-    protected $hydratableResource = null;
+    protected ?string $hydratableResource = null;
 
     /**
      * The custom resource class the request should be hydrated into.

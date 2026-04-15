@@ -15,7 +15,7 @@ class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements 
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = BalanceTransactionCollection::class;
+    protected ?string $hydratableResource = BalanceTransactionCollection::class;
 
     private string $balanceId;
 

@@ -23,30 +23,15 @@ class CreateClientLinkRequest extends ResourceHydratableRequest implements HasPa
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ClientLink::class;
-
-    private Owner $owner;
-
-    private string $name;
-
-    private OwnerAddress $address;
-
-    private ?string $registrationNumber;
-
-    private ?string $vatNumber;
+    protected ?string $hydratableResource = ClientLink::class;
 
     public function __construct(
-        Owner $owner,
-        string $name,
-        OwnerAddress $address,
-        ?string $registrationNumber = null,
-        ?string $vatNumber = null
+        private Owner $owner,
+        private string $name,
+        private OwnerAddress $address,
+        private ?string $registrationNumber = null,
+        private ?string $vatNumber = null,
     ) {
-        $this->owner = $owner;
-        $this->name = $name;
-        $this->address = $address;
-        $this->registrationNumber = $registrationNumber;
-        $this->vatNumber = $vatNumber;
     }
 
     protected function defaultPayload(): array

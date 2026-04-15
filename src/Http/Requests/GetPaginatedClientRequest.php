@@ -17,7 +17,7 @@ class GetPaginatedClientRequest extends PaginatedRequest implements IsIteratable
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ClientCollection::class;
+    protected ?string $hydratableResource = ClientCollection::class;
 
     public function __construct(
         ?string $from = null,

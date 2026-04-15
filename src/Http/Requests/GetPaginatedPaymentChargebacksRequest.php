@@ -17,7 +17,7 @@ class GetPaginatedPaymentChargebacksRequest extends PaginatedRequest implements 
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ChargebackCollection::class;
+    protected ?string $hydratableResource = ChargebackCollection::class;
 
     private string $paymentId;
 

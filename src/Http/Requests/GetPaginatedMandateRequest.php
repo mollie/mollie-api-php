@@ -16,7 +16,7 @@ class GetPaginatedMandateRequest extends PaginatedRequest implements IsIteratabl
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = MandateCollection::class;
+    protected ?string $hydratableResource = MandateCollection::class;
 
     private string $customerId;
 

@@ -28,56 +28,23 @@ class UpdateSubscriptionRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Subscription::class;
-
-    private string $customerId;
-
-    private string $subscriptionId;
-
-    private ?Money $amount;
-
-    private ?string $description;
-
-    private ?string $interval;
-
-    /**
-     * @var Date|DateTimeInterface
-     */
-    private $startDate;
-
-    private ?int $times;
-
-    private ?array $metadata;
-
-    private ?string $webhookUrl;
-
-    private ?string $mandateId;
+    protected ?string $hydratableResource = Subscription::class;
 
     /**
      * @param Date|DateTimeInterface|null $startDate
      */
     public function __construct(
-        string $customerId,
-        string $subscriptionId,
-        ?Money $amount = null,
-        ?string $description = null,
-        ?string $interval = null,
-        $startDate = null,
-        ?int $times = null,
-        ?array $metadata = null,
-        ?string $webhookUrl = null,
-        ?string $mandateId = null
+        private string $customerId,
+        private string $subscriptionId,
+        private ?Money $amount = null,
+        private ?string $description = null,
+        private ?string $interval = null,
+        private $startDate = null,
+        private ?int $times = null,
+        private ?array $metadata = null,
+        private ?string $webhookUrl = null,
+        private ?string $mandateId = null,
     ) {
-        $this->customerId = $customerId;
-        $this->subscriptionId = $subscriptionId;
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->interval = $interval;
-        $this->startDate = $startDate;
-        $this->times = $times;
-        $this->metadata = $metadata;
-        $this->webhookUrl = $webhookUrl;
-        $this->mandateId = $mandateId;
     }
 
     protected function defaultPayload(): array

@@ -17,7 +17,7 @@ class ListCapabilitiesRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = CapabilityCollection::class;
+    protected ?string $hydratableResource = CapabilityCollection::class;
 
     public function resolveResourcePath(): string
     {

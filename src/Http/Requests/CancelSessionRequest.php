@@ -11,13 +11,12 @@ class CancelSessionRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::DELETE;
 
-    protected $hydratableResource = Session::class;
+    protected ?string $hydratableResource = Session::class;
 
-    private string $sessionId;
-
-    public function __construct(string $sessionId)
+    public function __construct(
+        private string $sessionId,
+    )
     {
-        $this->sessionId = $sessionId;
     }
 
     public function resolveResourcePath(): string

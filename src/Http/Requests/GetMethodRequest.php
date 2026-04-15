@@ -16,30 +16,15 @@ class GetMethodRequest extends ResourceHydratableRequest implements SupportsTest
 {
     protected static string $method = HttpMethod::GET;
 
-    protected $hydratableResource = Method::class;
-
-    private string $methodId;
-
-    private ?string $locale;
-
-    private ?string $currency;
-
-    private ?string $profileId;
-
-    private ?bool $includeIssuers;
+    protected ?string $hydratableResource = Method::class;
 
     public function __construct(
-        string $methodId,
-        ?string $locale = null,
-        ?string $currency = null,
-        ?string $profileId = null,
-        ?bool $includeIssuers = null
+        private string $methodId,
+        private ?string $locale = null,
+        private ?string $currency = null,
+        private ?string $profileId = null,
+        private ?bool $includeIssuers = null,
     ) {
-        $this->methodId = $methodId;
-        $this->locale = $locale;
-        $this->currency = $currency;
-        $this->profileId = $profileId;
-        $this->includeIssuers = $includeIssuers;
     }
 
     protected function defaultQuery(): array

@@ -23,22 +23,13 @@ class CreateDelayedPaymentRouteRequest extends ResourceHydratableRequest impleme
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Route::class;
-
-    private string $paymentId;
-
-    private Money $amount;
-
-    private array $destination;
+    protected ?string $hydratableResource = Route::class;
 
     public function __construct(
-        string $paymentId,
-        Money $amount,
-        array $destination
+        private string $paymentId,
+        private Money $amount,
+        private array $destination,
     ) {
-        $this->paymentId = $paymentId;
-        $this->amount = $amount;
-        $this->destination = $destination;
     }
 
     protected function defaultPayload(): array

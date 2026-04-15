@@ -13,10 +13,8 @@ use Mollie\Api\Http\Data\Money;
 
 class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPayload, SupportsTestmodeInPayload
 {
-    protected string $customerId;
-
     public function __construct(
-        string $customerId,
+        protected string $customerId,
         string $description,
         Money $amount,
         ?string $redirectUrl = null,
@@ -65,8 +63,6 @@ class CreateCustomerPaymentRequest extends CreatePaymentRequest implements HasPa
             $additional,
             $includeQrCode
         );
-
-        $this->customerId = $customerId;
     }
 
     public function resolveResourcePath(): string

@@ -18,11 +18,10 @@ class DeleteCustomerRequest extends Request implements SupportsTestmodeInPayload
 
     protected static string $method = Method::DELETE;
 
-    protected string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

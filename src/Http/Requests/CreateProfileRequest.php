@@ -24,38 +24,17 @@ class CreateProfileRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Profile::class;
-
-    private string $name;
-
-    private string $website;
-
-    private string $email;
-
-    private string $phone;
-
-    private ?string $description;
-
-    private ?array $countriesOfActivity;
-
-    private ?string $businessCategory;
+    protected ?string $hydratableResource = Profile::class;
 
     public function __construct(
-        string $name,
-        string $website,
-        string $email,
-        string $phone,
-        ?string $description = null,
-        ?array $countriesOfActivity = null,
-        ?string $businessCategory = null
+        private string $name,
+        private string $website,
+        private string $email,
+        private string $phone,
+        private ?string $description = null,
+        private ?array $countriesOfActivity = null,
+        private ?string $businessCategory = null,
     ) {
-        $this->name = $name;
-        $this->website = $website;
-        $this->email = $email;
-        $this->phone = $phone;
-        $this->description = $description;
-        $this->countriesOfActivity = $countriesOfActivity;
-        $this->businessCategory = $businessCategory;
     }
 
     protected function defaultPayload(): array

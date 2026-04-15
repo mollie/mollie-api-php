@@ -15,13 +15,12 @@ class ListPaymentRoutesRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = RouteCollection::class;
+    protected ?string $hydratableResource = RouteCollection::class;
 
-    private string $paymentId;
-
-    public function __construct(string $paymentId)
+    public function __construct(
+        private string $paymentId,
+    )
     {
-        $this->paymentId = $paymentId;
     }
 
     public function resolveResourcePath(): string

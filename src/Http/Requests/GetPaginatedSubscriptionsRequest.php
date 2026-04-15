@@ -16,7 +16,7 @@ class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIte
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SubscriptionCollection::class;
+    protected ?string $hydratableResource = SubscriptionCollection::class;
 
     private string $customerId;
 

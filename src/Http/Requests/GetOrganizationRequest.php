@@ -15,13 +15,12 @@ class GetOrganizationRequest extends ResourceHydratableRequest implements Suppor
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Organization::class;
+    protected ?string $hydratableResource = Organization::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

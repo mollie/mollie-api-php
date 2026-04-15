@@ -16,7 +16,7 @@ class GetPaginatedTerminalsRequest extends PaginatedRequest implements IsIterata
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = TerminalCollection::class;
+    protected ?string $hydratableResource = TerminalCollection::class;
 
     public function resolveResourcePath(): string
     {

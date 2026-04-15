@@ -18,13 +18,12 @@ class GetPermissionRequest extends ResourceHydratableRequest implements Supports
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Permission::class;
+    protected ?string $hydratableResource = Permission::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

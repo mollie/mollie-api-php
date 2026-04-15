@@ -19,7 +19,7 @@ class GetAllPaginatedSubscriptionsRequest extends ResourceHydratableRequest impl
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SubscriptionCollection::class;
+    protected ?string $hydratableResource = SubscriptionCollection::class;
 
     public function __construct(
         private ?string $from = null,

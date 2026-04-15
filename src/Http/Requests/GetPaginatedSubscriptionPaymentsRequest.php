@@ -16,7 +16,7 @@ class GetPaginatedSubscriptionPaymentsRequest extends PaginatedRequest implement
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = PaymentCollection::class;
+    protected ?string $hydratableResource = PaymentCollection::class;
 
     private string $customerId;
 

@@ -17,14 +17,11 @@ class DisableMethodRequest extends Request
      */
     protected static string $method = HttpMethod::DELETE;
 
-    private string $profileId;
-
-    private string $methodId;
-
-    public function __construct(string $profileId, string $methodId)
+    public function __construct(
+        private string $profileId,
+        private string $methodId,
+    )
     {
-        $this->profileId = $profileId;
-        $this->methodId = $methodId;
     }
 
     public function resolveResourcePath(): string

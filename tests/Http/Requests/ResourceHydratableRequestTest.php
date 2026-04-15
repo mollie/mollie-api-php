@@ -35,7 +35,7 @@ class ResourceHydratableRequestTest extends TestCase
     public function it_can_hydrate_response_into_resource_wrapper()
     {
         $request = new class extends ResourceHydratableRequest {
-            protected $hydratableResource = DummyResource::class;
+            protected ?string $hydratableResource = DummyResource::class;
 
             public function resolveResourcePath(): string
             {
@@ -54,7 +54,7 @@ class ResourceHydratableRequestTest extends TestCase
 
 class ConcreteResourceHydratableRequest extends ResourceHydratableRequest
 {
-    protected $hydratableResource = BaseResource::class;
+    protected ?string $hydratableResource = BaseResource::class;
 
     public function resolveResourcePath(): string
     {

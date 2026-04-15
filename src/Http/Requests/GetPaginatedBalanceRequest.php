@@ -13,7 +13,7 @@ class GetPaginatedBalanceRequest extends SortablePaginatedRequest implements IsI
 {
     use IsIteratableRequest;
 
-    protected $hydratableResource = BalanceCollection::class;
+    protected ?string $hydratableResource = BalanceCollection::class;
 
     public function resolveResourcePath(): string
     {

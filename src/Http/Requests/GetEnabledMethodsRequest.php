@@ -21,25 +21,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
 {
     protected static string $method = HttpMethod::GET;
 
-    protected $hydratableResource = MethodCollection::class;
-
-    private string $sequenceType;
-
-    private string $resource;
-
-    private ?string $locale;
-
-    private ?Money $amount;
-
-    private ?string $billingCountry;
-
-    private ?array $includeWallets;
-
-    private ?array $orderLineCategories;
-
-    private ?string $profileId;
-
-    private ?bool $includeIssuers;
+    protected ?string $hydratableResource = MethodCollection::class;
 
     /**
      * Whether to filter out methods with a status of null.
@@ -47,26 +29,16 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
     private bool $filtersNullStatus = true;
 
     public function __construct(
-        string $sequenceType = SequenceType::Oneoff->value,
-        string $resource = MethodQuery::RESOURCE_PAYMENTS,
-        ?string $locale = null,
-        ?Money $amount = null,
-        ?string $billingCountry = null,
-        ?array $includeWallets = null,
-        ?array $orderLineCategories = null,
-        ?string $profileId = null,
-        ?bool $includeIssuers = null
+        private string $sequenceType = SequenceType::Oneoff->value,
+        private string $resource = MethodQuery::RESOURCE_PAYMENTS,
+        private ?string $locale = null,
+        private ?Money $amount = null,
+        private ?string $billingCountry = null,
+        private ?array $includeWallets = null,
+        private ?array $orderLineCategories = null,
+        private ?string $profileId = null,
+        private ?bool $includeIssuers = null,
     ) {
-        $this->sequenceType = $sequenceType;
-        $this->resource = $resource;
-        $this->locale = $locale;
-        $this->amount = $amount;
-        $this->billingCountry = $billingCountry;
-        $this->includeWallets = $includeWallets;
-        $this->orderLineCategories = $orderLineCategories;
-        $this->profileId = $profileId;
-        $this->includeIssuers = $includeIssuers;
-
         $this->middleware()->onResponse(function ($result) {
             if ($this->filtersNullStatus && $result instanceof MethodCollection) {
                 return $result

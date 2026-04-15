@@ -27,38 +27,23 @@ class CreatePaymentRefundRequest extends ResourceHydratableRequest implements Ha
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Refund::class;
-
-    private string $paymentId;
-
-    private string $description;
+    protected ?string $hydratableResource = Refund::class;
 
     private Money $amount;
 
-    private ?array $metadata;
-
-    private ?bool $reverseRouting;
-
-    private ?DataCollection $routingReversals;
-
     public function __construct(
-        string $paymentId,
-        string $description = '',
+        private string $paymentId,
+        private string $description = '',
         ?Money $amount = null,
-        ?array $metadata = null,
-        ?bool $reverseRouting = null,
-        ?DataCollection $routingReversals = null
+        private ?array $metadata = null,
+        private ?bool $reverseRouting = null,
+        private ?DataCollection $routingReversals = null,
     ) {
         if ($amount === null) {
             throw new \InvalidArgumentException('The amount parameter is required.');
         }
 
-        $this->paymentId = $paymentId;
-        $this->description = $description;
         $this->amount = $amount;
-        $this->metadata = $metadata;
-        $this->reverseRouting = $reverseRouting;
-        $this->routingReversals = $routingReversals;
     }
 
     /**

@@ -11,13 +11,12 @@ class GetSessionRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Session::class;
+    protected ?string $hydratableResource = Session::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

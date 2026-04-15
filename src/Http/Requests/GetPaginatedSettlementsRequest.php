@@ -15,7 +15,7 @@ class GetPaginatedSettlementsRequest extends PaginatedRequest implements IsItera
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SettlementCollection::class;
+    protected ?string $hydratableResource = SettlementCollection::class;
 
     public function __construct(
         ?string $from = null,

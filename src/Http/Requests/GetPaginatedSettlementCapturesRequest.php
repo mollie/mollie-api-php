@@ -18,7 +18,7 @@ class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements 
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = CaptureCollection::class;
+    protected ?string $hydratableResource = CaptureCollection::class;
 
     private string $settlementId;
 

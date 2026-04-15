@@ -24,13 +24,12 @@ class TestWebhookRequest extends ResourceHydratableRequest implements SupportsTe
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = AnyResource::class;
+    protected ?string $hydratableResource = AnyResource::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     /**

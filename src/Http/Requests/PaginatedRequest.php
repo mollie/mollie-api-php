@@ -13,16 +13,10 @@ abstract class PaginatedRequest extends ResourceHydratableRequest
      */
     protected static string $method = Method::GET;
 
-    private ?string $from;
-
-    private ?int $limit;
-
     public function __construct(
-        ?string $from = null,
-        ?int $limit = null
+        private ?string $from = null,
+        private ?int $limit = null,
     ) {
-        $this->from = $from;
-        $this->limit = $limit;
     }
 
     protected function defaultQuery(): array

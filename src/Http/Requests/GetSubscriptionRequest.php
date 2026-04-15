@@ -21,16 +21,13 @@ class GetSubscriptionRequest extends ResourceHydratableRequest implements Suppor
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Subscription::class;
+    protected ?string $hydratableResource = Subscription::class;
 
-    private string $customerId;
-
-    private string $id;
-
-    public function __construct(string $customerId, string $id)
+    public function __construct(
+        private string $customerId,
+        private string $id,
+    )
     {
-        $this->customerId = $customerId;
-        $this->id = $id;
     }
 
     public function resolveResourcePath(): string

@@ -22,61 +22,22 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     protected static string $method = Method::PATCH;
 
-    protected $hydratableResource = SalesInvoice::class;
-
-    private string $id;
-
-    private string $status;
-
-    private string $recipientIdentifier;
-
-    private ?string $memo;
-
-    private ?string $paymentTerm;
-
-    private ?PaymentDetails $paymentDetails;
-
-    private ?EmailDetails $emailDetails;
-
-    private ?Recipient $recipient;
-
-    /**
-     * @var DataCollection<InvoiceLine>
-     */
-    private ?DataCollection $lines;
-
-    private ?string $webhookUrl;
-
-    private ?Discount $discount;
-
-    private ?bool $isEInvoice;
+    protected ?string $hydratableResource = SalesInvoice::class;
 
     public function __construct(
-        string $id,
-        string $status,
-        string $recipientIdentifier,
-        ?string $memo = null,
-        ?string $paymentTerm = null,
-        ?PaymentDetails $paymentDetails = null,
-        ?EmailDetails $emailDetails = null,
-        ?Recipient $recipient = null,
-        ?DataCollection $lines = null,
-        ?string $webhookUrl = null,
-        ?Discount $discount = null,
-        ?bool $isEInvoice = null
+        private string $id,
+        private string $status,
+        private string $recipientIdentifier,
+        private ?string $memo = null,
+        private ?string $paymentTerm = null,
+        private ?PaymentDetails $paymentDetails = null,
+        private ?EmailDetails $emailDetails = null,
+        private ?Recipient $recipient = null,
+        private ?DataCollection $lines = null,
+        private ?string $webhookUrl = null,
+        private ?Discount $discount = null,
+        private ?bool $isEInvoice = null,
     ) {
-        $this->id = $id;
-        $this->status = $status;
-        $this->recipientIdentifier = $recipientIdentifier;
-        $this->memo = $memo;
-        $this->paymentTerm = $paymentTerm;
-        $this->paymentDetails = $paymentDetails;
-        $this->emailDetails = $emailDetails;
-        $this->recipient = $recipient;
-        $this->lines = $lines;
-        $this->webhookUrl = $webhookUrl;
-        $this->discount = $discount;
-        $this->isEInvoice = $isEInvoice;
     }
 
     public function defaultPayload(): array

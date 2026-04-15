@@ -21,16 +21,13 @@ class GetMandateRequest extends ResourceHydratableRequest implements SupportsTes
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Mandate::class;
+    protected ?string $hydratableResource = Mandate::class;
 
-    private string $customerId;
-
-    private string $mandateId;
-
-    public function __construct(string $customerId, string $mandateId)
+    public function __construct(
+        private string $customerId,
+        private string $mandateId,
+    )
     {
-        $this->customerId = $customerId;
-        $this->mandateId = $mandateId;
     }
 
     public function resolveResourcePath(): string

@@ -17,7 +17,7 @@ class GetPaginatedChargebacksRequest extends PaginatedRequest implements IsItera
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ChargebackCollection::class;
+    protected ?string $hydratableResource = ChargebackCollection::class;
 
     public function __construct(
         ?string $from = null,

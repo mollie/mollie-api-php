@@ -17,17 +17,12 @@ class DisableMethodIssuerRequest extends Request
      */
     protected static string $method = HttpMethod::DELETE;
 
-    private string $profileId;
-
-    private string $methodId;
-
-    private string $issuerId;
-
-    public function __construct(string $profileId, string $methodId, string $issuerId)
+    public function __construct(
+        private string $profileId,
+        private string $methodId,
+        private string $issuerId,
+    )
     {
-        $this->profileId = $profileId;
-        $this->methodId = $methodId;
-        $this->issuerId = $issuerId;
     }
 
     public function resolveResourcePath(): string

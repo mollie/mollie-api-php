@@ -23,19 +23,14 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Capture::class;
+    protected ?string $hydratableResource = Capture::class;
 
-    private string $paymentId;
-
-    private string $captureId;
-
-    private bool $embedPayment;
-
-    public function __construct(string $paymentId, string $captureId, bool $embedPayment = false)
+    public function __construct(
+        private string $paymentId,
+        private string $captureId,
+        private bool $embedPayment = false,
+    )
     {
-        $this->paymentId = $paymentId;
-        $this->captureId = $captureId;
-        $this->embedPayment = $embedPayment;
     }
 
     protected function defaultQuery(): array

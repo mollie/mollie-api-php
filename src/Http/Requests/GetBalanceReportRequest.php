@@ -19,22 +19,15 @@ class GetBalanceReportRequest extends ResourceHydratableRequest implements Suppo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = BalanceReport::class;
+    protected ?string $hydratableResource = BalanceReport::class;
 
-    private string $balanceId;
-
-    private DateTimeInterface $from;
-
-    private DateTimeInterface $until;
-
-    private ?string $grouping;
-
-    public function __construct(string $balanceId, DateTimeInterface $from, DateTimeInterface $until, ?string $grouping = null)
+    public function __construct(
+        private string $balanceId,
+        private DateTimeInterface $from,
+        private DateTimeInterface $until,
+        private ?string $grouping = null,
+    )
     {
-        $this->balanceId = $balanceId;
-        $this->from = $from;
-        $this->until = $until;
-        $this->grouping = $grouping;
     }
 
     protected function defaultQuery(): array

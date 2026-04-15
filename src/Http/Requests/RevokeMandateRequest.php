@@ -21,14 +21,11 @@ class RevokeMandateRequest extends Request implements SupportsTestmodeInPayload
      */
     protected static string $method = Method::DELETE;
 
-    private string $customerId;
-
-    private string $mandateId;
-
-    public function __construct(string $customerId, string $mandateId)
+    public function __construct(
+        private string $customerId,
+        private string $mandateId,
+    )
     {
-        $this->customerId = $customerId;
-        $this->mandateId = $mandateId;
     }
 
     public function resolveResourcePath(): string

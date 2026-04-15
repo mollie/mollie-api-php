@@ -27,49 +27,22 @@ class CreateMandateRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Mandate::class;
-
-    private string $customerId;
+    protected ?string $hydratableResource = Mandate::class;
 
     private string $paymentMethod;
 
-    private string $consumerName;
-
-    private ?string $consumerAccount;
-
-    private ?string $consumerBic;
-
-    private ?string $consumerEmail;
-
-    /**
-     * @var Date|DateTimeInterface
-     */
-    private $signatureDate;
-
-    private ?string $mandateReference;
-
-    private ?string $paypalBillingAgreementId;
-
     public function __construct(
-        string $customerId,
+        private string $customerId,
         string $method,
-        string $consumerName,
-        ?string $consumerAccount = null,
-        ?string $consumerBic = null,
-        ?string $consumerEmail = null,
-        $signatureDate = null,
-        ?string $mandateReference = null,
-        ?string $paypalBillingAgreementId = null
+        private string $consumerName,
+        private ?string $consumerAccount = null,
+        private ?string $consumerBic = null,
+        private ?string $consumerEmail = null,
+        private Date|DateTimeInterface|null $signatureDate = null,
+        private ?string $mandateReference = null,
+        private ?string $paypalBillingAgreementId = null,
     ) {
-        $this->customerId = $customerId;
         $this->paymentMethod = $method;
-        $this->consumerName = $consumerName;
-        $this->consumerAccount = $consumerAccount;
-        $this->consumerBic = $consumerBic;
-        $this->consumerEmail = $consumerEmail;
-        $this->signatureDate = $signatureDate;
-        $this->mandateReference = $mandateReference;
-        $this->paypalBillingAgreementId = $paypalBillingAgreementId;
     }
 
     protected function defaultPayload(): array

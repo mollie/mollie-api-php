@@ -18,13 +18,12 @@ class GetConnectBalanceTransferRequest extends ResourceHydratableRequest impleme
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ConnectBalanceTransfer::class;
+    protected ?string $hydratableResource = ConnectBalanceTransfer::class;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(
+        private string $id,
+    )
     {
-        $this->id = $id;
     }
 
     /**

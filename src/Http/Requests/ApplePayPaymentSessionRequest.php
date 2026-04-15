@@ -15,19 +15,14 @@ class ApplePayPaymentSessionRequest extends ResourceHydratableRequest implements
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = AnyResource::class;
+    protected ?string $hydratableResource = AnyResource::class;
 
-    private string $domain;
-
-    private string $validationUrl;
-
-    private ?string $profileId;
-
-    public function __construct(string $domain, string $validationUrl, ?string $profileId = null)
+    public function __construct(
+        private string $domain,
+        private string $validationUrl,
+        private ?string $profileId = null,
+    )
     {
-        $this->domain = $domain;
-        $this->validationUrl = $validationUrl;
-        $this->profileId = $profileId;
     }
 
     public function defaultPayload(): array
