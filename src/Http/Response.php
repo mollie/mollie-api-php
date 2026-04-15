@@ -127,6 +127,30 @@ class Response
         return $this->psrResponse->getStatusCode();
     }
 
+    /**
+     * Get the first value for a response header, or null if missing.
+     */
+    public function header(string $name): ?string
+    {
+        if (! $this->psrResponse->hasHeader($name)) {
+            return null;
+        }
+
+        $value = $this->psrResponse->getHeaderLine($name);
+
+        return $value === '' ? null : $value;
+    }
+
+    /**
+     * Get all response headers as a map of name => list of values.
+     *
+     * @return array<string, list<string>>
+     */
+    public function headers(): array
+    {
+        return $this->psrResponse->getHeaders();
+    }
+
     public function successful(): bool
     {
         return $this->status() >= 200 && $this->status() < 300;
