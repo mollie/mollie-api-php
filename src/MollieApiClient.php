@@ -49,6 +49,7 @@ use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
+use Mollie\Api\Exceptions\MissingAuthenticationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
 use Mollie\Api\Idempotency\DefaultIdempotencyKeyGenerator;
@@ -188,6 +189,41 @@ class MollieApiClient implements Connector
     public static function fake(array $expectedResponses = [], bool $retainRequests = false): MockMollieClient
     {
         return new MockMollieClient($expectedResponses, $retainRequests);
+    }
+
+    /**
+     * Create a client authenticated from environment variables.
+     *
+     * Looks up `MOLLIE_API_KEY` first, then `MOLLIE_ACCESS_TOKEN`.
+     * The resolved token is applied via {@see self::setToken()}, so both
+     * API keys (`test_`/`live_`) and OAuth access tokens (`access_`) work.
+     *
+     * @throws MissingAuthenticationException When neither variable is set.
+     * @throws Exceptions\ApiException When the token cannot be accepted by the authenticator.
+     */
+    public static function fromEnv(): self
+    {
+        $token = self::readEnv('MOLLIE_API_KEY') ?? self::readEnv('MOLLIE_ACCESS_TOKEN');
+
+        if ($token === null) {
+            throw new MissingAuthenticationException;
+        }
+
+        $client = new self;
+        $client->setToken($token);
+
+        return $client;
+    }
+
+    private static function readEnv(string $name): ?string
+    {
+        $value = $_ENV[$name] ?? $_SERVER[$name] ?? getenv($name);
+
+        if ($value === false || $value === null || $value === '') {
+            return null;
+        }
+
+        return (string) $value;
     }
 
     public function __serialize(): array
