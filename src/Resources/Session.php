@@ -139,31 +139,4 @@ class Session extends BaseResource
         return $this->status === SessionStatus::COMPLETED;
     }
 
-    /**
-     * Saves the session's updatable properties.
-     *
-     * @return \Mollie\Api\Resources\Session
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function update()
-    {
-        $body = [
-            'billingAddress' => $this->billingAddress,
-            'shippingAddress' => $this->shippingAddress,
-        ];
-
-        return $this->connector->sessions->update($this->id, $this->withMode($body));
-    }
-
-    /**
-     * Cancels this session.
-     *
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function cancel(): void
-    {
-        $this->connector->sessions->cancel($this->id);
-    }
-
 }
