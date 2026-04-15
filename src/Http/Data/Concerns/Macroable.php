@@ -14,27 +14,26 @@ use Closure;
  * bound to the invoking class/instance so macros may access protected
  * state. Intended for use on readonly Data value objects — macros must
  * never mutate state; return new instances instead.
+ *
+ * The macro map is held externally on {@see MacroRegistry} so this trait
+ * can be used by readonly classes (which cannot declare non-readonly
+ * static properties on their own).
  */
 trait Macroable
 {
-    /**
-     * @var array<string, callable>
-     */
-    protected static array $macros = [];
-
     public static function macro(string $name, callable $macro): void
     {
-        static::$macros[$name] = $macro;
+        MacroRegistry::set(static::class, $name, $macro);
     }
 
     public static function hasMacro(string $name): bool
     {
-        return isset(static::$macros[$name]);
+        return MacroRegistry::has(static::class, $name);
     }
 
     public static function flushMacros(): void
     {
-        static::$macros = [];
+        MacroRegistry::flush(static::class);
     }
 
     /**
@@ -43,7 +42,7 @@ trait Macroable
      */
     public static function __callStatic(string $method, array $parameters)
     {
-        if (! static::hasMacro($method)) {
+        if (! MacroRegistry::has(static::class, $method)) {
             throw new BadMethodCallException(sprintf(
                 'Method %s::%s does not exist.',
                 static::class,
@@ -51,7 +50,7 @@ trait Macroable
             ));
         }
 
-        $macro = static::$macros[$method];
+        $macro = MacroRegistry::get(static::class, $method);
 
         if ($macro instanceof Closure) {
             $macro = Closure::bind($macro, null, static::class);
@@ -66,7 +65,7 @@ trait Macroable
      */
     public function __call(string $method, array $parameters)
     {
-        if (! static::hasMacro($method)) {
+        if (! MacroRegistry::has(static::class, $method)) {
             throw new BadMethodCallException(sprintf(
                 'Method %s::%s does not exist.',
                 static::class,
@@ -74,7 +73,7 @@ trait Macroable
             ));
         }
 
-        $macro = static::$macros[$method];
+        $macro = MacroRegistry::get(static::class, $method);
 
         if ($macro instanceof Closure) {
             $macro = Closure::bind($macro, $this, static::class);
