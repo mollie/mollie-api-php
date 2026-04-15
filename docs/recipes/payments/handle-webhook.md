@@ -18,13 +18,13 @@ try {
 
     
 
-    // First handle status changes
+    // First handle status changes (compare against the PaymentStatus enum)
     if ($payment->status !== $previousPaymentStatus) {
         // Update your order administration with the new status
         updateOrder($orderId, $payment->status);
 
         // Handle the status change
-        if ($payment->isPaid()) {
+        if ($payment->status === \Mollie\Api\Types\PaymentStatus::Paid) {
             // The payment is paid
             // Start the process of delivering the product to the customer
             startDeliveryProcess($orderId);
@@ -69,7 +69,7 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "paid"
+$payment->status;           // PaymentStatus::Paid
 $payment->amount->currency; // "EUR"
 $payment->amount->value;    // "10.00"
 $payment->description;      // "Order #1234"

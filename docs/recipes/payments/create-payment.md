@@ -9,10 +9,12 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
 try {
+    // Return type is Payment, inferred via send()'s @template — no @var needed
     $payment = $mollie->send(
         new CreatePaymentRequest(
             description: "Order #{$orderId}",
             amount: Money::euro('10.00'),
+            // or: amount: Money::fromMinorUnits('EUR', 1000),
             redirectUrl: 'https://example.org/return',
             cancelUrl: 'https://example.org/cancel',
             webhookUrl: 'https://example.org/webhook',
@@ -31,12 +33,23 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "open"
+$payment->status;           // PaymentStatus::Open (enum) | "open" string fallback for unknown values
+$payment->amount;           // Mollie\Api\Http\Data\Money (readonly value object)
 $payment->amount->currency; // "EUR"
 $payment->amount->value;    // "10.00"
 $payment->description;      // "Order #1234"
 $payment->metadata->order_id; // "1234"
 $payment->getCheckoutUrl(); // "https://www.mollie.com/checkout/select-method/7UhSN1zuXS"
+```
+
+Compare statuses against the enum cases (recommended) or string values:
+
+```php
+use Mollie\Api\Types\PaymentStatus;
+
+if ($payment->status === PaymentStatus::Paid) {
+    // ...
+}
 ```
 
 ## Additional Notes

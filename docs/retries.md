@@ -37,6 +37,24 @@ To effectively disable retries, set the max retries to `0`:
 $client->setRetryStrategy(new LinearRetryStrategy(0, 0));
 ```
 
+## Exponential backoff with 429 / Retry-After
+
+`ExponentialRetryStrategy` (new in v4) does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). When the server returns a numeric `Retry-After` header, that value is honoured instead of the computed delay.
+
+```php
+use Mollie\Api\Http\ExponentialRetryStrategy;
+
+$client->setRetryStrategy(new ExponentialRetryStrategy(
+    maxRetries: 5,
+    baseDelayMs: 500,
+    multiplier: 2.0,
+    maxDelayMs: 30_000,
+    jitter: true,
+));
+```
+
+Use this strategy when you want graceful handling of 429 rate limits — the linear strategy only retries network errors.
+
 ## Creating your own strategy
 
 Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` interface:

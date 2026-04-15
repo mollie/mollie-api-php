@@ -14,6 +14,7 @@ The recipes are organized by resource type:
 - `refunds/` - Refund operations
 - `connect-balance-transfers/` - Connect balance transfer operations
 - `webhooks/` - Webhook management and events
+- `money/` - `Money` value object recipes (`fromMinorUnits`, custom factories via Macroable)
 
 Each recipe includes:
 - Complete code example
@@ -29,4 +30,7 @@ use Mollie\Api\MollieApiClient;
 
 $mollie = new MollieApiClient;
 $mollie->setApiKey('test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM');
+
+// Or in v4: bootstrap from MOLLIE_API_KEY / MOLLIE_ACCESS_TOKEN env vars
+$mollie = MollieApiClient::fromEnv();
 ```

@@ -46,7 +46,7 @@ use Mollie\Api\Http\Data\CreatePaymentPayload;
 
 $payment = $mollie->payments->create([
     'description' => 'My first API payment',
-    'amount' => new Money('EUR', '10.00')
+    'amount' => new Money(currency: 'EUR', value: '10.00')
 ]);
 ```
 
@@ -67,7 +67,7 @@ $createPaymentRequest = CreatePaymentRequestFactory::new([
 
 // Partially untyped
 $createPaymentRequest = CreatePaymentRequestFactory::new([
-    'amount' => new Money('EUR', '10.00'),
+    'amount' => new Money(currency: 'EUR', value: '10.00'),
     'description' => 'My first API payment'
 ]);
 ```
