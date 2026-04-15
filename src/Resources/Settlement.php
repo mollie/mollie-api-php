@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\SettlementStatus;
 
 /**
@@ -12,101 +13,65 @@ use Mollie\Api\Types\SettlementStatus;
  */
 class Settlement extends BaseResource
 {
-    /**
-     * Id of the settlement.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
      * The settlement reference. This corresponds to an invoice that's in your Dashboard.
-     *
-     * @var string
      */
-    public $reference;
+    public ?string $reference = null;
 
     /**
-     * UTC datetime the payment was created in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string
+     * UTC datetime the settlement was created in ISO-8601 format.
      */
-    public $createdAt;
+    public ?string $createdAt = null;
 
     /**
-     * The date on which the settlement was settled, in ISO 8601 format. When requesting the open settlement or next settlement the return value is null.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
+     * The date on which the settlement was settled.
      */
-    public $settledAt;
+    public ?string $settledAt = null;
+
+    public SettlementStatus|string|null $status = null;
 
     /**
-     * Status of the settlement.
-     *
-     * @var string
+     * Total settlement amount.
      */
-    public $status;
-
-    /**
-     * Total settlement amount in euros.
-     *
-     * @var \stdClass
-     */
-    public $amount;
+    public ?Money $amount = null;
 
     /**
      * Revenues and costs nested per year, per month, and per payment method.
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $periods;
 
     /**
      * The ID of the invoice on which this settlement is invoiced, if it has been invoiced.
-     *
-     * @var string|null
      */
-    public $invoiceId;
+    public ?string $invoiceId = null;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 
-    /**
-     * Is this settlement still open?
-     */
     public function isOpen(): bool
     {
-        return $this->status === SettlementStatus::Open->value;
+        return $this->status === SettlementStatus::Open;
     }
 
-    /**
-     * Is this settlement pending?
-     */
     public function isPending(): bool
     {
-        return $this->status === SettlementStatus::Pending->value;
+        return $this->status === SettlementStatus::Pending;
     }
 
-    /**
-     * Is this settlement paid out?
-     */
     public function isPaidout(): bool
     {
-        return $this->status === SettlementStatus::Paidout->value;
+        return $this->status === SettlementStatus::Paidout;
     }
 
-    /**
-     * Has this settlement failed?
-     */
     public function isFailed(): bool
     {
-        return $this->status === SettlementStatus::Failed->value;
+        return $this->status === SettlementStatus::Failed;
     }
 
     /**

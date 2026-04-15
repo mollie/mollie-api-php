@@ -14,34 +14,18 @@ class Customer extends BaseResource
 {
     use HasMode;
 
-    /**
-     * Id of the customer.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
-     * Either "live" or "test". Indicates this being a test or a live (verified) customer.
-     *
-     * @var string
+     * Either "live" or "test". Indicates this being a test or a live customer.
      */
-    public $mode;
+    public string $mode;
 
-    /**
-     * @var string
-     */
-    public $name;
+    public ?string $name = null;
 
-    /**
-     * @var string
-     */
-    public $email;
+    public ?string $email = null;
 
-    /**
-     * @var string|null
-     */
-    public $locale;
+    public ?string $locale = null;
 
     /**
      * @var \stdClass|mixed|null
@@ -49,17 +33,14 @@ class Customer extends BaseResource
     public $metadata;
 
     /**
-     * @var string[]|array
+     * @var array|null
      */
-    public $recentlyUsedMethods;
+    public ?array $recentlyUsedMethods = null;
+
+    public ?string $createdAt = null;
 
     /**
-     * @var string
-     */
-    public $createdAt;
-
-    /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 

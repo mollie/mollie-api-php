@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
@@ -142,7 +143,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::First->value;
+        $payment->sequenceType = SequenceType::First;
         $this->assertFalse($payment->hasSequenceTypeRecurring());
         $this->assertTrue($payment->hasSequenceTypeFirst());
     }
@@ -153,7 +154,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::Recurring->value;
+        $payment->sequenceType = SequenceType::Recurring;
         $this->assertTrue($payment->hasSequenceTypeRecurring());
         $this->assertFalse($payment->hasSequenceTypeFirst());
     }
@@ -164,7 +165,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::Oneoff->value;
+        $payment->sequenceType = SequenceType::Oneoff;
         $this->assertFalse($payment->hasSequenceTypeFirst());
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }
@@ -201,11 +202,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $amountRemaining = new Stdclass;
-        $amountRemaining->value = '15.00';
-        $amountRemaining->currency = 'EUR';
-
-        $payment->amountRemaining = $amountRemaining;
+        $payment->amountRemaining = new Money(currency: 'EUR', value: '15.00');
         $this->assertTrue($payment->canBeRefunded());
         $this->assertTrue($payment->canBePartiallyRefunded());
     }
@@ -227,7 +224,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountRefunded = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountRefunded = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountRefunded());
     }
 
@@ -247,7 +244,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountRemaining = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountRemaining = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountRemaining());
     }
 
@@ -267,7 +264,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountChargedBack = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountChargedBack = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountChargedBack());
     }
 
@@ -297,7 +294,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->settlementAmount = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->settlementAmount = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getSettlementAmount());
     }
 

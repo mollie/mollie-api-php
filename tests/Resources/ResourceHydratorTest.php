@@ -54,7 +54,9 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('tr_44aKxzEbr8', $resource->id);
         $this->assertEquals('test', $resource->mode);
         $this->assertEquals('2018-03-13T14:02:29+00:00', $resource->createdAt);
-        $this->assertEquals(['value' => '20.00', 'currency' => 'EUR'], $resource->amount);
+        $this->assertInstanceOf(\Mollie\Api\Http\Data\Money::class, $resource->amount);
+        $this->assertSame('20.00', $resource->amount->value);
+        $this->assertSame('EUR', $resource->amount->currency);
     }
 
     /** @test */

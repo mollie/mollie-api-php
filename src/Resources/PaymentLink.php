@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Traits\HasMode;
 
 /**
@@ -13,133 +15,57 @@ class PaymentLink extends BaseResource
 {
     use HasMode;
 
-    /**
-     * Id of the payment link (on the Mollie platform).
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
-     * Mode of the payment link, either "live" or "test" depending on the API Key that was
-     * used.
-     *
-     * @var string
+     * Mode of the payment link, either "live" or "test" depending on the API Key that was used.
      */
-    public $mode;
+    public string $mode;
 
     /**
      * The profile ID this payment link belongs to.
-     *
-     * @example pfl_QkEhN94Ba
-     *
-     * @var string
      */
-    public $profileId;
+    public string $profileId;
+
+    public ?string $createdAt = null;
+
+    public ?string $paidAt = null;
+
+    public bool $archived = false;
+
+    public ?string $updatedAt = null;
+
+    public ?string $expiresAt = null;
 
     /**
-     * UTC datetime the payment link was created in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
+     * Amount object containing the value and currency.
      */
-    public $createdAt;
-
-    /**
-     * UTC datetime the payment was paid in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
-     */
-    public $paidAt;
-
-    /**
-     * Whether the payment link is archived. Customers will not be able to complete
-     * payments on archived payment links.
-     *
-     * @var bool
-     */
-    public $archived;
-
-    /**
-     * UTC datetime the payment link was updated in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
-     */
-    public $updatedAt;
-
-    /**
-     * UTC datetime - the expiry date of the payment link in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
-     */
-    public $expiresAt;
-
-    /**
-     * Amount object containing the value and currency
-     *
-     * @var \stdClass
-     */
-    public $amount;
+    public ?Money $amount = null;
 
     /**
      * The minimum amount. Only used for payment links without a fixed amount.
-     *
-     * @var \stdClass|null
      */
-    public $minimumAmount;
+    public ?Money $minimumAmount = null;
 
     /**
      * The order lines for this payment link (used for Klarna and other BNPL methods).
      *
      * @var array|null
      */
-    public $lines;
+    public ?array $lines = null;
+
+    public ?Address $billingAddress = null;
+
+    public ?Address $shippingAddress = null;
+
+    public string $description;
+
+    public ?string $redirectUrl = null;
+
+    public ?string $webhookUrl = null;
 
     /**
-     * The billing address for this payment link.
-     *
      * @var \stdClass|null
-     */
-    public $billingAddress;
-
-    /**
-     * The shipping address for this payment link.
-     *
-     * @var \stdClass|null
-     */
-    public $shippingAddress;
-
-    /**
-     * Description of the payment link that is shown to the customer during the payment,
-     * and possibly on the bank or credit card statement.
-     *
-     * @var string
-     */
-    public $description;
-
-    /**
-     * Redirect URL set on this payment
-     *
-     * @var string
-     */
-    public $redirectUrl;
-
-    /**
-     * Webhook URL set on this payment link
-     *
-     * @var string|null
-     */
-    public $webhookUrl;
-
-    /**
-     * @var \stdClass
      */
     public $_links;
 
