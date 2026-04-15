@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class OrganizationPartnerEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function status()
+    public function test_status()
     {
         $client = new MockMollieClient([
             GetOrganizationPartnerStatusRequest::class => MockResponse::ok('partner-status'),

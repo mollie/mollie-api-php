@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class OnboardingEndpointCollectionTest extends TestCase
 {
     /** @test */
-    public function status()
+    public function test_status()
     {
         $client = new MockMollieClient([
             GetOnboardingStatusRequest::class => MockResponse::ok('onboarding'),

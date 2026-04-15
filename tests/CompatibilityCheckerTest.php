@@ -18,7 +18,7 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->checker = $this->getMockBuilder(CompatibilityChecker::class)
-            ->setMethods([
+            ->onlyMethods([
                 'satisfiesPhpVersion',
                 'satisfiesJsonExtension',
             ])
