@@ -5,22 +5,17 @@ namespace Mollie\Api\Types;
 class SessionStatus
 {
     /**
-     * The session has just been created.
+     * The session is open.
      */
-    public const STATUS_CREATED = 'created';
+    public const OPEN = 'open';
 
     /**
-     * The session has been paid.
+     * The session has expired.
      */
-    public const STATUS_READY_FOR_PROCESSING = 'ready_for_processing';
+    public const EXPIRED = 'expired';
 
     /**
      * The session is completed.
      */
-    public const STATUS_COMPLETED = 'completed';
-
-    /**
-     * The session has failed.
-     */
-    public const STATUS_FAILED = 'failed';
+    public const COMPLETED = 'completed';
 }
