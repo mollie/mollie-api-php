@@ -6,13 +6,11 @@ namespace Mollie\Api\Exceptions;
 
 class JsonParseException extends MollieException
 {
-    private string $rawResponse;
-
-    public function __construct(string $message, string $rawResponse)
-    {
+    public function __construct(
+        string $message,
+        public readonly string $rawResponse
+    ) {
         parent::__construct($message);
-
-        $this->rawResponse = $rawResponse;
     }
 
     public function getRawResponse(): string
