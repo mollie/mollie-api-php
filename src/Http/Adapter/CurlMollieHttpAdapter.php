@@ -36,9 +36,9 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         $request = $pendingRequest->createPsrRequest();
 
         try {
-            $curl = CurlFactory::new($request->getUri(), $pendingRequest)
+            $curl = CurlFactory::new((string) $request->getUri(), $pendingRequest)
                 ->withHeaders($pendingRequest->headers()->all())
-                ->withMethod($pendingRequest->method(), $request->getBody())
+                ->withMethod($pendingRequest->method(), (string) $request->getBody())
                 ->create();
 
             $response = curl_exec($curl);
@@ -52,9 +52,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
             return $this->extractResponseDetails($curl, $response);
         } finally {
-            if ($curl !== null && PHP_MAJOR_VERSION < 8) {
-                curl_close($curl);
-            }
+            // PHP 8+ auto-closes CurlHandle on GC; explicit curl_close() is a no-op.
         }
     }
 
