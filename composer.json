@@ -85,6 +85,11 @@
     }
   },
   "scripts": {
-    "test": "./vendor/bin/pest --parallel"
+    "test": "./vendor/bin/pest --parallel",
+    "generate:currency-trait": "@php tools/generate-currency-trait.php",
+    "check:currency-trait": [
+      "@php tools/generate-currency-trait.php",
+      "git diff --exit-code src/Traits/HasCurrencyConvenienceMethods.php"
+    ]
   }
 }

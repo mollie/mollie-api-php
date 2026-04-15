@@ -45,5 +45,8 @@ jobs:
       - name: List Installed Dependencies
         run: composer show -D
 
+      - name: Verify HasCurrencyConvenienceMethods is up to date
+        run: composer check:currency-trait
+
       - name: Execute tests
         run: ./vendor/bin/pest --parallel
