@@ -7,6 +7,47 @@
     "currency": "EUR",
     "value": "24.95"
   },
+  "minimumAmount": {
+    "currency": "EUR",
+    "value": "10.00"
+  },
+  "lines": [
+    {
+      "description": "Bicycle tire",
+      "quantity": 2,
+      "unitPrice": {
+        "currency": "EUR",
+        "value": "12.48"
+      },
+      "totalAmount": {
+        "currency": "EUR",
+        "value": "24.95"
+      },
+      "vatRate": "21.00",
+      "vatAmount": {
+        "currency": "EUR",
+        "value": "4.34"
+      }
+    }
+  ],
+  "billingAddress": {
+    "givenName": "John",
+    "familyName": "Doe",
+    "email": "john.doe@example.org",
+    "streetAndNumber": "Keizersgracht 126",
+    "postalCode": "1015 CW",
+    "city": "Amsterdam",
+    "country": "NL"
+  },
+  "shippingAddress": {
+    "givenName": "Jane",
+    "familyName": "Doe",
+    "email": "jane.doe@example.org",
+    "streetAndNumber": "Herengracht 182",
+    "postalCode": "1016 BS",
+    "city": "Amsterdam",
+    "country": "NL"
+  },
   "archived": false,
   "redirectUrl": "https://webshop.example.org/thanks",
   "webhookUrl": "https://webshop.example.org/payment-links/webhook",
