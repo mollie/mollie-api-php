@@ -219,11 +219,11 @@ class MollieApiClient implements Connector
     {
         $value = $_ENV[$name] ?? $_SERVER[$name] ?? getenv($name);
 
-        if ($value === false || $value === null || $value === '') {
+        if ($value === false || $value === '') {
             return null;
         }
 
-        return (string) $value;
+        return is_scalar($value) ? (string) $value : null;
     }
 
     public function __serialize(): array
