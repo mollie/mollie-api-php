@@ -13,6 +13,21 @@
 
 </div>
 
+## What's new in v4
+
+v4 is a PHP 8.2+ modernization. Highlights:
+
+- **String-backed enums** for all `src/Types/` constants (`PaymentStatus::Paid`)
+- **Typed resource properties** — `$payment->amount` is `Money`, not `\stdClass`
+- **Generic `send()`** — no more `@var` annotations (resolves [#875](https://github.com/mollie/mollie-api-php/issues/875))
+- **`Money::fromMinorUnits('EUR', 1000)`** convenience factory (resolves [#876](https://github.com/mollie/mollie-api-php/issues/876))
+- **`MollieApiClient::fromEnv()`** quick bootstrap from environment
+- **Lazy `iterator()` pagination** across pages
+- **Typed `MockResponse::payment(...)`** test factories
+- **Macroable `Money`** for custom currency / loyalty-point factories
+
+Migrating from v3? Most renames are automated by [`mollie/mollie-api-php-rector`](https://github.com/mollie/mollie-api-php-rector). See [UPGRADING.md](UPGRADING.md) for the full guide.
+
 Accepting [iDEAL](https://www.mollie.com/payments/ideal/), [Apple Pay](https://www.mollie.com/payments/apple-pay), [Google Pay](https://www.mollie.com/payments/googlepay), [Creditcard](https://www.mollie.com/payments/credit-card/), [Bancontact](https://www.mollie.com/payments/bancontact/), [SOFORT Banking](https://www.mollie.com/payments/sofort/), [SEPA Bank transfer](https://www.mollie.com/payments/bank-transfer/), [SEPA Direct debit](https://www.mollie.com/payments/direct-debit/), [PayPal](https://www.mollie.com/payments/paypal/), [Belfius Direct Net](https://www.mollie.com/payments/belfius/), [KBC/CBC](https://www.mollie.com/payments/kbc-cbc/), [paysafecard](https://www.mollie.com/payments/paysafecard/), [ING Home'Pay](https://www.mollie.com/payments/ing-homepay/), [Giropay](https://www.mollie.com/payments/giropay/), [EPS](https://www.mollie.com/payments/eps/), [Przelewy24](https://www.mollie.com/payments/przelewy24/), [Postepay](https://www.mollie.com/en/payments/postepay), [In3](https://www.mollie.com/payments/in3/), [Klarna](https://www.mollie.com/payments/klarna-pay-later/) ([Pay now](https://www.mollie.com/payments/klarna-pay-now/), [Pay later](https://www.mollie.com/payments/klarna-pay-later/), [Slice it](https://www.mollie.com/payments/klarna-slice-it/), [Pay in 3](https://www.mollie.com/payments/klarna-pay-in-3/)), [Giftcard](https://www.mollie.com/payments/gift-cards/) and [Voucher](https://www.mollie.com/en/payments/meal-eco-gift-vouchers) online payments without fixed monthly costs or any punishing registration procedures. Just use the Mollie API to receive payments directly on your website or easily refund transactions to your customers.
 
 ## Requirements ##
@@ -21,7 +36,7 @@ To use the Mollie API client, the following things are required:
 + Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
 + Now you're ready to use the Mollie API client in test mode.
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
-+ PHP >= 7.4
++ PHP >= 8.2
 + cUrl >= 7.19.4
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 
@@ -47,6 +62,12 @@ $mollie->setToken("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 
 The `setToken` method automatically detects whether you're using an API key (`test_`/`live_`) or an OAuth access token (`access_`). You can also use `setApiKey()` or `setAccessToken()` directly if you prefer to be explicit.
 
+Or skip the boilerplate and pull credentials from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN`:
+
+```php
+$mollie = \Mollie\Api\MollieApiClient::fromEnv();
+```
+
 Find our full documentation online on [docs.mollie.com](https://docs.mollie.com).
 
 #### Example usage ####
@@ -54,13 +75,28 @@ Find our full documentation online on [docs.mollie.com](https://docs.mollie.com)
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 
-/** @var Mollie\Api\Resources\Payment $payment */
+// Return type is inferred — no @var needed in v4
 $payment = $mollie->send(new CreatePaymentRequest(
     description: 'My first API payment',
-    amount: new Money('EUR', '10.00'),
+    amount: new Money(currency: 'EUR', value: '10.00'),
     redirectUrl: 'https://webshop.example.org/order/12345/',
     webhookUrl: 'https://webshop.example.org/mollie-webhook/'
 ));
+```
+
+#### Working with typed resources ####
+
+```php
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\Types\PaymentStatus;
+
+$payment = $mollie->send(new GetPaymentRequest('tr_xxx'));
+// $payment is Mollie\Api\Resources\Payment
+// $payment->amount is Mollie\Api\Http\Data\Money
+
+if ($payment->status === PaymentStatus::Paid) {
+    echo "Paid {$payment->amount->value} {$payment->amount->currency}";
+}
 ```
 
 ## Documentation
@@ -107,6 +143,38 @@ These recipes are designed to help you integrate Mollie into your application. M
 ## Upgrading
 
 Please see [UPGRADING](UPGRADING.md) for details.
+
+## Testing
+
+The SDK ships a `MollieApiClient::fake()` helper so you don't need real HTTP calls. The test suite runs on Pest v3:
+
+```bash
+vendor/bin/pest --parallel
+```
+
+Use the typed `MockResponse` factories for terse, refactor-safe fixtures:
+
+```php
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Types\PaymentStatus;
+
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => MockResponse::payment(
+        id: 'tr_xxx',
+        status: PaymentStatus::Paid,
+        amount: new Money(currency: 'EUR', value: '10.00'),
+    ),
+]);
+
+$payment = $client->send(new GetPaymentRequest('tr_xxx'));
+
+$client->assertSent(GetPaymentRequest::class);
+```
+
+See [docs/testing.md](docs/testing.md) for the full reference.
 
 ## Contributing to Our API Client ##
 Would you like to contribute to improving our API client? We welcome [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr). But, if you're interested in contributing to a technology-focused organization, Mollie is actively recruiting developers and system engineers. Discover our current [job openings](https://jobs.mollie.com/) or [reach out](mailto:personeel@mollie.com).
