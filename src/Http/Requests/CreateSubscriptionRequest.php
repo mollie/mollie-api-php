@@ -16,6 +16,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Subscription>
  */
 class CreateSubscriptionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

@@ -9,6 +9,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/invoices-api/get-invoice
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Invoice>
  */
 class GetInvoiceRequest extends ResourceHydratableRequest
 {

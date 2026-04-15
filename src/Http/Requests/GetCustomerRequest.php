@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/customers-api/get-customer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Customer>
  */
 class GetCustomerRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/organizations-api/get-organization
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Organization>
  */
 class GetOrganizationRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

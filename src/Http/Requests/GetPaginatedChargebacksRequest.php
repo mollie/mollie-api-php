@@ -10,6 +10,9 @@ use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\ChargebackCollection>
+ */
 class GetPaginatedChargebacksRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

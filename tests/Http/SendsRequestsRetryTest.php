@@ -62,6 +62,8 @@ class SendsRequestsRetryTest extends TestCase
         $client->setAccessToken('access_test_token');
         $response = $client->send(new DynamicGetRequest('/'));
 
+        // Empty body short-circuits hydration — the response wrapper is returned directly.
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->status());
         $this->assertSame($attemptsToFail + 1, $adapter->attempts);
     }

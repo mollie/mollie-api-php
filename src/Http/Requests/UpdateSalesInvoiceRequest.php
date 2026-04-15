@@ -16,6 +16,9 @@ use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\SalesInvoice>
+ */
 class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;

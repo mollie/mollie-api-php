@@ -9,6 +9,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/settlements-api/get-settlement
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Settlement>
  */
 class GetSettlementRequest extends ResourceHydratableRequest
 {

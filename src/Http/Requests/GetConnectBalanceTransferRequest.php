@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\ConnectBalanceTransfer>
+ */
 class GetConnectBalanceTransferRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

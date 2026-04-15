@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Subscription>
  */
 class GetSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

@@ -12,6 +12,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/v2/captures-api/get-capture
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Capture>
  */
 class GetPaymentCaptureRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

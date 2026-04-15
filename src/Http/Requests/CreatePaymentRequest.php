@@ -19,6 +19,8 @@ use Mollie\Api\Types\PaymentQuery;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payments-api/create-payment
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payment>
  */
 class CreatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

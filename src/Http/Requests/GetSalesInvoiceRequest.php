@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/get-sales-invoice
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\SalesInvoice>
  */
 class GetSalesInvoiceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

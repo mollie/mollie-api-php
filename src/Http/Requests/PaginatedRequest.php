@@ -6,6 +6,11 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Types\Method;
 
+/**
+ * @template TResource of object
+ *
+ * @extends ResourceHydratableRequest<TResource>
+ */
 abstract class PaginatedRequest extends ResourceHydratableRequest
 {
     /**

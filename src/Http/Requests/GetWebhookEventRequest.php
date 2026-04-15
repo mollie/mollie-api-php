@@ -9,6 +9,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/get-webhook-event
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\WebhookEvent>
  */
 class GetWebhookEventRequest extends ResourceHydratableRequest
 {

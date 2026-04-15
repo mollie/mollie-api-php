@@ -12,6 +12,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/customers-api/create-customer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Customer>
  */
 class CreateCustomerRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

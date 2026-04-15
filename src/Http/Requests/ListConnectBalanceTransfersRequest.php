@@ -9,6 +9,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\ConnectBalanceTransferCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends SortablePaginatedRequest<\Mollie\Api\Resources\ConnectBalanceTransferCollection>
+ */
 class ListConnectBalanceTransfersRequest extends SortablePaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/profiles-api/get-current-profile
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\CurrentProfile>
  */
 class GetCurrentProfileRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

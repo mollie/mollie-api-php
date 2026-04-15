@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/permissions-api/get-permission
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Permission>
  */
 class GetPermissionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

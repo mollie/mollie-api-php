@@ -10,6 +10,9 @@ use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\RefundCollection>
+ */
 class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

@@ -9,6 +9,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\BalanceReport;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\BalanceReport>
+ */
 class GetBalanceReportRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**

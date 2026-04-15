@@ -11,6 +11,8 @@ use Mollie\Api\Types\MethodQuery;
 
 /**
  * @see https://docs.mollie.com/reference/v2/methods-api/get-method
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Method>
  */
 class GetMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

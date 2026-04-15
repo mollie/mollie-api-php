@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\SettlementCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\SettlementCollection>
+ */
 class GetPaginatedSettlementsRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;

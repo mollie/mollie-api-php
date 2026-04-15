@@ -10,6 +10,9 @@ use Mollie\Api\Resources\SubscriptionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\SubscriptionCollection>
+ */
 class GetAllPaginatedSubscriptionsRequest extends ResourceHydratableRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

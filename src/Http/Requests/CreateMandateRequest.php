@@ -14,6 +14,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/mandates-api/create-mandate
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Mandate>
  */
 class CreateMandateRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

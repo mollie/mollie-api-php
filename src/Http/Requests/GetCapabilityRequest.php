@@ -7,6 +7,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\Capability;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Capability>
+ */
 class GetCapabilityRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;

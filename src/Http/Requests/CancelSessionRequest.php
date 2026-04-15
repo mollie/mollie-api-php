@@ -7,6 +7,9 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Session>
+ */
 class CancelSessionRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::DELETE;

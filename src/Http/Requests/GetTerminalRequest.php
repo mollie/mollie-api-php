@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/terminals-api/get-terminal
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Terminal>
  */
 class GetTerminalRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

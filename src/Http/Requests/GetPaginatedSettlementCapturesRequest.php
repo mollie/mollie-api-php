@@ -11,6 +11,9 @@ use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\CaptureCollection>
+ */
 class GetPaginatedSettlementCapturesRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

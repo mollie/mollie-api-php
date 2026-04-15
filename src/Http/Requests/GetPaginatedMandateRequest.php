@@ -9,6 +9,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\MandateCollection>
+ */
 class GetPaginatedMandateRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

@@ -14,6 +14,8 @@ use Mollie\Api\Utils\Utility;
 
 /**
  * @see https://docs.mollie.com/reference/v2/webhooks-api/update-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Webhook>
  */
 class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

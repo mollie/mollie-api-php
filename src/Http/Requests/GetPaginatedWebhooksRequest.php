@@ -10,6 +10,9 @@ use Mollie\Api\Resources\WebhookCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @extends SortablePaginatedRequest<\Mollie\Api\Resources\WebhookCollection>
+ */
 class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;

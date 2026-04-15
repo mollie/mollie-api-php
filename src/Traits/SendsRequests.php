@@ -11,6 +11,7 @@ use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Utils\DataTransformer;
 
@@ -40,7 +41,18 @@ trait SendsRequests
     }
 
     /**
-     * @return mixed
+     * Send a request and return the hydrated resource (for {@see ResourceHydratableRequest})
+     * or the raw response payload for other requests.
+     *
+     * Static analysers infer the concrete resource type via the `TResource`
+     * template bound on each concrete request class (see
+     * `@extends ResourceHydratableRequest<Payment>` on `GetPaymentRequest`
+     * for example). Requests that are not hydratable return `null`.
+     *
+     * @template TResource of object
+     *
+     * @param  ResourceHydratableRequest<TResource>|Request  $request
+     * @return ($request is ResourceHydratableRequest<TResource> ? TResource : mixed)
      */
     public function send(Request $request)
     {

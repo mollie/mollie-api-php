@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/get-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Webhook>
  */
 class GetWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

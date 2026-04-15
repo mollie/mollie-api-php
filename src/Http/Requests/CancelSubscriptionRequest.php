@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/subscriptions-api/cancel-subscription
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Subscription>
  */
 class CancelSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {

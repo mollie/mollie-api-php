@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\RouteCollection;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\RouteCollection>
+ */
 class ListPaymentRoutesRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;

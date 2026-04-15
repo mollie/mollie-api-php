@@ -11,6 +11,8 @@ use Mollie\Api\Types\PaymentIncludesQuery;
 
 /**
  * @see https://docs.mollie.com/reference/v2/refunds-api/get-refund
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Refund>
  */
 class GetPaymentRefundRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

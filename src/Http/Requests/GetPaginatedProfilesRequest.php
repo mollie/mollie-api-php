@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\ProfileCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\ProfileCollection>
+ */
 class GetPaginatedProfilesRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;

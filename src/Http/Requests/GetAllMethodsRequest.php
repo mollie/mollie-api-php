@@ -12,6 +12,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/list-all-methods
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\MethodCollection>
  */
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {

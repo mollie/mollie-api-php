@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/profiles-api/update-profile
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Profile>
  */
 class UpdateProfileRequest extends ResourceHydratableRequest implements HasPayload
 {

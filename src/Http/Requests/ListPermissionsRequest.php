@@ -9,6 +9,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/permissions-api/list-permissions
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\PermissionCollection>
  */
 class ListPermissionsRequest extends ResourceHydratableRequest
 {

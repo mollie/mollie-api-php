@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\InvoiceCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\InvoiceCollection>
+ */
 class GetPaginatedInvoiceRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;

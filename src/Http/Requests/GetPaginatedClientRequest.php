@@ -10,6 +10,9 @@ use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\ClientQuery;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\ClientCollection>
+ */
 class GetPaginatedClientRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;

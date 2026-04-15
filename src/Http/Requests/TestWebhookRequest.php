@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/test-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\AnyResource>
  */
 class TestWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {

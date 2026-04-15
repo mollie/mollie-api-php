@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payments-api/cancel-payment
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payment>
  */
 class CancelPaymentRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {

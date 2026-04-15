@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/profiles-api/create-profile
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Profile>
  */
 class CreateProfileRequest extends ResourceHydratableRequest implements HasPayload
 {

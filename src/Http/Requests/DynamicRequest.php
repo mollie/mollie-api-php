@@ -6,6 +6,9 @@ namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\AnyResource;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\AnyResource>
+ */
 abstract class DynamicRequest extends ResourceHydratableRequest
 {
     protected ?string $hydratableResource = AnyResource::class;

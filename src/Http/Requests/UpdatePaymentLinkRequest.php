@@ -15,6 +15,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payment-links-api/update-payment-link
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\PaymentLink>
  */
 class UpdatePaymentLinkRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

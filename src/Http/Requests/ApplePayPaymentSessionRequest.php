@@ -9,6 +9,9 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\AnyResource>
+ */
 class ApplePayPaymentSessionRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

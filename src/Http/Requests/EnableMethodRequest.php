@@ -9,6 +9,8 @@ use Mollie\Api\Types\Method as HttpMethod;
 
 /**
  * @see https://docs.mollie.com/reference/enable-method
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Method>
  */
 class EnableMethodRequest extends ResourceHydratableRequest
 {

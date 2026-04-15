@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/customers-api/update-customer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Customer>
  */
 class UpdateCustomerRequest extends ResourceHydratableRequest implements HasPayload
 {

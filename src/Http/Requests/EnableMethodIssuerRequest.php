@@ -11,6 +11,8 @@ use Mollie\Api\Types\Method as HttpMethod;
 
 /**
  * @see https://docs.mollie.com/reference/enable-method-issuer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Issuer>
  */
 class EnableMethodIssuerRequest extends ResourceHydratableRequest implements HasPayload
 {

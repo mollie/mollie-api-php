@@ -21,6 +21,8 @@ use Mollie\Api\Types\VatScheme;
 
 /**
  * @see https://docs.mollie.com/reference/create-sales-invoice
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\SalesInvoice>
  */
 class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

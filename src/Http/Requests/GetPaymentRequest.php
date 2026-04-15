@@ -12,6 +12,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payments-api/get-payment
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payment>
  */
 class GetPaymentRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

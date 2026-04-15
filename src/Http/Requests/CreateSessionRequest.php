@@ -11,6 +11,9 @@ use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\CheckoutFlow;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Session>
+ */
 class CreateSessionRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

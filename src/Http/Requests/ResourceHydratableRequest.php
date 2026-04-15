@@ -7,10 +7,15 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\WrapperResource;
 
+/**
+ * @template TResource of object
+ */
 abstract class ResourceHydratableRequest extends Request
 {
     /**
      * The original resource class the request should be hydrated into.
+     *
+     * @var class-string<TResource>|null
      */
     protected ?string $hydratableResource = null;
 

@@ -16,6 +16,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\MethodCollection>
  */
 class GetEnabledMethodsRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

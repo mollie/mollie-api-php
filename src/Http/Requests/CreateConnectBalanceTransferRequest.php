@@ -12,6 +12,9 @@ use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\ConnectBalanceTransfer>
+ */
 class CreateConnectBalanceTransferRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;

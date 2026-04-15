@@ -8,6 +8,9 @@ use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\BalanceTransactionCollection>
+ */
 class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;

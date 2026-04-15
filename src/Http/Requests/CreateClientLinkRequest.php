@@ -11,6 +11,9 @@ use Mollie\Api\Resources\ClientLink;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\ClientLink>
+ */
 class CreateClientLinkRequest extends ResourceHydratableRequest implements HasPayload
 {
     use HasJsonPayload;

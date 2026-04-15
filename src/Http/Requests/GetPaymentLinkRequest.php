@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payment-links-api/get-payment-link
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\PaymentLink>
  */
 class GetPaymentLinkRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

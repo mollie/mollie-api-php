@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/balances-api/get-balance
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Balance>
  */
 class GetBalanceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {

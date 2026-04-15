@@ -13,6 +13,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/captures-api/create-capture
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Capture>
  */
 class CreatePaymentCaptureRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

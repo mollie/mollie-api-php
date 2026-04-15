@@ -14,6 +14,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/refunds-api/create-refund
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Refund>
  */
 class CreatePaymentRefundRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {

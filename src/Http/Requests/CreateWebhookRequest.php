@@ -13,6 +13,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/create-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Webhook>
  */
 class CreateWebhookRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
