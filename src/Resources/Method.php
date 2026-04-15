@@ -4,45 +4,35 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Types\PaymentMethodStatus;
+
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
 class Method extends BaseResource
 {
-    /**
-     * Id of the payment method.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
      * More legible description of the payment method.
-     *
-     * @var string
      */
-    public $description;
+    public string $description;
 
     /**
-     * An object containing value and currency. It represents the minimum payment amount required to use this
-     * payment method.
-     *
-     * @var \stdClass
+     * Minimum payment amount allowed when using this payment method.
      */
-    public $minimumAmount;
+    public ?Money $minimumAmount = null;
 
     /**
-     * An object containing value and currency. It represents the maximum payment amount allowed when using this
-     * payment method.
-     *
-     * @var \stdClass
+     * Maximum payment amount allowed when using this payment method.
      */
-    public $maximumAmount;
+    public ?Money $maximumAmount = null;
 
     /**
      * The $image->size1x and $image->size2x to display the payment method logo.
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $image;
 
@@ -50,37 +40,31 @@ class Method extends BaseResource
      * The issuers available for this payment method. Only for the methods iDEAL, KBC/CBC and gift cards.
      * Will only be filled when explicitly requested using the query string `include` parameter.
      *
-     * @var array|object[]
+     * @var array|null
      */
-    public $issuers;
+    public ?array $issuers = null;
 
     /**
      * The pricing for this payment method. Will only be filled when explicitly requested using the query string
      * `include` parameter.
      *
-     * @var array|object[]
+     * @var array|null
      */
-    public $pricing;
+    public ?array $pricing = null;
 
     /**
      * The activation status the method is in.
-     * If the method has status "null", this value will be returned as a null value, not as a string.
-     *
-     * @var string | null
      */
-    public $status;
+    public PaymentMethodStatus|string|null $status = null;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 
-    /**
-     * Get the issuer value objects
-     */
     public function issuers(): IssuerCollection
     {
-        /** @var IssuerCollection */
+        /** @var IssuerCollection $collection */
         $collection = ResourceFactory::createCollection(
             $this->connector,
             IssuerCollection::class
@@ -90,7 +74,7 @@ class Method extends BaseResource
             return $collection;
         }
 
-        /** @var IssuerCollection */
+        /** @var IssuerCollection $collection */
         $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->issuers,
@@ -100,12 +84,9 @@ class Method extends BaseResource
         return $collection;
     }
 
-    /**
-     * Get the method price value objects.
-     */
     public function pricing(): MethodPriceCollection
     {
-        /** @var MethodPriceCollection */
+        /** @var MethodPriceCollection $collection */
         $collection = ResourceFactory::createCollection(
             $this->connector,
             MethodPriceCollection::class
@@ -115,7 +96,7 @@ class Method extends BaseResource
             return $collection;
         }
 
-        /** @var MethodPriceCollection */
+        /** @var MethodPriceCollection $collection */
         $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->pricing,

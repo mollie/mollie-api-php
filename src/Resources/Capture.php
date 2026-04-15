@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Traits\HasMode;
 
 /**
@@ -13,92 +14,59 @@ class Capture extends BaseResource
 {
     use HasMode;
 
-    /**
-     * Always 'capture' for this object
-     *
-     * @var string
-     */
-    public $resource;
-
-    /**
-     * Id of the capture
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
      * Mode of the capture, either "live" or "test" depending on the API Key that was used.
-     *
-     * @var string
      */
-    public $mode;
+    public string $mode;
 
     /**
      * Description of the capture.
-     *
-     * @var string
      */
-    public $description;
+    public ?string $description = null;
 
     /**
      * Status of the capture.
-     *
-     * @var string
      */
-    public $status;
+    public ?string $status = null;
 
     /**
-     * Amount object containing the value and currency
-     *
-     * @var \stdClass
+     * Amount object containing the value and currency.
      */
-    public $amount;
+    public Money $amount;
 
     /**
-     * Amount object containing the settlement value and currency
-     *
-     * @var \stdClass
+     * Amount object containing the settlement value and currency.
      */
-    public $settlementAmount;
+    public ?Money $settlementAmount = null;
 
     /**
      * Id of the capture's payment (on the Mollie platform).
-     *
-     * @var string
      */
-    public $paymentId;
+    public string $paymentId;
 
     /**
      * Id of the capture's shipment (on the Mollie platform).
-     *
-     * @var string
      */
-    public $shipmentId;
+    public ?string $shipmentId = null;
 
     /**
      * Id of the capture's settlement (on the Mollie platform).
-     *
-     * @var string
      */
-    public $settlementId;
+    public ?string $settlementId = null;
 
     /**
      * Provide any data you like, for example a string or a JSON object. The data will be saved alongside the capture.
-     * Whenever you fetch the capture, the metadata will be included.
-     * You can use up to approximately 1kB on this field.
      *
      * @var \stdClass|mixed|null
      */
     public $metadata;
 
-    /**
-     * @var string
-     */
-    public $createdAt;
+    public ?string $createdAt = null;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 }

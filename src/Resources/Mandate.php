@@ -14,75 +14,52 @@ class Mandate extends BaseResource
 {
     use HasMode;
 
-    /**
-     * @var string
-     */
-    public $id;
+    public string $id;
 
-    /**
-     * @var string
-     */
-    public $status;
+    public MandateStatus|string|null $status = null;
 
-    /**
-     * @var string
-     */
-    public $mode;
+    public string $mode;
 
-    /**
-     * @var string
-     */
-    public $method;
+    public ?string $method = null;
 
     /**
      * @var \stdClass|null
      */
     public $details;
 
-    /**
-     * @var string|null
-     */
-    public $customerId;
+    public ?string $customerId = null;
+
+    public ?string $createdAt = null;
+
+    public ?string $mandateReference = null;
 
     /**
-     * @var string
+     * Date of signature, for example: 2018-05-07.
      */
-    public $createdAt;
+    public ?string $signatureDate = null;
 
     /**
-     * @var string
-     */
-    public $mandateReference;
-
-    /**
-     * Date of signature, for example: 2018-05-07
-     *
-     * @var string
-     */
-    public $signatureDate;
-
-    /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 
     public function isValid(): bool
     {
-        return $this->status === MandateStatus::Valid->value;
+        return $this->status === MandateStatus::Valid;
     }
 
     public function isPending(): bool
     {
-        return $this->status === MandateStatus::Pending->value;
+        return $this->status === MandateStatus::Pending;
     }
 
     public function isInvalid(): bool
     {
-        return $this->status === MandateStatus::Invalid->value;
+        return $this->status === MandateStatus::Invalid;
     }
 
     /**
-     * Revoke the mandate
+     * Revoke the mandate.
      */
     public function revoke(): void
     {
