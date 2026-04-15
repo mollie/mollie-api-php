@@ -28,7 +28,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->with([
                 'resource' => 'payment',
                 'id' => 'tr_foobarfoobar',
-                'status' => PaymentStatus::PAID,
+                'status' => PaymentStatus::Paid->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -40,7 +40,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals([
             'resource' => 'payment',
             'id' => 'tr_foobarfoobar',
-            'status' => PaymentStatus::PAID,
+            'status' => PaymentStatus::Paid->value,
             'amount' => [
                 'currency' => 'EUR',
                 'value' => '14.52',
@@ -58,7 +58,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->with([
                 'resource' => 'payment',
                 'id' => 'tr_foobarfoobar',
-                'status' => PaymentStatus::PAID,
+                'status' => PaymentStatus::Paid->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -71,7 +71,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->add([
                 'resource' => 'refund',
                 'id' => 're_cFiJjuLhSw',
-                'status' => RefundStatus::REFUNDED,
+                'status' => RefundStatus::Refunded->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -84,7 +84,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals([
             'resource' => 'payment',
             'id' => 'tr_foobarfoobar',
-            'status' => PaymentStatus::PAID,
+            'status' => PaymentStatus::Paid->value,
             'amount' => [
                 'currency' => 'EUR',
                 'value' => '14.52',
@@ -97,7 +97,7 @@ class ResourceResponseBuilderTest extends TestCase
                     [
                         'resource' => 'refund',
                         'id' => 're_cFiJjuLhSw',
-                        'status' => RefundStatus::REFUNDED,
+                        'status' => RefundStatus::Refunded->value,
                         'amount' => [
                             'currency' => 'EUR',
                             'value' => '14.52',
@@ -125,12 +125,12 @@ class ResourceResponseBuilderTest extends TestCase
                 [
                     'resource' => 'refund',
                     'id' => 're_1',
-                    'status' => RefundStatus::REFUNDED,
+                    'status' => RefundStatus::Refunded->value,
                 ],
                 [
                     'resource' => 'refund',
                     'id' => 're_2',
-                    'status' => RefundStatus::PENDING,
+                    'status' => RefundStatus::Pending->value,
                 ],
             ])
             ->create();
@@ -156,7 +156,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->add([
                 'resource' => 'refund',
                 'id' => 're_1',
-                'status' => RefundStatus::REFUNDED,
+                'status' => RefundStatus::Refunded->value,
             ])
             ->embed(ChargebackCollection::class)
             ->add([

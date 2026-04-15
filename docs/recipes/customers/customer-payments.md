@@ -21,7 +21,7 @@ try {
             metadata: [
                 'order_id' => '12345'
             ],
-            sequenceType: SequenceType::FIRST // This creates a mandate for future payments
+            sequenceType: SequenceType::First // This creates a mandate for future payments
         )
     );
 
@@ -50,7 +50,7 @@ try {
             metadata: [
                 'order_id' => '12346'
             ],
-            sequenceType: SequenceType::RECURRING // This uses the mandate created by the first payment
+            sequenceType: SequenceType::Recurring // This uses the mandate created by the first payment
         )
     );
 

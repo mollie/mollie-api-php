@@ -40,13 +40,13 @@ class CreateSalesInvoiceRequestTest extends TestCase
         // Create a sales invoice
         $request = new CreateSalesInvoiceRequest(
             'EUR',
-            SalesInvoiceStatus::DRAFT,
-            VatScheme::STANDARD,
-            VatMode::INCLUSIVE,
-            PaymentTerm::DAYS_30,
+            SalesInvoiceStatus::Draft->value,
+            VatScheme::Standard->value,
+            VatMode::Inclusive->value,
+            PaymentTerm::Days30->value,
             'XXXXX',
             new Recipient(
-                RecipientType::CONSUMER,
+                RecipientType::Consumer->value,
                 'darth@vader.deathstar',
                 'Sample Street 12b',
                 '2000 AA',
@@ -69,12 +69,12 @@ class CreateSalesInvoiceRequestTest extends TestCase
     {
         $request = new CreateSalesInvoiceRequest(
             'EUR',
-            SalesInvoiceStatus::DRAFT,
-            VatScheme::STANDARD,
-            VatMode::INCLUSIVE,
-            PaymentTerm::DAYS_30,
+            SalesInvoiceStatus::Draft->value,
+            VatScheme::Standard->value,
+            VatMode::Inclusive->value,
+            PaymentTerm::Days30->value,
             'XXXXX',
-            new Recipient(RecipientType::CONSUMER, 'darth@vader.deathstar', 'Sample Street 12b', '2000 AA', 'Amsterdam', 'NL', 'nl_NL'),
+            new Recipient(RecipientType::Consumer->value, 'darth@vader.deathstar', 'Sample Street 12b', '2000 AA', 'Amsterdam', 'NL', 'nl_NL'),
             new DataCollection([new InvoiceLine('Monthly subscription fee', 1, '21', new Money('EUR', '10,00'))])
         );
 

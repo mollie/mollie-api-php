@@ -68,17 +68,17 @@ class Mandate extends BaseResource
 
     public function isValid(): bool
     {
-        return $this->status === MandateStatus::VALID;
+        return $this->status === MandateStatus::Valid->value;
     }
 
     public function isPending(): bool
     {
-        return $this->status === MandateStatus::PENDING;
+        return $this->status === MandateStatus::Pending->value;
     }
 
     public function isInvalid(): bool
     {
-        return $this->status === MandateStatus::INVALID;
+        return $this->status === MandateStatus::Invalid->value;
     }
 
     /**

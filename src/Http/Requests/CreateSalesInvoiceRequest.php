@@ -34,11 +34,11 @@ class CreateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     private string $status;
 
-    private string $vatScheme = VatScheme::STANDARD;
+    private string $vatScheme = VatScheme::Standard->value;
 
-    private string $vatMode = VatMode::EXCLUSIVE;
+    private string $vatMode = VatMode::Exclusive->value;
 
-    private string $paymentTerm = PaymentTerm::DAYS_30;
+    private string $paymentTerm = PaymentTerm::Days30->value;
 
     public string $recipientIdentifier;
 

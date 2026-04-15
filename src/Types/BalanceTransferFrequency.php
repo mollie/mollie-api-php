@@ -4,27 +4,17 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class BalanceTransferFrequency
+enum BalanceTransferFrequency: string
 {
-    const DAILY = 'daily';
-
-    const TWICE_A_WEEK = 'twice-a-week';
-
-    const EVERY_MONDAY = 'every-monday';
-
-    const EVERY_TUESDAY = 'every-tuesday';
-
-    const EVERY_WEDNESDAY = 'every-wednesday';
-
-    const EVERY_THURSDAY = 'every-thursday';
-
-    const EVERY_FRIDAY = 'every-friday';
-
-    const EVERY_SATURDAY = 'every-saturday';
-
-    const EVERY_SUNDAY = 'every-sunday';
-
-    const TWICE_A_MONTH = 'twice-a-month';
-
-    const NEVER = 'never';
+    case Daily = 'daily';
+    case TwiceAWeek = 'twice-a-week';
+    case EveryMonday = 'every-monday';
+    case EveryTuesday = 'every-tuesday';
+    case EveryWednesday = 'every-wednesday';
+    case EveryThursday = 'every-thursday';
+    case EveryFriday = 'every-friday';
+    case EverySaturday = 'every-saturday';
+    case EverySunday = 'every-sunday';
+    case TwiceAMonth = 'twice-a-month';
+    case Never = 'never';
 }

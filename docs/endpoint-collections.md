@@ -213,7 +213,7 @@ $invoices = $mollie->invoices->page(
 ```php
 // Create a mandate for a customer
 $mandate = $mollie->mandates->createFor($customer, [
-    'method' => \Mollie\Api\Types\PaymentMethod::DIRECTDEBIT,
+    'method' => \Mollie\Api\Types\PaymentMethod::Directdebit,
     'consumerName' => 'John Doe',
     'consumerAccount' => 'NL55INGB0000000000',
     'consumerBic' => 'INGBNL2A',
@@ -239,7 +239,7 @@ $mandates = $mollie->mandates->pageFor($customer);
 
 ```php
 // Get a method
-$method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL);
+$method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::Ideal);
 
 // List all methods
 $methods = $mollie->methods->all();
@@ -259,14 +259,14 @@ $methods = $mollie->methods->allEnabled([
 // Enable an issuer
 $issuer = $mollie->methodIssuers->enable(
     'pfl_v9hTwCvYqw',
-    \Mollie\Api\Types\PaymentMethod::IDEAL,
+    \Mollie\Api\Types\PaymentMethod::Ideal,
     'ideal_INGBNL2A'
 );
 
 // Disable an issuer
 $mollie->methodIssuers->disable(
     'pfl_v9hTwCvYqw',
-    \Mollie\Api\Types\PaymentMethod::IDEAL,
+    \Mollie\Api\Types\PaymentMethod::Ideal,
     'ideal_INGBNL2A'
 );
 ```
@@ -426,13 +426,13 @@ $profiles = $mollie->profiles->page();
 // Enable a method
 $method = $mollie->profileMethods->enable(
     'pfl_v9hTwCvYqw',
-    \Mollie\Api\Types\PaymentMethod::IDEAL
+    \Mollie\Api\Types\PaymentMethod::Ideal
 );
 
 // Disable a method
 $mollie->profileMethods->disable(
     'pfl_v9hTwCvYqw',
-    \Mollie\Api\Types\PaymentMethod::IDEAL
+    \Mollie\Api\Types\PaymentMethod::Ideal
 );
 ```
 
@@ -473,13 +473,13 @@ use Mollie\Api\Types\SalesInvoiceStatus;
 // Create a sales invoice
 $salesInvoice = $mollie->salesInvoices->create([
     'currency' => 'EUR',
-    'status' => SalesInvoiceStatus::DRAFT,
-    'vatScheme' => VatScheme::STANDARD,
-    'vatMode' => VatMode::INCLUSIVE,
-    'paymentTerm' => PaymentTerm::DAYS_30,
+    'status' => SalesInvoiceStatus::Draft,
+    'vatScheme' => VatScheme::Standard,
+    'vatMode' => VatMode::Inclusive,
+    'paymentTerm' => PaymentTerm::Days30,
     'recipientIdentifier' => 'XXXXX',
     'recipient' => [
-        'type' => RecipientType::CONSUMER,
+        'type' => RecipientType::Consumer,
         'email' => 'darth@vader.deathstar',
         'streetAndNumber' => 'Sample Street 12b',
         'postalCode' => '2000 AA',

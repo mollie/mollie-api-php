@@ -28,21 +28,21 @@ class MandateCollectionTest extends TestCase
     public function test_where_status()
     {
         $collection = new MandateCollection($this->client, [
-            $this->getMandateWithStatus(MandateStatus::VALID),
-            $this->getMandateWithStatus(MandateStatus::VALID),
-            $this->getMandateWithStatus(MandateStatus::VALID),
-            $this->getMandateWithStatus(MandateStatus::INVALID),
-            $this->getMandateWithStatus(MandateStatus::INVALID),
-            $this->getMandateWithStatus(MandateStatus::PENDING),
+            $this->getMandateWithStatus(MandateStatus::Valid->value),
+            $this->getMandateWithStatus(MandateStatus::Valid->value),
+            $this->getMandateWithStatus(MandateStatus::Valid->value),
+            $this->getMandateWithStatus(MandateStatus::Invalid->value),
+            $this->getMandateWithStatus(MandateStatus::Invalid->value),
+            $this->getMandateWithStatus(MandateStatus::Pending->value),
         ]);
 
         $response = $this->createMock(Response::class);
 
         $collection->setResponse($response);
 
-        $valid = $collection->whereStatus(MandateStatus::VALID);
-        $invalid = $collection->whereStatus(MandateStatus::INVALID);
-        $pending = $collection->whereStatus(MandateStatus::PENDING);
+        $valid = $collection->whereStatus(MandateStatus::Valid->value);
+        $invalid = $collection->whereStatus(MandateStatus::Invalid->value);
+        $pending = $collection->whereStatus(MandateStatus::Pending->value);
 
         $this->assertInstanceOf(MandateCollection::class, $collection);
         $this->assertInstanceOf(MandateCollection::class, $valid);

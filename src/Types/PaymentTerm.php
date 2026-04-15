@@ -4,19 +4,13 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class PaymentTerm
+enum PaymentTerm: string
 {
-    const DAYS_7 = '7 days';
-
-    const DAYS_14 = '14 days';
-
-    const DAYS_30 = '30 days';
-
-    const DAYS_45 = '45 days';
-
-    const DAYS_60 = '60 days';
-
-    const DAYS_90 = '90 days';
-
-    const DAYS_120 = '120 days';
+    case Days7 = '7 days';
+    case Days14 = '14 days';
+    case Days30 = '30 days';
+    case Days45 = '45 days';
+    case Days60 = '60 days';
+    case Days90 = '90 days';
+    case Days120 = '120 days';
 }

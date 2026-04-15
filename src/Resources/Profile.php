@@ -88,17 +88,17 @@ class Profile extends BaseResource
 
     public function isUnverified(): bool
     {
-        return $this->status === ProfileStatus::UNVERIFIED;
+        return $this->status === ProfileStatus::Unverified->value;
     }
 
     public function isVerified(): bool
     {
-        return $this->status === ProfileStatus::VERIFIED;
+        return $this->status === ProfileStatus::Verified->value;
     }
 
     public function isBlocked(): bool
     {
-        return $this->status === ProfileStatus::BLOCKED;
+        return $this->status === ProfileStatus::Blocked->value;
     }
 
     /**

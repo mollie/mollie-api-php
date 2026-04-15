@@ -47,7 +47,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
     private bool $filtersNullStatus = true;
 
     public function __construct(
-        string $sequenceType = SequenceType::ONEOFF,
+        string $sequenceType = SequenceType::Oneoff->value,
         string $resource = MethodQuery::RESOURCE_PAYMENTS,
         ?string $locale = null,
         ?Money $amount = null,

@@ -44,7 +44,7 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
         $this->amount = $amount;
         $this->description = $description;
         $this->paymentMethod = $method;
-        $this->checkoutFlow = $checkoutFlow ?? CheckoutFlow::EXPRESS;
+        $this->checkoutFlow = $checkoutFlow ?? CheckoutFlow::Express->value;
     }
 
     protected function defaultPayload(): array

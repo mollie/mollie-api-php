@@ -33,7 +33,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
                 'org_87654321',
                 'Payment to Organization B'
             ),
-            ConnectBalanceTransferCategory::MANUAL_CORRECTION,
+            ConnectBalanceTransferCategory::ManualCorrection->value,
             [
                 'order_id' => '12345',
                 'description' => 'Manual correction for order',
@@ -61,7 +61,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
                 'org_87654321',
                 'Payment to Organization B'
             ),
-            ConnectBalanceTransferCategory::PURCHASE
+            ConnectBalanceTransferCategory::Purchase->value
         );
 
         $this->assertEquals('connect/balance-transfers', $request->resolveResourcePath());

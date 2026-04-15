@@ -139,7 +139,7 @@ class Subscription extends BaseResource
      */
     public function isActive(): bool
     {
-        return $this->status === SubscriptionStatus::ACTIVE;
+        return $this->status === SubscriptionStatus::Active->value;
     }
 
     /**
@@ -147,7 +147,7 @@ class Subscription extends BaseResource
      */
     public function isPending(): bool
     {
-        return $this->status === SubscriptionStatus::PENDING;
+        return $this->status === SubscriptionStatus::Pending->value;
     }
 
     /**
@@ -155,7 +155,7 @@ class Subscription extends BaseResource
      */
     public function isCanceled(): bool
     {
-        return $this->status === SubscriptionStatus::CANCELED;
+        return $this->status === SubscriptionStatus::Canceled->value;
     }
 
     /**
@@ -163,7 +163,7 @@ class Subscription extends BaseResource
      */
     public function isSuspended(): bool
     {
-        return $this->status === SubscriptionStatus::SUSPENDED;
+        return $this->status === SubscriptionStatus::Suspended->value;
     }
 
     /**
@@ -171,7 +171,7 @@ class Subscription extends BaseResource
      */
     public function isCompleted(): bool
     {
-        return $this->status === SubscriptionStatus::COMPLETED;
+        return $this->status === SubscriptionStatus::Completed->value;
     }
 
     /**

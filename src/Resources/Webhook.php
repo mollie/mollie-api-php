@@ -98,22 +98,22 @@ class Webhook extends BaseResource
 
     public function enabled(): bool
     {
-        return $this->status === WebhookStatus::ENABLED;
+        return $this->status === WebhookStatus::Enabled->value;
     }
 
     public function disabled(): bool
     {
-        return $this->status === WebhookStatus::DISABLED;
+        return $this->status === WebhookStatus::Disabled->value;
     }
 
     public function blocked(): bool
     {
-        return $this->status === WebhookStatus::BLOCKED;
+        return $this->status === WebhookStatus::Blocked->value;
     }
 
     public function deleted(): bool
     {
-        return $this->status === WebhookStatus::DELETED;
+        return $this->status === WebhookStatus::Deleted->value;
     }
 
     /**

@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-use Mollie\Api\Traits\GetAllConstants;
-
-class SubscriptionStatus
+enum SubscriptionStatus: string
 {
-    use GetAllConstants;
+    case Active = 'active';
+    case Pending = 'pending';
+    case Canceled = 'canceled';
+    case Suspended = 'suspended';
+    case Completed = 'completed';
 
-    public const ACTIVE = 'active';
-
-    public const PENDING = 'pending';   // Waiting for a valid mandate.
-
-    public const CANCELED = 'canceled';
-
-    public const SUSPENDED = 'suspended'; // Active, but mandate became invalid.
-
-    public const COMPLETED = 'completed';
+    /**
+     * Returns all values of the enum (backwards compatibility for GetAllConstants::all()).
+     *
+     * @return list<string>
+     */
+    public static function all(): array
+    {
+        return array_map(fn (self $case) => $case->value, self::cases());
+    }
 }

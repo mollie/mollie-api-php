@@ -4,25 +4,10 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class WebhookStatus
+enum WebhookStatus: string
 {
-    /**
-     * The webhook is enabled and will receive events.
-     */
-    public const ENABLED = 'enabled';
-
-    /**
-     * The webhook is blocked and will not receive events.
-     */
-    public const BLOCKED = 'blocked';
-
-    /**
-     * The webhook is disabled and will not receive events.
-     */
-    public const DISABLED = 'disabled';
-
-    /**
-     * The webhook is deleted and will not receive events.
-     */
-    public const DELETED = 'deleted';
+    case Enabled = 'enabled';
+    case Blocked = 'blocked';
+    case Disabled = 'disabled';
+    case Deleted = 'deleted';
 }

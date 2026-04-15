@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class InvoiceStatus
+enum InvoiceStatus: string
 {
     /**
      * The invoice is not paid yet.
      */
-    public const OPEN = 'open';
+    case Open = 'open';
 
     /**
      * The invoice is paid.
      */
-    public const PAID = 'paid';
+    case Paid = 'paid';
 
     /**
      * Payment of the invoice is overdue.
      */
-    public const OVERDUE = 'overdue';
+    case Overdue = 'overdue';
 }

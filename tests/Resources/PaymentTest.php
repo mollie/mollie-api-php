@@ -32,53 +32,53 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
     public function dpTestPaymentStatuses()
     {
         return [
-            [PaymentStatus::PENDING, 'isPending', true],
-            [PaymentStatus::PENDING, 'isAuthorized', false],
-            [PaymentStatus::PENDING, 'isFailed', false],
-            [PaymentStatus::PENDING, 'isOpen', false],
-            [PaymentStatus::PENDING, 'isCanceled', false],
-            [PaymentStatus::PENDING, 'isPaid', false],
-            [PaymentStatus::PENDING, 'isExpired', false],
+            [PaymentStatus::Pending->value, 'isPending', true],
+            [PaymentStatus::Pending->value, 'isAuthorized', false],
+            [PaymentStatus::Pending->value, 'isFailed', false],
+            [PaymentStatus::Pending->value, 'isOpen', false],
+            [PaymentStatus::Pending->value, 'isCanceled', false],
+            [PaymentStatus::Pending->value, 'isPaid', false],
+            [PaymentStatus::Pending->value, 'isExpired', false],
 
-            [PaymentStatus::AUTHORIZED, 'isPending', false],
-            [PaymentStatus::AUTHORIZED, 'isAuthorized', true],
-            [PaymentStatus::AUTHORIZED, 'isFailed', false],
-            [PaymentStatus::AUTHORIZED, 'isOpen', false],
-            [PaymentStatus::AUTHORIZED, 'isCanceled', false],
-            [PaymentStatus::AUTHORIZED, 'isPaid', false],
-            [PaymentStatus::AUTHORIZED, 'isExpired', false],
+            [PaymentStatus::Authorized->value, 'isPending', false],
+            [PaymentStatus::Authorized->value, 'isAuthorized', true],
+            [PaymentStatus::Authorized->value, 'isFailed', false],
+            [PaymentStatus::Authorized->value, 'isOpen', false],
+            [PaymentStatus::Authorized->value, 'isCanceled', false],
+            [PaymentStatus::Authorized->value, 'isPaid', false],
+            [PaymentStatus::Authorized->value, 'isExpired', false],
 
-            [PaymentStatus::FAILED, 'isPending', false],
-            [PaymentStatus::FAILED, 'isAuthorized', false],
-            [PaymentStatus::FAILED, 'isFailed', true],
-            [PaymentStatus::FAILED, 'isOpen', false],
-            [PaymentStatus::FAILED, 'isCanceled', false],
-            [PaymentStatus::FAILED, 'isPaid', false],
-            [PaymentStatus::FAILED, 'isExpired', false],
+            [PaymentStatus::Failed->value, 'isPending', false],
+            [PaymentStatus::Failed->value, 'isAuthorized', false],
+            [PaymentStatus::Failed->value, 'isFailed', true],
+            [PaymentStatus::Failed->value, 'isOpen', false],
+            [PaymentStatus::Failed->value, 'isCanceled', false],
+            [PaymentStatus::Failed->value, 'isPaid', false],
+            [PaymentStatus::Failed->value, 'isExpired', false],
 
-            [PaymentStatus::OPEN, 'isPending', false],
-            [PaymentStatus::OPEN, 'isAuthorized', false],
-            [PaymentStatus::OPEN, 'isFailed', false],
-            [PaymentStatus::OPEN, 'isOpen', true],
-            [PaymentStatus::OPEN, 'isCanceled', false],
-            [PaymentStatus::OPEN, 'isPaid', false],
-            [PaymentStatus::OPEN, 'isExpired', false],
+            [PaymentStatus::Open->value, 'isPending', false],
+            [PaymentStatus::Open->value, 'isAuthorized', false],
+            [PaymentStatus::Open->value, 'isFailed', false],
+            [PaymentStatus::Open->value, 'isOpen', true],
+            [PaymentStatus::Open->value, 'isCanceled', false],
+            [PaymentStatus::Open->value, 'isPaid', false],
+            [PaymentStatus::Open->value, 'isExpired', false],
 
-            [PaymentStatus::CANCELED, 'isPending', false],
-            [PaymentStatus::CANCELED, 'isAuthorized', false],
-            [PaymentStatus::CANCELED, 'isFailed', false],
-            [PaymentStatus::CANCELED, 'isOpen', false],
-            [PaymentStatus::CANCELED, 'isCanceled', true],
-            [PaymentStatus::CANCELED, 'isPaid', false],
-            [PaymentStatus::CANCELED, 'isExpired', false],
+            [PaymentStatus::Canceled->value, 'isPending', false],
+            [PaymentStatus::Canceled->value, 'isAuthorized', false],
+            [PaymentStatus::Canceled->value, 'isFailed', false],
+            [PaymentStatus::Canceled->value, 'isOpen', false],
+            [PaymentStatus::Canceled->value, 'isCanceled', true],
+            [PaymentStatus::Canceled->value, 'isPaid', false],
+            [PaymentStatus::Canceled->value, 'isExpired', false],
 
-            [PaymentStatus::EXPIRED, 'isPending', false],
-            [PaymentStatus::EXPIRED, 'isAuthorized', false],
-            [PaymentStatus::EXPIRED, 'isFailed', false],
-            [PaymentStatus::EXPIRED, 'isOpen', false],
-            [PaymentStatus::EXPIRED, 'isCanceled', false],
-            [PaymentStatus::EXPIRED, 'isPaid', false],
-            [PaymentStatus::EXPIRED, 'isExpired', true],
+            [PaymentStatus::Expired->value, 'isPending', false],
+            [PaymentStatus::Expired->value, 'isAuthorized', false],
+            [PaymentStatus::Expired->value, 'isFailed', false],
+            [PaymentStatus::Expired->value, 'isOpen', false],
+            [PaymentStatus::Expired->value, 'isCanceled', false],
+            [PaymentStatus::Expired->value, 'isPaid', false],
+            [PaymentStatus::Expired->value, 'isExpired', true],
         ];
     }
 
@@ -142,7 +142,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::FIRST;
+        $payment->sequenceType = SequenceType::First->value;
         $this->assertFalse($payment->hasSequenceTypeRecurring());
         $this->assertTrue($payment->hasSequenceTypeFirst());
     }
@@ -153,7 +153,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::RECURRING;
+        $payment->sequenceType = SequenceType::Recurring->value;
         $this->assertTrue($payment->hasSequenceTypeRecurring());
         $this->assertFalse($payment->hasSequenceTypeFirst());
     }
@@ -164,7 +164,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::ONEOFF;
+        $payment->sequenceType = SequenceType::Oneoff->value;
         $this->assertFalse($payment->hasSequenceTypeFirst());
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }

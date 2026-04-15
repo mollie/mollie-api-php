@@ -58,13 +58,13 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         // Create a sales invoice
         $payload = [
             'currency' => 'EUR',
-            'status' => SalesInvoiceStatus::DRAFT,
-            'vatScheme' => VatScheme::STANDARD,
-            'vatMode' => VatMode::INCLUSIVE,
-            'paymentTerm' => PaymentTerm::DAYS_30,
+            'status' => SalesInvoiceStatus::Draft->value,
+            'vatScheme' => VatScheme::Standard->value,
+            'vatMode' => VatMode::Inclusive->value,
+            'paymentTerm' => PaymentTerm::Days30->value,
             'recipientIdentifier' => 'XXXXX',
             'recipient' => new Recipient(
-                RecipientType::CONSUMER,
+                RecipientType::Consumer->value,
                 'darth@vader.deathstar',
                 'Sample Street 12b',
                 '2000 AA',
@@ -88,7 +88,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         ]);
 
         $payload = [
-            'status' => SalesInvoiceStatus::PAID,
+            'status' => SalesInvoiceStatus::Paid->value,
             'recipientIdentifier' => 'XXXXX',
         ];
         $salesInvoice = $client->salesInvoices->update('invoice_123', $payload);

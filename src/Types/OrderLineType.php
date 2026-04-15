@@ -4,19 +4,13 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class OrderLineType
+enum OrderLineType: string
 {
-    public const PHYSICAL = 'physical';
-
-    public const DISCOUNT = 'discount';
-
-    public const DIGITAL = 'digital';
-
-    public const SHIPPING_FEE = 'shipping_fee';
-
-    public const STORE_CREDIT = 'store_credit';
-
-    public const GIFT_CARD = 'gift_card';
-
-    public const SURCHARGE = 'surcharge';
+    case Physical = 'physical';
+    case Discount = 'discount';
+    case Digital = 'digital';
+    case ShippingFee = 'shipping_fee';
+    case StoreCredit = 'store_credit';
+    case GiftCard = 'gift_card';
+    case Surcharge = 'surcharge';
 }

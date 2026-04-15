@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class MandateStatus
+enum MandateStatus: string
 {
-    public const PENDING = 'pending';
-
-    public const VALID = 'valid';
-
-    public const INVALID = 'invalid';
+    case Pending = 'pending';
+    case Valid = 'valid';
+    case Invalid = 'invalid';
 }

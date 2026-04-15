@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class OnboardingStatus
+enum OnboardingStatus: string
 {
     /**
      * The onboarding is not completed and the merchant needs to provide (more) information
      */
-    public const NEEDS_DATA = 'needs-data';
+    case NeedsData = 'needs-data';
 
     /**
      * The merchant provided all information and Mollie needs to check this
      */
-    public const IN_REVIEW = 'in-review';
+    case InReview = 'in-review';
 
     /**
      * The onboarding is completed
      */
-    public const COMPLETED = 'completed';
+    case Completed = 'completed';
 }

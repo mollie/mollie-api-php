@@ -46,16 +46,16 @@ class Onboarding extends BaseResource
 
     public function needsData(): bool
     {
-        return $this->status === OnboardingStatus::NEEDS_DATA;
+        return $this->status === OnboardingStatus::NeedsData->value;
     }
 
     public function inReview(): bool
     {
-        return $this->status === OnboardingStatus::IN_REVIEW;
+        return $this->status === OnboardingStatus::InReview->value;
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === OnboardingStatus::COMPLETED;
+        return $this->status === OnboardingStatus::Completed->value;
     }
 }

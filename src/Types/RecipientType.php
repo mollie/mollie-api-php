@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class RecipientType
+enum RecipientType: string
 {
-    const CONSUMER = 'consumer';
-
-    const BUSINESS = 'business';
+    case Consumer = 'consumer';
+    case Business = 'business';
 }

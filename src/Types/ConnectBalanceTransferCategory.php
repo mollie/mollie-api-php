@@ -4,49 +4,22 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-use Mollie\Api\Traits\GetAllConstants;
-
-class ConnectBalanceTransferCategory
+enum ConnectBalanceTransferCategory: string
 {
-    use GetAllConstants;
+    case InvoiceCollection = 'invoice_collection';
+    case Purchase = 'purchase';
+    case Chargeback = 'chargeback';
+    case Refund = 'refund';
+    case ServicePenalty = 'service_penalty';
+    case DiscountCompensation = 'discount_compensation';
+    case ManualCorrection = 'manual_correction';
+    case OtherFee = 'other_fee';
 
     /**
-     * Collecting invoice payments
+     * @return list<string>
      */
-    public const INVOICE_COLLECTION = 'invoice_collection';
-
-    /**
-     * Purchase-related transfers
-     */
-    public const PURCHASE = 'purchase';
-
-    /**
-     * Chargeback transfers
-     */
-    public const CHARGEBACK = 'chargeback';
-
-    /**
-     * Refund transfers
-     */
-    public const REFUND = 'refund';
-
-    /**
-     * Service penalty fees
-     */
-    public const SERVICE_PENALTY = 'service_penalty';
-
-    /**
-     * Discount compensations
-     */
-    public const DISCOUNT_COMPENSATION = 'discount_compensation';
-
-    /**
-     * Manual corrections
-     */
-    public const MANUAL_CORRECTION = 'manual_correction';
-
-    /**
-     * Other fees
-     */
-    public const OTHER_FEE = 'other_fee';
+    public static function all(): array
+    {
+        return array_map(fn (self $case) => $case->value, self::cases());
+    }
 }

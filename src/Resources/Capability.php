@@ -53,16 +53,16 @@ class Capability extends BaseResource
 
     public function isEnabled()
     {
-        return $this->status === CapabilityStatus::ENABLED;
+        return $this->status === CapabilityStatus::Enabled->value;
     }
 
     public function isPending()
     {
-        return $this->status === CapabilityStatus::PENDING;
+        return $this->status === CapabilityStatus::Pending->value;
     }
 
     public function isDisabled()
     {
-        return $this->status === CapabilityStatus::DISABLED;
+        return $this->status === CapabilityStatus::Disabled->value;
     }
 }

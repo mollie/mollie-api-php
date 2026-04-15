@@ -150,7 +150,7 @@ class SalesInvoice extends BaseResource
      */
     public function isDraft()
     {
-        return $this->status === SalesInvoiceStatus::DRAFT;
+        return $this->status === SalesInvoiceStatus::Draft->value;
     }
 
     /**
@@ -160,7 +160,7 @@ class SalesInvoice extends BaseResource
      */
     public function isIssued()
     {
-        return $this->status === SalesInvoiceStatus::ISSUED;
+        return $this->status === SalesInvoiceStatus::Issued->value;
     }
 
     /**
@@ -170,6 +170,6 @@ class SalesInvoice extends BaseResource
      */
     public function isPaid()
     {
-        return $this->status === SalesInvoiceStatus::PAID;
+        return $this->status === SalesInvoiceStatus::Paid->value;
     }
 }

@@ -22,7 +22,7 @@ try {
             cancelUrl: "https://example.com/cancel.php",
             webhookUrl: "https://example.com/webhook.php",
             metadata: ['order_id' => $orderId],
-            method: PaymentMethod::IDEAL
+            method: PaymentMethod::Ideal
         )
     );
 

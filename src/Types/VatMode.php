@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class VatMode
+enum VatMode: string
 {
-    const EXCLUSIVE = 'exclusive';
-
-    const INCLUSIVE = 'inclusive';
+    case Exclusive = 'exclusive';
+    case Inclusive = 'inclusive';
 }

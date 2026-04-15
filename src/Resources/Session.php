@@ -127,22 +127,22 @@ class Session extends BaseResource
 
     public function isCreated()
     {
-        return $this->status === SessionStatus::STATUS_CREATED;
+        return $this->status === SessionStatus::Created->value;
     }
 
     public function isReadyForProcessing()
     {
-        return $this->status === SessionStatus::STATUS_READY_FOR_PROCESSING;
+        return $this->status === SessionStatus::ReadyForProcessing->value;
     }
 
     public function isCompleted()
     {
-        return $this->status === SessionStatus::STATUS_COMPLETED;
+        return $this->status === SessionStatus::Completed->value;
     }
 
     public function hasFailed()
     {
-        return $this->status === SessionStatus::STATUS_FAILED;
+        return $this->status === SessionStatus::Failed->value;
     }
 
     /**

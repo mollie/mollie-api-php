@@ -82,7 +82,7 @@ class Settlement extends BaseResource
      */
     public function isOpen(): bool
     {
-        return $this->status === SettlementStatus::OPEN;
+        return $this->status === SettlementStatus::Open->value;
     }
 
     /**
@@ -90,7 +90,7 @@ class Settlement extends BaseResource
      */
     public function isPending(): bool
     {
-        return $this->status === SettlementStatus::PENDING;
+        return $this->status === SettlementStatus::Pending->value;
     }
 
     /**
@@ -98,7 +98,7 @@ class Settlement extends BaseResource
      */
     public function isPaidout(): bool
     {
-        return $this->status === SettlementStatus::PAIDOUT;
+        return $this->status === SettlementStatus::Paidout->value;
     }
 
     /**
@@ -106,7 +106,7 @@ class Settlement extends BaseResource
      */
     public function isFailed(): bool
     {
-        return $this->status === SettlementStatus::FAILED;
+        return $this->status === SettlementStatus::Failed->value;
     }
 
     /**

@@ -13,7 +13,7 @@ try {
     $mandate = $mollie->send(
         new CreateMandateRequest(
             customerId: 'cst_8wmqcHMN4U',
-            method: MandateMethod::DIRECTDEBIT,
+            method: MandateMethod::Directdebit,
             consumerName: 'B. A. Example',
             consumerAccount: 'NL34ABNA0243341423'
         )

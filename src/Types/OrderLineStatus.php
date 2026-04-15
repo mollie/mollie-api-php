@@ -4,35 +4,12 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class OrderLineStatus
+enum OrderLineStatus: string
 {
-    /**
-     * The order line has just been created.
-     */
-    public const CREATED = 'created';
-
-    /**
-     * The order line has been paid.
-     */
-    public const PAID = 'paid';
-
-    /**
-     * The order line has been authorized.
-     */
-    public const AUTHORIZED = 'authorized';
-
-    /**
-     * The order line has been canceled.
-     */
-    public const CANCELED = 'canceled';
-
-    /**
-     * The order line is shipping.
-     */
-    public const SHIPPING = 'shipping';
-
-    /**
-     * The order line is completed.
-     */
-    public const COMPLETED = 'completed';
+    case Created = 'created';
+    case Paid = 'paid';
+    case Authorized = 'authorized';
+    case Canceled = 'canceled';
+    case Shipping = 'shipping';
+    case Completed = 'completed';
 }

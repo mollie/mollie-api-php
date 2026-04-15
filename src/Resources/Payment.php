@@ -100,7 +100,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      *
      * @var string
      */
-    public $status = PaymentStatus::OPEN;
+    public $status = PaymentStatus::Open->value;
 
     /**
      * The reason for the status of the payment.
@@ -426,7 +426,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isCanceled(): bool
     {
-        return $this->status === PaymentStatus::CANCELED;
+        return $this->status === PaymentStatus::Canceled->value;
     }
 
     /**
@@ -434,7 +434,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isExpired(): bool
     {
-        return $this->status === PaymentStatus::EXPIRED;
+        return $this->status === PaymentStatus::Expired->value;
     }
 
     /**
@@ -442,7 +442,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isOpen(): bool
     {
-        return $this->status === PaymentStatus::OPEN;
+        return $this->status === PaymentStatus::Open->value;
     }
 
     /**
@@ -450,7 +450,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isPending(): bool
     {
-        return $this->status === PaymentStatus::PENDING;
+        return $this->status === PaymentStatus::Pending->value;
     }
 
     /**
@@ -458,7 +458,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isAuthorized(): bool
     {
-        return $this->status === PaymentStatus::AUTHORIZED;
+        return $this->status === PaymentStatus::Authorized->value;
     }
 
     /**
@@ -490,7 +490,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function isFailed(): bool
     {
-        return $this->status === PaymentStatus::FAILED;
+        return $this->status === PaymentStatus::Failed->value;
     }
 
     /**
@@ -500,7 +500,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function hasSequenceTypeFirst(): bool
     {
-        return $this->sequenceType === SequenceType::FIRST;
+        return $this->sequenceType === SequenceType::First->value;
     }
 
     /**
@@ -510,7 +510,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      */
     public function hasSequenceTypeRecurring(): bool
     {
-        return $this->sequenceType === SequenceType::RECURRING;
+        return $this->sequenceType === SequenceType::Recurring->value;
     }
 
     /**
@@ -718,7 +718,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function update(): Payment
     {
         $additional = [];
-        if ($this->method === PaymentMethod::BANKTRANSFER) {
+        if ($this->method === PaymentMethod::Banktransfer->value) {
             $additional['dueDate'] = $this->dueDate;
         }
 

@@ -4,20 +4,9 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class SalesInvoiceStatus
+enum SalesInvoiceStatus: string
 {
-    /**
-     * The sales invoice is in draft status and has not been sent or paid.
-     */
-    public const DRAFT = 'draft';
-
-    /**
-     * The sales invoice has been issued to the customer but has not been paid yet.
-     */
-    public const ISSUED = 'issued';
-
-    /**
-     * The sales invoice has been fully paid.
-     */
-    public const PAID = 'paid';
+    case Draft = 'draft';
+    case Issued = 'issued';
+    case Paid = 'paid';
 }

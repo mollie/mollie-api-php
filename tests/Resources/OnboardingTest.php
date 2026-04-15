@@ -30,17 +30,17 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
     public function dpTestOnboardingStatuses()
     {
         return [
-            [OnboardingStatus::NEEDS_DATA, 'needsData', true],
-            [OnboardingStatus::NEEDS_DATA, 'inReview', false],
-            [OnboardingStatus::NEEDS_DATA, 'isCompleted', false],
+            [OnboardingStatus::NeedsData->value, 'needsData', true],
+            [OnboardingStatus::NeedsData->value, 'inReview', false],
+            [OnboardingStatus::NeedsData->value, 'isCompleted', false],
 
-            [OnboardingStatus::IN_REVIEW, 'needsData', false],
-            [OnboardingStatus::IN_REVIEW, 'inReview', true],
-            [OnboardingStatus::IN_REVIEW, 'isCompleted', false],
+            [OnboardingStatus::InReview->value, 'needsData', false],
+            [OnboardingStatus::InReview->value, 'inReview', true],
+            [OnboardingStatus::InReview->value, 'isCompleted', false],
 
-            [OnboardingStatus::COMPLETED, 'needsData', false],
-            [OnboardingStatus::COMPLETED, 'inReview', false],
-            [OnboardingStatus::COMPLETED, 'isCompleted', true],
+            [OnboardingStatus::Completed->value, 'needsData', false],
+            [OnboardingStatus::Completed->value, 'inReview', false],
+            [OnboardingStatus::Completed->value, 'isCompleted', true],
         ];
     }
 }
