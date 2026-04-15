@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api;
 
 use Mollie\Api\Contracts\Connector;

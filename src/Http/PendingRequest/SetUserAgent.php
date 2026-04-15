@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\PendingRequest;
 
 use Mollie\Api\Http\Auth\AccessTokenAuthenticator;

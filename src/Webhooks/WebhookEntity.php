@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Webhooks;
 
 use Mollie\Api\Config;

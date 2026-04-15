@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http;
 
 use Mollie\Api\Fake\MockMollieClient;

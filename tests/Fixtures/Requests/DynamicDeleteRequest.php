@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fixtures\Requests;
 
 use Mollie\Api\Contracts\HasPayload;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Webhooks;
 
 use Mollie\Api\Exceptions\InvalidSignatureException;

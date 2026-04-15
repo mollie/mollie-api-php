@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Contracts\Connector;

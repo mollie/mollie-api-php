@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Resolvable;

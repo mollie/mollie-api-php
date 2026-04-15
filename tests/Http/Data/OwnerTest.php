@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Data;
 
 use Mollie\Api\Http\Data\Owner;
