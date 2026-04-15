@@ -15,14 +15,14 @@ parameters:
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
-			count: 1
-			path: src/Resources/ResourceCollection.php
+			count: 29
+			path: src/Http/Data/Money.php
 
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
-			count: 29
-			path: src/Traits/HasCurrencyConvenienceMethods.php
+			count: 1
+			path: src/Resources/ResourceCollection.php
 
 		-
 			message: '#^Dead catch \- Throwable is never thrown in the try block\.$#'
@@ -131,6 +131,60 @@ parameters:
 			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/Http/Auth/AccessTokenAuthenticatorTest.php
+
+		-
+			message: '#^Access to protected property Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:\$hidden\.$#'
+			identifier: property.protected
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined method Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:doubled\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined method Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:secret\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined static method Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:nope\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined static method Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:shout\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined static method Tests\\Http\\Data\\Concerns\\MacroableFixture\:\:strtolower\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^PHPDoc tag @var with type Tests\\Http\\Data\\Concerns\\MacroableFixture is not subtype of native type \$this\(Tests\\Http\\Data\\Concerns\\MacroableTest\)\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: tests/Http/Data/Concerns/MacroableTest.php
+
+		-
+			message: '#^Call to an undefined static method Mollie\\Api\\Http\\Data\\Money\:\:fromCents\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: tests/Http/Data/MoneyMacroableTest.php
+
+		-
+			message: '#^Call to an undefined static method Mollie\\Api\\Http\\Data\\Money\:\:nope\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: tests/Http/Data/MoneyMacroableTest.php
 
 		-
 			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$id\.$#'
