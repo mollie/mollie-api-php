@@ -8,7 +8,7 @@
         "profileId": "pfl_v9hTwCvYqw",
         "createdAt": "2023-12-25T10:30:54+00:00",
         "name": "My webhook",
-        "eventTypes": "payment-link.paid",
+        "eventTypes": ["payment-link.paid"],
         "status": "enabled",
         "_links": {
           "self": {
@@ -24,7 +24,7 @@
         "profileId": "pfl_v9hTwCvYqw",
         "createdAt": "2023-12-26T10:30:54+00:00",
         "name": "My second webhook",
-        "eventTypes": "profile.verified",
+        "eventTypes": ["profile.verified"],
         "status": "enabled",
         "_links": {
           "self": {

@@ -12,23 +12,12 @@ namespace Mollie\Api\Resources;
  */
 class Permission extends BaseResource
 {
-    /**
-     * Permission ID (scope), e.g. payments.read, onboarding.write.
-     *
-     * @var string
-     * @example payments.read
-     */
-    public $id;
+    /** @example payments.read */
+    public string $id;
 
-    /**
-     * @var string
-     */
-    public $description;
+    public string $description;
 
-    /**
-     * @var bool
-     */
-    public $granted;
+    public bool $granted;
 
     /**
      * @var \stdClass

@@ -9,51 +9,18 @@ namespace Mollie\Api\Resources;
  */
 class Partner extends BaseResource
 {
-    /**
-     * Indicates the type of partner. Will be null if the currently authenticated organization is
-     * not enrolled as a partner. Possible values: "oauth", "signuplink", "useragent".
-     *
-     * @var string
-     */
-    public $partnerType;
+    public string $partnerType;
 
-    /**
-     * Will be true if partner is receiving commissions. Will be null otherwise.
-     *
-     * @var bool|null
-     */
-    public $isCommissionPartner;
+    public ?bool $isCommissionPartner = null;
 
-    /**
-     * Array of user agent token objects. Present if the partner is of type "useragent" or if the partner
-     * has had user agent tokens in the past. Will be null otherwise.
-     *
-     * @var array|null
-     */
-    public $userAgentTokens;
+    /** @var array<mixed>|null */
+    public ?array $userAgentTokens = null;
 
-    /**
-     * The date and time the contract was signed, in ISO 8601 format. Will be null if the contract has
-     * not yet been signed, or if "partnerType" is null.
-     *
-     * @var string|null
-     */
-    public $partnerContractSignedAt;
+    public ?string $partnerContractSignedAt = null;
 
-    /**
-     * Will be true if an updated contract is available, requiring the partner’s agreement.
-     * Will be null otherwise.
-     *
-     * @var bool
-     */
-    public $partnerContractUpdateAvailable;
+    public bool $partnerContractUpdateAvailable;
 
-    /**
-     * The date and time the contract will expire, in ISO 8601 format.
-     *
-     * @var string|null
-     */
-    public $partnerContractExpiresAt;
+    public ?string $partnerContractExpiresAt = null;
 
     /**
      * @var \stdClass

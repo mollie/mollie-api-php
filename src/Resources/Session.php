@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\SessionStatus;
 
@@ -14,145 +16,70 @@ class Session extends BaseResource
 {
     use HasMode;
 
-    /**
-     * The session's unique identifier,
-     *
-     * @example sess_dfsklg13jO
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
+
+    public SessionStatus|string $status;
+
+    public ?string $failedAt = null;
+
+    public string $authenticationId;
+
+    public string $nextAction;
+
+    public string $redirectUrl;
+
+    public string $cancelUrl;
+
+    public Money $amount;
+
+    public string $description;
+
+    public string $method;
 
     /**
-     * Status of the session.
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     * UTC datetime indicating the time at which the Session failed in ISO-8601 format.
-     *
-     * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string|null
-     */
-    public $failedAt;
-
-    /**
-     * Unique identifier to record the Userʼs authentication with a method
-     *
-     * @var string
-     */
-    public $authenticationId;
-
-    /**
-     * Indicates the next action to take in the payment preparation flow.
-     *
-     * @var string
-     */
-    public $nextAction;
-
-    /**
-     * The URL the buyer will be redirected to in case the
-     * payment preparation process requires a 3rd party redirect.
-     *
-     * @var string
-     */
-    public $redirectUrl;
-
-    /**
-     * The URL the buyer will be redirected to if they
-     * cancel their payment during a 3rd party redirect..
-     *
-     * @var string
-     */
-    public $cancelUrl;
-
-    /**
-     * The amount you intend to charge containing the value and currency.
-     *
-     * Note - this is not necessarily the final amount of the
-     * payment.You will specify the final amount upon Order creation
-     *
-     * @var \stdClass
-     */
-    public $amount;
-
-    /**
-     * Description of the payment intent.
-     *
-     * @var string
-     */
-    public $description;
-
-    /**
-     * Payment method currently selected by the shopper.
-     *
-     * @var string
-     */
-    public $method;
-
-    /**
-     * All additional information relating to the selected method.
-     *
      * @var \stdClass
      */
     public $methodDetails;
 
     /**
-     * The person and the address the payment is shipped to.
-     *
      * @deprecated
-     *
-     * @var \stdClass
      */
-    public $shippingAddress;
+    public ?Address $shippingAddress = null;
 
     /**
-     * The person and the address the payment is billed to.
-     *
      * @deprecated
-     *
-     * @var \stdClass
      */
-    public $billingAddress;
+    public ?Address $billingAddress = null;
 
     /**
-     * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
-     *
      * @var \stdClass
      */
     public $_links;
 
-    public function isCreated()
+    public function isCreated(): bool
     {
-        return $this->status === SessionStatus::Created->value;
+        return $this->status === SessionStatus::Created;
     }
 
-    public function isReadyForProcessing()
+    public function isReadyForProcessing(): bool
     {
-        return $this->status === SessionStatus::ReadyForProcessing->value;
+        return $this->status === SessionStatus::ReadyForProcessing;
     }
 
-    public function isCompleted()
+    public function isCompleted(): bool
     {
-        return $this->status === SessionStatus::Completed->value;
+        return $this->status === SessionStatus::Completed;
     }
 
-    public function hasFailed()
+    public function hasFailed(): bool
     {
-        return $this->status === SessionStatus::Failed->value;
+        return $this->status === SessionStatus::Failed;
     }
 
     /**
-     * Saves the session's updatable properties.
-     *
-     * @return \Mollie\Api\Resources\Session
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
-    public function update()
+    public function update(): Session
     {
         $body = [
             'billingAddress' => $this->billingAddress,
@@ -163,8 +90,6 @@ class Session extends BaseResource
     }
 
     /**
-     * Cancels this session.
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function cancel(): void
@@ -172,10 +97,7 @@ class Session extends BaseResource
         $this->connector->sessions->cancel($this->id);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): ?string
     {
         if (empty($this->_links->redirect)) {
             return null;

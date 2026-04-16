@@ -17,79 +17,26 @@ class Webhook extends BaseResource
 {
     use HasMode;
 
-    /**
-     * Indicates the response contains a webhook subscription object.
-     * Will always contain the string "webhook" for this endpoint.
-     *
-     * @var string
-     */
-    public $resource;
 
-    /**
-     * The identifier uniquely referring to this subscription.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
-    /**
-     * The subscription's events destination.
-     *
-     * @var string
-     */
-    public $url;
+    public string $url;
 
-    /**
-     * The identifier uniquely referring to the profile that created the subscription.
-     *
-     * @var string
-     */
-    public $profileId;
+    public string $profileId;
 
-    /**
-     * The subscription's date time of creation.
-     *
-     * @var string
-     */
-    public $createdAt;
+    public string $createdAt;
 
-    /**
-     * The subscription's name.
-     *
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * The events types that are subscribed.
-     *
-     * @var array<string>
-     */
-    public $eventTypes;
+    /** @var array<string> */
+    public array $eventTypes;
 
-    /**
-     * The subscription's current status.
-     * Possible values: enabled, blocked, disabled
-     *
-     * @var string
-     */
-    public $status;
+    public WebhookStatus|string $status;
 
-    /**
-     * The webhook's secret.
-     *
-     * Only available once after creation.
-     *
-     * @var string|null
-     */
-    public $webhookSecret;
+    /** Only available once after creation. */
+    public ?string $webhookSecret = null;
 
-    /**
-     * The webhook's mode.
-     *
-     * @var string
-     */
-    public $mode;
+    public string $mode = 'live';
 
     /**
      * @var \stdClass
@@ -98,27 +45,25 @@ class Webhook extends BaseResource
 
     public function enabled(): bool
     {
-        return $this->status === WebhookStatus::Enabled->value;
+        return $this->status === WebhookStatus::Enabled;
     }
 
     public function disabled(): bool
     {
-        return $this->status === WebhookStatus::Disabled->value;
+        return $this->status === WebhookStatus::Disabled;
     }
 
     public function blocked(): bool
     {
-        return $this->status === WebhookStatus::Blocked->value;
+        return $this->status === WebhookStatus::Blocked;
     }
 
     public function deleted(): bool
     {
-        return $this->status === WebhookStatus::Deleted->value;
+        return $this->status === WebhookStatus::Deleted;
     }
 
     /**
-     * Update this webhook.
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function update(array $data = []): Webhook
@@ -132,8 +77,6 @@ class Webhook extends BaseResource
     }
 
     /**
-     * Delete this webhook.
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function delete(): void
@@ -142,8 +85,6 @@ class Webhook extends BaseResource
     }
 
     /**
-     * Test this webhook by sending a test event.
-     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function test(): AnyResource

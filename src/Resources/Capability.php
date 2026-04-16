@@ -8,61 +8,35 @@ use Mollie\Api\Types\CapabilityStatus;
 
 class Capability extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public $resource;
+
+    public string $name;
+
+    /** @var array<string> */
+    public array $requirements;
+
+    public CapabilityStatus|string $status;
+
+    public string $statusReason;
+
+    public string $organizationId;
 
     /**
-     * @var string
-     *
-     * @example payments
-     */
-    public $name;
-
-    /**
-     * @var array
-     */
-    public $requirements;
-
-    /**
-     * @var string
-     *
-     * possible values: disabled, pending, enabled
-     *
-     * @example enabled
-     */
-    public $status;
-
-    /**
-     * @var string
-     */
-    public $statusReason;
-
-    /**
-     * @var string
-     */
-    public $organizationId;
-
-    /**
-     * Links to help navigate through the Mollie API and related resources.
-     *
      * @var \stdClass
      */
     public $_links;
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        return $this->status === CapabilityStatus::Enabled->value;
+        return $this->status === CapabilityStatus::Enabled;
     }
 
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === CapabilityStatus::Pending->value;
+        return $this->status === CapabilityStatus::Pending;
     }
 
-    public function isDisabled()
+    public function isDisabled(): bool
     {
-        return $this->status === CapabilityStatus::Disabled->value;
+        return $this->status === CapabilityStatus::Disabled;
     }
 }

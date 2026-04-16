@@ -11,33 +11,15 @@ use Mollie\Api\Types\OnboardingStatus;
  */
 class Onboarding extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var string
-     */
-    public $signedUpAt;
+    public string $signedUpAt;
 
-    /**
-     * Either "needs-data", "in-review" or "completed".
-     * Indicates this current status of the organization’s onboarding process.
-     *
-     * @var string
-     */
-    public $status;
+    public OnboardingStatus|string $status;
 
-    /**
-     * @var bool
-     */
-    public $canReceivePayments;
+    public bool $canReceivePayments;
 
-    /**
-     * @var bool
-     */
-    public $canReceiveSettlements;
+    public bool $canReceiveSettlements;
 
     /**
      * @var \stdClass
@@ -46,16 +28,16 @@ class Onboarding extends BaseResource
 
     public function needsData(): bool
     {
-        return $this->status === OnboardingStatus::NeedsData->value;
+        return $this->status === OnboardingStatus::NeedsData;
     }
 
     public function inReview(): bool
     {
-        return $this->status === OnboardingStatus::InReview->value;
+        return $this->status === OnboardingStatus::InReview;
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === OnboardingStatus::Completed->value;
+        return $this->status === OnboardingStatus::Completed;
     }
 }
