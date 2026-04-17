@@ -4,17 +4,17 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
+use Mollie\Api\Contracts\ResourceOrigin;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
-use Mollie\Api\Http\Response;
 
 class ResourceHydrator
 {
     /**
-     * Hydrate raw response data into a typed resource.
+     * Hydrate raw resource data into a typed resource.
      *
      * @param  object|array  $data
      */
-    public function hydrate(BaseResource $resource, $data, Response $response): BaseResource
+    public function hydrate(BaseResource $resource, $data, ResourceOrigin $origin): BaseResource
     {
         // Convert object to array for consistent handling
         if (is_object($data)) {
@@ -26,12 +26,12 @@ class ResourceHydrator
         } else {
             foreach ($data as $property => $value) {
                 $resource->{$property} = $this->holdsEmbeddedResources($resource, $property, $value)
-                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, $value, $response)
+                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, $value, $origin)
                     : $value;
             }
         }
 
-        $resource->setResponse($response);
+        $resource->setOrigin($origin);
 
         return $resource;
     }
@@ -45,7 +45,7 @@ class ResourceHydrator
     public function hydrateCollection(
         ResourceCollection $collection,
         $items,
-        Response $response,
+        ResourceOrigin $origin,
         $_links = null
     ): ResourceCollection {
         // Convert object to array for consistent handling
@@ -55,9 +55,9 @@ class ResourceHydrator
 
         $hydratedItems = array_map(
             fn ($item) => $this->hydrate(
-                ResourceFactory::create($response->getConnector(), $collection::getResourceClass()),
+                ResourceFactory::create($origin->getConnector(), $collection::getResourceClass()),
                 $item,
-                $response
+                $origin
             ),
             $items
         );
@@ -68,7 +68,7 @@ class ResourceHydrator
 
         return $collection
             ->setItems($hydratedItems)
-            ->setResponse($response);
+            ->setOrigin($origin);
     }
 
     private function holdsEmbeddedResources(object $resource, string $key, $value): bool
@@ -82,7 +82,7 @@ class ResourceHydrator
         Connector $connector,
         object $resource,
         object $embedded,
-        Response $response
+        ResourceOrigin $origin
     ): object {
         $result = new \stdClass;
 
@@ -99,12 +99,12 @@ class ResourceHydrator
                 ? $this->hydrate(
                     ResourceFactory::create($connector, $collectionOrResourceClass),
                     $resourceData,
-                    $response
+                    $origin
                 )
                 : $this->hydrateCollection(
                     ResourceFactory::createCollection($connector, $collectionOrResourceClass),
                     $resourceData,
-                    $response
+                    $origin
                 );
         }
 

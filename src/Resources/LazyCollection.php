@@ -68,7 +68,7 @@ class LazyCollection implements IsResponseAware, IteratorAggregate
                     yield $key => $value;
                 }
             }
-        }))->setResponse($this->response);
+        }))->setOrigin($this->getOrigin());
     }
 
     /**
@@ -112,7 +112,7 @@ class LazyCollection implements IsResponseAware, IteratorAggregate
             foreach ($this as $key => $value) {
                 yield $key => $callback($value, $key);
             }
-        }))->setResponse($this->response);
+        }))->setOrigin($this->getOrigin());
     }
 
     /**
@@ -136,7 +136,7 @@ class LazyCollection implements IsResponseAware, IteratorAggregate
                     $iterator->next();
                 }
             }
-        }))->setResponse($this->response);
+        }))->setOrigin($this->getOrigin());
     }
 
     /**
