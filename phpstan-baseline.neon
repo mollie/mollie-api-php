@@ -25,12 +25,6 @@ parameters:
 			path: src/Traits/HasCurrencyConvenienceMethods.php
 
 		-
-			message: '#^Dead catch \- Throwable is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/Webhooks/WebhookEntity.php
-
-		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1

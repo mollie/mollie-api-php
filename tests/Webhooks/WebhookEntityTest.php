@@ -3,10 +3,8 @@
 namespace Tests\Webhooks;
 
 use Mollie\Api\Fake\MockMollieClient;
-use Mollie\Api\Fake\MockResponse;
-use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Resources\AnyResource;
+use Mollie\Api\Resources\BalanceTransaction;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Webhooks\WebhookEntity;
 use PHPUnit\Framework\TestCase;
@@ -48,92 +46,92 @@ class WebhookEntityTest extends TestCase
     }
 
     /** @test */
-    public function as_resource_uses_specific_get_request_when_available()
+    public function as_resource_hydrates_locally_from_snapshot_without_http_call()
     {
-        $client = new MockMollieClient([
-            GetPaymentLinkRequest::class => MockResponse::ok('payment-link', 'pl_4Y0eZitmBnQ5jsBYZIBw'),
-        ]);
+        $client = new MockMollieClient;
 
         $entity = WebhookEntity::create([
             'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
             'resource' => 'payment-link',
             'mode' => 'live',
-        ]);
-
-        $resource = $entity->asResource($client);
-
-        $this->assertInstanceOf(PaymentLink::class, $resource);
-
-        $client->assertSent(GetPaymentLinkRequest::class);
-    }
-
-    /** @test */
-    public function as_resource_respects_test_mode()
-    {
-        $client = new MockMollieClient([
-            GetPaymentLinkRequest::class => MockResponse::ok('payment-link', 'pl_4Y0eZitmBnQ5jsBYZIBw'),
-        ]);
-
-        $entity = WebhookEntity::create([
-            'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
-            'resource' => 'payment-link',
-            'mode' => 'test',
-        ]);
-
-        $resource = $entity->asResource($client);
-
-        $this->assertInstanceOf(PaymentLink::class, $resource);
-
-        $client->assertSent(function ($pendingRequest) {
-            /** @var GetPaymentLinkRequest $request */
-            $request = $pendingRequest->getRequest();
-
-            return $request->getTestmode() === true;
-        });
-    }
-
-    /** @test */
-    public function as_resource_uses_self_href_when_available()
-    {
-        $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::ok([], 'pl_4Y0eZitmBnQ5jsBYZIBw'),
-        ]);
-
-        $entity = WebhookEntity::create([
-            'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
-            'resource' => 'foo-resource',
-            'mode' => 'live',
-            '_links' => [
-                'self' => [
-                    'href' => 'https://api.mollie.com/v2/foo-resources/pl_4Y0eZitmBnQ5jsBYZIBw',
-                    'type' => 'application/hal+json',
-                ],
+            'description' => 'Test payment link',
+            'amount' => [
+                'currency' => 'EUR',
+                'value' => '10.00',
             ],
         ]);
 
         $resource = $entity->asResource($client);
 
-        $this->assertInstanceOf(AnyResource::class, $resource);
+        $this->assertInstanceOf(PaymentLink::class, $resource);
+        $this->assertEquals('pl_4Y0eZitmBnQ5jsBYZIBw', $resource->id);
+        $this->assertEquals('Test payment link', $resource->description);
+        $this->assertEquals(['currency' => 'EUR', 'value' => '10.00'], $resource->amount);
+        $client->assertSentCount(0);
     }
 
     /** @test */
-    public function as_resource_builds_fallback_href_when_no_specific_request_and_no_self_href()
+    public function as_resource_hydrates_sub_resources_without_top_level_endpoint()
     {
-        $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::ok([], ''),
+        // BalanceTransaction has no top-level GET endpoint — only listed under
+        // /balances/{id}/transactions. Hydrating from the signed snapshot must
+        // not attempt a 404-bound HTTP fetch.
+        $client = new MockMollieClient;
+
+        $entity = WebhookEntity::create([
+            'id' => 'baltr_QM24QwzUWR4ev4Xfgyt29d',
+            'resource' => 'balance_transaction',
+            'mode' => 'live',
+            'type' => 'payment',
+            'createdAt' => '2024-12-25T10:30:54+00:00',
+            'resultAmount' => [
+                'currency' => 'EUR',
+                'value' => '100.00',
+            ],
         ]);
 
-        // Using a resource type that doesn't have a specific Get request
+        $resource = $entity->asResource($client);
+
+        $this->assertInstanceOf(BalanceTransaction::class, $resource);
+        $this->assertEquals('baltr_QM24QwzUWR4ev4Xfgyt29d', $resource->id);
+        $this->assertEquals('payment', $resource->type);
+        $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function as_resource_returns_any_resource_for_unknown_resource_types()
+    {
+        $client = new MockMollieClient;
+
         $entity = WebhookEntity::create([
             'id' => 'unknown_123',
             'resource' => 'unknown-resource',
+            'mode' => 'live',
+            'custom_field' => 'custom_value',
+        ]);
+
+        $resource = $entity->asResource($client);
+
+        $this->assertInstanceOf(AnyResource::class, $resource);
+        $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function as_resource_exposes_snapshot_via_response_body()
+    {
+        $client = new MockMollieClient;
+
+        $entity = WebhookEntity::create([
+            'id' => 'pl_4Y0eZitmBnQ5jsBYZIBw',
+            'resource' => 'payment-link',
+            'status' => 'paid',
             'mode' => 'live',
         ]);
 
         $resource = $entity->asResource($client);
 
-        // Should return AnyResource as fallback
-        $this->assertInstanceOf(AnyResource::class, $resource);
+        $this->assertTrue($resource->getResponse()->successful());
+        $this->assertEquals('pl_4Y0eZitmBnQ5jsBYZIBw', $resource->getResponse()->json()->id);
     }
 
     /** @test */

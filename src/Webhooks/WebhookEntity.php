@@ -4,34 +4,36 @@ namespace Mollie\Api\Webhooks;
 
 use Mollie\Api\Config;
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\SupportsTestmode;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\ResourceHydratableRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\ResourceRegistry;
-use Mollie\Api\Traits\HasMode;
+use Mollie\Api\Resources\ResourceFactory;
+use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
+use Nyholm\Psr7\Request as PsrRequest;
+use Nyholm\Psr7\Response as PsrResponse;
 
 class WebhookEntity
 {
-    use HasMode;
-
     private string $resourceType;
 
     private string $id;
 
     private array $data;
 
-    private ?string $mode = null;
-
     public function __construct(string $resourceType, string $id, array $data)
     {
         $this->resourceType = $resourceType;
         $this->id = $id;
         $this->data = $data;
-        $this->mode = $this->getData('mode');
+    }
+
+    public function isInTestmode(): bool
+    {
+        return $this->getData('mode') === 'test';
     }
 
     /**
@@ -72,46 +74,21 @@ class WebhookEntity
     }
 
     /**
-     * Upgrade this entity to a fully-typed SDK resource using the connector.
+     * Hydrate this entity into a fully-typed SDK resource using the embedded
+     * snapshot. No HTTP call is made — the signed webhook payload already
+     * contains the full resource state at event time.
      */
     public function asResource(Connector $connector): BaseResource
     {
         $targetClass = $this->resolveTargetResourceClass();
 
-        $request = $this->tryCreateGetRequest($targetClass);
+        $resource = ResourceFactory::create($connector, $targetClass);
 
-        if ($request instanceof SupportsTestmode) {
-            $request = $request->test($this->isInTestmode());
-        }
-
-        if ($request instanceof ResourceHydratableRequest) {
-            return $connector->send($request);
-        }
-
-        $href = $this->extractSelfHref($this->data);
-
-        if ($href) {
-            return $this->sendDynamic($connector, $href, $targetClass);
-        }
-
-        $fallbackHref = $this->buildFallbackHref($targetClass);
-
-        return $this->sendDynamic($connector, $fallbackHref, $targetClass);
-    }
-
-    /**
-     * @param  array  $data
-     */
-    private function extractSelfHref(array $data): ?string
-    {
-        return Arr::get($data, '_links.self.href');
-    }
-
-    private function resolvePlural(string $targetClass): ?string
-    {
-        $names = Config::resourceRegistry()->namesOf($targetClass);
-
-        return $names[ResourceRegistry::PLURAL_KEY] ?? null;
+        return (new ResourceHydrator)->hydrate(
+            $resource,
+            $this->data,
+            $this->buildSyntheticResponse($connector)
+        );
     }
 
     private function resolveTargetResourceClass(): string
@@ -119,35 +96,23 @@ class WebhookEntity
         return Config::resourceRegistry()->for($this->resourceType) ?? AnyResource::class;
     }
 
-    private function tryCreateGetRequest(string $targetClass): ?ResourceHydratableRequest
+    /**
+     * Build a Response object backed by the webhook snapshot so hydrated
+     * resources satisfy the IsResponseAware contract without a live HTTP call.
+     */
+    private function buildSyntheticResponse(Connector $connector): Response
     {
-        $resourceBasename = Utility::classBasename($targetClass);
+        $url = Arr::get($this->data, '_links.self.href') ?? '';
+        $body = (string) json_encode($this->data);
 
-        /** @var class-string<ResourceHydratableRequest> */
-        $requestClass = 'Mollie\\Api\\Http\\Requests\\Get' . $resourceBasename . 'Request';
+        $psrRequest = new PsrRequest('GET', $url);
+        $psrResponse = new PsrResponse(200, ['Content-Type' => 'application/hal+json'], $body);
 
-        if (! class_exists($requestClass)) {
-            return null;
-        }
-
-        try {
-            return new $requestClass($this->id);
-        } catch (\Throwable $e) {
-            return null;
-        }
-    }
-
-    private function buildFallbackHref(string $targetClass): string
-    {
-        $plural = $this->resolvePlural($targetClass) ?? $this->resourceType;
-
-        return $plural . '/' . $this->id;
-    }
-
-    private function sendDynamic(Connector $connector, string $href, string $targetClass): BaseResource
-    {
-        return $connector->send(
-            (new DynamicGetRequest($href))->setHydratableResource($targetClass)
+        $pendingRequest = new PendingRequest(
+            $connector,
+            (new DynamicGetRequest($url))->setHydratableResource($this->resolveTargetResourceClass())
         );
+
+        return new Response($psrResponse, $psrRequest, $pendingRequest);
     }
 }
