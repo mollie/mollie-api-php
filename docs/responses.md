@@ -25,6 +25,11 @@ $payment = $mollie->send(new GetPaymentRequest('tr_*********'));
 $response = $payment->getResponse();
 ```
 
+`getResponse()` returns `?Response`. Resources produced by an API call always
+carry a non-null `Response`. Resources hydrated from a signed webhook snapshot
+return `null` (there was no HTTP call). Null-check before chaining, or use
+`getOrigin()` for origin-agnostic metadata — see [`docs/webhooks.md`](webhooks.md).
+
 ## Resource Wrappers
 Sometimes it's benefitial to directly hydrate a custom class with the information returned by the API. The wrapper resource can be used to define a subset of resource properties used by your app or cast them into your own dedicated Objects.
 

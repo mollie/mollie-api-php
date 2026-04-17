@@ -2,36 +2,33 @@
 
 namespace Mollie\Api\Webhooks;
 
+use DateTimeImmutable;
 use Mollie\Api\Config;
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\SupportsTestmode;
-use Mollie\Api\Http\Requests\DynamicGetRequest;
-use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\ResourceRegistry;
-use Mollie\Api\Traits\HasMode;
+use Mollie\Api\Resources\ResourceFactory;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 
 class WebhookEntity
 {
-    use HasMode;
-
     private string $resourceType;
 
     private string $id;
 
     private array $data;
 
-    private ?string $mode = null;
-
     public function __construct(string $resourceType, string $id, array $data)
     {
         $this->resourceType = $resourceType;
         $this->id = $id;
         $this->data = $data;
-        $this->mode = $this->getData('mode');
+    }
+
+    public function isInTestmode(): bool
+    {
+        return $this->getData('mode') === 'test';
     }
 
     /**
@@ -72,82 +69,32 @@ class WebhookEntity
     }
 
     /**
-     * Upgrade this entity to a fully-typed SDK resource using the connector.
+     * Hydrate this entity into a fully-typed SDK resource using the embedded
+     * snapshot. No HTTP call is made — the signed webhook payload already
+     * contains the full resource state at event time.
+     *
+     * The caller may supply a pre-built {@see WebhookSnapshotOrigin} to
+     * record real event metadata (id, signature, received-at). When omitted
+     * a null-signature fallback origin is constructed so ad-hoc or test
+     * usages outside the {@see WebhookEventMapper} flow keep working.
      */
-    public function asResource(Connector $connector): BaseResource
+    public function asResource(Connector $connector, ?WebhookSnapshotOrigin $origin = null): BaseResource
     {
         $targetClass = $this->resolveTargetResourceClass();
+        $resource = ResourceFactory::create($connector, $targetClass);
 
-        $request = $this->tryCreateGetRequest($targetClass);
+        $origin = $origin ?? new WebhookSnapshotOrigin(
+            $connector,
+            'unknown',
+            null,
+            new DateTimeImmutable
+        );
 
-        if ($request instanceof SupportsTestmode) {
-            $request = $request->test($this->isInTestmode());
-        }
-
-        if ($request instanceof ResourceHydratableRequest) {
-            return $connector->send($request);
-        }
-
-        $href = $this->extractSelfHref($this->data);
-
-        if ($href) {
-            return $this->sendDynamic($connector, $href, $targetClass);
-        }
-
-        $fallbackHref = $this->buildFallbackHref($targetClass);
-
-        return $this->sendDynamic($connector, $fallbackHref, $targetClass);
-    }
-
-    /**
-     * @param  array  $data
-     */
-    private function extractSelfHref(array $data): ?string
-    {
-        return Arr::get($data, '_links.self.href');
-    }
-
-    private function resolvePlural(string $targetClass): ?string
-    {
-        $names = Config::resourceRegistry()->namesOf($targetClass);
-
-        return $names[ResourceRegistry::PLURAL_KEY] ?? null;
+        return (new SnapshotHydrator)->hydrate($resource, $this->data, $origin);
     }
 
     private function resolveTargetResourceClass(): string
     {
         return Config::resourceRegistry()->for($this->resourceType) ?? AnyResource::class;
-    }
-
-    private function tryCreateGetRequest(string $targetClass): ?ResourceHydratableRequest
-    {
-        $resourceBasename = Utility::classBasename($targetClass);
-
-        /** @var class-string<ResourceHydratableRequest> */
-        $requestClass = 'Mollie\\Api\\Http\\Requests\\Get' . $resourceBasename . 'Request';
-
-        if (! class_exists($requestClass)) {
-            return null;
-        }
-
-        try {
-            return new $requestClass($this->id);
-        } catch (\Throwable $e) {
-            return null;
-        }
-    }
-
-    private function buildFallbackHref(string $targetClass): string
-    {
-        $plural = $this->resolvePlural($targetClass) ?? $this->resourceType;
-
-        return $plural . '/' . $this->id;
-    }
-
-    private function sendDynamic(Connector $connector, string $href, string $targetClass): BaseResource
-    {
-        return $connector->send(
-            (new DynamicGetRequest($href))->setHydratableResource($targetClass)
-        );
     }
 }

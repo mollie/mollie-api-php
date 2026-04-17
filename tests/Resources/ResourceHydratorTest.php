@@ -80,7 +80,7 @@ class ResourceHydratorTest extends TestCase
 
         $this->hydrator->hydrate($resource, $apiResult, $response);
 
-        $this->assertInstanceOf(RefundCollection::class, $resource->refunds());
+        $this->assertInstanceOf(RefundCollection::class, $resource->_embedded->refunds);
     }
 
     /** @test */

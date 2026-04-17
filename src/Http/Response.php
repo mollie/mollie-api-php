@@ -3,6 +3,7 @@
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\ResourceOrigin;
 use Mollie\Api\Exceptions\JsonParseException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +11,7 @@ use Psr\Http\Message\StreamInterface;
 use stdClass;
 use Throwable;
 
-class Response
+class Response implements ResourceOrigin
 {
     protected ResponseInterface $psrResponse;
 

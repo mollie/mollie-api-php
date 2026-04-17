@@ -92,7 +92,7 @@ class Method extends BaseResource
         $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->issuers,
-            $this->response
+            $this->getOrigin()
         );
 
         return $collection;
@@ -117,7 +117,7 @@ class Method extends BaseResource
         $collection = (new ResourceHydrator)->hydrateCollection(
             $collection,
             (array) $this->pricing,
-            $this->response
+            $this->getOrigin()
         );
 
         return $collection;
