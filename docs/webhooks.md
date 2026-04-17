@@ -89,7 +89,7 @@ $entityId = $event->entityData('id');
 // property is null and calling $event->entity() throws. Check the property
 // first, or fetch the resource yourself via its Get request using
 // $event->entityId.
-$resource = $event->asEntity($mollie);
+$resource = $event->asResource($mollie);
 
 // Handle different event types
 match (true) {
@@ -127,7 +127,7 @@ of an HTTP `Response`. You can inspect the event metadata without hitting
 the API:
 
 ```php
-$resource = $event->asEntity($mollie);
+$resource = $event->asResource($mollie);
 
 $resource->getResponse();                 // null — there was no HTTP call
 $resource->getOrigin();                   // WebhookSnapshotOrigin

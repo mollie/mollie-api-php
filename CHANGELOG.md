@@ -21,8 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the main `ResourceHydrator` after a one-line `json_decode(json_encode())`
   normalization so nested values arrive as stdClass (matching the HTTP
   path byte-for-byte).
-- `BaseEvent::asEntity(Connector)` hydrates the embedded entity and
-  automatically threads the rich origin (event id, signature, received-at).
+- `BaseEvent::asResource(Connector)` hydrates the embedded entity into a
+  fully-typed SDK resource and automatically threads the rich origin
+  (event id, signature, received-at).
 - `WebhookEventMapper::processPayload()` gains an optional `?string
   $signature` parameter that is threaded through to the resulting event
   and carried onto hydrated resources via `WebhookSnapshotOrigin`.
@@ -44,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `?WebhookSnapshotOrigin` second parameter. Callers using the
   single-arg form (`$event->entity()->asResource($mollie)`) continue to
   work and receive a fallback origin with null signature. Mapper-driven
-  flow (`$event->asEntity($mollie)`) passes the rich origin
+  flow (`$event->asResource($mollie)`) passes the rich origin
   automatically.
 - Webhook-hydrated resources return `null` from `getResponse()` instead
   of a fabricated synthetic response. Use `getOrigin()` to inspect

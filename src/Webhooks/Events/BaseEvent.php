@@ -71,7 +71,7 @@ abstract class BaseEvent
      * received-at). Throws if the webhook delivery was "simple" and
      * carried no embedded entity.
      */
-    public function asEntity(Connector $connector): BaseResource
+    public function asResource(Connector $connector): BaseResource
     {
         return $this->entity()->asResource(
             $connector,

@@ -144,7 +144,7 @@ class WebhookEventMapperTest extends TestCase
         $event = $this->mapper->processPayload($payload, 'sha256=sig');
 
         /** @var PaymentLink $resource */
-        $resource = $event->asEntity($client);
+        $resource = $event->asResource($client);
 
         $this->assertInstanceOf(PaymentLink::class, $resource);
         $this->assertInstanceOf(WebhookSnapshotOrigin::class, $resource->getOrigin());
