@@ -63,7 +63,10 @@ class MockEvent
         $resourceData = MockResponse::ok($resourceKey, $this->entityId)
             ->json();
 
-        $eventBlueprintData['_embedded']['entity'] = $resourceData;
+        // Real Mollie webhook POST deliveries key the embedded entity by its
+        // resource type (e.g. _embedded["payment-link"]), not by the literal
+        // key "entity". Match that shape so tests exercise realistic payloads.
+        $eventBlueprintData['_embedded'][$resourceKey] = $resourceData;
 
         return $eventBlueprintData;
     }

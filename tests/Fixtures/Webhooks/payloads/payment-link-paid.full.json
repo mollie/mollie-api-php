@@ -1,0 +1,32 @@
+{
+  "resource": "event",
+  "id": "event_GvJ8WHrp5isUdRub9CJyH",
+  "type": "payment-link.paid",
+  "entityId": "pl_qng5gbbv8NAZ5gpM5ZYgx",
+  "createdAt": "2024-12-16T15:57:04.0Z",
+  "_embedded": {
+    "payment-link": {
+      "resource": "payment-link",
+      "id": "pl_qng5gbbv8NAZ5gpM5ZYgx",
+      "profileId": "pfl_D96wnsu869",
+      "mode": "live",
+      "description": "Bicycle tires",
+      "amount": {"currency": "EUR", "value": "24.95"},
+      "archived": false,
+      "redirectUrl": "https://webshop.example.org/thanks",
+      "createdAt": "2021-03-20T09:29:56.0Z",
+      "expiresAt": "2023-06-06T11:00:00.0Z",
+      "reusable": true,
+      "_links": {
+        "self": {"href": "/v2/payment-links/pl_qng5gbbv8NAZ5gpM5ZYgx", "type": "application/hal+json"},
+        "paymentLink": {"href": "https://payment-link.dev.mollielabs.com/payment/qng5gbbv8NAZ5gpM5ZYgx", "type": "application/hal+json"},
+        "documentation": {"href": "https://docs.mollie.com/reference/create-payment-link", "type": "text/html"}
+      }
+    }
+  },
+  "_links": {
+    "self": {"href": "https://api.mollie.com/v2/events/event_GvJ8WHrp5isUdRub9CJyH", "type": "application/hal+json"},
+    "documentation": {"href": "https://docs.mollie.com/guides/webhooks", "type": "text/html"},
+    "payment-link": {"href": "/v2/payment-links/pl_qng5gbbv8NAZ5gpM5ZYgx", "type": "application/hal+json"}
+  }
+}
