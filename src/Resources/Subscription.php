@@ -199,7 +199,7 @@ class Subscription extends BaseResource
     public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return $this->connector->subscriptionPayments->pageFor($this);
+            return $this->connector->subscriptionPayments->pageFor($this, null, null, ['testmode' => $this->mode === 'test']);
         }
 
         return $this

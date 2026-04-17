@@ -124,10 +124,11 @@ class Profile extends BaseResource
     public function chargebacks(): ChargebackCollection
     {
         $href = $this->_links->chargebacks->href ?? "profiles/{$this->id}/chargebacks";
+        $query = isset($this->_links->chargebacks->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($href))->setHydratableResource(ChargebackCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(ChargebackCollection::class));
     }
 
     /**
@@ -138,10 +139,11 @@ class Profile extends BaseResource
     public function methods(): MethodCollection
     {
         $href = $this->_links->methods->href ?? "profiles/{$this->id}/methods";
+        $query = isset($this->_links->methods->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($href))->setHydratableResource(MethodCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(MethodCollection::class));
     }
 
     /**
@@ -174,10 +176,11 @@ class Profile extends BaseResource
     public function payments(): PaymentCollection
     {
         $href = $this->_links->payments->href ?? "profiles/{$this->id}/payments";
+        $query = isset($this->_links->payments->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($href))->setHydratableResource(PaymentCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(PaymentCollection::class));
     }
 
     /**
@@ -188,9 +191,10 @@ class Profile extends BaseResource
     public function refunds(): RefundCollection
     {
         $href = $this->_links->refunds->href ?? "profiles/{$this->id}/refunds";
+        $query = isset($this->_links->refunds->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($href))->setHydratableResource(RefundCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(RefundCollection::class));
     }
 }

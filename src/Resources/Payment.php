@@ -673,7 +673,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return $this->connector->paymentChargebacks->pageFor($this);
+            return $this->connector->paymentChargebacks->pageFor($this, $this->withMode());
         }
 
         return $this

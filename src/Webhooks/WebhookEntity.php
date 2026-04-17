@@ -85,7 +85,7 @@ class WebhookEntity
 
         $origin = $origin ?? new WebhookSnapshotOrigin(
             $connector,
-            $this->id !== '' ? $this->id : 'unknown',
+            'unknown',
             null,
             new DateTimeImmutable
         );

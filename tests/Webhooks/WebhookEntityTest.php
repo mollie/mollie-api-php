@@ -5,11 +5,19 @@ namespace Tests\Webhooks;
 use DateTimeImmutable;
 use Mollie\Api\Exceptions\MissingAuthenticationException;
 use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
+use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Http\Adapter\CurlMollieHttpAdapter;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\BalanceTransaction;
+use Mollie\Api\Resources\Profile;
+use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
+use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Webhooks\WebhookEntity;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
 use PHPUnit\Framework\TestCase;
@@ -170,10 +178,83 @@ class WebhookEntityTest extends TestCase
 
         $this->assertInstanceOf(PaymentLink::class, $resource);
         $this->assertInstanceOf(WebhookSnapshotOrigin::class, $resource->getOrigin());
-        $this->assertSame('pl_4Y0eZitmBnQ5jsBYZIBw', $resource->getOrigin()->getEventId());
+        $this->assertSame('unknown', $resource->getOrigin()->getEventId());
         $this->assertNull($resource->getOrigin()->getSignature());
         $this->assertNull($resource->getResponse());
         $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function payment_chargebacks_fallback_keeps_testmode_on_webhook_origin()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedPaymentChargebacksRequest::class => MockResponse::ok('chargeback-list'),
+        ], true);
+
+        $entity = WebhookEntity::create([
+            'id' => 'tr_testmode',
+            'resource' => 'payment',
+            'mode' => 'test',
+        ]);
+
+        /** @var Payment $payment */
+        $payment = $entity->asResource($client);
+        $payment->chargebacks();
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('testmode=true', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function subscription_payments_fallback_keeps_testmode_on_webhook_origin()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedSubscriptionPaymentsRequest::class => MockResponse::ok('payment-list'),
+        ], true);
+
+        $entity = WebhookEntity::create([
+            'id' => 'sub_testmode',
+            'resource' => 'subscription',
+            'customerId' => 'cst_testmode',
+            'mode' => 'test',
+        ]);
+
+        /** @var Subscription $subscription */
+        $subscription = $entity->asResource($client);
+        $subscription->payments();
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('testmode=true', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function profile_fallback_requests_keep_testmode_on_webhook_origin()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
+        ], true);
+
+        $entity = WebhookEntity::create([
+            'id' => 'pfl_testmode',
+            'resource' => 'profile',
+            'mode' => 'test',
+        ]);
+
+        /** @var Profile $profile */
+        $profile = $entity->asResource($client);
+        $profile->refunds();
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('testmode=true', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
     }
 
     /** @test */
