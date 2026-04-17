@@ -72,17 +72,24 @@ Once you've verified the webhook signature, you can safely process the payload:
 use Mollie\Api\Webhooks\WebhookEventMapper;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
 
-// Process the webhook payload into an event object
-$event = (new WebhookEventMapper())->processPayload($request->getParsedBody());
+// Process the webhook payload into an event object. Pass the signature
+// (when available) so the resulting resource carries webhook provenance
+// — see "Inspecting webhook provenance" below.
+$event = (new WebhookEventMapper())->processPayload(
+    $request->getParsedBody(),
+    $signature,
+);
 
 // Extract the entity ID (e.g., payment ID, customer ID, etc.)
 $entityId = $event->entityData('id');
 
 // Hydrate the embedded entity snapshot into a fully typed SDK resource.
 // No HTTP call is made — the signed webhook payload is the source of truth.
-// If you subscribe to "simple" payloads (entityId only), $event->entity() is
-// null and you should fetch the resource yourself via its Get request.
-$resource = $event->entity()->asResource($mollie);
+// If you subscribe to "simple" payloads (entityId only), the $event->entity
+// property is null and calling $event->entity() throws. Check the property
+// first, or fetch the resource yourself via its Get request using
+// $event->entityId.
+$resource = $event->asEntity($mollie);
 
 // Handle different event types
 match (true) {
@@ -112,6 +119,32 @@ $event = (new WebhookEventMapper([
     'some.event_happened' => SomeEventHappened::class
 ]))->processPayload($request->getParsedBody());
 ```
+
+### Inspecting webhook provenance
+
+Resources hydrated from a webhook carry a `WebhookSnapshotOrigin` instead
+of an HTTP `Response`. You can inspect the event metadata without hitting
+the API:
+
+```php
+$resource = $event->asEntity($mollie);
+
+$resource->getResponse();                 // null — there was no HTTP call
+$resource->getOrigin();                   // WebhookSnapshotOrigin
+$resource->getOrigin()->getEventId();     // 'event_GvJ8WHrp5isUdRub9CJyH'
+$resource->getOrigin()->getSignature();   // the X-Mollie-Signature header, or null
+$resource->getOrigin()->getReceivedAt();  // DateTimeImmutable
+```
+
+Resources fetched via the API (for example via `$mollie->send(new
+GetPaymentRequest(...))`) still return a `Response` from `getResponse()`
+as before.
+
+Follow-up API calls on webhook-origin resources (e.g. `$payment->refunds()`,
+`$paymentLink->payments()`) **do** require a valid API key on the client —
+they fire real HTTP. If you run a webhook-only deployment without an API
+key configured, either set the key before following links, or stick to
+reading the snapshot and fetching details with a dedicated request.
 
 ### Testing Webhooks
 
