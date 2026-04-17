@@ -8,13 +8,18 @@ use Mollie\Api\Http\Response;
 
 trait HasResponse
 {
-    protected Response $response;
-
     protected ?ResourceOrigin $origin = null;
 
-    public function getResponse(): Response
+    /**
+     * Returns the HTTP `Response` backing this resource, or `null`
+     * when the resource was hydrated from a non-HTTP origin (e.g. a
+     * signed webhook envelope). Callers that previously assumed a
+     * non-null return should null-check or read provenance from
+     * {@see self::getOrigin()} instead.
+     */
+    public function getResponse(): ?Response
     {
-        return $this->response;
+        return $this->origin instanceof Response ? $this->origin : null;
     }
 
     /**
@@ -22,7 +27,6 @@ trait HasResponse
      */
     public function setResponse(Response $response)
     {
-        $this->response = $response;
         $this->origin = $response;
 
         return $this;
@@ -39,14 +43,6 @@ trait HasResponse
     public function setOrigin(?ResourceOrigin $origin)
     {
         $this->origin = $origin;
-
-        // Mirror onto $this->response whenever origin is an HTTP Response so
-        // code that still reads $this->response directly keeps working on
-        // HTTP-origin resources during the transitional period. Non-Response
-        // origins (e.g. webhooks) only populate $this->origin.
-        if ($origin instanceof Response) {
-            $this->response = $origin;
-        }
 
         return $this;
     }

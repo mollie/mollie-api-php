@@ -124,7 +124,7 @@ class Profile extends BaseResource
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return ChargebackCollection::withResponse($this->response, $this->connector);
+            return ChargebackCollection::withOrigin($this->getOrigin(), $this->connector);
         }
 
         return $this
@@ -140,7 +140,7 @@ class Profile extends BaseResource
     public function methods(): MethodCollection
     {
         if (! isset($this->_links->methods->href)) {
-            return MethodCollection::withResponse($this->response, $this->connector);
+            return MethodCollection::withOrigin($this->getOrigin(), $this->connector);
         }
 
         return $this
@@ -178,7 +178,7 @@ class Profile extends BaseResource
     public function payments(): PaymentCollection
     {
         if (! isset($this->_links->payments->href)) {
-            return PaymentCollection::withResponse($this->response, $this->connector);
+            return PaymentCollection::withOrigin($this->getOrigin(), $this->connector);
         }
 
         return $this
@@ -194,7 +194,7 @@ class Profile extends BaseResource
     public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return RefundCollection::withResponse($this->response, $this->connector);
+            return RefundCollection::withOrigin($this->getOrigin(), $this->connector);
         }
 
         return $this

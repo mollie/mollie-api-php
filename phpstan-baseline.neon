@@ -15,7 +15,7 @@ parameters:
 		-
 			message: '#^Unsafe usage of new static\(\)\.$#'
 			identifier: new.static
-			count: 1
+			count: 2
 			path: src/Resources/ResourceCollection.php
 
 		-
@@ -119,6 +119,18 @@ parameters:
 			identifier: method.alreadyNarrowedType
 			count: 1
 			path: tests/Http/Auth/AccessTokenAuthenticatorTest.php
+
+		-
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$custom_field\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/Webhooks/WebhookEntityTest.php
+
+		-
+			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$nested\.$#'
+			identifier: property.notFound
+			count: 1
+			path: tests/Webhooks/WebhookEntityTest.php
 
 		-
 			message: '#^Access to an undefined property Mollie\\Api\\Resources\\AnyResource\:\:\$id\.$#'
