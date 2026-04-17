@@ -132,11 +132,11 @@ class WebhookEventMapper
     /**
      * Create a webhook entity from the embedded data in the payload.
      *
-     * Real Mollie webhook POST deliveries key the embedded entity by its
-     * resource type (e.g. `_embedded["payment-link"]`), not by the
-     * literal key `entity`. Iteration is key-agnostic and defensive
-     * against future additions under `_embedded` so unrelated extra
-     * keys (e.g. metadata blocks) would not be mistaken for the entity.
+     * Mollie keys the embedded resource under `_embedded.entity`.
+     * Iteration is key-agnostic so any future schema tweak (additional
+     * `_embedded` sub-blocks, renamed key) cannot silently break
+     * webhook handling; only candidates carrying `id` and `resource`
+     * are eligible.
      *
      * @param array $payload
      * @return WebhookEntity|null

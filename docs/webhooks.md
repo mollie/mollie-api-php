@@ -140,19 +140,15 @@ Resources fetched via the API (for example via `$mollie->send(new
 GetPaymentRequest(...))`) still return a `Response` from `getResponse()`
 as before.
 
-Follow-up API calls on webhook-origin resources (e.g. `$payment->refunds()`,
-`$paymentLink->payments()`) **do** require a valid API key on the client —
-they fire real HTTP. If you run a webhook-only deployment without an API
-key configured, either set the key before following links, or stick to
-reading the snapshot and fetching details with a dedicated request.
-
-Follow-up methods like `$payment->refunds()`, `$profile->methods()`,
-and `$subscription->payments()` work identically on webhook-origin
-resources. When the embedded snapshot carries the link URL, the SDK
-follows it; when it does not, the SDK routes the request through the
-connector using the resource's id. Either way you get a live
-collection, with the only cost being the round-trip that the snapshot
-already spared you for the parent resource.
+Follow-up methods like `$payment->refunds()`, `$profile->methods()`, and
+`$subscription->payments()` work the same on webhook-origin resources
+as they do on HTTP-origin resources. When the embedded snapshot carries
+the link URL, the SDK follows it; when it does not, the SDK routes the
+request through the connector using the resource's id. Either way, the
+call fires real HTTP to Mollie, which means a valid API key must be
+configured on the client. A webhook handler running without an API key
+is limited to reading the signed snapshot itself — there is no path
+that lets the SDK reach Mollie without credentials.
 
 ### Testing Webhooks
 
