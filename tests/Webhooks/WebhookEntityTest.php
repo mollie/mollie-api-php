@@ -66,7 +66,7 @@ class WebhookEntityTest extends TestCase
         $this->assertInstanceOf(PaymentLink::class, $resource);
         $this->assertEquals('pl_4Y0eZitmBnQ5jsBYZIBw', $resource->id);
         $this->assertEquals('Test payment link', $resource->description);
-        $this->assertEquals(['currency' => 'EUR', 'value' => '10.00'], $resource->amount);
+        $this->assertEquals((object) ['currency' => 'EUR', 'value' => '10.00'], $resource->amount);
         $client->assertSentCount(0);
     }
 

@@ -83,12 +83,12 @@ class WebhookEntity
         $targetClass = $this->resolveTargetResourceClass();
 
         $resource = ResourceFactory::create($connector, $targetClass);
+        $response = $this->buildSyntheticResponse($connector);
 
-        return (new ResourceHydrator)->hydrate(
-            $resource,
-            $this->data,
-            $this->buildSyntheticResponse($connector)
-        );
+        // Pass the decoded stdClass tree (not the source array) so nested values
+        // such as `amount` and `_links` arrive as objects, matching the shape
+        // produced by the live HTTP path.
+        return (new ResourceHydrator)->hydrate($resource, $response->json(), $response);
     }
 
     private function resolveTargetResourceClass(): string
