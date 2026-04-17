@@ -146,6 +146,31 @@ they fire real HTTP. If you run a webhook-only deployment without an API
 key configured, either set the key before following links, or stick to
 reading the snapshot and fetching details with a dedicated request.
 
+#### HAL link availability on snapshots
+
+Several follow-up methods depend on a HAL sub-link being present on the
+embedded entity — for example `Payment::refunds()`, `Payment::captures()`,
+`Payment::chargebacks()`, `Profile::chargebacks()`, `Profile::methods()`,
+`Profile::payments()`, `Profile::refunds()`, and `Subscription::payments()`
+all read `$this->_links->{name}->href` before firing a request. HTTP
+responses from the Mollie API reliably include those sub-links when the
+child resource exists; webhook snapshots are leaner and may omit them.
+
+When the sub-link is absent, these methods return an empty collection
+rather than throw. That is a silent behavioral difference from the HTTP
+path — if you rely on `$payment->refunds()` returning a live, possibly
+non-empty collection inside a webhook handler, fetch the resource via a
+dedicated request instead:
+
+```php
+$payment = $mollie->send(new GetPaymentRequest($event->entityId));
+$refunds = $payment->refunds(); // guaranteed to follow the HAL link
+```
+
+Methods that do not depend on `_links` (for example
+`PaymentLink::payments()`, which routes through the endpoint collection
+via `$this->id`) work identically on both origins.
+
 ### Testing Webhooks
 
 Testing webhooks is crucial to ensure your application handles all event types correctly. The SDK provides several tools to help you test webhook scenarios.

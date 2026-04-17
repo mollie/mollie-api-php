@@ -53,6 +53,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   connector. Signed snapshots are self-sufficient. **Follow-up calls**
   (`$payment->refunds()`, `$subscription->payments()`, etc.) still
   require an authenticator — they fire real HTTP requests.
+- **Behavioral note:** follow-up methods that walk a HAL sub-link
+  (`Payment::refunds/captures/chargebacks`, `Profile::chargebacks/methods/payments/refunds`,
+  `Subscription::payments`) return an empty collection when the embedded
+  snapshot omits the corresponding `_links.{name}.href`. HTTP-origin
+  resources always carry the links; webhook snapshots may not. If you
+  need guaranteed access to refunds, captures, or other child resources
+  inside a webhook handler, fetch the resource with a dedicated
+  `Get…Request` first. See `docs/webhooks.md` → "HAL link availability
+  on snapshots" for details. Relative `_links.{name}.href` values (as
+  returned by Mollie's webhook delivery) are resolved against the
+  client's base URL via `Url::join` — no special handling required on
+  the caller's side.
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
   `array_pop($_embedded)` to key-agnostic iteration that picks the first
   candidate carrying `id` and `resource` fields. Real Mollie webhook
