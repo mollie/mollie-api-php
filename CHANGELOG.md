@@ -47,11 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   work and receive a fallback origin with null signature. Mapper-driven
   flow (`$event->asResource($mollie)`) passes the rich origin
   automatically.
-- Webhook-hydrated resources return `null` from `getResponse()` instead
-  of a fabricated synthetic response. Use `getOrigin()` to inspect
-  webhook provenance.
 - Hydrating a webhook payload no longer requires a valid API key on the
-  connector. Signed snapshots are self-sufficient. **Follow-up calls**
+  connector. Signed snapshots are self-sufficient, so a signing-secret-only
+  webhook worker can read the snapshot without any key. **Follow-up calls**
   (`$payment->refunds()`, `$subscription->payments()`, etc.) still
   require an authenticator — they fire real HTTP requests.
 - Follow-up methods on hydrated resources (`Payment::refunds/captures/chargebacks`,
@@ -66,13 +64,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   collection on both origins. Relative `_links.{name}.href` values in
   webhook payloads are resolved against the client's base URL via
   `Url::join`, no special handling required on the caller's side.
+### For contributors
+
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
   `array_pop($_embedded)` to key-agnostic iteration that picks the first
   candidate carrying `id` and `resource` fields. Mollie keys the
-  embedded entity under `_embedded.entity`; the new iteration still
-  resolves that correctly and is resilient to any future
-  schema tweak (additional `_embedded` sub-blocks, renamed key)
-  without silently breaking webhook handling.
+  embedded entity under `_embedded.entity`; the new iteration resolves
+  that correctly and is resilient to any future schema tweak (additional
+  `_embedded` sub-blocks, renamed key) without silently breaking webhook
+  handling.
 
 ### Removed
 
@@ -92,16 +92,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   null for simple payloads. It actually throws. Updated to correctly
   describe reading the nullable `$event->entity` property or fetching
   the resource via `$event->entityId`.
-
-### Added (fixtures / tests)
-
-- `tests/Fixtures/Webhooks/payloads/payment-link-paid.full.json` and
-  `.simple.json` captured verbatim from the Mollie staging docs
-  (https://staging.docs.mollie.com/reference/webhooks) as canonical
-  fixtures for the real webhook POST shape.
-- `tests/Webhooks/RealPayloadShapeTest.php` guards against regressions
-  that would break real-world webhook delivery (resource-type-keyed
-  `_embedded`, `_links.self.href` on embedded entity).
 
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
