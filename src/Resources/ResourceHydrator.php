@@ -4,19 +4,17 @@ namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
-use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 
 class ResourceHydrator
 {
     /**
-     * Hydrate a response into a resource or collection
+     * Hydrate raw response data into a typed resource.
      *
      * @param  object|array  $data
-     * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
      */
-    public function hydrate(BaseResource $resource, $data, Response $response)
+    public function hydrate(BaseResource $resource, $data, Response $response): BaseResource
     {
         // Convert object to array for consistent handling
         if (is_object($data)) {
