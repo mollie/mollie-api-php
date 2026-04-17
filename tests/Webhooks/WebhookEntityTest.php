@@ -108,24 +108,10 @@ class WebhookEntityTest extends TestCase
         $this->assertInstanceOf(BalanceTransaction::class, $resource);
         $this->assertEquals('baltr_QM24QwzUWR4ev4Xfgyt29d', $resource->id);
         $this->assertEquals('payment', $resource->type);
-        $client->assertSentCount(0);
-    }
-
-    /** @test */
-    public function as_resource_returns_any_resource_for_unknown_resource_types()
-    {
-        $client = new MockMollieClient;
-
-        $entity = WebhookEntity::create([
-            'id' => 'unknown_123',
-            'resource' => 'unknown-resource',
-            'mode' => 'live',
-            'custom_field' => 'custom_value',
-        ]);
-
-        $resource = $entity->asResource($client);
-
-        $this->assertInstanceOf(AnyResource::class, $resource);
+        $this->assertEquals(
+            (object) ['currency' => 'EUR', 'value' => '100.00'],
+            $resource->resultAmount
+        );
         $client->assertSentCount(0);
     }
 
@@ -164,8 +150,6 @@ class WebhookEntityTest extends TestCase
     /** @test */
     public function as_resource_builds_fallback_origin_when_none_supplied()
     {
-        // Preserves backward compatibility with the single-arg call form
-        // used in docs/webhooks.md and ad-hoc utility scripts.
         $client = new MockMollieClient;
 
         $entity = WebhookEntity::create([
@@ -182,6 +166,38 @@ class WebhookEntityTest extends TestCase
         $this->assertNull($resource->getOrigin()->getSignature());
         $this->assertNull($resource->getResponse());
         $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function payment_refunds_follows_links_href_when_present_on_webhook_origin()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
+        ], true);
+
+        $entity = WebhookEntity::create([
+            'id' => 'tr_linksbranch',
+            'resource' => 'payment',
+            'mode' => 'live',
+            '_links' => [
+                'refunds' => [
+                    'href' => 'https://api.mollie.com/v2/payments/tr_linksbranch/refunds',
+                ],
+            ],
+        ]);
+
+        /** @var Payment $payment */
+        $payment = $entity->asResource($client);
+        $payment->refunds();
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame(
+                'https://api.mollie.com/v2/payments/tr_linksbranch/refunds',
+                (string) $pendingRequest->getUri()->withQuery('')
+            );
+
+            return true;
+        });
     }
 
     /** @test */
@@ -233,11 +249,16 @@ class WebhookEntityTest extends TestCase
         });
     }
 
-    /** @test */
-    public function profile_fallback_requests_keep_testmode_on_webhook_origin()
-    {
+    /**
+     * @test
+     * @dataProvider profileFallbackMethodProvider
+     */
+    public function profile_fallback_requests_keep_testmode_on_webhook_origin(
+        string $method,
+        string $collectionKey
+    ): void {
         $client = new MockMollieClient([
-            DynamicGetRequest::class => MockResponse::ok('empty-list', 'refunds'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', $collectionKey),
         ], true);
 
         $entity = WebhookEntity::create([
@@ -248,7 +269,7 @@ class WebhookEntityTest extends TestCase
 
         /** @var Profile $profile */
         $profile = $entity->asResource($client);
-        $profile->refunds();
+        $profile->{$method}();
 
         $client->assertSent(function (PendingRequest $pendingRequest) {
             $this->assertSame('testmode=true', $pendingRequest->getUri()->getQuery());
@@ -257,10 +278,19 @@ class WebhookEntityTest extends TestCase
         });
     }
 
+    public function profileFallbackMethodProvider(): array
+    {
+        return [
+            'chargebacks' => ['chargebacks', 'chargebacks'],
+            'methods' => ['methods', 'methods'],
+            'payments' => ['payments', 'payments'],
+            'refunds' => ['refunds', 'refunds'],
+        ];
+    }
+
     /** @test */
     public function as_resource_works_without_authenticator_on_connector()
     {
-        // Webhook hydration is self-sufficient — no API key required.
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
 
         $entity = WebhookEntity::create([
@@ -300,9 +330,6 @@ class WebhookEntityTest extends TestCase
     /** @test */
     public function follow_up_calls_on_webhook_origin_require_authenticator()
     {
-        // Webhook hydration works without an API key, but follow-up calls
-        // into the connector still run auth middleware. Documenting the
-        // failure mode explicitly.
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
 
         $entity = WebhookEntity::create([

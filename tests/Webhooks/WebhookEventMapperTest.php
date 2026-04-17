@@ -158,7 +158,6 @@ class WebhookEventMapperTest extends TestCase
     /** @test */
     public function create_webhook_entity_from_payload_resolves_entity_key(): void
     {
-        // Mollie keys the embedded resource under _embedded.entity.
         $payload = [
             'id' => 'event_abc',
             'type' => 'payment-link.paid',
@@ -184,11 +183,6 @@ class WebhookEventMapperTest extends TestCase
     /** @test */
     public function create_webhook_entity_skips_non_entity_embedded_keys(): void
     {
-        // Future-proof: extra blocks under _embedded that lack id+resource
-        // fields must not be picked up as the entity. The mapper's
-        // iteration is deliberately key-agnostic so a renamed or
-        // alongside-added _embedded sub-block cannot silently break
-        // webhook handling.
         $payload = [
             'id' => 'event_abc',
             'type' => 'payment-link.paid',
@@ -209,5 +203,56 @@ class WebhookEventMapperTest extends TestCase
 
         $this->assertNotNull($event->entity);
         $this->assertSame('payment-link', $event->entity->getResourceType());
+    }
+
+    /**
+     * @test
+     * @dataProvider payloadsWithoutEmbeddedEntityProvider
+     */
+    public function create_webhook_entity_returns_null_when_no_entity_candidate(array $payload): void
+    {
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNull($event->entity);
+    }
+
+    public function payloadsWithoutEmbeddedEntityProvider(): array
+    {
+        $base = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_links' => [],
+        ];
+
+        return [
+            'missing _embedded' => [$base],
+            'non-array _embedded scalar' => [$base + ['_embedded' => 'not-an-array']],
+            '_embedded entries without id/resource' => [
+                $base + ['_embedded' => ['merchant_context' => ['locale' => 'en_US']]],
+            ],
+        ];
+    }
+
+    /** @test */
+    public function as_resource_throws_when_event_has_no_embedded_entity(): void
+    {
+        $payload = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_links' => [],
+        ];
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNull($event->entity);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Event entity not found');
+
+        $event->asResource(new MockMollieClient);
     }
 }

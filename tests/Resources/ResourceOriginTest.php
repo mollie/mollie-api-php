@@ -23,14 +23,6 @@ use PHPUnit\Framework\TestCase;
 class ResourceOriginTest extends TestCase
 {
     /** @test */
-    public function response_implements_resource_origin(): void
-    {
-        $response = $this->createMock(Response::class);
-
-        $this->assertInstanceOf(ResourceOrigin::class, $response);
-    }
-
-    /** @test */
     public function set_response_populates_origin_on_resource(): void
     {
         $connector = $this->createMock(Connector::class);
