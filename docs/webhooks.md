@@ -146,36 +146,13 @@ they fire real HTTP. If you run a webhook-only deployment without an API
 key configured, either set the key before following links, or stick to
 reading the snapshot and fetching details with a dedicated request.
 
-#### When follow-up links are missing from the snapshot
-
-Mollie API responses carry a `_links` object that tells the SDK where
-to fetch related resources (the refunds on a payment, the payments on
-a profile, and so on). Several follow-up methods on a resource read
-those URLs and call them:
-
-- `Payment::refunds()`, `Payment::captures()`, `Payment::chargebacks()`
-- `Profile::chargebacks()`, `Profile::methods()`, `Profile::payments()`, `Profile::refunds()`
-- `Subscription::payments()`
-
-Mollie's HTTP responses always include these URLs when the child
-resource exists. Webhook snapshots are leaner and can leave them out.
-When the URL is missing from the snapshot, the method returns an
-empty collection rather than throwing — so a call like
-`$payment->refunds()` inside a webhook handler may silently look like
-"no refunds" even when refunds exist on the payment.
-
-If you need a guaranteed read of the child collection, fetch the
-resource from the API first:
-
-```php
-$payment = $mollie->send(new GetPaymentRequest($event->entityId));
-$refunds = $payment->refunds(); // the fetched response always carries the follow-up URL
-```
-
-Methods that don't depend on the `_links` object work identically on
-both origins. For example, `PaymentLink::payments()` calls the
-endpoint collection with the payment link's id, so it works the same
-whether the payment link was hydrated from a webhook or an API call.
+Follow-up methods like `$payment->refunds()`, `$profile->methods()`,
+and `$subscription->payments()` work identically on webhook-origin
+resources. When the embedded snapshot carries the link URL, the SDK
+follows it; when it does not, the SDK routes the request through the
+connector using the resource's id. Either way you get a live
+collection, with the only cost being the round-trip that the snapshot
+already spared you for the parent resource.
 
 ### Testing Webhooks
 

@@ -54,19 +54,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   connector. Signed snapshots are self-sufficient. **Follow-up calls**
   (`$payment->refunds()`, `$subscription->payments()`, etc.) still
   require an authenticator — they fire real HTTP requests.
-- **Behavioral note:** follow-up methods that read a URL from the
-  resource's `_links` object (`Payment::refunds/captures/chargebacks`,
+- Follow-up methods on hydrated resources (`Payment::refunds/captures/chargebacks`,
   `Profile::chargebacks/methods/payments/refunds`, `Subscription::payments`)
-  return an empty collection when that URL isn't present on the embedded
-  webhook snapshot. API responses always carry those URLs; webhook
-  snapshots may not. If you need guaranteed access to refunds, captures,
-  or other child resources inside a webhook handler, fetch the resource
-  with a dedicated `Get…Request` first. See `docs/webhooks.md` →
-  "When follow-up links are missing from the snapshot" for details.
-  Relative URLs in webhook payloads (for example
-  `/v2/payment-links/pl_...`) are resolved against the client's base
-  URL via `Url::join`, so no special handling is required on the
-  caller's side.
+  now fall back to their endpoint collection when the embedded webhook
+  snapshot does not carry the corresponding `_links.{name}.href`.
+  Previously these methods returned an empty collection in that case,
+  which was a silent behavioural difference between HTTP-origin and
+  webhook-origin resources. With this change the SDK routes through
+  the connector using the resource's id (same pattern
+  `PaymentLink::payments()` already used), so you get a live child
+  collection on both origins. Relative `_links.{name}.href` values in
+  webhook payloads are resolved against the client's base URL via
+  `Url::join`, no special handling required on the caller's side.
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
   `array_pop($_embedded)` to key-agnostic iteration that picks the first
   candidate carrying `id` and `resource` fields. Mollie keys the

@@ -123,13 +123,11 @@ class Profile extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return ChargebackCollection::withOrigin($this->getOrigin(), $this->connector);
-        }
+        $href = $this->_links->chargebacks->href ?? "profiles/{$this->id}/chargebacks";
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->chargebacks->href))->setHydratableResource(ChargebackCollection::class));
+            ->send((new DynamicGetRequest($href))->setHydratableResource(ChargebackCollection::class));
     }
 
     /**
@@ -139,13 +137,11 @@ class Profile extends BaseResource
      */
     public function methods(): MethodCollection
     {
-        if (! isset($this->_links->methods->href)) {
-            return MethodCollection::withOrigin($this->getOrigin(), $this->connector);
-        }
+        $href = $this->_links->methods->href ?? "profiles/{$this->id}/methods";
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->methods->href))->setHydratableResource(MethodCollection::class));
+            ->send((new DynamicGetRequest($href))->setHydratableResource(MethodCollection::class));
     }
 
     /**
@@ -177,13 +173,11 @@ class Profile extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
-            return PaymentCollection::withOrigin($this->getOrigin(), $this->connector);
-        }
+        $href = $this->_links->payments->href ?? "profiles/{$this->id}/payments";
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->payments->href))->setHydratableResource(PaymentCollection::class));
+            ->send((new DynamicGetRequest($href))->setHydratableResource(PaymentCollection::class));
     }
 
     /**
@@ -193,12 +187,10 @@ class Profile extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
-            return RefundCollection::withOrigin($this->getOrigin(), $this->connector);
-        }
+        $href = $this->_links->refunds->href ?? "profiles/{$this->id}/refunds";
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->refunds->href))->setHydratableResource(RefundCollection::class));
+            ->send((new DynamicGetRequest($href))->setHydratableResource(RefundCollection::class));
     }
 }

@@ -600,7 +600,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function refunds(): RefundCollection
     {
         if (! isset($this->_links->refunds->href)) {
-            return RefundCollection::withOrigin($this->getOrigin(), $this->connector);
+            return $this->listRefunds();
         }
 
         return $this
@@ -642,7 +642,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function captures(): CaptureCollection
     {
         if (! isset($this->_links->captures->href)) {
-            return CaptureCollection::withOrigin($this->getOrigin(), $this->connector);
+            return $this->connector->paymentCaptures->pageFor($this, [], $this->isInTestmode());
         }
 
         return $this
@@ -673,7 +673,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public function chargebacks(): ChargebackCollection
     {
         if (! isset($this->_links->chargebacks->href)) {
-            return ChargebackCollection::withOrigin($this->getOrigin(), $this->connector);
+            return $this->connector->paymentChargebacks->pageFor($this);
         }
 
         return $this

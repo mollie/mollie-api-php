@@ -27,9 +27,7 @@ trait HasResponse
      */
     public function setResponse(Response $response)
     {
-        $this->origin = $response;
-
-        return $this;
+        return $this->setOrigin($response);
     }
 
     public function getOrigin(): ?ResourceOrigin
