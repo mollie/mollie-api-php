@@ -125,7 +125,7 @@ use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 // Create a mock PaymentLinkPaid event
 $paymentLinkEventPayload = MockEvent::for(PaymentLinkPaid::class)
     ->entityId('pl_1234567890')
-    ->full()  // Include full resource data
+    ->snapshot()  // Include full resource data
     ->create();
 
 // Create a mock BalanceTransactionCreated event
