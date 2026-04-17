@@ -34,6 +34,7 @@ class RealPayloadShapeTest extends TestCase
         foreach ($embedded as $key => $candidate) {
             if (is_array($candidate) && isset($candidate['_links']['self']['href'])) {
                 $selfHref = $candidate['_links']['self']['href'];
+
                 break;
             }
         }
