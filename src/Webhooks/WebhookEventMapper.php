@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Webhooks;
 
+use DateTimeImmutable;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
@@ -30,10 +31,13 @@ class WebhookEventMapper
      * Process incoming webhook payload and create the appropriate event handler.
      *
      * @param array|string $payload The raw webhook payload from POST request
+     * @param string|null $signature Optional X-Mollie-Signature header value,
+     *        threaded through to the resulting event so downstream code can
+     *        inspect webhook provenance without re-validating.
      * @return BaseEvent The specific event handler
      * @throws \InvalidArgumentException If payload is invalid
      */
-    public function processPayload($payload): BaseEvent
+    public function processPayload($payload, ?string $signature = null): BaseEvent
     {
         if (is_string($payload)) {
             $payload = json_decode($payload, true);
@@ -47,7 +51,9 @@ class WebhookEventMapper
             Arr::get($payload, 'entityId'),
             Utility::transform(Arr::get($payload, 'createdAt'), fn (string $timestamp) => new DateTime($timestamp), DateTime::class),
             (object) (Arr::get($payload, '_links') ?? []),
-            $this->createWebhookEntityFromPayload($payload)
+            $this->createWebhookEntityFromPayload($payload),
+            $signature,
+            new DateTimeImmutable
         );
     }
 
@@ -70,7 +76,9 @@ class WebhookEventMapper
         string $entityId,
         DateTime $createdAt,
         object $links,
-        ?WebhookEntity $entity = null
+        ?WebhookEntity $entity = null,
+        ?string $signature = null,
+        ?DateTimeImmutable $receivedAt = null
     ): BaseEvent {
         if (! Arr::exists($this->map, $type)) {
             throw new \InvalidArgumentException("Unsupported event type: {$type}");
@@ -84,7 +92,9 @@ class WebhookEventMapper
             $entityId,
             $createdAt,
             $links,
-            $entity
+            $entity,
+            $signature,
+            $receivedAt ?? new DateTimeImmutable
         );
     }
 
@@ -122,20 +132,29 @@ class WebhookEventMapper
     /**
      * Create a webhook entity from the embedded data in the payload.
      *
+     * Real Mollie webhook POST deliveries key the embedded entity by its
+     * resource type (e.g. `_embedded["payment-link"]`), not by the
+     * literal key `entity`. Iteration is key-agnostic and defensive
+     * against future additions under `_embedded` so unrelated extra
+     * keys (e.g. metadata blocks) would not be mistaken for the entity.
+     *
      * @param array $payload
      * @return WebhookEntity|null
      */
     private function createWebhookEntityFromPayload(array $payload): ?WebhookEntity
     {
         $embedded = Arr::get($payload, '_embedded', []);
-        $entityData = array_pop($embedded);
 
-        if (! $entityData) {
+        if (! is_array($embedded)) {
             return null;
         }
 
-        $entity = WebhookEntity::create($entityData);
+        foreach ($embedded as $candidate) {
+            if (is_array($candidate) && isset($candidate['id'], $candidate['resource'])) {
+                return WebhookEntity::create($candidate);
+            }
+        }
 
-        return $entity;
+        return null;
     }
 }
