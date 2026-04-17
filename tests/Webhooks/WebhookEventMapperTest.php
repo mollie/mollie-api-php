@@ -156,17 +156,16 @@ class WebhookEventMapperTest extends TestCase
     }
 
     /** @test */
-    public function create_webhook_entity_from_payload_resolves_entity_with_resource_type_key(): void
+    public function create_webhook_entity_from_payload_resolves_entity_key(): void
     {
-        // Real Mollie webhook POST shape uses _embedded["payment-link"],
-        // not _embedded.entity. The mapper must iterate _embedded keys.
+        // Mollie keys the embedded resource under _embedded.entity.
         $payload = [
             'id' => 'event_abc',
             'type' => 'payment-link.paid',
             'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
             'createdAt' => '2024-12-16T15:57:04.0Z',
             '_embedded' => [
-                'payment-link' => [
+                'entity' => [
                     'id' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
                     'resource' => 'payment-link',
                     'mode' => 'live',
@@ -186,7 +185,10 @@ class WebhookEventMapperTest extends TestCase
     public function create_webhook_entity_skips_non_entity_embedded_keys(): void
     {
         // Future-proof: extra blocks under _embedded that lack id+resource
-        // fields must not be picked up as the entity.
+        // fields must not be picked up as the entity. The mapper's
+        // iteration is deliberately key-agnostic so a renamed or
+        // alongside-added _embedded sub-block cannot silently break
+        // webhook handling.
         $payload = [
             'id' => 'event_abc',
             'type' => 'payment-link.paid',
@@ -194,7 +196,7 @@ class WebhookEventMapperTest extends TestCase
             'createdAt' => '2024-12-16T15:57:04.0Z',
             '_embedded' => [
                 'merchant_context' => ['locale' => 'en_US'],
-                'payment-link' => [
+                'entity' => [
                     'id' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
                     'resource' => 'payment-link',
                     'mode' => 'live',

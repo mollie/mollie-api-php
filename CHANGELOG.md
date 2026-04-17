@@ -69,15 +69,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   caller's side.
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
   `array_pop($_embedded)` to key-agnostic iteration that picks the first
-  candidate carrying `id` and `resource` fields. Real Mollie webhook
-  POST deliveries key the embedded entity by resource type (e.g.
-  `_embedded["payment-link"]`), not by a literal `entity` key; the new
-  iteration handles both shapes and ignores unrelated `_embedded`
-  sub-blocks that may appear in future deliveries.
-- `MockEvent::create()` now injects the snapshot under the resource-type
-  key so mocked webhook payloads match the production shape.
-- `src/Fake/Responses/webhook-event.json` updated to match the real
-  webhook POST shape (`_embedded["payment-link"]`).
+  candidate carrying `id` and `resource` fields. Mollie keys the
+  embedded entity under `_embedded.entity`; the new iteration still
+  resolves that correctly and is resilient to any future
+  schema tweak (additional `_embedded` sub-blocks, renamed key)
+  without silently breaking webhook handling.
 
 ### Removed
 

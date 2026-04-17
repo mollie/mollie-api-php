@@ -5,7 +5,7 @@
   "entityId": "pl_4Y0eZitmBnQ5jsBYZIBw",
   "createdAt": "2023-12-25T10:30:54+00:00",
   "_embedded": {
-    "payment-link": {
+    "entity": {
       "id": "pl_4Y0eZitmBnQ5jsBYZIBw",
       "resource": "payment-link",
       "status": "paid",

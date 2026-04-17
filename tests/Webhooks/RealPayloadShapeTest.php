@@ -9,13 +9,12 @@ use PHPUnit\Framework\TestCase;
  * Guards the SDK against regressions where real Mollie webhook POST
  * deliveries would no longer round-trip through the hydration pipeline.
  *
- * Real webhook POST payloads key the embedded entity by **resource type**
- * (e.g. `_embedded["payment-link"]`), not by the literal key `"entity"`
- * used by the `GET /v2/events/{id}` API. Any webhook handling code must
- * iterate `_embedded` keys rather than assuming a fixed `.entity` shape.
+ * Mollie keys the embedded resource under `_embedded.entity` in both the
+ * push delivery and the `GET /v2/events/{id}` API. The SDK's mapper is
+ * still key-agnostic so that a future schema tweak (additional sub-blocks,
+ * renamed key) does not silently break webhook handling.
  *
- * Fixtures are committed under tests/Fixtures/Webhooks/payloads/ and
- * sourced from https://staging.docs.mollie.com/reference/webhooks.
+ * Fixtures are committed under tests/Fixtures/Webhooks/payloads/.
  */
 class RealPayloadShapeTest extends TestCase
 {
@@ -31,7 +30,7 @@ class RealPayloadShapeTest extends TestCase
         );
 
         $selfHref = null;
-        foreach ($embedded as $key => $candidate) {
+        foreach ($embedded as $candidate) {
             if (is_array($candidate) && isset($candidate['_links']['self']['href'])) {
                 $selfHref = $candidate['_links']['self']['href'];
 
@@ -47,25 +46,16 @@ class RealPayloadShapeTest extends TestCase
     }
 
     /** @test */
-    public function full_payload_embedded_entity_is_keyed_by_resource_type()
+    public function full_payload_embedded_entity_uses_entity_key()
     {
         $payload = $this->loadFixture('payment-link-paid.full.json');
 
         $embedded = Arr::get($payload, '_embedded', []);
 
         $this->assertArrayHasKey(
-            'payment-link',
-            $embedded,
-            'Real Mollie webhook POST payloads key the embedded entity by '
-            .'resource type (e.g. "payment-link"), not by the literal key '
-            .'"entity". Webhook handling code must iterate _embedded keys.'
-        );
-
-        $this->assertArrayNotHasKey(
             'entity',
             $embedded,
-            'Real webhook POST payloads do NOT use _embedded.entity — that '
-            .'shape is specific to the GET /v2/events/{id} API response.'
+            'Mollie keys the embedded resource under _embedded.entity.'
         );
     }
 
