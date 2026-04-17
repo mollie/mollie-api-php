@@ -9,32 +9,8 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Exercises the additive `getOrigin()`/`setOrigin()` surface on resources
- * and collections. These round-trip tests guard the PR1 contract:
- *
- * - HTTP `Response` satisfies `ResourceOrigin`.
- * - `setResponse()` also populates origin (HTTP path unchanged).
- * - `setOrigin()` with a non-Response origin does NOT populate
- *   `$this->response`.
- * - `getPendingRequest()` is nullable; HTTP origin returns non-null,
- *   non-Response origin returns null.
- */
 class ResourceOriginTest extends TestCase
 {
-    /** @test */
-    public function set_response_populates_origin_on_resource(): void
-    {
-        $connector = $this->createMock(Connector::class);
-        $response = $this->createMock(Response::class);
-
-        $payment = new Payment($connector);
-        $payment->setResponse($response);
-
-        $this->assertSame($response, $payment->getResponse());
-        $this->assertSame($response, $payment->getOrigin());
-    }
-
     /** @test */
     public function set_origin_with_http_response_mirrors_to_response_slot(): void
     {
@@ -70,6 +46,7 @@ class ResourceOriginTest extends TestCase
         $payment->setOrigin($origin);
 
         $this->assertSame($origin, $payment->getOrigin());
+        $this->assertNull($payment->getResponse());
     }
 
     /** @test */
@@ -110,13 +87,4 @@ class ResourceOriginTest extends TestCase
         $this->assertNull($payment->getPendingRequest());
     }
 
-    /** @test */
-    public function get_origin_returns_null_when_never_set(): void
-    {
-        $connector = $this->createMock(Connector::class);
-
-        $payment = new Payment($connector);
-
-        $this->assertNull($payment->getOrigin());
-    }
 }

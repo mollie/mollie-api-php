@@ -30,10 +30,6 @@ final class SnapshotHydrator
         array $snapshot,
         WebhookSnapshotOrigin $origin
     ): BaseResource {
-        // One-line normalization — behavior matches Response::json()
-        // byte-for-byte because both paths call json_decode without the
-        // assoc flag on a JSON string. Cost is microseconds on a
-        // webhook-sized payload.
         $tree = json_decode(json_encode($snapshot));
 
         return $this->inner->hydrate($resource, $tree, $origin);
