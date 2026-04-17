@@ -35,6 +35,13 @@ abstract class BaseEvent
      */
     public DateTimeImmutable $receivedAt;
 
+    /**
+     * Optional connector bound by {@see \Mollie\Api\Webhooks\WebhookEventMapper}.
+     * Kept private because this is plumbing: consumers should rely on
+     * {@see asResource()} which resolves this automatically.
+     */
+    private ?Connector $connector;
+
     public function __construct(
         string $id,
         string $entityId,
@@ -42,7 +49,8 @@ abstract class BaseEvent
         object $links,
         ?WebhookEntity $entity = null,
         ?string $signature = null,
-        ?DateTimeImmutable $receivedAt = null
+        ?DateTimeImmutable $receivedAt = null,
+        ?Connector $connector = null
     ) {
         $this->id = $id;
         $this->entityId = $entityId;
@@ -51,6 +59,7 @@ abstract class BaseEvent
         $this->entity = $entity;
         $this->signature = $signature;
         $this->receivedAt = $receivedAt ?? new DateTimeImmutable;
+        $this->connector = $connector;
     }
 
     abstract public static function type(): string;
@@ -70,9 +79,25 @@ abstract class BaseEvent
      * propagating the rich webhook origin (event id, signature,
      * received-at). Throws if the webhook delivery was "simple" and
      * carried no embedded entity.
+     *
+     * The $connector argument is optional when the mapper that produced
+     * this event was constructed with one (see
+     * {@see \Mollie\Api\Webhooks\WebhookEventMapper::__construct()}).
+     * An explicit argument always wins over the bound connector.
      */
-    public function asResource(Connector $connector): BaseResource
+    public function asResource(?Connector $connector = null): BaseResource
     {
+        $connector = $connector ?? $this->connector;
+
+        if ($connector === null) {
+            throw new \LogicException(
+                'No connector available to hydrate webhook resource. '
+                .'Either pass a connector to asResource(), or construct '
+                .'WebhookEventMapper with one via '
+                .'new WebhookEventMapper([], $mollie).'
+            );
+        }
+
         return $this->entity()->asResource(
             $connector,
             new WebhookSnapshotOrigin(

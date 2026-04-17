@@ -99,6 +99,32 @@ match (true) {
 };
 ```
 
+#### Binding a connector to the mapper
+
+For application-level code, prefer constructing `WebhookEventMapper` with
+the connector. Events produced by that mapper will then carry the
+connector, so `asResource()` can be called with no arguments:
+
+```php
+$mapper = new WebhookEventMapper([], $mollie);
+
+$event = $mapper->processPayload($request->getParsedBody(), $signature);
+
+// No argument needed — the mapper's connector is used.
+$resource = $event->asResource();
+```
+
+Passing an explicit connector still works and overrides the bound one on
+a per-call basis:
+
+```php
+$resource = $event->asResource($otherMollie);
+```
+
+If the mapper was constructed without a connector and `asResource()` is
+called with no argument, a `LogicException` is thrown pointing at the
+two ways to supply one.
+
 #### Using custom webhook Events
 If the API is ahead of this SDK's implementation of new Events, you can create your own Events as temporary workaround and pass it into the `WebhookEventMapper`
 

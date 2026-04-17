@@ -3,6 +3,7 @@
 namespace Mollie\Api\Webhooks;
 
 use DateTimeImmutable;
+use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
@@ -22,9 +23,17 @@ class WebhookEventMapper
     /** @var array<string, class-string<BaseEvent>> */
     private array $map;
 
-    public function __construct(array $map = [])
+    /**
+     * Optional connector bound to this mapper. When set, events produced
+     * by {@see processPayload()} can call {@see Events\BaseEvent::asResource()}
+     * without an explicit argument. Per-call overrides still take precedence.
+     */
+    private ?Connector $connector;
+
+    public function __construct(array $map = [], ?Connector $connector = null)
     {
         $this->setup($map);
+        $this->connector = $connector;
     }
 
     /**
@@ -53,7 +62,8 @@ class WebhookEventMapper
             (object) (Arr::get($payload, '_links') ?? []),
             $this->createWebhookEntityFromPayload($payload),
             $signature,
-            new DateTimeImmutable
+            new DateTimeImmutable,
+            $this->connector
         );
     }
 
@@ -78,7 +88,8 @@ class WebhookEventMapper
         object $links,
         ?WebhookEntity $entity = null,
         ?string $signature = null,
-        ?DateTimeImmutable $receivedAt = null
+        ?DateTimeImmutable $receivedAt = null,
+        ?Connector $connector = null
     ): BaseEvent {
         if (! Arr::exists($this->map, $type)) {
             throw new \InvalidArgumentException("Unsupported event type: {$type}");
@@ -94,7 +105,8 @@ class WebhookEventMapper
             $links,
             $entity,
             $signature,
-            $receivedAt ?? new DateTimeImmutable
+            $receivedAt ?? new DateTimeImmutable,
+            $connector ?? $this->connector
         );
     }
 

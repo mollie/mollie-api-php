@@ -156,6 +156,67 @@ class WebhookEventMapperTest extends TestCase
     }
 
     /** @test */
+    public function mapper_bound_connector_enables_zero_arg_as_resource(): void
+    {
+        $client = new MockMollieClient;
+        $mapper = new WebhookEventMapper([], $client);
+
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $event = $mapper->processPayload($payload, 'sha256=sig');
+
+        /** @var PaymentLink $resource */
+        $resource = $event->asResource();
+
+        $this->assertInstanceOf(PaymentLink::class, $resource);
+        $this->assertInstanceOf(WebhookSnapshotOrigin::class, $resource->getOrigin());
+        $this->assertSame($event->id, $resource->getOrigin()->getEventId());
+        $this->assertSame('sha256=sig', $resource->getOrigin()->getSignature());
+        $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function explicit_connector_overrides_bound_connector(): void
+    {
+        $boundClient = new MockMollieClient;
+        $otherClient = new MockMollieClient;
+        $mapper = new WebhookEventMapper([], $boundClient);
+
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $event = $mapper->processPayload($payload);
+
+        /** @var PaymentLink $resource */
+        $resource = $event->asResource($otherClient);
+
+        $this->assertInstanceOf(PaymentLink::class, $resource);
+        $this->assertInstanceOf(WebhookSnapshotOrigin::class, $resource->getOrigin());
+        // The origin carries the explicitly-passed connector, not the bound one.
+        $this->assertSame($otherClient, $resource->getOrigin()->getConnector());
+        $boundClient->assertSentCount(0);
+        $otherClient->assertSentCount(0);
+    }
+
+    /** @test */
+    public function zero_arg_as_resource_without_bound_connector_throws(): void
+    {
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('No connector available to hydrate webhook resource.');
+
+        $event->asResource();
+    }
+
+    /** @test */
     public function create_webhook_entity_from_payload_resolves_entity_key(): void
     {
         $payload = [

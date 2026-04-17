@@ -27,6 +27,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `WebhookEventMapper::processPayload()` gains an optional `?string
   $signature` parameter that is threaded through to the resulting event
   and carried onto hydrated resources via `WebhookSnapshotOrigin`.
+- `WebhookEventMapper::__construct()` accepts an optional `?Connector`
+  second argument. When supplied, events produced by the mapper carry
+  the connector so `BaseEvent::asResource()` can be called with zero
+  arguments (`new WebhookEventMapper([], $mollie)` → `$event->asResource()`).
+  An explicit argument to `asResource()` still overrides the bound one.
+- `BaseEvent::asResource()` parameter is now optional when the mapper
+  was constructed with a connector. Calling it with no argument and no
+  bound connector throws a clear `LogicException` pointing at both ways
+  to supply one (BC-safe: `asResource($mollie)` still works).
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling
   of `withResponse()`.
 
