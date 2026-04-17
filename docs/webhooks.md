@@ -78,8 +78,10 @@ $event = (new WebhookEventMapper())->processPayload($request->getParsedBody());
 // Extract the entity ID (e.g., payment ID, customer ID, etc.)
 $entityId = $event->entityData('id');
 
-// Get the full resource object for direct interaction
-// This only works if you subscribe to full event payloads
+// Hydrate the embedded entity snapshot into a fully typed SDK resource.
+// No HTTP call is made — the signed webhook payload is the source of truth.
+// If you subscribe to "simple" payloads (entityId only), $event->entity() is
+// null and you should fetch the resource yourself via its Get request.
 $resource = $event->entity()->asResource($mollie);
 
 // Handle different event types
