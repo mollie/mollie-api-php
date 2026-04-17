@@ -150,6 +150,73 @@ configured on the client. A webhook handler running without an API key
 is limited to reading the signed snapshot itself — there is no path
 that lets the SDK reach Mollie without credentials.
 
+### Reading from the snapshot vs. fetching fresh data
+
+A complete handler usually combines both. The signed snapshot is enough
+to make decisions. When you need data the snapshot doesn't carry
+(related resources, the very latest server state), fall back to the
+API. The API fallback requires a valid key on the client — the snapshot
+path does not.
+
+```php
+use Mollie\Api\Exceptions\InvalidSignatureException;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\SignatureValidator;
+use Mollie\Api\Webhooks\WebhookEventMapper;
+
+$mollie = new MollieApiClient;
+$mollie->setApiKey(getenv('MOLLIE_API_KEY')); // only needed for the fetch path
+
+$signingSecret = getenv('MOLLIE_WEBHOOK_SIGNING_SECRET');
+$requestBody   = (string) $request->getBody();
+$signature     = $request->getHeaderLine('X-Mollie-Signature');
+
+try {
+    if (! (new SignatureValidator($signingSecret))->validatePayload($requestBody, $signature)) {
+        http_response_code(400);
+        exit('Invalid signature');
+    }
+} catch (InvalidSignatureException $e) {
+    error_log("Invalid webhook signature: " . $e->getMessage());
+    http_response_code(400);
+    exit('Invalid signature');
+}
+
+$event = (new WebhookEventMapper)->processPayload(
+    json_decode($requestBody, true),
+    $signature,
+);
+
+if (! $event instanceof PaymentLinkPaid) {
+    // Not the event we care about — ack and return.
+    http_response_code(200);
+    return;
+}
+
+// 1. Snapshot path: no HTTP, no API key required.
+$paymentLink = $event->asResource($mollie);
+
+markOrderPaid(
+    orderId: $paymentLink->id,
+    amount:  $paymentLink->amount->value,
+    paidAt:  $event->createdAt,
+);
+
+// 2. Fetch path: fires HTTP, needs the API key configured above.
+//    $paymentLink->payments() follows the link from the snapshot when
+//    present, otherwise routes through $mollie->paymentLinkPayments.
+foreach ($paymentLink->payments() as $payment) {
+    reconcilePaymentLine($paymentLink->id, $payment);
+}
+
+http_response_code(200);
+```
+
+If your webhook handler runs without an API key (signing-secret-only
+deployment), remove the `setApiKey()` call and skip step 2 — you can
+still do everything in step 1 from the signed payload alone.
+
 ### Testing Webhooks
 
 Testing webhooks is crucial to ensure your application handles all event types correctly. The SDK provides several tools to help you test webhook scenarios.
