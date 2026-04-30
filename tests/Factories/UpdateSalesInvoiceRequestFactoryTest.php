@@ -63,20 +63,18 @@ class UpdateSalesInvoiceRequestFactoryTest extends TestCase
     {
         $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)
             ->withPayload([
-                'status' => 'draft',
-                'recipientIdentifier' => 'cst_12345',
-                'lines' => [
-                    [
-                        'description' => 'Product A',
-                        'quantity' => 1,
-                        'vatRate' => '21.00',
-                        'unitPrice' => [
-                            'currency' => 'EUR',
-                            'value' => '100.00',
-                        ],
-                    ],
-                ],
+                'memo' => 'Updated memo',
             ])
+            ->create();
+
+        $this->assertInstanceOf(UpdateSalesInvoiceRequest::class, $request);
+    }
+
+    /** @test */
+    public function create_returns_update_sales_invoice_request_object_with_no_optional_fields()
+    {
+        $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)
+            ->withPayload([])
             ->create();
 
         $this->assertInstanceOf(UpdateSalesInvoiceRequest::class, $request);

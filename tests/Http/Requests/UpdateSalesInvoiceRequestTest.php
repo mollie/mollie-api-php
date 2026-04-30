@@ -6,7 +6,6 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
-use Mollie\Api\Types\SalesInvoiceStatus;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSalesInvoiceRequestTest extends TestCase
@@ -18,7 +17,7 @@ class UpdateSalesInvoiceRequestTest extends TestCase
             UpdateSalesInvoiceRequest::class => MockResponse::ok('sales-invoice'),
         ]);
 
-        $request = new UpdateSalesInvoiceRequest('invoice_123', SalesInvoiceStatus::PAID, 'XXXXX');
+        $request = new UpdateSalesInvoiceRequest('invoice_123');
 
         /** @var SalesInvoice */
         $salesInvoice = $client->send($request);
@@ -30,7 +29,7 @@ class UpdateSalesInvoiceRequestTest extends TestCase
     /** @test */
     public function it_resolves_correct_resource_path()
     {
-        $request = new UpdateSalesInvoiceRequest('invoice_123', SalesInvoiceStatus::PAID, 'XXXXX');
+        $request = new UpdateSalesInvoiceRequest('invoice_123');
 
         $this->assertEquals('sales-invoices/invoice_123', $request->resolveResourcePath());
     }
