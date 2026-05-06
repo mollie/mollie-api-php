@@ -123,13 +123,12 @@ class Profile extends BaseResource
      */
     public function chargebacks(): ChargebackCollection
     {
-        if (! isset($this->_links->chargebacks->href)) {
-            return ChargebackCollection::withResponse($this->response, $this->connector);
-        }
+        $href = $this->_links->chargebacks->href ?? "profiles/{$this->id}/chargebacks";
+        $query = isset($this->_links->chargebacks->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->chargebacks->href))->setHydratableResource(ChargebackCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(ChargebackCollection::class));
     }
 
     /**
@@ -139,13 +138,12 @@ class Profile extends BaseResource
      */
     public function methods(): MethodCollection
     {
-        if (! isset($this->_links->methods->href)) {
-            return MethodCollection::withResponse($this->response, $this->connector);
-        }
+        $href = $this->_links->methods->href ?? "profiles/{$this->id}/methods";
+        $query = isset($this->_links->methods->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->methods->href))->setHydratableResource(MethodCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(MethodCollection::class));
     }
 
     /**
@@ -177,13 +175,12 @@ class Profile extends BaseResource
      */
     public function payments(): PaymentCollection
     {
-        if (! isset($this->_links->payments->href)) {
-            return PaymentCollection::withResponse($this->response, $this->connector);
-        }
+        $href = $this->_links->payments->href ?? "profiles/{$this->id}/payments";
+        $query = isset($this->_links->payments->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->payments->href))->setHydratableResource(PaymentCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(PaymentCollection::class));
     }
 
     /**
@@ -193,12 +190,11 @@ class Profile extends BaseResource
      */
     public function refunds(): RefundCollection
     {
-        if (! isset($this->_links->refunds->href)) {
-            return RefundCollection::withResponse($this->response, $this->connector);
-        }
+        $href = $this->_links->refunds->href ?? "profiles/{$this->id}/refunds";
+        $query = isset($this->_links->refunds->href) ? [] : ['testmode' => $this->mode === 'test'];
 
         return $this
             ->connector
-            ->send((new DynamicGetRequest($this->_links->refunds->href))->setHydratableResource(RefundCollection::class));
+            ->send((new DynamicGetRequest($href, $query))->setHydratableResource(RefundCollection::class));
     }
 }

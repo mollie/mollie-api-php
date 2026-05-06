@@ -3,9 +3,12 @@
 namespace Tests\Webhooks;
 
 use Mollie\Api\Fake\MockEvent;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
 use Mollie\Api\Webhooks\WebhookEventMapper;
+use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEventMapperTest extends TestCase
@@ -99,5 +102,157 @@ class WebhookEventMapperTest extends TestCase
         $this->expectExceptionMessage('Missing or empty required field: id');
 
         $this->mapper->processPayload($payload);
+    }
+
+    /** @test */
+    public function process_payload_threads_signature_through_to_event(): void
+    {
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $before = new \DateTimeImmutable;
+        $event = $this->mapper->processPayload($payload, 'sha256=abc123');
+        $after = new \DateTimeImmutable;
+
+        $this->assertSame('sha256=abc123', $event->signature);
+        $this->assertGreaterThanOrEqual($before, $event->receivedAt);
+        $this->assertLessThanOrEqual($after, $event->receivedAt);
+    }
+
+    /** @test */
+    public function process_payload_defaults_signature_to_null(): void
+    {
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNull($event->signature);
+    }
+
+    /** @test */
+    public function as_entity_on_event_produces_rich_webhook_origin(): void
+    {
+        $client = new MockMollieClient;
+
+        $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
+            ->snapshot()
+            ->create();
+
+        $event = $this->mapper->processPayload($payload, 'sha256=sig');
+
+        /** @var PaymentLink $resource */
+        $resource = $event->asResource($client);
+
+        $this->assertInstanceOf(PaymentLink::class, $resource);
+        $this->assertInstanceOf(WebhookSnapshotOrigin::class, $resource->getOrigin());
+        $this->assertSame($event->id, $resource->getOrigin()->getEventId());
+        $this->assertSame('sha256=sig', $resource->getOrigin()->getSignature());
+        $this->assertSame($event->receivedAt, $resource->getOrigin()->getReceivedAt());
+        $this->assertNull($resource->getResponse());
+        $client->assertSentCount(0);
+    }
+
+    /** @test */
+    public function create_webhook_entity_from_payload_resolves_entity_key(): void
+    {
+        $payload = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_embedded' => [
+                'entity' => [
+                    'id' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+                    'resource' => 'payment-link',
+                    'mode' => 'live',
+                ],
+            ],
+            '_links' => [],
+        ];
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNotNull($event->entity);
+        $this->assertSame('pl_qng5gbbv8NAZ5gpM5ZYgx', $event->entity->getId());
+        $this->assertSame('payment-link', $event->entity->getResourceType());
+    }
+
+    /** @test */
+    public function create_webhook_entity_skips_non_entity_embedded_keys(): void
+    {
+        $payload = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_embedded' => [
+                'merchant_context' => ['locale' => 'en_US'],
+                'entity' => [
+                    'id' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+                    'resource' => 'payment-link',
+                    'mode' => 'live',
+                ],
+            ],
+            '_links' => [],
+        ];
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNotNull($event->entity);
+        $this->assertSame('payment-link', $event->entity->getResourceType());
+    }
+
+    /**
+     * @test
+     * @dataProvider payloadsWithoutEmbeddedEntityProvider
+     */
+    public function create_webhook_entity_returns_null_when_no_entity_candidate(array $payload): void
+    {
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNull($event->entity);
+    }
+
+    public function payloadsWithoutEmbeddedEntityProvider(): array
+    {
+        $base = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_links' => [],
+        ];
+
+        return [
+            'missing _embedded' => [$base],
+            'non-array _embedded scalar' => [$base + ['_embedded' => 'not-an-array']],
+            '_embedded entries without id/resource' => [
+                $base + ['_embedded' => ['merchant_context' => ['locale' => 'en_US']]],
+            ],
+        ];
+    }
+
+    /** @test */
+    public function as_resource_throws_when_event_has_no_embedded_entity(): void
+    {
+        $payload = [
+            'id' => 'event_abc',
+            'type' => 'payment-link.paid',
+            'entityId' => 'pl_qng5gbbv8NAZ5gpM5ZYgx',
+            'createdAt' => '2024-12-16T15:57:04.0Z',
+            '_links' => [],
+        ];
+
+        $event = $this->mapper->processPayload($payload);
+
+        $this->assertNull($event->entity);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Event entity not found');
+
+        $event->asResource(new MockMollieClient);
     }
 }

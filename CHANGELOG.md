@@ -7,6 +7,92 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
 
+### Added
+
+- `Mollie\Api\Contracts\ResourceOrigin` marker interface describing where
+  a hydrated resource came from. `Http\Response` now implements it.
+- `BaseResource::getOrigin()` / `setOrigin()` accessors on every hydrated
+  resource and collection. HTTP-hydrated resources set origin to the
+  `Response` automatically; no migration needed for existing user code.
+- `Mollie\Api\Webhooks\WebhookSnapshotOrigin` exposes the event id,
+  signature, and received-at timestamp of the webhook that produced a
+  hydrated resource. Accessible via `$resource->getOrigin()`.
+- `Mollie\Api\Webhooks\SnapshotHydrator` feeds a webhook snapshot through
+  the main `ResourceHydrator` after a one-line `json_decode(json_encode())`
+  normalization so nested values arrive as stdClass (matching the HTTP
+  path byte-for-byte).
+- `BaseEvent::asResource(Connector)` hydrates the embedded entity into a
+  fully-typed SDK resource and automatically threads the rich origin
+  (event id, signature, received-at).
+- `WebhookEventMapper::processPayload()` gains an optional `?string
+  $signature` parameter that is threaded through to the resulting event
+  and carried onto hydrated resources via `WebhookSnapshotOrigin`.
+- `ResourceCollection::withOrigin()` factory as the origin-aware sibling
+  of `withResponse()`.
+
+### Changed
+
+- **BC-implied:** `IsResponseAware::getResponse()` return type narrowed
+  from `Response` to `?Response`. HTTP-hydrated resources continue to
+  return a non-null `Response`, matching pre-refactor behavior.
+  Webhook-hydrated resources return `null`. User code that chains
+  `$resource->getResponse()->successful()` or similar without a null
+  check will NPE on webhook-origin resources — audit your webhook
+  handlers before upgrading. HTTP-only consumers see no change.
+- **BC-implied:** `HasResponse::getPendingRequest()` return type
+  narrowed from `PendingRequest` to `?PendingRequest`. Same rationale.
+- `WebhookEntity::asResource()` gains an optional
+  `?WebhookSnapshotOrigin` second parameter. Callers using the
+  single-arg form (`$event->entity()->asResource($mollie)`) continue to
+  work and receive a fallback origin with null signature. Mapper-driven
+  flow (`$event->asResource($mollie)`) passes the rich origin
+  automatically.
+- Hydrating a webhook payload no longer requires a valid API key on the
+  connector. Signed snapshots are self-sufficient, so a signing-secret-only
+  webhook worker can read the snapshot without any key. **Follow-up calls**
+  (`$payment->refunds()`, `$subscription->payments()`, etc.) still
+  require an authenticator — they fire real HTTP requests.
+- Follow-up methods on hydrated resources (`Payment::refunds/captures/chargebacks`,
+  `Profile::chargebacks/methods/payments/refunds`, `Subscription::payments`)
+  now fall back to their endpoint collection when the embedded webhook
+  snapshot does not carry the corresponding `_links.{name}.href`.
+  Previously these methods returned an empty collection in that case,
+  which was a silent behavioural difference between HTTP-origin and
+  webhook-origin resources. With this change the SDK routes through
+  the connector using the resource's id (same pattern
+  `PaymentLink::payments()` already used), so you get a live child
+  collection on both origins. Relative `_links.{name}.href` values in
+  webhook payloads are resolved against the client's base URL via
+  `Url::join`, no special handling required on the caller's side.
+### For contributors
+
+- `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
+  `array_pop($_embedded)` to key-agnostic iteration that picks the first
+  candidate carrying `id` and `resource` fields. Mollie keys the
+  embedded entity under `_embedded.entity`; the new iteration resolves
+  that correctly and is resilient to any future schema tweak (additional
+  `_embedded` sub-blocks, renamed key) without silently breaking webhook
+  handling.
+
+### Removed
+
+- `WebhookEntity::buildSyntheticResponse()` and its dependencies on
+  `PendingRequest`, `DynamicGetRequest`, `Nyholm\Psr7\Request`, and
+  `Nyholm\Psr7\Response`. Webhook hydration goes through
+  `SnapshotHydrator`.
+- `protected Response $response` property on the `HasResponse` trait.
+  Storage is now `?ResourceOrigin $origin`; the `getResponse()` accessor
+  narrows back to `?Response` for callers. Third-party subclasses that
+  read `$this->response` directly must migrate to `$this->getResponse()`
+  or `$this->getOrigin()`.
+
+### Fixed
+
+- `docs/webhooks.md` previously stated that `$event->entity()` returns
+  null for simple payloads. It actually throws. Updated to correctly
+  describe reading the nullable `$event->entity` property or fetching
+  the resource via `$event->entityId`.
+
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
 ## What's Changed

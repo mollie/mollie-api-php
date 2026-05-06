@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\ResourceOrigin;
 use Mollie\Api\Http\Response;
 
 abstract class ResourceCollection extends BaseCollection
@@ -36,5 +37,20 @@ abstract class ResourceCollection extends BaseCollection
         $collection = new static($connector, $items, $_links);
 
         return $collection->setResponse($response);
+    }
+
+    /**
+     * Origin-aware sibling of {@see self::withResponse()}. Used by
+     * resource methods that propagate a non-HTTP origin (e.g. a
+     * webhook snapshot) to a child collection without forcing the
+     * caller to construct a synthetic HTTP response.
+     *
+     * @return static
+     */
+    public static function withOrigin(ResourceOrigin $origin, Connector $connector, $items = [], ?\stdClass $_links = null): self
+    {
+        $collection = new static($connector, $items, $_links);
+
+        return $collection->setOrigin($origin);
     }
 }
