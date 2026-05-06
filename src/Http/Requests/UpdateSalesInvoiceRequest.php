@@ -24,9 +24,9 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     private string $id;
 
-    private string $status;
+    private ?string $status;
 
-    private string $recipientIdentifier;
+    private ?string $recipientIdentifier;
 
     private ?string $memo;
 
@@ -51,8 +51,8 @@ class UpdateSalesInvoiceRequest extends ResourceHydratableRequest implements Has
 
     public function __construct(
         string $id,
-        string $status,
-        string $recipientIdentifier,
+        ?string $status = null,
+        ?string $recipientIdentifier = null,
         ?string $memo = null,
         ?string $paymentTerm = null,
         ?PaymentDetails $paymentDetails = null,
