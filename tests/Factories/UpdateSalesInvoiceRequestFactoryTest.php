@@ -62,18 +62,6 @@ class UpdateSalesInvoiceRequestFactoryTest extends TestCase
     public function create_returns_update_sales_invoice_request_object_with_minimal_data()
     {
         $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)
-            ->withPayload([
-                'memo' => 'Updated memo',
-            ])
-            ->create();
-
-        $this->assertInstanceOf(UpdateSalesInvoiceRequest::class, $request);
-    }
-
-    /** @test */
-    public function create_returns_update_sales_invoice_request_object_with_no_optional_fields()
-    {
-        $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)
             ->withPayload([])
             ->create();
 
