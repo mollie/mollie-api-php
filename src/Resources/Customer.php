@@ -32,7 +32,7 @@ class Customer extends BaseResource
     public $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $email;
 
