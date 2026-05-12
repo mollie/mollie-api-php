@@ -5,10 +5,12 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Types\MandateQuery;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedMandateRequestTest extends TestCase
@@ -66,5 +68,48 @@ class GetPaginatedMandateRequestTest extends TestCase
         $request = new GetPaginatedMandateRequest($customerId);
 
         $this->assertEquals("customers/{$customerId}/mandates", $request->resolveResourcePath());
+    }
+
+    /** @test */
+    public function it_does_not_include_scopes_in_query_by_default()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
+        ]);
+
+        $client->send(new GetPaginatedMandateRequest('cst_kEn1PlbGa'));
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertStringNotContainsString('scopes', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function it_sends_scopes_as_array_in_query()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
+        ]);
+
+        $request = new GetPaginatedMandateRequest(
+            'cst_kEn1PlbGa',
+            null,
+            null,
+            [MandateQuery::SCOPE_CUSTOMER_PRESENT]
+        );
+
+        $client->send($request);
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $query = $pendingRequest->getUri()->getQuery();
+
+            // http_build_query renders array params as scopes[0]=customer-present
+            // which Mollie accepts as the standard scopes[]=customer-present form.
+            $this->assertStringContainsString('scopes%5B0%5D=customer-present', $query);
+
+            return true;
+        });
     }
 }
