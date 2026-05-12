@@ -42,7 +42,7 @@ class CreatePaymentRequestTest extends TestCase
         ]);
 
         $client->payments->create([
-            'method' => 'googlepay',
+            'method' => 'creditcard',
             'googlePayPaymentToken' => '<stub_jwt>',
             'amount' => [
                 'currency' => 'EUR',
@@ -55,7 +55,7 @@ class CreatePaymentRequestTest extends TestCase
         $client->assertSent(function (PendingRequest $pendingRequest) {
             $payload = json_decode((string) $pendingRequest->createPsrRequest()->getBody(), true);
 
-            $this->assertSame('googlepay', $payload['method']);
+            $this->assertSame('creditcard', $payload['method']);
             $this->assertSame('<stub_jwt>', $payload['googlePayPaymentToken']);
 
             return true;
