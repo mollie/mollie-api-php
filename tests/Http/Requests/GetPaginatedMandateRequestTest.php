@@ -97,7 +97,10 @@ class GetPaginatedMandateRequestTest extends TestCase
             'cst_kEn1PlbGa',
             null,
             null,
-            [MandateQuery::SCOPE_CUSTOMER_PRESENT]
+            [
+                MandateQuery::SCOPE_CUSTOMER_PRESENT,
+                MandateQuery::SCOPE_CUSTOMER_NOT_PRESENT,
+            ]
         );
 
         $client->send($request);
@@ -108,6 +111,7 @@ class GetPaginatedMandateRequestTest extends TestCase
             // http_build_query renders array params as scopes[0]=customer-present
             // which Mollie accepts as the standard scopes[]=customer-present form.
             $this->assertStringContainsString('scopes%5B0%5D=customer-present', $query);
+            $this->assertStringContainsString('scopes%5B1%5D=customer-not-present', $query);
 
             return true;
         });
