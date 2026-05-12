@@ -5,7 +5,9 @@ namespace Tests\Http\Requests;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\TestCase;
 
@@ -30,6 +32,34 @@ class CreatePaymentRequestTest extends TestCase
 
         $this->assertTrue($payment->getResponse()->successful());
         $this->assertInstanceOf(Payment::class, $payment);
+    }
+
+    /** @test */
+    public function it_can_create_google_pay_payment_with_payment_token()
+    {
+        $client = MollieApiClient::fake([
+            CreatePaymentRequest::class => MockResponse::created('payment'),
+        ]);
+
+        $client->payments->create([
+            'method' => 'googlepay',
+            'googlePayPaymentToken' => '<stub_jwt>',
+            'amount' => [
+                'currency' => 'EUR',
+                'value' => '10.00',
+            ],
+            'description' => 'Google Pay direct integration payment',
+            'redirectUrl' => 'https://example.org/redirect',
+        ]);
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $payload = json_decode((string) $pendingRequest->createPsrRequest()->getBody(), true);
+
+            $this->assertSame('googlepay', $payload['method']);
+            $this->assertSame('<stub_jwt>', $payload['googlePayPaymentToken']);
+
+            return true;
+        });
     }
 
     /** @test */
