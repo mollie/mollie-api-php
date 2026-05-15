@@ -4,10 +4,10 @@ namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
 use Mollie\Api\Http\Requests\GetSettlementRequest;
-use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Resources\SettlementCollection;
 use PHPUnit\Framework\TestCase;
