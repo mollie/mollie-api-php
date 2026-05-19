@@ -6,6 +6,7 @@
         "resource": "payout",
         "id": "po_4KgGJJSZpH",
         "mode": "live",
+        "testmode": false,
         "createdAt": "2026-05-19T10:30:54+00:00",
         "balanceId": "bal_gVMhHKqSSRYJyPsuoPNFH",
         "amount": {
@@ -14,7 +15,10 @@
         },
         "description": "Scheduled payout",
         "status": "requested",
-        "statusReason": null,
+        "statusReason": {
+          "code": "requested",
+          "message": "The payout has been requested and will be executed on the next scheduled date."
+        },
         "initiatedAt": null,
         "completedAt": null,
         "canceledAt": null,

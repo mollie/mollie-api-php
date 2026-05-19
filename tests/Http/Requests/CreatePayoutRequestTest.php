@@ -55,6 +55,29 @@ class CreatePayoutRequestTest extends TestCase
     }
 
     /** @test */
+    public function it_sends_testmode_in_the_query()
+    {
+        $client = MockMollieClient::fake([
+            CreatePayoutRequest::class => MockResponse::created('payout', 'po_4KgGJJSZpH'),
+        ]);
+
+        $client->payouts->create([
+            'balanceId' => 'bal_gVMhHKqSSRYJyPsuoPNFH',
+            'testmode' => true,
+        ]);
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $payload = json_decode((string) $pendingRequest->createPsrRequest()->getBody(), true);
+
+            $this->assertArrayNotHasKey('testmode', $payload);
+            $this->assertTrue($pendingRequest->query()->has('testmode'));
+            $this->assertEquals('true', $pendingRequest->query()->get('testmode'));
+
+            return true;
+        });
+    }
+
+    /** @test */
     public function it_resolves_correct_resource_path()
     {
         $request = new CreatePayoutRequest('bal_gVMhHKqSSRYJyPsuoPNFH');

@@ -24,6 +24,13 @@ class Payout extends BaseResource
     public $mode;
 
     /**
+     * Whether this payout was created in test mode.
+     *
+     * @var bool
+     */
+    public $testmode;
+
+    /**
      * The identifier of the balance that will be paid out.
      *
      * @example bal_gVMhHKqSSRYJyPsuoPNFH
@@ -35,7 +42,7 @@ class Payout extends BaseResource
     /**
      * The amount paid out, excluding any applicable fees.
      *
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $amount;
 
