@@ -2,23 +2,11 @@
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Traits\HasMode;
-
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
 class Payout extends BaseResource
 {
-    use HasMode;
-
-    /**
-     * Indicates the response contains a payout object.
-     * Will always contain the string "payout" for this endpoint.
-     *
-     * @var string
-     */
-    public $resource;
-
     /**
      * The identifier uniquely referring to this payout.
      *
