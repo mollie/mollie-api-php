@@ -27,6 +27,7 @@ use Mollie\Api\EndpointCollection\PaymentLinkPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRouteEndpointCollection;
 use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
+use Mollie\Api\EndpointCollection\PayoutEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
 use Mollie\Api\EndpointCollection\RefundEndpointCollection;
@@ -86,6 +87,7 @@ trait HasEndpoints
             'paymentLinkPayments' => PaymentLinkPaymentEndpointCollection::class,
             'paymentRoutes' => PaymentRouteEndpointCollection::class,
             'permissions' => PermissionEndpointCollection::class,
+            'payouts' => PayoutEndpointCollection::class,
             'profiles' => ProfileEndpointCollection::class,
             'profileMethods' => ProfileMethodEndpointCollection::class,
             'refunds' => RefundEndpointCollection::class,
