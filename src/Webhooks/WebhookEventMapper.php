@@ -8,13 +8,35 @@ use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\BaseEvent;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferBlocked;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferFailed;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferInitiated;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferPendingReview;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferProcessed;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferRequested;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferReturned;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferFailed;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferSucceeded;
+use Mollie\Api\Webhooks\Events\DisputeCreated;
+use Mollie\Api\Webhooks\Events\DisputeResolved;
+use Mollie\Api\Webhooks\Events\DisputeUpdated;
+use Mollie\Api\Webhooks\Events\FileAccepted;
+use Mollie\Api\Webhooks\Events\FileFailed;
+use Mollie\Api\Webhooks\Events\FileRejected;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\PayoutCanceled;
+use Mollie\Api\Webhooks\Events\PayoutCompleted;
+use Mollie\Api\Webhooks\Events\PayoutFailed;
+use Mollie\Api\Webhooks\Events\PayoutInitiated;
+use Mollie\Api\Webhooks\Events\PayoutProcessingAtBank;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
 use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoicePaid;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferExpired;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatched;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
 
 class WebhookEventMapper
 {
@@ -103,8 +125,30 @@ class WebhookEventMapper
         $this->map = array_merge([
             PaymentLinkPaid::type() => PaymentLinkPaid::class,
             BalanceTransactionCreated::type() => BalanceTransactionCreated::class,
+            PayoutInitiated::type() => PayoutInitiated::class,
+            PayoutProcessingAtBank::type() => PayoutProcessingAtBank::class,
+            PayoutCompleted::type() => PayoutCompleted::class,
+            PayoutCanceled::type() => PayoutCanceled::class,
+            PayoutFailed::type() => PayoutFailed::class,
             ConnectBalanceTransferFailed::type() => ConnectBalanceTransferFailed::class,
             ConnectBalanceTransferSucceeded::type() => ConnectBalanceTransferSucceeded::class,
+            DisputeCreated::type() => DisputeCreated::class,
+            DisputeResolved::type() => DisputeResolved::class,
+            DisputeUpdated::type() => DisputeUpdated::class,
+            FileAccepted::type() => FileAccepted::class,
+            FileRejected::type() => FileRejected::class,
+            FileFailed::type() => FileFailed::class,
+            UnmatchedCreditTransferReceived::type() => UnmatchedCreditTransferReceived::class,
+            UnmatchedCreditTransferMatched::type() => UnmatchedCreditTransferMatched::class,
+            UnmatchedCreditTransferReturned::type() => UnmatchedCreditTransferReturned::class,
+            UnmatchedCreditTransferExpired::type() => UnmatchedCreditTransferExpired::class,
+            BusinessAccountTransferRequested::type() => BusinessAccountTransferRequested::class,
+            BusinessAccountTransferInitiated::type() => BusinessAccountTransferInitiated::class,
+            BusinessAccountTransferPendingReview::type() => BusinessAccountTransferPendingReview::class,
+            BusinessAccountTransferProcessed::type() => BusinessAccountTransferProcessed::class,
+            BusinessAccountTransferFailed::type() => BusinessAccountTransferFailed::class,
+            BusinessAccountTransferBlocked::type() => BusinessAccountTransferBlocked::class,
+            BusinessAccountTransferReturned::type() => BusinessAccountTransferReturned::class,
             SalesInvoiceCreated::type() => SalesInvoiceCreated::class,
             SalesInvoiceIssued::type() => SalesInvoiceIssued::class,
             SalesInvoiceCanceled::type() => SalesInvoiceCanceled::class,
