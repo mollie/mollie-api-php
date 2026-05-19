@@ -81,6 +81,17 @@ class PaymentMethod
     public const GIROPAY = 'giropay';
 
     /**
+     * Use this value to surface Google Pay as a selectable method on hosted
+     * checkout. For direct integration, set `method` to
+     * {@see PaymentMethod::CREDITCARD} and pass the `googlePayPaymentToken`
+     * field on the create payment request.
+     *
+     * @link https://www.mollie.com/en/payments/googlepay
+     * @link https://docs.mollie.com/docs/direct-integration-of-google-pay
+     */
+    public const GOOGLEPAY = 'googlepay';
+
+    /**
      * @link https://www.mollie.com/payments/swish
      */
     public const SWISH = 'swish';
