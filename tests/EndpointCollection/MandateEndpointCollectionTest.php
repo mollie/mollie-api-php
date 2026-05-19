@@ -5,6 +5,7 @@ namespace Tests\EndpointCollection;
 use DateTimeImmutable;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
@@ -12,6 +13,7 @@ use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Types\MandateQuery;
 use PHPUnit\Framework\TestCase;
 
 class MandateEndpointCollectionTest extends TestCase
@@ -90,6 +92,28 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertCount(1, $mandates);
 
         $this->assertMandate($mandates[0]);
+    }
+
+    /** @test */
+    public function page_for_with_scopes()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedMandateRequest::class => MockResponse::ok('mandate-list'),
+        ]);
+
+        $customer = new Customer($client);
+        $customer->id = 'cst_4qqhO89gsT';
+
+        $client->mandates->pageFor($customer, null, null, false, [MandateQuery::SCOPE_CUSTOMER_PRESENT]);
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertStringContainsString(
+                'scopes%5B0%5D=customer-present',
+                $pendingRequest->getUri()->getQuery()
+            );
+
+            return true;
+        });
     }
 
     protected function assertMandate(Mandate $mandate)

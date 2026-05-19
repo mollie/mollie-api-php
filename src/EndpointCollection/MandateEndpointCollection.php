@@ -100,12 +100,13 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool|array  $testmode
+     * @param  string[]|null  $scopes  Filter mandates by their scope. See \Mollie\Api\Types\MandateQuery.
      *
      * @throws RequestException
      */
-    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
+    public function pageFor(Customer $customer, ?string $from = null, ?int $limit = null, $testmode = false, ?array $scopes = null): MandateCollection
     {
-        return $this->pageForId($customer->id, $from, $limit, $testmode);
+        return $this->pageForId($customer->id, $from, $limit, $testmode, $scopes);
     }
 
     /**
@@ -113,16 +114,17 @@ class MandateEndpointCollection extends EndpointCollection
      *
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool|array  $testmode
+     * @param  string[]|null  $scopes  Filter mandates by their scope. See \Mollie\Api\Types\MandateQuery.
      *
      * @throws RequestException
      */
-    public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false): MandateCollection
+    public function pageForId(string $customerId, ?string $from = null, ?int $limit = null, $testmode = false, ?array $scopes = null): MandateCollection
     {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         /** @var MandateCollection */
         return $this->send(
-            (new GetPaginatedMandateRequest($customerId, $from, $limit))->test($testmode)
+            (new GetPaginatedMandateRequest($customerId, $from, $limit, $scopes))->test($testmode)
         );
     }
 
@@ -132,15 +134,17 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     * @param  string[]|null  $scopes  Filter mandates by their scope. See \Mollie\Api\Types\MandateQuery.
      */
     public function iteratorFor(
         Customer $customer,
         ?string $from = null,
         ?int $limit = null,
         $testmode = false,
-        bool $iterateBackwards = false
+        bool $iterateBackwards = false,
+        ?array $scopes = null
     ): LazyCollection {
-        return $this->iteratorForId($customer->id, $from, $limit, $testmode, $iterateBackwards);
+        return $this->iteratorForId($customer->id, $from, $limit, $testmode, $iterateBackwards, $scopes);
     }
 
     /**
@@ -149,18 +153,20 @@ class MandateEndpointCollection extends EndpointCollection
      * @param  string  $from  The first mandate ID you want to include in your list.
      * @param  bool|array  $testmode
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     * @param  string[]|null  $scopes  Filter mandates by their scope. See \Mollie\Api\Types\MandateQuery.
      */
     public function iteratorForId(
         string $customerId,
         ?string $from = null,
         ?int $limit = null,
         $testmode = false,
-        bool $iterateBackwards = false
+        bool $iterateBackwards = false,
+        ?array $scopes = null
     ): LazyCollection {
         $testmode = Utility::extractBool($testmode, 'testmode', false);
 
         return $this->send(
-            (new GetPaginatedMandateRequest($customerId, $from, $limit))
+            (new GetPaginatedMandateRequest($customerId, $from, $limit, $scopes))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)
