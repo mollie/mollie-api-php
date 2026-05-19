@@ -55,7 +55,7 @@ class CreatePayoutRequestTest extends TestCase
     }
 
     /** @test */
-    public function it_sends_testmode_in_the_query()
+    public function it_sends_testmode_in_the_payload()
     {
         $client = MockMollieClient::fake([
             CreatePayoutRequest::class => MockResponse::created('payout', 'po_4KgGJJSZpH'),
@@ -69,9 +69,8 @@ class CreatePayoutRequestTest extends TestCase
         $client->assertSent(function (PendingRequest $pendingRequest) {
             $payload = json_decode((string) $pendingRequest->createPsrRequest()->getBody(), true);
 
-            $this->assertArrayNotHasKey('testmode', $payload);
-            $this->assertTrue($pendingRequest->query()->has('testmode'));
-            $this->assertEquals('true', $pendingRequest->query()->get('testmode'));
+            $this->assertTrue($payload['testmode']);
+            $this->assertFalse($pendingRequest->query()->has('testmode'));
 
             return true;
         });
