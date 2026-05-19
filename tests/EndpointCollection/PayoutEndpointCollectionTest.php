@@ -94,9 +94,15 @@ class PayoutEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(Payout::class, $payout);
         $this->assertEquals('payout', $payout->resource);
         $this->assertEquals('po_4KgGJJSZpH', $payout->id);
+        $this->assertEquals('live', $payout->mode);
         $this->assertNotEmpty($payout->balanceId);
         $this->assertNotEmpty($payout->amount);
         $this->assertNotEmpty($payout->status);
+        $this->assertNull($payout->statusReason);
         $this->assertNotEmpty($payout->createdAt);
+        $this->assertNull($payout->initiatedAt);
+        $this->assertNull($payout->completedAt);
+        $this->assertNull($payout->canceledAt);
+        $this->assertNotEmpty($payout->_links);
     }
 }

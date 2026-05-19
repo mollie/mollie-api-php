@@ -14,6 +14,10 @@
         },
         "description": "Scheduled payout",
         "status": "requested",
+        "statusReason": null,
+        "initiatedAt": null,
+        "completedAt": null,
+        "canceledAt": null,
         "_links": {
           "self": {
             "href": "...",
