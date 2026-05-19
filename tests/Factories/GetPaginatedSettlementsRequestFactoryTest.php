@@ -16,10 +16,21 @@ class GetPaginatedSettlementsRequestFactoryTest extends TestCase
                 'from' => 'stl_12345',
                 'limit' => 50,
                 'balanceId' => 'bal_12345',
+                'year' => '2024',
+                'month' => '04',
+                'currencies' => 'EUR,GBP',
             ])
             ->create();
 
         $this->assertInstanceOf(GetPaginatedSettlementsRequest::class, $request);
+        $this->assertEquals([
+            'from' => 'stl_12345',
+            'limit' => 50,
+            'balanceId' => 'bal_12345',
+            'year' => '2024',
+            'month' => '04',
+            'currencies' => 'EUR,GBP',
+        ], $request->query()->all());
     }
 
     /** @test */
