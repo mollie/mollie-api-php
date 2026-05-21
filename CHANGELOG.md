@@ -5,8 +5,6 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
-
 ## [4.0.0] - UNRELEASED
 
 PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and the [`mollie/mollie-api-php-rector`](https://github.com/mollie/mollie-api-php-rector) package for automated v3 → v4 codemods.
