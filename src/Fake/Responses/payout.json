@@ -2,8 +2,6 @@
   "resource": "payout",
   "id": "{{ RESOURCE_ID }}",
   "mode": "live",
-  "testmode": false,
-  "createdAt": "2026-05-19T10:30:54+00:00",
   "balanceId": "bal_gVMhHKqSSRYJyPsuoPNFH",
   "amount": {
     "currency": "EUR",
@@ -18,6 +16,7 @@
   "initiatedAt": null,
   "completedAt": null,
   "canceledAt": null,
+  "createdAt": "2023-12-25T10:30:54+00:00",
   "_links": {
     "self": {
       "href": "...",
