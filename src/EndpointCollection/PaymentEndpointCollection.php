@@ -30,8 +30,12 @@ class PaymentEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function get(string $id, array $query = [], bool $testmode = false): Payment
+    public function get(string $id, array|string|\Stringable $query = [], bool $testmode = false): Payment
     {
+        if (! is_array($query)) {
+            $query = ['include' => $query];
+        }
+
         $testmode = Utility::extractBool($query, 'testmode', $testmode);
 
         $request = GetPaymentRequestFactory::new($id)

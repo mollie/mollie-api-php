@@ -7,6 +7,7 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CancelPaymentRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
@@ -19,6 +20,7 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use Mollie\Api\Types\Includes\PaymentIncludes;
 use PHPUnit\Framework\TestCase;
 
 class PaymentEndpointCollectionTest extends TestCase
@@ -52,6 +54,38 @@ class PaymentEndpointCollectionTest extends TestCase
         $payment = $client->payments->get('tr_WDqYK6vllg');
 
         $this->assertPayment($payment);
+    }
+
+    /** @test */
+    public function get_accepts_a_raw_include_string()
+    {
+        $client = new MockMollieClient([
+            GetPaymentRequest::class => MockResponse::ok('payment'),
+        ]);
+
+        $client->payments->get('tr_WDqYK6vllg', 'details.qrCode,details.remainderDetails');
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('include=details.qrCode%2Cdetails.remainderDetails', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function get_accepts_a_payment_include_builder_as_second_argument()
+    {
+        $client = new MockMollieClient([
+            GetPaymentRequest::class => MockResponse::ok('payment'),
+        ]);
+
+        $client->payments->get('tr_WDqYK6vllg', PaymentIncludes::qrCode()->remainderDetails());
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('include=details.qrCode%2Cdetails.remainderDetails', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
     }
 
     /** @test */
