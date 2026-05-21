@@ -146,7 +146,6 @@ class ResourceRegistry
             Payment::class => 'payments',
             PaymentLink::class => 'payment-links',
             Permission::class => 'permissions',
-            Payout::class => 'payouts',
             Profile::class => 'profiles',
             Refund::class => 'refunds',
             Route::class => 'routes',
