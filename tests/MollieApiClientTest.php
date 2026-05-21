@@ -92,6 +92,7 @@ class MollieApiClientTest extends TestCase
 
         $this->assertNotEmpty($client_copy->customerPayments);
         $this->assertNotEmpty($client_copy->payments);
+        $this->assertNotEmpty($client_copy->payouts);
         $this->assertNotEmpty($client_copy->methods);
     }
 
