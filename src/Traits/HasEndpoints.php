@@ -126,6 +126,11 @@ trait HasEndpoints
         return $this->apiEndpoint;
     }
 
+    public function webhooks(): WebhookEndpointCollection
+    {
+        return $this->__get('webhooks');
+    }
+
     /**
      * Magic getter to access the endpoints.
      *

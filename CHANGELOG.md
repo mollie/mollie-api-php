@@ -39,6 +39,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and 
 - `Mollie\Api\Webhooks\SnapshotHydrator` feeds a webhook snapshot through the main `ResourceHydrator` after a one-line `json_decode(json_encode())` normalization so nested values arrive as `stdClass` (matching the HTTP path byte-for-byte).
 - `BaseEvent::asResource(Connector)` hydrates the embedded entity into a fully-typed SDK resource and automatically threads the rich origin (event id, signature, received-at).
 - `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event and carried onto hydrated resources via `WebhookSnapshotOrigin`.
+- `MollieApiClient::webhooks()->verify($payload, $signature, ?$secret)` verifies Mollie webhook signatures with HMAC-SHA256 and constant-time comparison, using `MOLLIE_WEBHOOK_SECRET` when no secret is passed.
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling of `withResponse()`.
 - 22 new webhook event classes covering payouts, disputes, files, business account transfers, and unmatched credit transfers, plus 4 profile event classes (`ProfileCreated`, `ProfileVerified`, `ProfileBlocked`, `ProfileDeleted`) for constants-to-class parity.
 

@@ -131,6 +131,22 @@ Public contract changes:
 
 If you have third-party subclasses of `BaseResource` that read `$this->response` directly, switch them to `$this->getResponse()` when they specifically need an HTTP response, or `$this->getOrigin()` when webhook snapshot origins should also be supported.
 
+### 2.5 New in 4.0.0: webhook signature verification
+
+Webhook signature verification is now available directly on the webhooks endpoint collection:
+
+```php
+$mollie = MollieApiClient::fromEnv();
+
+if (! $mollie->webhooks()->verify($request->getContent(), $signature)) {
+    abort(403);
+}
+
+$event = $mollie->webhooks()->mapper()->process($request->getContent(), $signature);
+```
+
+Pass the webhook secret explicitly as the third argument, or set `MOLLIE_WEBHOOK_SECRET`. Invalid signatures return `false`; a missing secret throws `\InvalidArgumentException` because that is a configuration error.
+
 ---
 
 ## 3. Medium-impact changes

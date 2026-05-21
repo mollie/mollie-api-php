@@ -86,6 +86,14 @@ class WebhookEventMapper
     }
 
     /**
+     * @param array|string $payload
+     */
+    public function process($payload, ?string $signature = null): BaseEvent
+    {
+        return $this->processPayload($payload, $signature);
+    }
+
+    /**
      * Register or override a mapping for a given type string.
      */
     public function register(string $type, string $handlerClass): void

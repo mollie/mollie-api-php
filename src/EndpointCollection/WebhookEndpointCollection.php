@@ -15,9 +15,26 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Resources\WebhookCollection;
+use Mollie\Api\Webhooks\WebhookEventMapper;
+use Mollie\Api\Webhooks\WebhookSignatureVerifier;
 
 class WebhookEndpointCollection extends EndpointCollection
 {
+    /**
+     * Verify a webhook payload signature.
+     *
+     * @throws \Mollie\Api\Exceptions\ApiException
+     */
+    public function verify(string $payload, string $signature, ?string $secret = null): bool
+    {
+        return (new WebhookSignatureVerifier)->verify($payload, $signature, $secret);
+    }
+
+    public function mapper(): WebhookEventMapper
+    {
+        return new WebhookEventMapper;
+    }
+
     /**
      * Creates a webhook in Mollie.
      *
