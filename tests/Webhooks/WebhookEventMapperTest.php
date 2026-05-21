@@ -6,7 +6,35 @@ use Mollie\Api\Fake\MockEvent;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferBlocked;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferFailed;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferInitiated;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferPendingReview;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferProcessed;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferRequested;
+use Mollie\Api\Webhooks\Events\BusinessAccountTransferReturned;
+use Mollie\Api\Webhooks\Events\ConnectBalanceTransferFailed;
+use Mollie\Api\Webhooks\Events\ConnectBalanceTransferSucceeded;
+use Mollie\Api\Webhooks\Events\DisputeCreated;
+use Mollie\Api\Webhooks\Events\DisputeResolved;
+use Mollie\Api\Webhooks\Events\DisputeUpdated;
+use Mollie\Api\Webhooks\Events\FileAccepted;
+use Mollie\Api\Webhooks\Events\FileFailed;
+use Mollie\Api\Webhooks\Events\FileRejected;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\PayoutCanceled;
+use Mollie\Api\Webhooks\Events\PayoutCompleted;
+use Mollie\Api\Webhooks\Events\PayoutFailed;
+use Mollie\Api\Webhooks\Events\PayoutInitiated;
+use Mollie\Api\Webhooks\Events\PayoutProcessingAtBank;
+use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
+use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
+use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
+use Mollie\Api\Webhooks\Events\SalesInvoicePaid;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferExpired;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatched;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
 use Mollie\Api\Webhooks\WebhookEventMapper;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
 use PHPUnit\Framework\TestCase;
@@ -53,6 +81,90 @@ class WebhookEventMapperTest extends TestCase
             ],
             'balance-transaction.created' => [
                 BalanceTransactionCreated::class,
+            ],
+            'payout.initiated' => [
+                PayoutInitiated::class,
+            ],
+            'payout.processing-at-bank' => [
+                PayoutProcessingAtBank::class,
+            ],
+            'payout.completed' => [
+                PayoutCompleted::class,
+            ],
+            'payout.canceled' => [
+                PayoutCanceled::class,
+            ],
+            'payout.failed' => [
+                PayoutFailed::class,
+            ],
+            'business-account-transfer.requested' => [
+                BusinessAccountTransferRequested::class,
+            ],
+            'business-account-transfer.initiated' => [
+                BusinessAccountTransferInitiated::class,
+            ],
+            'business-account-transfer.pending-review' => [
+                BusinessAccountTransferPendingReview::class,
+            ],
+            'business-account-transfer.processed' => [
+                BusinessAccountTransferProcessed::class,
+            ],
+            'business-account-transfer.failed' => [
+                BusinessAccountTransferFailed::class,
+            ],
+            'business-account-transfer.blocked' => [
+                BusinessAccountTransferBlocked::class,
+            ],
+            'business-account-transfer.returned' => [
+                BusinessAccountTransferReturned::class,
+            ],
+            'connect-balance-transfer.succeeded' => [
+                ConnectBalanceTransferSucceeded::class,
+            ],
+            'connect-balance-transfer.failed' => [
+                ConnectBalanceTransferFailed::class,
+            ],
+            'sales-invoice.created' => [
+                SalesInvoiceCreated::class,
+            ],
+            'sales-invoice.issued' => [
+                SalesInvoiceIssued::class,
+            ],
+            'sales-invoice.canceled' => [
+                SalesInvoiceCanceled::class,
+            ],
+            'sales-invoice.paid' => [
+                SalesInvoicePaid::class,
+            ],
+            'dispute.created' => [
+                DisputeCreated::class,
+            ],
+            'dispute.resolved' => [
+                DisputeResolved::class,
+            ],
+            'dispute.updated' => [
+                DisputeUpdated::class,
+            ],
+            'file.accepted' => [
+                FileAccepted::class,
+            ],
+            'file.rejected' => [
+                FileRejected::class,
+            ],
+            'file.failed' => [
+                FileFailed::class,
+            ],
+            'unmatched-credit-transfer.received' => [
+                UnmatchedCreditTransferReceived::class,
+            ],
+            'unmatched-credit-transfer.matched' => [
+                UnmatchedCreditTransferMatched::class,
+            ],
+            'unmatched-credit-transfer.returned' => [
+                UnmatchedCreditTransferReturned::class,
+            ],
+            'unmatched-credit-transfer.expired' => [
+                UnmatchedCreditTransferExpired::class,
             ],
         ];
     }

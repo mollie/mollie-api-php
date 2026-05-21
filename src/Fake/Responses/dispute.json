@@ -1,0 +1,16 @@
+{
+  "resource": "dispute",
+  "id": "{{ RESOURCE_ID }}",
+  "status": "open",
+  "createdAt": "2023-12-25T10:30:54+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}
