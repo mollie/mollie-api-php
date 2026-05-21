@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Utils;
 
+use BackedEnum;
 use ArgumentCountError;
+use Mollie\Api\Contracts\QueryParameterBuilder;
+use Mollie\Api\Contracts\Stringable;
 
 class Arr
 {
@@ -171,11 +174,46 @@ class Arr
         $keys = (array) $key;
 
         foreach ($keys as $k) {
-            if (Arr::has($array, $k) && in_array($value, Arr::wrap(Arr::get($array, $k, [])))) {
+            if (Arr::has($array, $k) && in_array($value, self::queryValues(Arr::get($array, $k, [])), true)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @param  mixed  $value
+     * @return array<int, string>
+     */
+    private static function queryValues($value): array
+    {
+        $values = [];
+
+        foreach (static::wrap($value) as $item) {
+            if ($item instanceof QueryParameterBuilder) {
+                $item = $item->toQueryValue();
+            } elseif ($item instanceof BackedEnum) {
+                $item = $item->value;
+            } elseif ($item instanceof Stringable) {
+                $item = (string) $item;
+            }
+
+            if (is_array($item)) {
+                array_push($values, ...self::queryValues($item));
+
+                continue;
+            }
+
+            foreach (explode(',', (string) $item) as $part) {
+                $part = trim($part);
+
+                if ($part !== '') {
+                    $values[] = $part;
+                }
+            }
+        }
+
+        return $values;
     }
 }
