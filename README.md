@@ -99,6 +99,26 @@ if ($payment->status === PaymentStatus::Paid) {
 }
 ```
 
+#### Include and embed builders ####
+
+```php
+use Mollie\Api\Types\Includes\PaymentEmbeds;
+use Mollie\Api\Types\Includes\PaymentIncludes;
+
+$payment = $mollie->payments->get('tr_xxx', [
+    'include' => PaymentIncludes::qrCode()->remainderDetails(),
+    'embed' => PaymentEmbeds::captures()->refunds(),
+]);
+```
+
+The existing string form remains valid:
+
+```php
+$payment = $mollie->payments->get('tr_xxx', [
+    'include' => 'details.qrCode,details.remainderDetails',
+]);
+```
+
 ## Documentation
 For an in-depth understanding of our API, please explore the [Mollie Developer Portal](https://www.mollie.com/developers). Our API documentation is available in English.
 

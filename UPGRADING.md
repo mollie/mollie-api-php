@@ -131,6 +131,27 @@ Public contract changes:
 
 If you have third-party subclasses of `BaseResource` that read `$this->response` directly, switch them to `$this->getResponse()` when they specifically need an HTTP response, or `$this->getOrigin()` when webhook snapshot origins should also be supported.
 
+### 2.5 Typed include/embed builders
+
+Query arrays that accept Mollie's `include` or `embed` parameters now also accept typed builders. This is additive: raw strings and arrays still work.
+
+```php
+use Mollie\Api\Types\Includes\PaymentEmbeds;
+use Mollie\Api\Types\Includes\PaymentIncludes;
+
+$payment = $mollie->payments->get('tr_xxx', [
+    'include' => PaymentIncludes::qrCode()->remainderDetails(),
+    'embed' => PaymentEmbeds::captures()->refunds(),
+]);
+
+// Still valid:
+$payment = $mollie->payments->get('tr_xxx', [
+    'include' => 'details.qrCode,details.remainderDetails',
+]);
+```
+
+Builders are available for the verified active include/embed surfaces: payments, methods, clients, refunds, captures, and chargebacks. They use Mollie's parameter names (`include`, `embed`) and values directly.
+
 ---
 
 ## 3. Medium-impact changes
