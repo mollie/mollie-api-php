@@ -10,6 +10,7 @@ use Mollie\Api\Factories\RequestTerminalPairingCodeRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
+use Mollie\Api\Http\Requests\RevokeTerminalPairingCodeRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
@@ -149,5 +150,16 @@ class TerminalEndpointCollection extends EndpointCollection
 
         /** @var TerminalPairingCode */
         return $this->send($request);
+    }
+
+    /**
+     * Revoke a terminal pairing code from Mollie.
+     *
+     * @throws RequestException
+     */
+    public function revokePairingCode(string $id): TerminalPairingCode
+    {
+        /** @var TerminalPairingCode */
+        return $this->send(new RevokeTerminalPairingCodeRequest($id));
     }
 }

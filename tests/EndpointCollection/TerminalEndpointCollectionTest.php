@@ -12,6 +12,7 @@ use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalPairingCodeRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Http\Requests\RequestTerminalPairingCodeRequest;
+use Mollie\Api\Http\Requests\RevokeTerminalPairingCodeRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
 use Mollie\Api\Resources\TerminalPairingCode;
@@ -119,6 +120,19 @@ class TerminalEndpointCollectionTest extends TestCase
 
         /** @var TerminalPairingCode $pairingCode */
         $pairingCode = $client->terminals->requestPairingCode(['profileId' => 'pfl_jA9bC4DkFj3G']);
+
+        $this->assertTerminalPairingCode($pairingCode);
+    }
+
+    /** @test */
+    public function revoke_pairing_code()
+    {
+        $client = new MockMollieClient([
+            RevokeTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code'),
+        ]);
+
+        /** @var TerminalPairingCode $pairingCode */
+        $pairingCode = $client->terminals->revokePairingCode('termpc_R7gX5Ea9bC4DkFj3G');
 
         $this->assertTerminalPairingCode($pairingCode);
     }
