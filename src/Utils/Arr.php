@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Utils;
 
-use BackedEnum;
 use ArgumentCountError;
+use BackedEnum;
 use Mollie\Api\Contracts\QueryParameterBuilder;
 use Mollie\Api\Contracts\Stringable;
 
