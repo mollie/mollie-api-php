@@ -9,6 +9,7 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
+use Mollie\Api\Http\Requests\GetTerminalPairingCodeRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
@@ -93,6 +94,19 @@ class TerminalEndpointCollectionTest extends TestCase
         foreach ($client->terminals->pairingCodesIterator() as $pairingCode) {
             $this->assertTerminalPairingCode($pairingCode);
         }
+    }
+
+    /** @test */
+    public function get_pairing_code()
+    {
+        $client = new MockMollieClient([
+            GetTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code'),
+        ]);
+
+        /** @var TerminalPairingCode $pairingCode */
+        $pairingCode = $client->terminals->getPairingCode('termpc_R7gX5Ea9bC4DkFj3G');
+
+        $this->assertTerminalPairingCode($pairingCode);
     }
 
     protected function assertTerminal(Terminal $terminal)

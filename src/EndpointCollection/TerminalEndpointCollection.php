@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
+use Mollie\Api\Factories\GetTerminalPairingCodeRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use Mollie\Api\Resources\TerminalPairingCode;
 use Mollie\Api\Resources\TerminalPairingCodeCollection;
 use Mollie\Api\Utils\Utility;
 
@@ -112,5 +114,20 @@ class TerminalEndpointCollection extends EndpointCollection
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );
+    }
+
+    /**
+     * Retrieve a terminal pairing code from Mollie.
+     *
+     * @throws RequestException
+     */
+    public function getPairingCode(string $id, array $query = []): TerminalPairingCode
+    {
+        $request = GetTerminalPairingCodeRequestFactory::new($id)
+            ->withQuery($query)
+            ->create();
+
+        /** @var TerminalPairingCode */
+        return $this->send($request);
     }
 }
