@@ -6,10 +6,12 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
+use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use Mollie\Api\Resources\TerminalPairingCodeCollection;
 use Mollie\Api\Utils\Utility;
 
 class TerminalEndpointCollection extends EndpointCollection
@@ -67,6 +69,48 @@ class TerminalEndpointCollection extends EndpointCollection
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)
+        );
+    }
+
+    /**
+     * Retrieves a collection of terminal pairing codes from Mollie.
+     *
+     * @param  string|null  $from  The first terminal pairing code ID you want to include in your list.
+     *
+     * @throws RequestException
+     */
+    public function pairingCodesPage(?string $from = null, ?int $limit = null, array $filters = []): TerminalPairingCodeCollection
+    {
+        /** @var TerminalPairingCodeCollection */
+        return $this->send(new GetPaginatedTerminalPairingCodesRequest(
+            $from,
+            $limit,
+            $filters['sort'] ?? null,
+            $filters['profileId'] ?? null,
+        ));
+    }
+
+    /**
+     * Create an iterator for iterating over terminal pairing codes retrieved from Mollie.
+     *
+     * @param  string|null  $from  The first resource ID you want to include in your list.
+     * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     */
+    public function pairingCodesIterator(
+        ?string $from = null,
+        ?int $limit = null,
+        array $filters = [],
+        bool $iterateBackwards = false
+    ): LazyCollection {
+        return $this->send(
+            (new GetPaginatedTerminalPairingCodesRequest(
+                $from,
+                $limit,
+                $filters['sort'] ?? null,
+                $filters['profileId'] ?? null,
+            ))
+                ->useIterator()
+                ->setIterationDirection($iterateBackwards)
         );
     }
 }

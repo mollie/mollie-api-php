@@ -7,10 +7,13 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use Mollie\Api\Resources\TerminalPairingCode;
+use Mollie\Api\Resources\TerminalPairingCodeCollection;
 use PHPUnit\Framework\TestCase;
 
 class TerminalEndpointCollectionTest extends TestCase
@@ -60,6 +63,38 @@ class TerminalEndpointCollectionTest extends TestCase
         }
     }
 
+    /** @test */
+    public function pairing_codes_page()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedTerminalPairingCodesRequest::class => MockResponse::ok('terminal-pairing-code-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'terminal-pairing-codes'),
+        ]);
+
+        /** @var TerminalPairingCodeCollection $pairingCodes */
+        $pairingCodes = $client->terminals->pairingCodesPage();
+
+        $this->assertInstanceOf(TerminalPairingCodeCollection::class, $pairingCodes);
+        $this->assertGreaterThan(0, $pairingCodes->count());
+
+        foreach ($pairingCodes as $pairingCode) {
+            $this->assertTerminalPairingCode($pairingCode);
+        }
+    }
+
+    /** @test */
+    public function pairing_codes_iterator()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedTerminalPairingCodesRequest::class => MockResponse::ok('terminal-pairing-code-list'),
+            DynamicGetRequest::class => MockResponse::ok('empty-list', 'terminal-pairing-codes'),
+        ]);
+
+        foreach ($client->terminals->pairingCodesIterator() as $pairingCode) {
+            $this->assertTerminalPairingCode($pairingCode);
+        }
+    }
+
     protected function assertTerminal(Terminal $terminal)
     {
         $this->assertInstanceOf(Terminal::class, $terminal);
@@ -73,5 +108,18 @@ class TerminalEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($terminal->currency);
         $this->assertNotEmpty($terminal->createdAt);
         $this->assertNotEmpty($terminal->_links);
+    }
+
+    protected function assertTerminalPairingCode(TerminalPairingCode $pairingCode)
+    {
+        $this->assertInstanceOf(TerminalPairingCode::class, $pairingCode);
+        $this->assertEquals('terminal-pairing-code', $pairingCode->resource);
+        $this->assertNotEmpty($pairingCode->id);
+        $this->assertNotEmpty($pairingCode->code);
+        $this->assertNotEmpty($pairingCode->profileId);
+        $this->assertNotEmpty($pairingCode->status);
+        $this->assertNotEmpty($pairingCode->expiresAt);
+        $this->assertNotEmpty($pairingCode->createdAt);
+        $this->assertNotEmpty($pairingCode->_links);
     }
 }
