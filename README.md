@@ -53,14 +53,15 @@ composer require mollie/mollie-api-php
 
 ## Usage ##
 
-Initializing the Mollie API client, and setting your API key.
+Initializing the Mollie API client with an explicit environment intent.
 
 ```php
-$mollie = new \Mollie\Api\MollieApiClient();
-$mollie->setToken("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
+$mollie = \Mollie\Api\MollieApiClient::sandbox("test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM");
 ```
 
-The `setToken` method automatically detects whether you're using an API key (`test_`/`live_`) or an OAuth access token (`access_`). You can also use `setApiKey()` or `setAccessToken()` directly if you prefer to be explicit.
+Use `MollieApiClient::production("live_...")` for live traffic. Both factories use Mollie's API base URL and validate the key prefix up front, so a test key cannot accidentally bootstrap a production-intended client.
+
+The `setToken` method automatically detects whether you're using an API key (`test_`/`live_`) or an OAuth access token (`access_`). You can still use `setApiKey()` or `setAccessToken()` directly if you prefer to manage bootstrap yourself.
 
 Or skip the boilerplate and pull credentials from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN`:
 

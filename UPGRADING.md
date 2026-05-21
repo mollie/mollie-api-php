@@ -205,6 +205,22 @@ Removed from `require-dev`. Use `pest --parallel`.
 
 ## 5. New features
 
+### 5.1 Explicit environment factories
+
+Mollie's sandbox and production traffic use the same API base URL. The key prefix selects the environment: `test_` for sandbox, `live_` for production. v4 adds explicit factories that validate this intent during bootstrap.
+
+```php
+// v3
+$mollie = new \Mollie\Api\MollieApiClient();
+$mollie->setApiKey($apiKey);
+
+// v4
+$mollie = \Mollie\Api\MollieApiClient::sandbox($testKey);
+$mollie = \Mollie\Api\MollieApiClient::production($liveKey);
+```
+
+`MollieApiClient::fromEnv()` now inspects `MOLLIE_API_KEY`: `test_` routes to `sandbox()`, `live_` routes to `production()`, and OAuth `access_` tokens continue through the token path without environment enforcement.
+
 | Feature | Where |
 |---|---|
 | `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN` | [README quickstart](README.md#usage) |

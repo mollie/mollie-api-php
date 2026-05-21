@@ -49,6 +49,7 @@ use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
+use Mollie\Api\Exceptions\InvalidAuthenticationException;
 use Mollie\Api\Exceptions\MissingAuthenticationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Adapter\MollieHttpAdapterPicker;
@@ -191,6 +192,26 @@ class MollieApiClient implements Connector
         return new MockMollieClient($expectedResponses, $retainRequests);
     }
 
+    public static function sandbox(string $key): self
+    {
+        self::assertKeyPrefix($key, 'test_');
+
+        $client = new self;
+        $client->setApiKey($key);
+
+        return $client;
+    }
+
+    public static function production(string $key): self
+    {
+        self::assertKeyPrefix($key, 'live_');
+
+        $client = new self;
+        $client->setApiKey($key);
+
+        return $client;
+    }
+
     /**
      * Create a client authenticated from environment variables.
      *
@@ -199,7 +220,7 @@ class MollieApiClient implements Connector
      * API keys (`test_`/`live_`) and OAuth access tokens (`access_`) work.
      *
      * @throws MissingAuthenticationException When neither variable is set.
-     * @throws Exceptions\ApiException When the token cannot be accepted by the authenticator.
+     * @throws InvalidAuthenticationException When the token cannot be accepted by the authenticator.
      */
     public static function fromEnv(): self
     {
@@ -209,10 +230,36 @@ class MollieApiClient implements Connector
             throw new MissingAuthenticationException;
         }
 
+        if (str_starts_with($token, 'test_')) {
+            return self::sandbox($token);
+        }
+
+        if (str_starts_with($token, 'live_')) {
+            return self::production($token);
+        }
+
         $client = new self;
+
+        if (! str_starts_with($token, 'access_')) {
+            throw new InvalidAuthenticationException(
+                $token,
+                "Unknown Mollie token prefix. Expected key starting with 'test_', 'live_', or 'access_', got: ".substr($token, 0, 6).'...'
+            );
+        }
+
         $client->setToken($token);
 
         return $client;
+    }
+
+    private static function assertKeyPrefix(string $key, string $expectedPrefix): void
+    {
+        if (! str_starts_with($key, $expectedPrefix)) {
+            throw new InvalidAuthenticationException(
+                $key,
+                "Expected key starting with '{$expectedPrefix}', got: ".substr($key, 0, 6).'...'
+            );
+        }
     }
 
     private static function readEnv(string $name): ?string
