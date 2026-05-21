@@ -114,7 +114,9 @@ class ExponentialRetryStrategyTest extends TestCase
 
             public int $attempts = 0;
 
-            public function __construct(private int $failuresBeforeSuccess) {}
+            public function __construct(private int $failuresBeforeSuccess)
+            {
+            }
 
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
@@ -221,6 +223,7 @@ class ExponentialRetryStrategyTest extends TestCase
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
                 $this->attempts++;
+
                 throw new RetryableNetworkRequestException($pendingRequest, 'temp');
             }
 
@@ -250,8 +253,7 @@ class ExponentialRetryStrategyTest extends TestCase
 
     private function makePsrResponse(): Response
     {
-        $trait = new class
-        {
+        $trait = new class {
             use HasDefaultFactories;
 
             public function build(): array

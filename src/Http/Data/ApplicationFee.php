@@ -11,7 +11,8 @@ readonly class ApplicationFee implements Resolvable
     public function __construct(
         public Money $amount,
         public string $description,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

@@ -30,8 +30,7 @@ class GetPaymentChargebackRequest extends ResourceHydratableRequest implements S
         private string $paymentId,
         private string $chargebackId,
         private bool $includePayment = false,
-    )
-    {
+    ) {
     }
 
     protected function defaultQuery(): array

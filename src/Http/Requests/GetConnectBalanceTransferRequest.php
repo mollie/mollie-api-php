@@ -25,8 +25,7 @@ class GetConnectBalanceTransferRequest extends ResourceHydratableRequest impleme
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

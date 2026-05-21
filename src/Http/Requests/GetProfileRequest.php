@@ -24,8 +24,7 @@ class GetProfileRequest extends ResourceHydratableRequest implements SupportsTes
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

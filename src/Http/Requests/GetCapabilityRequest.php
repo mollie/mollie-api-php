@@ -21,8 +21,7 @@ class GetCapabilityRequest extends ResourceHydratableRequest
 
     public function __construct(
         private string $name,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

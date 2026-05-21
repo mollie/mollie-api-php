@@ -27,8 +27,7 @@ class EnableMethodRequest extends ResourceHydratableRequest
     public function __construct(
         private string $profileId,
         private string $methodId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -14,7 +14,8 @@ readonly class EmailDetails implements Arrayable
     public function __construct(
         public string $subject,
         public string $body,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

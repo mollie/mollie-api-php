@@ -21,8 +21,7 @@ class DisableMethodIssuerRequest extends Request
         private string $profileId,
         private string $methodId,
         private string $issuerId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

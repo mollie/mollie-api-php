@@ -28,8 +28,7 @@ class GetMandateRequest extends ResourceHydratableRequest implements SupportsTes
     public function __construct(
         private string $customerId,
         private string $mandateId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -29,8 +29,7 @@ class GetBalanceReportRequest extends ResourceHydratableRequest implements Suppo
         private DateTimeInterface $from,
         private DateTimeInterface $until,
         private ?string $grouping = null,
-    )
-    {
+    ) {
     }
 
     protected function defaultQuery(): array

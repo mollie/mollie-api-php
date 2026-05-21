@@ -22,7 +22,8 @@ readonly class OrderLine implements Resolvable
         public ?string $sku = null,
         public ?string $imageUrl = null,
         public ?string $productUrl = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

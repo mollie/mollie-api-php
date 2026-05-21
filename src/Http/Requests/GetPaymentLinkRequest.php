@@ -27,8 +27,7 @@ class GetPaymentLinkRequest extends ResourceHydratableRequest implements Support
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

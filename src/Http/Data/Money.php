@@ -18,7 +18,8 @@ readonly class Money implements Arrayable
     public function __construct(
         public string $currency,
         public string $value,
-    ) {}
+    ) {
+    }
 
     /**
      * Create a Money instance from an integer amount in the currency's

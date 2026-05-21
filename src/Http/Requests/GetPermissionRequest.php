@@ -24,8 +24,7 @@ class GetPermissionRequest extends ResourceHydratableRequest implements Supports
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -20,8 +20,7 @@ class GetInvoiceRequest extends ResourceHydratableRequest
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

@@ -189,11 +189,13 @@ class ResourceHydrator
                     case 'string':
                         $allowsString = true;
                         $scalar = $scalar ?? 'string';
+
                         break;
                     case 'int':
                     case 'bool':
                     case 'float':
                         $scalar = $scalar ?? $name;
+
                         break;
                     case 'array':
                     case 'iterable':

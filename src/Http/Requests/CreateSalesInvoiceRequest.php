@@ -9,15 +9,11 @@ use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Discount;
 use Mollie\Api\Http\Data\EmailDetails;
-use Mollie\Api\Http\Data\InvoiceLine;
 use Mollie\Api\Http\Data\PaymentDetails;
 use Mollie\Api\Http\Data\Recipient;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
-use Mollie\Api\Types\PaymentTerm;
-use Mollie\Api\Types\VatMode;
-use Mollie\Api\Types\VatScheme;
 
 /**
  * @see https://docs.mollie.com/reference/create-sales-invoice

@@ -107,5 +107,6 @@ final class MacroableFixture
     public function __construct(
         public int $value = 0,
         protected string $hidden = '',
-    ) {}
+    ) {
+    }
 }

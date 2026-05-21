@@ -16,7 +16,8 @@ readonly class Owner implements Arrayable
         public string $givenName,
         public string $familyName,
         public ?string $locale = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

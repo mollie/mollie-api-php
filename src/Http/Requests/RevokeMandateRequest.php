@@ -24,8 +24,7 @@ class RevokeMandateRequest extends Request implements SupportsTestmodeInPayload
     public function __construct(
         private string $customerId,
         private string $mandateId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

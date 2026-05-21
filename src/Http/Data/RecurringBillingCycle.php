@@ -20,7 +20,8 @@ readonly class RecurringBillingCycle implements Resolvable
         public ?Money $amount = null,
         public ?int $times = null,
         public ?DateTimeInterface $startDate = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

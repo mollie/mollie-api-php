@@ -17,7 +17,8 @@ readonly class OwnerAddress implements Arrayable
         public ?string $postalCode = null,
         public ?string $city = null,
         public ?string $region = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

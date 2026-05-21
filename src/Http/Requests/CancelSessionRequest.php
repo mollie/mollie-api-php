@@ -18,8 +18,7 @@ class CancelSessionRequest extends ResourceHydratableRequest
 
     public function __construct(
         private string $sessionId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

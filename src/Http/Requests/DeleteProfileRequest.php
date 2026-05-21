@@ -19,8 +19,7 @@ class DeleteProfileRequest extends Request
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

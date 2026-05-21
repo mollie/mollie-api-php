@@ -22,8 +22,7 @@ class ListPaymentRoutesRequest extends ResourceHydratableRequest implements Supp
 
     public function __construct(
         private string $paymentId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -14,7 +14,8 @@ readonly class InvoiceLine implements Resolvable
         public string $vatRate,
         public Money $unitPrice,
         public ?Discount $discount = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

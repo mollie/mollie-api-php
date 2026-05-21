@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Requests;
 
-use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\DataCollection;
-use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Traits\HasJsonPayload;

@@ -30,8 +30,7 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
         private string $paymentId,
         private string $refundId,
         private bool $includePayment = false,
-    )
-    {
+    ) {
     }
 
     protected function defaultQuery(): array

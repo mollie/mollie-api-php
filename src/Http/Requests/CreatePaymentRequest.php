@@ -10,8 +10,6 @@ use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\OrderLine;
-use Mollie\Api\Http\Data\PaymentRoute;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;

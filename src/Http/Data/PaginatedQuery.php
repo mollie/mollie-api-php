@@ -11,7 +11,8 @@ readonly class PaginatedQuery implements Resolvable
     public function __construct(
         public ?string $from = null,
         public ?int $limit = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

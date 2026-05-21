@@ -20,8 +20,7 @@ class DeletePaymentLinkRequest extends Request implements SupportsTestmodeInPayl
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

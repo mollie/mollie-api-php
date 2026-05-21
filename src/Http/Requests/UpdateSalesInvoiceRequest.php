@@ -9,7 +9,6 @@ use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Discount;
 use Mollie\Api\Http\Data\EmailDetails;
-use Mollie\Api\Http\Data\InvoiceLine;
 use Mollie\Api\Http\Data\PaymentDetails;
 use Mollie\Api\Http\Data\Recipient;
 use Mollie\Api\Resources\SalesInvoice;

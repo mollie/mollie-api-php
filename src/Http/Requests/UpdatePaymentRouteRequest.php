@@ -36,8 +36,7 @@ class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements Has
         private string $paymentId,
         private string $routeId,
         private $releaseDate,
-    )
-    {
+    ) {
     }
 
     protected function defaultPayload(): array

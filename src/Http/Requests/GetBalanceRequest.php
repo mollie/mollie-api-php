@@ -21,8 +21,7 @@ class GetBalanceRequest extends ResourceHydratableRequest implements SupportsTes
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

@@ -16,7 +16,8 @@ readonly class PaymentRoute implements Resolvable
         public Money $amount,
         public string $organizationId,
         public Date|DateTimeInterface|null $delayUntil = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

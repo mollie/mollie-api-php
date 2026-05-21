@@ -21,8 +21,7 @@ class CancelPaymentRefundRequest extends Request implements SupportsTestmodeInPa
     public function __construct(
         private string $paymentId,
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

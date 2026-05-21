@@ -15,8 +15,7 @@ abstract class DynamicRequest extends ResourceHydratableRequest
 
     public function __construct(
         private string $url,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

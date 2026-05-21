@@ -21,8 +21,7 @@ class GetCustomerRequest extends ResourceHydratableRequest implements SupportsTe
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

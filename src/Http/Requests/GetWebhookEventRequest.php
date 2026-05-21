@@ -26,8 +26,7 @@ class GetWebhookEventRequest extends ResourceHydratableRequest
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     /**

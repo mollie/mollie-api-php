@@ -11,7 +11,8 @@ readonly class RefundRoute implements Resolvable
     public function __construct(
         public Money $amount,
         public string $organizationId,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

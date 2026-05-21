@@ -24,8 +24,7 @@ class ApplePayPaymentSessionRequest extends ResourceHydratableRequest implements
         private string $domain,
         private string $validationUrl,
         private ?string $profileId = null,
-    )
-    {
+    ) {
     }
 
     public function defaultPayload(): array

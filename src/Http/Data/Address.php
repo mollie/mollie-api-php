@@ -24,7 +24,8 @@ readonly class Address implements Arrayable
         public ?string $city = null,
         public ?string $region = null,
         public ?string $country = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

@@ -31,8 +31,7 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
         private string $paymentId,
         private string $captureId,
         private bool $embedPayment = false,
-    )
-    {
+    ) {
     }
 
     protected function defaultQuery(): array

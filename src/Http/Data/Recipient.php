@@ -25,7 +25,8 @@ readonly class Recipient implements Arrayable
         public ?string $phone = null,
         public ?string $streetAdditional = null,
         public ?string $region = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

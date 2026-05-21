@@ -15,7 +15,8 @@ readonly class TransferParty implements Arrayable
         public string $id,
         public string $description,
         public string $type = 'organization',
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

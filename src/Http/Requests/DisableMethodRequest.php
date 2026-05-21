@@ -20,8 +20,7 @@ class DisableMethodRequest extends Request
     public function __construct(
         private string $profileId,
         private string $methodId,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

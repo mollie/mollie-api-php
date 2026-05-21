@@ -27,8 +27,7 @@ class GetSalesInvoiceRequest extends ResourceHydratableRequest implements Suppor
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

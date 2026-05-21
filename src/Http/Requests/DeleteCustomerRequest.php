@@ -20,8 +20,7 @@ class DeleteCustomerRequest extends Request implements SupportsTestmodeInPayload
 
     public function __construct(
         private string $id,
-    )
-    {
+    ) {
     }
 
     public function resolveResourcePath(): string

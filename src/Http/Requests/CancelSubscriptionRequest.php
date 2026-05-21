@@ -31,8 +31,7 @@ class CancelSubscriptionRequest extends ResourceHydratableRequest implements Sup
     public function __construct(
         private string $customerId,
         private string $subscriptionId,
-    )
-    {
+    ) {
     }
 
     /**
