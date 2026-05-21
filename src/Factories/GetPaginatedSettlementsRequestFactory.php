@@ -14,6 +14,9 @@ class GetPaginatedSettlementsRequestFactory extends RequestFactory
             $this->query('from'),
             $this->query('limit'),
             $this->query('balanceId'),
+            $this->query('year'),
+            $this->query('month'),
+            $this->query('currencies'),
         );
     }
 }

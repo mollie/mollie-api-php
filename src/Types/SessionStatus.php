@@ -6,8 +6,7 @@ namespace Mollie\Api\Types;
 
 enum SessionStatus: string
 {
-    case Created = 'created';
-    case ReadyForProcessing = 'ready_for_processing';
+    case Open = 'open';
+    case Expired = 'expired';
     case Completed = 'completed';
-    case Failed = 'failed';
 }

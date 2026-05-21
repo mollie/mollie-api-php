@@ -7,9 +7,8 @@ namespace Mollie\Api\Resources;
 use BackedEnum;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
-use Mollie\Api\Contracts\IsWrapper;
+use Mollie\Api\Contracts\ResourceOrigin;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
-use Mollie\Api\Http\Response;
 use Mollie\Api\Traits\ComposableFromArray;
 use ReflectionNamedType;
 use ReflectionProperty;
@@ -26,7 +25,7 @@ class ResourceHydrator
      *     'scalar'     => 'string'|'int'|'bool'|'float'|null,
      *     'enums'      => class-string<BackedEnum>[] (for enum|string union),
      *     'valueObject'=> class-string|null (class with fromArray()),
-     *     'allowsString' => bool  (for enum unions — keep raw string fallback),
+     *     'allowsString' => bool  (for enum unions - keep raw string fallback),
      *     'nullable'   => bool,
      *   ]
      *
@@ -35,12 +34,11 @@ class ResourceHydrator
     private static array $propertyTypeCache = [];
 
     /**
-     * Hydrate a response into a resource or collection
+     * Hydrate raw resource data into a typed resource.
      *
      * @param  object|array  $data
-     * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
      */
-    public function hydrate(BaseResource $resource, $data, Response $response)
+    public function hydrate(BaseResource $resource, $data, ResourceOrigin $origin): BaseResource
     {
         if (is_object($data)) {
             $data = (array) $data;
@@ -48,38 +46,34 @@ class ResourceHydrator
 
         if ($resource instanceof AnyResource) {
             $resource->fill($data);
-            $resource->setResponse($response);
+        } else {
+            $typeMap = $this->reflectTypes($resource);
 
-            return $resource;
+            foreach ($data as $property => $value) {
+                $property = (string) $property;
+
+                if ($this->holdsEmbeddedResources($resource, $property, $value)) {
+                    $resource->{$property} = $this->parseEmbeddedResources(
+                        $resource->getConnector(),
+                        $resource,
+                        $value,
+                        $origin
+                    );
+
+                    continue;
+                }
+
+                if (isset($typeMap[$property])) {
+                    $resource->{$property} = $this->castValue($typeMap[$property], $value);
+
+                    continue;
+                }
+
+                $resource->{$property} = $value;
+            }
         }
 
-        $typeMap = $this->reflectTypes($resource);
-
-        foreach ($data as $property => $value) {
-            $property = (string) $property;
-
-            if ($this->holdsEmbeddedResources($resource, $property, $value)) {
-                $resource->{$property} = $this->parseEmbeddedResources(
-                    $resource->getConnector(),
-                    $resource,
-                    $value,
-                    $response
-                );
-
-                continue;
-            }
-
-            if (isset($typeMap[$property])) {
-                $resource->{$property} = $this->castValue($typeMap[$property], $value);
-
-                continue;
-            }
-
-            // Tier 2: undeclared field → dynamic property
-            $resource->{$property} = $value;
-        }
-
-        $resource->setResponse($response);
+        $resource->setOrigin($origin);
 
         return $resource;
     }
@@ -93,7 +87,7 @@ class ResourceHydrator
     public function hydrateCollection(
         ResourceCollection $collection,
         $items,
-        Response $response,
+        ResourceOrigin $origin,
         $_links = null
     ): ResourceCollection {
         if (is_object($items)) {
@@ -102,9 +96,9 @@ class ResourceHydrator
 
         $hydratedItems = array_map(
             fn ($item) => $this->hydrate(
-                ResourceFactory::create($response->getConnector(), $collection::getResourceClass()),
+                ResourceFactory::create($origin->getConnector(), $collection::getResourceClass()),
                 $item,
-                $response
+                $origin
             ),
             $items
         );
@@ -115,7 +109,7 @@ class ResourceHydrator
 
         return $collection
             ->setItems($hydratedItems)
-            ->setResponse($response);
+            ->setOrigin($origin);
     }
 
     /**
@@ -202,20 +196,16 @@ class ResourceHydrator
                     case 'object':
                     case 'mixed':
                     case 'null':
-                        // treat as free-form — keep as mixed
                         return ['kind' => 'mixed', 'nullable' => $nullable];
                     default:
-                        // unknown builtin
                         return ['kind' => 'mixed', 'nullable' => $nullable];
                 }
             } else {
-                // Class-like type
                 if (is_subclass_of($name, BackedEnum::class)) {
                     $enums[] = $name;
                 } elseif (class_exists($name) && $this->hasFromArray($name)) {
                     $valueObject = $valueObject ?? $name;
                 } else {
-                    // stdClass, unknown class — pass through
                     return ['kind' => 'mixed', 'nullable' => $nullable];
                 }
             }
@@ -310,7 +300,6 @@ class ResourceHydrator
                     }
                 }
 
-                // Unknown value — keep the raw string (union type allows it)
                 return $descriptor['allowsString'] ? (is_scalar($value) ? (string) $value : $value) : $value;
 
             case 'valueObject':
@@ -339,11 +328,6 @@ class ResourceHydrator
 
     /**
      * Coerce a JSON-decoded scalar to the declared PHP scalar type.
-     *
-     * Strict-types + json_decode mismatch: a JSON field that came back as int
-     * (e.g. `"42"` decoded numerically somewhere upstream, or `42` declared as
-     * `string $id` on the resource) must be normalized before assignment or a
-     * `TypeError` is raised under strict_types.
      *
      * @param  mixed  $value
      * @return mixed
@@ -414,7 +398,7 @@ class ResourceHydrator
         Connector $connector,
         object $resource,
         object $embedded,
-        Response $response
+        ResourceOrigin $origin
     ): object {
         $result = new \stdClass;
 
@@ -431,12 +415,12 @@ class ResourceHydrator
                 ? $this->hydrate(
                     ResourceFactory::create($connector, $collectionOrResourceClass),
                     $resourceData,
-                    $response
+                    $origin
                 )
                 : $this->hydrateCollection(
                     ResourceFactory::createCollection($connector, $collectionOrResourceClass),
                     $resourceData,
-                    $response
+                    $origin
                 );
         }
 

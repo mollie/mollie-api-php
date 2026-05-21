@@ -94,6 +94,6 @@ abstract class CursorCollection extends ResourceCollection
                     ? $page->previous()
                     : $page->next();
             }
-        }))->setResponse($this->response);
+        }))->setOrigin($this->getOrigin());
     }
 }

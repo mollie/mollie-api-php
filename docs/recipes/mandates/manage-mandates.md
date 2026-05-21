@@ -29,12 +29,14 @@ try {
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
+use Mollie\Api\Types\MandateQuery;
 
 try {
     // List all mandates for a customer
     $response = $mollie->send(
         new GetPaginatedMandateRequest(
-            customerId: 'cst_8wmqcHMN4U'
+            customerId: 'cst_8wmqcHMN4U',
+            scopes: [MandateQuery::SCOPE_CUSTOMER_NOT_PRESENT]
         )
     );
 
@@ -95,3 +97,6 @@ $mandate->mandateReference; // "YOUR-COMPANY-MD13804" (optional)
   - `valid`: The mandate is valid and can be used for payments
   - `pending`: The mandate is pending and cannot be used yet
   - `invalid`: The mandate is invalid and cannot be used
+- Mandates can be filtered by scope when listing:
+  - `MandateQuery::SCOPE_CUSTOMER_PRESENT`
+  - `MandateQuery::SCOPE_CUSTOMER_NOT_PRESENT`

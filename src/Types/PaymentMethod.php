@@ -21,6 +21,7 @@ enum PaymentMethod: string
     case Eps = 'eps';
     case Giftcard = 'giftcard';
     case Giropay = 'giropay';
+    case Googlepay = 'googlepay';
     case Swish = 'swish';
     case In3 = 'in3';
     case Ideal = 'ideal';

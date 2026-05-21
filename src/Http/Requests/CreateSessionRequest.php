@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\Contracts\SupportsTestmodeInPayload;
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Resources\Session;
 use Mollie\Api\Traits\HasJsonPayload;
-use Mollie\Api\Types\CheckoutFlow;
 use Mollie\Api\Types\Method;
 
 /**
  * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Session>
  */
-class CreateSessionRequest extends ResourceHydratableRequest implements HasPayload
+class CreateSessionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
@@ -22,31 +25,41 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     protected ?string $hydratableResource = Session::class;
 
-    private string $paymentMethod;
-
-    private string $checkoutFlow;
-
+    /**
+     * @param DataCollection<OrderLine> $lines
+     */
     public function __construct(
-        private string $redirectUrl,
-        private string $cancelUrl,
         private Money $amount,
         private string $description,
-        string $method,
-        ?string $checkoutFlow = null,
-    ) {
-        $this->paymentMethod = $method;
-        $this->checkoutFlow = $checkoutFlow ?? CheckoutFlow::Express->value;
-    }
+        private string $redirectUrl,
+        private DataCollection $lines,
+        private ?string $cancelUrl = null,
+        private ?Address $billingAddress = null,
+        private ?Address $shippingAddress = null,
+        private ?string $customerId = null,
+        private ?string $sequenceType = null,
+        private ?array $metadata = null,
+        private ?string $paymentWebhook = null,
+        private ?string $profileId = null,
+    ) {}
 
     protected function defaultPayload(): array
     {
         return [
-            'redirectUrl' => $this->redirectUrl,
-            'cancelUrl' => $this->cancelUrl,
             'amount' => $this->amount,
             'description' => $this->description,
-            'method' => $this->paymentMethod,
-            'checkoutFlow' => $this->checkoutFlow,
+            'redirectUrl' => $this->redirectUrl,
+            'lines' => $this->lines,
+            'cancelUrl' => $this->cancelUrl,
+            'billingAddress' => $this->billingAddress,
+            'shippingAddress' => $this->shippingAddress,
+            'customerId' => $this->customerId,
+            'sequenceType' => $this->sequenceType,
+            'metadata' => $this->metadata,
+            'profileId' => $this->profileId,
+            'payment' => $this->paymentWebhook !== null ? [
+                'webhookUrl' => $this->paymentWebhook,
+            ] : null,
         ];
     }
 

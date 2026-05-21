@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use DateTimeImmutable;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
@@ -16,6 +19,8 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Types\PaymentStatus;
+use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
@@ -60,6 +65,38 @@ class ResourceHydratorTest extends TestCase
     }
 
     /** @test */
+    public function hydrate_with_webhook_origin_casts_typed_properties()
+    {
+        $client = new MockMollieClient;
+        $origin = new WebhookSnapshotOrigin(
+            $client,
+            'event_123',
+            'sig_123',
+            new DateTimeImmutable('2026-05-21T12:00:00+00:00')
+        );
+
+        $resource = new Payment($client);
+
+        $this->hydrator->hydrate($resource, [
+            'resource' => 'payment',
+            'id' => 'tr_webhook',
+            'mode' => 'test',
+            'status' => 'paid',
+            'amount' => [
+                'value' => '20.00',
+                'currency' => 'EUR',
+            ],
+        ], $origin);
+
+        $this->assertInstanceOf(Money::class, $resource->amount);
+        $this->assertSame('20.00', $resource->amount->value);
+        $this->assertSame('EUR', $resource->amount->currency);
+        $this->assertSame(PaymentStatus::Paid, $resource->status);
+        $this->assertSame($origin, $resource->getOrigin());
+        $this->assertNull($resource->getResponse());
+    }
+
+    /** @test */
     public function it_hydrates_embedded_collections()
     {
         $apiResult = [
@@ -84,7 +121,7 @@ class ResourceHydratorTest extends TestCase
 
         $this->hydrator->hydrate($resource, $apiResult, $response);
 
-        $this->assertInstanceOf(RefundCollection::class, $resource->refunds());
+        $this->assertInstanceOf(RefundCollection::class, $resource->_embedded->refunds);
     }
 
     /** @test */

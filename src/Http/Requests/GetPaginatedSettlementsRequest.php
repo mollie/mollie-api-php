@@ -23,12 +23,18 @@ class GetPaginatedSettlementsRequest extends PaginatedRequest implements IsItera
     public function __construct(
         ?string $from = null,
         ?int $limit = null,
-        ?string $balanceId = null
+        ?string $balanceId = null,
+        ?string $year = null,
+        ?string $month = null,
+        ?string $currencies = null
     ) {
         parent::__construct($from, $limit);
 
         $this->query()
-            ->add('balanceId', $balanceId);
+            ->add('balanceId', $balanceId)
+            ->add('year', $year)
+            ->add('month', $month)
+            ->add('currencies', $currencies);
     }
 
     /**

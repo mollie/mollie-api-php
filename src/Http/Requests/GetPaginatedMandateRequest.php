@@ -23,11 +23,16 @@ class GetPaginatedMandateRequest extends PaginatedRequest implements IsIteratabl
 
     private string $customerId;
 
-    public function __construct(string $customerId, ?string $from = null, ?int $limit = null)
+    /**
+     * @param  string[]|null  $scopes  Filter mandates by their scope. See \Mollie\Api\Types\MandateQuery.
+     */
+    public function __construct(string $customerId, ?string $from = null, ?int $limit = null, ?array $scopes = null)
     {
         $this->customerId = $customerId;
 
         parent::__construct($from, $limit);
+
+        $this->query()->add('scopes', $scopes);
     }
 
     public function resolveResourcePath(): string

@@ -20,81 +20,57 @@ class Session extends BaseResource
 
     public SessionStatus|string $status;
 
-    public ?string $failedAt = null;
-
-    public string $authenticationId;
-
-    public string $nextAction;
+    public string $clientAccessToken;
 
     public string $redirectUrl;
 
-    public string $cancelUrl;
+    public ?string $cancelUrl = null;
 
     public Money $amount;
 
     public string $description;
 
-    public string $method;
-
-    /**
-     * @var \stdClass
-     */
-    public $methodDetails;
-
-    /**
-     * @deprecated
-     */
     public ?Address $shippingAddress = null;
 
-    /**
-     * @deprecated
-     */
     public ?Address $billingAddress = null;
+
+    public ?string $customerId = null;
+
+    public ?string $sequenceType = null;
+
+    /**
+     * @var object|array|null
+     */
+    public $metadata = null;
+
+    /**
+     * @var \stdClass|null
+     */
+    public $payment = null;
+
+    /**
+     * @var array|object[]|null
+     */
+    public ?array $lines = null;
 
     /**
      * @var \stdClass
      */
     public $_links;
 
-    public function isCreated(): bool
+    public function isOpen(): bool
     {
-        return $this->status === SessionStatus::Created;
+        return $this->status === SessionStatus::Open;
     }
 
-    public function isReadyForProcessing(): bool
+    public function isExpired(): bool
     {
-        return $this->status === SessionStatus::ReadyForProcessing;
+        return $this->status === SessionStatus::Expired;
     }
 
     public function isCompleted(): bool
     {
         return $this->status === SessionStatus::Completed;
-    }
-
-    public function hasFailed(): bool
-    {
-        return $this->status === SessionStatus::Failed;
-    }
-
-    /**
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function update(): Session
-    {
-        $body = [
-            'billingAddress' => $this->billingAddress,
-            'shippingAddress' => $this->shippingAddress,
-        ];
-
-        return $this->connector->sessions->update($this->id, $this->withMode($body));
-    }
-
-    /**
-     * @throws \Mollie\Api\Exceptions\ApiException
-     */
-    public function cancel(): void
-    {
-        $this->connector->sessions->cancel($this->id);
     }
 
     public function getRedirectUrl(): ?string

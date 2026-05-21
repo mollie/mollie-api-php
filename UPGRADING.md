@@ -110,6 +110,27 @@ $gold = Money::platinum('1.00');
 
 See the [custom-money-factory recipe](docs/recipes/money/custom-factory.md).
 
+### 2.4 Response-aware resources can have non-HTTP origins
+
+Webhook snapshot hydration no longer fabricates an HTTP response. Resources hydrated from webhook payloads now expose their provenance through `getOrigin()`, while `getResponse()` returns `null` when there was no HTTP exchange.
+
+```php
+// v3
+$status = $resource->getResponse()->status();
+
+// v4
+$response = $resource->getResponse();
+$status = $response?->status();
+```
+
+Public contract changes:
+
+- `Mollie\Api\Contracts\IsResponseAware::getResponse(): ?Response` was `Response`.
+- `Mollie\Api\Traits\HasResponse::getPendingRequest(): ?PendingRequest` was `PendingRequest`.
+- `HasResponse` stores `?ResourceOrigin $origin` instead of a `Response $response` field.
+
+If you have third-party subclasses of `BaseResource` that read `$this->response` directly, switch them to `$this->getResponse()` when they specifically need an HTTP response, or `$this->getOrigin()` when webhook snapshot origins should also be supported.
+
 ---
 
 ## 3. Medium-impact changes

@@ -58,7 +58,7 @@ abstract class BaseCollection extends ArrayObject implements IsResponseAware
         $filteredItems = array_filter($this->getArrayCopy(), $callback);
 
         /** @phpstan-ignore-next-line */
-        return (new static($this->connector, $filteredItems,  $this->_links))->setResponse($this->response);
+        return (new static($this->connector, $filteredItems,  $this->_links))->setOrigin($this->getOrigin());
     }
 
     public function first()
