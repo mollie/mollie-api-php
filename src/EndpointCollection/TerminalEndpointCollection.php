@@ -6,6 +6,7 @@ namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\GetTerminalPairingCodeRequestFactory;
+use Mollie\Api\Factories\RequestTerminalPairingCodeRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Http\Requests\GetTerminalRequest;
@@ -124,6 +125,25 @@ class TerminalEndpointCollection extends EndpointCollection
     public function getPairingCode(string $id, array $query = []): TerminalPairingCode
     {
         $request = GetTerminalPairingCodeRequestFactory::new($id)
+            ->withQuery($query)
+            ->create();
+
+        /** @var TerminalPairingCode */
+        return $this->send($request);
+    }
+
+    /**
+     * Request a terminal pairing code from Mollie.
+     *
+     * @param  array  $payload  An array containing the profile ID to pair terminals with.
+     * @param  array  $query  An array containing optional details to include.
+     *
+     * @throws RequestException
+     */
+    public function requestPairingCode(array $payload = [], array $query = []): TerminalPairingCode
+    {
+        $request = RequestTerminalPairingCodeRequestFactory::new()
+            ->withPayload($payload)
             ->withQuery($query)
             ->create();
 
