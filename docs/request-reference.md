@@ -123,6 +123,7 @@ This document provides a quick reference index of all available request classes 
 ## Payment Routes
 
 - **CreateDelayedPaymentRouteRequest** - Create a delayed payment route
+- **GetPaymentRouteRequest** - Retrieve a payment route
 - **ListPaymentRoutesRequest** - List payment routes
 - **UpdatePaymentRouteRequest** - Update a payment route
 

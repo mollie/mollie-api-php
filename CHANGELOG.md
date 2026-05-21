@@ -41,6 +41,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and 
 - `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event and carried onto hydrated resources via `WebhookSnapshotOrigin`.
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling of `withResponse()`.
 - 22 new webhook event classes covering payouts, disputes, files, business account transfers, and unmatched credit transfers, plus 4 profile event classes (`ProfileCreated`, `ProfileVerified`, `ProfileBlocked`, `ProfileDeleted`) for constants-to-class parity.
+- Payment routes endpoint can now retrieve a single route via `GET /payments/{paymentId}/routes/{routeId}`.
 
 ### Changed
 
