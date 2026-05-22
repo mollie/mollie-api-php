@@ -1,0 +1,7 @@
+name: mollie-api-php
+processes:
+  gdiff:
+    command: |
+      git fetch origin --quiet
+      gdiff origin/main
+    auto_start: false
