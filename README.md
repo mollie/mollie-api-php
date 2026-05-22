@@ -176,6 +176,14 @@ $client->assertSent(GetPaymentRequest::class);
 
 See [docs/testing.md](docs/testing.md) for the full reference.
 
+## Code Style
+
+This project uses [Laravel Pint](https://laravel.com/docs/pint) for code style:
+
+```bash
+vendor/bin/pint
+```
+
 ## Contributing to Our API Client ##
 Would you like to contribute to improving our API client? We welcome [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr). But, if you're interested in contributing to a technology-focused organization, Mollie is actively recruiting developers and system engineers. Discover our current [job openings](https://jobs.mollie.com/) or [reach out](mailto:personeel@mollie.com).
 
