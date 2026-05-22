@@ -44,6 +44,7 @@ use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
+use Mollie\Api\EndpointCollection\TerminalPairingCodeEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
@@ -107,6 +108,7 @@ use Mollie\Api\Utils\Url;
  * @property SubscriptionEndpointCollection $subscriptions
  * @property SubscriptionPaymentEndpointCollection $subscriptionPayments
  * @property TerminalEndpointCollection $terminals
+ * @property TerminalPairingCodeEndpointCollection $terminalPairingCodes
  * @property WalletEndpointCollection $wallets
  * @property WebhookEndpointCollection $webhooks
  * @property WebhookEventEndpointCollection $webhookEvents
