@@ -27,6 +27,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and 
 
 - Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
 - `Money::fromMinorUnits(string $currency, int $amount)` with a currency-exponent map (EUR=2, JPY=0, BHD=3, …). Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
+- `Money::of(string $currency)` fluent builder with `minorUnits(int)` and `fromString(string)` terminal methods.
 - `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN`.
 - `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
 - Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.

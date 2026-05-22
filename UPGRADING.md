@@ -205,10 +205,14 @@ Removed from `require-dev`. Use `pest --parallel`.
 
 ## 5. New features
 
+### Convenience constructors
+
+`Money::of('EUR')->minorUnits(1000)` is the recommended fluent form for constructing money from integer minor units. `Money::fromMinorUnits('EUR', 1000)` and `new Money(currency: 'EUR', value: '10.00')` remain valid, so existing construction code does not need to change.
+
 | Feature | Where |
 |---|---|
 | `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN` | [README quickstart](README.md#usage) |
-| `Money::fromMinorUnits('EUR', 1000)` — resolves [#876](https://github.com/mollie/mollie-api-php/issues/876) | [Money recipe](docs/recipes/money/from-minor-units.md) |
+| `Money::of('EUR')->minorUnits(1000)` / `Money::fromMinorUnits('EUR', 1000)` — resolves [#876](https://github.com/mollie/mollie-api-php/issues/876) | [Money recipe](docs/recipes/money/from-minor-units.md) |
 | `ExponentialRetryStrategy` with `429` (`Retry-After`) support | [Retries](docs/retries.md) |
 | Typed `MockResponse::payment(...)`, `::customer(...)`, etc. | [Testing](docs/testing.md#typed-mock-responses) |
 | Lazy `iterator()` cross-page pagination | [Endpoint collections](docs/endpoint-collections.md) |

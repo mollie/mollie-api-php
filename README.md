@@ -20,7 +20,7 @@ v4 is a PHP 8.2+ modernization. Highlights:
 - **String-backed enums** for all `src/Types/` constants (`PaymentStatus::Paid`)
 - **Typed resource properties** — `$payment->amount` is `Money`, not `\stdClass`
 - **Generic `send()`** — no more `@var` annotations (resolves [#875](https://github.com/mollie/mollie-api-php/issues/875))
-- **`Money::fromMinorUnits('EUR', 1000)`** convenience factory (resolves [#876](https://github.com/mollie/mollie-api-php/issues/876))
+- **`Money::of('EUR')->minorUnits(1000)`** fluent builder; `Money::fromMinorUnits('EUR', 1000)` remains valid (resolves [#876](https://github.com/mollie/mollie-api-php/issues/876))
 - **`MollieApiClient::fromEnv()`** quick bootstrap from environment
 - **Lazy `iterator()` pagination** across pages
 - **Typed `MockResponse::payment(...)`** test factories
@@ -78,7 +78,7 @@ use Mollie\Api\Http\Requests\CreatePaymentRequest;
 // Return type is inferred — no @var needed in v4
 $payment = $mollie->send(new CreatePaymentRequest(
     description: 'My first API payment',
-    amount: new Money(currency: 'EUR', value: '10.00'),
+    amount: Money::of('EUR')->minorUnits(1000),
     redirectUrl: 'https://webshop.example.org/order/12345/',
     webhookUrl: 'https://webshop.example.org/mollie-webhook/'
 ));

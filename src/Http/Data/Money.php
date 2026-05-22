@@ -21,6 +21,11 @@ readonly class Money implements Arrayable
     ) {
     }
 
+    public static function of(string $currency): MoneyBuilder
+    {
+        return new MoneyBuilder(strtoupper($currency));
+    }
+
     /**
      * Create a Money instance from an integer amount in the currency's
      * minor unit (e.g. cents for EUR, yen for JPY, fils for BHD).

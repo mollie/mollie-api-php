@@ -21,7 +21,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expectedValue, $money->value);
     }
 
-    public function fromArrayProvider(): array
+    public static function fromArrayProvider(): array
     {
         return [
             'EUR' => [['currency' => 'EUR', 'value' => '10.00'], 'EUR', '10.00'],
@@ -42,7 +42,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
-    public function toArrayProvider(): array
+    public static function toArrayProvider(): array
     {
         return [
             'USD' => ['USD', '25.50', ['currency' => 'USD', 'value' => '25.50']],
@@ -63,7 +63,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($originalData, $convertedData);
     }
 
-    public function reversibilityProvider(): array
+    public static function reversibilityProvider(): array
     {
         return [
             'GBP' => [['currency' => 'GBP', 'value' => '99.99']],
@@ -84,7 +84,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expectedValue, $money->value);
     }
 
-    public function convenienceMethodProvider(): array
+    public static function convenienceMethodProvider(): array
     {
         return [
             'aed' => ['aed', '10.00', 'AED', '10.00'],
