@@ -154,6 +154,7 @@ class ResourceRegistry
             Settlement::class => 'settlements',
             Subscription::class => 'subscriptions',
             Terminal::class => 'terminals',
+            TerminalPairingCode::class => 'terminal-pairing-codes',
             Webhook::class => 'webhooks',
             WebhookEvent::class => 'webhook-events',
         ];
