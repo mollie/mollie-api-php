@@ -20,8 +20,8 @@ class GetPaginatedTerminalPairingCodesRequest extends SortablePaginatedRequest i
     public function __construct(
         ?string $from = null,
         ?int $limit = null,
-        ?string $profileId = null,
-        ?string $sort = null
+        ?string $sort = null,
+        ?string $profileId = null
     ) {
         parent::__construct($from, $limit, $sort);
 

@@ -6,6 +6,7 @@ use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Resources\TerminalPairingCode;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\TerminalPairingCodeQuery;
 
 /**
  * @see https://docs.mollie.com/reference/terminals-request-pairing-code
@@ -31,7 +32,7 @@ class RequestTerminalPairingCodeRequest extends ResourceHydratableRequest implem
     protected function defaultQuery(): array
     {
         return [
-            'include' => $this->includeQrCode ? 'details.qrCode' : null,
+            'include' => $this->includeQrCode ? TerminalPairingCodeQuery::INCLUDE_QR_CODE : null,
         ];
     }
 

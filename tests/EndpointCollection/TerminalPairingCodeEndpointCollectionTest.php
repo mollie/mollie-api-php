@@ -77,13 +77,15 @@ class TerminalPairingCodeEndpointCollectionTest extends TestCase
     public function revoke()
     {
         $client = new MockMollieClient([
-            RevokeTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code'),
+            RevokeTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code-revoked'),
         ]);
 
         /** @var TerminalPairingCode $pairingCode */
         $pairingCode = $client->terminalPairingCodes->revoke('termpc_R7gX5Ea9bC4DkFj3G');
 
         $this->assertPairingCode($pairingCode);
+        $this->assertTrue($pairingCode->isRevoked());
+        $this->assertNotEmpty($pairingCode->revokedAt);
     }
 
     protected function assertPairingCode(TerminalPairingCode $pairingCode): void

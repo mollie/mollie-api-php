@@ -14,7 +14,7 @@ class RevokeTerminalPairingCodeRequestTest extends TestCase
     public function it_can_revoke_terminal_pairing_code()
     {
         $client = new MockMollieClient([
-            RevokeTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code'),
+            RevokeTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code-revoked'),
         ]);
 
         $request = new RevokeTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G');
@@ -24,6 +24,8 @@ class RevokeTerminalPairingCodeRequestTest extends TestCase
 
         $this->assertTrue($pairingCode->getResponse()->successful());
         $this->assertInstanceOf(TerminalPairingCode::class, $pairingCode);
+        $this->assertTrue($pairingCode->isRevoked());
+        $this->assertNotEmpty($pairingCode->revokedAt);
     }
 
     /** @test */

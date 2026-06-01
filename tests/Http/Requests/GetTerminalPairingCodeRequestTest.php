@@ -46,6 +46,22 @@ class GetTerminalPairingCodeRequestTest extends TestCase
     }
 
     /** @test */
+    public function it_hydrates_qr_code_details_when_requested()
+    {
+        $client = new MockMollieClient([
+            GetTerminalPairingCodeRequest::class => MockResponse::ok('terminal-pairing-code-with-qr'),
+        ]);
+
+        $request = new GetTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G', true);
+
+        /** @var TerminalPairingCode */
+        $pairingCode = $client->send($request);
+
+        $this->assertInstanceOf(\stdClass::class, $pairingCode->details);
+        $this->assertNotEmpty($pairingCode->details->qrCode->src);
+    }
+
+    /** @test */
     public function it_does_not_include_qr_code_by_default()
     {
         $request = new GetTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G');

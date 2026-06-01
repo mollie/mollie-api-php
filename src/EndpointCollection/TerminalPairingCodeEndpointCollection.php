@@ -47,11 +47,11 @@ class TerminalPairingCodeEndpointCollection extends EndpointCollection
     public function page(
         ?string $from = null,
         ?int $limit = null,
-        ?string $profileId = null,
-        ?string $sort = null
+        ?string $sort = null,
+        ?string $profileId = null
     ): TerminalPairingCodeCollection {
         /** @var TerminalPairingCodeCollection */
-        return $this->send(new GetPaginatedTerminalPairingCodesRequest($from, $limit, $profileId, $sort));
+        return $this->send(new GetPaginatedTerminalPairingCodesRequest($from, $limit, $sort, $profileId));
     }
 
     /**
@@ -78,12 +78,12 @@ class TerminalPairingCodeEndpointCollection extends EndpointCollection
     public function iterator(
         ?string $from = null,
         ?int $limit = null,
-        ?string $profileId = null,
         ?string $sort = null,
+        ?string $profileId = null,
         bool $iterateBackwards = false
     ): LazyCollection {
         return $this->send(
-            (new GetPaginatedTerminalPairingCodesRequest($from, $limit, $profileId, $sort))
+            (new GetPaginatedTerminalPairingCodesRequest($from, $limit, $sort, $profileId))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
         );

@@ -37,7 +37,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
     /** @test */
     public function it_passes_profile_id_filter()
     {
-        $request = new GetPaginatedTerminalPairingCodesRequest(null, null, 'pfl_jA9bC4DkFj3G');
+        $request = new GetPaginatedTerminalPairingCodesRequest(null, null, null, 'pfl_jA9bC4DkFj3G');
 
         $this->assertEquals('pfl_jA9bC4DkFj3G', $request->query()->get('profileId'));
     }
@@ -57,7 +57,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
     /** @test */
     public function it_passes_sort_param()
     {
-        $request = new GetPaginatedTerminalPairingCodesRequest(null, null, null, 'desc');
+        $request = new GetPaginatedTerminalPairingCodesRequest(null, null, 'desc');
 
         $this->assertEquals('desc', $request->query()->get('sort'));
     }
