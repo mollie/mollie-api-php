@@ -1,0 +1,69 @@
+{
+  "count": 2,
+  "_embedded": {
+    "terminal-pairing-codes": [
+      {
+        "resource": "terminal-pairing-code",
+        "id": "termpc_R7gX5Ea9bC4DkFj3G",
+        "mode": "live",
+        "code": "20eb5ca1f78b48ae9e2b",
+        "profileId": "pfl_jA9bC4DkFj3G",
+        "status": "active",
+        "expiresAt": "2026-03-10T10:00:00+00:00",
+        "revokedAt": null,
+        "createdAt": "2025-12-10T10:00:00+00:00",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/terminals/pairing-codes/termpc_R7gX5Ea9bC4DkFj3G",
+            "type": "application/hal+json"
+          },
+          "profile": {
+            "href": "https://api.mollie.com/v2/profiles/pfl_jA9bC4DkFj3G",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "https://docs.mollie.com/reference/terminals-get-pairing-code",
+            "type": "text/html"
+          }
+        }
+      },
+      {
+        "resource": "terminal-pairing-code",
+        "id": "termpc_H5nR2Lp8qM6vBcXe",
+        "mode": "live",
+        "code": "3d7e1a4f8b2c905f6a4c",
+        "profileId": "pfl_jA9bC4DkFj3G",
+        "status": "revoked",
+        "expiresAt": "2026-01-08T10:00:00+00:00",
+        "revokedAt": "2025-11-15T08:30:00+00:00",
+        "createdAt": "2025-10-10T10:00:00+00:00",
+        "_links": {
+          "self": {
+            "href": "https://api.mollie.com/v2/terminals/pairing-codes/termpc_H5nR2Lp8qM6vBcXe",
+            "type": "application/hal+json"
+          },
+          "profile": {
+            "href": "https://api.mollie.com/v2/profiles/pfl_jA9bC4DkFj3G",
+            "type": "application/hal+json"
+          },
+          "documentation": {
+            "href": "https://docs.mollie.com/reference/terminals-get-pairing-code",
+            "type": "text/html"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/terminals/pairing-codes",
+      "type": "application/hal+json"
+    },
+    "previous": null,
+    "next": null,
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/terminals-list-pairing-codes",
+      "type": "text/html"
+    }
+  }
+}
