@@ -30,6 +30,7 @@ use Mollie\Api\EndpointCollection\PaymentLinkEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentLinkPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRouteEndpointCollection;
+use Mollie\Api\EndpointCollection\PayoutEndpointCollection;
 use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
@@ -94,6 +95,7 @@ use Mollie\Api\Utils\Url;
  * @property PaymentRefundEndpointCollection $paymentRefunds
  * @property PaymentRouteEndpointCollection $paymentRoutes
  * @property PermissionEndpointCollection $permissions
+ * @property PayoutEndpointCollection $payouts
  * @property ProfileEndpointCollection $profiles
  * @property ProfileMethodEndpointCollection $profileMethods
  * @property RefundEndpointCollection $refunds

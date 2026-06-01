@@ -4,6 +4,7 @@ namespace Tests\Resources;
 
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
+use Mollie\Api\Resources\Payout;
 use Mollie\Api\Resources\ResourceRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -16,6 +17,8 @@ class ResourceRegistryTest extends TestCase
 
         $this->assertSame(Payment::class, $registry->for('payment'));
         $this->assertSame(Payment::class, $registry->for('payments'));
+        $this->assertSame(Payout::class, $registry->for('payout'));
+        $this->assertSame(Payout::class, $registry->for('payouts'));
 
         // underscore input gets normalized to kebab internally
         $this->assertSame(PaymentLink::class, $registry->for('payment_link'));
