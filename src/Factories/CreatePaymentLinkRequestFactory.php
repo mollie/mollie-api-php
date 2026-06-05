@@ -26,6 +26,7 @@ class CreatePaymentLinkRequestFactory extends RequestFactory
             $this->transformFromPayload('billingAddress', fn ($item) => Address::fromArray($item)),
             $this->transformFromPayload('shippingAddress', fn ($item) => Address::fromArray($item)),
             $this->transformFromPayload('minimumAmount', fn ($amount) => MoneyFactory::new($amount)->create()),
+            $this->transformFromPayload('applicationFee', fn ($item) => ApplicationFeeFactory::new($item)->create()),
         );
     }
 

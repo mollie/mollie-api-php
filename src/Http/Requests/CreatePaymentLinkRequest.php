@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
@@ -61,6 +62,8 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
 
     private ?Money $minimumAmount;
 
+    private ?ApplicationFee $applicationFee;
+
     public function __construct(
         string $description,
         ?Money $amount = null,
@@ -75,7 +78,8 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         ?DataCollection $lines = null,
         ?Address $billingAddress = null,
         ?Address $shippingAddress = null,
-        ?Money $minimumAmount = null
+        ?Money $minimumAmount = null,
+        ?ApplicationFee $applicationFee = null
     ) {
         $this->description = $description;
         $this->amount = $amount;
@@ -91,6 +95,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         $this->billingAddress = $billingAddress;
         $this->shippingAddress = $shippingAddress;
         $this->minimumAmount = $minimumAmount;
+        $this->applicationFee = $applicationFee;
     }
 
     protected function defaultPayload(): array
@@ -110,6 +115,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'lines' => $this->lines,
             'billingAddress' => $this->billingAddress,
             'shippingAddress' => $this->shippingAddress,
+            'applicationFee' => $this->applicationFee,
         ];
     }
 
