@@ -96,7 +96,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     /**
      * The status of the payment.
      *
-     * @var string
+     * @var \Mollie\Api\Types\PaymentStatus
      */
     public $status = PaymentStatus::OPEN;
 
