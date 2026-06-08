@@ -4,6 +4,7 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePaymentLinkRequestFactory;
 use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
@@ -215,6 +216,55 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(Address::class, $payload['shippingAddress']);
         $this->assertEquals('Amsterdam', $payload['shippingAddress']->city);
+    }
+
+    /** @test */
+    public function it_maps_application_fee()
+    {
+        $request = CreatePaymentLinkRequestFactory::new()
+            ->withPayload([
+                'description' => 'Order #12345',
+                'amount' => [
+                    'currency' => 'EUR',
+                    'value' => '100.00',
+                ],
+                'redirectUrl' => 'https://example.com/redirect',
+                'applicationFee' => [
+                    'amount' => [
+                        'currency' => 'EUR',
+                        'value' => '10.00',
+                    ],
+                    'description' => 'Platform fee',
+                ],
+            ])
+            ->create();
+
+        $payload = $request->payload()->all();
+
+        $this->assertInstanceOf(ApplicationFee::class, $payload['applicationFee']);
+        $this->assertInstanceOf(Money::class, $payload['applicationFee']->amount);
+        $this->assertEquals('EUR', $payload['applicationFee']->amount->currency);
+        $this->assertEquals('10.00', $payload['applicationFee']->amount->value);
+        $this->assertEquals('Platform fee', $payload['applicationFee']->description);
+    }
+
+    /** @test */
+    public function it_returns_null_when_application_fee_is_not_provided()
+    {
+        $request = CreatePaymentLinkRequestFactory::new()
+            ->withPayload([
+                'description' => 'Order #12345',
+                'amount' => [
+                    'currency' => 'EUR',
+                    'value' => '100.00',
+                ],
+                'redirectUrl' => 'https://example.com/redirect',
+            ])
+            ->create();
+
+        $payload = $request->payload()->all();
+
+        $this->assertNull($payload['applicationFee']);
     }
 
     /** @test */
