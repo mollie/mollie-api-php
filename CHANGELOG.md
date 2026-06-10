@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.0.0] - UNRELEASED
 
-PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and the [`mollie/mollie-api-php-rector`](https://github.com/mollie/mollie-api-php-rector) package for automated v3 → v4 codemods.
+PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 
 ### Breaking changes
 
