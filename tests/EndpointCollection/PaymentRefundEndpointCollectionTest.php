@@ -68,8 +68,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
 
         $client->paymentRefunds->cancelForPayment($payment, 're_4qqhO89gsT');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(CancelPaymentRefundRequest::class);
     }
 
     /** @test */

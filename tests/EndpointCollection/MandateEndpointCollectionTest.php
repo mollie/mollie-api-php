@@ -72,8 +72,7 @@ class MandateEndpointCollectionTest extends TestCase
 
         $client->mandates->revokeFor($customer, 'mdt_h3gAaD5zP');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(RevokeMandateRequest::class);
     }
 
     /** @test */

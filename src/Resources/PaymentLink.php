@@ -119,6 +119,9 @@ class PaymentLink extends BaseResource
     /**
      * Retrieve a paginated list of payments associated with this payment link.
      *
+     * This method performs an API request. Avoid calling it once per payment
+     * link in loops unless that extra request per item is intentional.
+     *
      * @return mixed|\Mollie\Api\Resources\BaseCollection
      */
     public function payments(?string $from = null, ?int $limit = null, array $filters = [])

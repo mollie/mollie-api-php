@@ -297,6 +297,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     }
 
     /**
+     * Retrieve refunds for this payment.
+     *
+     * This method performs an API request. Prefer embedded refunds when they
+     * are already present to avoid one request per payment in loops.
+     *
      * @throws ApiException
      */
     public function refunds(): RefundCollection
@@ -311,6 +316,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     }
 
     /**
+     * Retrieve captures for this payment.
+     *
+     * This method performs an API request. Prefer embedded captures when they
+     * are already present to avoid one request per payment in loops.
+     *
      * @throws ApiException
      */
     public function getRefund(string $refundId, array $parameters = []): Refund
@@ -319,6 +329,11 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     }
 
     /**
+     * Retrieve chargebacks for this payment.
+     *
+     * This method performs an API request. Prefer embedded chargebacks when
+     * they are already present to avoid one request per payment in loops.
+     *
      * @throws ApiException
      */
     public function listRefunds(array $parameters = []): RefundCollection

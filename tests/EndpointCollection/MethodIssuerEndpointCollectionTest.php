@@ -44,8 +44,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
             'ideal_INGBNL2A'
         );
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodIssuerRequest::class);
     }
 
     protected function assertIssuer(Issuer $issuer)

@@ -140,6 +140,9 @@ class Subscription extends BaseResource
     /**
      * Get subscription payments.
      *
+     * This method performs an API request. Prefer embedded payments when they
+     * are already present to avoid one request per subscription in loops.
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function payments(): PaymentCollection

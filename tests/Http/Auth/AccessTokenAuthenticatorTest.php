@@ -15,10 +15,9 @@ class AccessTokenAuthenticatorTest extends TestCase
      */
     public function accepts_valid_access_token()
     {
-        new AccessTokenAuthenticator('access_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM');
+        $authenticator = new AccessTokenAuthenticator('access_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM');
 
-        // no exception was thrown
-        $this->assertTrue(true);
+        $this->assertInstanceOf(AccessTokenAuthenticator::class, $authenticator);
     }
 
     /**

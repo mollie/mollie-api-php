@@ -51,8 +51,7 @@ class WebhookTest extends TestCase
 
         $webhook->delete();
 
-        // If we reach this point, the delete was successful
-        $this->assertTrue(true);
+        $client->assertSent(DeleteWebhookRequest::class);
     }
 
     /** @test */

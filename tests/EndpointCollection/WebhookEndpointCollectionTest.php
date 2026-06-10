@@ -77,8 +77,7 @@ class WebhookEndpointCollectionTest extends TestCase
 
         $client->webhooks->delete('wh_4KgGJJSZpH');
 
-        // If we reach this point, the delete was successful
-        $this->assertTrue(true);
+        $client->assertSent(DeleteWebhookRequest::class);
     }
 
     /** @test */

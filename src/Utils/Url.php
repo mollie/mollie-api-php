@@ -28,10 +28,10 @@ class Url
 
     public static function encodeRelativePath(string $path): string
     {
-        [$path, $suffix] = static::splitPathSuffix($path);
+        [$path, $suffix] = self::splitPathSuffix($path);
 
         return implode('/', array_map(
-            fn (string $segment): string => static::encodePathSegment($segment),
+            fn (string $segment): string => self::encodePathSegment($segment),
             explode('/', $path)
         )).$suffix;
     }

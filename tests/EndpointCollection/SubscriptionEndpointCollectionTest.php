@@ -94,8 +94,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
 
         $client->subscriptions->cancelFor($customer, 'sub_rVKGtNd6s3');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(CancelSubscriptionRequest::class);
     }
 
     /** @test */

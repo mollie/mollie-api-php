@@ -89,8 +89,7 @@ class ProfileEndpointCollectionTest extends TestCase
 
         $client->profiles->delete('pfl_v9hTwCvYqw');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DeleteProfileRequest::class);
     }
 
     /** @test */

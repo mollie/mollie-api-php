@@ -48,8 +48,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
 
         $client->profileMethods->disableForId('pfl_v9hTwCvYqw', 'ideal');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodRequest::class);
     }
 
     /** @test */
@@ -61,8 +60,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
 
         $client->profileMethods->disable('ideal');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodRequest::class);
     }
 
     protected function assertMethod(Method $method)

@@ -77,6 +77,9 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of payments associated with this settlement.
      *
+     * This method performs an API request. Avoid calling it once per settlement
+     * in loops unless that extra request per item is intentional.
+     *
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function payments(?int $limit = null, array $parameters = []): PaymentCollection
@@ -89,6 +92,9 @@ class Settlement extends BaseResource
 
     /**
      * Retrieve the first page of refunds associated with this settlement.
+     *
+     * This method performs an API request. Avoid calling it once per settlement
+     * in loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */
@@ -103,6 +109,9 @@ class Settlement extends BaseResource
     /**
      * Retrieve the first page of chargebacks associated with this settlement.
      *
+     * This method performs an API request. Avoid calling it once per settlement
+     * in loops unless that extra request per item is intentional.
+     *
      * @throws ApiException
      */
     public function chargebacks(?int $limit = null, array $parameters = []): ChargebackCollection
@@ -115,6 +124,9 @@ class Settlement extends BaseResource
 
     /**
      * Retrieve the first page of cap associated with this settlement.
+     *
+     * This method performs an API request. Avoid calling it once per settlement
+     * in loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */

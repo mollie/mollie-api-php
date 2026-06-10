@@ -181,6 +181,8 @@ class ResourceHydratorTest extends TestCase
     public function it_hydrates_unmapped_embedded_resources_as_any_resource()
     {
         $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract {
+            public ?object $_embedded = null;
+
             public function getEmbeddedResourcesMap(): array
             {
                 return [];
@@ -198,6 +200,6 @@ class ResourceHydratorTest extends TestCase
         $this->hydrator->hydrate($resource, $data, $response);
 
         $this->assertInstanceOf(AnyResource::class, $resource->_embedded->unknown);
-        $this->assertSame('test', $resource->_embedded->unknown->id);
+        $this->assertSame('test', $resource->_embedded->unknown->toArray()['id']);
     }
 }

@@ -91,6 +91,9 @@ class Profile extends BaseResource
     /**
      * Retrieves all chargebacks associated with this profile
      *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
+     *
      * @throws ApiException
      */
     public function chargebacks(): ChargebackCollection
@@ -105,6 +108,9 @@ class Profile extends BaseResource
 
     /**
      * Retrieves all methods activated on this profile
+     *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */
@@ -143,6 +149,9 @@ class Profile extends BaseResource
     /**
      * Retrieves all payments associated with this profile
      *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
+     *
      * @throws ApiException
      */
     public function payments(): PaymentCollection
@@ -157,6 +166,9 @@ class Profile extends BaseResource
 
     /**
      * Retrieves all refunds associated with this profile
+     *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */

@@ -74,8 +74,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
 
         $client->paymentLinks->delete('pl_4Y0eZitmBnQ6IDoMqZQKh');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DeletePaymentLinkRequest::class);
     }
 
     /** @test */

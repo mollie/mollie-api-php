@@ -72,8 +72,7 @@ class CustomerEndpointCollectionTest extends TestCase
 
         $client->customers->delete('cst_kEn1PlbGa');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DeleteCustomerRequest::class);
     }
 
     /** @test */

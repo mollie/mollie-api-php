@@ -105,7 +105,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
 
         $client->salesInvoices->delete('invoice_123');
 
-        $this->assertTrue(true); // Test passes if no exception is thrown
+        $client->assertSent(DeleteSalesInvoiceRequest::class);
     }
 
     /** @test */

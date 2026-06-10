@@ -78,6 +78,9 @@ class Customer extends BaseResource
     /**
      * Get all payments for this customer
      *
+     * This method performs an API request. Prefer embedded payments when they
+     * are already present to avoid one request per customer in loops.
+     *
      * @return PaymentCollection
      *
      * @throws ApiException
@@ -122,6 +125,9 @@ class Customer extends BaseResource
     /**
      * Get all subscriptions for this customer
      *
+     * This method performs an API request. Prefer embedded subscriptions when
+     * they are already present to avoid one request per customer in loops.
+     *
      * @return SubscriptionCollection
      *
      * @throws ApiException
@@ -164,6 +170,9 @@ class Customer extends BaseResource
 
     /**
      * Get all mandates for this customer
+     *
+     * This method performs an API request. Prefer embedded mandates when they
+     * are already present to avoid one request per customer in loops.
      *
      * @return MandateCollection
      *
