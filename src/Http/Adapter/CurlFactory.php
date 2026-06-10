@@ -21,6 +21,8 @@ class CurlFactory
     /**
      * @var array<int, mixed>
      */
+    // Read by CurlFactoryTest through reflection.
+    // @phpstan-ignore property.onlyWritten
     private array $options = [];
 
     private function __construct($handle, PendingRequest $pendingRequest)

@@ -69,7 +69,9 @@ class Debugger
 
     private static function ensureSymfonyVarDumperIsAvailable(): void
     {
-        if (self::$symfonyVarDumperExists ?? class_exists(\Symfony\Component\VarDumper\VarDumper::class)) {
+        self::$symfonyVarDumperExists ??= class_exists(\Symfony\Component\VarDumper\VarDumper::class);
+
+        if (self::$symfonyVarDumperExists) {
             return;
         }
 
