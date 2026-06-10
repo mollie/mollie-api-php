@@ -620,6 +620,42 @@ $terminal = $mollie->terminals->get('terminalId');
 $terminals = $mollie->terminals->page();
 ```
 
+## Terminal Pairing Codes
+
+Official Documentation:
+[Request pairing code](https://docs.mollie.com/reference/terminals-request-pairing-code),
+[Get pairing code](https://docs.mollie.com/reference/terminals-get-pairing-code),
+[List pairing codes](https://docs.mollie.com/reference/terminals-list-pairing-codes),
+[Revoke pairing code](https://docs.mollie.com/reference/terminals-revoke-pairing-code)
+
+### Terminal Pairing Code Management
+
+```php
+// Request a pairing code, including QR code details
+$pairingCode = $mollie->terminalPairingCodes->request('profileId', includeQrCode: true);
+
+// Get a pairing code, including QR code details
+$pairingCode = $mollie->terminalPairingCodes->get('pairingCodeId', includeQrCode: true);
+
+// List pairing codes
+$pairingCodes = $mollie->terminalPairingCodes->page(limit: 50, profileId: 'profileId');
+
+// Use iterator
+foreach ($mollie->terminalPairingCodes->iterator(profileId: 'profileId') as $pairingCode) {
+    echo $pairingCode->id;
+}
+
+// Revoke a pairing code
+$pairingCode = $mollie->terminalPairingCodes->revoke('pairingCodeId');
+
+// Check pairing code status using helper methods
+if ($pairingCode->isActive()) {
+    echo "Pairing code is active\n";
+} elseif ($pairingCode->isRevoked()) {
+    echo "Pairing code was revoked at: {$pairingCode->revokedAt}\n";
+}
+```
+
 ## Wallets
 
 [Official Documentation](https://docs.mollie.com/reference/v2/wallets-api/request-apple-pay-payment-session)
