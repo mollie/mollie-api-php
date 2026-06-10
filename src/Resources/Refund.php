@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
 use Mollie\Api\Traits\HasMode;
@@ -96,7 +97,7 @@ class Refund extends BaseResource
      */
     public function isQueued(): bool
     {
-        return $this->status === RefundStatus::Queued;
+        return Utility::equals($this->status, RefundStatus::Queued);
     }
 
     /**
@@ -104,7 +105,7 @@ class Refund extends BaseResource
      */
     public function isPending(): bool
     {
-        return $this->status === RefundStatus::Pending;
+        return Utility::equals($this->status, RefundStatus::Pending);
     }
 
     /**
@@ -112,7 +113,7 @@ class Refund extends BaseResource
      */
     public function isProcessing(): bool
     {
-        return $this->status === RefundStatus::Processing;
+        return Utility::equals($this->status, RefundStatus::Processing);
     }
 
     /**
@@ -120,7 +121,7 @@ class Refund extends BaseResource
      */
     public function isTransferred(): bool
     {
-        return $this->status === RefundStatus::Refunded;
+        return Utility::equals($this->status, RefundStatus::Refunded);
     }
 
     /**
@@ -128,7 +129,7 @@ class Refund extends BaseResource
      */
     public function isFailed(): bool
     {
-        return $this->status === RefundStatus::Failed;
+        return Utility::equals($this->status, RefundStatus::Failed);
     }
 
     /**
@@ -136,7 +137,7 @@ class Refund extends BaseResource
      */
     public function isCanceled(): bool
     {
-        return $this->status === RefundStatus::Canceled;
+        return Utility::equals($this->status, RefundStatus::Canceled);
     }
 
     /**

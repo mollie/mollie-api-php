@@ -9,13 +9,12 @@ use Mollie\Api\Http\Middleware;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MiddlewareTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_add_request_middleware_and_execute_it(): void
     {
         $middlewareHandlers = new Middleware;
@@ -33,9 +32,7 @@ class MiddlewareTest extends TestCase
         $this->assertEquals('Bar', $result->headers()->get('Foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_add_response_middleware_and_execute_it(): void
     {
         $middlewareHandlers = new Middleware;
@@ -55,9 +52,7 @@ class MiddlewareTest extends TestCase
         $this->assertTrue($result->successful());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_merge_middleware_handlers(): void
     {
         $middlewareHandlers1 = new Middleware;

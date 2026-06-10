@@ -10,6 +10,7 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Utils\Debugger;
 use Nyholm\Psr7\Request as PsrRequest;
 use Nyholm\Psr7\Response as PsrResponse;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use RuntimeException;
@@ -17,7 +18,8 @@ use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class DebuggerTest extends TestCase
 {
-    public function test_default_request_debugger_reports_missing_symfony_var_dumper()
+    #[Test]
+    public function default_request_debugger_reports_missing_symfony_var_dumper()
     {
         $this->withMissingSymfonyVarDumper(function (): void {
             $pendingRequest = new PendingRequest(new MockMollieClient, new DynamicGetRequest(''));
@@ -30,7 +32,8 @@ class DebuggerTest extends TestCase
         });
     }
 
-    public function test_default_debugger_reports_missing_symfony_var_dumper()
+    #[Test]
+    public function default_debugger_reports_missing_symfony_var_dumper()
     {
         $this->withMissingSymfonyVarDumper(function (): void {
             $psrRequest = new PsrRequest('GET', 'https://api.mollie.com/v2/test');

@@ -14,12 +14,13 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class ExponentialRetryStrategyTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function should_retry_returns_true_for_retryable_network_and_429(): void
     {
         $strategy = new ExponentialRetryStrategy;
@@ -35,7 +36,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertTrue($strategy->shouldRetry($tooManyRequests));
     }
 
-    /** @test */
+    #[Test]
     public function should_retry_returns_false_for_non_retryable_exceptions(): void
     {
         $strategy = new ExponentialRetryStrategy;
@@ -49,7 +50,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertFalse($strategy->shouldRetry(new \RuntimeException));
     }
 
-    /** @test */
+    #[Test]
     public function delay_uses_retry_after_header_on_429(): void
     {
         $strategy = new ExponentialRetryStrategy(maxRetries: 3, baseDelayMs: 500, jitter: false);
@@ -59,7 +60,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertSame(12_000, $strategy->delayBeforeAttemptMs(1, $tooMany));
     }
 
-    /** @test */
+    #[Test]
     public function delay_falls_back_to_exponential_when_no_retry_after(): void
     {
         $strategy = new ExponentialRetryStrategy(
@@ -74,7 +75,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertSame(400, $strategy->delayBeforeAttemptMs(3));
     }
 
-    /** @test */
+    #[Test]
     public function delay_is_capped_by_max_delay(): void
     {
         $strategy = new ExponentialRetryStrategy(
@@ -88,7 +89,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertSame(5_000, $strategy->delayBeforeAttemptMs(5));
     }
 
-    /** @test */
+    #[Test]
     public function jitter_stays_within_computed_bound(): void
     {
         $strategy = new ExponentialRetryStrategy(
@@ -105,7 +106,7 @@ class ExponentialRetryStrategyTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function integrates_with_client_to_retry_on_429_using_retry_after(): void
     {
         $attempts = 2; // fail twice then succeed
@@ -168,7 +169,7 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertSame(3, $adapter->attempts);
     }
 
-    /** @test */
+    #[Test]
     public function does_not_retry_non_retryable_exceptions(): void
     {
         $adapter = new class implements HttpAdapterContract {
@@ -212,7 +213,7 @@ class ExponentialRetryStrategyTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function retries_retryable_network_errors_with_exponential_backoff(): void
     {
         $adapter = new class implements HttpAdapterContract {

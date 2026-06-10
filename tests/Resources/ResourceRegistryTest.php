@@ -11,11 +11,12 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\ResourceRegistry;
 use ReflectionClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceRegistryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function resolves_default_resources_by_type(): void
     {
         $registry = new ResourceRegistry();
@@ -28,7 +29,7 @@ class ResourceRegistryTest extends TestCase
         $this->assertSame(PaymentLink::class, $registry->for('payment-link'));
     }
 
-    /** @test */
+    #[Test]
     public function returns_names_for_resource(): void
     {
         $registry = new ResourceRegistry();
@@ -37,7 +38,7 @@ class ResourceRegistryTest extends TestCase
         $this->assertSame('payments', $registry->pluralOf(Payment::class));
     }
 
-    /** @test */
+    #[Test]
     public function can_register_custom_resource_with_overrides(): void
     {
         $registry = new ResourceRegistry([]);
@@ -53,14 +54,14 @@ class ResourceRegistryTest extends TestCase
         $this->assertSame('clients', $registry->pluralOf($class));
     }
 
-    /** @test */
+    #[Test]
     public function unknown_type_returns_null(): void
     {
         $registry = new ResourceRegistry();
         $this->assertNull($registry->for('non-existent-type'));
     }
 
-    /** @test */
+    #[Test]
     public function default_registry_covers_concrete_api_resources(): void
     {
         $registry = new ResourceRegistry();

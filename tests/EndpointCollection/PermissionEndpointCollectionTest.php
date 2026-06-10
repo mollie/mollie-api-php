@@ -10,11 +10,12 @@ use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Http\Requests\ListPermissionsRequest;
 use Mollie\Api\Resources\Permission;
 use Mollie\Api\Resources\PermissionCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PermissionEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -27,7 +28,7 @@ class PermissionEndpointCollectionTest extends TestCase
         $this->assertPermission($permission);
     }
 
-    /** @test */
+    #[Test]
     public function list()
     {
         $client = new MockMollieClient([
@@ -52,7 +53,11 @@ class PermissionEndpointCollectionTest extends TestCase
         $this->assertEquals('permission', $permission->resource);
         $this->assertNotEmpty($permission->id);
         $this->assertNotEmpty($permission->description);
-        $this->assertIsBool($permission->granted);
+        if ($permission->id === 'payments.write') {
+            $this->assertFalse($permission->granted);
+        } else {
+            $this->assertTrue($permission->granted);
+        }
         $this->assertNotEmpty($permission->_links);
     }
 }

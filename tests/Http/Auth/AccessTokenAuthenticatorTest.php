@@ -6,13 +6,12 @@ namespace Tests\Http\Auth;
 
 use Mollie\Api\Exceptions\InvalidAuthenticationException;
 use Mollie\Api\Http\Auth\AccessTokenAuthenticator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class AccessTokenAuthenticatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function accepts_valid_access_token()
     {
         $authenticator = new AccessTokenAuthenticator('access_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM');
@@ -20,9 +19,7 @@ class AccessTokenAuthenticatorTest extends TestCase
         $this->assertInstanceOf(AccessTokenAuthenticator::class, $authenticator);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_token()
     {
         $this->expectException(InvalidAuthenticationException::class);
@@ -31,9 +28,7 @@ class AccessTokenAuthenticatorTest extends TestCase
         new AccessTokenAuthenticator('invalid_token');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_api_key()
     {
         $this->expectException(InvalidAuthenticationException::class);

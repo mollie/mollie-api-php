@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
 use Mollie\Api\Resources\Refund;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentRefundRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_payment_refund()
     {
         $client = new MockMollieClient([
@@ -33,7 +34,7 @@ class CreatePaymentRefundRequestTest extends TestCase
         $this->assertInstanceOf(Refund::class, $refund);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';
@@ -50,7 +51,7 @@ class CreatePaymentRefundRequestTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_when_amount_is_null()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -59,7 +60,7 @@ class CreatePaymentRefundRequestTest extends TestCase
         new CreatePaymentRefundRequest('tr_WDqYK6vllg', 'Order cancellation');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_refund_request_using_factory_method()
     {
         $client = new MockMollieClient([

@@ -7,13 +7,14 @@ namespace Tests\Factories;
 use Mollie\Api\Factories\GetPaymentRequestFactory;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\Types\PaymentQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_request_object_with_full_data()
     {
         $request = GetPaymentRequestFactory::new(self::PAYMENT_ID)
@@ -28,7 +29,7 @@ class GetPaymentRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE.','.PaymentQuery::INCLUDE_REMAINDER_DETAILS, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_request_object_with_minimal_data()
     {
         $request = GetPaymentRequestFactory::new(self::PAYMENT_ID)
@@ -37,7 +38,7 @@ class GetPaymentRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaymentRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_request_object_with_partial_data()
     {
         $request = GetPaymentRequestFactory::new(self::PAYMENT_ID)

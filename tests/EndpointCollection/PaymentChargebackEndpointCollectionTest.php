@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentChargebackEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get_for_id()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
         $this->assertChargeback($chargeback);
     }
 
-    /** @test */
+    #[Test]
     public function page_for_id()
     {
         $client = new MockMollieClient([
@@ -47,7 +48,7 @@ class PaymentChargebackEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for_id()
     {
         $client = new MockMollieClient([

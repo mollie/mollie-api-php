@@ -7,6 +7,7 @@ namespace Tests\Factories;
 use Mollie\Api\Factories\GetPaymentChargebackRequestFactory;
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentChargebackRequestFactoryTest extends TestCase
@@ -15,7 +16,7 @@ class GetPaymentChargebackRequestFactoryTest extends TestCase
 
     private const CHARGEBACK_ID = 'chb_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_chargeback_request_object_with_full_data()
     {
         $request = GetPaymentChargebackRequestFactory::new(self::PAYMENT_ID, self::CHARGEBACK_ID)
@@ -28,7 +29,7 @@ class GetPaymentChargebackRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_include_payment_query_key()
     {
         $request = GetPaymentChargebackRequestFactory::new(self::PAYMENT_ID, self::CHARGEBACK_ID)
@@ -41,7 +42,7 @@ class GetPaymentChargebackRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_chargeback_request_object_with_minimal_data()
     {
         $request = GetPaymentChargebackRequestFactory::new(self::PAYMENT_ID, self::CHARGEBACK_ID)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\SalesInvoiceStatus;
 
@@ -80,16 +81,16 @@ class SalesInvoice extends BaseResource
 
     public function isDraft(): bool
     {
-        return $this->status === SalesInvoiceStatus::Draft;
+        return Utility::equals($this->status, SalesInvoiceStatus::Draft);
     }
 
     public function isIssued(): bool
     {
-        return $this->status === SalesInvoiceStatus::Issued;
+        return Utility::equals($this->status, SalesInvoiceStatus::Issued);
     }
 
     public function isPaid(): bool
     {
-        return $this->status === SalesInvoiceStatus::Paid;
+        return Utility::equals($this->status, SalesInvoiceStatus::Paid);
     }
 }

@@ -6,6 +6,7 @@ namespace Tests\Http\Data;
 
 use BadMethodCallException;
 use Mollie\Api\Http\Data\Money;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class MoneyMacroableTest extends TestCase
@@ -24,7 +25,7 @@ final class MoneyMacroableTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
+    #[Test]
     public function it_supports_custom_static_factories_via_macro(): void
     {
         Money::macro('fromCents', fn (int $cents): Money => new Money(
@@ -32,17 +33,19 @@ final class MoneyMacroableTest extends TestCase
             value: number_format($cents / 100, 2, '.', ''),
         ));
 
+        /** @phpstan-ignore staticMethod.notFound */
         $money = Money::fromCents(1234);
 
         $this->assertSame('EUR', $money->currency);
         $this->assertSame('12.34', $money->value);
     }
 
-    /** @test */
+    #[Test]
     public function unknown_method_throws_bad_method_call_exception(): void
     {
         $this->expectException(BadMethodCallException::class);
 
+        /** @phpstan-ignore staticMethod.notFound */
         Money::nope('x');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\CompatibilityChecker;
 
 class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
@@ -25,17 +26,19 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
-    public function test_minimum_php_version_matches_v4_composer_requirement()
+    #[Test]
+    public function minimum_php_version_matches_v4_composer_requirement()
     {
         $this->assertSame('8.2', CompatibilityChecker::MIN_PHP_VERSION);
     }
 
-    public function test_check_compatibility_throws_exception_on_php_version()
+    #[Test]
+    public function check_compatibility_throws_exception_on_php_version()
     {
         $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatformException::class);
         $this->checker->expects($this->once())
             ->method('satisfiesPhpVersion')
-            ->will($this->returnValue(false)); // Fail
+            ->willReturn(false); // Fail
 
         $this->checker->expects($this->never())
             ->method('satisfiesJsonExtension');
@@ -43,16 +46,17 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
         $this->checker->checkCompatibility();
     }
 
-    public function test_check_compatibility_throws_exception_on_json_extension()
+    #[Test]
+    public function check_compatibility_throws_exception_on_json_extension()
     {
         $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatformException::class);
         $this->checker->expects($this->once())
             ->method('satisfiesPhpVersion')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->checker->expects($this->once())
             ->method('satisfiesJsonExtension')
-            ->will($this->returnValue(false)); // Fail
+            ->willReturn(false); // Fail
 
         $this->checker->checkCompatibility();
     }

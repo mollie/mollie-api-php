@@ -15,6 +15,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Utils\DataTransformer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DataTransformerTest extends TestCase
@@ -26,7 +27,7 @@ class DataTransformerTest extends TestCase
         $this->transformer = new DataTransformer;
     }
 
-    /** @test */
+    #[Test]
     public function it_transforms_query_parameters(): void
     {
         $pendingRequest = $this->createGetRequest();
@@ -41,7 +42,7 @@ class DataTransformerTest extends TestCase
         $this->assertEquals(['value' => 'true'], $result->query()->get('nested'));
     }
 
-    /** @test */
+    #[Test]
     public function it_transforms_payload_data(): void
     {
         $pendingRequest = $this->createPostRequest();
@@ -80,7 +81,7 @@ class DataTransformerTest extends TestCase
         ], $result->payload()->get('address'));
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_complex_data_structures(): void
     {
         $pendingRequest = $this->createPostRequest();
@@ -104,7 +105,7 @@ class DataTransformerTest extends TestCase
         $this->assertEquals($expected, $result->payload()->get('routes'));
     }
 
-    /** @test */
+    #[Test]
     public function it_transforms_stringable_and_resolvable_objects(): void
     {
         $pendingRequest = $this->createPostRequest();
@@ -115,7 +116,7 @@ class DataTransformerTest extends TestCase
         $this->assertEquals(['foo' => 'value', 'bar' => 'nested'], $result->payload()->get('resolvable'));
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_boolean_values_correctly(): void
     {
         $pendingRequest = $this->createGetRequest();

@@ -7,11 +7,12 @@ namespace Tests\Factories;
 use Mollie\Api\Factories\CreateSalesInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
 use Mollie\Api\Types\PaymentTerm;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSalesInvoiceRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_full_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()
@@ -63,7 +64,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSalesInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_minimal_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()
@@ -100,7 +101,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSalesInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_partial_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()

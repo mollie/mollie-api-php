@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Types\CapabilityStatus;
 
 class Capability extends BaseResource
@@ -27,16 +28,16 @@ class Capability extends BaseResource
 
     public function isEnabled(): bool
     {
-        return $this->status === CapabilityStatus::Enabled;
+        return Utility::equals($this->status, CapabilityStatus::Enabled);
     }
 
     public function isPending(): bool
     {
-        return $this->status === CapabilityStatus::Pending;
+        return Utility::equals($this->status, CapabilityStatus::Pending);
     }
 
     public function isDisabled(): bool
     {
-        return $this->status === CapabilityStatus::Disabled;
+        return Utility::equals($this->status, CapabilityStatus::Disabled);
     }
 }

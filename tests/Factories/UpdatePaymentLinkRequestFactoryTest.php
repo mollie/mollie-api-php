@@ -9,13 +9,14 @@ use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdatePaymentLinkRequestFactoryTest extends TestCase
 {
     private const PAYMENT_LINK_ID = 'pl_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_link_request_object_with_full_data()
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
@@ -29,7 +30,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_link_request_object_with_minimal_data()
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
@@ -41,7 +42,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_link_request_object_with_partial_data()
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
@@ -54,7 +55,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function it_maps_lines_billing_and_shipping_address_and_minimum_amount()
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)
@@ -114,7 +115,7 @@ class UpdatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('Amsterdam', $payload['shippingAddress']->city);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_for_optional_klarna_fields_when_not_provided()
     {
         $request = UpdatePaymentLinkRequestFactory::new(self::PAYMENT_LINK_ID)

@@ -6,6 +6,8 @@ namespace Tests\Types;
 
 use Mollie\Api\Types\MandateMethod;
 use Mollie\Api\Types\PaymentMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MandateMethodTest extends TestCase
@@ -14,15 +16,16 @@ class MandateMethodTest extends TestCase
      * @param  string  $firstPaymentMethod
      * @param  string  $expectedMethod
      *
-     * @dataProvider dpTestGetForFirstPaymentMethod
      */
-    public function test_get_for_first_payment_method($firstPaymentMethod, $expectedMethod)
+    #[DataProvider('dpTestGetForFirstPaymentMethod')]
+    #[Test]
+    public function get_for_first_payment_method($firstPaymentMethod, $expectedMethod)
     {
         $actualMethod = MandateMethod::getForFirstPaymentMethod($firstPaymentMethod);
         $this->assertEquals($expectedMethod, $actualMethod);
     }
 
-    public function dpTestGetForFirstPaymentMethod()
+    public static function dpTestGetForFirstPaymentMethod()
     {
         return [
             [PaymentMethod::Applepay->value, MandateMethod::Creditcard->value],

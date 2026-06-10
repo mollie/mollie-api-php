@@ -13,6 +13,7 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
+use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentQuery;
 
 /**
@@ -34,7 +35,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
      */
     protected ?string $hydratableResource = Payment::class;
 
-    private string|array|null $paymentMethod;
+    private PaymentMethod|string|array|null $paymentMethod;
 
     public function __construct(
         private string $description,
@@ -46,7 +47,7 @@ class CreatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
         private ?Address $billingAddress = null,
         private ?Address $shippingAddress = null,
         private ?string $locale = null,
-        string|array|null $method = null,
+        PaymentMethod|string|array|null $method = null,
         private ?string $issuer = null,
         private ?string $restrictPaymentMethodsToCountry = null,
         private ?array $metadata = null,

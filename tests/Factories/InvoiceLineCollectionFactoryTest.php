@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\InvoiceLineCollectionFactory;
 use Mollie\Api\Http\Data\DataCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceLineCollectionFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_invoice_line_collection()
     {
         $collection = InvoiceLineCollectionFactory::new([
@@ -41,7 +42,7 @@ class InvoiceLineCollectionFactoryTest extends TestCase
         $this->assertInstanceOf(DataCollection::class, $collection);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_empty_collection_for_empty_input()
     {
         $collection = InvoiceLineCollectionFactory::new([])->create();

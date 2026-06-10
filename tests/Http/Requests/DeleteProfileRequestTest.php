@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DeleteProfileRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DeleteProfileRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_delete_profile()
     {
         $client = new MockMollieClient([
@@ -29,7 +30,7 @@ class DeleteProfileRequestTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $profileId = 'pfl_v9hTwCvYqw';

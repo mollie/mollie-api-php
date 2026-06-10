@@ -14,7 +14,7 @@ try {
         new CreatePaymentRequest(
             description: "Order #{$orderId}",
             amount: Money::euro('10.00'),
-            // or: amount: Money::fromMinorUnits('EUR', 1000),
+            // or: amount: Money::of('EUR')->minorUnits(1000),
             redirectUrl: 'https://example.org/return',
             cancelUrl: 'https://example.org/cancel',
             webhookUrl: 'https://example.org/webhook',

@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePaymentRefundRequestFactory;
 use Mollie\Api\Http\Requests\CreatePaymentRefundRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentRefundRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_refund_request_object_with_full_data()
     {
         $request = CreatePaymentRefundRequestFactory::new(self::PAYMENT_ID)
@@ -44,7 +45,7 @@ class CreatePaymentRefundRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentRefundRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_refund_request_object_with_minimal_data()
     {
         $request = CreatePaymentRefundRequestFactory::new(self::PAYMENT_ID)

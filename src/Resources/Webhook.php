@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Factories\UpdateWebhookRequestFactory;
 use Mollie\Api\Http\Requests\DeleteWebhookRequest;
 use Mollie\Api\Http\Requests\TestWebhookRequest;
@@ -45,22 +46,22 @@ class Webhook extends BaseResource
 
     public function enabled(): bool
     {
-        return $this->status === WebhookStatus::Enabled;
+        return Utility::equals($this->status, WebhookStatus::Enabled);
     }
 
     public function disabled(): bool
     {
-        return $this->status === WebhookStatus::Disabled;
+        return Utility::equals($this->status, WebhookStatus::Disabled);
     }
 
     public function blocked(): bool
     {
-        return $this->status === WebhookStatus::Blocked;
+        return Utility::equals($this->status, WebhookStatus::Blocked);
     }
 
     public function deleted(): bool
     {
-        return $this->status === WebhookStatus::Deleted;
+        return Utility::equals($this->status, WebhookStatus::Deleted);
     }
 
     /**

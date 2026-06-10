@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Types\OnboardingStatus;
 
 /**
@@ -28,16 +29,16 @@ class Onboarding extends BaseResource
 
     public function needsData(): bool
     {
-        return $this->status === OnboardingStatus::NeedsData;
+        return Utility::equals($this->status, OnboardingStatus::NeedsData);
     }
 
     public function inReview(): bool
     {
-        return $this->status === OnboardingStatus::InReview;
+        return Utility::equals($this->status, OnboardingStatus::InReview);
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === OnboardingStatus::Completed;
+        return Utility::equals($this->status, OnboardingStatus::Completed);
     }
 }

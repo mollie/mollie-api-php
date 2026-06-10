@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateWebhookRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_webhook()
     {
         $client = new MockMollieClient([
@@ -33,7 +34,7 @@ class CreateWebhookRequestTest extends TestCase
         $this->assertInstanceOf(Webhook::class, $webhook);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateWebhookRequest(

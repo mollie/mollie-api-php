@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedPaymentChargebacksRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentChargebacksRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_chargebacks_request_object_with_full_data()
     {
         $request = GetPaginatedPaymentChargebacksRequestFactory::new(self::PAYMENT_ID)
@@ -26,7 +27,7 @@ class GetPaginatedPaymentChargebacksRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedPaymentChargebacksRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_chargebacks_request_object_with_minimal_data()
     {
         $request = GetPaginatedPaymentChargebacksRequestFactory::new(self::PAYMENT_ID)
@@ -35,7 +36,7 @@ class GetPaginatedPaymentChargebacksRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedPaymentChargebacksRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_chargebacks_request_object_with_partial_data()
     {
         $request = GetPaginatedPaymentChargebacksRequestFactory::new(self::PAYMENT_ID)

@@ -18,15 +18,14 @@ use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ConvertResponseToExceptionTest extends TestCase
 {
-    /**
-     * @dataProvider provideStatusCodesAndExceptions
-     *
-     * @test
-     */
+    #[DataProvider('provideStatusCodesAndExceptions')]
+    #[Test]
     public function middleware_converts_response_to_appropriate_exception(
         int $statusCode,
         string $expectedExceptionClass,

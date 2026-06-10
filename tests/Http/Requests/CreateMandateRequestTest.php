@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
 use Mollie\Api\Resources\Mandate;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateMandateRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_mandate()
     {
         $client = new MockMollieClient([
@@ -34,7 +35,7 @@ class CreateMandateRequestTest extends TestCase
         $this->assertInstanceOf(Mandate::class, $mandate);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

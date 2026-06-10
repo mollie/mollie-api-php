@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
@@ -18,9 +20,10 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestPaymentStatuses
      */
-    public function test_payment_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestPaymentStatuses')]
+    #[Test]
+    public function payment_statuses($status, $function, $expected_boolean)
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -30,7 +33,7 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $payment->{$function}());
     }
 
-    public function dpTestPaymentStatuses()
+    public static function dpTestPaymentStatuses()
     {
         return [
             [PaymentStatus::Pending->value, 'isPending', true],
@@ -83,7 +86,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function test_is_paid_returns_true_when_paid_datetime_is_set()
+    #[Test]
+    public function is_paid_returns_true_when_paid_datetime_is_set()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -93,7 +97,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->isPaid());
     }
 
-    public function test_has_refunds_returns_true_when_payment_has_refunds()
+    #[Test]
+    public function has_refunds_returns_true_when_payment_has_refunds()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -105,7 +110,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasRefunds());
     }
 
-    public function test_has_refunds_returns_false_when_payment_has_no_refunds()
+    #[Test]
+    public function has_refunds_returns_false_when_payment_has_no_refunds()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -115,7 +121,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasRefunds());
     }
 
-    public function test_has_chargebacks_returns_true_when_payment_has_chargebacks()
+    #[Test]
+    public function has_chargebacks_returns_true_when_payment_has_chargebacks()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -127,7 +134,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasChargebacks());
     }
 
-    public function test_has_chargebacks_returns_false_when_payment_has_no_chargebacks()
+    #[Test]
+    public function has_chargebacks_returns_false_when_payment_has_no_chargebacks()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -137,7 +145,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasChargebacks());
     }
 
-    public function test_has_recurring_type_returns_true_when_recurring_type_is_first()
+    #[Test]
+    public function has_recurring_type_returns_true_when_recurring_type_is_first()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -148,7 +157,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasSequenceTypeFirst());
     }
 
-    public function test_has_recurring_type_returns_true_when_recurring_type_is_recurring()
+    #[Test]
+    public function has_recurring_type_returns_true_when_recurring_type_is_recurring()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -159,7 +169,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasSequenceTypeFirst());
     }
 
-    public function test_has_recurring_type_returns_false_when_recurring_type_is_none()
+    #[Test]
+    public function has_recurring_type_returns_false_when_recurring_type_is_none()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -170,7 +181,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }
 
-    public function test_get_checkout_url_returns_payment_url_from_links_object()
+    #[Test]
+    public function get_checkout_url_returns_payment_url_from_links_object()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -183,7 +195,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($payment->getCheckoutUrl(), 'https://example.com');
     }
 
-    public function test_get_mobile_app_checkout_url_returns_payment_url_from_links_object()
+    #[Test]
+    public function get_mobile_app_checkout_url_returns_payment_url_from_links_object()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -196,7 +209,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($payment->getMobileAppCheckoutUrl(), 'https://example-mobile-checkout.com');
     }
 
-    public function test_can_be_refunded_returns_true_when_amount_remaining_is_set()
+    #[Test]
+    public function can_be_refunded_returns_true_when_amount_remaining_is_set()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -207,7 +221,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->canBePartiallyRefunded());
     }
 
-    public function test_can_be_refunded_returns_false_when_amount_remaining_is_null()
+    #[Test]
+    public function can_be_refunded_returns_false_when_amount_remaining_is_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -218,7 +233,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->canBePartiallyRefunded());
     }
 
-    public function test_get_amount_refunded_returns_amount_refunded_as_float()
+    #[Test]
+    public function get_amount_refunded_returns_amount_refunded_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -228,7 +244,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(22.0, $payment->getAmountRefunded());
     }
 
-    public function test_get_amount_refunded_returns0_when_amount_refunded_is_set_to_null()
+    #[Test]
+    public function get_amount_refunded_returns0_when_amount_refunded_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -238,7 +255,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountRefunded());
     }
 
-    public function test_get_amount_remaining_returns_amount_remaining_as_float()
+    #[Test]
+    public function get_amount_remaining_returns_amount_remaining_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -248,7 +266,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(22.0, $payment->getAmountRemaining());
     }
 
-    public function test_get_amount_remaining_returns0_when_amount_remaining_is_set_to_null()
+    #[Test]
+    public function get_amount_remaining_returns0_when_amount_remaining_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -258,7 +277,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountRemaining());
     }
 
-    public function test_get_amount_charged_back_returns_amount_charged_back_as_float()
+    #[Test]
+    public function get_amount_charged_back_returns_amount_charged_back_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -268,7 +288,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(22.0, $payment->getAmountChargedBack());
     }
 
-    public function test_get_amount_charged_back_returns0_when_amount_charged_back_is_set_to_null()
+    #[Test]
+    public function get_amount_charged_back_returns0_when_amount_charged_back_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -278,7 +299,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountChargedBack());
     }
 
-    public function test_get_settlement_amount_returns0_when_settlement_amount_is_set_to_null()
+    #[Test]
+    public function get_settlement_amount_returns0_when_settlement_amount_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -288,7 +310,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getSettlementAmount());
     }
 
-    public function test_get_settlement_amount_returns_settlement_amount_as_float()
+    #[Test]
+    public function get_settlement_amount_returns_settlement_amount_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -298,7 +321,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(22.0, $payment->getSettlementAmount());
     }
 
-    public function test_has_split_payments_returns_false_when_payment_has_no_split()
+    #[Test]
+    public function has_split_payments_returns_false_when_payment_has_no_split()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),

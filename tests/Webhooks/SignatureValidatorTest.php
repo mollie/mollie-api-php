@@ -6,6 +6,7 @@ namespace Tests\Webhooks;
 
 use Mollie\Api\Exceptions\InvalidSignatureException;
 use Mollie\Api\Webhooks\SignatureValidator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -18,9 +19,7 @@ class SignatureValidatorTest extends TestCase
 
     private const PAYLOAD = '{"id":"tr_12345","event_type":"payment-link.paid"}';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verifies_valid_signature()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -31,9 +30,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verifies_valid_signature_with_prefix()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -44,9 +41,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verifies_valid_signature_from_multiple_secrets()
     {
         $verifier = new SignatureValidator([
@@ -61,9 +56,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verifies_valid_signature_from_different_header_formats()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -87,9 +80,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function accepts_any_valid_signature_during_migration()
     {
         $verifier = new SignatureValidator([
@@ -107,9 +98,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function throws_exception_for_invalid_signature()
     {
         $this->expectException(InvalidSignatureException::class);
@@ -118,9 +107,7 @@ class SignatureValidatorTest extends TestCase
         $verifier->validatePayload(self::PAYLOAD, 'invalid_signature');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function returns_false_for_missing_signature()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -129,9 +116,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertFalse($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function static_verify_works_with_payload_and_signature()
     {
         $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
@@ -145,9 +130,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function static_verify_works_with_request()
     {
         $signature = hash_hmac('sha256', self::PAYLOAD, self::SIGNING_SECRET);
@@ -165,9 +148,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verify_request_validates_signature_from_psr7_request()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -186,9 +167,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verify_request_returns_false_for_legacy_webhook()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);
@@ -206,7 +185,7 @@ class SignatureValidatorTest extends TestCase
         $this->assertFalse($result);
     }
 
-    /** @test */
+    #[Test]
     public function can_handle_null_signatures_on_validate_payload()
     {
         $verifier = new SignatureValidator(self::SIGNING_SECRET);

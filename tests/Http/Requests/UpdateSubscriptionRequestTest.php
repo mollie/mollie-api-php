@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSubscriptionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_subscription()
     {
         $client = new MockMollieClient([
@@ -43,7 +44,7 @@ class UpdateSubscriptionRequestTest extends TestCase
         $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

@@ -12,60 +12,39 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and 
 ### Breaking changes
 
 - **PHP 8.2+ required.** PHP 7.4, 8.0, 8.1 dropped. CI matrix is 8.2, 8.3, 8.4.
-- **Type constants → string-backed enums.** All 37 classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). Resource `$status`-style properties are typed `EnumName|string`.
+- **Type constants → string-backed enums.** All 37 classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). Resource `$status`-style properties are typed `EnumName|string`. The `Mollie\Api\Traits\GetAllConstants` trait is removed with this migration — call `cases()` on the enum instead; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw values.
 - **Resource properties typed.** Fields previously typed `\stdClass` are now concrete value objects. Property names are unchanged — `$payment->amount->value` and `->currency` still work.
 - **Value objects are `readonly class`.** `Money`, `Address`, `OrderLine` etc. cannot be subclassed by non-readonly children. Prefer the new `Macroable` extension point.
 - **Constructor signatures via promotion.** Named arguments unchanged; positional callers may need to reorder.
 - **`declare(strict_types=1)` everywhere.** Audit integration code for implicit coercions.
 - **`Macroable` on `Money`** — undefined methods now throw `BadMethodCallException` instead of PHP's default fatal error.
 - **PHPUnit + Paratest → Pest v3** in `require-dev` (consumer impact only if running SDK tests).
-- **`IsResponseAware::getResponse()` return type narrowed from `Response` to `?Response`.** HTTP-hydrated resources continue to return a non-null `Response`, matching pre-refactor behavior. Webhook-hydrated resources return `null`. User code that chains `$resource->getResponse()->successful()` or similar without a null check will NPE on webhook-origin resources — audit your webhook handlers before upgrading. HTTP-only consumers see no change.
-- **`HasResponse::getPendingRequest()` return type narrowed from `PendingRequest` to `?PendingRequest`.** Same rationale.
-- **`HasResponse` trait storage renamed.** The `protected Response $response` property is replaced by `protected ?ResourceOrigin $origin`. Third-party subclasses that read `$this->response` directly must migrate to `$this->getResponse()` or `$this->getOrigin()`.
 
 ### Added
 
 - Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
-- `Money::fromMinorUnits(string $currency, int $amount)` with a currency-exponent map (EUR=2, JPY=0, BHD=3, …). Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
-- `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN`.
+- `Money::of(string $currency)` fluent builder with `minorUnits(int $amount)` and `fromString(string $value)`. Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
 - `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
 - Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.
-- Lazy `iterator()` pagination on collection endpoints — single page in memory at a time.
 - `Macroable` trait for `Money` (and other value objects) for custom factories without subclassing.
 - `ValidationException` exposes per-field errors; `TooManyRequestsException` exposes `retryAfterSeconds`; `Response` exposes header access.
-- `Mollie\Api\Contracts\ResourceOrigin` marker interface describing where a hydrated resource came from. `Http\Response` now implements it.
-- `BaseResource::getOrigin()` / `setOrigin()` accessors on every hydrated resource and collection. HTTP-hydrated resources set origin to the `Response` automatically; no migration needed for existing user code.
-- `Mollie\Api\Webhooks\WebhookSnapshotOrigin` exposes the event id, signature, and received-at timestamp of the webhook that produced a hydrated resource. Accessible via `$resource->getOrigin()`.
-- `Mollie\Api\Webhooks\SnapshotHydrator` feeds a webhook snapshot through the main `ResourceHydrator` after a one-line `json_decode(json_encode())` normalization so nested values arrive as `stdClass` (matching the HTTP path byte-for-byte).
-- `BaseEvent::asResource(Connector)` hydrates the embedded entity into a fully-typed SDK resource and automatically threads the rich origin (event id, signature, received-at).
-- `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event and carried onto hydrated resources via `WebhookSnapshotOrigin`.
-- `ResourceCollection::withOrigin()` factory as the origin-aware sibling of `withResponse()`.
-- 22 new webhook event classes covering payouts, disputes, files, business account transfers, and unmatched credit transfers, plus 4 profile event classes (`ProfileCreated`, `ProfileVerified`, `ProfileBlocked`, `ProfileDeleted`) for constants-to-class parity.
+- 4 profile webhook event classes (`ProfileCreated`, `ProfileVerified`, `ProfileBlocked`, `ProfileDeleted`) for constants-to-class parity.
 
 ### Changed
 
-- Reflection-based two-tier `ResourceHydrator` with main's `ResourceOrigin` routing layer — single hydrator handles HTTP and webhook-snapshot origins.
+- `ResourceHydrator` rewritten reflection-based so it can populate the new typed resource properties (value objects, enums, nested collections). Origin routing (HTTP vs. webhook snapshot) behaves exactly as in v3.13.
 - Constructor promotion applied across Request and Exception classes.
-- `WebhookEntity::asResource()` gains an optional `?WebhookSnapshotOrigin` second parameter. Callers using the single-arg form (`$event->entity()->asResource($mollie)`) continue to work and receive a fallback origin with null signature. Mapper-driven flow (`$event->asResource($mollie)`) passes the rich origin automatically.
-- Hydrating a webhook payload no longer requires a valid API key on the connector. Signed snapshots are self-sufficient, so a signing-secret-only webhook worker can read the snapshot without any key. **Follow-up calls** (`$payment->refunds()`, `$subscription->payments()`, etc.) still require an authenticator — they fire real HTTP requests.
-- Follow-up methods on hydrated resources (`Payment::refunds/captures/chargebacks`, `Profile::chargebacks/methods/payments/refunds`, `Subscription::payments`) now fall back to their endpoint collection when the embedded webhook snapshot does not carry the corresponding `_links.{name}.href`. Previously these methods returned an empty collection in that case, which was a silent behavioural difference between HTTP-origin and webhook-origin resources. With this change the SDK routes through the connector using the resource's id (same pattern `PaymentLink::payments()` already used), so you get a live child collection on both origins. Relative `_links.{name}.href` values in webhook payloads are resolved against the client's base URL via `Url::join`, no special handling required on the caller's side.
-- Sessions API restructured to match the Mollie Sessions API. `Session::update()`, `Session::cancel()`, and list endpoints removed (never supported by the upstream API). Surviving `Session` and `CreateSessionRequest` follow v4 typed-property + constructor-promotion idioms.
 
 ### Removed
 
 - PHP 7.4 / 8.0 / 8.1 support.
 - Paratest dev dependency (Pest has `--parallel` built in).
-- `WebhookEntity::buildSyntheticResponse()` and its dependencies on `PendingRequest`, `DynamicGetRequest`, `Nyholm\Psr7\Request`, and `Nyholm\Psr7\Response`. Webhook hydration goes through `SnapshotHydrator`.
-- `Session::update()`, `Session::cancel()`, list endpoint, `UpdateSessionRequest`, `CancelSessionRequest`, `SessionCollection`, `Types\CheckoutFlow` (dropped per #858).
+- `Mollie\Api\Traits\GetAllConstants` trait — superseded by the enum migration. Use the enum's native `cases()`; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw string values.
 
 ### Fixed
 
 - Exception messages no longer include invalid authentication tokens or request body contents, while structured exception accessors remain available.
 - `docs/webhooks.md` previously stated that `$event->entity()` returns null for simple payloads. It actually throws. Updated to correctly describe reading the nullable `$event->entity` property or fetching the resource via `$event->entityId`.
-
-### For contributors
-
-- `WebhookEventMapper::createWebhookEntityFromPayload()` switched from `array_pop($_embedded)` to key-agnostic iteration that picks the first candidate carrying `id` and `resource` fields. Mollie keys the embedded entity under `_embedded.entity`; the new iteration resolves that correctly and is resilient to any future schema tweak (additional `_embedded` sub-blocks, renamed key) without silently breaking webhook handling.
 
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 

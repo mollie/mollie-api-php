@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Tests\Utils;
 
 use Mollie\Api\Utils\Arr;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ArrTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get(): void
     {
         $array = ['foo' => ['bar' => 'baz']];
@@ -19,7 +21,7 @@ class ArrTest extends TestCase
         $this->assertEquals('default', Arr::get($array, 'foo.baz', 'default'));
     }
 
-    /** @test */
+    #[Test]
     public function pull(): void
     {
         $array = ['foo' => ['bar' => 'baz']];
@@ -28,7 +30,7 @@ class ArrTest extends TestCase
         $this->assertEquals(['foo' => []], $array);
     }
 
-    /** @test */
+    #[Test]
     public function except(): void
     {
         $array = ['foo' => 'bar', 'baz' => 'qux'];
@@ -36,7 +38,7 @@ class ArrTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], Arr::except($array, ['baz']));
     }
 
-    /** @test */
+    #[Test]
     public function forget(): void
     {
         $array = ['foo' => ['bar' => 'baz']];
@@ -46,7 +48,7 @@ class ArrTest extends TestCase
         $this->assertEquals(['foo' => []], $array);
     }
 
-    /** @test */
+    #[Test]
     public function has(): void
     {
         $array = ['foo' => ['bar' => 'baz']];
@@ -57,7 +59,7 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::has($array, 'baz'));
     }
 
-    /** @test */
+    #[Test]
     public function exists(): void
     {
         $array = ['foo' => 'bar'];
@@ -66,17 +68,14 @@ class ArrTest extends TestCase
         $this->assertFalse(Arr::exists($array, 'bar'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider joinDataProvider
-     */
+    #[DataProvider('joinDataProvider')]
+    #[Test]
     public function join(array $array, string $expected, string $glue = ','): void
     {
         $this->assertEquals($expected, Arr::join($array, $glue));
     }
 
-    public function joinDataProvider(): array
+    public static function joinDataProvider(): array
     {
         return [
             'default' => [['foo', 'bar', 'baz'], 'foo,bar,baz'],
@@ -86,7 +85,7 @@ class ArrTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function wrap(): void
     {
         $value = 'foo';
@@ -98,7 +97,7 @@ class ArrTest extends TestCase
         $this->assertEquals($array, Arr::wrap($array));
     }
 
-    /** @test */
+    #[Test]
     public function map(): void
     {
         // Test with a callback that only needs the value
@@ -129,7 +128,7 @@ class ArrTest extends TestCase
         $this->assertEquals([], $result);
     }
 
-    /** @test */
+    #[Test]
     public function includes(): void
     {
         $array = ['includes' => ['payment']];

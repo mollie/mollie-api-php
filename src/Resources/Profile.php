@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\ProfileStatus;
@@ -58,17 +59,17 @@ class Profile extends BaseResource
 
     public function isUnverified(): bool
     {
-        return $this->status === ProfileStatus::Unverified;
+        return Utility::equals($this->status, ProfileStatus::Unverified);
     }
 
     public function isVerified(): bool
     {
-        return $this->status === ProfileStatus::Verified;
+        return Utility::equals($this->status, ProfileStatus::Verified);
     }
 
     public function isBlocked(): bool
     {
-        return $this->status === ProfileStatus::Blocked;
+        return Utility::equals($this->status, ProfileStatus::Blocked);
     }
 
     /**

@@ -8,12 +8,13 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Resources\Partner;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OrganizationPartnerEndpointCollectionTest extends TestCase
 {
-    /** @test */
-    public function test_status()
+    #[Test]
+    public function it_can_get_status()
     {
         $client = new MockMollieClient([
             GetOrganizationPartnerStatusRequest::class => MockResponse::ok('partner-status'),

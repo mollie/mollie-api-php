@@ -11,11 +11,12 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSessionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_session()
     {
         $client = new MockMollieClient([
@@ -45,7 +46,7 @@ class CreateSessionRequestTest extends TestCase
         $this->assertInstanceOf(Session::class, $session);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $lines = new DataCollection([

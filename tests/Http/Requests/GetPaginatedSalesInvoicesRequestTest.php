@@ -12,11 +12,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSalesInvoicesRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\SalesInvoice;
 use Mollie\Api\Resources\SalesInvoiceCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSalesInvoicesRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_gets_paginated_sales_invoices()
     {
         $client = new MockMollieClient([
@@ -34,7 +35,7 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
         $this->assertGreaterThan(0, $salesInvoices->count());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_sales_invoices()
     {
         $client = new MockMollieClient([
@@ -58,7 +59,7 @@ class GetPaginatedSalesInvoicesRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedSalesInvoicesRequest;

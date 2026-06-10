@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\ChargebackCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedChargebacksRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_chargebacks()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetPaginatedChargebacksRequestTest extends TestCase
         $this->assertInstanceOf(ChargebackCollection::class, $chargebacks);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedChargebacksRequest;

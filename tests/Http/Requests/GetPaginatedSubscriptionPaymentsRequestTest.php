@@ -12,11 +12,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_subscription_payments()
     {
         $client = new MockMollieClient([
@@ -38,7 +39,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_subscription_payments()
     {
         $client = new MockMollieClient([
@@ -62,7 +63,7 @@ class GetPaginatedSubscriptionPaymentsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

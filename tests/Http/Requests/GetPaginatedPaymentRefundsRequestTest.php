@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentRefundsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_refunds()
     {
         $client = new MockMollieClient([
@@ -34,7 +35,7 @@ class GetPaginatedPaymentRefundsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_refunds()
     {
         $client = new MockMollieClient([
@@ -58,7 +59,7 @@ class GetPaginatedPaymentRefundsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';

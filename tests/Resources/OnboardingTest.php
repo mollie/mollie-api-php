@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\OnboardingStatus;
@@ -15,9 +17,10 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestOnboardingStatuses
      */
-    public function test_onboarding_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestOnboardingStatuses')]
+    #[Test]
+    public function onboarding_statuses($status, $function, $expected_boolean)
     {
         $onboarding = new Onboarding(
             $this->createMock(MollieApiClient::class),
@@ -27,7 +30,7 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $onboarding->{$function}());
     }
 
-    public function dpTestOnboardingStatuses()
+    public static function dpTestOnboardingStatuses()
     {
         return [
             [OnboardingStatus::NeedsData->value, 'needsData', true],

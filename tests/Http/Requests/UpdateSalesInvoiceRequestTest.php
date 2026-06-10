@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSalesInvoiceRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_updates_sales_invoice()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class UpdateSalesInvoiceRequestTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new UpdateSalesInvoiceRequest('invoice_123');

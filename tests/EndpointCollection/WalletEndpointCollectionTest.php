@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WalletEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function request_apple_pay_payment_session()
     {
         $client = new MockMollieClient([

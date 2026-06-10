@@ -15,6 +15,7 @@ use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Resources\ResourceRegistry;
 use Mollie\Api\Resources\ResourceResolver;
 use Mollie\Api\Resources\WrapperResource;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceResolverTest extends TestCase
@@ -33,7 +34,7 @@ class ResourceResolverTest extends TestCase
         $this->resolver = new ResourceResolver($this->hydrator);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_to_a_simple_resource()
     {
         $request = $this->createMock(ResourceHydratableRequest::class);
@@ -61,7 +62,7 @@ class ResourceResolverTest extends TestCase
         $this->assertInstanceOf(AnyResource::class, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_to_a_collection()
     {
         $request = $this->createMock(ResourceHydratableRequest::class);
@@ -96,7 +97,7 @@ class ResourceResolverTest extends TestCase
         $this->assertInstanceOf(CustomCollection::class, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_to_a_decorated_resource()
     {
         $request = $this->createMock(ResourceHydratableRequest::class);
@@ -126,7 +127,7 @@ class ResourceResolverTest extends TestCase
         $this->assertInstanceOf(CustomDecorator::class, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_response_when_no_resource_target()
     {
         $request = $this->createMock(ResourceHydratableRequest::class);

@@ -7,11 +7,12 @@ namespace Tests\Factories;
 use Mollie\Api\Factories\CreatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Types\PaymentQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_payment_request_object_with_full_data()
     {
         $request = CreatePaymentRequestFactory::new()
@@ -97,7 +98,7 @@ class CreatePaymentRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_request_object_with_minimal_data()
     {
         $request = CreatePaymentRequestFactory::new()

@@ -29,6 +29,7 @@ use Mollie\Api\EndpointCollection\PaymentLinkPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\PaymentRouteEndpointCollection;
 use Mollie\Api\EndpointCollection\PermissionEndpointCollection;
+use Mollie\Api\EndpointCollection\PayoutEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileEndpointCollection;
 use Mollie\Api\EndpointCollection\ProfileMethodEndpointCollection;
 use Mollie\Api\EndpointCollection\RefundEndpointCollection;
@@ -42,6 +43,7 @@ use Mollie\Api\EndpointCollection\SettlementRefundEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionEndpointCollection;
 use Mollie\Api\EndpointCollection\SubscriptionPaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalEndpointCollection;
+use Mollie\Api\EndpointCollection\TerminalPairingCodeEndpointCollection;
 use Mollie\Api\EndpointCollection\WalletEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEndpointCollection;
 use Mollie\Api\EndpointCollection\WebhookEventEndpointCollection;
@@ -88,6 +90,7 @@ trait HasEndpoints
             'paymentLinkPayments' => PaymentLinkPaymentEndpointCollection::class,
             'paymentRoutes' => PaymentRouteEndpointCollection::class,
             'permissions' => PermissionEndpointCollection::class,
+            'payouts' => PayoutEndpointCollection::class,
             'profiles' => ProfileEndpointCollection::class,
             'profileMethods' => ProfileMethodEndpointCollection::class,
             'refunds' => RefundEndpointCollection::class,
@@ -101,6 +104,7 @@ trait HasEndpoints
             'subscriptions' => SubscriptionEndpointCollection::class,
             'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
             'terminals' => TerminalEndpointCollection::class,
+            'terminalPairingCodes' => TerminalPairingCodeEndpointCollection::class,
             'wallets' => WalletEndpointCollection::class,
             'webhooks' => WebhookEndpointCollection::class,
             'webhookEvents' => WebhookEventEndpointCollection::class,

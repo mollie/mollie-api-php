@@ -6,15 +6,14 @@ namespace Tests\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Data\DataCollection;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DataCollectionTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider provideArraysForConstruction
-     */
+    #[DataProvider('provideArraysForConstruction')]
+    #[Test]
     public function can_be_constructed_and_converted_to_array($items)
     {
         $collection = new DataCollection($items);
@@ -31,11 +30,8 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideArraysForCount
-     */
+    #[DataProvider('provideArraysForCount')]
+    #[Test]
     public function counts_items_correctly($items, $expectedCount)
     {
         $collection = new DataCollection($items);
@@ -52,11 +48,8 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideWrapSubjects
-     */
+    #[DataProvider('provideWrapSubjects')]
+    #[Test]
     public function wraps_various_subjects_correctly($subject, $expected)
     {
         $collection = DataCollection::wrap($subject);
@@ -81,11 +74,8 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideValuesCollections
-     */
+    #[DataProvider('provideValuesCollections')]
+    #[Test]
     public function returns_values_collection($input, $expected)
     {
         $collection = new DataCollection($input);
@@ -104,7 +94,7 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function can_pipe_through_callback()
     {
         $collection = new DataCollection([1, 2, 3]);
@@ -116,11 +106,8 @@ class DataCollectionTest extends TestCase
         $this->assertSame([2, 4, 6], $result->toArray());
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideMapCases
-     */
+    #[DataProvider('provideMapCases')]
+    #[Test]
     public function maps_items_correctly($input, $callback, $expected)
     {
         $collection = new DataCollection($input);
@@ -139,11 +126,8 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideFilterCases
-     */
+    #[DataProvider('provideFilterCases')]
+    #[Test]
     public function filters_items_correctly($input, $callback, $expected)
     {
         $collection = new DataCollection($input);
@@ -163,11 +147,8 @@ class DataCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider provideContainsCases
-     */
+    #[DataProvider('provideContainsCases')]
+    #[Test]
     public function contains_checks_for_items_correctly($input, $search, $expected)
     {
         $collection = new DataCollection($input);

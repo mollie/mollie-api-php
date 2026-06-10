@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Resources\ClientCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedClientRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_clients()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetPaginatedClientRequestTest extends TestCase
         $this->assertInstanceOf(ClientCollection::class, $clients);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedClientRequest;

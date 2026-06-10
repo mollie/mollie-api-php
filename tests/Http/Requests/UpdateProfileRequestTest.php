@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateProfileRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_profile()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class UpdateProfileRequestTest extends TestCase
         $this->assertInstanceOf(Profile::class, $profile);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new UpdateProfileRequest('pfl_v9hTwCvYqw', 'Updated Profile Name');

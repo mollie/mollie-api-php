@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Types\TerminalStatus;
 
 /**
@@ -47,16 +48,16 @@ class Terminal extends BaseResource
 
     public function isPending(): bool
     {
-        return $this->status === TerminalStatus::Pending;
+        return Utility::equals($this->status, TerminalStatus::Pending);
     }
 
     public function isActive(): bool
     {
-        return $this->status === TerminalStatus::Active;
+        return Utility::equals($this->status, TerminalStatus::Active);
     }
 
     public function isInactive(): bool
     {
-        return $this->status === TerminalStatus::Inactive;
+        return Utility::equals($this->status, TerminalStatus::Inactive);
     }
 }

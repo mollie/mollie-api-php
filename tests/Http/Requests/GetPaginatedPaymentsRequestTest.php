@@ -13,11 +13,12 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_payments()
     {
         $client = new MockMollieClient([
@@ -41,7 +42,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_payments()
     {
         $client = MollieApiClient::fake([
@@ -65,7 +66,7 @@ class GetPaginatedPaymentsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedPaymentsRequest;

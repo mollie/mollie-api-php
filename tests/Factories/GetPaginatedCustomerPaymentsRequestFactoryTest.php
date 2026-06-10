@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedCustomerPaymentsRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedCustomerPaymentsRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_customer_payments_request_object_with_full_data()
     {
         $request = GetPaginatedCustomerPaymentsRequestFactory::new(self::CUSTOMER_ID)
@@ -27,7 +28,7 @@ class GetPaginatedCustomerPaymentsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedCustomerPaymentsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_customer_payments_request_object_with_minimal_data()
     {
         $request = GetPaginatedCustomerPaymentsRequestFactory::new(self::CUSTOMER_ID)
@@ -36,7 +37,7 @@ class GetPaginatedCustomerPaymentsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedCustomerPaymentsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_customer_payments_request_object_with_partial_data()
     {
         $request = GetPaginatedCustomerPaymentsRequestFactory::new(self::CUSTOMER_ID)

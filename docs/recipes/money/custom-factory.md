@@ -16,7 +16,7 @@ use Mollie\Api\Http\Data\Money;
 // Register once during application bootstrap
 Money::macro('loyaltyPoints', static function (int $points): Money {
     // 100 points = €1.00
-    return Money::fromMinorUnits('EUR', $points);
+    return Money::of('EUR')->minorUnits($points);
 });
 
 Money::macro('xau', static function (string $value): Money {

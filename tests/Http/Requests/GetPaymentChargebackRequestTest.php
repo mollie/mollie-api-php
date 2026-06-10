@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaymentChargebackRequest;
 use Mollie\Api\Resources\Chargeback;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentChargebackRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_payment_chargeback()
     {
         $client = new MockMollieClient([
@@ -28,8 +29,7 @@ class GetPaymentChargebackRequestTest extends TestCase
         $this->assertInstanceOf(Chargeback::class, $chargeback);
     }
 
-    /** @test */
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';

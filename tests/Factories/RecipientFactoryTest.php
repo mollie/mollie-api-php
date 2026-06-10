@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\RecipientFactory;
 use Mollie\Api\Http\Data\Recipient;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RecipientFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_recipient_object()
     {
         $recipient = RecipientFactory::new([
@@ -35,7 +36,7 @@ class RecipientFactoryTest extends TestCase
         $this->assertInstanceOf(Recipient::class, $recipient);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_recipient_object_with_minimal_data()
     {
         $recipient = RecipientFactory::new([

@@ -17,11 +17,12 @@ use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSalesInvoiceRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_sales_invoice()
     {
         $client = new MockMollieClient([
@@ -64,7 +65,7 @@ class CreateSalesInvoiceRequestTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateSalesInvoiceRequest(

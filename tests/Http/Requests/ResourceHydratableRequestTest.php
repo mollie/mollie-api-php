@@ -8,11 +8,12 @@ use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceWrapper;
 use Mollie\Api\Resources\WrapperResource;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratableRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_target_resource_class()
     {
         $request = new ConcreteResourceHydratableRequest;
@@ -20,7 +21,7 @@ class ResourceHydratableRequestTest extends TestCase
         $this->assertEquals(BaseResource::class, $request->getHydratableResource());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_target_resource_class_is_not_set()
     {
         $request = new InvalidResourceHydratableRequest;
@@ -31,7 +32,7 @@ class ResourceHydratableRequestTest extends TestCase
         $request->getHydratableResource();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_hydrate_response_into_resource_wrapper()
     {
         $request = new class extends ResourceHydratableRequest {

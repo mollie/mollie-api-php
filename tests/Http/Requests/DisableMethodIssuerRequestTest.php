@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DisableMethodIssuerRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_disable_method_issuer()
     {
         $client = new MockMollieClient([
@@ -31,7 +32,7 @@ class DisableMethodIssuerRequestTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $profileId = 'pfl_v9hTwCvYqw';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Traits\HasMode;
@@ -60,17 +61,17 @@ class Session extends BaseResource
 
     public function isOpen(): bool
     {
-        return $this->status === SessionStatus::Open;
+        return Utility::equals($this->status, SessionStatus::Open);
     }
 
     public function isExpired(): bool
     {
-        return $this->status === SessionStatus::Expired;
+        return Utility::equals($this->status, SessionStatus::Expired);
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === SessionStatus::Completed;
+        return Utility::equals($this->status, SessionStatus::Completed);
     }
 
     public function getRedirectUrl(): ?string

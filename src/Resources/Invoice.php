@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\InvoiceStatus;
 
@@ -66,16 +67,16 @@ class Invoice extends BaseResource
 
     public function isPaid(): bool
     {
-        return $this->status === InvoiceStatus::Paid;
+        return Utility::equals($this->status, InvoiceStatus::Paid);
     }
 
     public function isOpen(): bool
     {
-        return $this->status === InvoiceStatus::Open;
+        return Utility::equals($this->status, InvoiceStatus::Open);
     }
 
     public function isOverdue(): bool
     {
-        return $this->status === InvoiceStatus::Overdue;
+        return Utility::equals($this->status, InvoiceStatus::Overdue);
     }
 }

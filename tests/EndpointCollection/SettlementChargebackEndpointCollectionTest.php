@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SettlementChargebackEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -36,7 +37,7 @@ class SettlementChargebackEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([

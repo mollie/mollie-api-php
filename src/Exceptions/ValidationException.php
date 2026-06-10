@@ -6,12 +6,18 @@ namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
+use stdClass;
 use Throwable;
 
 class ValidationException extends ApiException
 {
     /**
+     * @param  Response  $response
+     * @param  string  $field
+     * @param  string  $message
      * @param  array<string, string>  $errors  Map of field name to error message.
+     * @param  int  $code
+     * @param  Throwable|null  $previous
      */
     public function __construct(
         Response $response,
@@ -75,25 +81,38 @@ class ValidationException extends ApiException
      *
      * @return array<string, string>
      */
-    private static function extractErrors(\stdClass $body, string $field, string $detail): array
+    private static function extractErrors(stdClass $body, string $field, string $detail): array
     {
-        $errors = [];
-
-        foreach (['details', 'errors'] as $key) {
-            if (isset($body->{$key})) {
-                $errors = array_merge($errors, self::normalizeErrorBag($body->{$key}));
-            }
-        }
-
-        if (isset($body->extra, $body->extra->errors)) {
-            $errors = array_merge($errors, self::normalizeErrorBag($body->extra->errors));
-        }
+        $errors = array_merge(...array_map(
+            self::normalizeErrorBag(...),
+            self::errorBags($body)
+        ));
 
         if ($field !== '' && ! array_key_exists($field, $errors)) {
             $errors[$field] = $detail;
         }
 
         return $errors;
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    private static function errorBags(stdClass $body): array
+    {
+        $bags = [];
+
+        foreach (['details', 'errors'] as $key) {
+            if (isset($body->{$key})) {
+                $bags[] = $body->{$key};
+            }
+        }
+
+        if (isset($body->extra, $body->extra->errors)) {
+            $bags[] = $body->extra->errors;
+        }
+
+        return $bags;
     }
 
     /**
@@ -109,39 +128,55 @@ class ValidationException extends ApiException
      */
     private static function normalizeErrorBag($bag): array
     {
+        if ($bag instanceof stdClass) {
+            return self::normalizeErrorEntries((array) $bag);
+        }
+
+        return is_array($bag)
+            ? self::normalizeErrorEntries($bag)
+            : [];
+    }
+
+    /**
+     * @param  array<array-key, mixed>  $entries
+     * @return array<string, string>
+     */
+    private static function normalizeErrorEntries(array $entries): array
+    {
         $errors = [];
 
-        if ($bag instanceof \stdClass) {
-            foreach ((array) $bag as $key => $value) {
-                if (is_string($value)) {
-                    $errors[$key] = $value;
-                }
-            }
+        foreach ($entries as $key => $value) {
+            $error = self::normalizeErrorEntry($key, $value);
 
-            return $errors;
-        }
-
-        if (! is_array($bag)) {
-            return $errors;
-        }
-
-        foreach ($bag as $key => $value) {
-            if (is_string($key) && is_string($value)) {
-                $errors[$key] = $value;
-
-                continue;
-            }
-
-            if ($value instanceof \stdClass) {
-                $field = $value->field ?? null;
-                $message = $value->message ?? $value->detail ?? null;
-
-                if (is_string($field) && is_string($message)) {
-                    $errors[$field] = $message;
-                }
+            if ($error !== null) {
+                [$field, $message] = $error;
+                $errors[$field] = $message;
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * @param  array-key  $key
+     * @param  mixed  $value
+     * @return array{0: string, 1: string}|null
+     */
+    private static function normalizeErrorEntry($key, mixed $value): ?array
+    {
+        if (is_string($key) && is_string($value)) {
+            return [$key, $value];
+        }
+
+        if (! $value instanceof stdClass) {
+            return null;
+        }
+
+        $field = $value->field ?? null;
+        $message = $value->message ?? $value->detail ?? null;
+
+        return is_string($field) && is_string($message)
+            ? [$field, $message]
+            : null;
     }
 }

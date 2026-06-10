@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementCapturesRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SettlementCaptureEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -36,7 +37,7 @@ class SettlementCaptureEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([

@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetEnabledMethodsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_enabled_methods()
     {
         $client = new MockMollieClient([
@@ -29,7 +30,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertInstanceOf(MethodCollection::class, $methods);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetEnabledMethodsRequest;
@@ -37,7 +38,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertEquals('methods', $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_out_methods_with_null_status_when_flag_is_true()
     {
         $client = new MockMollieClient([
@@ -69,7 +70,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertNotContains('voucher', $methodIds);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_filter_out_methods_with_null_status_when_flag_is_false()
     {
         $client = new MockMollieClient([

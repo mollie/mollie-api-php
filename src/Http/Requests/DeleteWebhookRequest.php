@@ -10,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/delete-webhook
+ *
+ * @extends ResourceHydratableRequest<object>
  */
 class DeleteWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {

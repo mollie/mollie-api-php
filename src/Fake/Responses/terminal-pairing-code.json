@@ -1,0 +1,25 @@
+{
+  "resource": "terminal-pairing-code",
+  "id": "termpc_R7gX5Ea9bC4DkFj3G",
+  "mode": "live",
+  "code": "20eb5ca1f78b48ae9e2b",
+  "profileId": "pfl_jA9bC4DkFj3G",
+  "status": "active",
+  "expiresAt": "2026-03-10T10:00:00+00:00",
+  "revokedAt": null,
+  "createdAt": "2025-12-10T10:00:00+00:00",
+  "_links": {
+    "self": {
+      "href": "https://api.mollie.com/v2/terminals/pairing-codes/termpc_R7gX5Ea9bC4DkFj3G",
+      "type": "application/hal+json"
+    },
+    "profile": {
+      "href": "https://api.mollie.com/v2/profiles/pfl_jA9bC4DkFj3G",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "https://docs.mollie.com/reference/terminals-get-pairing-code",
+      "type": "text/html"
+    }
+  }
+}

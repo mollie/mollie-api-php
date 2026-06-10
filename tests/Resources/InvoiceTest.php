@@ -7,6 +7,8 @@ namespace Tests\Resources;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Types\InvoiceStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceTest extends TestCase
@@ -16,9 +18,10 @@ class InvoiceTest extends TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestInvoiceStatuses
      */
-    public function test_invoice_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestInvoiceStatuses')]
+    #[Test]
+    public function invoice_statuses($status, $function, $expected_boolean)
     {
         $invoice = new Invoice(
             $this->createMock(MollieApiClient::class),
@@ -28,7 +31,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals($expected_boolean, $invoice->{$function}());
     }
 
-    public function dpTestInvoiceStatuses()
+    public static function dpTestInvoiceStatuses()
     {
         return [
             [InvoiceStatus::Paid->value, 'isPaid', true],

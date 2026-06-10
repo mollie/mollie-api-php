@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
 use Mollie\Api\Resources\Customer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateCustomerRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_customer()
     {
         $client = new MockMollieClient([
@@ -31,7 +32,7 @@ class CreateCustomerRequestTest extends TestCase
         $this->assertInstanceOf(Customer::class, $customer);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateCustomerRequest(

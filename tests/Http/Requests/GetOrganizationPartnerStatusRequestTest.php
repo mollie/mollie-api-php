@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Resources\Partner;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetOrganizationPartnerStatusRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_organization_partner_status()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetOrganizationPartnerStatusRequestTest extends TestCase
         $this->assertInstanceOf(Partner::class, $partner);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetOrganizationPartnerStatusRequest;

@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\LazyCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSettlementChargebacksRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_settlement_chargebacks()
     {
         $client = new MockMollieClient([
@@ -35,7 +36,7 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_settlement_chargebacks()
     {
         $client = new MockMollieClient([
@@ -59,7 +60,7 @@ class GetPaginatedSettlementChargebacksRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $settlementId = 'stl_jDk30akdN';

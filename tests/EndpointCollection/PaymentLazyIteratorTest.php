@@ -10,11 +10,12 @@ use Mollie\Api\Fake\SequenceMockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentLazyIteratorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function iterator_walks_across_pages_and_yields_typed_payments(): void
     {
         // First page via the initial request class; subsequent pages fetched

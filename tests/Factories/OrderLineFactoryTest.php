@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\OrderLineFactory;
 use Mollie\Api\Http\Data\OrderLine;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OrderLineFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_order_line_object_with_full_data()
     {
         $orderLine = OrderLineFactory::new([
@@ -47,7 +48,7 @@ class OrderLineFactoryTest extends TestCase
         $this->assertInstanceOf(OrderLine::class, $orderLine);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_order_line_object_with_minimal_data()
     {
         $orderLine = OrderLineFactory::new([

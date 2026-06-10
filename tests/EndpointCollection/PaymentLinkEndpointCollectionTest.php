@@ -15,11 +15,12 @@ use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentLinkEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -37,7 +38,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         $this->assertPaymentLink($paymentLink);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -50,7 +51,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         $this->assertPaymentLink($paymentLink);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -65,7 +66,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         $this->assertPaymentLink($paymentLink);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -77,7 +78,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         $client->assertSent(DeletePaymentLinkRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -96,7 +97,7 @@ class PaymentLinkEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

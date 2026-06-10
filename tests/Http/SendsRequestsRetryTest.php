@@ -12,12 +12,13 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class SendsRequestsRetryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function retries_retryable_network_errors_and_succeeds(): void
     {
         $attemptsToFail = 2; // will succeed on attempt 3
@@ -68,7 +69,7 @@ class SendsRequestsRetryTest extends TestCase
         $this->assertSame($attemptsToFail + 1, $adapter->attempts);
     }
 
-    /** @test */
+    #[Test]
     public function throws_after_exhausting_retries(): void
     {
         $adapter = new class implements HttpAdapterContract {
@@ -103,7 +104,7 @@ class SendsRequestsRetryTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function does_not_retry_on_non_retryable_exception(): void
     {
         $adapter = new class implements HttpAdapterContract {

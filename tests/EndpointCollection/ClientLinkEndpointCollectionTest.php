@@ -10,11 +10,12 @@ use Mollie\Api\Http\Data\Owner;
 use Mollie\Api\Http\Data\OwnerAddress;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
 use Mollie\Api\Resources\ClientLink;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ClientLinkEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([

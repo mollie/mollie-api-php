@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetWebhookEventRequest;
 use Mollie\Api\Resources\WebhookEvent;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEventEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([

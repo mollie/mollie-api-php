@@ -11,11 +11,12 @@ use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\ConnectBalanceTransferCategory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateConnectBalanceTransferRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_connect_balance_transfer()
     {
         $client = new MockMollieClient([
@@ -47,7 +48,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
         $this->assertInstanceOf(ConnectBalanceTransfer::class, $balanceTransfer);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateConnectBalanceTransferRequest(

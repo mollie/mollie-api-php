@@ -7,11 +7,12 @@ namespace Tests\Exceptions;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\TooManyRequestsException;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class TooManyRequestsExceptionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function parses_integer_retry_after_header(): void
     {
         $response = $this->mockResponseWithHeader('120');
@@ -22,7 +23,7 @@ class TooManyRequestsExceptionTest extends TestCase
         self::assertSame(120, $exception->getRetryAfterSeconds());
     }
 
-    /** @test */
+    #[Test]
     public function parses_http_date_retry_after_header(): void
     {
         $future = (new \DateTimeImmutable('+90 seconds'))->format('D, d M Y H:i:s \G\M\T');
@@ -36,7 +37,7 @@ class TooManyRequestsExceptionTest extends TestCase
         self::assertLessThanOrEqual(100, $exception->retryAfterSeconds);
     }
 
-    /** @test */
+    #[Test]
     public function returns_null_when_retry_after_header_missing(): void
     {
         $response = $this->mockResponseWithHeader(null);
@@ -46,7 +47,7 @@ class TooManyRequestsExceptionTest extends TestCase
         self::assertNull($exception->retryAfterSeconds);
     }
 
-    /** @test */
+    #[Test]
     public function returns_null_when_retry_after_header_unparseable(): void
     {
         $response = $this->mockResponseWithHeader('not-a-date');

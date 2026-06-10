@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetSubscriptionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_subscription()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetSubscriptionRequestTest extends TestCase
         $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetSubscriptionRequest('cst_kEn1PlbGa', 'sub_rVKGtNd6s3');

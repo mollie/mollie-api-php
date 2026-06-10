@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentCaptureRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_payment_capture()
     {
         $client = new MockMollieClient([
@@ -33,7 +34,7 @@ class CreatePaymentCaptureRequestTest extends TestCase
         $this->assertInstanceOf(Capture::class, $capture);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreatePaymentCaptureRequest(

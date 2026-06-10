@@ -7,12 +7,14 @@ namespace Tests\Http\Data;
 use InvalidArgumentException;
 use Mollie\Api\Http\Data\Money;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class MoneyFromMinorUnitsTest extends TestCase
 {
+    #[Test]
     #[DataProvider('minorUnitsProvider')]
-    public function test_it_creates_money_from_minor_units(string $currency, int $amount, string $expectedValue): void
+    public function it_creates_money_from_minor_units(string $currency, int $amount, string $expectedValue): void
     {
         $money = Money::fromMinorUnits($currency, $amount);
 
@@ -26,6 +28,7 @@ final class MoneyFromMinorUnitsTest extends TestCase
             'EUR 1000 cents = 10.00' => ['EUR', 1000, '10.00'],
             'EUR 1 cent = 0.01' => ['EUR', 1, '0.01'],
             'EUR 0 = 0.00' => ['EUR', 0, '0.00'],
+            'BGN has 2 decimals' => ['BGN', 1234, '12.34'],
             'JPY has 0 decimals' => ['JPY', 1000, '1000'],
             'BHD has 3 decimals' => ['BHD', 1000, '1.000'],
             'BHD smallest unit' => ['BHD', 1, '0.001'],
@@ -34,7 +37,8 @@ final class MoneyFromMinorUnitsTest extends TestCase
         ];
     }
 
-    public function test_it_throws_on_unsupported_currency(): void
+    #[Test]
+    public function it_throws_on_unsupported_currency(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported currency "XXX"');

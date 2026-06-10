@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CancelPaymentRefundRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_cancel_payment_refund()
     {
         $client = new MockMollieClient([
@@ -31,7 +32,7 @@ class CancelPaymentRefundRequestTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_7UhSN1zuXS';

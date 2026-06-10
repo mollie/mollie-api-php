@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\Refund;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentRefundRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_payment_refund()
     {
         $client = new MockMollieClient([
@@ -30,7 +31,7 @@ class GetPaymentRefundRequestTest extends TestCase
         $this->assertInstanceOf(Refund::class, $refund);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';

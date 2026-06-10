@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateDelayedPaymentRouteRequest;
 use Mollie\Api\Resources\Route;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateDelayedPaymentRouteRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_delayed_route()
     {
         $client = new MockMollieClient([
@@ -32,7 +33,7 @@ class CreateDelayedPaymentRouteRequestTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $amount = new Money('10.00', 'EUR');

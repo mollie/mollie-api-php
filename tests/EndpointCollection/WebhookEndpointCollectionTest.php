@@ -17,11 +17,12 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Resources\WebhookCollection;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -38,7 +39,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -51,7 +52,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -68,7 +69,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -80,7 +81,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $client->assertSent(DeleteWebhookRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function test()
     {
         $client = new MockMollieClient([
@@ -93,7 +94,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(AnyResource::class, $result);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -108,7 +109,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertGreaterThan(0, count($webhooks));
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

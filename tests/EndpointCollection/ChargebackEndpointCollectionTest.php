@@ -10,11 +10,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ChargebackEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -32,7 +33,7 @@ class ChargebackEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

@@ -29,11 +29,12 @@ use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MockResponseFactoriesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function payment_factory_hydrates_to_payment_resource_with_defaults(): void
     {
         $client = new MockMollieClient([
@@ -56,7 +57,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('ideal', $payment->method);
     }
 
-    /** @test */
+    #[Test]
     public function payment_factory_fills_sensible_defaults_when_no_args_given(): void
     {
         $response = MockResponse::payment();
@@ -70,7 +71,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertArrayHasKey('status', $data);
     }
 
-    /** @test */
+    #[Test]
     public function customer_factory(): void
     {
         $client = new MockMollieClient([
@@ -85,7 +86,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('a@b.c', $customer->email);
     }
 
-    /** @test */
+    #[Test]
     public function subscription_factory(): void
     {
         $client = new MockMollieClient([
@@ -105,7 +106,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('cst_x', $sub->customerId);
     }
 
-    /** @test */
+    #[Test]
     public function mandate_factory(): void
     {
         $client = new MockMollieClient([
@@ -119,7 +120,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('cst_x', $mandate->customerId);
     }
 
-    /** @test */
+    #[Test]
     public function refund_factory(): void
     {
         $client = new MockMollieClient([
@@ -137,7 +138,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('1.00', $refund->amount->value);
     }
 
-    /** @test */
+    #[Test]
     public function chargeback_factory(): void
     {
         $client = new MockMollieClient([
@@ -154,7 +155,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('chb_abc', $chargeback->id);
     }
 
-    /** @test */
+    #[Test]
     public function method_factory(): void
     {
         $client = new MockMollieClient([
@@ -168,7 +169,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('iDEAL', $method->description);
     }
 
-    /** @test */
+    #[Test]
     public function payment_link_factory(): void
     {
         $client = new MockMollieClient([
@@ -186,7 +187,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('Test link', $link->description);
     }
 
-    /** @test */
+    #[Test]
     public function invoice_factory(): void
     {
         $client = new MockMollieClient([
@@ -200,7 +201,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('2026.0001', $invoice->reference);
     }
 
-    /** @test */
+    #[Test]
     public function capture_factory(): void
     {
         $client = new MockMollieClient([
@@ -217,7 +218,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('cpt_abc', $capture->id);
     }
 
-    /** @test */
+    #[Test]
     public function overrides_array_wins_over_typed_args(): void
     {
         $response = MockResponse::payment(id: 'tr_typed', overrides: ['id' => 'tr_override']);
@@ -225,7 +226,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame('tr_override', $response->json()['id']);
     }
 
-    /** @test */
+    #[Test]
     public function existing_ok_factory_still_works(): void
     {
         $response = MockResponse::ok(['resource' => 'payment', 'id' => 'tr_legacy']);

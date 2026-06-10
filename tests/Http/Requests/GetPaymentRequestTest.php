@@ -9,11 +9,12 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_payment()
     {
         $client = MollieApiClient::fake([
@@ -33,7 +34,7 @@ class GetPaymentRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';
@@ -42,7 +43,7 @@ class GetPaymentRequestTest extends TestCase
         $this->assertEquals("payments/{$paymentId}", $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_encodes_resource_ids_when_creating_the_psr_request()
     {
         $client = MollieApiClient::fake([

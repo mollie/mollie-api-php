@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MethodEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class MethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function all()
     {
         $client = new MockMollieClient([
@@ -50,7 +51,7 @@ class MethodEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function all_enabled()
     {
         $client = new MockMollieClient([

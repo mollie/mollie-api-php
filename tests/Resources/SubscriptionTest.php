@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\SubscriptionStatus;
@@ -15,9 +17,10 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestSubscriptionStatuses
      */
-    public function test_subscription_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestSubscriptionStatuses')]
+    #[Test]
+    public function subscription_statuses($status, $function, $expected_boolean)
     {
         $subscription = new Subscription(
             $this->createMock(MollieApiClient::class),
@@ -27,7 +30,7 @@ class SubscriptionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $subscription->{$function}());
     }
 
-    public function dpTestSubscriptionStatuses()
+    public static function dpTestSubscriptionStatuses()
     {
         return [
             [SubscriptionStatus::Pending->value, 'isPending', true],

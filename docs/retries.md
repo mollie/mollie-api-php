@@ -39,7 +39,7 @@ $client->setRetryStrategy(new LinearRetryStrategy(0, 0));
 
 ## Exponential backoff with 429 / Retry-After
 
-`ExponentialRetryStrategy` (new in v4) does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). When the server returns a numeric `Retry-After` header, that value is honoured instead of the computed delay.
+`ExponentialRetryStrategy` does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). When the server returns a numeric `Retry-After` header, that value is honoured instead of the computed delay.
 
 ```php
 use Mollie\Api\Http\ExponentialRetryStrategy;
@@ -62,14 +62,19 @@ Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` int
 ```php
 namespace Mollie\Api\Contracts;
 
+use Throwable;
+
 interface RetryStrategyContract
 {
     // Maximum number of retries after the initial attempt
     public function maxRetries(): int;
 
+    // Whether this exception should be retried
+    public function shouldRetry(Throwable $exception): bool;
+
     // Delay in milliseconds before performing the given retry attempt
     // $attempt starts at 1 for the first retry
-    public function delayBeforeAttemptMs(int $attempt): int;
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int;
 }
 ```
 
@@ -77,6 +82,8 @@ interface RetryStrategyContract
 
 ```php
 use Mollie\Api\Contracts\RetryStrategyContract;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Throwable;
 
 class FixedDelayRetryStrategy implements RetryStrategyContract
 {
@@ -90,7 +97,12 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
         return max(0, $this->maxRetries);
     }
 
-    public function delayBeforeAttemptMs(int $attempt): int
+    public function shouldRetry(Throwable $exception): bool
+    {
+        return $exception instanceof RetryableNetworkRequestException;
+    }
+
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
     {
         // Same delay for every retry
         return max(0, $this->delayMs);
@@ -101,9 +113,8 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
 $client->setRetryStrategy(new FixedDelayRetryStrategy(3, 250));
 ```
 
-You can implement any retry timing you prefer (e.g., exponential backoff with jitter, capped delays, etc.) as long as you adhere to the contract.
+You can implement any retry timing and retryability rules you prefer (e.g., exponential backoff with jitter, capped delays, retrying 429 responses, etc.) as long as you adhere to the contract.
 
 ## When retries happen
 
-Retries are performed only for exceptions that are considered retryable by the HTTP layer and wrapped as `Mollie\Api\Exceptions\RetryableNetworkRequestException`. Other exceptions are not retried and will be thrown immediately.
-
+Retries are performed only when the configured retry strategy returns `true` from `shouldRetry()`. The default `LinearRetryStrategy` retries `Mollie\Api\Exceptions\RetryableNetworkRequestException` only, matching the v3 default behavior. `ExponentialRetryStrategy` also retries `TooManyRequestsException` for HTTP 429 responses.

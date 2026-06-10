@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Http\Data;
 
 use Mollie\Api\Http\Data\Owner;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OwnerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_owner_from_array()
     {
         $object = Owner::fromArray($data = [

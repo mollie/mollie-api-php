@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\ListPaymentRoutesRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
 use Mollie\Api\Resources\RouteCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentRouteEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_delayed_route_for_id()
     {
         $client = new MockMollieClient([
@@ -35,7 +36,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($route->destination);
         $this->assertNotEmpty($route->releaseDate);
     }
-    /** @test */
+    #[Test]
     public function create_delayed_route_for_id_without_release_date()
     {
         $client = new MockMollieClient([
@@ -55,7 +56,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($route->destination);
     }
 
-    /** @test */
+    #[Test]
     public function list_for_id()
     {
         $client = new MockMollieClient([
@@ -74,7 +75,7 @@ class PaymentRouteEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function update_release_date_for()
     {
         $client = new MockMollieClient([

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\MandateStatus;
 
@@ -45,17 +46,17 @@ class Mandate extends BaseResource
 
     public function isValid(): bool
     {
-        return $this->status === MandateStatus::Valid;
+        return Utility::equals($this->status, MandateStatus::Valid);
     }
 
     public function isPending(): bool
     {
-        return $this->status === MandateStatus::Pending;
+        return Utility::equals($this->status, MandateStatus::Pending);
     }
 
     public function isInvalid(): bool
     {
-        return $this->status === MandateStatus::Invalid;
+        return Utility::equals($this->status, MandateStatus::Invalid);
     }
 
     /**

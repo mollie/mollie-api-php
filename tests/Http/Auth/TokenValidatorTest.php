@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Tests\Http\Auth;
 
 use Mollie\Api\Http\Auth\TokenValidator;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class TokenValidatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function determines_if_token_is_api_key()
     {
         $this->assertTrue(TokenValidator::isApiKey('test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM'));
@@ -19,9 +18,7 @@ class TokenValidatorTest extends TestCase
         $this->assertFalse(TokenValidator::isApiKey('invalid_api_key'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function determines_if_token_is_access_token()
     {
         $this->assertTrue(TokenValidator::isAccessToken('access_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM'));

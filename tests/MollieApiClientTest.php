@@ -31,13 +31,15 @@ use Mollie\Api\Resources\WrapperResource;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 use Mollie\Api\Utils\Debugger;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class MollieApiClientTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function send_returns_body_as_object()
     {
         $client = new MockMollieClient([
@@ -53,7 +55,7 @@ class MollieApiClientTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function send_creates_api_exception_correctly()
     {
         $this->expectException(ValidationException::class);
@@ -74,7 +76,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function can_be_serialized_and_unserialized()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
@@ -97,7 +99,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNotEmpty($client_copy->methods);
     }
 
-    /** @test */
+    #[Test]
     public function set_token_uses_access_token_authenticator_for_access_tokens()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
@@ -107,7 +109,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(AccessTokenAuthenticator::class, $client->getAuthenticator());
     }
 
-    /** @test */
+    #[Test]
     public function set_token_uses_api_key_authenticator_for_test_keys()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
@@ -117,7 +119,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $client->getAuthenticator());
     }
 
-    /** @test */
+    #[Test]
     public function set_token_uses_api_key_authenticator_for_live_keys()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
@@ -127,7 +129,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(ApiKeyAuthenticator::class, $client->getAuthenticator());
     }
 
-    /** @test */
+    #[Test]
     public function set_token_throws_for_invalid_tokens()
     {
         $client = new MollieApiClient($this->createMock(Client::class));
@@ -143,7 +145,7 @@ class MollieApiClientTest extends TestCase
      *
      * @throws ApiException
      */
-    /** @test */
+    #[Test]
     public function correct_request_headers()
     {
         $client = new MockMollieClient([
@@ -178,7 +180,7 @@ class MollieApiClientTest extends TestCase
      * @throws \Mollie\Api\Exceptions\IncompatiblePlatformException
      * @throws \Mollie\Api\Exceptions\UnrecognizedClientException
      */
-    /** @test */
+    #[Test]
     public function no_content_type_without_provided_body()
     {
         $client = new MockMollieClient([
@@ -191,7 +193,7 @@ class MollieApiClientTest extends TestCase
         $this->assertFalse($response->getPendingRequest()->headers()->has('Content-Type'));
     }
 
-    /** @test */
+    #[Test]
     public function no_idempotency_is_set_if_no_key_nor_generator_are_set()
     {
         $client = new MockMollieClient([
@@ -206,11 +208,8 @@ class MollieApiClientTest extends TestCase
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
-    /**
-     * @dataProvider providesMutatingRequests
-     *
-     * @test
-     */
+    #[DataProvider('providesMutatingRequests')]
+    #[Test]
     public function idempotency_key_is_used_on_mutating_requests($request, $response)
     {
         $client = new MockMollieClient([
@@ -249,7 +248,7 @@ class MollieApiClientTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function idempotency_key_is_not_used_on_get_requests()
     {
         $client = new MockMollieClient([
@@ -263,7 +262,7 @@ class MollieApiClientTest extends TestCase
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
-    /** @test */
+    #[Test]
     public function idempotency_key_resets_after_each_request()
     {
         $client = new MockMollieClient([
@@ -279,7 +278,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNull($client->getIdempotencyKey());
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_idempotency_key_generator()
     {
         $client = new MockMollieClient([
@@ -299,7 +298,7 @@ class MollieApiClientTest extends TestCase
         $this->assertNull($client->getIdempotencyKey());
     }
 
-    /** @test */
+    #[Test]
     public function testmode_is_added_to_request_when_enabled()
     {
         $client = new MockMollieClient([
@@ -314,7 +313,7 @@ class MollieApiClientTest extends TestCase
         $this->assertEquals('true', $response->getPendingRequest()->query()->get('testmode'));
     }
 
-    /** @test */
+    #[Test]
     public function testmode_is_removed_when_using_api_key_authentication()
     {
         $client = new MockMollieClient([
@@ -329,7 +328,7 @@ class MollieApiClientTest extends TestCase
         $this->assertFalse($response->getPendingRequest()->query()->has('testmode'));
     }
 
-    /** @test */
+    #[Test]
     public function testmode_is_not_removed_when_not_using_api_key_authentication()
     {
         $client = new MockMollieClient([
@@ -346,7 +345,7 @@ class MollieApiClientTest extends TestCase
         $this->assertEquals('true', $response->getPendingRequest()->query()->get('testmode'));
     }
 
-    /** @test */
+    #[Test]
     public function when_debugging_is_enabled_the_request_is_sanitized_when_an_exception_is_thrown_to_prevent_leaking_sensitive_data()
     {
         $client = new MockMollieClient([
@@ -370,7 +369,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function debugging_request_captures_request_information()
     {
         $requestCaptured = false;
@@ -392,7 +391,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(PendingRequest::class, $capturedRequest);
     }
 
-    /** @test */
+    #[Test]
     public function debugging_response_captures_response_information()
     {
         $responseCaptured = false;
@@ -414,7 +413,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(Response::class, $capturedResponse);
     }
 
-    /** @test */
+    #[Test]
     public function debugging_with_die_flag_exits_after_debug()
     {
         $dieWasCalled = false;
@@ -438,7 +437,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function debugging_removes_sensitive_data_from_request()
     {
         $client = new MockMollieClient([
@@ -460,7 +459,7 @@ class MollieApiClientTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function can_hydrate_response_into_custom_resource_wrapper_class()
     {
         $client = new MockMollieClient([
@@ -476,7 +475,7 @@ class MollieApiClientTest extends TestCase
         $this->assertInstanceOf(DummyResourceWrapper::class, $response);
     }
 
-    /** @test */
+    #[Test]
     public function empty_or_null_query_parameters_are_not_added_to_the_request()
     {
         $client = new MockMollieClient([
@@ -498,7 +497,7 @@ class MollieApiClientTest extends TestCase
         ]));
     }
 
-    /** @test */
+    #[Test]
     public function empty_or_null_payload_parameters_are_not_added_to_the_request()
     {
         $client = new MockMollieClient([
@@ -523,7 +522,7 @@ class MollieApiClientTest extends TestCase
         $client->send($request);
     }
 
-    /** @test */
+    #[Test]
     public function a_response_with_empty_body_is_not_hydrated()
     {
         $client = new MockMollieClient([

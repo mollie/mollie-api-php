@@ -7,6 +7,7 @@ namespace Tests\Resources;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\BaseCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -22,7 +23,7 @@ class BaseCollectionTest extends TestCase
         $this->response = $this->createMock(Response::class);
     }
 
-    /** @test */
+    #[Test]
     public function constructor_initializes_collection_properly()
     {
         $items = ['item1', 'item2'];
@@ -38,7 +39,7 @@ class BaseCollectionTest extends TestCase
         $this->assertSame($links, $collection->_links);
     }
 
-    /** @test */
+    #[Test]
     public function contains_returns_true_when_item_exists()
     {
         $items = [
@@ -53,7 +54,7 @@ class BaseCollectionTest extends TestCase
         $this->assertTrue($collection->contains(fn ($item) => $item === 'banana'));
     }
 
-    /** @test */
+    #[Test]
     public function contains_returns_false_when_item_does_not_exist()
     {
         $items = [
@@ -67,7 +68,7 @@ class BaseCollectionTest extends TestCase
         $this->assertFalse($collection->contains(fn ($item) => $item === 'grape'));
     }
 
-    /** @test */
+    #[Test]
     public function filter_returns_filtered_collection()
     {
         $items = [
@@ -90,7 +91,7 @@ class BaseCollectionTest extends TestCase
         $this->assertNotSame($collection, $filtered);
     }
 
-    /** @test */
+    #[Test]
     public function first_returns_first_item()
     {
         $collection = new TestCollection($this->connectorMock, ['item1', 'item2']);
@@ -98,7 +99,7 @@ class BaseCollectionTest extends TestCase
         $this->assertEquals('item1', $collection->first());
     }
 
-    /** @test */
+    #[Test]
     public function first_where_returns_first_item_where_condition_is_true()
     {
         $collection = new TestCollection($this->connectorMock, [
@@ -110,13 +111,13 @@ class BaseCollectionTest extends TestCase
         $this->assertEquals(['id' => 'item1'], $collection->firstWhere(fn ($item) => $item['id'] === 'item1'));
     }
 
-    /** @test */
+    #[Test]
     public function get_collection_resource_name_returns_name()
     {
         $this->assertEquals('test_collection', TestCollection::getCollectionResourceName());
     }
 
-    /** @test */
+    #[Test]
     public function get_collection_resource_name_throws_exception_when_empty()
     {
         $this->expectException(\RuntimeException::class);

@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetBalanceReportRequestFactory;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetBalanceReportRequestFactoryTest extends TestCase
 {
     private const BALANCE_ID = 'bal_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_balance_report_request_object_with_full_data()
     {
         $request = GetBalanceReportRequestFactory::new(self::BALANCE_ID)
@@ -26,7 +27,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetBalanceReportRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_balance_report_request_object_with_minimal_data()
     {
         $request = GetBalanceReportRequestFactory::new(self::BALANCE_ID)
@@ -39,7 +40,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetBalanceReportRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_required_fields_are_missing()
     {
         $this->expectException(\LogicException::class);
@@ -49,7 +50,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
             ->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_from_field_is_missing()
     {
         $this->expectException(\LogicException::class);
@@ -62,7 +63,7 @@ class GetBalanceReportRequestFactoryTest extends TestCase
             ->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_until_field_is_missing()
     {
         $this->expectException(\LogicException::class);

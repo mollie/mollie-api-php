@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ListConnectBalanceTransfersRequest;
 use Mollie\Api\Resources\ConnectBalanceTransferCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ListConnectBalanceTransfersRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_connect_balance_transfers()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class ListConnectBalanceTransfersRequestTest extends TestCase
         $this->assertInstanceOf(ConnectBalanceTransferCollection::class, $balanceTransferCollection);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new ListConnectBalanceTransfersRequest();

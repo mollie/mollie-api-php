@@ -18,13 +18,13 @@ try {
 
     
 
-    // First handle status changes (compare against the PaymentStatus enum)
+    // First handle status changes
     if ($payment->status !== $previousPaymentStatus) {
         // Update your order administration with the new status
         updateOrder($orderId, $payment->status);
 
         // Handle the status change
-        if ($payment->status === \Mollie\Api\Types\PaymentStatus::Paid) {
+        if ($payment->isPaid()) {
             // The payment is paid
             // Start the process of delivering the product to the customer
             startDeliveryProcess($orderId);
@@ -95,4 +95,3 @@ $payment->paidAt;          // "2024-02-24T12:15:00+00:00"
   - Status changes (paid, failed, expired, etc.)
   - Refunds (full and partial)
   - Chargebacks
-

@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\ApplicationFeeFactory;
 use Mollie\Api\Http\Data\ApplicationFee;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationFeeFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_application_fee_object()
     {
         $fee = ApplicationFeeFactory::new([

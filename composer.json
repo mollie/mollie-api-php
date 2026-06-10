@@ -55,14 +55,14 @@
     "nyholm/psr7": "^1.8",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.1",
-    "psr/http-message": "^1.1|^2.0"
+    "psr/http-message": "^1.1|^2.0",
+    "symfony/var-dumper": "^5.4|^6.4|^7.2|^8.0"
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^7.6",
     "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^11.5",
-    "symfony/var-dumper": "^5.4|^6.4|^7.2"
+    "phpunit/phpunit": "^11.5"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
@@ -91,5 +91,13 @@
       "@php tools/generate-currency-trait.php",
       "git diff --exit-code src/Traits/HasCurrencyConvenienceMethods.php"
     ]
-  }
+  },
+  "repositories": [{
+    "name": "mollie-local",
+    "type": "path",
+    "url": "../mollie-api-php",
+    "options": {
+      "symlink": true
+    }
+  }]
 }

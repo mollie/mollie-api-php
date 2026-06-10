@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Tests\Utils;
 
 use Mollie\Api\Utils\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class StrTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider lowerProvider
-     */
+    #[DataProvider('lowerProvider')]
+    #[Test]
     public function lower(string $input, string $expected): void
     {
         $this->assertSame($expected, Str::lower($input));
     }
 
-    public function lowerProvider(): array
+    public static function lowerProvider(): array
     {
         return [
             'ascii' => ['FooBAR', 'foobar'],
@@ -27,17 +27,14 @@ class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider kebabProvider
-     */
+    #[DataProvider('kebabProvider')]
+    #[Test]
     public function kebab(string $input, string $expected): void
     {
         $this->assertSame($expected, Str::kebab($input));
     }
 
-    public function kebabProvider(): array
+    public static function kebabProvider(): array
     {
         return [
             'pascal case' => ['FooBar', 'foo-bar'],
@@ -49,16 +46,14 @@ class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider beforeProvider
-     */
+    #[DataProvider('beforeProvider')]
+    #[Test]
     public function before(string $subject, string $search, string $expected): void
     {
         $this->assertSame($expected, Str::before($subject, $search));
     }
 
-    public function beforeProvider(): array
+    public static function beforeProvider(): array
     {
         return [
             'basic' => ['hello.world', '.', 'hello'],
@@ -71,10 +66,8 @@ class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider snakeProvider
-     */
+    #[DataProvider('snakeProvider')]
+    #[Test]
     public function snake(string $input, string $expected, ?string $delimiter = null): void
     {
         $this->assertSame(
@@ -83,7 +76,7 @@ class StrTest extends TestCase
         );
     }
 
-    public function snakeProvider(): array
+    public static function snakeProvider(): array
     {
         return [
             'kebab case' => ['foo-bar-baz', 'foo_bar_baz'],
@@ -97,10 +90,8 @@ class StrTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider matchProvider
-     */
+    #[DataProvider('matchProvider')]
+    #[Test]
     public function match(string $subject, $pattern, $expected): void
     {
         $result = Str::match($subject, $pattern);
@@ -116,7 +107,7 @@ class StrTest extends TestCase
         }
     }
 
-    public function matchProvider(): array
+    public static function matchProvider(): array
     {
         return [
             'simple match' => ['hello', '/^([a-z]+)$/', ['hello', 'hello']],

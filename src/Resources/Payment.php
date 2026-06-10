@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Address;
@@ -183,27 +184,27 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     public function isCanceled(): bool
     {
-        return $this->status === PaymentStatus::Canceled;
+        return Utility::equals($this->status, PaymentStatus::Canceled);
     }
 
     public function isExpired(): bool
     {
-        return $this->status === PaymentStatus::Expired;
+        return Utility::equals($this->status, PaymentStatus::Expired);
     }
 
     public function isOpen(): bool
     {
-        return $this->status === PaymentStatus::Open;
+        return Utility::equals($this->status, PaymentStatus::Open);
     }
 
     public function isPending(): bool
     {
-        return $this->status === PaymentStatus::Pending;
+        return Utility::equals($this->status, PaymentStatus::Pending);
     }
 
     public function isAuthorized(): bool
     {
-        return $this->status === PaymentStatus::Authorized;
+        return Utility::equals($this->status, PaymentStatus::Authorized);
     }
 
     public function isPaid(): bool
@@ -223,17 +224,17 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     public function isFailed(): bool
     {
-        return $this->status === PaymentStatus::Failed;
+        return Utility::equals($this->status, PaymentStatus::Failed);
     }
 
     public function hasSequenceTypeFirst(): bool
     {
-        return $this->sequenceType === SequenceType::First;
+        return Utility::equals($this->sequenceType, SequenceType::First);
     }
 
     public function hasSequenceTypeRecurring(): bool
     {
-        return $this->sequenceType === SequenceType::Recurring;
+        return Utility::equals($this->sequenceType, SequenceType::Recurring);
     }
 
     public function getCheckoutUrl(): ?string

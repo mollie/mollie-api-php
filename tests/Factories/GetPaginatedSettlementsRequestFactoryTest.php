@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedSettlementsRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSettlementsRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlements_request_object_with_full_data()
     {
         $request = GetPaginatedSettlementsRequestFactory::new()
@@ -35,7 +36,7 @@ class GetPaginatedSettlementsRequestFactoryTest extends TestCase
         ], $request->query()->all());
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlements_request_object_with_minimal_data()
     {
         $request = GetPaginatedSettlementsRequestFactory::new()
@@ -44,7 +45,7 @@ class GetPaginatedSettlementsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedSettlementsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlements_request_object_with_partial_data()
     {
         $request = GetPaginatedSettlementsRequestFactory::new()

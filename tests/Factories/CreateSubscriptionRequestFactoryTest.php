@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateSubscriptionRequestFactory;
 use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSubscriptionRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_subscription_request_object_with_full_data()
     {
         $request = CreateSubscriptionRequestFactory::new(self::CUSTOMER_ID)
@@ -47,7 +48,7 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSubscriptionRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_subscription_request_object_with_minimal_data()
     {
         $request = CreateSubscriptionRequestFactory::new(self::CUSTOMER_ID)
@@ -64,7 +65,7 @@ class CreateSubscriptionRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSubscriptionRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_subscription_request_object_with_partial_data()
     {
         $request = CreateSubscriptionRequestFactory::new(self::CUSTOMER_ID)

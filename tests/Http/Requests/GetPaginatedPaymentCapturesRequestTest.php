@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentCapturesRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_captures()
     {
         $client = new MockMollieClient([
@@ -37,7 +38,7 @@ class GetPaginatedPaymentCapturesRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_captures()
     {
         $client = new MockMollieClient([
@@ -61,7 +62,7 @@ class GetPaginatedPaymentCapturesRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';

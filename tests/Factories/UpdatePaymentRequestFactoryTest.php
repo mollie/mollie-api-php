@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\UpdatePaymentRequestFactory;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdatePaymentRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_request_object_with_full_data()
     {
         $request = UpdatePaymentRequestFactory::new(self::PAYMENT_ID)
@@ -37,7 +38,7 @@ class UpdatePaymentRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdatePaymentRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_request_object_with_minimal_data()
     {
         $request = UpdatePaymentRequestFactory::new(self::PAYMENT_ID)
@@ -49,7 +50,7 @@ class UpdatePaymentRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdatePaymentRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_payment_request_object_with_filtered_properties()
     {
         $request = UpdatePaymentRequestFactory::new(self::PAYMENT_ID)

@@ -3,13 +3,12 @@
 declare(strict_types=1);
 
 use Mollie\Api\Http\Data\OwnerAddress;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OwnerAddressTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_be_created_from_array()
     {
         $object = OwnerAddress::fromArray($data = [

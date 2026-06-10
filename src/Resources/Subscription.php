@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -95,27 +96,27 @@ class Subscription extends BaseResource
 
     public function isActive(): bool
     {
-        return $this->status === SubscriptionStatus::Active;
+        return Utility::equals($this->status, SubscriptionStatus::Active);
     }
 
     public function isPending(): bool
     {
-        return $this->status === SubscriptionStatus::Pending;
+        return Utility::equals($this->status, SubscriptionStatus::Pending);
     }
 
     public function isCanceled(): bool
     {
-        return $this->status === SubscriptionStatus::Canceled;
+        return Utility::equals($this->status, SubscriptionStatus::Canceled);
     }
 
     public function isSuspended(): bool
     {
-        return $this->status === SubscriptionStatus::Suspended;
+        return Utility::equals($this->status, SubscriptionStatus::Suspended);
     }
 
     public function isCompleted(): bool
     {
-        return $this->status === SubscriptionStatus::Completed;
+        return Utility::equals($this->status, SubscriptionStatus::Completed);
     }
 
     /**

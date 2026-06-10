@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePaymentCaptureRequestFactory;
 use Mollie\Api\Http\Requests\CreatePaymentCaptureRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentCaptureRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_capture_request_object_with_full_data()
     {
         $request = CreatePaymentCaptureRequestFactory::new(self::PAYMENT_ID)
@@ -32,7 +33,7 @@ class CreatePaymentCaptureRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentCaptureRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_capture_request_object_with_minimal_data()
     {
         $request = CreatePaymentCaptureRequestFactory::new(self::PAYMENT_ID)
@@ -48,7 +49,7 @@ class CreatePaymentCaptureRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentCaptureRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_capture_request_object_with_partial_data()
     {
         $request = CreatePaymentCaptureRequestFactory::new(self::PAYMENT_ID)

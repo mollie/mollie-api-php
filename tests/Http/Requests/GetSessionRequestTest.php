@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetSessionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_session()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetSessionRequestTest extends TestCase
         $this->assertInstanceOf(Session::class, $session);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetSessionRequest('ses_LQNz4v4Qvk');

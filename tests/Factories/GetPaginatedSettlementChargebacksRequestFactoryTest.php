@@ -6,13 +6,14 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedSettlementChargebacksRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedSettlementChargebacksRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSettlementChargebacksRequestFactoryTest extends TestCase
 {
     private const SETTLEMENT_ID = 'stl_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlement_chargebacks_request_object_with_full_data()
     {
         $request = GetPaginatedSettlementChargebacksRequestFactory::new(self::SETTLEMENT_ID)
@@ -27,7 +28,7 @@ class GetPaginatedSettlementChargebacksRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedSettlementChargebacksRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlement_chargebacks_request_object_with_minimal_data()
     {
         $request = GetPaginatedSettlementChargebacksRequestFactory::new(self::SETTLEMENT_ID)
@@ -36,7 +37,7 @@ class GetPaginatedSettlementChargebacksRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedSettlementChargebacksRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_settlement_chargebacks_request_object_with_partial_data()
     {
         $request = GetPaginatedSettlementChargebacksRequestFactory::new(self::SETTLEMENT_ID)

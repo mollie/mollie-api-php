@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DisableMethodRequest;
 use Mollie\Api\Http\Requests\EnableMethodRequest;
 use Mollie\Api\Resources\Method;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ProfileMethodEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function enable_for_id()
     {
         $client = new MockMollieClient([
@@ -26,7 +27,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function enable()
     {
         $client = new MockMollieClient([
@@ -39,7 +40,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function disable_for_id()
     {
         $client = new MockMollieClient([
@@ -51,7 +52,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
         $client->assertSent(DisableMethodRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function disable()
     {
         $client = new MockMollieClient([

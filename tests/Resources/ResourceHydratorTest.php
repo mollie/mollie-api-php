@@ -20,6 +20,7 @@ use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
@@ -35,7 +36,7 @@ class ResourceHydratorTest extends TestCase
         $this->client = $this->createMock(MollieApiClient::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_from_api_result()
     {
         $apiResult = [
@@ -63,7 +64,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertSame('EUR', $resource->amount->currency);
     }
 
-    /** @test */
+    #[Test]
     public function hydrate_with_webhook_origin_casts_typed_properties()
     {
         $client = new MockMollieClient;
@@ -95,7 +96,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertNull($resource->getResponse());
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_embedded_collections()
     {
         $apiResult = [
@@ -123,7 +124,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertInstanceOf(RefundCollection::class, $resource->_embedded->refunds);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_embedded_resources()
     {
         $apiResult = [
@@ -146,7 +147,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertInstanceOf(Onboarding::class, $resource->_embedded->onboarding);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_a_collection()
     {
         $collection = new PaymentCollection($this->client);
@@ -164,7 +165,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('payment-1', $result[0]->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_a_simple_resource()
     {
         $data = ['id' => 'test_123', 'name' => 'Test Resource'];
@@ -177,7 +178,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('Test Resource', $resource->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_unmapped_embedded_resources_as_any_resource()
     {
         $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract {

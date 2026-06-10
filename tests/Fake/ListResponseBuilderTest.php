@@ -10,11 +10,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Utils\Arr;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ListResponseBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function throws_exception_when_collection_class_is_not_a_subclass_of_resource_collection()
     {
         $this->expectException(LogicException::class);
@@ -22,7 +23,7 @@ class ListResponseBuilderTest extends TestCase
         new ListResponseBuilder(Payment::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_items()
     {
         $builder = new ListResponseBuilder(PaymentCollection::class);
@@ -38,7 +39,7 @@ class ListResponseBuilderTest extends TestCase
         ], $builder->items()[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_many_items()
     {
         $builder = new ListResponseBuilder(PaymentCollection::class);
@@ -66,7 +67,7 @@ class ListResponseBuilderTest extends TestCase
         ], $builder->items());
     }
 
-    /** @test */
+    #[Test]
     public function can_create_a_mock_response()
     {
         $builder = new ListResponseBuilder(PaymentCollection::class);

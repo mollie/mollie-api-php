@@ -6,11 +6,12 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\PaginatedRequest;
 use Mollie\Api\Resources\BaseCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaginatedRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_handle_null_query()
     {
         $request = new ConcretePaginatedRequest;
@@ -18,7 +19,7 @@ class PaginatedRequestTest extends TestCase
         $this->assertEquals(['from' => null, 'limit' => null], $request->query()->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_query()
     {
         $request = new ConcretePaginatedRequest(null, 10);

@@ -3,29 +3,9 @@
 - [Upgrading from v3 to v4](#upgrading-from-v3-to-v4)
 - [Upgrading from v2 to v3](#upgrading-from-v2-to-v3)
 
----
-
 # Upgrading from v3 to v4
 
-v4 is a PHP 8.2+ modernization of `mollie/mollie-api-php`. The public surface is largely the same — most consumers only need to bump PHP, install v4, and run the [Rector migration package](https://github.com/mollie/mollie-api-php-rector).
-
-**GitHub issues resolved**
-
-- mollie/mollie-api-php#875 — Generic return types on `send()`
-- mollie/mollie-api-php#876 — `Money` convenience factories
-
-**Automated migration**
-
-Most v3 → v4 renames (constants → enum cases, etc.) are handled by:
-
-```bash
-composer require --dev mollie/mollie-api-php-rector
-vendor/bin/rector process --config=vendor/mollie/mollie-api-php-rector/config/v3-to-v4.php
-```
-
-The `V3_TO_V4` rule set covers the high-impact changes listed below.
-
----
+v4 is a PHP 8.2+ modernization of `mollie/mollie-api-php`. The public surface is largely the same, but some PHP language-level changes can require manual updates in consuming applications.
 
 ## 1. Minimum PHP version
 
@@ -38,8 +18,6 @@ PHP **8.2 or newer** is required. PHP 7.4, 8.0, and 8.1 are no longer supported.
     "php": "^8.2"
 }
 ```
-
----
 
 ## 2. High-impact changes
 
@@ -63,7 +41,17 @@ Resource properties holding API status/type values are typed as `EnumName|string
 public PaymentStatus|string $status;
 ```
 
-The Rector package's `V3_TO_V4` rule set automates the constant-to-enum-case rewrite across your codebase.
+The `Mollie\Api\Traits\GetAllConstants` trait has been removed together with this migration. Enums expose their cases natively:
+
+```php
+// v3
+BusinessCategory::all();
+
+// v4 — generic enum approach
+array_column(PaymentStatus::cases(), 'value');
+```
+
+The three classes that used the trait in v3 (`BusinessCategory`, `ConnectBalanceTransferCategory`, `SubscriptionStatus`) keep a static `all()` method returning the raw string values, so existing `::all()` calls on them continue to work. If you imported `GetAllConstants` into your own classes, replace it with your own helper or switch to enums.
 
 ### 2.2 Resource properties typed (no more `\stdClass`)
 
@@ -109,29 +97,6 @@ $gold = Money::platinum('1.00');
 ```
 
 See the [custom-money-factory recipe](docs/recipes/money/custom-factory.md).
-
-### 2.4 Response-aware resources can have non-HTTP origins
-
-Webhook snapshot hydration no longer fabricates an HTTP response. Resources hydrated from webhook payloads now expose their provenance through `getOrigin()`, while `getResponse()` returns `null` when there was no HTTP exchange.
-
-```php
-// v3
-$status = $resource->getResponse()->status();
-
-// v4
-$response = $resource->getResponse();
-$status = $response?->status();
-```
-
-Public contract changes:
-
-- `Mollie\Api\Contracts\IsResponseAware::getResponse(): ?Response` was `Response`.
-- `Mollie\Api\Traits\HasResponse::getPendingRequest(): ?PendingRequest` was `PendingRequest`.
-- `HasResponse` stores `?ResourceOrigin $origin` instead of a `Response $response` field.
-
-If you have third-party subclasses of `BaseResource` that read `$this->response` directly, switch them to `$this->getResponse()` when they specifically need an HTTP response, or `$this->getOrigin()` when webhook snapshot origins should also be supported.
-
----
 
 ## 3. Medium-impact changes
 
@@ -181,41 +146,26 @@ new Money(currency: 'EUR', value: '10.00');  // pass a string
 
 `Money` (and other value objects using `Macroable`) intercept calls to undefined methods. Instead of PHP's default fatal error, you'll get a `BadMethodCallException` with a clear message. This matters only for code that catches `Error` rather than `Exception` around Money calls.
 
----
+### 3.5 Custom retry strategies must decide retryable exceptions
 
-## 4. Low-impact changes
+`RetryStrategyContract` now includes `shouldRetry(Throwable $exception): bool`, and `delayBeforeAttemptMs()` can receive the exception that triggered the retry:
 
-### 4.1 PHPUnit → Pest in `require-dev`
+```php
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Throwable;
 
-The SDK's own test suite migrated from PHPUnit + Paratest to Pest v3 (which has `--parallel` built in). This affects you only if you run the SDK's tests as part of your build.
+public function shouldRetry(Throwable $exception): bool
+{
+    return $exception instanceof RetryableNetworkRequestException;
+}
 
-```bash
-# v3
-vendor/bin/paratest
-
-# v4
-vendor/bin/pest --parallel
+public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
+{
+    return $attempt * 1000;
+}
 ```
 
-### 4.2 Paratest dropped
-
-Removed from `require-dev`. Use `pest --parallel`.
-
----
-
-## 5. New features
-
-| Feature | Where |
-|---|---|
-| `MollieApiClient::fromEnv()` — bootstrap from `MOLLIE_API_KEY` / `MOLLIE_ACCESS_TOKEN` | [README quickstart](README.md#usage) |
-| `Money::fromMinorUnits('EUR', 1000)` — resolves [#876](https://github.com/mollie/mollie-api-php/issues/876) | [Money recipe](docs/recipes/money/from-minor-units.md) |
-| `ExponentialRetryStrategy` with `429` (`Retry-After`) support | [Retries](docs/retries.md) |
-| Typed `MockResponse::payment(...)`, `::customer(...)`, etc. | [Testing](docs/testing.md#typed-mock-responses) |
-| Lazy `iterator()` cross-page pagination | [Endpoint collections](docs/endpoint-collections.md) |
-| `Macroable` on `Money` for custom factories | [Custom Money factory](docs/recipes/money/custom-factory.md) |
-| Generic `send()` return inference (#875) | Section 3.1 above |
-
----
+If you provide your own retry strategy, add this method before upgrading. The built-in `LinearRetryStrategy` keeps the v3 default behavior for retryable network failures; the new `ExponentialRetryStrategy` can also retry HTTP 429 responses.
 
 # Upgrading from v2 to v3
 

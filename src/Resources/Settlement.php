@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Utils\Utility;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\SettlementStatus;
@@ -56,22 +57,22 @@ class Settlement extends BaseResource
 
     public function isOpen(): bool
     {
-        return $this->status === SettlementStatus::Open;
+        return Utility::equals($this->status, SettlementStatus::Open);
     }
 
     public function isPending(): bool
     {
-        return $this->status === SettlementStatus::Pending;
+        return Utility::equals($this->status, SettlementStatus::Pending);
     }
 
     public function isPaidout(): bool
     {
-        return $this->status === SettlementStatus::Paidout;
+        return Utility::equals($this->status, SettlementStatus::Paidout);
     }
 
     public function isFailed(): bool
     {
-        return $this->status === SettlementStatus::Failed;
+        return Utility::equals($this->status, SettlementStatus::Failed);
     }
 
     /**

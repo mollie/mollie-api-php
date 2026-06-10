@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetOrganizationRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_organization()
     {
         $client = new MockMollieClient([
@@ -29,7 +30,7 @@ class GetOrganizationRequestTest extends TestCase
         $this->assertInstanceOf(Organization::class, $organization);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $organizationId = 'org_1337';

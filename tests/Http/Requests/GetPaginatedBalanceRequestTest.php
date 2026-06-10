@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\BalanceCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedBalanceRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_balances()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetPaginatedBalanceRequestTest extends TestCase
         $this->assertInstanceOf(BalanceCollection::class, $balances);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedBalanceRequest;

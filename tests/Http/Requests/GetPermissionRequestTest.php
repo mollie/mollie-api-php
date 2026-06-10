@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPermissionRequest;
 use Mollie\Api\Resources\Permission;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPermissionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_permission()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class GetPermissionRequestTest extends TestCase
         $this->assertInstanceOf(Permission::class, $permission);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPermissionRequest('payments.read');

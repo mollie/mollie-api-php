@@ -9,6 +9,7 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateStatus;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MandateCollectionTest extends TestCase
@@ -25,7 +26,8 @@ class MandateCollectionTest extends TestCase
         $this->client = $this->createMock(MollieApiClient::class);
     }
 
-    public function test_where_status()
+    #[Test]
+    public function where_status()
     {
         $collection = new MandateCollection($this->client, [
             $this->getMandateWithStatus(MandateStatus::Valid->value),

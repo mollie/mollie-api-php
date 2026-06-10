@@ -7,6 +7,7 @@ namespace Mollie\Api\Http\Requests;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
 use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\ApplicationFee;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\PaymentLink;
@@ -47,6 +48,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
         private ?Address $billingAddress = null,
         private ?Address $shippingAddress = null,
         private ?Money $minimumAmount = null,
+        private ?ApplicationFee $applicationFee = null,
     ) {
     }
 
@@ -67,6 +69,7 @@ class CreatePaymentLinkRequest extends ResourceHydratableRequest implements HasP
             'lines' => $this->lines,
             'billingAddress' => $this->billingAddress,
             'shippingAddress' => $this->shippingAddress,
+            'applicationFee' => $this->applicationFee,
         ];
     }
 

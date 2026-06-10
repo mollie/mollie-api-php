@@ -23,11 +23,12 @@ use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SalesInvoiceEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -39,7 +40,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -80,7 +81,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -96,7 +97,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -108,7 +109,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $client->assertSent(DeleteSalesInvoiceRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -120,7 +121,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoiceCollection::class, $salesInvoices);
     }
 
-    /** @test */
+    #[Test]
     public function iterate()
     {
         $client = new MockMollieClient([

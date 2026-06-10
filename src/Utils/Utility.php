@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Utils;
 
+use BackedEnum;
 use ReflectionClass;
 use ReflectionProperty;
 
 class Utility
 {
+    public static function equals($value, BackedEnum|string $expected): bool
+    {
+        $expectedValue = $expected instanceof BackedEnum ? $expected->value : $expected;
+
+        return $value === $expected || $value === $expectedValue;
+    }
+
     /**
      * Get the class basename from an object or class string.
      *

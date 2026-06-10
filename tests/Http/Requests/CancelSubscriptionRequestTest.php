@@ -8,11 +8,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CancelSubscriptionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_cancel_subscription()
     {
         $client = new MockMollieClient([
@@ -30,7 +31,7 @@ class CancelSubscriptionRequestTest extends TestCase
         $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

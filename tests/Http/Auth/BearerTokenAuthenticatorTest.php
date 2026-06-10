@@ -7,13 +7,12 @@ namespace Tests\Http\Auth;
 use Mollie\Api\Http\Auth\BearerTokenAuthenticator;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Repositories\ArrayStore;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class BearerTokenAuthenticatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function authenticate()
     {
         $token = 'test_token';
@@ -34,9 +33,7 @@ class BearerTokenAuthenticatorTest extends TestCase
         $authenticator->authenticate($pendingRequest);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function authenticate_with_token_trimming()
     {
         $token = '  test_token_with_spaces  ';

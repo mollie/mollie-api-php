@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetInvoiceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class InvoiceEndpointCollectionTest extends TestCase
         $this->assertInvoice($invoice);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -45,7 +46,7 @@ class InvoiceEndpointCollectionTest extends TestCase
         $this->assertInvoice($invoices[0]);
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

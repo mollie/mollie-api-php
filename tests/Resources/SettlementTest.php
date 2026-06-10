@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Settlement;
 use Mollie\Api\Types\SettlementStatus;
@@ -15,9 +17,10 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestSettlementStatuses
      */
-    public function test_settlement_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestSettlementStatuses')]
+    #[Test]
+    public function settlement_statuses($status, $function, $expected_boolean)
     {
         $settlement = new Settlement(
             $this->createMock(MollieApiClient::class),
@@ -27,7 +30,7 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $settlement->{$function}());
     }
 
-    public function dpTestSettlementStatuses()
+    public static function dpTestSettlementStatuses()
     {
         return [
             [SettlementStatus::Pending->value, 'isPending', true],

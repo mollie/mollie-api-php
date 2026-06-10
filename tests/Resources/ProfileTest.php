@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Types\ProfileStatus;
@@ -15,9 +17,10 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestProfileStatusses
      */
-    public function test_profile_statusses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestProfileStatusses')]
+    #[Test]
+    public function profile_statusses($status, $function, $expected_boolean)
     {
         $profile = new Profile(
             $this->createMock(MollieApiClient::class),
@@ -27,7 +30,7 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $profile->{$function}());
     }
 
-    public function dpTestProfileStatusses()
+    public static function dpTestProfileStatusses()
     {
         return [
             [ProfileStatus::Blocked->value, 'isBlocked', true],

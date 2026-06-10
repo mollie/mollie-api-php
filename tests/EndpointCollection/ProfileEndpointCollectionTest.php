@@ -15,11 +15,12 @@ use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\ProfileCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ProfileEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -38,7 +39,7 @@ class ProfileEndpointCollectionTest extends TestCase
         $this->assertProfile($profile);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -51,7 +52,7 @@ class ProfileEndpointCollectionTest extends TestCase
         $this->assertProfile($profile);
     }
 
-    /** @test */
+    #[Test]
     public function get_current()
     {
         $client = new MockMollieClient([
@@ -64,7 +65,7 @@ class ProfileEndpointCollectionTest extends TestCase
         $this->assertProfile($profile);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -80,7 +81,7 @@ class ProfileEndpointCollectionTest extends TestCase
         $this->assertProfile($profile);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -92,7 +93,7 @@ class ProfileEndpointCollectionTest extends TestCase
         $client->assertSent(DeleteProfileRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -111,7 +112,7 @@ class ProfileEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

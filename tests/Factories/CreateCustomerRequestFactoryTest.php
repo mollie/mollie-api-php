@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateCustomerRequestFactory;
 use Mollie\Api\Http\Requests\CreateCustomerRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateCustomerRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_customer_request_object_with_full_data()
     {
         $request = CreateCustomerRequestFactory::new()
@@ -28,7 +29,7 @@ class CreateCustomerRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateCustomerRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_customer_request_object_with_minimal_data()
     {
         $request = CreateCustomerRequestFactory::new()
@@ -41,7 +42,7 @@ class CreateCustomerRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateCustomerRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_customer_request_object_with_partial_data()
     {
         $request = CreateCustomerRequestFactory::new()

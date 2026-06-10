@@ -7,11 +7,12 @@ namespace Tests\Exceptions;
 use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ValidationExceptionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function exposes_field_and_single_error_from_standard_body(): void
     {
         $response = $this->mockResponseWithBody((object) [
@@ -32,7 +33,7 @@ class ValidationExceptionTest extends TestCase
         self::assertSame(['amount' => 'The amount is required.'], $exception->errors);
     }
 
-    /** @test */
+    #[Test]
     public function exposes_multiple_errors_from_details_object(): void
     {
         $response = $this->mockResponseWithBody((object) [
@@ -54,7 +55,7 @@ class ValidationExceptionTest extends TestCase
         self::assertSame('Method is invalid.', $exception->getError('method'));
     }
 
-    /** @test */
+    #[Test]
     public function exposes_errors_from_list_of_field_message_objects(): void
     {
         $response = $this->mockResponseWithBody((object) [
@@ -75,7 +76,7 @@ class ValidationExceptionTest extends TestCase
         self::assertFalse($exception->hasError('unknown'));
     }
 
-    /** @test */
+    #[Test]
     public function handles_missing_field_gracefully(): void
     {
         $response = $this->mockResponseWithBody((object) [

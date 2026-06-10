@@ -51,46 +51,6 @@ $payment = $mollie->send($createPaymentRequest);
 // $payment is Mollie\Api\Resources\Payment
 ```
 
-**Legacy**: Positional parameters still work but are less readable, especially with many optional parameters:
-
-```php
-// Legacy: Positional parameters
-$createPaymentRequest = new CreatePaymentRequest(
-    'Test payment',
-    new Money(currency: 'EUR', value: '10.00'),
-    'https://example.org/redirect',
-    null,  // cancelUrl
-    'https://example.org/webhook'
-    // ... many nulls for optional parameters
-);
-```
-
-## Money Object Convenience Methods
-
-Creating `Money` objects is now easier with convenience methods for all Mollie supported currencies:
-
-```php
-use Mollie\Api\Http\Data\Money;
-
-// Using convenience methods
-$amount = Money::euro('10.00');
-$amount = Money::usd('10.00');
-$amount = Money::gbp('10.00');
-$amount = Money::jpy('1000.00');
-// ... and all other supported currencies (AED, AUD, BGN, BRL, CAD, CHF, CZK, DKK, HKD, HUF, ILS, ISK, MXN, MYR, NOK, NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TWD, ZAR)
-// See [Mollie's multicurrency documentation](https://docs.mollie.com/docs/multicurrency) for the complete list of supported currencies.
-
-// Traditional constructor still works
-$amount = new Money(currency: 'EUR', value: '10.00');
-
-// New in v4: build from the currency's minor unit (cents for EUR, yen for JPY, fils for BHD)
-$amount = Money::fromMinorUnits('EUR', 1000);   // "10.00" EUR
-$amount = Money::fromMinorUnits('JPY', 1000);   // "1000" JPY (zero-decimal currency)
-$amount = Money::fromMinorUnits('BHD', 1000);   // "1.000" BHD (three-decimal currency)
-```
-
-`Money` is also `Macroable` — register your own factories for custom currencies or domain-specific shortcuts. See the [custom Money factory recipe](recipes/money/custom-factory.md).
-
 ## Adding unsupported properties
 If the SDK is not up to date with the API, you can manually add a property to a request via the `query()` or `payload()` methods.
 

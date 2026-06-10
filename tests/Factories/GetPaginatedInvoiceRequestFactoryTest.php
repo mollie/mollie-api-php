@@ -6,11 +6,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedInvoiceRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_paginated_invoice_request_object_with_full_data()
     {
         $request = GetPaginatedInvoiceRequestFactory::new()
@@ -25,7 +26,7 @@ class GetPaginatedInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_invoice_request_object_with_minimal_data()
     {
         $request = GetPaginatedInvoiceRequestFactory::new()
@@ -34,7 +35,7 @@ class GetPaginatedInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_invoice_request_object_with_partial_data()
     {
         $request = GetPaginatedInvoiceRequestFactory::new()

@@ -7,11 +7,12 @@ namespace Tests\Factories;
 use Mollie\Api\Factories\GetAllPaymentMethodsRequestFactory;
 use Mollie\Api\Http\Requests\GetAllMethodsRequest;
 use Mollie\Api\Types\MethodQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetAllPaymentMethodsRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_all_methods_request_object_with_full_data()
     {
         $request = GetAllPaymentMethodsRequestFactory::new()
@@ -30,7 +31,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS.','.MethodQuery::INCLUDE_PRICING, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_include_flags()
     {
         $request = GetAllPaymentMethodsRequestFactory::new()
@@ -44,7 +45,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS.','.MethodQuery::INCLUDE_PRICING, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_all_methods_request_object_with_minimal_data()
     {
         $request = GetAllPaymentMethodsRequestFactory::new()
@@ -53,7 +54,7 @@ class GetAllPaymentMethodsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetAllMethodsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_all_methods_request_object_with_partial_data()
     {
         $request = GetAllPaymentMethodsRequestFactory::new()

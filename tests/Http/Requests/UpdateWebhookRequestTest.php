@@ -9,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateWebhookRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_webhook()
     {
         $client = new MockMollieClient([
@@ -34,7 +35,7 @@ class UpdateWebhookRequestTest extends TestCase
         $this->assertInstanceOf(Webhook::class, $webhook);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $webhookId = 'hook_rHhoN1uzcp';

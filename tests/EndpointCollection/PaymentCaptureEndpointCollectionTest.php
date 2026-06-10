@@ -13,11 +13,12 @@ use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Http\Requests\GetPaymentCaptureRequest;
 use Mollie\Api\Resources\Capture;
 use Mollie\Api\Resources\CaptureCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentCaptureEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_for_id()
     {
         $client = new MockMollieClient([
@@ -33,7 +34,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
         $this->assertCapture($capture);
     }
 
-    /** @test */
+    #[Test]
     public function get_for_id()
     {
         $client = new MockMollieClient([
@@ -46,7 +47,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
         $this->assertCapture($capture);
     }
 
-    /** @test */
+    #[Test]
     public function page_for_id()
     {
         $client = new MockMollieClient([
@@ -63,7 +64,7 @@ class PaymentCaptureEndpointCollectionTest extends TestCase
         $this->assertCapture($captures[0]);
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for_id()
     {
         $client = new MockMollieClient([

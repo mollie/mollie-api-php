@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Http\Data;
 
 use Mollie\Api\Http\Data\Address;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class AddressTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_address_from_array()
     {
         $object = Address::fromArray($data = [

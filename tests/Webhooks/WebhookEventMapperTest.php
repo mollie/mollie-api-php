@@ -39,6 +39,8 @@ use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
 use Mollie\Api\Webhooks\WebhookEventMapper;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEventMapperTest extends TestCase
@@ -50,10 +52,8 @@ class WebhookEventMapperTest extends TestCase
         $this->mapper = new WebhookEventMapper();
     }
 
-    /**
-     * @test
-     * @dataProvider valid_event_provider
-     */
+    #[DataProvider('valid_event_provider')]
+    #[Test]
     public function process_valid_payloads(string $expectedClass): void
     {
         $simpleEventPayload = MockEvent::for($expectedClass, 'entity_test')
@@ -75,7 +75,7 @@ class WebhookEventMapperTest extends TestCase
         $this->assertEquals($fullEventPayload['id'], $event->id);
     }
 
-    public function valid_event_provider(): array
+    public static function valid_event_provider(): array
     {
         return [
             'payment-link.paid' => [
@@ -171,7 +171,7 @@ class WebhookEventMapperTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function process_unsupported_event_type(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -185,7 +185,7 @@ class WebhookEventMapperTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function process_payload_with_missing_required_fields(): void
     {
         $payload = [
@@ -201,7 +201,7 @@ class WebhookEventMapperTest extends TestCase
         $this->mapper->processPayload($payload);
     }
 
-    /** @test */
+    #[Test]
     public function process_payload_with_empty_required_fields(): void
     {
         $payload = [
@@ -218,7 +218,7 @@ class WebhookEventMapperTest extends TestCase
         $this->mapper->processPayload($payload);
     }
 
-    /** @test */
+    #[Test]
     public function process_payload_threads_signature_through_to_event(): void
     {
         $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
@@ -234,7 +234,7 @@ class WebhookEventMapperTest extends TestCase
         $this->assertLessThanOrEqual($after, $event->receivedAt);
     }
 
-    /** @test */
+    #[Test]
     public function process_payload_defaults_signature_to_null(): void
     {
         $payload = MockEvent::for(PaymentLinkPaid::class, 'pl_test123')
@@ -246,7 +246,7 @@ class WebhookEventMapperTest extends TestCase
         $this->assertNull($event->signature);
     }
 
-    /** @test */
+    #[Test]
     public function as_entity_on_event_produces_rich_webhook_origin(): void
     {
         $client = new MockMollieClient;
@@ -269,7 +269,7 @@ class WebhookEventMapperTest extends TestCase
         $client->assertSentCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function create_webhook_entity_from_payload_resolves_entity_key(): void
     {
         $payload = [
@@ -294,7 +294,7 @@ class WebhookEventMapperTest extends TestCase
         $this->assertSame('payment-link', $event->entity->getResourceType());
     }
 
-    /** @test */
+    #[Test]
     public function create_webhook_entity_skips_non_entity_embedded_keys(): void
     {
         $payload = [
@@ -319,10 +319,8 @@ class WebhookEventMapperTest extends TestCase
         $this->assertSame('payment-link', $event->entity->getResourceType());
     }
 
-    /**
-     * @test
-     * @dataProvider payloadsWithoutEmbeddedEntityProvider
-     */
+    #[DataProvider('payloadsWithoutEmbeddedEntityProvider')]
+    #[Test]
     public function create_webhook_entity_returns_null_when_no_entity_candidate(array $payload): void
     {
         $event = $this->mapper->processPayload($payload);
@@ -330,7 +328,7 @@ class WebhookEventMapperTest extends TestCase
         $this->assertNull($event->entity);
     }
 
-    public function payloadsWithoutEmbeddedEntityProvider(): array
+    public static function payloadsWithoutEmbeddedEntityProvider(): array
     {
         $base = [
             'id' => 'event_abc',
@@ -349,7 +347,7 @@ class WebhookEventMapperTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_throws_when_event_has_no_embedded_entity(): void
     {
         $payload = [

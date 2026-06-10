@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
@@ -15,9 +17,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestRefundStatuses
      */
-    public function test_refund_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestRefundStatuses')]
+    #[Test]
+    public function refund_statuses($status, $function, $expected_boolean)
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
@@ -31,9 +34,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      * @param  string  $status
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestRefundCanBeCanceled
      */
-    public function test_refund_can_be_canceled($status, $expected_boolean)
+    #[DataProvider('dpTestRefundCanBeCanceled')]
+    #[Test]
+    public function refund_can_be_canceled($status, $expected_boolean)
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
@@ -43,7 +47,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->canBeCanceled());
     }
 
-    public function dpTestRefundStatuses()
+    public static function dpTestRefundStatuses()
     {
         return [
             [RefundStatus::Pending->value, 'isPending', true],
@@ -78,7 +82,7 @@ class RefundTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function dpTestRefundCanBeCanceled()
+    public static function dpTestRefundCanBeCanceled()
     {
         return [
             [RefundStatus::Pending->value, true],

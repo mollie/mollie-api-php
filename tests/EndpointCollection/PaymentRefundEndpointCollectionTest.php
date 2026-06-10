@@ -14,11 +14,12 @@ use Mollie\Api\Http\Requests\GetPaymentRefundRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentRefundEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_for()
     {
         $client = new MockMollieClient([
@@ -40,7 +41,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
         $this->assertRefund($refund);
     }
 
-    /** @test */
+    #[Test]
     public function get_for()
     {
         $client = new MockMollieClient([
@@ -56,7 +57,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
         $this->assertRefund($refund);
     }
 
-    /** @test */
+    #[Test]
     public function cancel_for()
     {
         $client = new MockMollieClient([
@@ -71,7 +72,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
         $client->assertSent(CancelPaymentRefundRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -93,7 +94,7 @@ class PaymentRefundEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([
