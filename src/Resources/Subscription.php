@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelSubscriptionRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\SubscriptionStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector

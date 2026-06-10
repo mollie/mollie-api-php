@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Mollie\Api\CompatibilityChecker;
+use PHPUnit\Framework\Attributes\Test;
 
 class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
 {

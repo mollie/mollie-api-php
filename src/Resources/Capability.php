@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Types\CapabilityStatus;
+use Mollie\Api\Utils\Utility;
 
 class Capability extends BaseResource
 {

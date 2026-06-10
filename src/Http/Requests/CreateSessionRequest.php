@@ -41,7 +41,8 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
         private ?array $metadata = null,
         private ?string $paymentWebhook = null,
         private ?string $profileId = null,
-    ) {}
+    ) {
+    }
 
     protected function defaultPayload(): array
     {

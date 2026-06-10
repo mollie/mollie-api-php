@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Address;
@@ -15,6 +14,7 @@ use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\PaymentMethod;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector

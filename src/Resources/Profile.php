@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\ProfileStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector

@@ -17,9 +17,9 @@ use Mollie\Api\Exceptions\ValidationException;
 use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Http\ResponseStatusCode;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ConvertResponseToExceptionTest extends TestCase

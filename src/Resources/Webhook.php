@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Resources;
 
-use Mollie\Api\Utils\Utility;
 use Mollie\Api\Factories\UpdateWebhookRequestFactory;
 use Mollie\Api\Http\Requests\DeleteWebhookRequest;
 use Mollie\Api\Http\Requests\TestWebhookRequest;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\WebhookStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector

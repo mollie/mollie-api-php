@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use Mollie\Api\Resources\AnyResource;
+use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
-use Mollie\Api\Resources\BaseResource;
-use Mollie\Api\Resources\AnyResource;
-use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\ResourceRegistry;
-use ReflectionClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class ResourceRegistryTest extends TestCase
 {
