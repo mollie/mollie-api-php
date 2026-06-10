@@ -25,6 +25,11 @@ class CompatibilityCheckerTest extends \PHPUnit\Framework\TestCase
             ->getMock();
     }
 
+    public function test_minimum_php_version_matches_v4_composer_requirement()
+    {
+        $this->assertSame('8.2', CompatibilityChecker::MIN_PHP_VERSION);
+    }
+
     public function test_check_compatibility_throws_exception_on_php_version()
     {
         $this->expectException(\Mollie\Api\Exceptions\IncompatiblePlatformException::class);
