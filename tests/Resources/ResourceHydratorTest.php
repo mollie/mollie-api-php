@@ -6,9 +6,9 @@ namespace Tests\Resources;
 
 use DateTimeImmutable;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
+use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
