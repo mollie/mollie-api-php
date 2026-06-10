@@ -8,3 +8,9 @@ php-scoper.phar
 php-scoper.phar.pubkey
 .php-cs-fixer.cache
 .phpunit.result.cache
+.agents/
+.ai/
+.codex/
+.claude/
+.scribe.yaml
+.anvil.local
