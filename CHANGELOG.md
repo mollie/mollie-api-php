@@ -60,6 +60,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide and 
 
 ### Fixed
 
+- Exception messages no longer include invalid authentication tokens or request body contents, while structured exception accessors remain available.
 - `docs/webhooks.md` previously stated that `$event->entity()` returns null for simple payloads. It actually throws. Updated to correctly describe reading the nullable `$event->entity` property or fetching the resource via `$event->entityId`.
 
 ### For contributors

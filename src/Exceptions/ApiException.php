@@ -55,10 +55,6 @@ class ApiException extends RequestException
             $message .= ". Documentation: {$this->getDocumentationUrl()}";
         }
 
-        if ($requestBody = $response->getPsrRequest()->getBody()->__toString()) {
-            $message .= ". Request body: {$requestBody}";
-        }
-
         parent::__construct($response, $message, $code, $previous);
     }
 
