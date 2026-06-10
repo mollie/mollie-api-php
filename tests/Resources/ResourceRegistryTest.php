@@ -6,7 +6,11 @@ namespace Tests\Resources;
 
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentLink;
+use Mollie\Api\Resources\BaseResource;
+use Mollie\Api\Resources\AnyResource;
+use Mollie\Api\Resources\CurrentProfile;
 use Mollie\Api\Resources\ResourceRegistry;
+use ReflectionClass;
 use PHPUnit\Framework\TestCase;
 
 class ResourceRegistryTest extends TestCase
@@ -54,5 +58,49 @@ class ResourceRegistryTest extends TestCase
     {
         $registry = new ResourceRegistry();
         $this->assertNull($registry->for('non-existent-type'));
+    }
+
+    /** @test */
+    public function default_registry_covers_concrete_api_resources(): void
+    {
+        $registry = new ResourceRegistry();
+
+        foreach ($this->concreteApiResources() as $resourceClass) {
+            $this->assertTrue(
+                $registry->isRegistered($resourceClass),
+                "{$resourceClass} is missing from ResourceRegistry defaults"
+            );
+        }
+    }
+
+    /**
+     * @return list<class-string<BaseResource>>
+     */
+    private function concreteApiResources(): array
+    {
+        $resources = [];
+
+        foreach (glob(__DIR__.'/../../src/Resources/*.php') ?: [] as $path) {
+            $class = 'Mollie\\Api\\Resources\\'.basename($path, '.php');
+
+            if (! is_subclass_of($class, BaseResource::class)) {
+                continue;
+            }
+
+            $reflection = new ReflectionClass($class);
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+
+            if (in_array($class, [AnyResource::class, CurrentProfile::class], true)) {
+                continue;
+            }
+
+            $resources[] = $class;
+        }
+
+        sort($resources);
+
+        return $resources;
     }
 }

@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
@@ -179,7 +178,7 @@ class ResourceHydratorTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_for_unmapped_embedded_resources()
+    public function it_hydrates_unmapped_embedded_resources_as_any_resource()
     {
         $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract {
             public function getEmbeddedResourcesMap(): array
@@ -196,7 +195,9 @@ class ResourceHydratorTest extends TestCase
 
         $response = $this->createMock(Response::class);
 
-        $this->expectException(EmbeddedResourcesNotParseableException::class);
         $this->hydrator->hydrate($resource, $data, $response);
+
+        $this->assertInstanceOf(AnyResource::class, $resource->_embedded->unknown);
+        $this->assertSame('test', $resource->_embedded->unknown->id);
     }
 }

@@ -15,7 +15,7 @@ class Url
             return $endpoint;
         }
 
-        return rtrim($baseUrl, '/').'/'.ltrim($endpoint, '/');
+        return rtrim($baseUrl, '/').'/'.static::encodeRelativePath(ltrim($endpoint, '/'));
     }
 
     /**
@@ -24,6 +24,50 @@ class Url
     public static function isValid(string $url): bool
     {
         return ! empty(filter_var($url, FILTER_VALIDATE_URL));
+    }
+
+    public static function encodeRelativePath(string $path): string
+    {
+        [$path, $suffix] = static::splitPathSuffix($path);
+
+        return implode('/', array_map(
+            fn (string $segment): string => static::encodePathSegment($segment),
+            explode('/', $path)
+        )).$suffix;
+    }
+
+    private static function encodePathSegment(string $segment): string
+    {
+        if ($segment === '.') {
+            return '%2E';
+        }
+
+        if ($segment === '..') {
+            return '%2E%2E';
+        }
+
+        return rawurlencode($segment);
+    }
+
+    /**
+     * @return array{0: string, 1: string}
+     */
+    private static function splitPathSuffix(string $path): array
+    {
+        $queryPosition = strpos($path, '?');
+        $fragmentPosition = strpos($path, '#');
+        $positions = array_filter(
+            [$queryPosition, $fragmentPosition],
+            static fn ($position): bool => $position !== false
+        );
+
+        if ($positions === []) {
+            return [$path, ''];
+        }
+
+        $suffixPosition = min($positions);
+
+        return [substr($path, 0, $suffixPosition), substr($path, $suffixPosition)];
     }
 
     /**

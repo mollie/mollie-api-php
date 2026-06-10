@@ -41,4 +41,23 @@ class GetPaymentRequestTest extends TestCase
 
         $this->assertEquals("payments/{$paymentId}", $request->resolveResourcePath());
     }
+
+    /** @test */
+    public function it_encodes_resource_ids_when_creating_the_psr_request()
+    {
+        $client = MollieApiClient::fake([
+            GetPaymentRequest::class => MockResponse::ok('payment'),
+        ]);
+
+        $client->send(new GetPaymentRequest('tr_x%2F..%2Forders'));
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame(
+                'https://api.mollie.com/v2/payments/tr_x%252F..%252Forders',
+                (string) $pendingRequest->getUri()
+            );
+
+            return true;
+        });
+    }
 }

@@ -20,6 +20,30 @@ class UrlTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function test_join_encodes_relative_path_segments()
+    {
+        $result = Url::join('https://api.mollie.com/v2', 'payments/tr_x%2F..%2Forders/refunds/re id');
+
+        $this->assertSame(
+            'https://api.mollie.com/v2/payments/tr_x%252F..%252Forders/refunds/re%20id',
+            $result
+        );
+    }
+
+    public function test_join_encodes_dot_only_segments()
+    {
+        $result = Url::join('https://api.mollie.com/v2', 'payments/tr_x/../orders');
+
+        $this->assertSame('https://api.mollie.com/v2/payments/tr_x/%2E%2E/orders', $result);
+    }
+
+    public function test_join_keeps_absolute_urls_unchanged()
+    {
+        $absoluteUrl = 'https://api.mollie.com/v2/payments/tr_x/../orders';
+
+        $this->assertSame($absoluteUrl, Url::join('https://example.com', $absoluteUrl));
+    }
+
     public function test_is_valid()
     {
         $validUrl = 'https://example.com';

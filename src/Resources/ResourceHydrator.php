@@ -8,7 +8,6 @@ use BackedEnum;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Contracts\ResourceOrigin;
-use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 use Mollie\Api\Traits\ComposableFromArray;
 use ReflectionNamedType;
 use ReflectionProperty;
@@ -406,9 +405,13 @@ class ResourceHydrator
             $collectionOrResourceClass = $resource->getEmbeddedResourcesMap()[$resourceKey] ?? null;
 
             if (is_null($collectionOrResourceClass)) {
-                throw new EmbeddedResourcesNotParseableException(
-                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
+                $result->{$resourceKey} = $this->hydrate(
+                    ResourceFactory::create($connector, AnyResource::class),
+                    $resourceData,
+                    $origin
                 );
+
+                continue;
             }
 
             $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)
