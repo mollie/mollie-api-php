@@ -36,6 +36,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 - `ResourceHydrator` rewritten reflection-based so it can populate the new typed resource properties (value objects, enums, nested collections). Origin routing (HTTP vs. webhook snapshot) behaves exactly as in v3.13.
 - Constructor promotion applied across Request and Exception classes.
 - `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
+- `ExponentialRetryStrategy` applies the `maxDelayMs` cap before exponential full jitter, avoiding a probability spike at the cap.
 
 ### Removed
 
