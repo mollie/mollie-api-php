@@ -119,6 +119,34 @@ final class RateLimitTest extends TestCase
     }
 
     #[Test]
+    public function it_splits_after_a_quote_preceded_by_an_even_backslash_run(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"first\\\\";r=1, "second";r=2',
+            '"second";q=3',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('second', $parsed->policy);
+        $this->assertSame(2, $parsed->remaining);
+        $this->assertSame(3, $parsed->quota);
+    }
+
+    #[Test]
+    public function it_keeps_a_quote_preceded_by_an_odd_backslash_run_escaped(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"first\\";r=1, "second";r=2',
+            '"second";q=3',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('second', $parsed->policy);
+        $this->assertNull($parsed->remaining);
+        $this->assertSame(3, $parsed->quota);
+    }
+
+    #[Test]
     public function it_keeps_valid_sibling_header_when_one_header_is_malformed(): void
     {
         $parsed = RateLimit::fromHeaders(

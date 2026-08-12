@@ -144,7 +144,7 @@ final readonly class RateLimit
         $length = strlen($header);
 
         for ($offset = 0; $offset < $length; $offset++) {
-            if ($header[$offset] === '"' && ($offset === 0 || $header[$offset - 1] !== '\\')) {
+            if ($header[$offset] === '"' && ! self::isEscapedQuote($header, $offset)) {
                 $insideQuotedString = ! $insideQuotedString;
             }
 
@@ -159,6 +159,17 @@ final readonly class RateLimit
         $members[] = trim(substr($header, $memberStart));
 
         return $members;
+    }
+
+    private static function isEscapedQuote(string $header, int $offset): bool
+    {
+        $precedingBackslashes = 0;
+
+        for ($index = $offset - 1; $index >= 0 && $header[$index] === '\\'; $index--) {
+            $precedingBackslashes++;
+        }
+
+        return $precedingBackslashes % 2 === 1;
     }
 
     /**
