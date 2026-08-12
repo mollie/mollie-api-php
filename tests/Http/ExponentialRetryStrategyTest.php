@@ -65,6 +65,14 @@ class ExponentialRetryStrategyTest extends TestCase
     }
 
     /** @test */
+    public function exponential_delay_is_capped_before_integer_overflow(): void
+    {
+        $strategy = new ExponentialRetryStrategy(3, 500, 2.0, 30000, false);
+
+        $this->assertSame(30000, $strategy->delayBeforeAttemptMs(PHP_INT_MAX));
+    }
+
+    /** @test */
     public function full_jitter_stays_within_the_exponential_delay(): void
     {
         $strategy = new ExponentialRetryStrategy(3, 1000, 2.0, 30000, true);

@@ -82,6 +82,88 @@ final class RateLimitTest extends TestCase
         $this->assertNull($parsed->getQuota());
     }
 
+    /** @test */
+    public function it_matches_policies_in_comma_joined_header_lists(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-refunds";r=3, "get-v2-payments";r=7',
+            '"post-v2-payments";q=5, "get-v2-payments";q=20'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('get-v2-payments', $parsed->getPolicy());
+        $this->assertSame(7, $parsed->getRemaining());
+        $this->assertSame(20, $parsed->getQuota());
+    }
+
+    /** @test */
+    public function it_skips_invalid_members_in_comma_joined_header_lists(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            'invalid, "get-v2-payments";r=15',
+            '"get-v2-payments";q=20'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame(15, $parsed->getRemaining());
+        $this->assertSame(20, $parsed->getQuota());
+    }
+
+    /** @test */
+    public function it_splits_after_a_quote_preceded_by_an_even_backslash_run(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"first\\\\";r=1, "second";r=2',
+            '"second";q=3'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('second', $parsed->getPolicy());
+        $this->assertSame(2, $parsed->getRemaining());
+        $this->assertSame(3, $parsed->getQuota());
+    }
+
+    /** @test */
+    public function it_keeps_a_quote_preceded_by_an_odd_backslash_run_escaped(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"first\\";r=1, "second";r=2',
+            '"second";q=3'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('second', $parsed->getPolicy());
+        $this->assertNull($parsed->getRemaining());
+        $this->assertSame(3, $parsed->getQuota());
+    }
+
+    /** @test */
+    public function it_keeps_valid_sibling_header_when_one_header_is_malformed(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-payments";r=many',
+            '"get-v2-payments";q=20'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('get-v2-payments', $parsed->getPolicy());
+        $this->assertNull($parsed->getRemaining());
+        $this->assertSame(20, $parsed->getQuota());
+    }
+
+    /** @test */
+    public function it_accepts_zero_padded_integers_and_ignores_unknown_extensions(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-payments";r=07;future=value',
+            '"get-v2-payments";q=020'
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame(7, $parsed->getRemaining());
+        $this->assertSame(20, $parsed->getQuota());
+    }
+
     /**
      * @test
      * @dataProvider malformedHeaders
@@ -96,6 +178,7 @@ final class RateLimitTest extends TestCase
         return [
             'unclosed policy name' => ['"get-v2-payments;r=15', null],
             'invalid parameter' => ['"get-v2-payments";r=many', null],
+            'overflowing integer' => ['"get-v2-payments";r=' . PHP_INT_MAX . '0', null],
             'empty parameter' => ['"get-v2-payments";', null],
             'conflicting policies' => [
                 '"get-v2-payments";r=15',

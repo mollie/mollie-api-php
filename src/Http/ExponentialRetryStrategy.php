@@ -65,14 +65,13 @@ class ExponentialRetryStrategy implements ConditionalRetryStrategyContract
             }
         }
 
-        $attempt = max(1, $attempt);
-        $delay = (int) round($this->baseDelayMs * ($this->multiplier ** ($attempt - 1)));
+        $delay = $this->exponentialDelayMs($attempt);
 
         if ($this->jitter && $delay > 0) {
-            $delay = random_int(0, $delay);
+            return random_int(0, $delay);
         }
 
-        return min($delay, $this->maxDelayMs);
+        return $delay;
     }
 
     /**
@@ -104,5 +103,21 @@ class ExponentialRetryStrategy implements ConditionalRetryStrategyContract
         $maxJitter = min(intdiv($delayMs, 10), 1000, PHP_INT_MAX - $delayMs);
 
         return $delayMs + random_int(0, $maxJitter);
+    }
+
+    private function exponentialDelayMs(int $attempt): int
+    {
+        if ($this->baseDelayMs === 0 || $this->maxDelayMs === 0) {
+            return 0;
+        }
+
+        $attempt = max(1, $attempt);
+        $delay = $this->baseDelayMs * ($this->multiplier ** ($attempt - 1));
+
+        if (! is_finite($delay) || $delay >= $this->maxDelayMs) {
+            return $this->maxDelayMs;
+        }
+
+        return (int) round($delay);
     }
 }
