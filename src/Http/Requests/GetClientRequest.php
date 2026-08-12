@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\Client;
@@ -9,6 +11,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/v2/clients-api/get-client
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Client>
  */
 class GetClientRequest extends ResourceHydratableRequest
 {
@@ -20,22 +24,13 @@ class GetClientRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Client::class;
-
-    private string $id;
-
-    private ?bool $embedOrganization;
-
-    private ?bool $embedOnboarding;
+    protected ?string $hydratableResource = Client::class;
 
     public function __construct(
-        string $id,
-        ?bool $embedOrganization = null,
-        ?bool $embedOnboarding = null
+        private string $id,
+        private ?bool $embedOrganization = null,
+        private ?bool $embedOnboarding = null,
     ) {
-        $this->id = $id;
-        $this->embedOrganization = $embedOrganization;
-        $this->embedOnboarding = $embedOnboarding;
     }
 
     protected function defaultQuery(): array

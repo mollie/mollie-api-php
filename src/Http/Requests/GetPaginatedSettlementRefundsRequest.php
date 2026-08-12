@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
@@ -8,6 +10,9 @@ use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\RefundCollection>
+ */
 class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
@@ -15,7 +20,7 @@ class GetPaginatedSettlementRefundsRequest extends PaginatedRequest implements I
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = RefundCollection::class;
+    protected ?string $hydratableResource = RefundCollection::class;
 
     private string $settlementId;
 

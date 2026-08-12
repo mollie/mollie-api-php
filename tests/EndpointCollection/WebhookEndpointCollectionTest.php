@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -15,11 +17,12 @@ use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Resources\WebhookCollection;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -36,7 +39,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -49,7 +52,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -66,7 +69,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertWebhook($webhook);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -75,11 +78,10 @@ class WebhookEndpointCollectionTest extends TestCase
 
         $client->webhooks->delete('wh_4KgGJJSZpH');
 
-        // If we reach this point, the delete was successful
-        $this->assertTrue(true);
+        $client->assertSent(DeleteWebhookRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function test()
     {
         $client = new MockMollieClient([
@@ -92,7 +94,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(AnyResource::class, $result);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -107,7 +109,7 @@ class WebhookEndpointCollectionTest extends TestCase
         $this->assertGreaterThan(0, count($webhooks));
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

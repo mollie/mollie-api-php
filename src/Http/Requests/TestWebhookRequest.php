@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
@@ -9,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/test-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\AnyResource>
  */
 class TestWebhookRequest extends ResourceHydratableRequest implements SupportsTestmodeInPayload
 {
@@ -22,13 +26,11 @@ class TestWebhookRequest extends ResourceHydratableRequest implements SupportsTe
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = AnyResource::class;
+    protected ?string $hydratableResource = AnyResource::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     /**

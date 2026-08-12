@@ -28,6 +28,33 @@ $customer = $mollie->customers->get('cust_12345678', testmode: true);
 
 ## API Mocking
 
+### Typed Mock Responses
+
+The fastest path is the typed `MockResponse` factories — they merge a fixture base with the typed overrides you pass:
+
+```php
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Types\PaymentStatus;
+
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => MockResponse::payment(
+        id: 'tr_xxxxxxxxxxxx',
+        status: PaymentStatus::Paid,
+        amount: new Money(currency: 'EUR', value: '20.00'),
+        description: 'Test',
+    ),
+]);
+
+$payment = $client->send(new GetPaymentRequest('tr_xxxxxxxxxxxx'));
+
+$client->assertSent(GetPaymentRequest::class);
+```
+
+Available typed factories: `payment`, `customer`, `subscription`, `mandate`, `refund`, `chargeback`, `method`, `paymentLink`, `invoice`, `capture`. Each accepts a `$overrides` array for fields not covered by named arguments.
+
 ### Basic Usage
 API responses can be simulated without network calls by using the `MollieApiClient::fake()` method. Each Request/Response pair passed to the fake method is consumed after a matching request.
 

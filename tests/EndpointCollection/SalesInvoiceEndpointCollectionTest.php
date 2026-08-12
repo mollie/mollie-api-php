@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -21,11 +23,12 @@ use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SalesInvoiceEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -37,7 +40,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -56,13 +59,13 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         // Create a sales invoice
         $payload = [
             'currency' => 'EUR',
-            'status' => SalesInvoiceStatus::DRAFT,
-            'vatScheme' => VatScheme::STANDARD,
-            'vatMode' => VatMode::INCLUSIVE,
-            'paymentTerm' => PaymentTerm::DAYS_30,
+            'status' => SalesInvoiceStatus::Draft->value,
+            'vatScheme' => VatScheme::Standard->value,
+            'vatMode' => VatMode::Inclusive->value,
+            'paymentTerm' => PaymentTerm::Days30->value,
             'recipientIdentifier' => 'XXXXX',
             'recipient' => new Recipient(
-                RecipientType::CONSUMER,
+                RecipientType::Consumer->value,
                 'darth@vader.deathstar',
                 'Sample Street 12b',
                 '2000 AA',
@@ -78,7 +81,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -86,7 +89,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         ]);
 
         $payload = [
-            'status' => SalesInvoiceStatus::PAID,
+            'status' => SalesInvoiceStatus::Paid->value,
             'recipientIdentifier' => 'XXXXX',
         ];
         $salesInvoice = $client->salesInvoices->update('invoice_123', $payload);
@@ -94,7 +97,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -103,10 +106,10 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
 
         $client->salesInvoices->delete('invoice_123');
 
-        $this->assertTrue(true); // Test passes if no exception is thrown
+        $client->assertSent(DeleteSalesInvoiceRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -118,7 +121,7 @@ class SalesInvoiceEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(SalesInvoiceCollection::class, $salesInvoices);
     }
 
-    /** @test */
+    #[Test]
     public function iterate()
     {
         $client = new MockMollieClient([

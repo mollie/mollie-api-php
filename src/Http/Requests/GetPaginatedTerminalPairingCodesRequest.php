@@ -13,7 +13,7 @@ class GetPaginatedTerminalPairingCodesRequest extends SortablePaginatedRequest i
 {
     use IsIteratableRequest;
 
-    protected $hydratableResource = TerminalPairingCodeCollection::class;
+    protected ?string $hydratableResource = TerminalPairingCodeCollection::class;
 
     private ?string $profileId;
 

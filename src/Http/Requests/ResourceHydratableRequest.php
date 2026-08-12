@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\WrapperResource;
 
+/**
+ * @template TResource of object
+ */
 abstract class ResourceHydratableRequest extends Request
 {
     /**
      * The original resource class the request should be hydrated into.
      *
-     * @var string|null
+     * @var class-string<TResource>|null
      */
-    protected $hydratableResource = null;
+    protected ?string $hydratableResource = null;
 
     /**
      * The custom resource class the request should be hydrated into.

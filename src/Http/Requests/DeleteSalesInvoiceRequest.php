@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
@@ -13,11 +15,9 @@ class DeleteSalesInvoiceRequest extends Request implements SupportsTestmodeInPay
 
     protected static string $method = Method::DELETE;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     public function resolveResourcePath(): string

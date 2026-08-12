@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -9,6 +11,9 @@ use Mollie\Api\Resources\Route;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Route>
+ */
 class CreateDelayedPaymentRouteRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
@@ -21,22 +26,13 @@ class CreateDelayedPaymentRouteRequest extends ResourceHydratableRequest impleme
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Route::class;
-
-    private string $paymentId;
-
-    private Money $amount;
-
-    private array $destination;
+    protected ?string $hydratableResource = Route::class;
 
     public function __construct(
-        string $paymentId,
-        Money $amount,
-        array $destination
+        private string $paymentId,
+        private Money $amount,
+        private array $destination,
     ) {
-        $this->paymentId = $paymentId;
-        $this->amount = $amount;
-        $this->destination = $destination;
     }
 
     protected function defaultPayload(): array

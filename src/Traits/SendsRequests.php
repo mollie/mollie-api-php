@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\Contracts\RetryStrategyContract;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Exceptions\MollieException;
-use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\LinearRetryStrategy;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
+use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Utils\DataTransformer;
 
@@ -38,7 +40,18 @@ trait SendsRequests
     }
 
     /**
-     * @return mixed
+     * Send a request and return the hydrated resource (for {@see ResourceHydratableRequest})
+     * or the raw response payload for other requests.
+     *
+     * Static analysers infer the concrete resource type via the `TResource`
+     * template bound on each concrete request class (see
+     * `@extends ResourceHydratableRequest<Payment>` on `GetPaymentRequest`
+     * for example). Requests that are not hydratable return `null`.
+     *
+     * @template TResource of object
+     *
+     * @param  ResourceHydratableRequest<TResource>|Request  $request
+     * @return ($request is ResourceHydratableRequest<TResource> ? TResource : mixed)
      */
     public function send(Request $request)
     {
@@ -51,7 +64,7 @@ trait SendsRequests
 
         for ($attempt = 0; $attempt <= $this->retryStrategy->maxRetries(); $attempt++) {
             if ($attempt > 0) {
-                $delayMs = $this->retryStrategy->delayBeforeAttemptMs($attempt);
+                $delayMs = $this->retryStrategy->delayBeforeAttemptMs($attempt, $lastException);
 
                 usleep($delayMs * 1000);
             }
@@ -60,9 +73,13 @@ trait SendsRequests
                 $response = $this->httpClient->sendRequest($pendingRequest);
 
                 return $pendingRequest->executeResponseHandlers($response);
-            } catch (RetryableNetworkRequestException $e) {
-                $lastException = $e;
             } catch (MollieException $exception) {
+                if ($this->retryStrategy->shouldRetry($exception)) {
+                    $lastException = $exception;
+
+                    continue;
+                }
+
                 $exception = $pendingRequest->executeFatalHandlers($exception);
 
                 throw $exception;

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Http\Requests\DynamicRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\Method;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DynamicRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_accepts_valid_resource_class()
     {
         $request = new class('some-url') extends DynamicRequest {
@@ -21,7 +24,7 @@ class DynamicRequestTest extends TestCase
         $this->assertEquals(Payment::class, $request->getHydratableResource());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $url = 'https://example.org';

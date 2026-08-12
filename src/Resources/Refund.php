@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CancelPaymentRefundRequest;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\RefundStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
@@ -13,91 +17,70 @@ class Refund extends BaseResource
 {
     use HasMode;
 
-    /**
-     * Id of the payment method.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
      * Mode of the refund, either "live" or "test".
-     *
-     * @var string
      */
-    public $mode;
+    public string $mode;
 
     /**
-     * The $amount that was refunded.
-     *
-     * @var \stdClass
+     * The amount that was refunded.
      */
-    public $amount;
+    public Money $amount;
 
     /**
-     * UTC datetime the payment was created in ISO-8601 format.
+     * UTC datetime the refund was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string
      */
-    public $createdAt;
+    public string $createdAt;
 
     /**
      * The refund's description, if available.
-     *
-     * @var string|null
      */
-    public $description;
+    public ?string $description = null;
 
     /**
      * The payment id that was refunded.
-     *
-     * @var string
      */
-    public $paymentId;
+    public string $paymentId;
 
     /**
      * The order id that was refunded.
-     *
-     * @var string|null
      */
-    public $orderId;
+    public ?string $orderId = null;
 
     /**
      * The order lines contain the actual things the customer ordered.
      * The lines will show the quantity, discountAmount, vatAmount and totalAmount
      * refunded.
      *
-     * @var array|object[]|null
+     * @var array|null
      */
-    public $lines;
+    public ?array $lines = null;
 
     /**
-     * The settlement amount
-     *
-     * @var \stdClass
+     * The settlement amount.
      */
-    public $settlementAmount;
+    public ?Money $settlementAmount = null;
 
     /**
-     * The refund status
-     *
-     * @var string
+     * The refund status. Enum case if recognised, raw string for forward-compat.
      */
-    public $status;
+    public RefundStatus|string|null $status = null;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 
     /**
      * An object containing information relevant to a refund issued for a split payment.
      *
-     * @var array|object[]|null
+     * @var array|null
      */
-    public $routingReversal;
+    public ?array $routingReversal = null;
 
     /**
      * @var \stdClass|null
@@ -114,7 +97,7 @@ class Refund extends BaseResource
      */
     public function isQueued(): bool
     {
-        return $this->status === RefundStatus::QUEUED;
+        return Utility::equals($this->status, RefundStatus::Queued);
     }
 
     /**
@@ -122,7 +105,7 @@ class Refund extends BaseResource
      */
     public function isPending(): bool
     {
-        return $this->status === RefundStatus::PENDING;
+        return Utility::equals($this->status, RefundStatus::Pending);
     }
 
     /**
@@ -130,7 +113,7 @@ class Refund extends BaseResource
      */
     public function isProcessing(): bool
     {
-        return $this->status === RefundStatus::PROCESSING;
+        return Utility::equals($this->status, RefundStatus::Processing);
     }
 
     /**
@@ -138,7 +121,7 @@ class Refund extends BaseResource
      */
     public function isTransferred(): bool
     {
-        return $this->status === RefundStatus::REFUNDED;
+        return Utility::equals($this->status, RefundStatus::Refunded);
     }
 
     /**
@@ -146,7 +129,7 @@ class Refund extends BaseResource
      */
     public function isFailed(): bool
     {
-        return $this->status === RefundStatus::FAILED;
+        return Utility::equals($this->status, RefundStatus::Failed);
     }
 
     /**
@@ -154,7 +137,7 @@ class Refund extends BaseResource
      */
     public function isCanceled(): bool
     {
-        return $this->status === RefundStatus::CANCELED;
+        return Utility::equals($this->status, RefundStatus::Canceled);
     }
 
     /**

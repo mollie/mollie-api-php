@@ -1,19 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Data;
 
-class SortablePaginatedQuery extends PaginatedQuery
+readonly class SortablePaginatedQuery extends PaginatedQuery
 {
-    public ?string $sort = null;
-
     public function __construct(
         ?string $from = null,
         ?int $limit = null,
-        ?string $sort = null
+        public ?string $sort = null,
     ) {
         parent::__construct($from, $limit);
-
-        $this->sort = $sort;
     }
 
     public function toArray(): array

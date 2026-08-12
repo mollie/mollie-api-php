@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,18 +10,18 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/organizations-api/get-organization
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Organization>
  */
 class GetOrganizationRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Organization::class;
+    protected ?string $hydratableResource = Organization::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     public function resolveResourcePath(): string

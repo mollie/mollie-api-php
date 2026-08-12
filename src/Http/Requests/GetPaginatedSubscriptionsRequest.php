@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
@@ -7,6 +9,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\SubscriptionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\SubscriptionCollection>
+ */
 class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
@@ -14,7 +19,7 @@ class GetPaginatedSubscriptionsRequest extends PaginatedRequest implements IsIte
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SubscriptionCollection::class;
+    protected ?string $hydratableResource = SubscriptionCollection::class;
 
     private string $customerId;
 

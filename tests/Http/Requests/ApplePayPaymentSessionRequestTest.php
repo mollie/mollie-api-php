@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ApplePayPaymentSessionRequest;
 use Mollie\Api\Resources\AnyResource;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ApplePayPaymentSessionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_apple_pay_session()
     {
         $client = new MockMollieClient([
@@ -30,7 +33,7 @@ class ApplePayPaymentSessionRequestTest extends TestCase
         $this->assertInstanceOf(AnyResource::class, $appleSession);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new ApplePayPaymentSessionRequest(

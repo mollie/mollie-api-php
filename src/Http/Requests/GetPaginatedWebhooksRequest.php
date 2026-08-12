@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
@@ -8,6 +10,9 @@ use Mollie\Api\Resources\WebhookCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 use Mollie\Api\Utils\Arr;
 
+/**
+ * @extends SortablePaginatedRequest<\Mollie\Api\Resources\WebhookCollection>
+ */
 class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
@@ -15,7 +20,7 @@ class GetPaginatedWebhooksRequest extends SortablePaginatedRequest implements Is
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = WebhookCollection::class;
+    protected ?string $hydratableResource = WebhookCollection::class;
 
     /**
      * @param  string|array|null  $eventTypes

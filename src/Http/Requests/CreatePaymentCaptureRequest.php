@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -11,6 +13,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/captures-api/create-capture
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Capture>
  */
 class CreatePaymentCaptureRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -24,26 +28,14 @@ class CreatePaymentCaptureRequest extends ResourceHydratableRequest implements H
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Capture::class;
-
-    private string $paymentId;
-
-    private string $description;
-
-    private ?Money $amount;
-
-    private ?array $metadata;
+    protected ?string $hydratableResource = Capture::class;
 
     public function __construct(
-        string $paymentId,
-        string $description,
-        ?Money $amount = null,
-        ?array $metadata = null
+        private string $paymentId,
+        private string $description,
+        private ?Money $amount = null,
+        private ?array $metadata = null,
     ) {
-        $this->paymentId = $paymentId;
-        $this->description = $description;
-        $this->amount = $amount;
-        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array

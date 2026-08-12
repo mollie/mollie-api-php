@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateClientLinkRequestFactory;
 use Mollie\Api\Http\Requests\CreateClientLinkRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateClientLinkRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_client_link_request_object_with_full_data()
     {
         $request = CreateClientLinkRequestFactory::new()
@@ -34,7 +37,7 @@ class CreateClientLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateClientLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_client_link_request_object_with_minimal_data()
     {
         $request = CreateClientLinkRequestFactory::new()

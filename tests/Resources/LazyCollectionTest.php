@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class LazyCollectionTest extends TestCase
@@ -28,7 +31,7 @@ class LazyCollectionTest extends TestCase
         $this->collection->setResponse($response);
     }
 
-    /** @test */
+    #[Test]
     public function can_create_a_collection_from_generator_function()
     {
         $this->assertEquals(3, $this->collection->count());
@@ -37,7 +40,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals(3, $this->collection->get(2));
     }
 
-    /** @test */
+    #[Test]
     public function can_filter_collection()
     {
         $filtered = $this->collection->filter(function ($value) {
@@ -48,19 +51,19 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals([2, 3], array_values($filtered->all()));
     }
 
-    /** @test */
+    #[Test]
     public function can_get_all_items()
     {
         $this->assertEquals([1, 2, 3], $this->collection->all());
     }
 
-    /** @test */
+    #[Test]
     public function can_get_first_item()
     {
         $this->assertEquals(1, $this->collection->first());
     }
 
-    /** @test */
+    #[Test]
     public function can_get_first_item_with_callback()
     {
         $this->assertEquals(3, $this->collection->first(function ($value) {
@@ -68,7 +71,7 @@ class LazyCollectionTest extends TestCase
         }));
     }
 
-    /** @test */
+    #[Test]
     public function can_map_collection()
     {
         $mapped = $this->collection->map(function ($value) {
@@ -78,7 +81,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals([2, 4, 6], $mapped->all());
     }
 
-    /** @test */
+    #[Test]
     public function can_take_items()
     {
         $taken = $this->collection->take(2);
@@ -87,7 +90,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals([1, 2], $taken->all());
     }
 
-    /** @test */
+    #[Test]
     public function can_check_every_item()
     {
         $this->assertTrue($this->collection->every(function ($value) {
@@ -99,7 +102,7 @@ class LazyCollectionTest extends TestCase
         }));
     }
 
-    /** @test */
+    #[Test]
     public function can_chain_methods()
     {
         $result = $this->collection
@@ -115,7 +118,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals(4, $result->first());
     }
 
-    /** @test */
+    #[Test]
     public function can_iterate_over_collection()
     {
         $items = [];
@@ -126,7 +129,7 @@ class LazyCollectionTest extends TestCase
         $this->assertEquals([1, 2, 3], $items);
     }
 
-    /** @test */
+    #[Test]
     public function can_get_item_by_key()
     {
         $this->assertEquals(2, $this->collection->get(1));

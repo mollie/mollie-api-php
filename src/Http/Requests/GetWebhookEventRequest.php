@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\WebhookEvent;
@@ -7,6 +9,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/get-webhook-event
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\WebhookEvent>
  */
 class GetWebhookEventRequest extends ResourceHydratableRequest
 {
@@ -18,13 +22,11 @@ class GetWebhookEventRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = WebhookEvent::class;
+    protected ?string $hydratableResource = WebhookEvent::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     /**

@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateCustomerPaymentRequestFactory;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
 use Mollie\Api\Types\PaymentQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateCustomerPaymentRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_customer_payment_request_object_with_full_data()
     {
         $request = CreateCustomerPaymentRequestFactory::new(self::CUSTOMER_ID)
@@ -95,7 +98,7 @@ class CreateCustomerPaymentRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentQuery::INCLUDE_QR_CODE, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_customer_payment_request_object_with_minimal_data()
     {
         $request = CreateCustomerPaymentRequestFactory::new(self::CUSTOMER_ID)
@@ -112,7 +115,7 @@ class CreateCustomerPaymentRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateCustomerPaymentRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_customer_payment_request_object_with_partial_data()
     {
         $request = CreateCustomerPaymentRequestFactory::new(self::CUSTOMER_ID)

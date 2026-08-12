@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Exceptions;
 
 use DateTimeImmutable;
@@ -13,12 +15,12 @@ use Throwable;
  */
 class ApiException extends RequestException
 {
-    protected string $plainMessage;
+    public readonly string $plainMessage;
 
-    protected \DateTimeImmutable $raisedAt;
+    public readonly DateTimeImmutable $raisedAt;
 
     /** @var array<string, \stdClass> */
-    protected array $links = [];
+    public readonly array $links;
 
     /**
      * @param  Response  $response  The response that caused this exception
@@ -40,19 +42,17 @@ class ApiException extends RequestException
         $formattedRaisedAt = $this->raisedAt->format(DateTimeImmutable::ATOM);
         $message = "[{$formattedRaisedAt}] ".$message;
 
+        $links = [];
         $object = $response->json();
         if (isset($object->_links)) {
             foreach ($object->_links as $key => $value) {
-                $this->links[$key] = $value;
+                $links[$key] = $value;
             }
         }
+        $this->links = $links;
 
         if ($this->hasLink('documentation')) {
             $message .= ". Documentation: {$this->getDocumentationUrl()}";
-        }
-
-        if ($requestBody = $response->getPsrRequest()->getBody()->__toString()) {
-            $message .= ". Request body: {$requestBody}";
         }
 
         parent::__construct($response, $message, $code, $previous);

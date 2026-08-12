@@ -6,11 +6,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CancelPayoutRequest;
 use Mollie\Api\Resources\Payout;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CancelPayoutRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_cancel_payout()
     {
         $client = new MockMollieClient([
@@ -26,7 +27,7 @@ class CancelPayoutRequestTest extends TestCase
         $this->assertInstanceOf(Payout::class, $payout);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $payoutId = 'po_4KgGJJSZpH';

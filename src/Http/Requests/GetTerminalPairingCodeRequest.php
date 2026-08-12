@@ -8,12 +8,14 @@ use Mollie\Api\Types\TerminalPairingCodeQuery;
 
 /**
  * @see https://docs.mollie.com/reference/terminals-get-pairing-code
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\TerminalPairingCode>
  */
 class GetTerminalPairingCodeRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = TerminalPairingCode::class;
+    protected ?string $hydratableResource = TerminalPairingCode::class;
 
     private string $id;
 

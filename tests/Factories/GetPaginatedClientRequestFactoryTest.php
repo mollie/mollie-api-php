@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedClientRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedClientRequest;
 use Mollie\Api\Types\ClientQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedClientRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_paginated_client_request_object_with_full_data()
     {
         $request = GetPaginatedClientRequestFactory::new()
@@ -24,7 +27,7 @@ class GetPaginatedClientRequestFactoryTest extends TestCase
         $this->assertEquals(ClientQuery::EMBED_ORGANIZATION.','.ClientQuery::EMBED_ONBOARDING, $request->query()->get('embed'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_embed_flags()
     {
         $request = GetPaginatedClientRequestFactory::new()
@@ -38,7 +41,7 @@ class GetPaginatedClientRequestFactoryTest extends TestCase
         $this->assertEquals(ClientQuery::EMBED_ORGANIZATION.','.ClientQuery::EMBED_ONBOARDING, $request->query()->get('embed'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_client_request_object_with_minimal_data()
     {
         $request = GetPaginatedClientRequestFactory::new()
@@ -47,7 +50,7 @@ class GetPaginatedClientRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedClientRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_client_request_object_with_partial_data()
     {
         $request = GetPaginatedClientRequestFactory::new()

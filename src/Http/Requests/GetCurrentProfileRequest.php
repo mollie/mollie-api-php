@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/profiles-api/get-current-profile
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\CurrentProfile>
  */
 class GetCurrentProfileRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -16,7 +20,7 @@ class GetCurrentProfileRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = CurrentProfile::class;
+    protected ?string $hydratableResource = CurrentProfile::class;
 
     public function resolveResourcePath(): string
     {

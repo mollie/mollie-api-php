@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -12,6 +14,8 @@ use Mollie\Api\Utils\Utility;
 
 /**
  * @see https://docs.mollie.com/reference/v2/webhooks-api/update-webhook
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Webhook>
  */
 class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -25,35 +29,14 @@ class UpdateWebhookRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Webhook::class;
-
-    private string $id;
-
-    /**
-     * @var string|null
-     */
-    private $url;
-
-    /**
-     * @var string|null
-     */
-    private $name;
-
-    /**
-     * @var string|array
-     */
-    private $eventTypes;
+    protected ?string $hydratableResource = Webhook::class;
 
     public function __construct(
-        string $id,
-        $url,
-        $name,
-        $eventTypes
+        private string $id,
+        private $url,
+        private $name,
+        private $eventTypes,
     ) {
-        $this->id = $id;
-        $this->url = $url;
-        $this->name = $name;
-        $this->eventTypes = $eventTypes;
     }
 
     protected function defaultPayload(): array

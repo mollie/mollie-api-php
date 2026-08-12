@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Requests\GetConnectBalanceTransferRequest;
 use Mollie\Api\Http\Requests\ListConnectBalanceTransfersRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Resources\ConnectBalanceTransferCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ConnectBalanceTransferEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -44,7 +47,7 @@ class ConnectBalanceTransferEndpointCollectionTest extends TestCase
         $this->assertConnectBalanceTransfer($balanceTransfer);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -57,7 +60,7 @@ class ConnectBalanceTransferEndpointCollectionTest extends TestCase
         $this->assertConnectBalanceTransfer($balanceTransfer);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -72,7 +75,7 @@ class ConnectBalanceTransferEndpointCollectionTest extends TestCase
         $this->assertGreaterThan(0, count($balanceTransfers));
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

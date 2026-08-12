@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Types;
 
-class CapabilityStatus
+enum CapabilityStatus: string
 {
-    public const ENABLED = 'enabled';
-
-    public const PENDING = 'pending';
-
-    public const DISABLED = 'disabled';
+    case Enabled = 'enabled';
+    case Pending = 'pending';
+    case Disabled = 'disabled';
 }

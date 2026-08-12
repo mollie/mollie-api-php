@@ -31,7 +31,7 @@ try {
                 id: 'org_87654321',
                 description: 'Payment to Organization B'
             ),
-            category: ConnectBalanceTransferCategory::MANUAL_CORRECTION
+            category: ConnectBalanceTransferCategory::ManualCorrection
         )
     );
 

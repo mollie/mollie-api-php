@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -10,6 +12,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/customers-api/create-customer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Customer>
  */
 class CreateCustomerRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -17,26 +21,14 @@ class CreateCustomerRequest extends ResourceHydratableRequest implements HasPayl
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = Customer::class;
-
-    private ?string $name;
-
-    private ?string $email;
-
-    private ?string $locale;
-
-    private ?array $metadata;
+    protected ?string $hydratableResource = Customer::class;
 
     public function __construct(
-        ?string $name = null,
-        ?string $email = null,
-        ?string $locale = null,
-        ?array $metadata = null
+        private ?string $name = null,
+        private ?string $email = null,
+        private ?string $locale = null,
+        private ?array $metadata = null,
     ) {
-        $this->name = $name;
-        $this->email = $email;
-        $this->locale = $locale;
-        $this->metadata = $metadata;
     }
 
     protected function defaultPayload(): array

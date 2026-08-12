@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\Payment;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DynamicGetRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_make_dynamic_get_request()
     {
         $client = new MockMollieClient([
@@ -31,7 +34,7 @@ class DynamicGetRequestTest extends TestCase
         $this->assertInstanceOf(Payment::class, $payment);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $path = 'payments/tr_WDqYK6vllg';

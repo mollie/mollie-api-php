@@ -8,11 +8,12 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreatePayoutRequest;
 use Mollie\Api\Resources\Payout;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePayoutRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_payout()
     {
         $client = new MockMollieClient([
@@ -32,7 +33,7 @@ class CreatePayoutRequestTest extends TestCase
         $this->assertInstanceOf(Payout::class, $payout);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_payout_without_amount()
     {
         $client = MockMollieClient::fake([
@@ -54,7 +55,7 @@ class CreatePayoutRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_testmode_in_the_payload()
     {
         $client = MockMollieClient::fake([
@@ -76,7 +77,7 @@ class CreatePayoutRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreatePayoutRequest('bal_gVMhHKqSSRYJyPsuoPNFH');

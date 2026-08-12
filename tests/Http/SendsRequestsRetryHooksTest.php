@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
@@ -9,12 +11,13 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class SendsRequestsRetryHooksTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function fatal_middleware_runs_once_after_retries_exhausted(): void
     {
         $adapter = new class implements HttpAdapterContract {

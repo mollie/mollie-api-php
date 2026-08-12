@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSettlementRefundsRequest;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SettlementRefundEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -34,7 +37,7 @@ class SettlementRefundEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([

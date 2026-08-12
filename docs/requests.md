@@ -46,41 +46,9 @@ $createPaymentRequest = new CreatePaymentRequest(
     metadata: ['order_id' => '123']
 );
 
-/** @var \Mollie\Api\Resources\Payment $payment */
+// In v4 the return type is inferred from the request class — no @var needed
 $payment = $mollie->send($createPaymentRequest);
-```
-
-**Legacy**: Positional parameters still work but are less readable, especially with many optional parameters:
-
-```php
-// Legacy: Positional parameters (PHP 7.4)
-$createPaymentRequest = new CreatePaymentRequest(
-    'Test payment',
-    new Money('EUR', '10.00'),
-    'https://example.org/redirect',
-    null,  // cancelUrl
-    'https://example.org/webhook'
-    // ... many nulls for optional parameters
-);
-```
-
-## Money Object Convenience Methods
-
-Creating `Money` objects is now easier with convenience methods for all Mollie supported currencies:
-
-```php
-use Mollie\Api\Http\Data\Money;
-
-// Using convenience methods
-$amount = Money::euro('10.00');
-$amount = Money::usd('10.00');
-$amount = Money::gbp('10.00');
-$amount = Money::jpy('1000.00');
-// ... and all other supported currencies (AED, AUD, BGN, BRL, CAD, CHF, CZK, DKK, HKD, HUF, ILS, ISK, MXN, MYR, NOK, NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TWD, ZAR)
-// See [Mollie's multicurrency documentation](https://docs.mollie.com/docs/multicurrency) for the complete list of supported currencies.
-
-// Traditional constructor still works
-$amount = new Money('EUR', '10.00');
+// $payment is Mollie\Api\Resources\Payment
 ```
 
 ## Adding unsupported properties

@@ -1,23 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\UpdateSalesInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\UpdateSalesInvoiceRequest;
+use Mollie\Api\Types\PaymentTerm;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSalesInvoiceRequestFactoryTest extends TestCase
 {
     private const INVOICE_ID = 'inv_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_update_sales_invoice_request_object_with_full_data()
     {
         $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)
             ->withPayload([
                 'status' => 'draft',
                 'recipientIdentifier' => 'cst_12345',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'memo' => 'Please pay within 30 days',
                 'paymentDetails' => [
                     'source' => 'NL55INGB0000000000',
@@ -58,7 +62,7 @@ class UpdateSalesInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdateSalesInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_sales_invoice_request_object_with_minimal_data()
     {
         $request = UpdateSalesInvoiceRequestFactory::new(self::INVOICE_ID)

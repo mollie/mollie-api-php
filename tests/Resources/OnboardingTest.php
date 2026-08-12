@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\OnboardingStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class OnboardingTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,9 +17,10 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestOnboardingStatuses
      */
-    public function test_onboarding_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestOnboardingStatuses')]
+    #[Test]
+    public function onboarding_statuses($status, $function, $expected_boolean)
     {
         $onboarding = new Onboarding(
             $this->createMock(MollieApiClient::class),
@@ -25,20 +30,20 @@ class OnboardingTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $onboarding->{$function}());
     }
 
-    public function dpTestOnboardingStatuses()
+    public static function dpTestOnboardingStatuses()
     {
         return [
-            [OnboardingStatus::NEEDS_DATA, 'needsData', true],
-            [OnboardingStatus::NEEDS_DATA, 'inReview', false],
-            [OnboardingStatus::NEEDS_DATA, 'isCompleted', false],
+            [OnboardingStatus::NeedsData->value, 'needsData', true],
+            [OnboardingStatus::NeedsData->value, 'inReview', false],
+            [OnboardingStatus::NeedsData->value, 'isCompleted', false],
 
-            [OnboardingStatus::IN_REVIEW, 'needsData', false],
-            [OnboardingStatus::IN_REVIEW, 'inReview', true],
-            [OnboardingStatus::IN_REVIEW, 'isCompleted', false],
+            [OnboardingStatus::InReview->value, 'needsData', false],
+            [OnboardingStatus::InReview->value, 'inReview', true],
+            [OnboardingStatus::InReview->value, 'isCompleted', false],
 
-            [OnboardingStatus::COMPLETED, 'needsData', false],
-            [OnboardingStatus::COMPLETED, 'inReview', false],
-            [OnboardingStatus::COMPLETED, 'isCompleted', true],
+            [OnboardingStatus::Completed->value, 'needsData', false],
+            [OnboardingStatus::Completed->value, 'inReview', false],
+            [OnboardingStatus::Completed->value, 'isCompleted', true],
         ];
     }
 }

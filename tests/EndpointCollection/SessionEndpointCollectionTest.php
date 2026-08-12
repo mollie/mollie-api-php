@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -8,11 +10,12 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 use Mollie\Api\Http\Requests\GetSessionRequest;
 use Mollie\Api\Resources\Session;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SessionEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -25,7 +28,7 @@ class SessionEndpointCollectionTest extends TestCase
         $this->assertSession($session);
     }
 
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([

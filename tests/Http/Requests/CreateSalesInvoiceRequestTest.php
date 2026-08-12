@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -15,11 +17,12 @@ use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSalesInvoiceRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_sales_invoice()
     {
         $client = new MockMollieClient([
@@ -38,13 +41,13 @@ class CreateSalesInvoiceRequestTest extends TestCase
         // Create a sales invoice
         $request = new CreateSalesInvoiceRequest(
             'EUR',
-            SalesInvoiceStatus::DRAFT,
-            VatScheme::STANDARD,
-            VatMode::INCLUSIVE,
-            PaymentTerm::DAYS_30,
+            SalesInvoiceStatus::Draft->value,
+            VatScheme::Standard->value,
+            VatMode::Inclusive->value,
+            PaymentTerm::Days30->value,
             'XXXXX',
             new Recipient(
-                RecipientType::CONSUMER,
+                RecipientType::Consumer->value,
                 'darth@vader.deathstar',
                 'Sample Street 12b',
                 '2000 AA',
@@ -62,17 +65,17 @@ class CreateSalesInvoiceRequestTest extends TestCase
         $this->assertInstanceOf(SalesInvoice::class, $salesInvoice);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateSalesInvoiceRequest(
             'EUR',
-            SalesInvoiceStatus::DRAFT,
-            VatScheme::STANDARD,
-            VatMode::INCLUSIVE,
-            PaymentTerm::DAYS_30,
+            SalesInvoiceStatus::Draft->value,
+            VatScheme::Standard->value,
+            VatMode::Inclusive->value,
+            PaymentTerm::Days30->value,
             'XXXXX',
-            new Recipient(RecipientType::CONSUMER, 'darth@vader.deathstar', 'Sample Street 12b', '2000 AA', 'Amsterdam', 'NL', 'nl_NL'),
+            new Recipient(RecipientType::Consumer->value, 'darth@vader.deathstar', 'Sample Street 12b', '2000 AA', 'Amsterdam', 'NL', 'nl_NL'),
             new DataCollection([new InvoiceLine('Monthly subscription fee', 1, '21', new Money('EUR', '10,00'))])
         );
 

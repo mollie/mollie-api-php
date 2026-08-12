@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaymentLinkRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_payment_link()
     {
         $client = new MockMollieClient([
@@ -26,8 +29,7 @@ class GetPaymentLinkRequestTest extends TestCase
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
     }
 
-    /** @test */
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentLinkId = 'pl_4Y0eZitmBnQ5jsBYZIBw';

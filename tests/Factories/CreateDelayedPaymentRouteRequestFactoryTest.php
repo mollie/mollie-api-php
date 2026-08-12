@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateDelayedPaymentRouteRequestFactory;
 use Mollie\Api\Http\Requests\CreateDelayedPaymentRouteRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateDelayedPaymentRouteRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_create_delayed_route_request_object_with_full_data()
     {
         $request = CreateDelayedPaymentRouteRequestFactory::new(self::PAYMENT_ID)
@@ -23,7 +26,7 @@ class CreateDelayedPaymentRouteRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateDelayedPaymentRouteRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_amount_is_missing()
     {
         $this->expectException(\Mollie\Api\Exceptions\LogicException::class);
@@ -36,7 +39,7 @@ class CreateDelayedPaymentRouteRequestFactoryTest extends TestCase
             ->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_destination_is_missing()
     {
         $this->expectException(\Mollie\Api\Exceptions\LogicException::class);

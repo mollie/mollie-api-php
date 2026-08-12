@@ -1,28 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Traits\ComposableFromArray;
 
-class TransferParty implements Arrayable
+readonly class TransferParty implements Arrayable
 {
     use ComposableFromArray;
 
-    public string $type;
-
-    public string $id;
-
-    public string $description;
-
     public function __construct(
-        string $id,
-        string $description,
-        string $type = 'organization'
+        public string $id,
+        public string $description,
+        public string $type = 'organization',
     ) {
-        $this->id = $id;
-        $this->description = $description;
-        $this->type = $type;
     }
 
     public function toArray(): array

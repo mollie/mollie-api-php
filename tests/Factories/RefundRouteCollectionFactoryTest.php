@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Factories\RefundRouteCollectionFactory;
 use Mollie\Api\Http\Data\DataCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RefundRouteCollectionFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_refund_route_collection()
     {
         $collection = RefundRouteCollectionFactory::new([
@@ -37,7 +40,7 @@ class RefundRouteCollectionFactoryTest extends TestCase
         $this->assertCount(2, $collection);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_refund_route_collection_with_single_route()
     {
         $collection = RefundRouteCollectionFactory::new([
@@ -56,7 +59,7 @@ class RefundRouteCollectionFactoryTest extends TestCase
         $this->assertCount(1, $collection);
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_for_invalid_data()
     {
         $this->expectException(LogicException::class);

@@ -7,12 +7,14 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/terminals-revoke-pairing-code
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\TerminalPairingCode>
  */
 class RevokeTerminalPairingCodeRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::DELETE;
 
-    protected $hydratableResource = TerminalPairingCode::class;
+    protected ?string $hydratableResource = TerminalPairingCode::class;
 
     private string $id;
 

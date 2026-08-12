@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\InvoiceLineFactory;
 use Mollie\Api\Http\Data\InvoiceLine;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceLineFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_invoice_line_object_with_full_data()
     {
         $invoiceLine = InvoiceLineFactory::new([
@@ -28,7 +31,7 @@ class InvoiceLineFactoryTest extends TestCase
         $this->assertInstanceOf(InvoiceLine::class, $invoiceLine);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_invoice_line_object_with_minimal_data()
     {
         $invoiceLine = InvoiceLineFactory::new([

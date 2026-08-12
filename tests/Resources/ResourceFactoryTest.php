@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Contracts\IsWrapper;
@@ -8,11 +10,12 @@ use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\ResourceFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_a_resource_instance()
     {
         $connector = $this->createMock(MollieApiClient::class);
@@ -21,7 +24,7 @@ class ResourceFactoryTest extends TestCase
         $this->assertInstanceOf(Payment::class, $resource);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_collection_instance()
     {
         $connector = $this->createMock(MollieApiClient::class);
@@ -33,7 +36,7 @@ class ResourceFactoryTest extends TestCase
         $this->assertInstanceOf(PaymentCollection::class, $collection);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_decorated_resource()
     {
         $connector = $this->createMock(MollieApiClient::class);
@@ -57,7 +60,7 @@ class ResourceFactoryTest extends TestCase
         $this->assertInstanceOf(CustomResourceDecorator::class, $decoratedResource);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_for_invalid_decorator()
     {
         $connector = $this->createMock(MollieApiClient::class);

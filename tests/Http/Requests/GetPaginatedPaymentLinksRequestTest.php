@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentLinksRequest;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Resources\PaymentLinkCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentLinksRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_payment_links()
     {
         $client = new MockMollieClient([
@@ -33,7 +36,7 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_payment_links()
     {
         $client = new MockMollieClient([
@@ -58,7 +61,7 @@ class GetPaginatedPaymentLinksRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedPaymentLinksRequest;

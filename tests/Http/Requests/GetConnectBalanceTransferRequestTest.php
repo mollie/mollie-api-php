@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetConnectBalanceTransferRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetConnectBalanceTransferRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_connect_balance_transfer()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetConnectBalanceTransferRequestTest extends TestCase
         $this->assertInstanceOf(ConnectBalanceTransfer::class, $balanceTransfer);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetConnectBalanceTransferRequest('cbt_4KgGJJSZpH');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -8,11 +10,12 @@ use Mollie\Api\Http\Requests\GetCapabilityRequest;
 use Mollie\Api\Http\Requests\ListCapabilitiesRequest;
 use Mollie\Api\Resources\Capability;
 use Mollie\Api\Resources\CapabilityCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CapabilityEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -25,7 +28,7 @@ class CapabilityEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(Capability::class, $capability);
     }
 
-    /** @test */
+    #[Test]
     public function list()
     {
         $client = new MockMollieClient([

@@ -1,18 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\AnyResource;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\AnyResource>
+ */
 abstract class DynamicRequest extends ResourceHydratableRequest
 {
-    private string $url;
+    protected ?string $hydratableResource = AnyResource::class;
 
-    protected $hydratableResource = AnyResource::class;
-
-    public function __construct(string $url)
-    {
-        $this->url = $url;
+    public function __construct(
+        private string $url,
+    ) {
     }
 
     public function resolveResourcePath(): string

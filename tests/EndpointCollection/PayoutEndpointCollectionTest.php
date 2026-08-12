@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\GetPaginatedPayoutsRequest;
 use Mollie\Api\Http\Requests\GetPayoutRequest;
 use Mollie\Api\Resources\Payout;
 use Mollie\Api\Resources\PayoutCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PayoutEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -30,7 +31,7 @@ class PayoutEndpointCollectionTest extends TestCase
         $this->assertGreaterThan(0, count($payouts));
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([
@@ -43,7 +44,7 @@ class PayoutEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -63,7 +64,7 @@ class PayoutEndpointCollectionTest extends TestCase
         $this->assertPayout($payout);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -76,7 +77,7 @@ class PayoutEndpointCollectionTest extends TestCase
         $this->assertPayout($payout);
     }
 
-    /** @test */
+    #[Test]
     public function cancel()
     {
         $client = new MockMollieClient([

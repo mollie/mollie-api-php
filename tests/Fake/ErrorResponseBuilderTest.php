@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Tests\Fake;
 
 use Mollie\Api\Fake\ErrorResponseBuilder;
 use Mollie\Api\Fake\MockResponse;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ErrorResponseBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_create_a_response_without_field()
     {
         $response = (new ErrorResponseBuilder(404, 'Not Found', 'No payment exists with token tr_xxxxxxxxxxx.'))->create();
@@ -23,7 +26,7 @@ class ErrorResponseBuilderTest extends TestCase
         $this->assertArrayNotHasKey('field', $data);
     }
 
-    /** @test */
+    #[Test]
     public function can_create_a_response_with_field()
     {
         $response = (new ErrorResponseBuilder(404, 'Not Found', 'No payment exists with token tr_xxxxxxxxxxx.', 'field'))->create();
@@ -38,7 +41,7 @@ class ErrorResponseBuilderTest extends TestCase
         $this->assertEquals('field', $data['field']);
     }
 
-    /** @test */
+    #[Test]
     public function can_handle_special_characters_in_detail()
     {
         $detail = 'Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?';

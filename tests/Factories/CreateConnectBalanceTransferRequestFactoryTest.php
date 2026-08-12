@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateConnectBalanceTransferRequestFactory;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_connect_balance_transfer_request_object_with_full_data()
     {
         $request = CreateConnectBalanceTransferRequestFactory::new()
@@ -41,7 +44,7 @@ class CreateConnectBalanceTransferRequestFactoryTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_connect_balance_transfer_request_object_with_minimal_data()
     {
         $request = CreateConnectBalanceTransferRequestFactory::new()

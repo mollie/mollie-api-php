@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -12,67 +14,34 @@ use Mollie\Api\Resources\Session;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Session>
+ */
 class CreateSessionRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = Session::class;
-
-    private Money $amount;
-
-    private string $description;
-
-    private string $redirectUrl;
+    protected ?string $hydratableResource = Session::class;
 
     /**
-     * @var DataCollection<OrderLine>
+     * @param DataCollection<OrderLine> $lines
      */
-    private DataCollection $lines;
-
-    private ?string $cancelUrl;
-
-    private ?Address $billingAddress;
-
-    private ?Address $shippingAddress;
-
-    private ?string $customerId;
-
-    private ?string $sequenceType;
-
-    private ?array $metadata;
-
-    private ?string $paymentWebhook;
-
-    private ?string $profileId;
-
     public function __construct(
-        Money $amount,
-        string $description,
-        string $redirectUrl,
-        DataCollection $lines,
-        ?string $cancelUrl = null,
-        ?Address $billingAddress = null,
-        ?Address $shippingAddress = null,
-        ?string $customerId = null,
-        ?string $sequenceType = null,
-        ?array $metadata = null,
-        ?string $paymentWebhook = null,
-        ?string $profileId = null
+        private Money $amount,
+        private string $description,
+        private string $redirectUrl,
+        private DataCollection $lines,
+        private ?string $cancelUrl = null,
+        private ?Address $billingAddress = null,
+        private ?Address $shippingAddress = null,
+        private ?string $customerId = null,
+        private ?string $sequenceType = null,
+        private ?array $metadata = null,
+        private ?string $paymentWebhook = null,
+        private ?string $profileId = null,
     ) {
-        $this->amount = $amount;
-        $this->description = $description;
-        $this->redirectUrl = $redirectUrl;
-        $this->lines = $lines;
-        $this->cancelUrl = $cancelUrl;
-        $this->billingAddress = $billingAddress;
-        $this->shippingAddress = $shippingAddress;
-        $this->customerId = $customerId;
-        $this->sequenceType = $sequenceType;
-        $this->metadata = $metadata;
-        $this->paymentWebhook = $paymentWebhook;
-        $this->profileId = $profileId;
     }
 
     protected function defaultPayload(): array

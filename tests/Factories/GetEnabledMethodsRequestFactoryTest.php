@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetEnabledMethodsRequestFactory;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Types\MethodQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetEnabledMethodsRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_enabled_methods_request_object_with_full_data()
     {
         $request = GetEnabledMethodsRequestFactory::new()
@@ -33,7 +36,7 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_include_flags()
     {
         $request = GetEnabledMethodsRequestFactory::new()
@@ -47,7 +50,7 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_enabled_methods_request_object_with_minimal_data()
     {
         $request = GetEnabledMethodsRequestFactory::new()
@@ -56,7 +59,7 @@ class GetEnabledMethodsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetEnabledMethodsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_enabled_methods_request_object_with_partial_data()
     {
         $request = GetEnabledMethodsRequestFactory::new()

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
 class PaymentTest extends \PHPUnit\Framework\TestCase
@@ -15,9 +20,10 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestPaymentStatuses
      */
-    public function test_payment_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestPaymentStatuses')]
+    #[Test]
+    public function payment_statuses($status, $function, $expected_boolean)
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -27,60 +33,61 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $payment->{$function}());
     }
 
-    public function dpTestPaymentStatuses()
+    public static function dpTestPaymentStatuses()
     {
         return [
-            [PaymentStatus::PENDING, 'isPending', true],
-            [PaymentStatus::PENDING, 'isAuthorized', false],
-            [PaymentStatus::PENDING, 'isFailed', false],
-            [PaymentStatus::PENDING, 'isOpen', false],
-            [PaymentStatus::PENDING, 'isCanceled', false],
-            [PaymentStatus::PENDING, 'isPaid', false],
-            [PaymentStatus::PENDING, 'isExpired', false],
+            [PaymentStatus::Pending->value, 'isPending', true],
+            [PaymentStatus::Pending->value, 'isAuthorized', false],
+            [PaymentStatus::Pending->value, 'isFailed', false],
+            [PaymentStatus::Pending->value, 'isOpen', false],
+            [PaymentStatus::Pending->value, 'isCanceled', false],
+            [PaymentStatus::Pending->value, 'isPaid', false],
+            [PaymentStatus::Pending->value, 'isExpired', false],
 
-            [PaymentStatus::AUTHORIZED, 'isPending', false],
-            [PaymentStatus::AUTHORIZED, 'isAuthorized', true],
-            [PaymentStatus::AUTHORIZED, 'isFailed', false],
-            [PaymentStatus::AUTHORIZED, 'isOpen', false],
-            [PaymentStatus::AUTHORIZED, 'isCanceled', false],
-            [PaymentStatus::AUTHORIZED, 'isPaid', false],
-            [PaymentStatus::AUTHORIZED, 'isExpired', false],
+            [PaymentStatus::Authorized->value, 'isPending', false],
+            [PaymentStatus::Authorized->value, 'isAuthorized', true],
+            [PaymentStatus::Authorized->value, 'isFailed', false],
+            [PaymentStatus::Authorized->value, 'isOpen', false],
+            [PaymentStatus::Authorized->value, 'isCanceled', false],
+            [PaymentStatus::Authorized->value, 'isPaid', false],
+            [PaymentStatus::Authorized->value, 'isExpired', false],
 
-            [PaymentStatus::FAILED, 'isPending', false],
-            [PaymentStatus::FAILED, 'isAuthorized', false],
-            [PaymentStatus::FAILED, 'isFailed', true],
-            [PaymentStatus::FAILED, 'isOpen', false],
-            [PaymentStatus::FAILED, 'isCanceled', false],
-            [PaymentStatus::FAILED, 'isPaid', false],
-            [PaymentStatus::FAILED, 'isExpired', false],
+            [PaymentStatus::Failed->value, 'isPending', false],
+            [PaymentStatus::Failed->value, 'isAuthorized', false],
+            [PaymentStatus::Failed->value, 'isFailed', true],
+            [PaymentStatus::Failed->value, 'isOpen', false],
+            [PaymentStatus::Failed->value, 'isCanceled', false],
+            [PaymentStatus::Failed->value, 'isPaid', false],
+            [PaymentStatus::Failed->value, 'isExpired', false],
 
-            [PaymentStatus::OPEN, 'isPending', false],
-            [PaymentStatus::OPEN, 'isAuthorized', false],
-            [PaymentStatus::OPEN, 'isFailed', false],
-            [PaymentStatus::OPEN, 'isOpen', true],
-            [PaymentStatus::OPEN, 'isCanceled', false],
-            [PaymentStatus::OPEN, 'isPaid', false],
-            [PaymentStatus::OPEN, 'isExpired', false],
+            [PaymentStatus::Open->value, 'isPending', false],
+            [PaymentStatus::Open->value, 'isAuthorized', false],
+            [PaymentStatus::Open->value, 'isFailed', false],
+            [PaymentStatus::Open->value, 'isOpen', true],
+            [PaymentStatus::Open->value, 'isCanceled', false],
+            [PaymentStatus::Open->value, 'isPaid', false],
+            [PaymentStatus::Open->value, 'isExpired', false],
 
-            [PaymentStatus::CANCELED, 'isPending', false],
-            [PaymentStatus::CANCELED, 'isAuthorized', false],
-            [PaymentStatus::CANCELED, 'isFailed', false],
-            [PaymentStatus::CANCELED, 'isOpen', false],
-            [PaymentStatus::CANCELED, 'isCanceled', true],
-            [PaymentStatus::CANCELED, 'isPaid', false],
-            [PaymentStatus::CANCELED, 'isExpired', false],
+            [PaymentStatus::Canceled->value, 'isPending', false],
+            [PaymentStatus::Canceled->value, 'isAuthorized', false],
+            [PaymentStatus::Canceled->value, 'isFailed', false],
+            [PaymentStatus::Canceled->value, 'isOpen', false],
+            [PaymentStatus::Canceled->value, 'isCanceled', true],
+            [PaymentStatus::Canceled->value, 'isPaid', false],
+            [PaymentStatus::Canceled->value, 'isExpired', false],
 
-            [PaymentStatus::EXPIRED, 'isPending', false],
-            [PaymentStatus::EXPIRED, 'isAuthorized', false],
-            [PaymentStatus::EXPIRED, 'isFailed', false],
-            [PaymentStatus::EXPIRED, 'isOpen', false],
-            [PaymentStatus::EXPIRED, 'isCanceled', false],
-            [PaymentStatus::EXPIRED, 'isPaid', false],
-            [PaymentStatus::EXPIRED, 'isExpired', true],
+            [PaymentStatus::Expired->value, 'isPending', false],
+            [PaymentStatus::Expired->value, 'isAuthorized', false],
+            [PaymentStatus::Expired->value, 'isFailed', false],
+            [PaymentStatus::Expired->value, 'isOpen', false],
+            [PaymentStatus::Expired->value, 'isCanceled', false],
+            [PaymentStatus::Expired->value, 'isPaid', false],
+            [PaymentStatus::Expired->value, 'isExpired', true],
         ];
     }
 
-    public function test_is_paid_returns_true_when_paid_datetime_is_set()
+    #[Test]
+    public function is_paid_returns_true_when_paid_datetime_is_set()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -90,7 +97,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->isPaid());
     }
 
-    public function test_has_refunds_returns_true_when_payment_has_refunds()
+    #[Test]
+    public function has_refunds_returns_true_when_payment_has_refunds()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -102,7 +110,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasRefunds());
     }
 
-    public function test_has_refunds_returns_false_when_payment_has_no_refunds()
+    #[Test]
+    public function has_refunds_returns_false_when_payment_has_no_refunds()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -112,7 +121,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasRefunds());
     }
 
-    public function test_has_chargebacks_returns_true_when_payment_has_chargebacks()
+    #[Test]
+    public function has_chargebacks_returns_true_when_payment_has_chargebacks()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -124,7 +134,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($payment->hasChargebacks());
     }
 
-    public function test_has_chargebacks_returns_false_when_payment_has_no_chargebacks()
+    #[Test]
+    public function has_chargebacks_returns_false_when_payment_has_no_chargebacks()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -134,40 +145,44 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->hasChargebacks());
     }
 
-    public function test_has_recurring_type_returns_true_when_recurring_type_is_first()
+    #[Test]
+    public function has_recurring_type_returns_true_when_recurring_type_is_first()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::FIRST;
+        $payment->sequenceType = SequenceType::First;
         $this->assertFalse($payment->hasSequenceTypeRecurring());
         $this->assertTrue($payment->hasSequenceTypeFirst());
     }
 
-    public function test_has_recurring_type_returns_true_when_recurring_type_is_recurring()
+    #[Test]
+    public function has_recurring_type_returns_true_when_recurring_type_is_recurring()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::RECURRING;
+        $payment->sequenceType = SequenceType::Recurring;
         $this->assertTrue($payment->hasSequenceTypeRecurring());
         $this->assertFalse($payment->hasSequenceTypeFirst());
     }
 
-    public function test_has_recurring_type_returns_false_when_recurring_type_is_none()
+    #[Test]
+    public function has_recurring_type_returns_false_when_recurring_type_is_none()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->sequenceType = SequenceType::ONEOFF;
+        $payment->sequenceType = SequenceType::Oneoff;
         $this->assertFalse($payment->hasSequenceTypeFirst());
         $this->assertFalse($payment->hasSequenceTypeRecurring());
     }
 
-    public function test_get_checkout_url_returns_payment_url_from_links_object()
+    #[Test]
+    public function get_checkout_url_returns_payment_url_from_links_object()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -180,7 +195,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($payment->getCheckoutUrl(), 'https://example.com');
     }
 
-    public function test_get_mobile_app_checkout_url_returns_payment_url_from_links_object()
+    #[Test]
+    public function get_mobile_app_checkout_url_returns_payment_url_from_links_object()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -193,22 +209,20 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($payment->getMobileAppCheckoutUrl(), 'https://example-mobile-checkout.com');
     }
 
-    public function test_can_be_refunded_returns_true_when_amount_remaining_is_set()
+    #[Test]
+    public function can_be_refunded_returns_true_when_amount_remaining_is_set()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $amountRemaining = new Stdclass;
-        $amountRemaining->value = '15.00';
-        $amountRemaining->currency = 'EUR';
-
-        $payment->amountRemaining = $amountRemaining;
+        $payment->amountRemaining = new Money(currency: 'EUR', value: '15.00');
         $this->assertTrue($payment->canBeRefunded());
         $this->assertTrue($payment->canBePartiallyRefunded());
     }
 
-    public function test_can_be_refunded_returns_false_when_amount_remaining_is_null()
+    #[Test]
+    public function can_be_refunded_returns_false_when_amount_remaining_is_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -219,17 +233,19 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($payment->canBePartiallyRefunded());
     }
 
-    public function test_get_amount_refunded_returns_amount_refunded_as_float()
+    #[Test]
+    public function get_amount_refunded_returns_amount_refunded_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountRefunded = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountRefunded = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountRefunded());
     }
 
-    public function test_get_amount_refunded_returns0_when_amount_refunded_is_set_to_null()
+    #[Test]
+    public function get_amount_refunded_returns0_when_amount_refunded_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -239,17 +255,19 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountRefunded());
     }
 
-    public function test_get_amount_remaining_returns_amount_remaining_as_float()
+    #[Test]
+    public function get_amount_remaining_returns_amount_remaining_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountRemaining = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountRemaining = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountRemaining());
     }
 
-    public function test_get_amount_remaining_returns0_when_amount_remaining_is_set_to_null()
+    #[Test]
+    public function get_amount_remaining_returns0_when_amount_remaining_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -259,17 +277,19 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountRemaining());
     }
 
-    public function test_get_amount_charged_back_returns_amount_charged_back_as_float()
+    #[Test]
+    public function get_amount_charged_back_returns_amount_charged_back_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->amountChargedBack = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->amountChargedBack = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getAmountChargedBack());
     }
 
-    public function test_get_amount_charged_back_returns0_when_amount_charged_back_is_set_to_null()
+    #[Test]
+    public function get_amount_charged_back_returns0_when_amount_charged_back_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -279,7 +299,8 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getAmountChargedBack());
     }
 
-    public function test_get_settlement_amount_returns0_when_settlement_amount_is_set_to_null()
+    #[Test]
+    public function get_settlement_amount_returns0_when_settlement_amount_is_set_to_null()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
@@ -289,17 +310,19 @@ class PaymentTest extends \PHPUnit\Framework\TestCase
         self::assertSame(0.0, $payment->getSettlementAmount());
     }
 
-    public function test_get_settlement_amount_returns_settlement_amount_as_float()
+    #[Test]
+    public function get_settlement_amount_returns_settlement_amount_as_float()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),
         );
 
-        $payment->settlementAmount = (object) ['value' => 22.0, 'currency' => 'EUR'];
+        $payment->settlementAmount = new Money(currency: 'EUR', value: '22.0');
         self::assertSame(22.0, $payment->getSettlementAmount());
     }
 
-    public function test_has_split_payments_returns_false_when_payment_has_no_split()
+    #[Test]
+    public function has_split_payments_returns_false_when_payment_has_no_split()
     {
         $payment = new Payment(
             $this->createMock(MollieApiClient::class),

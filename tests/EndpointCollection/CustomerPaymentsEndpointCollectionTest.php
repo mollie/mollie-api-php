@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -11,11 +13,12 @@ use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CustomerPaymentsEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_for()
     {
         $client = new MockMollieClient([
@@ -35,7 +38,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
         $this->assertPayment($payment);
     }
 
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -56,7 +59,7 @@ class CustomerPaymentsEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([

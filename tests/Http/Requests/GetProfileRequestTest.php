@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetProfileRequest;
 use Mollie\Api\Resources\Profile;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetProfileRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_profile()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetProfileRequestTest extends TestCase
         $this->assertInstanceOf(Profile::class, $profile);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetProfileRequest('pfl_v9hTwCvYqw');

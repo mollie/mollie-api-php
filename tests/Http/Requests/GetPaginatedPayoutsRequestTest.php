@@ -9,11 +9,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPayoutsRequest;
 use Mollie\Api\Resources\Payout;
 use Mollie\Api\Resources\PayoutCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPayoutsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_payouts()
     {
         $client = new MockMollieClient([
@@ -33,7 +34,7 @@ class GetPaginatedPayoutsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_payouts()
     {
         $client = new MockMollieClient([
@@ -57,7 +58,7 @@ class GetPaginatedPayoutsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedPayoutsRequest;

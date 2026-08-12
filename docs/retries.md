@@ -37,6 +37,41 @@ To effectively disable retries, set the max retries to `0`:
 $client->setRetryStrategy(new LinearRetryStrategy(0, 0));
 ```
 
+## Exponential backoff with 429 / Retry-After
+
+`ExponentialRetryStrategy` does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). A numeric `Retry-After` is honoured when it fits within `maxDelayMs`. With jitter enabled, the strategy adds up to 10% (capped at 1000ms) so throttled clients do not retry simultaneously. It never retries early: if `Retry-After` exceeds `maxDelayMs`, the exception is thrown immediately.
+
+```php
+use Mollie\Api\Http\ExponentialRetryStrategy;
+
+$client->setRetryStrategy(new ExponentialRetryStrategy(
+    maxRetries: 5,
+    baseDelayMs: 500,
+    multiplier: 2.0,
+    maxDelayMs: 30_000,
+    jitter: true,
+));
+```
+
+Use this strategy when you want graceful handling of 429 rate limits — the linear strategy only retries network errors.
+
+### Inspecting rate-limit headers
+
+Every response exposes Mollie's `RateLimit` and `RateLimit-Policy` values:
+
+```php
+$rateLimit = $response->rateLimit();
+
+$rateLimit?->policy;
+$rateLimit?->remaining;
+$rateLimit?->restoreSeconds;
+$rateLimit?->burst;
+$rateLimit?->quota;
+$rateLimit?->windowSeconds;
+```
+
+Missing headers or parameters produce `null` values. API exceptions retain their response, so the same data is available on a 429 through `$exception->getResponse()->rateLimit()`.
+
 ## Creating your own strategy
 
 Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` interface:
@@ -44,14 +79,19 @@ Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` int
 ```php
 namespace Mollie\Api\Contracts;
 
+use Throwable;
+
 interface RetryStrategyContract
 {
     // Maximum number of retries after the initial attempt
     public function maxRetries(): int;
 
+    // Whether this exception should be retried
+    public function shouldRetry(Throwable $exception): bool;
+
     // Delay in milliseconds before performing the given retry attempt
     // $attempt starts at 1 for the first retry
-    public function delayBeforeAttemptMs(int $attempt): int;
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int;
 }
 ```
 
@@ -59,6 +99,8 @@ interface RetryStrategyContract
 
 ```php
 use Mollie\Api\Contracts\RetryStrategyContract;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Throwable;
 
 class FixedDelayRetryStrategy implements RetryStrategyContract
 {
@@ -72,7 +114,12 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
         return max(0, $this->maxRetries);
     }
 
-    public function delayBeforeAttemptMs(int $attempt): int
+    public function shouldRetry(Throwable $exception): bool
+    {
+        return $exception instanceof RetryableNetworkRequestException;
+    }
+
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
     {
         // Same delay for every retry
         return max(0, $this->delayMs);
@@ -83,9 +130,8 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
 $client->setRetryStrategy(new FixedDelayRetryStrategy(3, 250));
 ```
 
-You can implement any retry timing you prefer (e.g., exponential backoff with jitter, capped delays, etc.) as long as you adhere to the contract.
+You can implement any retry timing and retryability rules you prefer (e.g., exponential backoff with jitter, capped delays, retrying 429 responses, etc.) as long as you adhere to the contract.
 
 ## When retries happen
 
-Retries are performed only for exceptions that are considered retryable by the HTTP layer and wrapped as `Mollie\Api\Exceptions\RetryableNetworkRequestException`. Other exceptions are not retried and will be thrown immediately.
-
+Retries are performed only when the configured retry strategy returns `true` from `shouldRetry()`. The default `LinearRetryStrategy` retries `Mollie\Api\Exceptions\RetryableNetworkRequestException` only, matching the v3 default behavior. `ExponentialRetryStrategy` also retries `TooManyRequestsException` for HTTP 429 responses when `Retry-After` is absent or fits within `maxDelayMs`.

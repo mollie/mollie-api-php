@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
 use Mollie\Api\Resources\SubscriptionCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetAllPaginatedSubscriptionsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_subscriptions()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetAllPaginatedSubscriptionsRequestTest extends TestCase
         $this->assertInstanceOf(SubscriptionCollection::class, $subscriptions);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetAllPaginatedSubscriptionsRequest;

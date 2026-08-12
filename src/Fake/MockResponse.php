@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Fake;
 
+use Mollie\Api\Fake\Concerns\CreatesResourceResponses;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Psr\Http\Message\ResponseInterface;
 
 class MockResponse
 {
+    use CreatesResourceResponses;
     use HasDefaultFactories;
 
     protected int $status;
@@ -17,6 +21,8 @@ class MockResponse
 
     /**
      * @param  string|array|callable  $body
+     * @param  int  $status
+     * @param  string  $resourceKey
      */
     public function __construct(
         $body,
@@ -44,6 +50,7 @@ class MockResponse
 
     /**
      * @param  string|array  $body
+     * @param  string  $resourceKey
      */
     public static function ok($body = [], string $resourceKey = ''): self
     {
@@ -52,6 +59,7 @@ class MockResponse
 
     /**
      * @param  string|array  $body
+     * @param  string  $resourceKey
      */
     public static function created($body = [], string $resourceKey = ''): self
     {

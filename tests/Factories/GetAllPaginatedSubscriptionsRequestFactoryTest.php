@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetAllPaginatedSubscriptionsRequestFactory;
 use Mollie\Api\Http\Requests\GetAllPaginatedSubscriptionsRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetAllPaginatedSubscriptionsRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_all_paginated_subscriptions_request_object_with_full_data()
     {
         $request = GetAllPaginatedSubscriptionsRequestFactory::new()
@@ -22,7 +25,7 @@ class GetAllPaginatedSubscriptionsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetAllPaginatedSubscriptionsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_all_paginated_subscriptions_request_object_with_minimal_data()
     {
         $request = GetAllPaginatedSubscriptionsRequestFactory::new()
@@ -31,7 +34,7 @@ class GetAllPaginatedSubscriptionsRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetAllPaginatedSubscriptionsRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_all_paginated_subscriptions_request_object_with_partial_data()
     {
         $request = GetAllPaginatedSubscriptionsRequestFactory::new()

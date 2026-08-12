@@ -4,19 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-PHP SDK for the Mollie API (https://docs.mollie.com/reference/overview). Supports PHP 7.4–8.4. Namespace: `Mollie\Api`.
+PHP SDK for the Mollie API (https://docs.mollie.com/reference/overview). Supports PHP ^8.2. Namespace: `Mollie\Api`.
 
 ## Commands
 
 ```bash
 # Run all tests (parallel)
-composer test                    # or: vendor/bin/paratest --verbose
+composer test                    # runs: vendor/bin/pest --parallel
 
 # Run a single test file
-vendor/bin/phpunit tests/Path/To/TestFile.php
+vendor/bin/pest tests/Path/To/TestFile.php
 
 # Run a single test method
-vendor/bin/phpunit --filter testMethodName tests/Path/To/TestFile.php
+vendor/bin/pest --filter testMethodName tests/Path/To/TestFile.php
 
 # Static analysis (level 5)
 vendor/bin/phpstan
@@ -99,6 +99,6 @@ Test fixtures live in `tests/Fixtures/`. Documentation and code examples are in 
 
 ## CI
 
-- **Tests**: PHPUnit via Paratest across PHP 7.4, 8.0, 8.1, 8.2, 8.3, 8.4
+- **Tests**: Pest v3 across PHP 8.2, 8.3, 8.4
 - **Static analysis**: PHPStan level 5 (with baseline)
 - **Code style**: PHP CS Fixer

@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\UpdateCustomerRequestFactory;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateCustomerRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_update_customer_request_object_with_full_data()
     {
         $request = UpdateCustomerRequestFactory::new(self::CUSTOMER_ID)
@@ -28,7 +31,7 @@ class UpdateCustomerRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdateCustomerRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_customer_request_object_with_minimal_data()
     {
         $request = UpdateCustomerRequestFactory::new(self::CUSTOMER_ID)
@@ -40,7 +43,7 @@ class UpdateCustomerRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdateCustomerRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_customer_request_object_with_partial_data()
     {
         $request = UpdateCustomerRequestFactory::new(self::CUSTOMER_ID)

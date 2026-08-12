@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Requests\UpdateWebhookRequest;
 use Mollie\Api\Resources\AnyResource;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function update_webhook()
     {
         $client = new MockMollieClient([
@@ -37,7 +40,7 @@ class WebhookTest extends TestCase
         $this->assertEquals('webhook', $updatedWebhook->resource);
     }
 
-    /** @test */
+    #[Test]
     public function delete_webhook()
     {
         $client = new MockMollieClient([
@@ -49,12 +52,11 @@ class WebhookTest extends TestCase
 
         $webhook->delete();
 
-        // If we reach this point, the delete was successful
-        $this->assertTrue(true);
+        $client->assertSent(DeleteWebhookRequest::class);
     }
 
-    /** @test */
-    public function test_webhook()
+    #[Test]
+    public function webhook()
     {
         $client = new MockMollieClient([
             TestWebhookRequest::class => MockResponse::ok('webhook-test'),

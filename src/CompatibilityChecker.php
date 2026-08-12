@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api;
 
 use Mollie\Api\Exceptions\IncompatiblePlatformException;
@@ -9,7 +11,7 @@ class CompatibilityChecker
     /**
      * @var string
      */
-    public const MIN_PHP_VERSION = '7.4';
+    public const MIN_PHP_VERSION = '8.2';
 
     public static function make(): self
     {

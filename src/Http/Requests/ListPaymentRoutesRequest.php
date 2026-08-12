@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\RouteCollection;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\RouteCollection>
+ */
 class ListPaymentRoutesRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;
@@ -13,13 +18,11 @@ class ListPaymentRoutesRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = RouteCollection::class;
+    protected ?string $hydratableResource = RouteCollection::class;
 
-    private string $paymentId;
-
-    public function __construct(string $paymentId)
-    {
-        $this->paymentId = $paymentId;
+    public function __construct(
+        private string $paymentId,
+    ) {
     }
 
     public function resolveResourcePath(): string

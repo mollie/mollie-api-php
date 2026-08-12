@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetOnboardingStatusRequest;
 use Mollie\Api\Resources\Onboarding;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetOnboardingStatusRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_onboarding_status()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetOnboardingStatusRequestTest extends TestCase
         $this->assertInstanceOf(Onboarding::class, $onboarding);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetOnboardingStatusRequest;

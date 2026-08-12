@@ -1,66 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\CapabilityStatus;
+use Mollie\Api\Utils\Utility;
 
 class Capability extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public $resource;
+
+    public string $name;
+
+    /** @var array<string> */
+    public array $requirements;
+
+    public CapabilityStatus|string $status;
+
+    public string $statusReason;
+
+    public string $organizationId;
 
     /**
-     * @var string
-     *
-     * @example payments
-     */
-    public $name;
-
-    /**
-     * @var array
-     */
-    public $requirements;
-
-    /**
-     * @var string
-     *
-     * possible values: disabled, pending, enabled
-     *
-     * @example enabled
-     */
-    public $status;
-
-    /**
-     * @var string
-     */
-    public $statusReason;
-
-    /**
-     * @var string
-     */
-    public $organizationId;
-
-    /**
-     * Links to help navigate through the Mollie API and related resources.
-     *
      * @var \stdClass
      */
     public $_links;
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        return $this->status === CapabilityStatus::ENABLED;
+        return Utility::equals($this->status, CapabilityStatus::Enabled);
     }
 
-    public function isPending()
+    public function isPending(): bool
     {
-        return $this->status === CapabilityStatus::PENDING;
+        return Utility::equals($this->status, CapabilityStatus::Pending);
     }
 
-    public function isDisabled()
+    public function isDisabled(): bool
     {
-        return $this->status === CapabilityStatus::DISABLED;
+        return Utility::equals($this->status, CapabilityStatus::Disabled);
     }
 }

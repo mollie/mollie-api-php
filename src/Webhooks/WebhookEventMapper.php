@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Webhooks;
 
 use DateTimeImmutable;
@@ -29,6 +31,10 @@ use Mollie\Api\Webhooks\Events\PayoutCompleted;
 use Mollie\Api\Webhooks\Events\PayoutFailed;
 use Mollie\Api\Webhooks\Events\PayoutInitiated;
 use Mollie\Api\Webhooks\Events\PayoutProcessingAtBank;
+use Mollie\Api\Webhooks\Events\ProfileBlocked;
+use Mollie\Api\Webhooks\Events\ProfileCreated;
+use Mollie\Api\Webhooks\Events\ProfileDeleted;
+use Mollie\Api\Webhooks\Events\ProfileVerified;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
 use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
@@ -153,6 +159,10 @@ class WebhookEventMapper
             SalesInvoiceIssued::type() => SalesInvoiceIssued::class,
             SalesInvoiceCanceled::type() => SalesInvoiceCanceled::class,
             SalesInvoicePaid::type() => SalesInvoicePaid::class,
+            ProfileCreated::type() => ProfileCreated::class,
+            ProfileVerified::type() => ProfileVerified::class,
+            ProfileBlocked::type() => ProfileBlocked::class,
+            ProfileDeleted::type() => ProfileDeleted::class,
         ], $map);
     }
 

@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Data;
 
 use Mollie\Api\Http\Data\Money;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider fromArrayProvider
-     */
+    #[DataProvider('fromArrayProvider')]
+    #[Test]
     public function it_can_be_created_from_array(array $data, string $expectedCurrency, string $expectedValue): void
     {
         $money = Money::fromArray($data);
@@ -19,7 +21,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expectedValue, $money->value);
     }
 
-    public function fromArrayProvider(): array
+    public static function fromArrayProvider(): array
     {
         return [
             'EUR' => [['currency' => 'EUR', 'value' => '10.00'], 'EUR', '10.00'],
@@ -28,10 +30,8 @@ class MoneyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider toArrayProvider
-     */
+    #[DataProvider('toArrayProvider')]
+    #[Test]
     public function it_can_be_converted_to_array(string $currency, string $value, array $expected): void
     {
         $money = new Money($currency, $value);
@@ -40,7 +40,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expected, $array);
     }
 
-    public function toArrayProvider(): array
+    public static function toArrayProvider(): array
     {
         return [
             'USD' => ['USD', '25.50', ['currency' => 'USD', 'value' => '25.50']],
@@ -49,10 +49,8 @@ class MoneyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider reversibilityProvider
-     */
+    #[DataProvider('reversibilityProvider')]
+    #[Test]
     public function from_array_and_to_array_are_reversible(array $originalData): void
     {
         $money = Money::fromArray($originalData);
@@ -61,7 +59,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($originalData, $convertedData);
     }
 
-    public function reversibilityProvider(): array
+    public static function reversibilityProvider(): array
     {
         return [
             'GBP' => [['currency' => 'GBP', 'value' => '99.99']],
@@ -70,10 +68,8 @@ class MoneyTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider convenienceMethodProvider
-     */
+    #[DataProvider('convenienceMethodProvider')]
+    #[Test]
     public function it_can_create_money_with_convenience_methods(string $method, string $value, string $expectedCurrency, string $expectedValue): void
     {
         $money = Money::$method($value);
@@ -82,7 +78,7 @@ class MoneyTest extends TestCase
         $this->assertEquals($expectedValue, $money->value);
     }
 
-    public function convenienceMethodProvider(): array
+    public static function convenienceMethodProvider(): array
     {
         return [
             'aed' => ['aed', '10.00', 'AED', '10.00'],

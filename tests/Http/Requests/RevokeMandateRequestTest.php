@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\RevokeMandateRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RevokeMandateRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_revoke_mandate()
     {
         $client = new MockMollieClient([
@@ -28,7 +31,7 @@ class RevokeMandateRequestTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

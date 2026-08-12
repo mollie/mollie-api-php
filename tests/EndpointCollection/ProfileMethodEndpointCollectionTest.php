@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -7,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DisableMethodRequest;
 use Mollie\Api\Http\Requests\EnableMethodRequest;
 use Mollie\Api\Resources\Method;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ProfileMethodEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function enable_for_id()
     {
         $client = new MockMollieClient([
@@ -24,7 +27,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function enable()
     {
         $client = new MockMollieClient([
@@ -37,7 +40,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function disable_for_id()
     {
         $client = new MockMollieClient([
@@ -46,11 +49,10 @@ class ProfileMethodEndpointCollectionTest extends TestCase
 
         $client->profileMethods->disableForId('pfl_v9hTwCvYqw', 'ideal');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function disable()
     {
         $client = new MockMollieClient([
@@ -59,8 +61,7 @@ class ProfileMethodEndpointCollectionTest extends TestCase
 
         $client->profileMethods->disable('ideal');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodRequest::class);
     }
 
     protected function assertMethod(Method $method)

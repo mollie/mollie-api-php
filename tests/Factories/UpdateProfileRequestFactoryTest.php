@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\UpdateProfileRequestFactory;
 use Mollie\Api\Http\Requests\UpdateProfileRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdateProfileRequestFactoryTest extends TestCase
 {
     private const PROFILE_ID = 'pfl_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_update_profile_request_object_with_full_data()
     {
         $request = UpdateProfileRequestFactory::new(self::PROFILE_ID)
@@ -29,7 +32,7 @@ class UpdateProfileRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdateProfileRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_profile_request_object_with_minimal_data()
     {
         $request = UpdateProfileRequestFactory::new(self::PROFILE_ID)
@@ -41,7 +44,7 @@ class UpdateProfileRequestFactoryTest extends TestCase
         $this->assertInstanceOf(UpdateProfileRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_update_profile_request_object_with_partial_data()
     {
         $request = UpdateProfileRequestFactory::new(self::PROFILE_ID)

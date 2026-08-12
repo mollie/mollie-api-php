@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -9,6 +11,8 @@ use Mollie\Api\Types\Method as HttpMethod;
 
 /**
  * @see https://docs.mollie.com/reference/enable-method-issuer
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Issuer>
  */
 class EnableMethodIssuerRequest extends ResourceHydratableRequest implements HasPayload
 {
@@ -22,26 +26,14 @@ class EnableMethodIssuerRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Issuer::class;
-
-    private string $profileId;
-
-    private string $methodId;
-
-    private string $issuerId;
-
-    private ?string $contractId;
+    protected ?string $hydratableResource = Issuer::class;
 
     public function __construct(
-        string $profileId,
-        string $methodId,
-        string $issuerId,
-        ?string $contractId = null
+        private string $profileId,
+        private string $methodId,
+        private string $issuerId,
+        private ?string $contractId = null,
     ) {
-        $this->profileId = $profileId;
-        $this->methodId = $methodId;
-        $this->issuerId = $issuerId;
-        $this->contractId = $contractId;
     }
 
     protected function defaultPayload(): array

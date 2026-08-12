@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,6 +11,7 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -23,7 +26,7 @@ class CursorCollectionTest extends TestCase
         $this->response = $this->createMock(Response::class);
     }
 
-    /** @test */
+    #[Test]
     public function can_get_next_collection_result_when_next_link_is_available()
     {
         $client = new MockMollieClient([
@@ -49,7 +52,8 @@ class CursorCollectionTest extends TestCase
         $this->assertFalse($nextPage->hasNext());
     }
 
-    public function test_will_return_null_if_no_next_result_is_available()
+    #[Test]
+    public function will_return_null_if_no_next_result_is_available()
     {
         $client = new MockMollieClient;
 
@@ -65,7 +69,8 @@ class CursorCollectionTest extends TestCase
         $this->assertNull($collection->next());
     }
 
-    public function test_can_get_previous_collection_result_when_previous_link_is_available()
+    #[Test]
+    public function can_get_previous_collection_result_when_previous_link_is_available()
     {
         $client = new MockMollieClient([
             DynamicGetRequest::class => MockResponse::ok('cursor-collection'),
@@ -90,7 +95,8 @@ class CursorCollectionTest extends TestCase
         $this->assertFalse($previousPage->hasPrevious());
     }
 
-    public function test_will_return_null_if_no_previous_result_is_available()
+    #[Test]
+    public function will_return_null_if_no_previous_result_is_available()
     {
         $client = new MockMollieClient;
 
@@ -106,7 +112,8 @@ class CursorCollectionTest extends TestCase
         $this->assertNull($collection->previous());
     }
 
-    public function test_auto_paginator_returns_lazy_collection()
+    #[Test]
+    public function auto_paginator_returns_lazy_collection()
     {
         $client = new MockMollieClient;
 
@@ -121,7 +128,8 @@ class CursorCollectionTest extends TestCase
         $this->assertInstanceOf(LazyCollection::class, $collection->getAutoIterator());
     }
 
-    public function test_auto_paginator_can_handle_consecutive_calls()
+    #[Test]
+    public function auto_paginator_can_handle_consecutive_calls()
     {
         $client = new MockMollieClient([
             DynamicGetRequest::class => new SequenceMockResponse(

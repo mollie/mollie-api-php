@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fake;
 
 use Mollie\Api\Fake\ListResponseBuilder;
@@ -7,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\ResourceResponseBuilder;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MockResponseTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function body_returns_json_string_directly()
     {
         $jsonString = '{"key":"value"}';
@@ -20,7 +23,7 @@ class MockResponseTest extends TestCase
         $this->assertEquals($jsonString, $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function body_converts_array_to_json_string()
     {
         $array = ['key' => 'value'];
@@ -29,7 +32,7 @@ class MockResponseTest extends TestCase
         $this->assertEquals(json_encode($array), $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function body_loads_json_file_when_not_json_string()
     {
         $response = new MockResponse('payment');
@@ -40,7 +43,7 @@ class MockResponseTest extends TestCase
         $this->assertStringContainsString('payment', $body);
     }
 
-    /** @test */
+    #[Test]
     public function body_replaces_resource_id_placeholder()
     {
         $response = new MockResponse('payment', 200, 'tr_12345');
@@ -51,7 +54,7 @@ class MockResponseTest extends TestCase
         $this->assertStringNotContainsString('{{ RESOURCE_ID }}', $body);
     }
 
-    /** @test */
+    #[Test]
     public function list_returns_list_builder()
     {
         $response = MockResponse::list(PaymentCollection::class);
@@ -59,7 +62,7 @@ class MockResponseTest extends TestCase
         $this->assertInstanceOf(ListResponseBuilder::class, $response);
     }
 
-    /** @test */
+    #[Test]
     public function resource_returns_resource_builder()
     {
         $response = MockResponse::resource(Payment::class);
@@ -67,7 +70,7 @@ class MockResponseTest extends TestCase
         $this->assertInstanceOf(ResourceResponseBuilder::class, $response);
     }
 
-    /** @test */
+    #[Test]
     public function not_found_returns_404_status_code()
     {
         $response = MockResponse::notFound();
@@ -75,7 +78,7 @@ class MockResponseTest extends TestCase
         $this->assertEquals(404, $response->createPsrResponse()->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function unprocessable_entity_returns_422_status_code()
     {
         $response = MockResponse::unprocessableEntity();

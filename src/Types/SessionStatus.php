@@ -1,21 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Types;
 
-class SessionStatus
+enum SessionStatus: string
 {
-    /**
-     * The session is open.
-     */
-    public const OPEN = 'open';
-
-    /**
-     * The session has expired.
-     */
-    public const EXPIRED = 'expired';
-
-    /**
-     * The session is completed.
-     */
-    public const COMPLETED = 'completed';
+    case Open = 'open';
+    case Expired = 'expired';
+    case Completed = 'completed';
 }

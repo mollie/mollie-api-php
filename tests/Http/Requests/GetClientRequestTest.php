@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetClientRequest;
 use Mollie\Api\Resources\Client;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetClientRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_client()
     {
         $client = new MockMollieClient([
@@ -27,7 +30,7 @@ class GetClientRequestTest extends TestCase
         $this->assertEquals('client', $client->resource);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetClientRequest('client_123');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -7,6 +9,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\DynamicPostRequest;
 use Mollie\Api\Repositories\JsonPayloadRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PendingRequestTest extends TestCase
@@ -19,9 +22,7 @@ class PendingRequestTest extends TestCase
         $this->client = new MockMollieClient;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function constructs_url_correctly()
     {
         $request = new DynamicGetRequest('/v2/payments/tr_123');
@@ -35,9 +36,7 @@ class PendingRequestTest extends TestCase
         $this->assertEquals('https://example.com/v2/payments/tr_123', $pendingRequest->url());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function preserves_request_method()
     {
         $request = new DynamicPostRequest('/v2/payments');
@@ -46,9 +45,7 @@ class PendingRequestTest extends TestCase
         $this->assertEquals('POST', $pendingRequest->method());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_set_and_get_payload()
     {
         $payload = new JsonPayloadRepository(['amount' => ['value' => '10.00', 'currency' => 'EUR']]);
@@ -60,9 +57,7 @@ class PendingRequestTest extends TestCase
         $this->assertSame($payload, $pendingRequest->payload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testmode_is_true_when_connector_has_testmode()
     {
         $this->client->test(true);
@@ -73,9 +68,7 @@ class PendingRequestTest extends TestCase
         $this->assertTrue($pendingRequest->getTestmode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testmode_is_true_when_request_has_testmode()
     {
         $this->client->test(false);
@@ -87,9 +80,7 @@ class PendingRequestTest extends TestCase
         $this->assertTrue($pendingRequest->getTestmode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testmode_is_true_when_using_test_api_key()
     {
         $this->client->test(false);
@@ -101,9 +92,7 @@ class PendingRequestTest extends TestCase
         $this->assertTrue($pendingRequest->getTestmode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testmode_is_false_when_using_live_api_key()
     {
         $this->client->test(false);
@@ -115,9 +104,7 @@ class PendingRequestTest extends TestCase
         $this->assertFalse($pendingRequest->getTestmode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function testmode_is_false_when_using_access_token()
     {
         $this->client->test(false);
@@ -129,9 +116,7 @@ class PendingRequestTest extends TestCase
         $this->assertFalse($pendingRequest->getTestmode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_get_request_and_connector()
     {
         $request = new DynamicGetRequest('/v2/payments');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -7,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ListCapabilitiesRequest;
 use Mollie\Api\Resources\Capability;
 use Mollie\Api\Resources\CapabilityCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ListCapabilityRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_capabilities()
     {
         $client = new MockMollieClient([
@@ -33,7 +36,7 @@ class ListCapabilityRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new ListCapabilitiesRequest;

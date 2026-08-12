@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetMandateRequest;
 use Mollie\Api\Resources\Mandate;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetMandateRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_mandate()
     {
         $client = new MockMollieClient([
@@ -28,7 +31,7 @@ class GetMandateRequestTest extends TestCase
         $this->assertInstanceOf(Mandate::class, $mandate);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

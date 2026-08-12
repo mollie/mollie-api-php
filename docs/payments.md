@@ -19,7 +19,7 @@ To fully integrate iDEAL payments on your website, follow these additional steps
 1. Retrieve the list of issuers (banks) that support iDEAL.
 
 ```php
-$method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::IDEAL, ["include" => "issuers"]);
+$method = $mollie->methods->get(\Mollie\Api\Types\PaymentMethod::Ideal, ["include" => "issuers"]);
 ```
 
 Use the `$method->issuers` list to let the customer pick their preferred issuer.
@@ -38,7 +38,7 @@ $payment = $mollie->payments->create([
     "description" => "My first API payment",
     "redirectUrl" => "https://webshop.example.org/order/12345/",
     "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
-    "method"      => \Mollie\Api\Types\PaymentMethod::IDEAL,
+    "method"      => \Mollie\Api\Types\PaymentMethod::Ideal,
     "issuer"      => $selectedIssuerId, // e.g. "ideal_INGBNL2A"
 ]);
 ```

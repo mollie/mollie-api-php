@@ -1,173 +1,96 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Types\SalesInvoiceStatus;
+use Mollie\Api\Utils\Utility;
 
 class SalesInvoice extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public $resource;
+
+    public string $id;
+
+    public ?string $profileId = null;
+
+    public ?string $invoiceNumber = null;
+
+    public string $currency;
+
+    public SalesInvoiceStatus|string $status;
+
+    public string $vatScheme;
+
+    public string $vatMode;
+
+    public ?string $memo = null;
+
+    public string $paymentTerm;
 
     /**
-     * @var string
-     */
-    public $id;
-
-    /**
-     * @var string|null
-     */
-    public $profileId;
-
-    /**
-     * @var string|null
-     */
-    public $invoiceNumber;
-
-    /**
-     * @var string
-     */
-    public $currency;
-
-    /**
-     * @var string
-     */
-    public $status;
-
-    /**
-     * @var string
-     */
-    public $vatScheme;
-
-    /**
-     * @var string
-     */
-    public $vatMode;
-
-    /**
-     * @var string|null
-     */
-    public $memo;
-
-    /**
-     * @var string
-     */
-    public $paymentTerm;
-
-    /**
-     * @var object
+     * @var \stdClass
      */
     public $paymentDetails;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $emailDetails;
 
-    /**
-     * @var string
-     */
-    public $recipientIdentifier;
+    public string $recipientIdentifier;
 
     /**
-     * @var object
+     * @var \stdClass
      */
     public $recipient;
 
-    /**
-     * @var array
-     */
-    public $lines;
+    /** @var array<mixed> */
+    public array $lines;
+
+    public string $webhookUrl;
 
     /**
-     * @var string
-     */
-    public $webhookUrl;
-
-    /**
-     * @var object|null
+     * @var \stdClass|null
      */
     public $discount;
 
-    /**
-     * @var bool
-     */
-    public $isEInvoice;
+    public bool $isEInvoice;
+
+    public Money $amountDue;
+
+    public Money $subtotalAmount;
+
+    public Money $totalAmount;
+
+    public Money $totalVatAmount;
+
+    public Money $discountedSubtotalAmount;
+
+    public string $createdAt;
+
+    public ?string $issuedAt = null;
+
+    public ?string $dueAt = null;
 
     /**
-     * @var object
-     */
-    public $amountDue;
-
-    /**
-     * @var object
-     */
-    public $subtotalAmount;
-
-    /**
-     * @var object
-     */
-    public $totalAmount;
-
-    /**
-     * @var object
-     */
-    public $totalVatAmount;
-
-    /**
-     * @var object
-     */
-    public $discountedSubtotalAmount;
-
-    /**
-     * @var string
-     */
-    public $createdAt;
-
-    /**
-     * @var string|null
-     */
-    public $issuedAt;
-
-    /**
-     * @var string|null
-     */
-    public $dueAt;
-
-    /**
-     * @var object
+     * @var \stdClass
      */
     public $_links;
 
-    /**
-     * Returns whether the sales invoice is in draft status.
-     *
-     * @return bool
-     */
-    public function isDraft()
+    public function isDraft(): bool
     {
-        return $this->status === SalesInvoiceStatus::DRAFT;
+        return Utility::equals($this->status, SalesInvoiceStatus::Draft);
     }
 
-    /**
-     * Returns whether the sales invoice is issued.
-     *
-     * @return bool
-     */
-    public function isIssued()
+    public function isIssued(): bool
     {
-        return $this->status === SalesInvoiceStatus::ISSUED;
+        return Utility::equals($this->status, SalesInvoiceStatus::Issued);
     }
 
-    /**
-     * Returns whether the sales invoice is paid.
-     *
-     * @return bool
-     */
-    public function isPaid()
+    public function isPaid(): bool
     {
-        return $this->status === SalesInvoiceStatus::PAID;
+        return Utility::equals($this->status, SalesInvoiceStatus::Paid);
     }
 }

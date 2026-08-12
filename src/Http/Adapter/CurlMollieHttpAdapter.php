@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Adapter;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
@@ -34,9 +36,9 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         $request = $pendingRequest->createPsrRequest();
 
         try {
-            $curl = CurlFactory::new($request->getUri(), $pendingRequest)
+            $curl = CurlFactory::new((string) $request->getUri(), $pendingRequest)
                 ->withHeaders($pendingRequest->headers()->all())
-                ->withMethod($pendingRequest->method(), $request->getBody())
+                ->withMethod($pendingRequest->method(), (string) $request->getBody())
                 ->create();
 
             $response = curl_exec($curl);
@@ -50,9 +52,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
 
             return $this->extractResponseDetails($curl, $response);
         } finally {
-            if ($curl !== null && PHP_MAJOR_VERSION < 8) {
-                curl_close($curl);
-            }
+            // PHP 8+ auto-closes CurlHandle on GC; explicit curl_close() is a no-op.
         }
     }
 
@@ -82,20 +82,55 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
     private function extractResponseDetails($curl, string $response): array
     {
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $headerValues = substr($response, 0, $headerSize);
-        $content = substr($response, $headerSize);
         $statusCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
 
+        return self::parseResponseDetails($response, $headerSize, $statusCode);
+    }
+
+    /**
+     * @return array{0: array<string, string>, 1: string, 2: int}
+     */
+    private static function parseResponseDetails(string $response, int $headerSize, int $statusCode): array
+    {
+        $headerValues = substr($response, 0, $headerSize);
+        $content = substr($response, $headerSize);
+
+        return [self::parseHeaders($headerValues), $content, $statusCode];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function parseHeaders(string $headerValues): array
+    {
         $headers = [];
-        $headerLines = explode("\r\n", $headerValues);
+        $headerBlocks = preg_split("/\r\n\r\n|\n\n|\r\r/", trim($headerValues)) ?: [];
+        $lastHeaderBlock = end($headerBlocks) ?: '';
+        $headerLines = preg_split("/\r\n|\n|\r/", $lastHeaderBlock) ?: [];
+        $lastHeader = null;
+
         foreach ($headerLines as $headerLine) {
-            if (strpos($headerLine, ':') !== false) {
-                [$key, $value] = explode(': ', $headerLine, 2);
-                $headers[$key] = $value;
+            if ($lastHeader !== null && preg_match('/^\s+/', $headerLine) === 1) {
+                $headers[$lastHeader] .= ' '.trim($headerLine);
+
+                continue;
             }
+
+            if (strpos($headerLine, ':') === false) {
+                continue;
+            }
+
+            [$key, $value] = explode(':', $headerLine, 2);
+            $key = trim($key);
+            if ($key === '') {
+                continue;
+            }
+
+            $headers[$key] = trim($value);
+            $lastHeader = $key;
         }
 
-        return [$headers, $content, $statusCode];
+        return $headers;
     }
 
     /**

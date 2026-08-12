@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\IssuerCollection;
 use Mollie\Api\Resources\Method;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MethodTest extends TestCase
 {
-    public function test_issuers_null_works()
+    #[Test]
+    public function issuers_null_works()
     {
         $method = new Method(new MockMollieClient);
         $method->setResponse($this->createMock(Response::class));

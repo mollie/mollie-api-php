@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePaymentLinkRequestFactory;
@@ -9,11 +11,12 @@ use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentLinkRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_payment_link_request_object_with_full_data()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -35,7 +38,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_link_request_object_with_minimal_data()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -52,7 +55,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_link_request_object_with_partial_data()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -71,7 +74,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreatePaymentLinkRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_date_string_without_time_information()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -93,7 +96,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('2024-12-31T00:00:00+00:00', (string) $payload['expiresAt']);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_date_string_without_timezone_information()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -115,7 +118,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('2024-12-31T12:34:56+00:00', (string) $payload['expiresAt']);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_complete_iso8601_date_string()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -137,7 +140,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('2024-12-31T12:34:56+02:00', (string) $payload['expiresAt']);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_when_expires_at_is_not_provided()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -157,7 +160,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertNull($payload['expiresAt']);
     }
 
-    /** @test */
+    #[Test]
     public function it_maps_lines_billing_and_shipping_address_and_minimum_amount()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -167,6 +170,13 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
                 'minimumAmount' => [
                     'currency' => 'EUR',
                     'value' => '10.00',
+                ],
+                'applicationFee' => [
+                    'amount' => [
+                        'currency' => 'EUR',
+                        'value' => '1.00',
+                    ],
+                    'description' => 'Platform fee',
                 ],
                 'lines' => [
                     [
@@ -207,6 +217,12 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('EUR', $payload['minimumAmount']->currency);
         $this->assertEquals('10.00', $payload['minimumAmount']->value);
 
+        $this->assertInstanceOf(ApplicationFee::class, $payload['applicationFee']);
+        $this->assertInstanceOf(Money::class, $payload['applicationFee']->amount);
+        $this->assertEquals('EUR', $payload['applicationFee']->amount->currency);
+        $this->assertEquals('1.00', $payload['applicationFee']->amount->value);
+        $this->assertEquals('Platform fee', $payload['applicationFee']->description);
+
         $this->assertInstanceOf(DataCollection::class, $payload['lines']);
         $this->assertCount(1, $payload['lines']);
 
@@ -218,56 +234,7 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertEquals('Amsterdam', $payload['shippingAddress']->city);
     }
 
-    /** @test */
-    public function it_maps_application_fee()
-    {
-        $request = CreatePaymentLinkRequestFactory::new()
-            ->withPayload([
-                'description' => 'Order #12345',
-                'amount' => [
-                    'currency' => 'EUR',
-                    'value' => '100.00',
-                ],
-                'redirectUrl' => 'https://example.com/redirect',
-                'applicationFee' => [
-                    'amount' => [
-                        'currency' => 'EUR',
-                        'value' => '10.00',
-                    ],
-                    'description' => 'Platform fee',
-                ],
-            ])
-            ->create();
-
-        $payload = $request->payload()->all();
-
-        $this->assertInstanceOf(ApplicationFee::class, $payload['applicationFee']);
-        $this->assertInstanceOf(Money::class, $payload['applicationFee']->amount);
-        $this->assertEquals('EUR', $payload['applicationFee']->amount->currency);
-        $this->assertEquals('10.00', $payload['applicationFee']->amount->value);
-        $this->assertEquals('Platform fee', $payload['applicationFee']->description);
-    }
-
-    /** @test */
-    public function it_returns_null_when_application_fee_is_not_provided()
-    {
-        $request = CreatePaymentLinkRequestFactory::new()
-            ->withPayload([
-                'description' => 'Order #12345',
-                'amount' => [
-                    'currency' => 'EUR',
-                    'value' => '100.00',
-                ],
-                'redirectUrl' => 'https://example.com/redirect',
-            ])
-            ->create();
-
-        $payload = $request->payload()->all();
-
-        $this->assertNull($payload['applicationFee']);
-    }
-
-    /** @test */
+    #[Test]
     public function it_returns_null_for_optional_klarna_fields_when_not_provided()
     {
         $request = CreatePaymentLinkRequestFactory::new()
@@ -283,5 +250,6 @@ class CreatePaymentLinkRequestFactoryTest extends TestCase
         $this->assertNull($payload['billingAddress']);
         $this->assertNull($payload['shippingAddress']);
         $this->assertNull($payload['minimumAmount']);
+        $this->assertNull($payload['applicationFee']);
     }
 }

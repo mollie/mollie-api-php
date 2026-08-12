@@ -21,7 +21,7 @@ To use the Mollie API client, the following things are required:
 + Get yourself a free [Mollie account](https://www.mollie.com/signup). No sign up costs.
 + Now you're ready to use the Mollie API client in test mode.
 + Follow [a few steps](https://www.mollie.com/dashboard/?modal=onboarding) to enable payment methods in live mode, and let us handle the rest.
-+ PHP >= 7.4
++ PHP >= 8.2
 + cUrl >= 7.19.4
 + Up-to-date OpenSSL (or other SSL/TLS toolkit)
 
@@ -53,14 +53,18 @@ Find our full documentation online on [docs.mollie.com](https://docs.mollie.com)
 ```php
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
+use Mollie\Api\Types\PaymentStatus;
 
-/** @var Mollie\Api\Resources\Payment $payment */
 $payment = $mollie->send(new CreatePaymentRequest(
     description: 'My first API payment',
-    amount: new Money('EUR', '10.00'),
+    amount: new Money(currency: 'EUR', value: '10.00'),
     redirectUrl: 'https://webshop.example.org/order/12345/',
     webhookUrl: 'https://webshop.example.org/mollie-webhook/'
 ));
+
+if ($payment->status === PaymentStatus::Paid) {
+    echo "Paid {$payment->amount->value} {$payment->amount->currency}";
+}
 ```
 
 ## Documentation
@@ -107,6 +111,38 @@ These recipes are designed to help you integrate Mollie into your application. M
 ## Upgrading
 
 Please see [UPGRADING](UPGRADING.md) for details.
+
+## Testing
+
+The SDK ships a `MollieApiClient::fake()` helper so you don't need real HTTP calls. The test suite runs on Pest v3:
+
+```bash
+vendor/bin/pest --parallel
+```
+
+Use the typed `MockResponse` factories for terse, refactor-safe fixtures:
+
+```php
+use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
+use Mollie\Api\MollieApiClient;
+use Mollie\Api\Types\PaymentStatus;
+
+$client = MollieApiClient::fake([
+    GetPaymentRequest::class => MockResponse::payment(
+        id: 'tr_xxx',
+        status: PaymentStatus::Paid,
+        amount: new Money(currency: 'EUR', value: '10.00'),
+    ),
+]);
+
+$payment = $client->send(new GetPaymentRequest('tr_xxx'));
+
+$client->assertSent(GetPaymentRequest::class);
+```
+
+See [docs/testing.md](docs/testing.md) for the full reference.
 
 ## Contributing to Our API Client ##
 Would you like to contribute to improving our API client? We welcome [pull requests](https://github.com/mollie/mollie-api-php/pulls?utf8=%E2%9C%93&q=is%3Apr). But, if you're interested in contributing to a technology-focused organization, Mollie is actively recruiting developers and system engineers. Discover our current [job openings](https://jobs.mollie.com/) or [reach out](mailto:personeel@mollie.com).

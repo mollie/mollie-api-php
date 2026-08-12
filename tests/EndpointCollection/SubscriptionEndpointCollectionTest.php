@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -14,11 +16,12 @@ use Mollie\Api\Http\Requests\UpdateSubscriptionRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SubscriptionEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_for()
     {
         $client = new MockMollieClient([
@@ -42,7 +45,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         $this->assertSubscription($subscription);
     }
 
-    /** @test */
+    #[Test]
     public function get_for()
     {
         $client = new MockMollieClient([
@@ -58,7 +61,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         $this->assertSubscription($subscription);
     }
 
-    /** @test */
+    #[Test]
     public function update_for()
     {
         $client = new MockMollieClient([
@@ -80,7 +83,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         $this->assertSubscription($subscription);
     }
 
-    /** @test */
+    #[Test]
     public function cancel_for()
     {
         $client = new MockMollieClient([
@@ -92,11 +95,10 @@ class SubscriptionEndpointCollectionTest extends TestCase
 
         $client->subscriptions->cancelFor($customer, 'sub_rVKGtNd6s3');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(CancelSubscriptionRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -118,7 +120,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for()
     {
         $client = new MockMollieClient([
@@ -134,7 +136,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function all_for_id()
     {
         $client = new MockMollieClient([
@@ -156,7 +158,7 @@ class SubscriptionEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator_for_all()
     {
         $client = new MockMollieClient([

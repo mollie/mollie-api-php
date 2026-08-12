@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetMethodRequestFactory;
 use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Types\MethodQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetMethodRequestFactoryTest extends TestCase
 {
     private const METHOD_ID = 'ideal';
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_method_request_object_with_full_data()
     {
         $request = GetMethodRequestFactory::new(self::METHOD_ID)
@@ -27,7 +30,7 @@ class GetMethodRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_include_flags()
     {
         $request = GetMethodRequestFactory::new(self::METHOD_ID)
@@ -41,7 +44,7 @@ class GetMethodRequestFactoryTest extends TestCase
         $this->assertEquals(MethodQuery::INCLUDE_ISSUERS, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_method_request_object_with_minimal_data()
     {
         $request = GetMethodRequestFactory::new(self::METHOD_ID)
@@ -50,7 +53,7 @@ class GetMethodRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetMethodRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_payment_method_request_object_with_partial_data()
     {
         $request = GetMethodRequestFactory::new(self::METHOD_ID)

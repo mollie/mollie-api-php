@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Types;
 
-class CaptureMode
+enum CaptureMode: string
 {
-    const MANUAL = 'manual';
-
-    const AUTOMATIC = 'automatic';
+    case Manual = 'manual';
+    case Automatic = 'automatic';
 }

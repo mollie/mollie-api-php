@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api;
 
 use Mollie\Api\Contracts\Connector;
@@ -132,7 +134,7 @@ class MollieApiClient implements Connector
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = '3.13.0';
+    public const CLIENT_VERSION = '4.0.0';
 
     /**
      * Endpoint of the remote API.

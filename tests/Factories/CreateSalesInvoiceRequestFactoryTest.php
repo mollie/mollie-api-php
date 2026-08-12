@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateSalesInvoiceRequestFactory;
 use Mollie\Api\Http\Requests\CreateSalesInvoiceRequest;
 use Mollie\Api\Types\PaymentTerm;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSalesInvoiceRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_full_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()
@@ -18,7 +21,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                 'status' => 'draft',
                 'vatScheme' => 'standard',
                 'vatMode' => 'inclusive',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'recipientIdentifier' => 'cst_12345',
                 'recipient' => [
                     'type' => 'organization',
@@ -61,7 +64,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSalesInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_minimal_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()
@@ -71,7 +74,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                 'vatScheme' => 'standard',
                 'vatMode' => 'inclusive',
                 'recipientIdentifier' => 'cst_12345',
-                'paymentTerm' => PaymentTerm::DAYS_30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'recipient' => [
                     'type' => 'organization',
                     'email' => 'org@example.com',
@@ -98,7 +101,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSalesInvoiceRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_sales_invoice_request_object_with_partial_data()
     {
         $request = CreateSalesInvoiceRequestFactory::new()
@@ -107,7 +110,7 @@ class CreateSalesInvoiceRequestFactoryTest extends TestCase
                 'status' => 'draft',
                 'vatScheme' => 'standard',
                 'vatMode' => 'inclusive',
-                'paymentTerm' => 30,
+                'paymentTerm' => PaymentTerm::Days30->value,
                 'recipientIdentifier' => 'cst_12345',
                 'recipient' => [
                     'type' => 'organization',

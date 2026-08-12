@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\BalanceTransactionCollection>
+ */
 class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;
@@ -13,7 +18,7 @@ class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements 
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = BalanceTransactionCollection::class;
+    protected ?string $hydratableResource = BalanceTransactionCollection::class;
 
     private string $balanceId;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Http\Data\Money;
@@ -10,6 +12,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/list-all-methods
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\MethodCollection>
  */
 class GetAllMethodsRequest extends ResourceHydratableRequest
 {
@@ -21,30 +25,15 @@ class GetAllMethodsRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = MethodCollection::class;
-
-    private bool $includeIssuers;
-
-    private bool $includePricing;
-
-    private ?string $locale;
-
-    private ?Money $amount;
-
-    private ?string $profileId;
+    protected ?string $hydratableResource = MethodCollection::class;
 
     public function __construct(
-        bool $includeIssuers = false,
-        bool $includePricing = false,
-        ?string $locale = null,
-        ?Money $amount = null,
-        ?string $profileId = null
+        private bool $includeIssuers = false,
+        private bool $includePricing = false,
+        private ?string $locale = null,
+        private ?Money $amount = null,
+        private ?string $profileId = null,
     ) {
-        $this->includeIssuers = $includeIssuers;
-        $this->includePricing = $includePricing;
-        $this->locale = $locale;
-        $this->amount = $amount;
-        $this->profileId = $profileId;
     }
 
     protected function defaultQuery(): array

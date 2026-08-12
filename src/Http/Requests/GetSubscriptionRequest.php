@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/subscriptions-api/get-subscription
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Subscription>
  */
 class GetSubscriptionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -19,16 +23,12 @@ class GetSubscriptionRequest extends ResourceHydratableRequest implements Suppor
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Subscription::class;
+    protected ?string $hydratableResource = Subscription::class;
 
-    private string $customerId;
-
-    private string $id;
-
-    public function __construct(string $customerId, string $id)
-    {
-        $this->customerId = $customerId;
-        $this->id = $id;
+    public function __construct(
+        private string $customerId,
+        private string $id,
+    ) {
     }
 
     public function resolveResourcePath(): string

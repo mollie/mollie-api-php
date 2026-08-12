@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -7,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateSubscriptionRequest;
 use Mollie\Api\Resources\Subscription;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSubscriptionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_subscription()
     {
         $client = new MockMollieClient([
@@ -27,7 +30,7 @@ class CreateSubscriptionRequestTest extends TestCase
         $this->assertInstanceOf(Subscription::class, $subscription);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateSubscriptionRequest('cst_123', new Money('EUR', '10.00'), '1 month', 'Test subscription');

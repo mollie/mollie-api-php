@@ -3,6 +3,7 @@
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\TerminalPairingCodeStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
@@ -94,16 +95,16 @@ class TerminalPairingCode extends BaseResource
 
     public function isActive(): bool
     {
-        return $this->status === TerminalPairingCodeStatus::ACTIVE;
+        return Utility::equals($this->status, TerminalPairingCodeStatus::ACTIVE);
     }
 
     public function isExpired(): bool
     {
-        return $this->status === TerminalPairingCodeStatus::EXPIRED;
+        return Utility::equals($this->status, TerminalPairingCodeStatus::EXPIRED);
     }
 
     public function isRevoked(): bool
     {
-        return $this->status === TerminalPairingCodeStatus::REVOKED;
+        return Utility::equals($this->status, TerminalPairingCodeStatus::REVOKED);
     }
 }

@@ -10,6 +10,8 @@ use Mollie\Api\Types\TerminalPairingCodeQuery;
 
 /**
  * @see https://docs.mollie.com/reference/terminals-request-pairing-code
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\TerminalPairingCode>
  */
 class RequestTerminalPairingCodeRequest extends ResourceHydratableRequest implements HasPayload
 {
@@ -17,7 +19,7 @@ class RequestTerminalPairingCodeRequest extends ResourceHydratableRequest implem
 
     protected static string $method = Method::POST;
 
-    protected $hydratableResource = TerminalPairingCode::class;
+    protected ?string $hydratableResource = TerminalPairingCode::class;
 
     private string $profileId;
 

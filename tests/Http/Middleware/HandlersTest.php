@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Middleware;
 
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class HandlersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function add(): void
     {
         $handlers = new Handlers;
@@ -19,7 +22,7 @@ class HandlersTest extends TestCase
         $this->assertCount(1, $handlers->getHandlers());
     }
 
-    /** @test */
+    #[Test]
     public function handlers_are_executed_in_the_correct_order(): void
     {
         $output = [];

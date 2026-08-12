@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -11,11 +13,12 @@ use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Webhook;
 use Mollie\Api\Resources\WebhookCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedWebhooksRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_webhooks()
     {
         $client = new MockMollieClient([
@@ -37,7 +40,7 @@ class GetPaginatedWebhooksRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_webhooks()
     {
         $client = MollieApiClient::fake([
@@ -61,7 +64,7 @@ class GetPaginatedWebhooksRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedWebhooksRequest;

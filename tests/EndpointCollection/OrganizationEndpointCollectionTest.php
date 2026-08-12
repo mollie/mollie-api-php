@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -8,11 +10,12 @@ use Mollie\Api\Http\Requests\GetOrganizationPartnerStatusRequest;
 use Mollie\Api\Http\Requests\GetOrganizationRequest;
 use Mollie\Api\Resources\Organization;
 use Mollie\Api\Resources\Partner;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OrganizationEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -25,7 +28,7 @@ class OrganizationEndpointCollectionTest extends TestCase
         $this->assertOrganization($organization);
     }
 
-    /** @test */
+    #[Test]
     public function current()
     {
         $client = new MockMollieClient([
@@ -38,7 +41,7 @@ class OrganizationEndpointCollectionTest extends TestCase
         $this->assertOrganization($organization);
     }
 
-    /** @test */
+    #[Test]
     public function partner_status()
     {
         $client = new MockMollieClient([

@@ -47,7 +47,7 @@
     }
   ],
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^8.2",
     "ext-curl": "*",
     "ext-json": "*",
     "ext-openssl": "*",
@@ -55,20 +55,23 @@
     "nyholm/psr7": "^1.8",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.1",
-    "psr/http-message": "^1.1|^2.0"
+    "psr/http-message": "^1.1|^2.0",
+    "symfony/var-dumper": "^5.4|^6.4|^7.2|^8.0"
   },
   "require-dev": {
-    "brianium/paratest": "^6.11",
     "guzzlehttp/guzzle": "^7.6",
+    "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^9.6",
-    "symfony/var-dumper": "^5.4|^6.4|^7.2"
+    "phpunit/phpunit": "^11.5"
   },
   "suggest": {
     "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "autoload": {
     "psr-4": {
@@ -82,6 +85,19 @@
     }
   },
   "scripts": {
-    "test": "./vendor/bin/paratest"
-  }
+    "test": "./vendor/bin/pest --parallel",
+    "generate:currency-trait": "@php tools/generate-currency-trait.php",
+    "check:currency-trait": [
+      "@php tools/generate-currency-trait.php",
+      "git diff --exit-code src/Traits/HasCurrencyConvenienceMethods.php"
+    ]
+  },
+  "repositories": [{
+    "name": "mollie-local",
+    "type": "path",
+    "url": "../mollie-api-php",
+    "options": {
+      "symlink": true
+    }
+  }]
 }

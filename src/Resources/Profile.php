@@ -1,72 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Types\ProfileStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
 class Profile extends BaseResource
 {
-    /**
-     * @var string
-     */
-    public $id;
+    public string $id;
 
     /**
-     * Test or live mode
-     *
-     * @var string
+     * Test or live mode.
      */
-    public $mode;
+    public string $mode;
+
+    public string $name;
+
+    public ?string $website = null;
+
+    public ?string $email = null;
+
+    public ?string $phone = null;
 
     /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var string
-     */
-    public $website;
-
-    /**
-     * @var string
-     */
-    public $email;
-
-    /**
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
-     * This parameter is deprecated and will be removed in 2022. Please use the businessCategory parameter instead.
+     * Deprecated — use businessCategory instead.
      *
      * @deprecated
-     *
-     * @var int|null
      */
-    public $categoryCode;
+    public int|string|null $categoryCode = null;
+
+    public ?string $businessCategory = null;
+
+    public ProfileStatus|string|null $status = null;
 
     /**
-     * See https://docs.mollie.com/reference/v2/profiles-api/get-profile
-     *
-     * @var string|null
-     */
-    public $businessCategory;
-
-    /**
-     * @var string
-     */
-    public $status;
-
-    /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $review;
 
@@ -74,29 +49,27 @@ class Profile extends BaseResource
      * UTC datetime the profile was created in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
-     *
-     * @var string
      */
-    public $createdAt;
+    public ?string $createdAt = null;
 
     /**
-     * @var \stdClass
+     * @var \stdClass|null
      */
     public $_links;
 
     public function isUnverified(): bool
     {
-        return $this->status === ProfileStatus::UNVERIFIED;
+        return Utility::equals($this->status, ProfileStatus::Unverified);
     }
 
     public function isVerified(): bool
     {
-        return $this->status === ProfileStatus::VERIFIED;
+        return Utility::equals($this->status, ProfileStatus::Verified);
     }
 
     public function isBlocked(): bool
     {
-        return $this->status === ProfileStatus::BLOCKED;
+        return Utility::equals($this->status, ProfileStatus::Blocked);
     }
 
     /**
@@ -119,6 +92,9 @@ class Profile extends BaseResource
     /**
      * Retrieves all chargebacks associated with this profile
      *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
+     *
      * @throws ApiException
      */
     public function chargebacks(): ChargebackCollection
@@ -133,6 +109,9 @@ class Profile extends BaseResource
 
     /**
      * Retrieves all methods activated on this profile
+     *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */
@@ -171,6 +150,9 @@ class Profile extends BaseResource
     /**
      * Retrieves all payments associated with this profile
      *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
+     *
      * @throws ApiException
      */
     public function payments(): PaymentCollection
@@ -185,6 +167,9 @@ class Profile extends BaseResource
 
     /**
      * Retrieves all refunds associated with this profile
+     *
+     * This method performs an API request. Avoid calling it once per profile in
+     * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
      */
