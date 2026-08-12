@@ -25,6 +25,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 - Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
 - `Money::of(string $currency)` fluent builder with `minorUnits(int $amount)` and `fromString(string $value)`. Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
 - `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
+- `RateLimit` value object and `Response::rateLimit()` accessor for `RateLimit` and `RateLimit-Policy` response headers.
 - Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.
 - `Macroable` trait for `Money` (and other value objects) for custom factories without subclassing.
 - `ValidationException` exposes per-field errors; `TooManyRequestsException` exposes `retryAfterSeconds`; `Response` exposes header access.
@@ -34,6 +35,7 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 
 - `ResourceHydrator` rewritten reflection-based so it can populate the new typed resource properties (value objects, enums, nested collections). Origin routing (HTTP vs. webhook snapshot) behaves exactly as in v3.13.
 - Constructor promotion applied across Request and Exception classes.
+- `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
 
 ### Removed
 

@@ -39,7 +39,7 @@ $client->setRetryStrategy(new LinearRetryStrategy(0, 0));
 
 ## Exponential backoff with 429 / Retry-After
 
-`ExponentialRetryStrategy` does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). When the server returns a numeric `Retry-After` header, that value is honoured instead of the computed delay.
+`ExponentialRetryStrategy` does exponential backoff with optional jitter, and additionally retries `TooManyRequestsException` (HTTP 429). A numeric `Retry-After` is honoured when it fits within `maxDelayMs`. With jitter enabled, the strategy adds up to 10% (capped at 1000ms) so throttled clients do not retry simultaneously. It never retries early: if `Retry-After` exceeds `maxDelayMs`, the exception is thrown immediately.
 
 ```php
 use Mollie\Api\Http\ExponentialRetryStrategy;
@@ -54,6 +54,23 @@ $client->setRetryStrategy(new ExponentialRetryStrategy(
 ```
 
 Use this strategy when you want graceful handling of 429 rate limits — the linear strategy only retries network errors.
+
+### Inspecting rate-limit headers
+
+Every response exposes Mollie's `RateLimit` and `RateLimit-Policy` values:
+
+```php
+$rateLimit = $response->rateLimit();
+
+$rateLimit?->policy;
+$rateLimit?->remaining;
+$rateLimit?->restoreSeconds;
+$rateLimit?->burst;
+$rateLimit?->quota;
+$rateLimit?->windowSeconds;
+```
+
+Missing headers or parameters produce `null` values. API exceptions retain their response, so the same data is available on a 429 through `$exception->getResponse()->rateLimit()`.
 
 ## Creating your own strategy
 
