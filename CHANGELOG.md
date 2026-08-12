@@ -5,18 +5,14 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v3.14.0] - UNRELEASED
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
 
 ### Added
 
 - `Response::header()`, `Response::headers()`, and rate-limit header parsing through `Response::rateLimit()`.
 - `TooManyRequestsException::getRetryAfterSeconds()` for integer and HTTP-date `Retry-After` values.
 - Opt-in `ExponentialRetryStrategy` with full jitter, bounded `Retry-After` jitter, and a configurable delay budget.
-
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
-
-### Added
-
+- `ConditionalRetryStrategyContract` for strategies that opt into exception-aware retry decisions and delays.
 - `Mollie\Api\Contracts\ResourceOrigin` marker interface describing where
   a hydrated resource came from. `Http\Response` now implements it.
 - `BaseResource::getOrigin()` / `setOrigin()` accessors on every hydrated

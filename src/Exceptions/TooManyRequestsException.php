@@ -15,8 +15,8 @@ class TooManyRequestsException extends ApiException
         Response $response,
         string $message,
         int $code,
-        ?int $retryAfterSeconds = null,
-        ?Throwable $previous = null
+        ?Throwable $previous = null,
+        ?int $retryAfterSeconds = null
     ) {
         $this->retryAfterSeconds = $retryAfterSeconds;
 
@@ -32,6 +32,7 @@ class TooManyRequestsException extends ApiException
             'Your request exceeded the rate limit. '.
                 sprintf('Error executing API call (%d: %s): %s', ResponseStatusCode::HTTP_TOO_MANY_REQUESTS, $body->title, $body->detail),
             ResponseStatusCode::HTTP_TOO_MANY_REQUESTS,
+            null,
             self::parseRetryAfter($response->header('Retry-After'))
         );
     }

@@ -2,7 +2,7 @@
 
 namespace Mollie\Api\Http;
 
-use Mollie\Api\Contracts\RetryStrategyContract;
+use Mollie\Api\Contracts\ConditionalRetryStrategyContract;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Exceptions\TooManyRequestsException;
 use Throwable;
@@ -10,7 +10,7 @@ use Throwable;
 /**
  * Exponential backoff with optional jitter and rate-limit awareness.
  */
-class ExponentialRetryStrategy implements RetryStrategyContract
+class ExponentialRetryStrategy implements ConditionalRetryStrategyContract
 {
     protected int $maxRetries;
 

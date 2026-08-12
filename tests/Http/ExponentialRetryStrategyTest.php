@@ -26,7 +26,7 @@ class ExponentialRetryStrategyTest extends TestCase
             new RetryableNetworkRequestException($pendingRequest, 'boom')
         ));
         $this->assertTrue($strategy->shouldRetry(
-            new TooManyRequestsException($this->makeResponse(), 'slow down', 429, 7)
+            new TooManyRequestsException($this->makeResponse(), 'slow down', 429, null, 7)
         ));
         $this->assertFalse($strategy->shouldRetry(new \RuntimeException));
     }
@@ -37,10 +37,10 @@ class ExponentialRetryStrategyTest extends TestCase
         $strategy = new ExponentialRetryStrategy(3, 500, 2.0, 10000);
 
         $this->assertFalse($strategy->shouldRetry(
-            new TooManyRequestsException($this->makeResponse(), 'slow', 429, 11)
+            new TooManyRequestsException($this->makeResponse(), 'slow', 429, null, 11)
         ));
         $this->assertTrue($strategy->shouldRetry(
-            new TooManyRequestsException($this->makeResponse(), 'slow', 429, 10)
+            new TooManyRequestsException($this->makeResponse(), 'slow', 429, null, 10)
         ));
     }
 
@@ -48,7 +48,7 @@ class ExponentialRetryStrategyTest extends TestCase
     public function it_honors_retry_after_within_budget(): void
     {
         $strategy = new ExponentialRetryStrategy(3, 500, 2.0, 30000, false);
-        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, 12);
+        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, null, 12);
 
         $this->assertSame(12000, $strategy->delayBeforeAttemptMs(1, $exception));
     }
@@ -80,7 +80,7 @@ class ExponentialRetryStrategyTest extends TestCase
     public function retry_after_jitter_is_additive_and_bounded(): void
     {
         $strategy = new ExponentialRetryStrategy(3, 500, 2.0, 10000, true);
-        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, 10);
+        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, null, 10);
 
         for ($iteration = 0; $iteration < 20; $iteration++) {
             $delay = $strategy->delayBeforeAttemptMs(1, $exception);
@@ -93,7 +93,7 @@ class ExponentialRetryStrategyTest extends TestCase
     public function retry_after_jitter_is_at_most_ten_percent_for_short_waits(): void
     {
         $strategy = new ExponentialRetryStrategy(3, 500, 2.0, 1000, true);
-        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, 1);
+        $exception = new TooManyRequestsException($this->makeResponse(), 'slow', 429, null, 1);
 
         for ($iteration = 0; $iteration < 20; $iteration++) {
             $delay = $strategy->delayBeforeAttemptMs(1, $exception);

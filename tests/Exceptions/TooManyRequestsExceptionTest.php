@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use Mollie\Api\Exceptions\TooManyRequestsException;
 use Mollie\Api\Http\Response;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class TooManyRequestsExceptionTest extends TestCase
 {
@@ -42,6 +43,16 @@ class TooManyRequestsExceptionTest extends TestCase
     {
         $exception = TooManyRequestsException::fromResponse($this->responseWithRetryAfter('not-a-date'));
 
+        self::assertNull($exception->getRetryAfterSeconds());
+    }
+
+    /** @test */
+    public function it_preserves_the_inherited_constructor_parameter_order(): void
+    {
+        $previous = new RuntimeException('previous');
+        $exception = new TooManyRequestsException($this->responseWithRetryAfter(null), 'slow', 429, $previous);
+
+        self::assertSame($previous, $exception->getPrevious());
         self::assertNull($exception->getRetryAfterSeconds());
     }
 

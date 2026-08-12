@@ -79,19 +79,14 @@ Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` int
 ```php
 namespace Mollie\Api\Contracts;
 
-use Throwable;
-
 interface RetryStrategyContract
 {
     // Maximum number of retries after the initial attempt
     public function maxRetries(): int;
 
-    // Whether the exception should trigger a retry
-    public function shouldRetry(Throwable $exception): bool;
-
     // Delay in milliseconds before performing the given retry attempt
     // $attempt starts at 1 for the first retry
-    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int;
+    public function delayBeforeAttemptMs(int $attempt): int;
 }
 ```
 
@@ -99,8 +94,6 @@ interface RetryStrategyContract
 
 ```php
 use Mollie\Api\Contracts\RetryStrategyContract;
-use Mollie\Api\Exceptions\RetryableNetworkRequestException;
-use Throwable;
 
 class FixedDelayRetryStrategy implements RetryStrategyContract
 {
@@ -119,12 +112,7 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
         return max(0, $this->maxRetries);
     }
 
-    public function shouldRetry(Throwable $exception): bool
-    {
-        return $exception instanceof RetryableNetworkRequestException;
-    }
-
-    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
+    public function delayBeforeAttemptMs(int $attempt): int
     {
         // Same delay for every retry
         return max(0, $this->delayMs);
@@ -135,8 +123,27 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
 $client->setRetryStrategy(new FixedDelayRetryStrategy(3, 250));
 ```
 
-You can implement any retry timing and exception policy as long as you adhere to the contract.
+You can implement any retry timing you prefer as long as you adhere to the contract. Strategies using this original contract retain the default exception policy: only `Mollie\Api\Exceptions\RetryableNetworkRequestException` is retried.
+
+To make exception-aware retry decisions, including retries for HTTP 429 responses, opt into the extending `Mollie\Api\Contracts\ConditionalRetryStrategyContract`:
+
+```php
+namespace Mollie\Api\Contracts;
+
+use Throwable;
+
+interface ConditionalRetryStrategyContract extends RetryStrategyContract
+{
+    // Whether the exception should trigger a retry
+    public function shouldRetry(Throwable $exception): bool;
+
+    // The exception that triggered the retry is available to calculate the delay
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int;
+}
+```
+
+Implementing this contract is opt-in. Existing `RetryStrategyContract` implementations do not need to change.
 
 ## When retries happen
 
-The selected strategy decides which Mollie exceptions are retried. The default linear strategy retries only `Mollie\Api\Exceptions\RetryableNetworkRequestException`; the exponential strategy also retries budget-compatible `Mollie\Api\Exceptions\TooManyRequestsException` instances.
+Strategies implementing the original retry contract, including the default linear strategy, retry only `Mollie\Api\Exceptions\RetryableNetworkRequestException`. Strategies implementing `ConditionalRetryStrategyContract` decide which Mollie exceptions are retried; the exponential strategy also retries budget-compatible `Mollie\Api\Exceptions\TooManyRequestsException` instances.
