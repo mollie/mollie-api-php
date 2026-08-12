@@ -20,7 +20,7 @@ To change the retry behavior, provide your own strategy instance to the client:
 
 ```php
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Http\Retry\LinearRetryStrategy;
+use Mollie\Api\Http\LinearRetryStrategy;
 
 $client = new MollieApiClient();
 
@@ -37,6 +37,41 @@ To effectively disable retries, set the max retries to `0`:
 $client->setRetryStrategy(new LinearRetryStrategy(0, 0));
 ```
 
+## Exponential backoff with rate-limit support
+
+`ExponentialRetryStrategy` retries temporary network failures and HTTP 429 responses. It uses exponential backoff with optional full jitter. A `Retry-After` value is honored only when it fits within `maxDelayMs`; otherwise the 429 is thrown immediately. Honored delays receive up to 10% additive jitter, capped at 1000ms.
+
+```php
+use Mollie\Api\Http\ExponentialRetryStrategy;
+
+$client->setRetryStrategy(new ExponentialRetryStrategy(
+    3,      // max retries
+    500,    // base delay in milliseconds
+    2.0,    // multiplier
+    30000,  // maximum delay budget
+    true    // jitter
+));
+```
+
+The default remains `LinearRetryStrategy`, so existing clients continue to retry only temporary network failures.
+
+### Inspecting rate-limit headers
+
+```php
+$rateLimit = $response->rateLimit();
+
+if ($rateLimit !== null) {
+    $rateLimit->getPolicy();
+    $rateLimit->getRemaining();
+    $rateLimit->getRestoreSeconds();
+    $rateLimit->getBurst();
+    $rateLimit->getQuota();
+    $rateLimit->getWindowSeconds();
+}
+```
+
+Missing or malformed headers return `null`. API exceptions retain their response, so 429 details are also available through `$exception->getResponse()->rateLimit()`.
+
 ## Creating your own strategy
 
 Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` interface:
@@ -44,14 +79,19 @@ Custom strategies implement the `Mollie\Api\Contracts\RetryStrategyContract` int
 ```php
 namespace Mollie\Api\Contracts;
 
+use Throwable;
+
 interface RetryStrategyContract
 {
     // Maximum number of retries after the initial attempt
     public function maxRetries(): int;
 
+    // Whether the exception should trigger a retry
+    public function shouldRetry(Throwable $exception): bool;
+
     // Delay in milliseconds before performing the given retry attempt
     // $attempt starts at 1 for the first retry
-    public function delayBeforeAttemptMs(int $attempt): int;
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int;
 }
 ```
 
@@ -59,20 +99,32 @@ interface RetryStrategyContract
 
 ```php
 use Mollie\Api\Contracts\RetryStrategyContract;
+use Mollie\Api\Exceptions\RetryableNetworkRequestException;
+use Throwable;
 
 class FixedDelayRetryStrategy implements RetryStrategyContract
 {
-    public function __construct(
-        private int $maxRetries = 3,
-        private int $delayMs = 1000,
-    ) {}
+    private int $maxRetries;
+
+    private int $delayMs;
+
+    public function __construct(int $maxRetries = 3, int $delayMs = 1000)
+    {
+        $this->maxRetries = $maxRetries;
+        $this->delayMs = $delayMs;
+    }
 
     public function maxRetries(): int
     {
         return max(0, $this->maxRetries);
     }
 
-    public function delayBeforeAttemptMs(int $attempt): int
+    public function shouldRetry(Throwable $exception): bool
+    {
+        return $exception instanceof RetryableNetworkRequestException;
+    }
+
+    public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
     {
         // Same delay for every retry
         return max(0, $this->delayMs);
@@ -83,9 +135,8 @@ class FixedDelayRetryStrategy implements RetryStrategyContract
 $client->setRetryStrategy(new FixedDelayRetryStrategy(3, 250));
 ```
 
-You can implement any retry timing you prefer (e.g., exponential backoff with jitter, capped delays, etc.) as long as you adhere to the contract.
+You can implement any retry timing and exception policy as long as you adhere to the contract.
 
 ## When retries happen
 
-Retries are performed only for exceptions that are considered retryable by the HTTP layer and wrapped as `Mollie\Api\Exceptions\RetryableNetworkRequestException`. Other exceptions are not retried and will be thrown immediately.
-
+The selected strategy decides which Mollie exceptions are retried. The default linear strategy retries only `Mollie\Api\Exceptions\RetryableNetworkRequestException`; the exponential strategy also retries budget-compatible `Mollie\Api\Exceptions\TooManyRequestsException` instances.

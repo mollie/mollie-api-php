@@ -5,6 +5,7 @@ namespace Mollie\Api\Http;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\ResourceOrigin;
 use Mollie\Api\Exceptions\JsonParseException;
+use Mollie\Api\Http\Data\RateLimit;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -124,6 +125,41 @@ class Response implements ResourceOrigin
     public function status(): int
     {
         return $this->psrResponse->getStatusCode();
+    }
+
+    /**
+     * Get the first value for a response header, or null if missing.
+     */
+    public function header(string $name): ?string
+    {
+        if (! $this->psrResponse->hasHeader($name)) {
+            return null;
+        }
+
+        $value = $this->psrResponse->getHeaderLine($name);
+
+        return $value === '' ? null : $value;
+    }
+
+    /**
+     * Get all response headers as a map of name to lists of values.
+     *
+     * @return array<string, string[]>
+     */
+    public function headers(): array
+    {
+        return $this->psrResponse->getHeaders();
+    }
+
+    /**
+     * Parse rate-limit state from this response.
+     */
+    public function rateLimit(): ?RateLimit
+    {
+        return RateLimit::fromHeaders(
+            $this->header('RateLimit'),
+            $this->header('RateLimit-Policy')
+        );
     }
 
     public function successful(): bool
