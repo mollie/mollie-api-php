@@ -62,35 +62,70 @@ class ExponentialRetryStrategy implements RetryStrategyContract
         }
 
         return $exception->retryAfterSeconds === null
-            || max(0, $exception->retryAfterSeconds) <= intdiv($this->maxDelayMs, 1000);
+            || $this->retryAfterDelayMs($exception) !== null;
     }
 
     public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
     {
-        // Honour Retry-After on 429 when the server told us how long to wait.
         if ($exception instanceof TooManyRequestsException) {
-            $retryAfter = $exception->retryAfterSeconds;
+            $delay = $this->retryAfterDelayMs($exception);
 
-            if ($retryAfter !== null) {
-                $delay = max(0, $retryAfter) * 1000;
-
-                if ($this->jitter && $delay > 0) {
-                    $maxJitter = min(intdiv($delay, 10), 1000, PHP_INT_MAX - $delay);
-                    $delay += random_int(0, $maxJitter);
-                }
-
-                return $delay;
+            if ($delay !== null) {
+                return $this->addRetryAfterJitter($delay);
             }
         }
 
-        $attempt = max(1, $attempt);
-        $delay = (int) round($this->baseDelayMs * ($this->multiplier ** ($attempt - 1)));
+        $delay = $this->exponentialDelayMs($attempt);
 
         if ($this->jitter && $delay > 0) {
             // Full jitter — random value in [0, delay].
-            $delay = random_int(0, $delay);
+            return random_int(0, $delay);
         }
 
-        return min($delay, $this->maxDelayMs);
+        return $delay;
+    }
+
+    private function retryAfterDelayMs(TooManyRequestsException $exception): ?int
+    {
+        if ($exception->retryAfterSeconds === null) {
+            return null;
+        }
+
+        $retryAfterSeconds = max(0, $exception->retryAfterSeconds);
+
+        if ($retryAfterSeconds > intdiv(PHP_INT_MAX, 1000)) {
+            return null;
+        }
+
+        $delayMs = $retryAfterSeconds * 1000;
+
+        return $delayMs <= $this->maxDelayMs ? $delayMs : null;
+    }
+
+    private function addRetryAfterJitter(int $delayMs): int
+    {
+        if (! $this->jitter || $delayMs === 0) {
+            return $delayMs;
+        }
+
+        $maxJitter = min(intdiv($delayMs, 10), 1000, PHP_INT_MAX - $delayMs);
+
+        return $delayMs + random_int(0, $maxJitter);
+    }
+
+    private function exponentialDelayMs(int $attempt): int
+    {
+        if ($this->baseDelayMs === 0 || $this->maxDelayMs === 0) {
+            return 0;
+        }
+
+        $attempt = max(1, $attempt);
+        $delay = $this->baseDelayMs * ($this->multiplier ** ($attempt - 1));
+
+        if (! is_finite($delay) || $delay >= $this->maxDelayMs) {
+            return $this->maxDelayMs;
+        }
+
+        return (int) round($delay);
     }
 }

@@ -91,6 +91,60 @@ final class RateLimitTest extends TestCase
         $this->assertNull($parsed->windowSeconds);
     }
 
+    #[Test]
+    public function it_matches_policies_in_comma_joined_header_lists(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-refunds";r=3, "get-v2-payments";r=7',
+            '"post-v2-payments";q=5, "get-v2-payments";q=20',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('get-v2-payments', $parsed->policy);
+        $this->assertSame(7, $parsed->remaining);
+        $this->assertSame(20, $parsed->quota);
+    }
+
+    #[Test]
+    public function it_skips_invalid_members_in_comma_joined_header_lists(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            'invalid, "get-v2-payments";r=15',
+            '"get-v2-payments";q=20',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame(15, $parsed->remaining);
+        $this->assertSame(20, $parsed->quota);
+    }
+
+    #[Test]
+    public function it_keeps_valid_sibling_header_when_one_header_is_malformed(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-payments";r=many',
+            '"get-v2-payments";q=20',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame('get-v2-payments', $parsed->policy);
+        $this->assertNull($parsed->remaining);
+        $this->assertSame(20, $parsed->quota);
+    }
+
+    #[Test]
+    public function it_accepts_zero_padded_integers_and_ignores_unknown_extensions(): void
+    {
+        $parsed = RateLimit::fromHeaders(
+            '"get-v2-payments";r=07;future=value',
+            '"get-v2-payments";q=020',
+        );
+
+        $this->assertInstanceOf(RateLimit::class, $parsed);
+        $this->assertSame(7, $parsed->remaining);
+        $this->assertSame(20, $parsed->quota);
+    }
+
     #[DataProvider('malformedHeaders')]
     #[Test]
     public function malformed_headers_return_null(?string $rateLimit, ?string $rateLimitPolicy): void

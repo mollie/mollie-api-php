@@ -134,4 +134,4 @@ You can implement any retry timing and retryability rules you prefer (e.g., expo
 
 ## When retries happen
 
-Retries are performed only when the configured retry strategy returns `true` from `shouldRetry()`. The default `LinearRetryStrategy` retries `Mollie\Api\Exceptions\RetryableNetworkRequestException` only, matching the v3 default behavior. `ExponentialRetryStrategy` also retries `TooManyRequestsException` for HTTP 429 responses.
+Retries are performed only when the configured retry strategy returns `true` from `shouldRetry()`. The default `LinearRetryStrategy` retries `Mollie\Api\Exceptions\RetryableNetworkRequestException` only, matching the v3 default behavior. `ExponentialRetryStrategy` also retries `TooManyRequestsException` for HTTP 429 responses when `Retry-After` is absent or fits within `maxDelayMs`.

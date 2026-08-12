@@ -69,6 +69,19 @@ class ExponentialRetryStrategyTest extends TestCase
     }
 
     #[Test]
+    public function retry_after_budget_and_delay_agree_at_partial_second_boundary(): void
+    {
+        $strategy = new ExponentialRetryStrategy(baseDelayMs: 100, maxDelayMs: 1_500, jitter: false);
+        $withinBudget = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 1);
+        $overBudget = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 2);
+
+        $this->assertTrue($strategy->shouldRetry($withinBudget));
+        $this->assertSame(1_000, $strategy->delayBeforeAttemptMs(1, $withinBudget));
+        $this->assertFalse($strategy->shouldRetry($overBudget));
+        $this->assertSame(100, $strategy->delayBeforeAttemptMs(1, $overBudget));
+    }
+
+    #[Test]
     public function delay_uses_retry_after_header_on_429(): void
     {
         $strategy = new ExponentialRetryStrategy(maxRetries: 3, baseDelayMs: 500, jitter: false);
@@ -119,6 +132,24 @@ class ExponentialRetryStrategyTest extends TestCase
         );
 
         $this->assertSame(5_000, $strategy->delayBeforeAttemptMs(5));
+    }
+
+    #[Test]
+    public function exponential_delay_is_capped_before_integer_overflow(): void
+    {
+        $strategy = new ExponentialRetryStrategy(maxDelayMs: 30_000, jitter: false);
+
+        $this->assertSame(30_000, $strategy->delayBeforeAttemptMs(PHP_INT_MAX));
+    }
+
+    #[Test]
+    public function oversized_retry_after_falls_back_without_integer_overflow(): void
+    {
+        $strategy = new ExponentialRetryStrategy(baseDelayMs: 100, maxDelayMs: 30_000, jitter: false);
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, PHP_INT_MAX);
+
+        $this->assertFalse($strategy->shouldRetry($tooMany));
+        $this->assertSame(100, $strategy->delayBeforeAttemptMs(1, $tooMany));
     }
 
     #[Test]
