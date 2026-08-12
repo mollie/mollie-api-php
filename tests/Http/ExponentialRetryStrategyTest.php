@@ -51,6 +51,24 @@ class ExponentialRetryStrategyTest extends TestCase
     }
 
     #[Test]
+    public function should_not_retry_when_retry_after_exceeds_max_delay(): void
+    {
+        $strategy = new ExponentialRetryStrategy(maxDelayMs: 10_000);
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 11);
+
+        $this->assertFalse($strategy->shouldRetry($tooMany));
+    }
+
+    #[Test]
+    public function should_retry_when_retry_after_is_within_max_delay(): void
+    {
+        $strategy = new ExponentialRetryStrategy(maxDelayMs: 10_000);
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 10);
+
+        $this->assertTrue($strategy->shouldRetry($tooMany));
+    }
+
+    #[Test]
     public function delay_uses_retry_after_header_on_429(): void
     {
         $strategy = new ExponentialRetryStrategy(maxRetries: 3, baseDelayMs: 500, jitter: false);
@@ -73,6 +91,20 @@ class ExponentialRetryStrategyTest extends TestCase
         $this->assertSame(100, $strategy->delayBeforeAttemptMs(1));
         $this->assertSame(200, $strategy->delayBeforeAttemptMs(2));
         $this->assertSame(400, $strategy->delayBeforeAttemptMs(3));
+    }
+
+    #[Test]
+    public function delay_falls_back_to_exponential_when_429_has_no_retry_after(): void
+    {
+        $strategy = new ExponentialRetryStrategy(
+            baseDelayMs: 100,
+            multiplier: 2.0,
+            jitter: false,
+        );
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429);
+
+        $this->assertTrue($strategy->shouldRetry($tooMany));
+        $this->assertSame(200, $strategy->delayBeforeAttemptMs(2, $tooMany));
     }
 
     #[Test]
@@ -103,6 +135,34 @@ class ExponentialRetryStrategyTest extends TestCase
             $delay = $strategy->delayBeforeAttemptMs(1);
             $this->assertGreaterThanOrEqual(0, $delay);
             $this->assertLessThanOrEqual(1_000, $delay);
+        }
+    }
+
+    #[Test]
+    public function retry_after_jitter_is_additive_and_bounded(): void
+    {
+        $strategy = new ExponentialRetryStrategy(maxDelayMs: 10_000, jitter: true);
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 10);
+
+        for ($i = 0; $i < 50; $i++) {
+            $delay = $strategy->delayBeforeAttemptMs(1, $tooMany);
+
+            $this->assertGreaterThanOrEqual(10_000, $delay);
+            $this->assertLessThanOrEqual(11_000, $delay);
+        }
+    }
+
+    #[Test]
+    public function retry_after_jitter_is_at_most_ten_percent_for_short_waits(): void
+    {
+        $strategy = new ExponentialRetryStrategy(maxDelayMs: 1_000, jitter: true);
+        $tooMany = new TooManyRequestsException($this->makePsrResponse(), 'slow', 429, 1);
+
+        for ($i = 0; $i < 50; $i++) {
+            $delay = $strategy->delayBeforeAttemptMs(1, $tooMany);
+
+            $this->assertGreaterThanOrEqual(1_000, $delay);
+            $this->assertLessThanOrEqual(1_100, $delay);
         }
     }
 

@@ -20,9 +20,9 @@ use Throwable;
  * Delay formula for attempt N (starting at 1):
  *   baseDelayMs * (multiplier ** (N - 1)) [+ optional jitter, capped at maxDelayMs]
  *
- * When retrying a {@see TooManyRequestsException} with a numeric Retry-After
- * header, the strategy honours the header value instead of the computed
- * exponential delay.
+ * A numeric Retry-After is honoured only when it fits within maxDelayMs. With
+ * jitter enabled, up to 10% (capped at 1000ms) is added without reducing the
+ * server-mandated wait.
  */
 class ExponentialRetryStrategy implements RetryStrategyContract
 {
@@ -57,8 +57,12 @@ class ExponentialRetryStrategy implements RetryStrategyContract
 
     public function shouldRetry(Throwable $exception): bool
     {
-        return $exception instanceof RetryableNetworkRequestException
-            || $exception instanceof TooManyRequestsException;
+        if (! $exception instanceof TooManyRequestsException) {
+            return $exception instanceof RetryableNetworkRequestException;
+        }
+
+        return $exception->retryAfterSeconds === null
+            || max(0, $exception->retryAfterSeconds) <= intdiv($this->maxDelayMs, 1000);
     }
 
     public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null): int
@@ -68,7 +72,14 @@ class ExponentialRetryStrategy implements RetryStrategyContract
             $retryAfter = $exception->retryAfterSeconds;
 
             if ($retryAfter !== null) {
-                return max(0, $retryAfter) * 1000;
+                $delay = max(0, $retryAfter) * 1000;
+
+                if ($this->jitter && $delay > 0) {
+                    $maxJitter = min(intdiv($delay, 10), 1000, PHP_INT_MAX - $delay);
+                    $delay += random_int(0, $maxJitter);
+                }
+
+                return $delay;
             }
         }
 
