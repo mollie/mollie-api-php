@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - "**.php"
+      - ".php-cs-fixer.dist.php"
+      - "composer.json"
+      - ".github/workflows/fix-codestyle.yml"
+
+permissions:
+  contents: read
 
 jobs:
   php-code-styling:
@@ -14,12 +20,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: --config=.php-cs-fixer.dist.php --allow-risky=yes
+          php-version: "8.4"
+          coverage: none
 
-      - name: Commit linted files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Fixes coding style"
+      - name: Install Composer dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Check code style
+        run: composer check:format
