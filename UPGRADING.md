@@ -167,6 +167,50 @@ public function delayBeforeAttemptMs(int $attempt, ?Throwable $exception = null)
 
 If you provide your own retry strategy, add this method before upgrading. Keep `LinearRetryStrategy` to preserve the v3 default behavior for retryable network failures, or switch to `ExponentialRetryStrategy` if you also want to retry HTTP 429 responses.
 
+### 3.6 Custom endpoint maps use a class constant
+
+If an undocumented `MollieApiClient` subclass directly mutated the protected static `$endpoints` property, replace that mutation with a protected `ENDPOINTS` constant override:
+
+```php
+class CustomMollieApiClient extends MollieApiClient
+{
+    protected const ENDPOINTS = [
+        ...parent::ENDPOINTS,
+        'customPayments' => CustomPaymentEndpointCollection::class,
+    ];
+}
+```
+
+### 3.7 Response middleware runs in two phases
+
+`onResponse()` callbacks now always receive the raw SDK `Response`, regardless of priority. Move transforms that need a hydrated resource or collection to `onResolved()`.
+
+Before:
+
+```php
+$client->middleware()->onResponse(function ($result) {
+    return $result instanceof MethodCollection
+        ? $result->filter(fn (Method $method) => $method->status !== null)
+        : $result;
+}, MiddlewarePriority::LOW);
+```
+
+After:
+
+```php
+$client->middleware()->onResolved(function ($result) {
+    return $result instanceof MethodCollection
+        ? $result->filter(fn (Method $method) => $method->status !== null)
+        : $result;
+}, MiddlewarePriority::LOW);
+
+$client->middleware()->onResponse(function (Response $response): void {
+    // Inspect the raw HTTP response.
+});
+```
+
+Returning `null` or returning without a value preserves the current value in both phases. An `onResponse()` callback may otherwise return only `Mollie\Api\Http\Response`; another return type throws `UnexpectedValueException` immediately. Priorities control order only within their own raw or resolved phase.
+
 # Upgrading from v2 to v3
 
 Use this guide to move your application from v2 to v3. Complete the breaking-change updates before switching the dependency to v3.

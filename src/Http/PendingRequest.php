@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
@@ -69,7 +68,6 @@ class PendingRequest
 
             /** On response */
             ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH)
-            ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
 
             /** Merge the middleware */
             ->merge($connector->middleware(), $request->middleware());
@@ -138,12 +136,13 @@ class PendingRequest
         return $this->middleware()->executeOnRequest($this);
     }
 
-    /**
-     * @return Response|IsResponseAware
-     */
+    /** @return mixed */
     public function executeResponseHandlers(Response $response)
     {
-        return $this->middleware()->executeOnResponse($response);
+        $response = $this->middleware()->executeOnResponse($response);
+        $result = (new Hydrate)($response);
+
+        return $this->middleware()->executeOnResolved($result);
     }
 
     public function executeFatalHandlers(MollieException $exception): MollieException

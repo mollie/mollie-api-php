@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Middleware;
 
-use Mollie\Api\Contracts\ResponseMiddleware;
 use Mollie\Api\Http\Requests\ResourceHydratableRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Resources\ResourceResolver;
 
-class Hydrate implements ResponseMiddleware
+class Hydrate
 {
     public function __invoke(Response $response)
     {

@@ -567,6 +567,27 @@ PHP;
     }
 
     #[Test]
+    public function repeated_send_with_the_same_wrapped_request_is_stable_and_non_mutating()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+        ], retainRequests: true);
+        $request = new DynamicGetRequest('');
+        $wrapper = new WrapperResource(DummyResourceWrapper::class);
+        $request->setHydratableResource($wrapper);
+
+        $first = $client->send($request);
+        $second = $client->send($request);
+
+        $this->assertInstanceOf(DummyResourceWrapper::class, $first);
+        $this->assertInstanceOf(AnyResource::class, $first->getWrapped());
+        $this->assertInstanceOf(DummyResourceWrapper::class, $second);
+        $this->assertInstanceOf(AnyResource::class, $second->getWrapped());
+        $this->assertSame(AnyResource::class, $request->getHydratableResourceTarget());
+        $this->assertSame($wrapper, $request->getHydratableResourceWrapper());
+    }
+
+    #[Test]
     public function empty_or_null_query_parameters_are_not_added_to_the_request()
     {
         $client = new MockMollieClient([

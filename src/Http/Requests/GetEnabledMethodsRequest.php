@@ -17,7 +17,7 @@ use Mollie\Api\Utils\Arr;
 /**
  * @see https://docs.mollie.com/reference/v2/methods-api/list-methods
  *
- * @extends ResourceHydratableRequest<\Mollie\Api\Resources\MethodCollection>
+ * @extends ResourceHydratableRequest<MethodCollection>
  */
 class GetEnabledMethodsRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -41,7 +41,7 @@ class GetEnabledMethodsRequest extends ResourceHydratableRequest implements Supp
         private ?string $profileId = null,
         private ?bool $includeIssuers = null,
     ) {
-        $this->middleware()->onResponse(function ($result) {
+        $this->middleware()->onResolved(function ($result) {
             if ($this->filtersNullStatus && $result instanceof MethodCollection) {
                 return $result
                     ->filter(fn (Method $method) => $method->status !== null);

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http;
 
-use Mollie\Api\Contracts\IsResponseAware;
-use Mollie\Api\Contracts\ViableResponse;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Middleware\Handlers;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
@@ -16,12 +14,15 @@ class Middleware
 
     protected Handlers $onResponse;
 
+    protected Handlers $onResolved;
+
     protected Handlers $onFatal;
 
     public function __construct()
     {
         $this->onRequest = new Handlers;
         $this->onResponse = new Handlers;
+        $this->onResolved = new Handlers;
         $this->onFatal = new Handlers;
     }
 
@@ -42,14 +43,29 @@ class Middleware
 
     public function onResponse(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
     {
-        /** @param Response|IsResponseAware $response */
-        $this->onResponse->add(static function ($response) use ($callback) {
+        $this->onResponse->add(static function (Response $response) use ($callback): Response {
             $result = $callback($response);
 
-            return $result instanceof Response
-                || $result instanceof ViableResponse
-                ? $result
-                : $response;
+            if ($result === null) {
+                return $response;
+            }
+
+            if (! $result instanceof Response) {
+                throw new \UnexpectedValueException(
+                    'Response middleware must return '.Response::class.' or void; '.get_debug_type($result).' returned.'
+                );
+            }
+
+            return $result;
+        }, $name, $priority);
+
+        return $this;
+    }
+
+    public function onResolved(callable $callback, ?string $name = null, string $priority = MiddlewarePriority::MEDIUM): self
+    {
+        $this->onResolved->add(static function ($result) use ($callback) {
+            return $callback($result) ?? $result;
         }, $name, $priority);
 
         return $this;
@@ -71,12 +87,18 @@ class Middleware
         return $this->onRequest->execute($pendingRequest);
     }
 
-    /**
-     * @return Response|ViableResponse
-     */
-    public function executeOnResponse(Response $response)
+    public function executeOnResponse(Response $response): Response
     {
         return $this->onResponse->execute($response);
+    }
+
+    /**
+     * @param  mixed  $result
+     * @return mixed
+     */
+    public function executeOnResolved($result)
+    {
+        return $this->onResolved->execute($result);
     }
 
     public function executeOnFatal(MollieException $exception): MollieException
@@ -104,6 +126,13 @@ class Middleware
             );
 
             $this->onResponse->setHandlers($onResponseHandlers);
+
+            $onResolvedHandlers = array_merge(
+                $this->onResolved->getHandlers(),
+                $handlers->onResolved->getHandlers()
+            );
+
+            $this->onResolved->setHandlers($onResolvedHandlers);
 
             $onFatalHandlers = array_merge(
                 $this->onFatal->getHandlers(),

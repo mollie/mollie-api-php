@@ -24,19 +24,32 @@ class ResourceResolver
     /**
      * Resolve a response into the appropriate resource type.
      *
-     * @return Response|BaseResource|BaseCollection|LazyCollection|IsWrapper
+     * @return Response|BaseResource|ResourceCollection|LazyCollection|IsWrapper
      */
     public function resolve(ResourceHydratableRequest $request, Response $response)
     {
-        $targetResourceClass = $request->getHydratableResource();
+        $targetResourceClass = $request->getHydratableResourceTarget();
+        $wrapper = $request->getHydratableResourceWrapper();
 
-        if ($targetResourceClass instanceof WrapperResource) {
-            $response = $this->resolve(
-                $request->resetHydratableResource(),
-                $response
-            );
+        if ($targetResourceClass !== null) {
+            $this->ensureValidTarget($targetResourceClass);
+        }
 
-            return ResourceFactory::createDecoratedResource($response, $targetResourceClass->getWrapper());
+        $resolved = $this->resolveTarget($request, $response, $targetResourceClass);
+
+        return $wrapper === null
+            ? $resolved
+            : ResourceFactory::createDecoratedResource($resolved, $wrapper->getWrapper());
+    }
+
+    /**
+     * @param  class-string<BaseResource|ResourceCollection>|null  $targetResourceClass
+     * @return Response|BaseResource|ResourceCollection|LazyCollection
+     */
+    private function resolveTarget(ResourceHydratableRequest $request, Response $response, ?string $targetResourceClass)
+    {
+        if ($targetResourceClass === null) {
+            return $response;
         }
 
         if ($this->isCollectionTarget($targetResourceClass)) {
@@ -54,12 +67,19 @@ class ResourceResolver
         return $response;
     }
 
+    private function ensureValidTarget(string $targetResourceClass): void
+    {
+        if (! $this->isCollectionTarget($targetResourceClass) && ! $this->isResourceTarget($targetResourceClass)) {
+            throw new \InvalidArgumentException(
+                "Hydratable resource class '{$targetResourceClass}' must extend ".BaseResource::class.' or '.ResourceCollection::class.'.'
+            );
+        }
+    }
+
     /**
-     * @param Response $response
-     * @param class-string<ResourceCollection> $targetCollectionClass
-     * @return BaseCollection
+     * @param  class-string<ResourceCollection>  $targetCollectionClass
      */
-    private function resolveCollection(Response $response, string $targetCollectionClass): BaseCollection
+    private function resolveCollection(Response $response, string $targetCollectionClass): ResourceCollection
     {
         $result = $response->json();
 
@@ -82,7 +102,7 @@ class ResourceResolver
         );
     }
 
-    private function unwrapIterator(Request $request, BaseCollection $collection)
+    private function unwrapIterator(Request $request, ResourceCollection $collection)
     {
         if ($request instanceof IsIteratable && $request->iteratorEnabled()) {
             /** @var CursorCollection $collection */
@@ -92,9 +112,12 @@ class ResourceResolver
         return $collection;
     }
 
+    /**
+     * @phpstan-assert-if-true class-string<ResourceCollection> $targetResourceClass
+     */
     private function isCollectionTarget(string $targetResourceClass): bool
     {
-        return is_subclass_of($targetResourceClass, BaseCollection::class);
+        return is_subclass_of($targetResourceClass, ResourceCollection::class);
     }
 
     private function isResourceTarget(string $targetResourceClass): bool
