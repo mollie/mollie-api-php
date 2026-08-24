@@ -133,7 +133,7 @@ class DataTransformerTest extends TestCase
         $this->assertEquals(123, $result->query()->get('number'));
     }
 
-    /** @test */
+    #[Test]
     public function it_preserves_zero_values_in_payload(): void
     {
         $pendingRequest = $this->createPostRequest();
@@ -154,7 +154,7 @@ class DataTransformerTest extends TestCase
         $this->assertFalse($result->payload()->has('null'));
     }
 
-    /** @test */
+    #[Test]
     public function it_preserves_zero_values_in_query(): void
     {
         $pendingRequest = $this->createGetRequest();
