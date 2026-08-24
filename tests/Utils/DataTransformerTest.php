@@ -57,7 +57,7 @@ class DataTransformerTest extends TestCase
             null,
             '123 Main St',
             null,
-            '12345',
+            '0',
             null,
             null,
             'Anytown',
@@ -75,7 +75,7 @@ class DataTransformerTest extends TestCase
             'givenName' => 'John',
             'familyName' => 'Doe',
             'streetAndNumber' => '123 Main St',
-            'postalCode' => '12345',
+            'postalCode' => '0',
             'city' => 'Anytown',
             'country' => 'BE',
         ], $result->payload()->get('address'));
@@ -141,6 +141,7 @@ class DataTransformerTest extends TestCase
         $pendingRequest->payload()->add('intZero', 0);
         $pendingRequest->payload()->add('floatZero', 0.0);
         $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('emptyArray', []);
         $pendingRequest->payload()->add('null', null);
 
         $result = $this->transformer->transform($pendingRequest);
@@ -149,6 +150,7 @@ class DataTransformerTest extends TestCase
         $this->assertSame(0, $result->payload()->get('intZero'));
         $this->assertSame(0.0, $result->payload()->get('floatZero'));
         $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('emptyArray'));
         $this->assertFalse($result->payload()->has('null'));
     }
 
