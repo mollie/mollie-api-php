@@ -7,11 +7,14 @@ namespace Mollie\Api\Fake;
 use Mollie\Api\Fake\Concerns\CreatesResourceResponses;
 use Mollie\Api\Traits\HasDefaultFactories;
 use Psr\Http\Message\ResponseInterface;
+use UnexpectedValueException;
 
 class MockResponse
 {
     use CreatesResourceResponses;
     use HasDefaultFactories;
+
+    private const SERIALIZATION_VERSION = 2;
 
     protected int $status;
 
@@ -121,14 +124,16 @@ class MockResponse
             return $body;
         }
 
-        /** @var string $contents */
-        $contents = FakeResponseLoader::load($body);
+        $contents = json_decode(
+            FakeResponseLoader::load($body),
+            flags: JSON_THROW_ON_ERROR
+        );
 
-        if (! empty($this->resourceKey)) {
-            $contents = str_replace('{{ RESOURCE_ID }}', $this->resourceKey, $contents);
+        if ($this->resourceKey !== '') {
+            $contents = $this->replaceResourceId($contents, $this->resourceKey);
         }
 
-        return $contents;
+        return json_encode($contents, JSON_THROW_ON_ERROR);
     }
 
     public function json(): array
@@ -143,17 +148,70 @@ class MockResponse
         return json_last_error() == JSON_ERROR_NONE;
     }
 
+    private function replaceResourceId(mixed $value, string $resourceId): mixed
+    {
+        if (is_string($value)) {
+            return str_replace('{{ RESOURCE_ID }}', $resourceId, $value);
+        }
+
+        if (is_object($value)) {
+            $replaced = new \stdClass;
+
+            foreach (get_object_vars($value) as $key => $item) {
+                $key = str_replace('{{ RESOURCE_ID }}', $resourceId, (string) $key);
+                $replaced->{$key} = $this->replaceResourceId($item, $resourceId);
+            }
+
+            return $replaced;
+        }
+
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        $replaced = [];
+
+        foreach ($value as $key => $item) {
+            $key = is_string($key)
+                ? str_replace('{{ RESOURCE_ID }}', $resourceId, $key)
+                : $key;
+
+            $replaced[$key] = $this->replaceResourceId($item, $resourceId);
+        }
+
+        return $replaced;
+    }
+
     public function __serialize(): array
     {
         return [
-            'body' => $this->body(),
-            'status' => $this->json()['status'] ?? 200,
-            'resourceKey' => $this->json()['resource_key'] ?? '',
+            'version' => self::SERIALIZATION_VERSION,
+            'body' => $this->body,
+            'status' => $this->status,
+            'resourceKey' => $this->resourceKey,
         ];
     }
 
     public function __unserialize(array $data): void
     {
+        $keys = ['body', 'status', 'resourceKey'];
+
+        if (array_key_exists('version', $data)) {
+            if ($data['version'] !== self::SERIALIZATION_VERSION) {
+                throw new UnexpectedValueException('Unsupported MockResponse serialization version.');
+            }
+
+            $keys = ['version', ...$keys];
+        }
+
+        if (count($data) !== count($keys) || array_diff($keys, array_keys($data)) !== []) {
+            throw new UnexpectedValueException('Invalid MockResponse serialized data shape.');
+        }
+
+        if (! is_string($data['body']) || ! is_int($data['status']) || ! is_string($data['resourceKey'])) {
+            throw new UnexpectedValueException('Invalid MockResponse serialized data types.');
+        }
+
         $this->body = $data['body'];
         $this->status = $data['status'];
         $this->resourceKey = $data['resourceKey'];

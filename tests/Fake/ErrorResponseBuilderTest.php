@@ -42,18 +42,22 @@ class ErrorResponseBuilderTest extends TestCase
     }
 
     #[Test]
-    public function can_handle_special_characters_in_detail()
+    public function caller_values_round_trip_through_structural_json()
     {
-        $detail = 'Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?';
-        $response = (new ErrorResponseBuilder(422, 'Unprocessable Entity', $detail))->create();
+        $characters = 'quote " slash \\ CR'."\r".'LF'."\n".'TAB'."\t"
+            .' control '.chr(1).' Unicode ü {{ RESOURCE_ID }}';
+        $title = 'Title '.$characters;
+        $detail = 'Detail '.$characters;
+        $field = 'Field '.$characters;
+        $response = (new ErrorResponseBuilder(422, $title, $detail, $field))->create();
 
         $this->assertInstanceOf(MockResponse::class, $response);
         $this->assertEquals(422, $response->createPsrResponse()->getStatusCode());
 
         $data = $response->json();
         $this->assertEquals(422, $data['status']);
-        $this->assertEquals('Unprocessable Entity', $data['title']);
-        $this->assertEquals($detail, $data['detail']);
-        $this->assertArrayNotHasKey('field', $data);
+        $this->assertSame($title, $data['title']);
+        $this->assertSame($detail, $data['detail']);
+        $this->assertSame($field, $data['field']);
     }
 }

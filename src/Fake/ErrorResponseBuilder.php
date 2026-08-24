@@ -22,27 +22,17 @@ class ErrorResponseBuilder
     ) {
         $this->status = $status;
         $this->title = $title;
-        $this->detail = addslashes($detail);
+        $this->detail = $detail;
         $this->field = $field;
     }
 
     public function create(): MockResponse
     {
-        $contents = FakeResponseLoader::load('error');
-
-        $contents = str_replace([
-            '{{ CODE }}',
-            '{{ TITLE }}',
-            '{{ DETAIL }}',
-            '{{ FIELD }}',
-        ], [
-            (string) $this->status,
-            $this->title,
-            $this->detail,
-            $this->field,
-        ], $contents);
-
-        $contents = json_decode($contents, true);
+        $contents = json_decode(FakeResponseLoader::load('error'), true, flags: JSON_THROW_ON_ERROR);
+        $contents['status'] = $this->status;
+        $contents['title'] = $this->title;
+        $contents['detail'] = $this->detail;
+        $contents['field'] = $this->field;
 
         if (empty($this->field)) {
             unset($contents['field']);
