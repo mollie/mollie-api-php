@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
 /**
- * @extends PaginatedRequest<\Mollie\Api\Resources\BalanceTransactionCollection>
+ * @extends PaginatedRequest<BalanceTransactionCollection>
  */
-class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable
+class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
