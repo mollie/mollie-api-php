@@ -5,7 +5,7 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.13.2...HEAD)
 
 ### Added
 
@@ -92,6 +92,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   null for simple payloads. It actually throws. Updated to correctly
   describe reading the nullable `$event->entity` property or fetching
   the resource via `$event->entityId`.
+
+## [v3.13.2](https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2) - 2026-08-24
+
+### What's Changed
+
+* Update signature-verification.md by @fjbender in https://github.com/mollie/mollie-api-php/pull/902
+* Do not drop request fields whose value is 0, "0" or 0.0 by @winklemad in https://github.com/mollie/mollie-api-php/pull/907
+
+### New Contributors
+
+* @winklemad made their first contribution in https://github.com/mollie/mollie-api-php/pull/907
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2
 
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
