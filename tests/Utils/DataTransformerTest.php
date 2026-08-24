@@ -57,7 +57,7 @@ class DataTransformerTest extends TestCase
             null,
             '123 Main St',
             null,
-            '12345',
+            '0',
             null,
             null,
             'Anytown',
@@ -75,7 +75,7 @@ class DataTransformerTest extends TestCase
             'givenName' => 'John',
             'familyName' => 'Doe',
             'streetAndNumber' => '123 Main St',
-            'postalCode' => '12345',
+            'postalCode' => '0',
             'city' => 'Anytown',
             'country' => 'BE',
         ], $result->payload()->get('address'));
@@ -131,6 +131,40 @@ class DataTransformerTest extends TestCase
         $this->assertEquals('false', $result->query()->get('false'));
         $this->assertEquals('value', $result->query()->get('string'));
         $this->assertEquals(123, $result->query()->get('number'));
+    }
+
+    #[Test]
+    public function it_preserves_zero_values_in_payload(): void
+    {
+        $pendingRequest = $this->createPostRequest();
+        $pendingRequest->payload()->add('description', '0');
+        $pendingRequest->payload()->add('intZero', 0);
+        $pendingRequest->payload()->add('floatZero', 0.0);
+        $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('emptyArray', []);
+        $pendingRequest->payload()->add('null', null);
+
+        $result = $this->transformer->transform($pendingRequest);
+
+        $this->assertSame('0', $result->payload()->get('description'));
+        $this->assertSame(0, $result->payload()->get('intZero'));
+        $this->assertSame(0.0, $result->payload()->get('floatZero'));
+        $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('emptyArray'));
+        $this->assertFalse($result->payload()->has('null'));
+    }
+
+    #[Test]
+    public function it_preserves_zero_values_in_query(): void
+    {
+        $pendingRequest = $this->createGetRequest();
+        $pendingRequest->query()->add('limit', 0);
+        $pendingRequest->query()->add('label', '0');
+
+        $result = $this->transformer->transform($pendingRequest);
+
+        $this->assertSame(0, $result->query()->get('limit'));
+        $this->assertSame('0', $result->query()->get('label'));
     }
 
     private function createGetRequest(): PendingRequest
