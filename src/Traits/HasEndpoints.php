@@ -56,64 +56,51 @@ trait HasEndpoints
 {
     protected string $apiEndpoint = MollieApiClient::API_ENDPOINT;
 
-    protected static array $endpoints = [];
-
-    protected function initializeHasEndpoints(): void
-    {
-        if (! empty(static::$endpoints)) {
-            return;
-        }
-
-        $endpointClasses = [
-            'balances' => BalanceEndpointCollection::class,
-            'balanceReports' => BalanceReportEndpointCollection::class,
-            'balanceTransactions' => BalanceTransactionEndpointCollection::class,
-            'capabilities' => CapabilityEndpointCollection::class,
-            'chargebacks' => ChargebackEndpointCollection::class,
-            'clients' => ClientEndpointCollection::class,
-            'clientLinks' => ClientLinkEndpointCollection::class,
-            'connectBalanceTransfers' => ConnectBalanceTransferEndpointCollection::class,
-            'customerPayments' => CustomerPaymentsEndpointCollection::class,
-            'customers' => CustomerEndpointCollection::class,
-            'invoices' => InvoiceEndpointCollection::class,
-            'mandates' => MandateEndpointCollection::class,
-            'methods' => MethodEndpointCollection::class,
-            'methodIssuers' => MethodIssuerEndpointCollection::class,
-            'onboarding' => OnboardingEndpointCollection::class,
-            'organizationPartners' => OrganizationPartnerEndpointCollection::class,
-            'organizations' => OrganizationEndpointCollection::class,
-            'payments' => PaymentEndpointCollection::class,
-            'paymentRefunds' => PaymentRefundEndpointCollection::class,
-            'paymentCaptures' => PaymentCaptureEndpointCollection::class,
-            'paymentChargebacks' => PaymentChargebackEndpointCollection::class,
-            'paymentLinks' => PaymentLinkEndpointCollection::class,
-            'paymentLinkPayments' => PaymentLinkPaymentEndpointCollection::class,
-            'paymentRoutes' => PaymentRouteEndpointCollection::class,
-            'permissions' => PermissionEndpointCollection::class,
-            'payouts' => PayoutEndpointCollection::class,
-            'profiles' => ProfileEndpointCollection::class,
-            'profileMethods' => ProfileMethodEndpointCollection::class,
-            'refunds' => RefundEndpointCollection::class,
-            'salesInvoices' => SalesInvoiceEndpointCollection::class,
-            'sessions' => SessionEndpointCollection::class,
-            'settlementCaptures' => SettlementCaptureEndpointCollection::class,
-            'settlementChargebacks' => SettlementChargebackEndpointCollection::class,
-            'settlementPayments' => SettlementPaymentEndpointCollection::class,
-            'settlementRefunds' => SettlementRefundEndpointCollection::class,
-            'settlements' => SettlementEndpointCollection::class,
-            'subscriptions' => SubscriptionEndpointCollection::class,
-            'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
-            'terminals' => TerminalEndpointCollection::class,
-            'terminalPairingCodes' => TerminalPairingCodeEndpointCollection::class,
-            'wallets' => WalletEndpointCollection::class,
-            'webhooks' => WebhookEndpointCollection::class,
-            'webhookEvents' => WebhookEventEndpointCollection::class,
-        ];
-
-        foreach ($endpointClasses as $name => $class) {
-            static::$endpoints[$name] = $class;
-        }
-    }
+    protected const ENDPOINTS = [
+        'balances' => BalanceEndpointCollection::class,
+        'balanceReports' => BalanceReportEndpointCollection::class,
+        'balanceTransactions' => BalanceTransactionEndpointCollection::class,
+        'capabilities' => CapabilityEndpointCollection::class,
+        'chargebacks' => ChargebackEndpointCollection::class,
+        'clients' => ClientEndpointCollection::class,
+        'clientLinks' => ClientLinkEndpointCollection::class,
+        'connectBalanceTransfers' => ConnectBalanceTransferEndpointCollection::class,
+        'customerPayments' => CustomerPaymentsEndpointCollection::class,
+        'customers' => CustomerEndpointCollection::class,
+        'invoices' => InvoiceEndpointCollection::class,
+        'mandates' => MandateEndpointCollection::class,
+        'methods' => MethodEndpointCollection::class,
+        'methodIssuers' => MethodIssuerEndpointCollection::class,
+        'onboarding' => OnboardingEndpointCollection::class,
+        'organizationPartners' => OrganizationPartnerEndpointCollection::class,
+        'organizations' => OrganizationEndpointCollection::class,
+        'payments' => PaymentEndpointCollection::class,
+        'paymentRefunds' => PaymentRefundEndpointCollection::class,
+        'paymentCaptures' => PaymentCaptureEndpointCollection::class,
+        'paymentChargebacks' => PaymentChargebackEndpointCollection::class,
+        'paymentLinks' => PaymentLinkEndpointCollection::class,
+        'paymentLinkPayments' => PaymentLinkPaymentEndpointCollection::class,
+        'paymentRoutes' => PaymentRouteEndpointCollection::class,
+        'permissions' => PermissionEndpointCollection::class,
+        'payouts' => PayoutEndpointCollection::class,
+        'profiles' => ProfileEndpointCollection::class,
+        'profileMethods' => ProfileMethodEndpointCollection::class,
+        'refunds' => RefundEndpointCollection::class,
+        'salesInvoices' => SalesInvoiceEndpointCollection::class,
+        'sessions' => SessionEndpointCollection::class,
+        'settlementCaptures' => SettlementCaptureEndpointCollection::class,
+        'settlementChargebacks' => SettlementChargebackEndpointCollection::class,
+        'settlementPayments' => SettlementPaymentEndpointCollection::class,
+        'settlementRefunds' => SettlementRefundEndpointCollection::class,
+        'settlements' => SettlementEndpointCollection::class,
+        'subscriptions' => SubscriptionEndpointCollection::class,
+        'subscriptionPayments' => SubscriptionPaymentEndpointCollection::class,
+        'terminals' => TerminalEndpointCollection::class,
+        'terminalPairingCodes' => TerminalPairingCodeEndpointCollection::class,
+        'wallets' => WalletEndpointCollection::class,
+        'webhooks' => WebhookEndpointCollection::class,
+        'webhookEvents' => WebhookEventEndpointCollection::class,
+    ];
 
     /**
      * @param  string  $url
@@ -140,8 +127,10 @@ trait HasEndpoints
      */
     public function __get(string $name)
     {
-        if (isset(static::$endpoints[$name])) {
-            return new static::$endpoints[$name]($this);
+        if (isset(static::ENDPOINTS[$name])) {
+            $endpointClass = static::ENDPOINTS[$name];
+
+            return new $endpointClass($this);
         }
 
         throw new \Exception("Undefined endpoint: $name");
