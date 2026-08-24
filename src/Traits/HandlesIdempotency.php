@@ -15,14 +15,14 @@ trait HandlesIdempotency
 
     /**
      * A unique string ensuring a request to a mutating Mollie endpoint is processed only once.
-     * This key resets to null after each request.
+     * This key is consumed when the next request is assembled.
      */
     protected ?string $idempotencyKey = null;
 
     /**
      * Set the idempotency key used on the next request. The idempotency key is a unique string ensuring a request to a
-     * mutating Mollie endpoint is processed only once. The idempotency key resets to null after each request. Using
-     * the setIdempotencyKey method supersedes the IdempotencyKeyGenerator.
+     * mutating Mollie endpoint is processed only once. The idempotency key is consumed when the next request is
+     * assembled. Using the setIdempotencyKey method supersedes the IdempotencyKeyGenerator.
      *
      * @return $this
      */
@@ -35,8 +35,7 @@ trait HandlesIdempotency
 
     /**
      * Retrieve the idempotency key. The idempotency key is a unique string ensuring a request to a
-     * mutating Mollie endpoint is processed only once. Note that the idempotency key gets reset to null after each
-     * request.
+     * mutating Mollie endpoint is processed only once. The key is null after the next request is assembled.
      */
     public function getIdempotencyKey(): ?string
     {
@@ -49,7 +48,7 @@ trait HandlesIdempotency
     }
 
     /**
-     * Reset the idempotency key. Note that the idempotency key automatically resets to null after each request.
+     * Reset the idempotency key. The key is also consumed automatically when the next request is assembled.
      *
      * @return $this
      */

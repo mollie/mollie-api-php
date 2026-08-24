@@ -262,6 +262,7 @@ class MollieApiClientTest extends TestCase
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
+        $this->assertNull($client->getIdempotencyKey());
     }
 
     #[Test]
@@ -278,6 +279,29 @@ class MollieApiClientTest extends TestCase
         $client->send(new DynamicDeleteRequest(''));
 
         $this->assertNull($client->getIdempotencyKey());
+    }
+
+    #[Test]
+    public function explicit_idempotency_key_is_cleared_after_failure_and_not_inherited()
+    {
+        $client = new MockMollieClient([
+            DynamicPostRequest::class => MockResponse::unprocessableEntity('Invalid request'),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
+        ]);
+
+        $client->clearIdempotencyKeyGenerator();
+        $client->setIdempotencyKey('idempotentFooBar');
+
+        try {
+            $client->send(new DynamicPostRequest(''));
+            $this->fail('Expected the request to fail.');
+        } catch (ValidationException) {
+            $this->assertNull($client->getIdempotencyKey());
+        }
+
+        $response = $client->send(new DynamicDeleteRequest(''));
+
+        $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
     #[Test]
