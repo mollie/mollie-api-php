@@ -159,6 +159,103 @@ class CursorCollectionTest extends TestCase
         $this->assertEquals(['tr_stTC2WHAuF', 'tr_stTC2WHAuS', 'tr_stTC2WHAuB'], $paymentIds);
     }
 
+    #[Test]
+    public function backwards_auto_paginator_walks_from_last_page_to_first_page(): void
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => new SequenceMockResponse(
+                MockResponse::ok($this->cursorPage('tr_middle', 'tr_first', 'tr_last')),
+                MockResponse::ok($this->cursorPage('tr_first', null, 'tr_middle')),
+            ),
+        ]);
+
+        $collection = $this->paymentCollection($client, 'tr_last', 'tr_middle');
+
+        $this->assertSame(
+            ['tr_last', 'tr_middle', 'tr_first'],
+            $this->paymentIds($collection->getAutoIterator(true)),
+        );
+    }
+
+    #[Test]
+    public function backwards_auto_paginator_walks_from_middle_page_to_first_page(): void
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok($this->cursorPage('tr_first', null, 'tr_middle')),
+        ]);
+
+        $collection = $this->paymentCollection($client, 'tr_middle', 'tr_first', 'tr_last');
+
+        $this->assertSame(
+            ['tr_middle', 'tr_first'],
+            $this->paymentIds($collection->getAutoIterator(true)),
+        );
+    }
+
+    #[Test]
+    public function backwards_auto_paginator_stops_on_first_page(): void
+    {
+        $collection = $this->paymentCollection(new MockMollieClient, 'tr_first', null, 'tr_middle');
+
+        $this->assertSame(
+            ['tr_first'],
+            $this->paymentIds($collection->getAutoIterator(true)),
+        );
+    }
+
+    private function paymentCollection(
+        MockMollieClient $client,
+        string $id,
+        ?string $previous = null,
+        ?string $next = null,
+    ): PaymentCollection {
+        $collection = new PaymentCollection(
+            $client,
+            [(object) ['id' => $id]],
+            $this->arrayToObject($this->cursorLinks($previous, $next)),
+        );
+
+        return $collection->setResponse($this->response);
+    }
+
+    private function paymentIds(LazyCollection $payments): array
+    {
+        $ids = [];
+
+        foreach ($payments as $payment) {
+            $ids[] = $payment->id;
+        }
+
+        return $ids;
+    }
+
+    private function cursorPage(string $id, ?string $previous, ?string $next): array
+    {
+        return [
+            '_links' => $this->cursorLinks($previous, $next),
+            '_embedded' => [
+                'payments' => [
+                    ['id' => $id],
+                ],
+            ],
+        ];
+    }
+
+    private function cursorLinks(?string $previous, ?string $next): array
+    {
+        $links = [];
+
+        if ($previous !== null) {
+            $links['previous']['href'] = 'https://api.mollie.com/v2/payments?from='.$previous;
+        }
+
+        if ($next !== null) {
+            $links['next']['href'] = 'https://api.mollie.com/v2/payments?from='.$next;
+        }
+
+        return $links;
+    }
+
     /**
      * Convert an array to an object recursively.
      *
