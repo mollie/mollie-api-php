@@ -16,13 +16,9 @@ class SortablePaginatedQueryFactory extends RequestFactory
      */
     public function __construct($data = null)
     {
-        parent::__construct();
+        parent::__construct($data);
 
-        if ($data instanceof Arrayable) {
-            $data = $data->toArray();
-        }
-
-        $this->withQuery($data ?: []);
+        $this->withQuery($this->get());
     }
 
     public function create(): SortablePaginatedQuery
