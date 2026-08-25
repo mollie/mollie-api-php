@@ -1,5 +1,5 @@
 {
-  "action": "released",
+  "action": "published",
   "release": {
     "tag_name": "v3.13.3",
     "name": "August maintenance release",

@@ -1,8 +1,11 @@
 name: "Update Changelog"
 
 on:
+  # `published` fires for stable releases AND pre-releases, including
+  # pre-releases published from a draft. `prereleased` does not fire in the
+  # draft case, and `released` never fires for pre-releases at all.
   release:
-    types: [released, prereleased]
+    types: [published]
 
 jobs:
   update:

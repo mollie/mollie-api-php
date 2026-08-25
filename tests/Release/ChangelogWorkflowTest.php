@@ -32,17 +32,22 @@ class ChangelogWorkflowTest extends TestCase
     public static function releaseEventProvider(): array
     {
         return [
-            'prerelease with a human title' => ['prereleased.json', true],
-            'stable release with a human title' => ['released.json', false],
+            'prerelease with a human title' => ['published-prerelease.json', true],
+            'stable release with a human title' => ['published-stable.json', false],
         ];
     }
 
     #[Test]
-    public function workflow_handles_stable_and_prerelease_publications(): void
+    public function workflow_subscribes_to_published_so_draft_published_prereleases_are_not_missed(): void
     {
         $workflow = $this->workflow();
 
-        $this->assertMatchesRegularExpression('/types:\s*\[released,\s*prereleased\]/', $workflow);
+        // GitHub does not emit `prereleased` for a pre-release published from a
+        // draft, and never emits `released` for a pre-release at all. `published`
+        // is the only type that covers every publication route.
+        $this->assertMatchesRegularExpression('/types:\s*\[published\]/', $workflow);
+        $this->assertDoesNotMatchRegularExpression('/types:[^\]]*\bprereleased\b/', $workflow);
+        $this->assertDoesNotMatchRegularExpression('/types:[^\]]*\breleased\b/', $workflow);
         $this->assertMatchesRegularExpression('/permissions:\s*\R\s+contents:\s*write/', $workflow);
     }
 
@@ -76,7 +81,7 @@ class ChangelogWorkflowTest extends TestCase
     #[Test]
     public function updater_transformation_is_idempotent(): void
     {
-        $event = $this->releaseEvent('prereleased.json');
+        $event = $this->releaseEvent('published-prerelease.json');
         $before = $this->fixture('changelog-before.md');
         $expected = $this->fixture('changelog-after.md');
 

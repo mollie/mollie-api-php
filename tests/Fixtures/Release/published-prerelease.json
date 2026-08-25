@@ -1,5 +1,5 @@
 {
-  "action": "prereleased",
+  "action": "published",
   "release": {
     "tag_name": "v4.0.0-beta.2",
     "name": "Fourth beta",
