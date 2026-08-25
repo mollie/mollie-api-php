@@ -650,7 +650,8 @@ above are `bash -n` and ShellCheck against `bin/release`.
 
 - Branch: `feat/v4-audit-simplifications`, pushed to `origin`.
 - Base: `feat/v4-main-merge`.
-- One pull request targets that base. No other branch or remote ref was created.
+- Pull request: [#911](https://github.com/mollie/mollie-api-php/pull/911), targeting that
+  base. No other branch or remote ref was created.
 - No tag was created, no GitHub release was published, no deployment ran, and no
   remote branch was rewritten or force-pushed at any point. The tag list is
   unchanged from before this work.
