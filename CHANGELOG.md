@@ -10,11 +10,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `RateLimit` value object and `Response::rateLimit()` accessor for `RateLimit` and `RateLimit-Policy` response headers.
+- `middleware()->onResolved()`, a post-hydration middleware phase for transforms that need the hydrated resource or collection rather than the raw response.
+- `Mollie\Api\Utils\Utility::isTrue()`, the shared boolean coercion used for API-facing scalar values such as `testmode` arriving from a query string or payload.
 
 ### Changed
 
 - `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
 - `ExponentialRetryStrategy` applies the `maxDelayMs` cap before exponential full jitter, avoiding a probability spike at the cap.
+- **`onResponse()` callbacks now always receive the raw `Response`**, regardless of priority. Move transforms that expect a hydrated resource or collection to `onResolved()`. See [UPGRADING.md](UPGRADING.md) section 3.7.
+- **Custom endpoint maps are declared with a class constant.** Subclasses that mutated the protected static `$endpoints` property must override the protected `ENDPOINTS` constant instead. See [UPGRADING.md](UPGRADING.md) section 3.6.
+- The one-shot idempotency key is now transferred to the request while it is assembled and cleared from the connector immediately, so a failed or exhausted retry can no longer leak it into a later request. Retries reuse the key already on the assembled request.
+- Test mode is resolved once per request, with API-key precedence, so the value observed on the request cannot drift from the value sent to Mollie.
+- Balance transaction listing propagates one effective test mode across every list, page and iterator route.
+- Request factories resolve values by key presence rather than truthiness, so explicitly supplied falsy values such as `0`, `"0"` and `0.0` are no longer dropped.
+- `ResourceRegistry` keeps its class and type indexes consistent, and paginated query factories build their query from one authoritative input map.
+
+### Removed
+
+- `Mollie\Api\Http\Middleware\ResetIdempotencyKey`. It cleared the connector key from the response phase, which never runs when a request throws. Clearing now happens during request assembly, so no replacement is needed. `setIdempotencyKey()` and `resetIdempotencyKey()` are unchanged.
+
+### For contributors
+
+- Formatting moved from PHP-CS-Fixer to [Laravel Pint](https://laravel.com/docs/pint). Run `composer format` to apply and `composer check:format` to verify. The rule set is unchanged, so no reformatting is required on in-flight branches.
+- The code style workflow reports violations instead of committing fixes back to the branch, and CI validation reads the repository's real PHPStan and PHPUnit configuration.
+- `bin/release` publishes only from an already-merged remote state and honors the operator's tag signing configuration.
+- The changelog workflow derives its identity from the release event and triggers on `published`, so pre-releases are no longer skipped.
 
 ## [v4.0.0-beta.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v4.0.0-beta.1) - 2026-08-12
 
