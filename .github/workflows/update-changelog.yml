@@ -6,6 +6,14 @@ on:
 
 jobs:
   update:
+    # This changelog tracks the v3 line only. For `release` events GitHub runs
+    # the workflow from the default branch, so a release published from any
+    # other line reaches this job too — publishing v4.0.0-beta.2 filed a v4
+    # heading here and re-attributed the v3 notes under it. The `types` filter
+    # is not a guard: that release was a pre-release and `released` fired
+    # anyway. Gate on the immutable tag instead, not on `release.name`, which
+    # a maintainer can edit.
+    if: startsWith(github.event.release.tag_name, 'v3.')
     runs-on: ubuntu-latest
 
     steps:
