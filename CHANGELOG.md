@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.1...HEAD)
 
+### Added
+
+- `RateLimit` value object and `Response::rateLimit()` accessor for `RateLimit` and `RateLimit-Policy` response headers.
+
+### Changed
+
+- `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
+- `ExponentialRetryStrategy` applies the `maxDelayMs` cap before exponential full jitter, avoiding a probability spike at the cap.
+
+## [v4.0.0-beta.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v4.0.0-beta.1) - 2026-08-12
+
 PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 
 ### Breaking changes
@@ -25,7 +36,6 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 - Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
 - `Money::of(string $currency)` fluent builder with `minorUnits(int $amount)` and `fromString(string $value)`. Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
 - `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
-- `RateLimit` value object and `Response::rateLimit()` accessor for `RateLimit` and `RateLimit-Policy` response headers.
 - Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.
 - `Macroable` trait for `Money` (and other value objects) for custom factories without subclassing.
 - `ValidationException` exposes per-field errors; `TooManyRequestsException` exposes `retryAfterSeconds`; `Response` exposes header access.
@@ -35,8 +45,6 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 
 - `ResourceHydrator` rewritten reflection-based so it can populate the new typed resource properties (value objects, enums, nested collections). Origin routing (HTTP vs. webhook snapshot) behaves exactly as in v3.13.
 - Constructor promotion applied across Request and Exception classes.
-- `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
-- `ExponentialRetryStrategy` applies the `maxDelayMs` cap before exponential full jitter, avoiding a probability spike at the cap.
 
 ### Removed
 

@@ -1,0 +1,12 @@
+{
+  "action": "prereleased",
+  "release": {
+    "tag_name": "v4.0.0-beta.2",
+    "name": "Fourth beta",
+    "prerelease": true,
+    "published_at": "2026-08-25T10:15:00Z"
+  },
+  "repository": {
+    "default_branch": "main"
+  }
+}
