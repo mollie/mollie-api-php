@@ -259,7 +259,7 @@ case "$REMOTE_TAG_STATE:$RELEASE_STATE" in
         [ "$REMOTE_TAG_STATE" = absent ] && [ "$RELEASE_STATE" = absent ] || die "Remote state changed before local tag preparation."
 
         if [ "$LOCAL_TAG_STATE" = absent ]; then
-            git tag --annotate --no-sign "$TAG" "$SNAPSHOT_HEAD" --message "Release $VERSION" || die "Creating the local annotated tag failed."
+            git tag --annotate "$TAG" "$SNAPSHOT_HEAD" --message "Release $VERSION" || die "Creating the local annotated tag failed."
         fi
         classify_local_tag
 
