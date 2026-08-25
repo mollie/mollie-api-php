@@ -13,7 +13,7 @@ change.
 - Audit head: `e429a2ac980358ce0602ae4372b37540b83bc008`
 - Structural cleanup head: `235d2b3cba4cbf92b6d73a60cce69e25fa00ffd6`
 - Last code commit: `95662e2b0eb50a148fa0283e545dee59bf1e306e`
-- Scope: 16 completed audit todos, one accepted follow-up cleanup, two of three
+- Scope: 16 completed audit todos, one accepted follow-up cleanup, all three
   resolved review comments, and the review nits raised against them
 - Publication state: recorded in "Publication state" below.
 
@@ -481,41 +481,55 @@ additional invalid states.
 12. `ddff798b8517bd3ecf7181b16d19a2c11b39d6c9` — Remove obsolete idempotency response middleware
 13. `e1b28d6e8cd0aba95823f25a8f2a3fe90f54bf93` — Replace PHP-CS-Fixer with Laravel Pint
 14. `95662e2b0eb50a148fa0283e545dee59bf1e306e` — Let the release script honour tag signing configuration
+15. `408824b64c2adbcc2cbb1077a90e6a24ec0cb9ba` — Give the released beta its own changelog section
 
-This document is added by the commit that follows them.
+This document is maintained alongside them.
 
 ## Review feedback resolutions
 
-Three line-level review comments were raised against the audit branch. Two are
-resolved; one is deliberately left open pending a maintainer decision.
+Three line-level review comments were raised against the audit branch. All three
+are resolved.
 
-### Comment 1 — changelog release identity (UNRESOLVED, policy-gated)
+### Comment 1 — changelog release identity (RESOLVED)
 
 > On `CHANGELOG.md`: "we already released a v4.0.0-beta.x version... so
 > Unreleased is misleading"
 
-**Status: not actioned. No changelog or workflow change was made.**
+The complaint was correct: everything under `## [Unreleased]` except three notes
+had already shipped in `v4.0.0-beta.1` (published 2026-08-12, `isPrerelease:
+true`). The fix was not derivable from repository evidence, because
+`v4.0.0-beta.1` is the only pre-release in repository history and the beta tag
+itself shipped the whole v4 block as one accumulating `## [4.0.0] - UNRELEASED`
+section. It was therefore escalated rather than guessed.
 
-The complaint is substantively correct: everything under `## [Unreleased]` except
-three bullets shipped in `v4.0.0-beta.1` (published 2026-08-12, `isPrerelease:
-true`). But the fix is not derivable from repository evidence:
+**Maintainer decision: a published pre-release is a changelog-visible release.**
+The block is split at the tag:
 
-- The heading's *form* already matches convention. `origin/main:CHANGELOG.md`
-  carries the identical `## [Unreleased](.../compare/<tag>...HEAD)` shape, which
-  is what `stefanzweifel/changelog-updater-action` both emits and consumes.
-- At the beta tag itself the heading read `## [4.0.0] - UNRELEASED`, so the
-  maintainers treated the whole v4 block as one accumulating section.
-- `update-changelog.yml` fires on `release: types: [released]`, which GitHub does
-  not emit for pre-releases. No workflow run exists for `v4.0.0-beta.1`.
-- `v4.0.0-beta.1` is the only pre-release in repository history, so there is no
-  precedent for how a beta appears in `CHANGELOG.md`.
+- `## [Unreleased](.../compare/v4.0.0-beta.1...HEAD)` keeps only the three notes
+  that postdate the beta — the `RateLimit` value object plus two
+  `ExponentialRetryStrategy` changes — under their existing subheadings.
+- `## [v4.0.0-beta.1](.../compare/v3.13.0...v4.0.0-beta.1) - 2026-08-12` holds
+  everything that actually shipped, moved verbatim.
 
-Resolving it means choosing a release policy — whether a published pre-release is
-a changelog-visible release with its own `## [tag] - date` section (implying the
-workflow should also trigger on `prereleased`), or a preview cut with all v4
-notes accumulating until GA. Per the review instruction not to invent version or
-release semantics, this was left unresolved rather than guessed. Full evidence:
-`solo://proj/16/scratchpad/decision-required-v4--8352`.
+Both facts in that heading are derived rather than chosen. The date is the
+GitHub release `publishedAt`. The compare base `v3.13.0` is the last v3 tag
+*reachable* from the beta tag — `v3.13.1` is chronologically closer but
+`git merge-base --is-ancestor v3.13.1 v4.0.0-beta.1` is false, so it would be
+wrong. Bullet counts and the sorted-bullet SHA-256 are identical before and
+after, so no note was lost, reworded, or duplicated.
+
+`update-changelog.yml` now also fires on `prereleased`. GitHub does not emit
+`released` for pre-releases, which is why no updater run exists for
+`v4.0.0-beta.1` and why its notes were never filed at release time. The
+workflow's identity handling from R24 is unchanged.
+
+`tests/Release/ChangelogWorkflowTest.php` and `tests/Fixtures/Release/` pin the
+contract for both activity types: checkout and push resolve from
+`repository.default_branch` rather than a hard-coded branch; the version comes
+from the immutable `release.tag_name` rather than the editable `release.name`;
+the changelog keeps exactly one leading Unreleased section with descending dated
+release headings; and applying the updater transformation twice is
+byte-identical.
 
 ### Comment 2 — replace PHP-CS-Fixer with Laravel Pint (RESOLVED)
 
@@ -621,8 +635,8 @@ NITS with zero blockers. Two of its findings were acted on:
 
 | Check | Result |
 | --- | --- |
-| Full Pest suite | 1,447 tests, 4,349 assertions passed |
-| PHPStan | 817 files analyzed, no errors |
+| Full Pest suite | 1,452 tests, 4,407 assertions passed |
+| PHPStan | 818 files analyzed, no errors |
 | Focused idempotency tests | 36 tests, 83 assertions passed |
 | Focused test-mode / boolean tests | 74 tests, 103 assertions passed |
 | Laravel Pint 1.30.4 | `composer check:format` passed; zero source or test rewrites |
@@ -634,17 +648,21 @@ NITS with zero blockers. Two of its findings were acted on:
 | Release script syntax | `bash -n bin/release` passed after the signing change |
 | Release script lint | ShellCheck passed with no findings |
 | Independent pre-publication review | Whole-branch review by a fresh reviewer: NITS, 0 blockers |
+| Changelog / release-workflow contract tests | 5 tests, 58 assertions passed, covering both release activity types and an idempotent updater rerun |
+| Changelog content preservation | 32 bullets before and after the split; sorted-bullet SHA-256 identical |
 | Whitespace | `git diff --check` clean across the branch |
 | Stale PHP-CS-Fixer references | None remain outside this document's historical notes |
 | Stale `ResetIdempotencyKey` references | None remain outside this document's notes |
 | Unrelated user file | `tools/weekly-mollie-changelog.sh` was never staged or committed and never entered git history. It has since been relocated out of the repository at the maintainer's request. |
 | Release operations | None. No tag, GitHub release, deployment, remote branch rewrite, or unintended push occurred |
 
-Not run, because the review item they belong to is unresolved: changelog-updater
-event fixtures and the idempotent-rerun check. Those are deliverables of Comment
-1, which is policy-gated (see above). The repository has no committed
-changelog-updater or release-script fixture suite; the release-script checks
-above are `bash -n` and ShellCheck against `bin/release`.
+The changelog-updater event fixtures and the idempotent-rerun check now exist as
+`tests/Fixtures/Release/` and `tests/Release/ChangelogWorkflowTest.php`. PHP's
+`yaml_parse` is unavailable in this environment, so the workflow assertions match
+precise raw YAML rather than a parsed tree, and the workflow file is
+independently parsed with PyYAML. The repository still has no release-script
+fixture suite; the release-script checks above are `bash -n` and ShellCheck
+against `bin/release`.
 
 ## Publication state
 
