@@ -10,7 +10,7 @@ use Mollie\Api\Utils\Utility;
 
 /**
  * Centralized mapping between resource classes and their API type names
- * (singular, plural, and aliases). Also provides reverse lookup by type string.
+ * (singular and plural). Also provides reverse lookup by type string.
  */
 class ResourceRegistry
 {
@@ -32,7 +32,7 @@ class ResourceRegistry
     /**
      * Optionally allow pre-registration of classes, though defaults cover common resources.
      *
-     * @param array<class-string<BaseResource>, string> $resources
+     * @param  array<class-string<BaseResource>, string>  $resources
      */
     public function __construct(array $resources = [])
     {
@@ -45,7 +45,7 @@ class ResourceRegistry
     public static function default(): self
     {
         if (! self::$default) {
-            self::$default = new self();
+            self::$default = new self;
         }
 
         return self::$default;
@@ -68,13 +68,28 @@ class ResourceRegistry
     {
         $names = $this->deriveNames($resourceClass, $plural, $singular);
 
+        foreach (array_unique($names) as $name) {
+            $owner = $this->byType[$name] ?? null;
+
+            if ($owner !== null && $owner !== $resourceClass) {
+                throw new \InvalidArgumentException("Resource type '{$name}' is already registered to {$owner}.");
+            }
+        }
+
+        foreach (array_unique($this->byClass[$resourceClass] ?? []) as $name) {
+            if (($this->byType[$name] ?? null) === $resourceClass) {
+                unset($this->byType[$name]);
+            }
+        }
+
         $this->byClass[$resourceClass] = $names;
         $this->byType[$names[self::SINGULAR_KEY]] = $resourceClass;
         $this->byType[$names[self::PLURAL_KEY]] = $resourceClass;
     }
 
     /**
-     * Get the names for a class (singular, plural, aliases).
+     * Get the names for a class (singular and plural).
+     *
      * @return array{singular: string, plural: string}|null
      */
     public function namesOf(string $resourceClass): ?array
@@ -88,7 +103,7 @@ class ResourceRegistry
             $this->throwInvalidArgumentException($resourceClass);
         }
 
-        return Arr::get($this->byClass, $resourceClass . '.' . self::SINGULAR_KEY);
+        return Arr::get($this->byClass, $resourceClass.'.'.self::SINGULAR_KEY);
     }
 
     /**
@@ -100,7 +115,7 @@ class ResourceRegistry
             $this->throwInvalidArgumentException($resourceClass);
         }
 
-        return Arr::get($this->byClass, $resourceClass . '.' . self::PLURAL_KEY);
+        return Arr::get($this->byClass, $resourceClass.'.'.self::PLURAL_KEY);
     }
 
     public function isRegistered(string $resourceClass): bool
@@ -164,7 +179,7 @@ class ResourceRegistry
     }
 
     /**
-     * Build derived names and alias list for a resource class.
+     * Build derived names for a resource class.
      *
      * @return array{singular: string, plural: string}
      */
@@ -186,6 +201,6 @@ class ResourceRegistry
 
     private function throwInvalidArgumentException(string $resourceClass): void
     {
-        throw new \InvalidArgumentException($resourceClass . ' is not registered');
+        throw new \InvalidArgumentException($resourceClass.' is not registered');
     }
 }

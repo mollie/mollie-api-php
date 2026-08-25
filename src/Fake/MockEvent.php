@@ -72,15 +72,17 @@ class MockEvent
 
     private function loadEventBlueprintData(): array
     {
-        $eventBlueprint = FakeResponseLoader::loadEventBlueprint();
+        $eventBlueprint = json_decode(
+            FakeResponseLoader::loadEventBlueprint(),
+            true,
+            flags: JSON_THROW_ON_ERROR
+        );
+        $eventBlueprint['type'] = $this->eventClass::type();
 
-        $eventBlueprint = str_replace('{{ TYPE }}', $this->eventClass::type(), $eventBlueprint);
-
-        if (! empty($this->entityId)) {
-            $eventBlueprint = str_replace('{{ RESOURCE_ID }}', $this->entityId, $eventBlueprint);
+        if ($this->entityId !== '') {
+            $eventBlueprint['entityId'] = $this->entityId;
         }
 
-        return json_decode($eventBlueprint, true);
+        return $eventBlueprint;
     }
-
 }

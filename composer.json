@@ -60,6 +60,7 @@
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^7.6",
+    "laravel/pint": "1.30.4",
     "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^11.5"
@@ -86,6 +87,8 @@
   },
   "scripts": {
     "test": "./vendor/bin/pest --parallel",
+    "format": "pint",
+    "check:format": "pint --test",
     "generate:currency-trait": "@php tools/generate-currency-trait.php",
     "check:currency-trait": [
       "@php tools/generate-currency-trait.php",

@@ -15,14 +15,18 @@ class ApplyIdempotencyKey implements RequestMiddleware
 
     public function __invoke(PendingRequest $pendingRequest): PendingRequest
     {
+        $connector = $pendingRequest->getConnector();
+        $idempotencyKey = $connector->getIdempotencyKey();
+
+        $connector->resetIdempotencyKey();
+
         if (! $this->isMutatingRequest($pendingRequest)) {
             $pendingRequest->headers()->remove(self::IDEMPOTENCY_KEY_HEADER);
 
             return $pendingRequest;
         }
 
-        $idempotencyKey = $pendingRequest->getConnector()->getIdempotencyKey();
-        $idempotencyKeyGenerator = $pendingRequest->getConnector()->getIdempotencyKeyGenerator();
+        $idempotencyKeyGenerator = $connector->getIdempotencyKeyGenerator();
 
         if ($idempotencyKey === null && $idempotencyKeyGenerator === null) {
             return $pendingRequest;

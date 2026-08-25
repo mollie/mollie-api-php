@@ -6,6 +6,8 @@ namespace Tests;
 
 use GuzzleHttp\Client;
 use Mollie\Api\Contracts\HasPayload;
+use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
+use Mollie\Api\EndpointCollection\TerminalPairingCodeEndpointCollection;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\InvalidAuthenticationException;
 use Mollie\Api\Exceptions\RequestException;
@@ -99,6 +101,69 @@ class MollieApiClientTest extends TestCase
         $this->assertNotEmpty($client_copy->payouts);
         $this->assertNotEmpty($client_copy->methods);
         $this->assertNotEmpty($client_copy->terminalPairingCodes);
+    }
+
+    #[Test]
+    public function constructor_bypass_client_resolves_endpoints_in_a_cold_process()
+    {
+        $script = <<<'PHP'
+require 'vendor/autoload.php';
+
+$client = (new ReflectionClass(Mollie\Api\MollieApiClient::class))->newInstanceWithoutConstructor();
+
+echo json_encode([
+    get_class($client->payments),
+    get_class($client->terminalPairingCodes),
+], JSON_THROW_ON_ERROR);
+PHP;
+
+        $process = proc_open(
+            [PHP_BINARY, '-r', $script],
+            [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
+            $pipes,
+            dirname(__DIR__),
+        );
+
+        if (! is_resource($process)) {
+            $this->fail('Unable to start a fresh PHP process.');
+        }
+
+        $output = stream_get_contents($pipes[1]);
+        $errorOutput = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $exitCode = proc_close($process);
+
+        $this->assertSame(0, $exitCode, $errorOutput);
+        $this->assertSame([
+            PaymentEndpointCollection::class,
+            TerminalPairingCodeEndpointCollection::class,
+        ], json_decode($output, true, flags: JSON_THROW_ON_ERROR));
+    }
+
+    #[Test]
+    public function unknown_endpoint_throws_the_same_exception()
+    {
+        $client = new MollieApiClient($this->createMock(Client::class));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Undefined endpoint: unknown');
+
+        $client->__get('unknown');
+    }
+
+    #[Test]
+    public function subclass_can_override_the_endpoint_map()
+    {
+        $client = new class($this->createMock(Client::class)) extends MollieApiClient {
+            protected const ENDPOINTS = [
+                ...parent::ENDPOINTS,
+                'customPayments' => PaymentEndpointCollection::class,
+            ];
+        };
+
+        $this->assertInstanceOf(PaymentEndpointCollection::class, $client->payments);
+        $this->assertInstanceOf(PaymentEndpointCollection::class, $client->__get('customPayments'));
     }
 
     #[Test]
@@ -262,6 +327,7 @@ class MollieApiClientTest extends TestCase
         $response = $client->send(new DynamicGetRequest(''));
 
         $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
+        $this->assertNull($client->getIdempotencyKey());
     }
 
     #[Test]
@@ -278,6 +344,29 @@ class MollieApiClientTest extends TestCase
         $client->send(new DynamicDeleteRequest(''));
 
         $this->assertNull($client->getIdempotencyKey());
+    }
+
+    #[Test]
+    public function explicit_idempotency_key_is_cleared_after_failure_and_not_inherited()
+    {
+        $client = new MockMollieClient([
+            DynamicPostRequest::class => MockResponse::unprocessableEntity('Invalid request'),
+            DynamicDeleteRequest::class => MockResponse::noContent(),
+        ]);
+
+        $client->clearIdempotencyKeyGenerator();
+        $client->setIdempotencyKey('idempotentFooBar');
+
+        try {
+            $client->send(new DynamicPostRequest(''));
+            $this->fail('Expected the request to fail.');
+        } catch (ValidationException) {
+            $this->assertNull($client->getIdempotencyKey());
+        }
+
+        $response = $client->send(new DynamicDeleteRequest(''));
+
+        $this->assertFalse($response->getPendingRequest()->headers()->has(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER));
     }
 
     #[Test]
@@ -475,6 +564,27 @@ class MollieApiClientTest extends TestCase
         );
 
         $this->assertInstanceOf(DummyResourceWrapper::class, $response);
+    }
+
+    #[Test]
+    public function repeated_send_with_the_same_wrapped_request_is_stable_and_non_mutating()
+    {
+        $client = new MockMollieClient([
+            DynamicGetRequest::class => MockResponse::ok('{"resource": "payment"}'),
+        ], retainRequests: true);
+        $request = new DynamicGetRequest('');
+        $wrapper = new WrapperResource(DummyResourceWrapper::class);
+        $request->setHydratableResource($wrapper);
+
+        $first = $client->send($request);
+        $second = $client->send($request);
+
+        $this->assertInstanceOf(DummyResourceWrapper::class, $first);
+        $this->assertInstanceOf(AnyResource::class, $first->getWrapped());
+        $this->assertInstanceOf(DummyResourceWrapper::class, $second);
+        $this->assertInstanceOf(AnyResource::class, $second->getWrapped());
+        $this->assertSame(AnyResource::class, $request->getHydratableResourceTarget());
+        $this->assertSame($wrapper, $request->getHydratableResourceWrapper());
     }
 
     #[Test]

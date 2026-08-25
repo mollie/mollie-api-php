@@ -7,6 +7,7 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentsRequest;
 use Mollie\Api\Resources\Payment;
@@ -35,5 +36,48 @@ class PaymentLazyIteratorTest extends TestCase
         }
 
         $this->assertSame(['tr_page1', 'tr_page2', 'tr_page3'], $ids);
+    }
+
+    #[Test]
+    public function reverse_iterator_propagates_direction_and_follows_previous_link(): void
+    {
+        $previousUrl = 'https://api.mollie.com/v2/payments?from=tr_page1';
+        $client = new MockMollieClient([
+            GetPaginatedPaymentsRequest::class => MockResponse::ok([
+                '_links' => [
+                    'previous' => ['href' => $previousUrl],
+                ],
+                '_embedded' => [
+                    'payments' => [
+                        ['id' => 'tr_page2'],
+                    ],
+                ],
+            ]),
+            DynamicGetRequest::class => MockResponse::ok([
+                '_links' => [
+                    'next' => ['href' => 'https://api.mollie.com/v2/payments?from=tr_page2'],
+                ],
+                '_embedded' => [
+                    'payments' => [
+                        ['id' => 'tr_page1'],
+                    ],
+                ],
+            ]),
+        ], true);
+
+        $ids = [];
+        foreach ($client->payments->iterator(null, null, [], true) as $payment) {
+            $ids[] = $payment->id;
+        }
+
+        $this->assertSame(['tr_page2', 'tr_page1'], $ids);
+        $client->assertSent(
+            fn (PendingRequest $pendingRequest): bool => $pendingRequest->getRequest() instanceof GetPaginatedPaymentsRequest
+                && $pendingRequest->getRequest()->iteratesBackwards(),
+        );
+        $client->assertSent(
+            fn (PendingRequest $pendingRequest): bool => $pendingRequest->getRequest() instanceof DynamicGetRequest
+                && (string) $pendingRequest->createPsrRequest()->getUri() === $previousUrl,
+        );
     }
 }

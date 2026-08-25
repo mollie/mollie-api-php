@@ -101,4 +101,4 @@ Test fixtures live in `tests/Fixtures/`. Documentation and code examples are in 
 
 - **Tests**: Pest v3 across PHP 8.2, 8.3, 8.4
 - **Static analysis**: PHPStan level 5 (with baseline)
-- **Code style**: PHP CS Fixer
+- **Code style**: Laravel Pint

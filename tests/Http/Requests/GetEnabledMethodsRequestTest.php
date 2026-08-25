@@ -6,7 +6,9 @@ namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
 use PHPUnit\Framework\Attributes\Test;
@@ -98,6 +100,27 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertContains('ideal', $methodIds);
         $this->assertContains('creditcard', $methodIds);
         $this->assertContains('voucher', $methodIds);
+    }
+
+    #[Test]
+    public function its_low_priority_filter_runs_after_low_priority_raw_middleware(): void
+    {
+        $client = new MockMollieClient([
+            GetEnabledMethodsRequest::class => MockResponse::list(MethodCollection::class)
+                ->addMany($this->getMethodListResponse())
+                ->create(),
+        ]);
+        $rawResponse = null;
+
+        $client->middleware()->onResponse(function (Response $response) use (&$rawResponse): void {
+            $rawResponse = $response;
+        }, MiddlewarePriority::LOW);
+
+        $methods = $client->send(new GetEnabledMethodsRequest);
+
+        $this->assertInstanceOf(Response::class, $rawResponse);
+        $this->assertInstanceOf(MethodCollection::class, $methods);
+        $this->assertCount(2, $methods);
     }
 
     /**

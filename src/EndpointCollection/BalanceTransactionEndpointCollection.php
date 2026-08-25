@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\EndpointCollection;
 
+use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\PaginatedQueryFactory;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Resources\Balance;
@@ -16,7 +17,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
     /**
      * List the transactions for a specific Balance.
      *
-     * @throws \Mollie\Api\Exceptions\RequestException
+     * @throws RequestException
      */
     public function pageFor(Balance $balance, array $query = [], bool $testmode = false): BalanceTransactionCollection
     {
@@ -26,7 +27,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
     /**
      * List the transactions for the primary Balance.
      *
-     * @throws \Mollie\Api\Exceptions\RequestException
+     * @throws RequestException
      */
     public function pageForPrimary(array $query = [], bool $testmode = false): BalanceTransactionCollection
     {
@@ -37,7 +38,7 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
     /**
      * List the transactions for a specific Balance ID.
      *
-     * @throws \Mollie\Api\Exceptions\RequestException
+     * @throws RequestException
      */
     public function pageForId(string $balanceId, array $query = [], bool $testmode = false): BalanceTransactionCollection
     {
@@ -69,10 +70,13 @@ class BalanceTransactionEndpointCollection extends EndpointCollection
      * Create an iterator for iterating over transactions for the primary balance retrieved from Mollie.
      *
      * @param  bool  $iterateBackwards  Set to true for reverse order iteration (default is false).
+     * @param  bool|null  $testmode  Passing null is deprecated; null is treated as false.
      */
     public function iteratorForPrimary(array $query = [], bool $iterateBackwards = false, ?bool $testmode = null): LazyCollection
     {
-        return $this->iteratorForId('primary', $query, $iterateBackwards);
+        $testmode ??= false;
+
+        return $this->iteratorForId('primary', $query, $iterateBackwards, $testmode);
     }
 
     /**

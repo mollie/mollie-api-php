@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
@@ -13,6 +14,14 @@ use PHPUnit\Framework\TestCase;
 
 class GetPaginatedBalanceTransactionRequestTest extends TestCase
 {
+    #[Test]
+    public function it_supports_testmode_in_the_query()
+    {
+        $request = new GetPaginatedBalanceTransactionRequest('bal_gVMhHKqSSRYJyPsuoPNFH');
+
+        $this->assertInstanceOf(SupportsTestmodeInQuery::class, $request);
+    }
+
     #[Test]
     public function it_can_get_paginated_balance_transactions()
     {

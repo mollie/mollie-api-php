@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Contracts\Connector;
-use Mollie\Api\Contracts\IsResponseAware;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Exceptions\MollieException;
 use Mollie\Api\Http\Auth\ApiKeyAuthenticator;
@@ -13,7 +12,6 @@ use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
-use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
 use Mollie\Api\Http\PendingRequest\HandleTestmode;
 use Mollie\Api\Http\PendingRequest\MergeBody;
@@ -23,6 +21,7 @@ use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\ManagesPsrRequests;
 use Mollie\Api\Utils\Url;
+use Mollie\Api\Utils\Utility;
 
 class PendingRequest
 {
@@ -35,6 +34,8 @@ class PendingRequest
     protected Request $request;
 
     protected ?PayloadRepository $payload = null;
+
+    protected ?bool $testmode = null;
 
     protected string $method;
 
@@ -67,33 +68,36 @@ class PendingRequest
             ->onRequest(new ApplyIdempotencyKey, 'idempotency')
 
             /** On response */
-            ->onResponse(new ResetIdempotencyKey, 'idempotency')
             ->onResponse(new ConvertResponseToException, MiddlewarePriority::HIGH)
-            ->onResponse(new Hydrate, 'hydrate', MiddlewarePriority::LOW)
 
             /** Merge the middleware */
             ->merge($connector->middleware(), $request->middleware());
     }
 
     /**
-     * We are returning on whether the request is actually
-     * made in testmode and not if the request is sent with a
-     * testmode parameter. This allows the developer to react to requests
-     * being made in testmode independent of the testmode parameter being set.
+     * Determine the effective mode used for this request.
+     *
+     * API keys select the mode themselves. Other authentication methods use
+     * the mode carried by the request flags or its final transport inputs.
      */
     public function getTestmode(): bool
     {
-        if ($this->connector->getTestmode() || $this->request->getTestmode()) {
-            return true;
+        if ($this->testmode !== null) {
+            return $this->testmode;
         }
 
         $authenticator = $this->connector->getAuthenticator();
 
-        if (! $authenticator instanceof ApiKeyAuthenticator) {
-            return false;
+        if ($authenticator instanceof ApiKeyAuthenticator) {
+            return $this->testmode = $authenticator->isTestToken();
         }
 
-        return $authenticator->isTestToken();
+        $query = Url::parseQuery($this->getUri()->getQuery());
+
+        return $this->testmode = $this->connector->getTestmode()
+            || $this->request->getTestmode()
+            || Utility::isTrue($query['testmode'] ?? null)
+            || Utility::isTrue($this->payload?->get('testmode'));
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self
@@ -133,12 +137,13 @@ class PendingRequest
         return $this->middleware()->executeOnRequest($this);
     }
 
-    /**
-     * @return Response|IsResponseAware
-     */
+    /** @return mixed */
     public function executeResponseHandlers(Response $response)
     {
-        return $this->middleware()->executeOnResponse($response);
+        $response = $this->middleware()->executeOnResponse($response);
+        $result = (new Hydrate)($response);
+
+        return $this->middleware()->executeOnResolved($result);
     }
 
     public function executeFatalHandlers(MollieException $exception): MollieException

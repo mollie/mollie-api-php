@@ -8,6 +8,7 @@ use Mollie\Api\Fake\MockEvent;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
+use Mollie\Api\Webhooks\Events\BaseEvent;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferBlocked;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferFailed;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferInitiated;
@@ -50,6 +51,44 @@ class WebhookEventMapperTest extends TestCase
     protected function setUp(): void
     {
         $this->mapper = new WebhookEventMapper();
+    }
+
+    #[Test]
+    #[DataProvider('eventPayloadModeProvider')]
+    public function mock_event_round_trips_structural_caller_values(string $mode): void
+    {
+        $entityId = 'pl_"quoted"\\slashed/'."\r\n\t".chr(1).'ü {{ RESOURCE_ID }}';
+        $eventClass = get_class(new class extends BaseEvent {
+            public function __construct()
+            {
+            }
+
+            public static function type(): string
+            {
+                return 'payment-link."quoted"\\slashed/'."\r\n\t".chr(1).'ü {{ RESOURCE_ID }}';
+            }
+        });
+
+        $payload = MockEvent::for($eventClass, $entityId)
+            ->{$mode}()
+            ->create();
+
+        $this->assertSame($eventClass::type(), $payload['type']);
+        $this->assertSame($entityId, $payload['entityId']);
+
+        if ($mode === 'snapshot') {
+            $this->assertSame($entityId, $payload['_embedded']['entity']['id']);
+        } else {
+            $this->assertArrayNotHasKey('_embedded', $payload);
+        }
+    }
+
+    public static function eventPayloadModeProvider(): array
+    {
+        return [
+            'simple' => ['simple'],
+            'snapshot' => ['snapshot'],
+        ];
     }
 
     #[DataProvider('valid_event_provider')]

@@ -1,28 +1,32 @@
 name: "Update Changelog"
 
 on:
+  # `published` fires for stable releases AND pre-releases, including
+  # pre-releases published from a draft. `prereleased` does not fire in the
+  # draft case, and `released` never fires for pre-releases at all.
   release:
-    types: [released]
+    types: [published]
 
 jobs:
   update:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.event.repository.default_branch }}
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
         with:
-          latest-version: ${{ github.event.release.name }}
-          release-notes: ${{ github.event.release.body }}
+          latest-version: ${{ github.event.release.tag_name }}
 
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: master
+          branch: ${{ github.event.repository.default_branch }}
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md

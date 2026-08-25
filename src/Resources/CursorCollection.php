@@ -79,20 +79,20 @@ abstract class CursorCollection extends ResourceCollection
     public function getAutoIterator(bool $iterateBackwards = false): LazyCollection
     {
         $page = $this;
+        $hasMorePages = $iterateBackwards ? 'hasPrevious' : 'hasNext';
+        $fetchPage = $iterateBackwards ? 'previous' : 'next';
 
-        return (new LazyCollection(function () use ($page, $iterateBackwards): Generator {
+        return (new LazyCollection(function () use ($page, $hasMorePages, $fetchPage): Generator {
             while (true) {
                 foreach ($page as $item) {
                     yield $item;
                 }
 
-                if (($iterateBackwards && ! $page->hasPrevious()) || ! $page->hasNext()) {
+                if (! $page->{$hasMorePages}()) {
                     break;
                 }
 
-                $page = $iterateBackwards
-                    ? $page->previous()
-                    : $page->next();
+                $page = $page->{$fetchPage}();
             }
         }))->setOrigin($this->getOrigin());
     }

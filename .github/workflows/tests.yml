@@ -5,7 +5,7 @@ on:
     paths:
       - "**.php"
       - ".github/workflows/tests.yml"
-      - "phpunit.xml.dist"
+      - "phpunit.xml"
       - "composer.json"
       - "composer.lock"
   pull_request:
