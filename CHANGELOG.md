@@ -5,7 +5,9 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.13.2...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.2...HEAD)
+
+## [v4.0.0-beta.2](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v4.0.0-beta.2) - 2026-08-25
 
 ### Added
 
@@ -24,8 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BaseEvent::asResource(Connector)` hydrates the embedded entity into a
   fully-typed SDK resource and automatically threads the rich origin
   (event id, signature, received-at).
-- `WebhookEventMapper::processPayload()` gains an optional `?string
-  $signature` parameter that is threaded through to the resulting event
+- `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event
   and carried onto hydrated resources via `WebhookSnapshotOrigin`.
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling
   of `withResponse()`.
@@ -64,6 +65,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   collection on both origins. Relative `_links.{name}.href` values in
   webhook payloads are resolved against the client's base URL via
   `Url::join`, no special handling required on the caller's side.
+
 ### For contributors
 
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
@@ -109,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
 ## What's Changed
+
 * Fix: Don't call deprecated `setAccessible()` by @derrabus in https://github.com/mollie/mollie-api-php/pull/852
 * Fix documented `Capability::$requirements` structure by @derrabus in https://github.com/mollie/mollie-api-php/pull/853
 * feat(auth): add setToken helper for api keys by @Naoray in https://github.com/mollie/mollie-api-php/pull/859
@@ -118,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Remove incorrect null return type from ClientLink::getRedirectUrl()   by @NormanAlbert91 in https://github.com/mollie/mollie-api-php/pull/862
 
 ## New Contributors
+
 * @derrabus made their first contribution in https://github.com/mollie/mollie-api-php/pull/852
 * @NormanAlbert91 made their first contribution in https://github.com/mollie/mollie-api-php/pull/862
 
