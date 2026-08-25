@@ -1,10 +1,10 @@
-name: Fix Code Style
+name: Check Code Style
 
 on:
   push:
     paths:
       - "**.php"
-      - ".php-cs-fixer.dist.php"
+      - "pint.json"
       - "composer.json"
       - ".github/workflows/fix-codestyle.yml"
 
