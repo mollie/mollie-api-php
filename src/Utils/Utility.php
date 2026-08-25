@@ -10,6 +10,18 @@ use ReflectionProperty;
 
 class Utility
 {
+    /**
+     * Coerce API-facing scalar inputs to boolean, treating null-on-failure as false.
+     */
+    public static function isTrue(mixed $value): bool
+    {
+        if (! is_scalar($value)) {
+            return false;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
+    }
+
     public static function equals($value, BackedEnum|string $expected): bool
     {
         $expectedValue = $expected instanceof BackedEnum ? $expected->value : $expected;

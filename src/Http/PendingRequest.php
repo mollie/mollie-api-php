@@ -21,6 +21,7 @@ use Mollie\Api\Traits\HasMiddleware;
 use Mollie\Api\Traits\HasRequestProperties;
 use Mollie\Api\Traits\ManagesPsrRequests;
 use Mollie\Api\Utils\Url;
+use Mollie\Api\Utils\Utility;
 
 class PendingRequest
 {
@@ -95,8 +96,8 @@ class PendingRequest
 
         return $this->testmode = $this->connector->getTestmode()
             || $this->request->getTestmode()
-            || $this->isTrue($query['testmode'] ?? null)
-            || $this->isTrue($this->payload?->get('testmode'));
+            || Utility::isTrue($query['testmode'] ?? null)
+            || Utility::isTrue($this->payload?->get('testmode'));
     }
 
     public function setPayload(PayloadRepository $bodyRepository): self
@@ -155,14 +156,5 @@ class PendingRequest
         $callable($this);
 
         return $this;
-    }
-
-    private function isTrue(mixed $value): bool
-    {
-        if (! is_scalar($value)) {
-            return false;
-        }
-
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
     }
 }
