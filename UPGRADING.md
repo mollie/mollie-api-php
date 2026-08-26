@@ -23,7 +23,7 @@ Set your application's PHP requirement to **8.2 or newer**. Remove support for P
 
 ### 2.1 Type constants → enum cases
 
-Replace the constants in all 37 classes under `src/Types/` with PHP **string-backed enum** cases. Change each `SCREAMING_SNAKE` constant reference to its `PascalCase` case:
+Every API value set under `src/Types/` is now a PHP **string-backed enum**. Only the query helpers (`ClientQuery`, `MandateQuery`, `MethodQuery`, `PaymentIncludesQuery`, `PaymentQuery`, `TerminalPairingCodeQuery`) and `Mollie\Api\Types\Method` (HTTP verbs) remain constant classes. Change each `SCREAMING_SNAKE` constant reference to its `PascalCase` case:
 
 ```php
 // v3
@@ -51,7 +51,21 @@ BusinessCategory::all();
 array_column(PaymentStatus::cases(), 'value');
 ```
 
-Keep calling `::all()` on `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus`; these classes still return their raw string values. If your own classes imported `GetAllConstants`, replace the trait with a local helper or migrate those classes to enums.
+Keep calling `::all()` on `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus`; these enums retain compatibility methods that return their raw string values. If your own classes imported `GetAllConstants`, replace the trait with a local helper or migrate those classes to enums.
+
+If you enumerated constants through reflection, replace that too. On an enum, `ReflectionClass::getConstants()` returns the **case objects**, not their string values, and `defined()` / `constant()` on the old `SCREAMING_SNAKE` names now fail:
+
+```php
+// v3
+(new ReflectionClass(PaymentMethod::class))->getConstants();   // ['IDEAL' => 'ideal', ...]
+
+// v4 — the same call returns ['Ideal' => PaymentMethod::Ideal, ...] with no error
+array_column(PaymentMethod::cases(), 'value');                  // ['ideal', ...] — the replacement
+```
+
+`cases()` is the vocabulary this SDK release knows, not an allow-list. Mollie can return a value that is not a case yet; it reaches you as a raw string through the `EnumName|string` property types. `CreatePaymentRequest` accepts a raw string for `method`; `Payment::$method` preserves unknown response values as raw strings. Use the Methods API to learn which methods are enabled on a profile.
+
+`PaymentMethodStatus` and `TerminalPairingCodeStatus` became enums after v4.0.0-beta.2. `PaymentMethodStatus::NOT_REQUESTED` has no case: a method that was never requested has `$method->status === null`. `Method::$status` is required but nullable and has no default. `GetEnabledMethodsRequest` reads it while filtering, so a conformant response must include `status`, using an explicit `null` when the method was not requested; an omitted field is malformed and remains visibly uninitialized.
 
 ### 2.2 Resource properties typed (no more `\stdClass`)
 
@@ -68,9 +82,26 @@ $payment->amount->value;     // "10.00" (still works)
 $payment->amount->currency;  // "EUR"  (still works)
 ```
 
-If your code checks `$amount instanceof \stdClass` or passes `$payment->amount` to code that JSON-encodes a `stdClass`, replace that path with `$payment->amount->toArray()`.
+If your code checks `$amount instanceof \stdClass` or requires an array, update that path and call `$payment->amount->toArray()` where needed. `json_encode($payment->amount)` continues to work because the value object's properties are public.
 
-### 2.3 Update value object extensions for `readonly class`
+### 2.3 Value objects are `readonly`: rebuild instead of mutating
+
+`Money`, `Address`, `OrderLine`, and the other classes under `src/Http/Data/` are `readonly class`. Any code that assigned to one of their properties fails with `Cannot modify readonly property`. The place most integrations hit this is `onRequest()` middleware, which runs before the SDK serializes the payload and therefore sees the live value objects. Rebuild the object instead:
+
+```php
+use Mollie\Api\Http\Data\Address;
+
+// v3 — worked
+$address->email = $this->punycodeEmailDomain($address->email);
+
+// v4 — Cannot modify readonly property; rebuild through fromArray()
+$address = Address::fromArray([
+    ...$address->toArray(),
+    'email' => $this->punycodeEmailDomain($address->email),
+]);
+```
+
+Subclassing is the second, rarer break:
 
 If you extend `Money`, `Address`, `OrderLine`, or another value object under `src/Http/Data/`, declare the child as `readonly class`; PHP 8.2 does not allow a non-readonly child. Prefer the `Macroable` extension point when you only need to add factory methods.
 
@@ -98,11 +129,27 @@ $gold = Money::platinum('1.00');
 
 See the [custom-money-factory recipe](docs/recipes/money/custom-factory.md).
 
+### 2.4 Typed properties can be uninitialized
+
+Resource properties are typed in v4. When a response omits a field that has no default, reading it no longer returns `null` as in v3; it throws `Error: Typed property Mollie\Api\Resources\... must not be accessed before initialization`. This is the most common runtime break after upgrading and it is invisible at the call site.
+
+Read fields that a partial or malformed response may omit through `isset()` or `??` at the boundary. Both treat an uninitialized typed property as unset instead of throwing:
+
+```php
+// v3
+$description = $payment->description;            // null when the response omitted it
+
+// v4
+$description = $payment->description ?? null;    // same result, no Error
+```
+
+Two caveats. A guard only helps when *your* variable may be null: guarding a value you then pass to a non-nullable parameter moves the failure one line down. The SDK deliberately does **not** default fields the API marks as required (`Payment::$id`, `Organization::$name`, and others): an uninitialized required field means the response was malformed, and hiding it behind `null` would turn a visible failure into wrong data. Where a field has been verified against the API contract, an optional field carries `?T` with a `null` default and a required-but-nullable field carries `?T` without one.
+
 ## 3. Medium-impact changes
 
 ### 3.1 Generic `send()` return type
 
-Remove manual return-type workarounds around `MollieApiClient::send()`. Its `@template`-based generics let PHPStan, Psalm, and PhpStorm infer the concrete return type from the request class.
+Remove manual return-type workarounds around `MollieApiClient::send()`. Its `@template`-based generics let PHPStan infer the concrete return type from the request class.
 
 ```php
 // v3 — manual cast / @var was needed
@@ -115,6 +162,24 @@ $payment = $client->send(new GetPaymentRequest('tr_xxx'));
 ```
 
 Delete the `@var` annotations and manual casts around `send()` calls that only existed to help static analysis.
+
+This holds for wrapped requests too, as long as you use the named methods added after v4.0.0-beta.2. `setHydratableResource(new WrapperResource(...))` returns the request unchanged for static analysis, so `send()` cannot infer the wrapper; `wrapInto()` (and `hydrateInto()` for re-targeting) can:
+
+```php
+// inferred: PaymentWrapper
+$wrapper = $client->send(
+    (new GetPaymentRequest('tr_xxx'))->wrapInto(PaymentWrapper::class)
+);
+
+// inferred: RefundsWrapper
+$wrapped = $client->send(
+    (new DynamicGetRequest($href))
+        ->hydrateInto(RefundCollection::class)
+        ->wrapInto(RefundsWrapper::class)
+);
+```
+
+Call request-specific setters first, then `hydrateInto()`, then `wrapInto()` last. Reversing the two named helpers makes static analysis report the hydration target while runtime still returns the wrapper. PHPStan currently honors both the `@phpstan-self-out` and `@psalm-this-out` annotations, and the committed fixture guards their combined inference contract. This repository does not run Psalm, so Psalm behavior is not verified here. PhpStorm does not infer the narrowed type. See [`docs/responses.md`](docs/responses.md#resource-wrappers).
 
 ### 3.2 Constructor signatures use property promotion
 
@@ -130,17 +195,22 @@ new CreatePaymentRequest(
 
 Search for positional constructor calls and verify their argument order before upgrading.
 
-### 3.3 `declare(strict_types=1)` everywhere
+### 3.3 Typed signatures: coercion depends on *your* `strict_types`
 
-Audit values at every SDK boundary before upgrading. Every file in the SDK declares `strict_types=1`, so passing an `int` where a `string` is expected, for example, throws `TypeError` instead of being coerced.
+v4 signatures are fully typed, but `declare(strict_types=1)` is a property of the **calling** file, not of the SDK. A strict declaration in an SDK file does not make calls from your weak-mode file strict.
 
 ```php
-// v3 — int silently coerced
-new Money('EUR', 10);
+// consumer file WITHOUT declare(strict_types=1) — the default in most frameworks
+new Money('EUR', 10);        // no error; value is coerced to '10' (not '10.00' — Mollie rejects it)
 
-// v4 — TypeError
-new Money(currency: 'EUR', value: '10.00');  // pass a string
+// consumer file WITH declare(strict_types=1)
+new Money('EUR', 10);        // TypeError: value must be of type string, int given
+
+// correct in both
+new Money(currency: 'EUR', value: '10.00');
 ```
+
+Audit every SDK boundary for scalar coercions: in weak-mode files they are silent and can produce values the API rejects; in strict-mode files they throw. Do not rely on a `TypeError` to catch bad input unless your own file is strict.
 
 ### 3.4 `Macroable` on `Money` changes undefined-method behavior
 

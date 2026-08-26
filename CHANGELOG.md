@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.2...HEAD)
 
+### Added
+
+- `PaymentStatusReason` value object (`code`, `message`); `Payment::$statusReason` is now `?PaymentStatusReason` instead of an untyped `stdClass`. `->code`/`->message` reads and `json_encode()` keep working; update `instanceof stdClass` checks, any mutation (the object is readonly), and array-only consumers by calling `toArray()`.
+- `PaymentMethod` cases `Billink`, `Bizum`, `Mobilepay`, `Vipps`, and `Voucher`. Existing cases are unchanged; the enum documents known SDK vocabulary, not an allow-list.
+- `CapabilityStatus::Unrequested` and `Capability::isUnrequested()`.
+- `Balance::$pendingAmount` (`?Money`), the amount field the Balance API returns.
+- `ResourceHydratableRequest::hydrateInto()` and `::wrapInto()`. Both carry `@phpstan-self-out` and `@psalm-this-out` annotations that PHPStan honors so `send()` infers the re-targeted class or wrapper. `setHydratableResource()` is unchanged but cannot narrow the type.
+
+### Changed
+
+- **`PaymentMethodStatus` and `TerminalPairingCodeStatus` are string-backed enums.** Their `SCREAMING_SNAKE` constants are gone, the same migration the other value sets took in beta.1. `PaymentMethodStatus::NOT_REQUESTED` has no case: `Method::$status` is `null` for a method that was never requested. `TerminalPairingCode::$status` is typed `TerminalPairingCodeStatus|string`.
+- `Method::$status` no longer has a `null` default. The API marks the field required (nullable), so an omitted field now stays uninitialized instead of reading as "not requested"; an explicit `null` still means the method was never requested.
+
+### Fixed
+
+- **Nullable enum unions now hydrate to enum cases.** `Enum|string|null` properties resolved as `mixed` and kept the raw API string. Affected: `Payment::$method`, `Payment::$sequenceType`, `Refund::$status`, `Mandate::$status`, `Settlement::$status`, `Profile::$status`, `CurrentProfile::$status`, `Invoice::$status`, `Subscription::$status`, and, after its enum migration, `Method::$status`. Code written against beta.2 that compares these to raw strings must compare with the case or `->value`, or use `Utility::equals()`, which accepts the case or raw value on either side. `MandateCollection::whereStatus()` accepts a `MandateStatus` case or raw string. Unknown values still arrive as strings; `null` is unchanged. `Profile::$categoryCode` (`int|string|null`) keeps the delivered scalar type.
+- `Organization::$address`, `$registrationNumber`, and `$vatNumber` are nullable with a `null` default, matching the API contract. Beta.2 threw `TypeError` on `null` and `Error` on an omitted field. `Organization::$locale` stays a required, non-null `string`.
+- `Capability::$statusReason` accepts `null`; `Capability::$organizationId` is nullable with a `null` default because the field is not part of the Capability response.
+- `Balance` no longer fails on a conformant response: `$incomingAmount` and `$outgoingAmount` (both deprecated because they are not part of the Balance response), `$transferFrequency`, and `$transferThreshold` are nullable with a `null` default.
+- Fields the API contract marks nullable or optional no longer throw `TypeError` on `null` or `Error` when omitted: `Terminal::$brand`, `$model`, `$serialNumber` (`?string`); `Terminal::$timezone`, `$locale` (`?string = null`); `Capture::$amount` (`?Money`); `PaymentLink::$profileId` (`?string`); `Webhook::$profileId` (`?string`); `Partner::$partnerType` (`?string`); `Partner::$partnerContractUpdateAvailable` (`?bool = null`); `BalanceTransaction::$deductions` (`?Money = null`); `BalanceTransaction::$mode` (`?string = null`); `Route::$releaseDate` (`?string = null`); `ConnectBalanceTransfer::$category` (`?string = null`); `SalesInvoice::$paymentTerm`, `$currency`, `$webhookUrl` (`?string = null`); and `SalesInvoice::$lines` (`?array = null`). Other `SalesInvoice` fields are unchanged pending further contract review.
+- UPGRADING.md no longer prints a Types class count and now documents enum reflection, rebuilding readonly value objects, uninitialized typed properties, wrapped-request inference, and caller-side `strict_types` behavior.
+
+### For contributors
+
+- A test asserts every file under `src/Types/` is a backed enum except the query helpers and `Types\Method`.
+- A PHPStan fixture under `tests/` asserts the inferred `send()` types on every analysis run.
+
 ## [v4.0.0-beta.2](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.1...v4.0.0-beta.2) - 2026-08-25
 
 ### Added
@@ -45,11 +72,11 @@ PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
 ### Breaking changes
 
 - **PHP 8.2+ required.** PHP 7.4, 8.0, 8.1 dropped. CI matrix is 8.2, 8.3, 8.4.
-- **Type constants → string-backed enums.** All 37 classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). Resource `$status`-style properties are typed `EnumName|string`. The `Mollie\Api\Traits\GetAllConstants` trait is removed with this migration — call `cases()` on the enum instead; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw values.
+- **Type constants → string-backed enums.** The API value-set classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). `PaymentMethodStatus` and `TerminalPairingCodeStatus` followed after v4.0.0-beta.2; query helpers and `Types\Method` stay classes. Resource `$status`-style properties are typed `EnumName|string`. The `Mollie\Api\Traits\GetAllConstants` trait is removed with this migration — call `cases()` on the enum instead; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw values.
 - **Resource properties typed.** Fields previously typed `\stdClass` are now concrete value objects. Property names are unchanged — `$payment->amount->value` and `->currency` still work.
 - **Value objects are `readonly class`.** `Money`, `Address`, `OrderLine` etc. cannot be subclassed by non-readonly children. Prefer the new `Macroable` extension point.
 - **Constructor signatures via promotion.** Named arguments unchanged; positional callers may need to reorder.
-- **`declare(strict_types=1)` everywhere.** Audit integration code for implicit coercions.
+- **Typed signatures throughout.** Coercion of your arguments depends on `strict_types` in *your* files, not the SDK's; see UPGRADING.md section 3.3.
 - **`Macroable` on `Money`** — undefined methods now throw `BadMethodCallException` instead of PHP's default fatal error.
 - **PHPUnit + Paratest → Pest v3** in `require-dev` (consumer impact only if running SDK tests).
 

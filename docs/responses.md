@@ -31,14 +31,12 @@ return `null` (there was no HTTP call). Null-check before chaining, or use
 `getOrigin()` for origin-agnostic metadata — see [`docs/webhooks.md`](webhooks.md).
 
 ## Resource Wrappers
-Sometimes it's benefitial to directly hydrate a custom class with the information returned by the API. The wrapper resource can be used to define a subset of resource properties used by your app or cast them into your own dedicated Objects.
-
-The resource wrapper class still has access to the underlying `Resource` it wrapps around.
+Sometimes it's useful to hydrate a class of your own with the information returned by the API. A wrapper can expose a subset of the resource's properties or cast them into your own objects, while retaining access to the underlying `Resource` it wraps.
 
 ### Define a Wrapper
 
 ```php
-use Mollie\Api\Utils\Utility;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\ResourceWrapper;
 
@@ -46,37 +44,54 @@ class PaymentWrapper extends ResourceWrapper
 {
     public function __construct(
         public Money $amount,
-        public Timestamp $createdAt,
-    )
+        public ?\DateTimeImmutable $createdAt,
+    ) {
+    }
 
     public static function fromResource($resource): self
     {
         /** @var Payment $resource */
         return (new self(
-            amount: Utility::transform($resource->amount, fn (stdClass $amount) => Money::fromMollieObject($amount))
-            createdAt: Utility::transform($resource->createdAt, fn (string $timestamp) => Timestamp::fromIsoString($timestamp))
+            amount: $resource->amount,
+            createdAt: $resource->createdAt === null
+                ? null
+                : new \DateTimeImmutable($resource->createdAt),
         ))->setWrapped($resource);
     }
 }
 ```
 
-The `Utility::transform()` method can be used to transform values into your own objects.
-
-
 ### Usage
 
-A resource wrapper can be used by setting the `setHydratableResource()` to the new `WrapperResource`.
+Call `wrapInto()` on the request. `send()` then returns your wrapper, and PHPStan infers its type without a `@var` annotation:
 
 ```php
-use Mollie\Api\Resources\WrapperResource;
+use Mollie\Api\Http\Requests\GetPaymentRequest;
 
-$request = new GetPaymentRequest('tr_*********');
-
-$request->setHydratableResource(new WrapperResource(PaymentWrapper::class));
-
-/** @var PaymentWrapper $paymentWrapper */
-$paymentWrapper = $mollie->send($request);
+$paymentWrapper = $mollie->send(
+    (new GetPaymentRequest('tr_*********'))->wrapInto(PaymentWrapper::class)
+);
+// $paymentWrapper is PaymentWrapper
 ```
+
+PHPStan currently honors both the `@phpstan-self-out` and `@psalm-this-out` annotations, and the committed fixture guards their combined inference contract. This repository does not run Psalm, so Psalm behavior is not verified here. PhpStorm does not infer the narrowed type.
+
+To hydrate into a different SDK resource class first, call `hydrateInto()` before `wrapInto()`:
+
+```php
+use Mollie\Api\Http\Requests\DynamicGetRequest;
+use Mollie\Api\Resources\RefundCollection;
+
+$refunds = $mollie->send(
+    (new DynamicGetRequest($payment->_links->refunds->href))
+        ->hydrateInto(RefundCollection::class)
+        ->wrapInto(RefundsWrapper::class)
+);
+```
+
+`RefundsWrapper` is an application wrapper implementing `IsWrapper`, for example by extending `ResourceWrapper` as above. Call request-specific setters first, then `hydrateInto()`, then `wrapInto()` last. Reversing the two named helpers makes static analysis report the hydration target while runtime still returns the wrapper.
+
+`setHydratableResource(new WrapperResource(PaymentWrapper::class))` still works, but it keeps the request's original generic type, so `send()` cannot infer the wrapper.
 
 The original `Payment` resource properties and methods can be accessed through the wrapper class.
 
@@ -85,5 +100,5 @@ The original `Payment` resource properties and methods can be accessed through t
 $paymentWrapper->status;
 
 // access method
-$paymentWrapper->status();
+$paymentWrapper->isPaid();
 ```
