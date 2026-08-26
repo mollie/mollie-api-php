@@ -10,6 +10,7 @@ use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Http\Requests\GetPaymentRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Resources\ResourceWrapper;
 use Mollie\Api\Types\PaymentStatus;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -58,9 +59,26 @@ class GenericSendReturnTypeTest extends TestCase
         $this->assertPayment(self::acceptPayment($payment));
     }
 
+    #[Test]
+    public function send_returns_the_wrapper_when_the_request_is_wrapped(): void
+    {
+        $client = MollieApiClient::fake([
+            GetPaymentRequest::class => MockResponse::ok('payment'),
+        ]);
+
+        $wrapper = $client->send((new GetPaymentRequest('tr_WDqYK6vllg'))->wrapInto(GenericSendPaymentWrapper::class));
+
+        $this->assertInstanceOf(Payment::class, self::acceptWrapper($wrapper)->getWrapped());
+    }
+
     private static function acceptPayment(Payment $payment): Payment
     {
         return $payment;
+    }
+
+    private static function acceptWrapper(GenericSendPaymentWrapper $wrapper): GenericSendPaymentWrapper
+    {
+        return $wrapper;
     }
 
     private function assertPayment(Payment $payment): void
@@ -73,5 +91,13 @@ class GenericSendReturnTypeTest extends TestCase
             $payment->status instanceof PaymentStatus || is_string($payment->status),
             'status must be either a PaymentStatus case or a raw string'
         );
+    }
+}
+
+final class GenericSendPaymentWrapper extends ResourceWrapper
+{
+    public static function fromResource($resource): self
+    {
+        return (new self)->wrap($resource);
     }
 }

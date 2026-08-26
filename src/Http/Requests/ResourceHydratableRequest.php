@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\IsWrapper;
 use Mollie\Api\Http\Request;
 use Mollie\Api\Resources\BaseResource;
 use Mollie\Api\Resources\ResourceCollection;
@@ -45,6 +46,10 @@ abstract class ResourceHydratableRequest extends Request
 
     /**
      * String targets are validated before becoming the canonical target.
+     *
+     * Prefer {@see hydrateInto()} and {@see wrapInto()}: this overload keeps the
+     * request's original `TResource`, so static analysis cannot see a wrapper
+     * or re-targeted class through {@see \Mollie\Api\MollieApiClient::send()}.
      */
     public function setHydratableResource(string|WrapperResource $hydratableResource): self
     {
@@ -56,6 +61,50 @@ abstract class ResourceHydratableRequest extends Request
 
         self::ensureValidHydrationTarget($hydratableResource);
         $this->hydratableResource = $hydratableResource;
+
+        return $this;
+    }
+
+    /**
+     * Hydrate into a different canonical resource or collection class.
+     *
+     * Call request-specific fluent setters before this method: after it, static
+     * analysers see the request as `ResourceHydratableRequest<THydrated>`.
+     *
+     * @template THydrated of BaseResource|ResourceCollection
+     *
+     * @param  class-string<THydrated>  $target
+     *
+     * @phpstan-self-out ResourceHydratableRequest<THydrated>
+     * @psalm-this-out ResourceHydratableRequest<THydrated>
+     *
+     * @return $this
+     */
+    public function hydrateInto(string $target): static
+    {
+        self::ensureValidHydrationTarget($target);
+        $this->hydratableResource = $target;
+
+        return $this;
+    }
+
+    /**
+     * Decorate the resolved result with a wrapper class implementing {@see IsWrapper}.
+     *
+     * The wrapper is what `send()` returns, so call this last in a fluent chain.
+     *
+     * @template TWrapper of IsWrapper
+     *
+     * @param  class-string<TWrapper>  $wrapper
+     *
+     * @phpstan-self-out ResourceHydratableRequest<TWrapper>
+     * @psalm-this-out ResourceHydratableRequest<TWrapper>
+     *
+     * @return $this
+     */
+    public function wrapInto(string $wrapper): static
+    {
+        $this->resourceWrapper = new WrapperResource($wrapper);
 
         return $this;
     }
