@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
+/**
+ * Payment method identifiers known to this SDK release.
+ *
+ * This is SDK vocabulary, not an allow-list: Mollie can accept or return a
+ * method that is not listed here, and such values reach you as raw strings
+ * through the `PaymentMethod|string` property types. Use the Methods API to
+ * learn which methods are enabled on a profile.
+ */
 enum PaymentMethod: string
 {
     case Alma = 'alma';
@@ -14,7 +22,9 @@ enum PaymentMethod: string
     case Banktransfer = 'banktransfer';
     case Belfius = 'belfius';
     case Billie = 'billie';
+    case Billink = 'billink';
     case Bitcoin = 'bitcoin';
+    case Bizum = 'bizum';
     case Blik = 'blik';
     case Creditcard = 'creditcard';
     case Directdebit = 'directdebit';
@@ -32,6 +42,7 @@ enum PaymentMethod: string
     case KlarnaPayNow = 'klarnapaynow';
     case KlarnaSliceIt = 'klarnasliceit';
     case Mbway = 'mbway';
+    case Mobilepay = 'mobilepay';
     case Multibanco = 'multibanco';
     case Mybank = 'mybank';
     case Payconiq = 'payconiq';
@@ -46,4 +57,6 @@ enum PaymentMethod: string
     case Riverty = 'riverty';
     case Trustly = 'trustly';
     case Twint = 'twint';
+    case Vipps = 'vipps';
+    case Voucher = 'voucher';
 }

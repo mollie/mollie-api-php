@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Types;
 
-class TerminalPairingCodeStatus
+enum TerminalPairingCodeStatus: string
 {
     /**
      * Valid and ready to use.
      */
-    public const ACTIVE = 'active';
+    case Active = 'active';
 
     /**
      * Past its expiry date. Cannot be used to pair new terminals.
      */
-    public const EXPIRED = 'expired';
+    case Expired = 'expired';
 
     /**
      * Manually revoked. Cannot be used to pair new terminals.
      */
-    public const REVOKED = 'revoked';
+    case Revoked = 'revoked';
 }

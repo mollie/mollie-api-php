@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Types\TerminalPairingCodeStatus;
@@ -48,11 +50,9 @@ class TerminalPairingCode extends BaseResource
     public $profileId;
 
     /**
-     * The status of the pairing code: active, expired, or revoked.
-     *
-     * @var string
+     * The status of the pairing code. Enum case if recognised, raw string for forward-compat.
      */
-    public $status;
+    public TerminalPairingCodeStatus|string $status;
 
     /**
      * Additional pairing code data, present only when requested via the `include` parameter.
@@ -95,16 +95,16 @@ class TerminalPairingCode extends BaseResource
 
     public function isActive(): bool
     {
-        return Utility::equals($this->status, TerminalPairingCodeStatus::ACTIVE);
+        return Utility::equals($this->status, TerminalPairingCodeStatus::Active);
     }
 
     public function isExpired(): bool
     {
-        return Utility::equals($this->status, TerminalPairingCodeStatus::EXPIRED);
+        return Utility::equals($this->status, TerminalPairingCodeStatus::Expired);
     }
 
     public function isRevoked(): bool
     {
-        return Utility::equals($this->status, TerminalPairingCodeStatus::REVOKED);
+        return Utility::equals($this->status, TerminalPairingCodeStatus::Revoked);
     }
 }
