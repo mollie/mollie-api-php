@@ -4,50 +4,42 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Types;
 
-class PaymentMethodStatus
+/**
+ * Activation status of a payment method on a profile.
+ *
+ * A method that was never requested has no status: the API sends `null`,
+ * which `Method::$status` carries through its own nullable type. There is
+ * deliberately no "not requested" case.
+ *
+ * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
+ */
+enum PaymentMethodStatus: string
 {
     /**
      * The payment method is activated and ready for use.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    public const ACTIVATED = 'activated';
+    case Activated = 'activated';
 
     /**
      * Mollie is waiting for you to finish onboarding in the Merchant Dashboard before
      * the payment method can be activated.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    public const PENDING_BOARDING = 'pending-boarding';
+    case PendingBoarding = 'pending-boarding';
 
     /**
      * Mollie needs to review your request for this payment method before it can be activated.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    public const PENDING_REVIEW = 'pending-review';
+    case PendingReview = 'pending-review';
 
     /**
      * Activation of this payment method relies on you taking action with an external party,
      * for example signing up with PayPal or a giftcard issuer.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    public const PENDING_EXTERNAL = 'pending-external';
+    case PendingExternal = 'pending-external';
 
     /**
      * Your request for this payment method was rejected.
      * Whenever Mollie rejects such a request, you will always be informed via email.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
      */
-    public const REJECTED = 'rejected';
-
-    /**
-     * This payment method was not requested.
-     *
-     * @link https://docs.mollie.com/reference/v2/methods-api/get-method#parameters
-     */
-    public const NOT_REQUESTED = null;
+    case Rejected = 'rejected';
 }

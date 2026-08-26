@@ -53,9 +53,11 @@ class Method extends BaseResource
     public ?array $pricing = null;
 
     /**
-     * The activation status the method is in.
+     * The activation status the method is in. Enum case if recognised, raw string for
+     * forward-compat, null when the method was never requested. The API marks the field
+     * required (nullable), so there is no default: an omitted field stays uninitialized.
      */
-    public PaymentMethodStatus|string|null $status = null;
+    public PaymentMethodStatus|string|null $status;
 
     /**
      * @var \stdClass|null
