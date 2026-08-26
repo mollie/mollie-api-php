@@ -27,13 +27,25 @@ class Balance extends BaseResource
 
     public Money $availableAmount;
 
-    public Money $incomingAmount;
+    /**
+     * Required by the API. Defaults to null so payloads recorded before this field
+     * was modelled (fixtures, consumer mocks) keep hydrating.
+     */
+    public ?Money $pendingAmount = null;
 
-    public Money $outgoingAmount;
+    /**
+     * @deprecated Not part of the Balance API response; kept for callers still reading it.
+     */
+    public ?Money $incomingAmount = null;
 
-    public string $transferFrequency;
+    /**
+     * @deprecated Not part of the Balance API response; kept for callers still reading it.
+     */
+    public ?Money $outgoingAmount = null;
 
-    public Money $transferThreshold;
+    public ?string $transferFrequency = null;
+
+    public ?Money $transferThreshold = null;
 
     public ?string $transferReference = null;
 

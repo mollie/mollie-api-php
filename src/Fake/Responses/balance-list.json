@@ -13,6 +13,10 @@
           "value": "0.00",
           "currency": "EUR"
         },
+        "pendingAmount": {
+          "value": "0.00",
+          "currency": "EUR"
+        },
         "incomingAmount": {
           "value": "0.00",
           "currency": "EUR"
@@ -48,6 +52,10 @@
         "status": "active",
         "currency": "EUR",
         "availableAmount": {
+          "value": "0.00",
+          "currency": "EUR"
+        },
+        "pendingAmount": {
           "value": "0.00",
           "currency": "EUR"
         },

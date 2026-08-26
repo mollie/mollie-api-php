@@ -17,13 +17,20 @@ class Organization extends BaseResource
 
     public string $email;
 
+    /**
+     * Required and non-null per the OpenAPI contract (the shared `locale-response`
+     * schema lists `null`, but the organization property intersects it with `type: string`).
+     */
     public string $locale;
 
-    public Address $address;
+    /**
+     * Optional in the API response.
+     */
+    public ?Address $address = null;
 
-    public string $registrationNumber;
+    public ?string $registrationNumber = null;
 
-    public string $vatNumber;
+    public ?string $vatNumber = null;
 
     public ?string $vatRegulation = null;
 

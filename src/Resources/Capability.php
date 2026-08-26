@@ -17,14 +17,25 @@ class Capability extends BaseResource
 
     public CapabilityStatus|string $status;
 
-    public string $statusReason;
+    /**
+     * Required by the API but null once no reason applies.
+     */
+    public ?string $statusReason;
 
-    public string $organizationId;
+    /**
+     * Not part of the Capability API response; hydrated only when a payload carries it.
+     */
+    public ?string $organizationId = null;
 
     /**
      * @var \stdClass
      */
     public $_links;
+
+    public function isUnrequested(): bool
+    {
+        return Utility::equals($this->status, CapabilityStatus::Unrequested);
+    }
 
     public function isEnabled(): bool
     {
