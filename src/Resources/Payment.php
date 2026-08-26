@@ -8,6 +8,7 @@ use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Data\PaymentStatusReason;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRequest;
 use Mollie\Api\Traits\HasMode;
@@ -57,11 +58,9 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
     public PaymentStatus|string $status = PaymentStatus::Open;
 
     /**
-     * The reason for the status of the payment.
-     *
-     * @var \stdClass|null
+     * The reason for the status of the payment, when Mollie provides one.
      */
-    public $statusReason;
+    public ?PaymentStatusReason $statusReason = null;
 
     public ?string $createdAt = null;
 
