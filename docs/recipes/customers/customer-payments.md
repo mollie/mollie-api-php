@@ -7,6 +7,7 @@ How to create and manage payments for customers using the Mollie API.
 ```php
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreateCustomerPaymentRequest;
+use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\SequenceType;
 
 try {
@@ -21,7 +22,7 @@ try {
             metadata: [
                 'order_id' => '12345'
             ],
-            sequenceType: SequenceType::First // This creates a mandate for future payments
+            sequenceType: SequenceType::First->value // This creates a mandate for future payments
         )
     );
 
@@ -50,13 +51,17 @@ try {
             metadata: [
                 'order_id' => '12346'
             ],
-            sequenceType: SequenceType::Recurring // This uses the mandate created by the first payment
+            sequenceType: SequenceType::Recurring->value // This uses the mandate created by the first payment
         )
     );
 
     // The payment will be either pending or paid immediately
-    echo "Payment status: {$payment->status}\n";
-    echo "Used mandate: {$payment->mandateId}\n";
+    $status = $payment->status instanceof PaymentStatus
+        ? $payment->status->value
+        : $payment->status;
+
+    echo "Payment status: {$status}\n";
+    echo "Used mandate: " . ($payment->mandateId ?? 'not assigned') . "\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
@@ -67,6 +72,7 @@ try {
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\PaymentCollection;
+use Mollie\Api\Types\PaymentStatus;
 
 try {
     // Get all payments for a customer
@@ -78,10 +84,14 @@ try {
     );
 
     foreach ($payments as $payment) {
+        $status = $payment->status instanceof PaymentStatus
+            ? $payment->status->value
+            : $payment->status;
+
         echo "Payment {$payment->id}:\n";
         echo "- Description: {$payment->description}\n";
         echo "- Amount: {$payment->amount->currency} {$payment->amount->value}\n";
-        echo "- Status: {$payment->status}\n";
+        echo "- Status: {$status}\n";
 
         if ($payment->hasRefunds()) {
             echo "- Has been (partially) refunded\n";
@@ -106,9 +116,9 @@ $payment->customerId;        // "cst_8wmqcHMN4U"
 $payment->mode;             // "live" or "test"
 $payment->description;      // "Order #12345"
 $payment->metadata;         // Object containing custom metadata
-$payment->status;           // "open", "pending", "paid", "failed", "expired", "canceled"
-$payment->isCancelable;     // Whether the payment can be canceled
-$payment->sequenceType;     // "first" or "recurring"
+$payment->status;           // PaymentStatus case, or an unknown raw string
+$payment->isCancelable;     // Whether the payment can be canceled, or null
+$payment->sequenceType;     // SequenceType case, unknown raw string, or null
 $payment->redirectUrl;      // URL to redirect the customer to
 $payment->webhookUrl;       // URL for webhook notifications
 $payment->createdAt;        // "2024-02-24T12:13:14+00:00"
