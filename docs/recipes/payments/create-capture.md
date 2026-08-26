@@ -31,12 +31,17 @@ try {
 ```php
 $capture->id;                // "cpt_4qqhO89gsT"
 $capture->paymentId;        // "tr_WDqYK6vllg"
-$capture->amount->currency; // "EUR"
-$capture->amount->value;    // "5.00"
-$capture->description;      // "Order #12345"
-$capture->status;          // "pending", "succeeded", "failed"
-$capture->createdAt;       // "2024-02-24T12:13:14+00:00"
+$capture->amount;           // Money, or null when the API omits it
+$capture->amount?->currency; // "EUR"
+$capture->amount?->value;    // "5.00"
+$capture->description;      // "Order #12345" (or null)
+$capture->status;          // "pending", "succeeded", "failed" (or null)
+$capture->createdAt;       // "2024-02-24T12:13:14+00:00" (or null)
 ```
+
+`Capture::$amount` is nullable per the API contract, so guard it (or use `?->`)
+before reading `currency` or `value`. `status` is a plain nullable string here,
+not a backed enum.
 
 ## Additional Notes
 
