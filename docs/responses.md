@@ -82,11 +82,19 @@ To hydrate into a different SDK resource class first, call `hydrateInto()` befor
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Resources\RefundCollection;
 
-$refunds = $mollie->send(
-    (new DynamicGetRequest($payment->_links->refunds->href))
-        ->hydrateInto(RefundCollection::class)
-        ->wrapInto(RefundsWrapper::class)
-);
+// Payment::$_links is ?stdClass, and a payment only carries a `refunds` link
+// when the API includes one — a payment with no refunds has neither. Guard
+// both hops in one isset(), the same way Payment::refunds() does internally.
+if (! isset($payment->_links->refunds->href)) {
+    // Fall back to the paginated endpoint, which routes by payment id.
+    $refunds = $payment->listRefunds();
+} else {
+    $refunds = $mollie->send(
+        (new DynamicGetRequest($payment->_links->refunds->href))
+            ->hydrateInto(RefundCollection::class)
+            ->wrapInto(RefundsWrapper::class)
+    );
+}
 ```
 
 `RefundsWrapper` is an application wrapper implementing `IsWrapper`, for example by extending `ResourceWrapper` as above. Call request-specific setters first, then `hydrateInto()`, then `wrapInto()` last. Reversing the two named helpers makes static analysis report the hydration target while runtime still returns the wrapper.

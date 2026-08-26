@@ -69,8 +69,9 @@ $isValid = $validator->validatePayload($requestBody, $signature);
 Once you've verified the webhook signature, you can safely process the payload:
 
 ```php
-use Mollie\Api\Webhooks\WebhookEventMapper;
+use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\WebhookEventMapper;
 
 // Process the webhook payload into an event object. Pass the signature
 // (when available) so the resulting resource carries webhook provenance
@@ -195,13 +196,27 @@ if (! $event instanceof PaymentLinkPaid) {
 }
 
 // 1. Snapshot path: no HTTP, no API key required.
+// asResource() is typed as BaseResource, so narrow it for static analysis.
+/** @var \Mollie\Api\Resources\PaymentLink $paymentLink */
 $paymentLink = $event->asResource($mollie);
 
-markOrderPaid(
-    orderId: $paymentLink->id,
-    amount:  $paymentLink->amount->value,
-    paidAt:  $event->createdAt,
-);
+// PaymentLink::$amount is ?Money. An open-amount link never carried a fixed
+// amount, so there is nothing on the link itself to record — the amount that
+// was actually charged only exists on the payment that settled it (step 2).
+$amount = $paymentLink->amount;
+
+if ($amount === null) {
+    markOpenAmountOrderPaid(
+        orderId: $paymentLink->id,
+        paidAt: $event->createdAt,
+    );
+} else {
+    markOrderPaid(
+        orderId: $paymentLink->id,
+        amount: $amount->value,
+        paidAt: $event->createdAt,
+    );
+}
 
 // 2. Fetch path: fires HTTP, needs the API key configured above.
 //    $paymentLink->payments() follows the link from the snapshot when
