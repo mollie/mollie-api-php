@@ -8,6 +8,7 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
+use Mollie\Api\Resources\ResourceHydrator;
 use Mollie\Api\Types\MandateStatus;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -59,6 +60,34 @@ class MandateCollectionTest extends TestCase
         $this->assertEquals(2, $invalid->count());
         $this->assertCount(1, $pending);
         $this->assertEquals(1, $pending->count());
+    }
+
+    #[Test]
+    public function where_status_matches_hydrated_mandates_by_case_and_by_raw_string(): void
+    {
+        $valid = $this->hydrateMandate(['status' => 'valid']);
+        $this->assertSame(MandateStatus::Valid, $valid->status, 'precondition: hydration yields the enum case');
+
+        $collection = new MandateCollection($this->client, [
+            $valid,
+            $this->hydrateMandate(['status' => 'valid']),
+            $this->hydrateMandate(['status' => 'invalid']),
+        ]);
+        $collection->setResponse($this->createMock(Response::class));
+
+        $this->assertCount(2, $collection->whereStatus(MandateStatus::Valid));
+        $this->assertCount(2, $collection->whereStatus('valid'));
+        $this->assertCount(1, $collection->whereStatus(MandateStatus::Invalid));
+        $this->assertCount(1, $collection->whereStatus('invalid'));
+        $this->assertCount(0, $collection->whereStatus('status-from-the-future'));
+    }
+
+    private function hydrateMandate(array $data): Mandate
+    {
+        $mandate = new Mandate($this->createMock(MollieApiClient::class));
+        (new ResourceHydrator)->hydrate($mandate, ['resource' => 'mandate', 'id' => 'mdt_h3gAaD5zP'] + $data, $this->createMock(Response::class));
+
+        return $mandate;
     }
 
     /**

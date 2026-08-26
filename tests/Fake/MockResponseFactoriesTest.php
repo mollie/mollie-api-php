@@ -54,7 +54,7 @@ class MockResponseFactoriesTest extends TestCase
         $this->assertSame(PaymentStatus::Paid, $payment->status);
         $this->assertSame('10.00', $payment->amount->value);
         $this->assertSame('EUR', $payment->amount->currency);
-        $this->assertSame('ideal', $payment->method);
+        $this->assertSame(PaymentMethod::Ideal, $payment->method);
     }
 
     #[Test]

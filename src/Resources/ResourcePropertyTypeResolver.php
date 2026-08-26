@@ -19,12 +19,13 @@ class ResourcePropertyTypeResolver
      * Each map entry describes one declared typed property:
      *   [
      *     'kind'       => 'scalar'|'enum'|'valueObject'|'mixed'|'unsupported',
-     *     'scalar'     => 'string'|'int'|'bool'|'float'|null,
+     *     'scalar'     => 'string'|'int'|'bool'|'float'|null (set only when exactly one scalar type is declared),
      *     'enums'      => class-string<BackedEnum>[] (for enum|string union),
      *     'valueObject'=> class-string|null (class with fromArray()),
      *     'allowsString' => bool  (for enum unions - keep raw string fallback),
      *     'nullable'   => bool,
      *   ]
+     *   An explicit `null` union member only sets 'nullable'; it never changes 'kind'.
      *
      * @var array<class-string, array<string, array<string, mixed>>>
      */
@@ -142,8 +143,7 @@ class ResourcePropertyTypeResolver
             return null;
         }
 
-        $scalar = null;
-        $allowsString = false;
+        $scalars = [];
         $enums = [];
         $valueObject = null;
 
@@ -151,37 +151,35 @@ class ResourcePropertyTypeResolver
             $name = $n->getName();
 
             if ($n->isBuiltin()) {
-                switch ($name) {
-                    case 'string':
-                        $allowsString = true;
-                        $scalar = $scalar ?? 'string';
-
-                        break;
-                    case 'int':
-                    case 'bool':
-                    case 'float':
-                        $scalar = $scalar ?? $name;
-
-                        break;
-                    case 'array':
-                    case 'iterable':
-                    case 'object':
-                    case 'mixed':
-                    case 'null':
-                        return ['kind' => 'mixed', 'nullable' => $nullable];
-                    default:
-                        return ['kind' => 'mixed', 'nullable' => $nullable];
+                if ($name === 'null') {
+                    // Nullability is already captured by allowsNull() above. An explicit
+                    // null member must not discard the enum or scalar members seen so far.
+                    continue;
                 }
+
+                if (in_array($name, ['string', 'int', 'bool', 'float'], true)) {
+                    $scalars[$name] = true;
+
+                    continue;
+                }
+
+                return ['kind' => 'mixed', 'nullable' => $nullable];
+            }
+
+            if (is_subclass_of($name, BackedEnum::class)) {
+                $enums[] = $name;
+            } elseif (class_exists($name) && $this->hasFromArray($name)) {
+                $valueObject = $valueObject ?? $name;
             } else {
-                if (is_subclass_of($name, BackedEnum::class)) {
-                    $enums[] = $name;
-                } elseif (class_exists($name) && $this->hasFromArray($name)) {
-                    $valueObject = $valueObject ?? $name;
-                } else {
-                    return ['kind' => 'mixed', 'nullable' => $nullable];
-                }
+                return ['kind' => 'mixed', 'nullable' => $nullable];
             }
         }
+
+        $allowsString = isset($scalars['string']);
+
+        // Coercing is only safe when exactly one scalar type remains. int|string
+        // (Profile::$categoryCode) must keep whatever JSON delivered.
+        $scalar = count($scalars) === 1 ? array_key_first($scalars) : null;
 
         if ($enums !== []) {
             return [

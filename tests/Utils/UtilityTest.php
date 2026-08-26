@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Utils;
 
+use Mollie\Api\Types\InvoiceStatus;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Utils\Utility;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -102,9 +103,14 @@ class UtilityTest extends TestCase
         return [
             'enum matches enum' => [PaymentStatus::Paid, PaymentStatus::Paid, true],
             'string matches enum value' => ['paid', PaymentStatus::Paid, true],
+            'enum value matches string' => [PaymentStatus::Paid, 'paid', true],
             'string matches string constant' => ['active', 'active', true],
             'enum does not match different enum' => [PaymentStatus::Open, PaymentStatus::Paid, false],
             'string does not match enum value' => ['open', PaymentStatus::Paid, false],
+            'unknown string does not match enum' => ['status-from-the-future', PaymentStatus::Paid, false],
+            'enum value does not match other string' => [PaymentStatus::Paid, 'open', false],
+            'same value in another enum does not match' => [InvoiceStatus::Paid, PaymentStatus::Paid, false],
+            'null does not match enum' => [null, PaymentStatus::Paid, false],
         ];
     }
 }
