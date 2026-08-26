@@ -5,7 +5,9 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.13.2...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...HEAD)
+
+## [v4.0.0-beta.3](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v4.0.0-beta.3) - 2026-08-26
 
 ## [v3.13.2](https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2) - 2026-08-24
 
@@ -23,18 +25,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.13.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.13.1) - 2026-06-08
 
 ## What's Changed
-* fix: support applicationFee on payment link creation by @Naoray in https://github.com/mollie/mollie-api-php/pull/895
 
+* fix: support applicationFee on payment link creation by @Naoray in https://github.com/mollie/mollie-api-php/pull/895
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.13.1
 
 ## [v3.13.0](https://github.com/mollie/mollie-api-php/compare/v3.12.0...v3.13.0) - 2026-06-01
 
 ## What's Changed
+
 * feat: add terminal pairing code endpoints by @gabrielciobanu-mollie in https://github.com/mollie/mollie-api-php/pull/894
 * feat: re-add payouts endpoints (restored after revert) by @Naoray in https://github.com/mollie/mollie-api-php/pull/893
 
 ## New Contributors
+
 * @gabrielciobanu-mollie made their first contribution in https://github.com/mollie/mollie-api-php/pull/894
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.12.0...v3.13.0
@@ -42,10 +46,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.12.0](https://github.com/mollie/mollie-api-php/compare/v3.11.0...v3.12.0) - 2026-05-19
 
 ## What's Changed
+
 * fix: add scopes query parameter to list customer mandates by @Naoray in https://github.com/mollie/mollie-api-php/pull/887
 * feat: add Google Pay direct integration support by @Naoray in https://github.com/mollie/mollie-api-php/pull/888
 * fix: pass settlement pagination filters by @Naoray in https://github.com/mollie/mollie-api-php/pull/889
-
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.11.0...v3.12.0
 
@@ -68,8 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BaseEvent::asResource(Connector)` hydrates the embedded entity into a
   fully-typed SDK resource and automatically threads the rich origin
   (event id, signature, received-at).
-- `WebhookEventMapper::processPayload()` gains an optional `?string
-  $signature` parameter that is threaded through to the resulting event
+- `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event
   and carried onto hydrated resources via `WebhookSnapshotOrigin`.
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling
   of `withResponse()`.
@@ -139,18 +142,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the resource via `$event->entityId`.
 
 ## What's Changed
+
 * refactor(webhooks): decouple hydrated resources from the HTTP domain by @Naoray in https://github.com/mollie/mollie-api-php/pull/880
 * fix(webhooks): hydrate entity locally from signed snapshot by @Naoray in https://github.com/mollie/mollie-api-php/pull/879
 * fix: change customer email property type to a nullable string by @edwinvdpol in https://github.com/mollie/mollie-api-php/pull/882
 * fix: make all UpdateSalesInvoiceRequest params optional by @Naoray in https://github.com/mollie/mollie-api-php/pull/885
 * fix: make all UpdateSalesInvoiceRequest params optional by @fjbender in https://github.com/mollie/mollie-api-php/pull/884
 
-
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.10.0...v3.11.0
 
 ## [v3.10.0](https://github.com/mollie/mollie-api-php/compare/v3.9.0...v3.10.0) - 2026-04-15
 
 ## What's Changed
+
 * Update documentation link for methods API by @sandervanhooft in https://github.com/mollie/mollie-api-php/pull/866
 * docs: add full OAuth permission scopes list and link to official reference by @Naoray in https://github.com/mollie/mollie-api-php/pull/867
 * docs: fix documentation reference url by @dionnijssen in https://github.com/mollie/mollie-api-php/pull/871
@@ -163,6 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * feat(sessions): align session endpoint with API specification by @Naoray in https://github.com/mollie/mollie-api-php/pull/858
 
 ## New Contributors
+
 * @dionnijssen made their first contribution in https://github.com/mollie/mollie-api-php/pull/871
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.9.0...v3.10.0
@@ -170,6 +175,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
 ## What's Changed
+
 * Fix: Don't call deprecated `setAccessible()` by @derrabus in https://github.com/mollie/mollie-api-php/pull/852
 * Fix documented `Capability::$requirements` structure by @derrabus in https://github.com/mollie/mollie-api-php/pull/853
 * feat(auth): add setToken helper for api keys by @Naoray in https://github.com/mollie/mollie-api-php/pull/859
@@ -179,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Remove incorrect null return type from ClientLink::getRedirectUrl()   by @NormanAlbert91 in https://github.com/mollie/mollie-api-php/pull/862
 
 ## New Contributors
+
 * @derrabus made their first contribution in https://github.com/mollie/mollie-api-php/pull/852
 * @NormanAlbert91 made their first contribution in https://github.com/mollie/mollie-api-php/pull/862
 
