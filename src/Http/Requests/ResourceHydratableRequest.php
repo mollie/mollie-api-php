@@ -70,6 +70,8 @@ abstract class ResourceHydratableRequest extends Request
      *
      * Call request-specific fluent setters before this method: after it, static
      * analysers see the request as `ResourceHydratableRequest<THydrated>`.
+     * Call this before {@see wrapInto()}: calling it on an already-wrapped request
+     * re-targets the static generic while runtime preserves the wrapper.
      *
      * @template THydrated of BaseResource|ResourceCollection
      *
