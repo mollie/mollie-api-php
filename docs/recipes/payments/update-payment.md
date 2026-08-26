@@ -42,13 +42,22 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "open"
+$payment->status;           // PaymentStatus::Open, or the raw string for an unknown value
 $payment->description;      // "Order #98765"
-$payment->redirectUrl;      // "https://example.com/return.php?order_id=98765"
-$payment->webhookUrl;       // "https://example.com/webhook.php"
+$payment->redirectUrl;      // "https://example.com/return.php?order_id=98765" (or null)
+$payment->webhookUrl;       // "https://example.com/webhook.php" (or null)
 $payment->metadata;         // Object containing order_id
-$payment->createdAt;        // "2024-02-24T12:13:14+00:00"
-$payment->updatedAt;        // "2024-02-24T12:15:00+00:00"
+$payment->createdAt;        // "2024-02-24T12:13:14+00:00" (or null)
+```
+
+`status` is `PaymentStatus|string`, so normalise it before printing or storing it:
+
+```php
+use Mollie\Api\Types\PaymentStatus;
+
+$status = $payment->status instanceof PaymentStatus
+    ? $payment->status->value
+    : $payment->status;
 ```
 
 ## Additional Notes
@@ -62,4 +71,4 @@ $payment->updatedAt;        // "2024-02-24T12:15:00+00:00"
 - You cannot update the amount or currency of a payment
 - The payment must be in a state that allows updates (e.g., you cannot update a completed payment)
 - Make sure to handle the webhook to process payment status updates
-- The updatedAt field will be set to the time of the last update
+- `Payment` has no `updatedAt` property; the response returns the updated resource, so re-read the fields you changed

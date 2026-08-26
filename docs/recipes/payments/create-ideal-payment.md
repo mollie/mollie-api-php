@@ -8,6 +8,7 @@ How to prepare a new iDEAL payment with the Mollie API.
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Types\PaymentMethod;
+use Mollie\Api\Types\PaymentStatus;
 
 try {
     // Generate a unique order ID
@@ -26,8 +27,15 @@ try {
         )
     );
 
+    // PaymentStatus case for known values, raw string for anything newer.
+    // Store the string: an enum case cannot be written to the database and
+    // interpolating one throws.
+    $status = $payment->status instanceof PaymentStatus
+        ? $payment->status->value
+        : $payment->status;
+
     // Store the order in the database
-    database_write($orderId, $payment->status);
+    database_write($orderId, $status);
 
     // Redirect to checkout
     header('Location: ' . $payment->getCheckoutUrl(), true, 303);
@@ -40,17 +48,18 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "open"
+$payment->status;           // PaymentStatus::Open, or the raw string for an unknown value
 $payment->amount->currency; // "EUR"
 $payment->amount->value;    // "27.50"
 $payment->description;      // "Order #1234"
 $payment->metadata->order_id; // "1234"
-$payment->method;          // "ideal"
+$payment->method;          // PaymentMethod::Ideal, a raw string, or null
 $payment->getCheckoutUrl(); // "https://www.mollie.com/checkout/select-method/7UhSN1zuXS"
 ```
 
 ## Additional Notes
 
+- `status` is `PaymentStatus|string` and `method` is `PaymentMethod|string|null`; normalise with an `instanceof` check before printing or persisting
 - The iDEAL payment method is only available for payments in EUR
 - The bank selection is now handled by iDEAL
 - The webhook will be called when the payment status changes, so make sure to implement the webhook handler to process status updates
