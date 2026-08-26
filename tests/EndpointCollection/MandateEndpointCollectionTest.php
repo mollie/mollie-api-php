@@ -16,6 +16,7 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateQuery;
+use Mollie\Api\Types\MandateStatus;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -123,7 +124,7 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals('mandate', $mandate->resource);
         $this->assertEquals('live', $mandate->mode);
-        $this->assertEquals('valid', $mandate->status);
+        $this->assertSame(MandateStatus::Valid, $mandate->status);
         $this->assertEquals('directdebit', $mandate->method);
         $this->assertEquals('EXAMPLE-CORP-MD13804', $mandate->mandateReference);
         $this->assertEquals('2023-05-07', $mandate->signatureDate);

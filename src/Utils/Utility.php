@@ -22,11 +22,20 @@ class Utility
         return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
     }
 
+    /**
+     * Compare an API value with an expected value. Either side may be a backed enum
+     * case or the raw backing value; two cases only match when they are the same case.
+     */
     public static function equals($value, BackedEnum|string $expected): bool
     {
+        if ($value instanceof BackedEnum && $expected instanceof BackedEnum) {
+            return $value === $expected;
+        }
+
+        $value = $value instanceof BackedEnum ? $value->value : $value;
         $expectedValue = $expected instanceof BackedEnum ? $expected->value : $expected;
 
-        return $value === $expected || $value === $expectedValue;
+        return $value === $expectedValue;
     }
 
     /**
