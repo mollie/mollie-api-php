@@ -52,7 +52,9 @@ try {
                     echo "Cost: {$cost->description}\n";
                     echo "- Count: {$cost->count}\n";
                     echo "- Net: {$cost->amountNet->currency} {$cost->amountNet->value}\n";
-                    echo "- VAT: {$cost->amountVat->currency} {$cost->amountVat->value}\n";
+                    if (($vat = $cost->amountVat ?? null) !== null) {
+                        echo "- VAT: {$vat->currency} {$vat->value}\n";
+                    }
                     echo "- Gross: {$cost->amountGross->currency} {$cost->amountGross->value}\n\n";
                 }
             }

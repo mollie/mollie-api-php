@@ -22,7 +22,11 @@ try {
         echo "- Status: {$status}\n";
         echo "- Issued: " . ($invoice->issuedAt ?? 'not issued') . "\n";
         echo "- Amount due: {$invoice->amountDue->currency} {$invoice->amountDue->value}\n";
-        echo "- PDF: {$invoice->_links->pdfLink->href}\n\n";
+        if (isset($invoice->_links->pdfLink->href)) {
+            echo "- PDF: {$invoice->_links->pdfLink->href}\n";
+        }
+
+        echo "\n";
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());

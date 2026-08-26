@@ -52,7 +52,11 @@ try {
         }
         echo "\n";
 
-        echo "PDF: {$invoice->_links->pdf->href}\n\n";
+        if (isset($invoice->_links->pdf->href)) {
+            echo "PDF: {$invoice->_links->pdf->href}\n";
+        }
+
+        echo "\n";
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
