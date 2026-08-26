@@ -5,6 +5,9 @@ How to retrieve all available payment methods with the Mollie API.
 ## The Code
 
 ```php
+use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Http\Requests\GetAllMethodsRequest;
+
 try {
     $methods = $mollie->send(
         new GetAllMethodsRequest(
@@ -16,8 +19,15 @@ try {
     );
 
     foreach ($methods as $method) {
+        // Method::$image is ?stdClass — guard it before reading the sizes.
+        $image = $method->image;
+
         echo '<div style="line-height:40px; vertical-align:top">';
-        echo '<img src="' . htmlspecialchars($method->image->size1x) . '" srcset="' . htmlspecialchars($method->image->size2x) . ' 2x"> ';
+
+        if ($image !== null) {
+            echo '<img src="' . htmlspecialchars($image->size1x) . '" srcset="' . htmlspecialchars($image->size2x) . ' 2x"> ';
+        }
+
         echo htmlspecialchars($method->description) . ' (' . htmlspecialchars($method->id) . ')';
         echo '</div>';
     }
@@ -29,14 +39,22 @@ try {
 ## The Response
 
 ```php
-$method->id;          // "ideal"
-$method->description; // "iDEAL"
-$method->image->size1x; // "https://www.mollie.com/external/icons/payment-methods/ideal.png"
-$method->image->size2x; // "https://www.mollie.com/external/icons/payment-methods/ideal%402x.png"
-$method->minimumAmount->value;    // "0.01"
-$method->minimumAmount->currency; // "EUR"
-$method->maximumAmount->value;    // "50000.00"
-$method->maximumAmount->currency; // "EUR"
+$method->id;            // "ideal"
+$method->description;   // "iDEAL"
+$method->image;         // stdClass with size1x/size2x/svg, or null
+$method->minimumAmount; // Mollie\Api\Http\Data\Money, or null
+$method->maximumAmount; // Mollie\Api\Http\Data\Money, or null
+```
+
+`image`, `minimumAmount` and `maximumAmount` are all nullable, so read them
+through a local variable rather than chaining off the property:
+
+```php
+$minimum = $method->minimumAmount;
+$maximum = $method->maximumAmount;
+
+echo 'Minimum: '.($minimum === null ? 'no minimum' : "{$minimum->currency} {$minimum->value}")."\n";
+echo 'Maximum: '.($maximum === null ? 'no maximum' : "{$maximum->currency} {$maximum->value}")."\n";
 ```
 
 ## Additional Notes
@@ -45,5 +63,5 @@ $method->maximumAmount->currency; // "EUR"
 - The `locale` parameter affects translations of method names and descriptions
 - The `amount` parameter filters methods available for that specific amount
 - The `billingCountry` parameter filters methods available in that country
-- Each method includes image URLs for regular (1x) and retina (2x) displays
-- Methods may have minimum and maximum amount constraints
+- Most methods include image URLs for regular (1x) and retina (2x) displays, but `image` can be `null`
+- Methods may have minimum and maximum amount constraints; both are `null` when unconstrained
