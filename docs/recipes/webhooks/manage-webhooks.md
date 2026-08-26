@@ -6,6 +6,7 @@ How to retrieve, update, delete, test, and list webhooks using the Mollie API.
 
 ```php
 use Mollie\Api\Http\Requests\GetWebhookRequest;
+use Mollie\Api\Types\WebhookStatus;
 
 try {
     // Get a specific webhook using direct request
@@ -15,11 +16,15 @@ try {
         )
     );
 
+    $status = $webhook->status instanceof WebhookStatus
+        ? $webhook->status->value
+        : $webhook->status;
+
     echo "Webhook {$webhook->id}:\n";
     echo "- URL: {$webhook->url}\n";
     echo "- Name: {$webhook->name}\n";
-    echo "- Event Types: {$webhook->eventTypes}\n";
-    echo "- Status: {$webhook->status}\n";
+    echo "- Event Types: " . implode(', ', $webhook->eventTypes) . "\n";
+    echo "- Status: {$status}\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
@@ -92,6 +97,7 @@ try {
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedWebhooksRequest;
+use Mollie\Api\Types\WebhookStatus;
 
 try {
     // List all webhooks with pagination
@@ -100,11 +106,15 @@ try {
     );
 
     foreach ($webhooks as $webhook) {
+        $status = $webhook->status instanceof WebhookStatus
+            ? $webhook->status->value
+            : $webhook->status;
+
         echo "Webhook {$webhook->id}:\n";
         echo "- URL: {$webhook->url}\n";
         echo "- Name: {$webhook->name}\n";
-        echo "- Event Types: {$webhook->eventTypes}\n";
-        echo "- Status: {$webhook->status}\n";
+        echo "- Event Types: " . implode(', ', $webhook->eventTypes) . "\n";
+        echo "- Status: {$status}\n";
         echo "- Created: {$webhook->createdAt}\n\n";
     }
 
@@ -164,11 +174,11 @@ try {
 $webhook->resource;    // "webhook"
 $webhook->id;          // "wh_4KgGJJSZpH"
 $webhook->url;         // "https://example.com/webhook"
-$webhook->profileId;   // "pfl_v9hTwCvYqw"
+$webhook->profileId;   // Profile ID, or null when no profile applies
 $webhook->createdAt;   // "2023-12-25T10:30:54+00:00"
 $webhook->name;        // "Payment notifications"
-$webhook->eventTypes;  // "payment-link.paid"
-$webhook->status;      // "enabled"
+$webhook->eventTypes;  // Array of subscribed event type strings
+$webhook->status;      // WebhookStatus case, or an unknown raw string
 $webhook->_links;      // Object containing webhook links
 ```
 

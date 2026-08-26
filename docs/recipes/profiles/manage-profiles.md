@@ -10,14 +10,13 @@ use Mollie\Api\Http\Requests\CreateProfileRequest;
 try {
     // Create a new profile
     $profile = $mollie->send(
-        new CreateProfileRequest([
-            'name' => 'My Website Name',
-            'website' => 'https://www.mywebsite.com',
-            'email' => 'info@mywebsite.com',
-            'phone' => '+31208202070',
-            'businessCategory' => 'MARKETPLACES',
-            'mode' => 'live'
-        ])
+        new CreateProfileRequest(
+            name: 'My Website Name',
+            website: 'https://www.mywebsite.com',
+            email: 'info@mywebsite.com',
+            phone: '+31208202070',
+            businessCategory: 'MARKETPLACES'
+        )
     );
 
     echo "Profile created: {$profile->name}\n";
@@ -30,17 +29,22 @@ try {
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedProfilesRequest;
+use Mollie\Api\Types\ProfileStatus;
 
 try {
     // List all profiles
     $response = $mollie->send(new GetPaginatedProfilesRequest);
 
     foreach ($response as $profile) {
+        $status = $profile->status instanceof ProfileStatus
+            ? $profile->status->value
+            : ($profile->status ?? 'not available');
+
         echo "Profile {$profile->id}:\n";
         echo "- Name: {$profile->name}\n";
-        echo "- Website: {$profile->website}\n";
+        echo "- Website: " . ($profile->website ?? 'not set') . "\n";
         echo "- Mode: {$profile->mode}\n";
-        echo "- Status: {$profile->status}\n\n";
+        echo "- Status: {$status}\n\n";
     }
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
@@ -80,7 +84,7 @@ try {
     // Delete a profile
     $mollie->send(
         new DeleteProfileRequest(
-            profileId: 'pfl_v9hTwCvYqw'
+            id: 'pfl_v9hTwCvYqw'
         )
     );
 
@@ -100,9 +104,9 @@ $profile->website;         // "https://www.mywebsite.com"
 $profile->email;           // "info@mywebsite.com"
 $profile->phone;           // "+31208202070"
 $profile->businessCategory; // "MARKETPLACES"
-$profile->status;          // "verified", "unverified"
-$profile->review;          // Object containing review status (optional)
-$profile->createdAt;       // "2024-02-24T12:13:14+00:00"
+$profile->status;          // ProfileStatus case, unknown raw string, or null
+$profile->review;          // Review object, or null when omitted
+$profile->createdAt;       // Creation date, or null when omitted
 ```
 
 ## Additional Notes

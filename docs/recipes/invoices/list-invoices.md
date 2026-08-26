@@ -6,6 +6,7 @@ How to retrieve your Mollie invoices using the API.
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
+use Mollie\Api\Types\InvoiceStatus;
 
 try {
     // Initialize with OAuth (required for invoices)
@@ -18,25 +19,38 @@ try {
     );
 
     foreach ($response as $invoice) {
+        $status = $invoice->status instanceof InvoiceStatus
+            ? $invoice->status->value
+            : ($invoice->status ?? 'not available');
+
         echo "Invoice {$invoice->reference}:\n";
-        echo "- Status: {$invoice->status}\n";
-        echo "- Issued: {$invoice->issuedAt}\n";
-        echo "- Paid: {$invoice->paidAt}\n";
-        echo "- Due: {$invoice->dueAt}\n\n";
+        echo "- Status: {$status}\n";
+        echo "- Issued: " . ($invoice->issuedAt ?? 'not issued') . "\n";
+        echo "- Paid: " . ($invoice->paidAt ?? 'not paid') . "\n";
+        echo "- Due: " . ($invoice->dueAt ?? 'not available') . "\n\n";
 
         echo "Lines:\n";
-        foreach ($invoice->lines as $line) {
-            echo "- {$line->description}\n";
-            echo "  Period: {$line->period}\n";
-            echo "  Count: {$line->count}\n";
-            echo "  VAT: {$line->vatPercentage}%\n";
-            echo "  Amount: {$line->amount->currency} {$line->amount->value}\n\n";
+        if ($invoice->lines !== null) {
+            foreach ($invoice->lines as $line) {
+                echo "- {$line->description}\n";
+                echo "  Period: {$line->period}\n";
+                echo "  Count: {$line->count}\n";
+                echo "  VAT: {$line->vatPercentage}%\n";
+                echo "  Amount: {$line->amount->currency} {$line->amount->value}\n\n";
+            }
         }
 
         echo "Totals:\n";
-        echo "- Net: {$invoice->netAmount->currency} {$invoice->netAmount->value}\n";
-        echo "- VAT: {$invoice->vatAmount->currency} {$invoice->vatAmount->value}\n";
-        echo "- Gross: {$invoice->grossAmount->currency} {$invoice->grossAmount->value}\n\n";
+        foreach ([
+            'Net' => $invoice->netAmount,
+            'VAT' => $invoice->vatAmount,
+            'Gross' => $invoice->grossAmount,
+        ] as $label => $amount) {
+            if ($amount !== null) {
+                echo "- {$label}: {$amount->currency} {$amount->value}\n";
+            }
+        }
+        echo "\n";
 
         echo "PDF: {$invoice->_links->pdf->href}\n\n";
     }
@@ -51,14 +65,14 @@ try {
 $invoice->id;                  // "inv_xBEbP9rvAq"
 $invoice->reference;          // "2024.10000"
 $invoice->vatNumber;         // "NL123456789B01"
-$invoice->status;            // "paid", "open"
-$invoice->issuedAt;          // "2024-02-24"
-$invoice->paidAt;            // "2024-02-24"
-$invoice->dueAt;             // "2024-03-24"
-$invoice->netAmount;         // Object containing amount excluding VAT
-$invoice->vatAmount;         // Object containing VAT amount
-$invoice->grossAmount;       // Object containing amount including VAT
-$invoice->lines;             // Array of invoice lines
+$invoice->status;            // InvoiceStatus case, unknown raw string, or null
+$invoice->issuedAt;          // Issue date, or null when omitted
+$invoice->paidAt;            // Payment date, or null when unpaid
+$invoice->dueAt;             // Due date, or null when omitted
+$invoice->netAmount;         // Money object excluding VAT, or null
+$invoice->vatAmount;         // VAT Money object, or null
+$invoice->grossAmount;       // Money object including VAT, or null
+$invoice->lines;             // Array of invoice lines, or null
 $invoice->_links->pdf->href; // URL to download PDF invoice
 ```
 
