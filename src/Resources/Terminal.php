@@ -19,19 +19,25 @@ class Terminal extends BaseResource
 
     public TerminalStatus|string $status;
 
-    public string $brand;
+    /**
+     * Required by the API but may be null.
+     */
+    public ?string $brand;
 
-    public string $model;
+    public ?string $model;
 
-    public string $serialNumber;
+    public ?string $serialNumber;
 
     public string $currency;
 
     public string $description;
 
-    public string $timezone;
+    /**
+     * Not part of the Terminal API response; hydrated only when a payload carries it.
+     */
+    public ?string $timezone = null;
 
-    public string $locale;
+    public ?string $locale = null;
 
     public string $createdAt;
 

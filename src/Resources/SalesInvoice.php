@@ -17,7 +17,7 @@ class SalesInvoice extends BaseResource
 
     public ?string $invoiceNumber = null;
 
-    public string $currency;
+    public ?string $currency = null;
 
     public SalesInvoiceStatus|string $status;
 
@@ -27,7 +27,7 @@ class SalesInvoice extends BaseResource
 
     public ?string $memo = null;
 
-    public string $paymentTerm;
+    public ?string $paymentTerm = null;
 
     /**
      * @var \stdClass
@@ -46,10 +46,10 @@ class SalesInvoice extends BaseResource
      */
     public $recipient;
 
-    /** @var array<mixed> */
-    public array $lines;
+    /** @var array<mixed>|null */
+    public ?array $lines = null;
 
-    public string $webhookUrl;
+    public ?string $webhookUrl = null;
 
     /**
      * @var \stdClass|null
