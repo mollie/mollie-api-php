@@ -22,5 +22,5 @@ class Route extends BaseResource
      */
     public $destination;
 
-    public string $releaseDate;
+    public ?string $releaseDate = null;
 }

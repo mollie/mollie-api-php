@@ -23,7 +23,7 @@ class Webhook extends BaseResource
 
     public string $url;
 
-    public string $profileId;
+    public ?string $profileId;
 
     public string $createdAt;
 

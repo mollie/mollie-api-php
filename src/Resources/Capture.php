@@ -32,9 +32,9 @@ class Capture extends BaseResource
     public ?string $status = null;
 
     /**
-     * Amount object containing the value and currency.
+     * Amount object containing the value and currency. Nullable per the API contract.
      */
-    public Money $amount;
+    public ?Money $amount;
 
     /**
      * Amount object containing the settlement value and currency.

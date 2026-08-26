@@ -38,7 +38,7 @@ class ConnectBalanceTransfer extends BaseResource
      */
     public $statusReason;
 
-    public string $category;
+    public ?string $category = null;
 
     /**
      * @var \stdClass|null

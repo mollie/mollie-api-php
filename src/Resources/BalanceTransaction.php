@@ -15,7 +15,7 @@ class BalanceTransaction extends BaseResource
     use HasMode;
 
 
-    public string $mode;
+    public ?string $mode = null;
 
     public string $id;
 
@@ -27,7 +27,7 @@ class BalanceTransaction extends BaseResource
 
     public Money $initialAmount;
 
-    public Money $deductions;
+    public ?Money $deductions = null;
 
     /**
      * @var \stdClass

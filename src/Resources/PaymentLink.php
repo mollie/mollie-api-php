@@ -23,9 +23,9 @@ class PaymentLink extends BaseResource
     public string $mode;
 
     /**
-     * The profile ID this payment link belongs to.
+     * The profile ID this payment link belongs to. Nullable per the API contract.
      */
-    public string $profileId;
+    public ?string $profileId;
 
     public ?string $createdAt = null;
 

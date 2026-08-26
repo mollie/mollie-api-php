@@ -9,7 +9,7 @@ namespace Mollie\Api\Resources;
  */
 class Partner extends BaseResource
 {
-    public string $partnerType;
+    public ?string $partnerType;
 
     public ?bool $isCommissionPartner = null;
 
@@ -18,7 +18,7 @@ class Partner extends BaseResource
 
     public ?string $partnerContractSignedAt = null;
 
-    public bool $partnerContractUpdateAvailable;
+    public ?bool $partnerContractUpdateAvailable = null;
 
     public ?string $partnerContractExpiresAt = null;
 
