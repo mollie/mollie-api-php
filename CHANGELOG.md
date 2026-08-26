@@ -57,6 +57,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Response::header()`, `Response::headers()`, and rate-limit header parsing through `Response::rateLimit()`.
+- `TooManyRequestsException::getRetryAfterSeconds()` for integer and HTTP-date `Retry-After` values.
+- Opt-in `ExponentialRetryStrategy` with full jitter, bounded `Retry-After` jitter, and a configurable delay budget.
+- `ConditionalRetryStrategyContract` for strategies that opt into exception-aware retry decisions and delays.
 - `Mollie\Api\Contracts\ResourceOrigin` marker interface describing where
   a hydrated resource came from. `Http\Response` now implements it.
 - `BaseResource::getOrigin()` / `setOrigin()` accessors on every hydrated
