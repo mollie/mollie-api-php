@@ -101,7 +101,8 @@ $client = MollieApiClient::fake([
             return MockResponse::ok(['third' => 'response']);
         }
     )
-])
+]);
+```
 
 To verify that a request was sent, use `assertSent` or `assertSentCount`.
 
@@ -142,7 +143,7 @@ function (PendingRequest $request) use ($idempotencyKey) {
     $this->assertEquals($idempotencyKey, $request->headers()->get('Idempotency-Key'));
 
     return MockResponse::created('payment');
-}
+};
 ```
 
 ### Working with Collections

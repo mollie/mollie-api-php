@@ -467,7 +467,6 @@ use Mollie\Api\Types\VatMode;
 use Mollie\Api\Types\VatScheme;
 use Mollie\Api\Types\PaymentTerm;
 use Mollie\Api\Types\RecipientType;
-use Mollie\Api\Types\RecipientType;
 use Mollie\Api\Types\SalesInvoiceStatus;
 
 // Create a sales invoice
