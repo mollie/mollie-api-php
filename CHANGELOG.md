@@ -5,7 +5,25 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.14.0...HEAD)
+
+## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v3.14.0) - 2026-09-07
+
+### What's Changed
+
+* fix: support applicationFee on payment link creation by @Naoray in https://github.com/mollie/mollie-api-php/pull/895
+* Update signature-verification.md by @fjbender in https://github.com/mollie/mollie-api-php/pull/902
+* Do not drop request fields whose value is 0, "0" or 0.0 by @winklemad in https://github.com/mollie/mollie-api-php/pull/907
+* fix: repair release changelog automation by @Naoray in https://github.com/mollie/mollie-api-php/pull/909
+* Reconcile main with the published v3 releases by @Naoray in https://github.com/mollie/mollie-api-php/pull/912
+* Add wero as supported payment method by @robindirksen1 in https://github.com/mollie/mollie-api-php/pull/924
+
+### New Contributors
+
+* @winklemad made their first contribution in https://github.com/mollie/mollie-api-php/pull/907
+* @robindirksen1 made their first contribution in https://github.com/mollie/mollie-api-php/pull/924
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.14.0
 
 ## [v4.0.0-beta.3](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v4.0.0-beta.3) - 2026-08-26
 
