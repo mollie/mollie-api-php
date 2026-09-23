@@ -9,7 +9,7 @@ Use this guide to upgrade an application from v3 to v4. The public surface is la
 
 ## 1. Set the minimum PHP version
 
-Set your application's PHP requirement to **8.2 or newer**. Remove support for PHP 7.4, 8.0, and 8.1; v4's CI matrix covers PHP 8.2, 8.3, and 8.4.
+Set your application's PHP requirement to **8.2 or newer**. Remove support for PHP 7.4, 8.0, and 8.1; v4's CI matrix covers PHP 8.2 - 8.6.
 
 `composer.json`:
 
