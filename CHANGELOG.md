@@ -5,30 +5,7 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.15.0...HEAD)
-
-## [v3.15.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0...v3.15.0) - 2026-09-23
-
-v3.15.0 brings rate-limit visibility and opt-in HTTP 429 retries to the PHP 7.4-compatible v3 line. Existing clients keep their current retry behavior unless they select the new strategy.
-
-### Added
-
-- `Response::header()` and `headers()` expose response headers. `Response::rateLimit()` parses Mollie's `RateLimit` and `RateLimit-Policy` headers into a `RateLimit` object with the policy, remaining requests, restore time, burst, quota, and window. Missing or malformed rate-limit headers return `null`.
-- `TooManyRequestsException::getRetryAfterSeconds()` exposes `Retry-After` as a delay in seconds, accepting both integer seconds and HTTP-date values.
-- `ExponentialRetryStrategy` can retry temporary network failures and HTTP 429 responses. It supports exponential backoff, optional jitter, and a maximum delay budget. A 429 whose `Retry-After` exceeds that budget is thrown rather than delayed.
-- `ConditionalRetryStrategyContract` lets custom strategies decide which exceptions to retry and use the triggering exception when calculating a delay.
-
-### Compatibility
-
-`LinearRetryStrategy` remains the default and continues to retry temporary network failures as before. The original `RetryStrategyContract` is unchanged, so existing custom strategies require no migration. The new behavior is opt-in:
-
-```php
-use Mollie\Api\Http\ExponentialRetryStrategy;
-
-$client->setRetryStrategy(new ExponentialRetryStrategy());
-
-```
-See the [retry guide](https://github.com/mollie/mollie-api-php/blob/v3.15.0/docs/retries.md) for configuration and custom strategy examples, or [compare v3.14.0 with v3.15.0](https://github.com/mollie/mollie-api-php/compare/v3.14.0...v3.15.0) for all changes.
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0...HEAD)
 
 ## [v4.0.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v4.0.0) - 2026-09-23
 
