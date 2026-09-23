@@ -2,6 +2,7 @@
 
 namespace Mollie\Api\Traits;
 
+use Mollie\Api\Contracts\ConditionalRetryStrategyContract;
 use Mollie\Api\Contracts\RetryStrategyContract;
 use Mollie\Api\Exceptions\LogicException;
 use Mollie\Api\Exceptions\MollieException;
@@ -11,6 +12,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Request;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Utils\DataTransformer;
+use Throwable;
 
 /**
  * @mixin MollieApiClient
@@ -51,7 +53,7 @@ trait SendsRequests
 
         for ($attempt = 0; $attempt <= $this->retryStrategy->maxRetries(); $attempt++) {
             if ($attempt > 0) {
-                $delayMs = $this->retryStrategy->delayBeforeAttemptMs($attempt);
+                $delayMs = $this->retryDelayMs($attempt, $lastException);
 
                 usleep($delayMs * 1000);
             }
@@ -60,9 +62,13 @@ trait SendsRequests
                 $response = $this->httpClient->sendRequest($pendingRequest);
 
                 return $pendingRequest->executeResponseHandlers($response);
-            } catch (RetryableNetworkRequestException $e) {
-                $lastException = $e;
             } catch (MollieException $exception) {
+                if ($this->retryStrategyAllows($exception)) {
+                    $lastException = $exception;
+
+                    continue;
+                }
+
                 $exception = $pendingRequest->executeFatalHandlers($exception);
 
                 throw $exception;
@@ -77,5 +83,23 @@ trait SendsRequests
 
         // This should be unreachable, but keep a safe fallback for static analysis
         throw new LogicException('Request failed after retries without a final exception.');
+    }
+
+    private function retryStrategyAllows(MollieException $exception): bool
+    {
+        if ($this->retryStrategy instanceof ConditionalRetryStrategyContract) {
+            return $this->retryStrategy->shouldRetry($exception);
+        }
+
+        return $exception instanceof RetryableNetworkRequestException;
+    }
+
+    private function retryDelayMs(int $attempt, ?Throwable $exception): int
+    {
+        if ($this->retryStrategy instanceof ConditionalRetryStrategyContract) {
+            return $this->retryStrategy->delayBeforeAttemptMs($attempt, $exception);
+        }
+
+        return $this->retryStrategy->delayBeforeAttemptMs($attempt);
     }
 }

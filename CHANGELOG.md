@@ -5,9 +5,21 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.14.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.15.0...HEAD)
 
-## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v3.14.0) - 2026-09-07
+## [v3.15.0](https://github.com/mollie/mollie-api-php/compare/v3.14.0...v3.15.0) - 2026-09-23
+
+### Added
+
+- `Response::header()` and `headers()` expose response headers; `Response::rateLimit()` parses Mollie's `RateLimit` and `RateLimit-Policy` metadata, including remaining requests, restore time, burst, quota, and window.
+- `TooManyRequestsException::getRetryAfterSeconds()` reads integer or HTTP-date `Retry-After` values.
+- Opt-in `ExponentialRetryStrategy` adds jitter and HTTP 429 handling with a configurable delay budget. `ConditionalRetryStrategyContract` lets custom strategies make exception-aware retry decisions.
+
+### Compatibility
+
+- The default `LinearRetryStrategy` and existing `RetryStrategyContract` remain unchanged. Existing custom strategies keep working, and PHP 7.4 remains supported.
+
+## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v3.14.0) - 2026-09-07
 
 ### What's Changed
 
@@ -24,8 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @robindirksen1 made their first contribution in https://github.com/mollie/mollie-api-php/pull/924
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.14.0
-
-## [v4.0.0-beta.3](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v4.0.0-beta.3) - 2026-08-26
 
 ## [v3.13.2](https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2) - 2026-08-24
 
