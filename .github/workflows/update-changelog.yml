@@ -9,6 +9,8 @@ on:
 
 jobs:
   update:
+    env:
+      RELEASE_BRANCH: ${{ startsWith(github.event.release.tag_name, 'v3.') && 'v3' || github.event.repository.default_branch }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -17,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: ${{ env.RELEASE_BRANCH }}
 
       - name: Check for an existing release entry
         id: changelog_entry
@@ -38,6 +40,6 @@ jobs:
         if: steps.changelog_entry.outputs.exists != 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: ${{ github.event.repository.default_branch }}
+          branch: ${{ env.RELEASE_BRANCH }}
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md

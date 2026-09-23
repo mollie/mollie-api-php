@@ -22,8 +22,9 @@ class ChangelogWorkflowTest extends TestCase
         $this->assertSame('main', $event['repository']['default_branch']);
         $this->assertSame($prerelease, $event['release']['prerelease']);
         $this->assertNotSame($event['release']['tag_name'], $event['release']['name']);
-        $this->assertStringContainsString('ref: ${{ github.event.repository.default_branch }}', $workflow);
-        $this->assertStringContainsString('branch: ${{ github.event.repository.default_branch }}', $workflow);
+        $this->assertStringContainsString('RELEASE_BRANCH: ${{ startsWith(github.event.release.tag_name, \'v3.\') && \'v3\' || github.event.repository.default_branch }}', $workflow);
+        $this->assertStringContainsString('ref: ${{ env.RELEASE_BRANCH }}', $workflow);
+        $this->assertStringContainsString('branch: ${{ env.RELEASE_BRANCH }}', $workflow);
         $this->assertStringContainsString('latest-version: ${{ github.event.release.tag_name }}', $workflow);
         $this->assertDoesNotMatchRegularExpression('/(?:ref|branch):\s*(?:master|main)\b/', $workflow);
         $this->assertStringNotContainsString('github.event.release.name', $workflow);
