@@ -55,6 +55,7 @@ try {
         processWebhook($webhookData);
     } else {
         // Handle legacy webhook
+        // Make sure to validate the actual contents of $webhookData before processing
         processLegacyWebhook($webhookData);
     }
 

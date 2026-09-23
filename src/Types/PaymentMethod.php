@@ -59,4 +59,5 @@ enum PaymentMethod: string
     case Twint = 'twint';
     case Vipps = 'vipps';
     case Voucher = 'voucher';
+    case Wero = 'wero';
 }
