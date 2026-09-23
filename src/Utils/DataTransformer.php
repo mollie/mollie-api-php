@@ -90,7 +90,10 @@ class DataTransformer
 
     private function filterEmptyValues($value)
     {
-        return ! empty($value) || is_bool($value);
+        // Only null, empty strings and empty arrays should be stripped from the
+        // request. empty() would also discard the legitimate scalar values 0,
+        // "0" and 0.0, so we check for the truly-empty cases explicitly.
+        return $value !== null && $value !== '' && $value !== [];
     }
 
     private function transformBooleans($value)

@@ -213,4 +213,9 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/twint
      */
     public const TWINT = 'twint';
+
+    /**
+     * @link https://www.mollie.com/en/payments/wero
+     */
+    public const WERO = 'wero';
 }

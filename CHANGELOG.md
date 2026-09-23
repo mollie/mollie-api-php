@@ -5,14 +5,86 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.9.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.15.0...HEAD)
+
+## [v3.15.0](https://github.com/mollie/mollie-api-php/compare/v3.14.0...v3.15.0) - 2026-09-23
 
 ### Added
 
-- `Response::header()`, `Response::headers()`, and rate-limit header parsing through `Response::rateLimit()`.
-- `TooManyRequestsException::getRetryAfterSeconds()` for integer and HTTP-date `Retry-After` values.
-- Opt-in `ExponentialRetryStrategy` with full jitter, bounded `Retry-After` jitter, and a configurable delay budget.
-- `ConditionalRetryStrategyContract` for strategies that opt into exception-aware retry decisions and delays.
+- `Response::header()` and `headers()` expose response headers; `Response::rateLimit()` parses Mollie's `RateLimit` and `RateLimit-Policy` metadata, including remaining requests, restore time, burst, quota, and window.
+- `TooManyRequestsException::getRetryAfterSeconds()` reads integer or HTTP-date `Retry-After` values.
+- Opt-in `ExponentialRetryStrategy` adds jitter and HTTP 429 handling with a configurable delay budget. `ConditionalRetryStrategyContract` lets custom strategies make exception-aware retry decisions.
+
+### Compatibility
+
+- The default `LinearRetryStrategy` and existing `RetryStrategyContract` remain unchanged. Existing custom strategies keep working, and PHP 7.4 remains supported.
+
+## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v3.14.0) - 2026-09-07
+
+### What's Changed
+
+* fix: support applicationFee on payment link creation by @Naoray in https://github.com/mollie/mollie-api-php/pull/895
+* Update signature-verification.md by @fjbender in https://github.com/mollie/mollie-api-php/pull/902
+* Do not drop request fields whose value is 0, "0" or 0.0 by @winklemad in https://github.com/mollie/mollie-api-php/pull/907
+* fix: repair release changelog automation by @Naoray in https://github.com/mollie/mollie-api-php/pull/909
+* Reconcile main with the published v3 releases by @Naoray in https://github.com/mollie/mollie-api-php/pull/912
+* Add wero as supported payment method by @robindirksen1 in https://github.com/mollie/mollie-api-php/pull/924
+
+### New Contributors
+
+* @winklemad made their first contribution in https://github.com/mollie/mollie-api-php/pull/907
+* @robindirksen1 made their first contribution in https://github.com/mollie/mollie-api-php/pull/924
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.14.0
+
+## [v3.13.2](https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2) - 2026-08-24
+
+### What's Changed
+
+* Update signature-verification.md by @fjbender in https://github.com/mollie/mollie-api-php/pull/902
+* Do not drop request fields whose value is 0, "0" or 0.0 by @winklemad in https://github.com/mollie/mollie-api-php/pull/907
+
+### New Contributors
+
+* @winklemad made their first contribution in https://github.com/mollie/mollie-api-php/pull/907
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2
+
+## [v3.13.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.13.1) - 2026-06-08
+
+## What's Changed
+
+* fix: support applicationFee on payment link creation by @Naoray in https://github.com/mollie/mollie-api-php/pull/895
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.13.1
+
+## [v3.13.0](https://github.com/mollie/mollie-api-php/compare/v3.12.0...v3.13.0) - 2026-06-01
+
+## What's Changed
+
+* feat: add terminal pairing code endpoints by @gabrielciobanu-mollie in https://github.com/mollie/mollie-api-php/pull/894
+* feat: re-add payouts endpoints (restored after revert) by @Naoray in https://github.com/mollie/mollie-api-php/pull/893
+
+## New Contributors
+
+* @gabrielciobanu-mollie made their first contribution in https://github.com/mollie/mollie-api-php/pull/894
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.12.0...v3.13.0
+
+## [v3.12.0](https://github.com/mollie/mollie-api-php/compare/v3.11.0...v3.12.0) - 2026-05-19
+
+## What's Changed
+
+* fix: add scopes query parameter to list customer mandates by @Naoray in https://github.com/mollie/mollie-api-php/pull/887
+* feat: add Google Pay direct integration support by @Naoray in https://github.com/mollie/mollie-api-php/pull/888
+* fix: pass settlement pagination filters by @Naoray in https://github.com/mollie/mollie-api-php/pull/889
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.11.0...v3.12.0
+
+## [v3.11.0](https://github.com/mollie/mollie-api-php/compare/v3.10.0...v3.11.0) - 2026-05-06
+
+### Added
+
 - `Mollie\Api\Contracts\ResourceOrigin` marker interface describing where
   a hydrated resource came from. `Http\Response` now implements it.
 - `BaseResource::getOrigin()` / `setOrigin()` accessors on every hydrated
@@ -28,8 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BaseEvent::asResource(Connector)` hydrates the embedded entity into a
   fully-typed SDK resource and automatically threads the rich origin
   (event id, signature, received-at).
-- `WebhookEventMapper::processPayload()` gains an optional `?string
-  $signature` parameter that is threaded through to the resulting event
+- `WebhookEventMapper::processPayload()` gains an optional `?string $signature` parameter that is threaded through to the resulting event
   and carried onto hydrated resources via `WebhookSnapshotOrigin`.
 - `ResourceCollection::withOrigin()` factory as the origin-aware sibling
   of `withResponse()`.
@@ -68,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   collection on both origins. Relative `_links.{name}.href` values in
   webhook payloads are resolved against the client's base URL via
   `Url::join`, no special handling required on the caller's side.
+
 ### For contributors
 
 - `WebhookEventMapper::createWebhookEntityFromPayload()` switched from
@@ -97,9 +169,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   describe reading the nullable `$event->entity` property or fetching
   the resource via `$event->entityId`.
 
+## What's Changed
+
+* refactor(webhooks): decouple hydrated resources from the HTTP domain by @Naoray in https://github.com/mollie/mollie-api-php/pull/880
+* fix(webhooks): hydrate entity locally from signed snapshot by @Naoray in https://github.com/mollie/mollie-api-php/pull/879
+* fix: change customer email property type to a nullable string by @edwinvdpol in https://github.com/mollie/mollie-api-php/pull/882
+* fix: make all UpdateSalesInvoiceRequest params optional by @Naoray in https://github.com/mollie/mollie-api-php/pull/885
+* fix: make all UpdateSalesInvoiceRequest params optional by @fjbender in https://github.com/mollie/mollie-api-php/pull/884
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.10.0...v3.11.0
+
+## [v3.10.0](https://github.com/mollie/mollie-api-php/compare/v3.9.0...v3.10.0) - 2026-04-15
+
+## What's Changed
+
+* Update documentation link for methods API by @sandervanhooft in https://github.com/mollie/mollie-api-php/pull/866
+* docs: add full OAuth permission scopes list and link to official reference by @Naoray in https://github.com/mollie/mollie-api-php/pull/867
+* docs: fix documentation reference url by @dionnijssen in https://github.com/mollie/mollie-api-php/pull/871
+* Fix: Add missing `googlepay` type to wallet constants by @NormanAlbert91 in https://github.com/mollie/mollie-api-php/pull/869
+* feat: Add BACS mandate method for UK direct debit support by @sandervanhooft in https://github.com/mollie/mollie-api-php/pull/870
+* Fix PHPStan CI: replace ramsey/composer-install with plain composer install by @Naoray in https://github.com/mollie/mollie-api-php/pull/873
+* Fix PHP 8+ deprecation warning in CreatePaymentRefundRequest by @Naoray in https://github.com/mollie/mollie-api-php/pull/872
+* Fix onFatal callback bug + strict comparison consistency by @Naoray in https://github.com/mollie/mollie-api-php/pull/874
+* feat: add lines, addresses and minimumAmount to Payment Links API by @Naoray in https://github.com/mollie/mollie-api-php/pull/877
+* feat(sessions): align session endpoint with API specification by @Naoray in https://github.com/mollie/mollie-api-php/pull/858
+
+## New Contributors
+
+* @dionnijssen made their first contribution in https://github.com/mollie/mollie-api-php/pull/871
+
+**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.9.0...v3.10.0
+
 ## [v3.9.0](https://github.com/mollie/mollie-api-php/compare/v3.8.0...v3.9.0) - 2026-02-09
 
 ## What's Changed
+
 * Fix: Don't call deprecated `setAccessible()` by @derrabus in https://github.com/mollie/mollie-api-php/pull/852
 * Fix documented `Capability::$requirements` structure by @derrabus in https://github.com/mollie/mollie-api-php/pull/853
 * feat(auth): add setToken helper for api keys by @Naoray in https://github.com/mollie/mollie-api-php/pull/859
@@ -109,6 +213,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Remove incorrect null return type from ClientLink::getRedirectUrl()   by @NormanAlbert91 in https://github.com/mollie/mollie-api-php/pull/862
 
 ## New Contributors
+
 * @derrabus made their first contribution in https://github.com/mollie/mollie-api-php/pull/852
 * @NormanAlbert91 made their first contribution in https://github.com/mollie/mollie-api-php/pull/862
 
