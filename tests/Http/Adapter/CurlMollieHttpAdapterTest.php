@@ -50,7 +50,6 @@ class CurlMollieHttpAdapterTest extends TestCase
     private function parseResponseDetails(string $response, int $headerSize, int $statusCode): array
     {
         $method = new ReflectionMethod(CurlMollieHttpAdapter::class, 'parseResponseDetails');
-        $method->setAccessible(true);
 
         return $method->invoke(null, $response, $headerSize, $statusCode);
     }

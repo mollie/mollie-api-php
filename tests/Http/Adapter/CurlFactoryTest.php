@@ -34,7 +34,6 @@ class CurlFactoryTest extends TestCase
     private function optionsFor(CurlFactory $factory): array
     {
         $property = new ReflectionProperty($factory, 'options');
-        $property->setAccessible(true);
 
         return $property->getValue($factory);
     }
