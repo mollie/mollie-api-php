@@ -51,7 +51,6 @@ class DebuggerTest extends TestCase
     private function withMissingSymfonyVarDumper(callable $callback): void
     {
         $availability = new ReflectionProperty(Debugger::class, 'symfonyVarDumperExists');
-        $availability->setAccessible(true);
         $availability->setValue(null, false);
 
         try {
