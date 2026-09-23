@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -7,11 +9,12 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DisableMethodIssuerRequest;
 use Mollie\Api\Http\Requests\EnableMethodIssuerRequest;
 use Mollie\Api\Resources\Issuer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MethodIssuerEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function enable()
     {
         $client = new MockMollieClient([
@@ -29,7 +32,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
         $this->assertIssuer($issuer);
     }
 
-    /** @test */
+    #[Test]
     public function disable()
     {
         $client = new MockMollieClient([
@@ -42,8 +45,7 @@ class MethodIssuerEndpointCollectionTest extends TestCase
             'ideal_INGBNL2A'
         );
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DisableMethodIssuerRequest::class);
     }
 
     protected function assertIssuer(Issuer $issuer)

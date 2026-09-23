@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use DateTimeImmutable;
@@ -14,11 +16,13 @@ use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateQuery;
+use Mollie\Api\Types\MandateStatus;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MandateEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_for()
     {
         $client = new MockMollieClient([
@@ -42,7 +46,7 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertMandate($mandate);
     }
 
-    /** @test */
+    #[Test]
     public function get_for()
     {
         $client = new MockMollieClient([
@@ -58,7 +62,7 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertMandate($mandate);
     }
 
-    /** @test */
+    #[Test]
     public function revoke_for()
     {
         $client = new MockMollieClient([
@@ -70,11 +74,10 @@ class MandateEndpointCollectionTest extends TestCase
 
         $client->mandates->revokeFor($customer, 'mdt_h3gAaD5zP');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(RevokeMandateRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page_for()
     {
         $client = new MockMollieClient([
@@ -94,7 +97,7 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertMandate($mandates[0]);
     }
 
-    /** @test */
+    #[Test]
     public function page_for_with_scopes()
     {
         $client = new MockMollieClient([
@@ -121,7 +124,7 @@ class MandateEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(Mandate::class, $mandate);
         $this->assertEquals('mandate', $mandate->resource);
         $this->assertEquals('live', $mandate->mode);
-        $this->assertEquals('valid', $mandate->status);
+        $this->assertSame(MandateStatus::Valid, $mandate->status);
         $this->assertEquals('directdebit', $mandate->method);
         $this->assertEquals('EXAMPLE-CORP-MD13804', $mandate->mandateReference);
         $this->assertEquals('2023-05-07', $mandate->signatureDate);

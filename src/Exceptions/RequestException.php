@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\PendingRequest;
@@ -10,17 +12,13 @@ use Throwable;
 
 class RequestException extends MollieException implements RequestExceptionInterface
 {
-    protected Response $response;
-
     public function __construct(
-        Response $response,
+        public readonly Response $response,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null
     ) {
-        parent::__construct($message, $code, $previous);
-
-        $this->response = $response;
+        parent::__construct($message ?? '', $code, $previous);
     }
 
     public function getRequest(): RequestInterface

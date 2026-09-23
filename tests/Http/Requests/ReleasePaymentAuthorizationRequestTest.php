@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\ReleasePaymentAuthorizationRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ReleasePaymentAuthorizationRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_release_payment_authorization()
     {
         $client = new MockMollieClient([

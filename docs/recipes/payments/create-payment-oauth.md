@@ -46,13 +46,23 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "open"
+$payment->status;           // PaymentStatus::Open, or the raw string for an unknown value
 $payment->amount->currency; // "EUR"
 $payment->amount->value;    // "10.00"
 $payment->description;      // "Order #1234"
 $payment->metadata;         // Object containing order_id
 $payment->profileId;        // "pfl_v9hTwCvYqw"
-$payment->createdAt;        // "2024-02-24T12:13:14+00:00"
+$payment->createdAt;        // "2024-02-24T12:13:14+00:00" (or null)
+```
+
+`status` is `PaymentStatus|string`, so normalise it before printing or storing it:
+
+```php
+use Mollie\Api\Types\PaymentStatus;
+
+$status = $payment->status instanceof PaymentStatus
+    ? $payment->status->value
+    : $payment->status;
 ```
 
 ## Additional Notes

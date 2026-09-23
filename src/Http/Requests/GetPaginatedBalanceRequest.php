@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
@@ -7,11 +9,14 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\BalanceCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends SortablePaginatedRequest<\Mollie\Api\Resources\BalanceCollection>
+ */
 class GetPaginatedBalanceRequest extends SortablePaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
-    protected $hydratableResource = BalanceCollection::class;
+    protected ?string $hydratableResource = BalanceCollection::class;
 
     public function resolveResourcePath(): string
     {

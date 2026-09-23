@@ -1,29 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Data;
 
 use DateTimeInterface;
 use Mollie\Api\Contracts\Resolvable;
 
-class PaymentRoute implements Resolvable
+readonly class PaymentRoute implements Resolvable
 {
-    public Money $amount;
-
-    public string $organizationId;
-
     /**
-     * @var Date|DateTimeInterface
+     * @param  Date|DateTimeInterface|null  $delayUntil
      */
-    public $delayUntil;
-
     public function __construct(
-        Money $amount,
-        string $organizationId,
-        $delayUntil = null
+        public Money $amount,
+        public string $organizationId,
+        public Date|DateTimeInterface|null $delayUntil = null,
     ) {
-        $this->amount = $amount;
-        $this->organizationId = $organizationId;
-        $this->delayUntil = $delayUntil;
     }
 
     public function toArray(): array

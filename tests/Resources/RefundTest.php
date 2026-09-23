@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Refund;
 use Mollie\Api\Types\RefundStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class RefundTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,9 +17,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestRefundStatuses
      */
-    public function test_refund_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestRefundStatuses')]
+    #[Test]
+    public function refund_statuses($status, $function, $expected_boolean)
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
@@ -29,9 +34,10 @@ class RefundTest extends \PHPUnit\Framework\TestCase
      * @param  string  $status
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestRefundCanBeCanceled
      */
-    public function test_refund_can_be_canceled($status, $expected_boolean)
+    #[DataProvider('dpTestRefundCanBeCanceled')]
+    #[Test]
+    public function refund_can_be_canceled($status, $expected_boolean)
     {
         $refund = new Refund(
             $this->createMock(MollieApiClient::class),
@@ -41,50 +47,50 @@ class RefundTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $refund->canBeCanceled());
     }
 
-    public function dpTestRefundStatuses()
+    public static function dpTestRefundStatuses()
     {
         return [
-            [RefundStatus::PENDING, 'isPending', true],
-            [RefundStatus::PENDING, 'isProcessing', false],
-            [RefundStatus::PENDING, 'isQueued', false],
-            [RefundStatus::PENDING, 'isTransferred', false],
-            [RefundStatus::PENDING, 'isFailed', false],
+            [RefundStatus::Pending->value, 'isPending', true],
+            [RefundStatus::Pending->value, 'isProcessing', false],
+            [RefundStatus::Pending->value, 'isQueued', false],
+            [RefundStatus::Pending->value, 'isTransferred', false],
+            [RefundStatus::Pending->value, 'isFailed', false],
 
-            [RefundStatus::PROCESSING, 'isPending', false],
-            [RefundStatus::PROCESSING, 'isProcessing', true],
-            [RefundStatus::PROCESSING, 'isQueued', false],
-            [RefundStatus::PROCESSING, 'isTransferred', false],
-            [RefundStatus::PROCESSING, 'isFailed', false],
+            [RefundStatus::Processing->value, 'isPending', false],
+            [RefundStatus::Processing->value, 'isProcessing', true],
+            [RefundStatus::Processing->value, 'isQueued', false],
+            [RefundStatus::Processing->value, 'isTransferred', false],
+            [RefundStatus::Processing->value, 'isFailed', false],
 
-            [RefundStatus::QUEUED, 'isPending', false],
-            [RefundStatus::QUEUED, 'isProcessing', false],
-            [RefundStatus::QUEUED, 'isQueued', true],
-            [RefundStatus::QUEUED, 'isTransferred', false],
-            [RefundStatus::QUEUED, 'isFailed', false],
+            [RefundStatus::Queued->value, 'isPending', false],
+            [RefundStatus::Queued->value, 'isProcessing', false],
+            [RefundStatus::Queued->value, 'isQueued', true],
+            [RefundStatus::Queued->value, 'isTransferred', false],
+            [RefundStatus::Queued->value, 'isFailed', false],
 
-            [RefundStatus::REFUNDED, 'isPending', false],
-            [RefundStatus::REFUNDED, 'isProcessing', false],
-            [RefundStatus::REFUNDED, 'isQueued', false],
-            [RefundStatus::REFUNDED, 'isTransferred', true],
-            [RefundStatus::REFUNDED, 'isFailed', false],
+            [RefundStatus::Refunded->value, 'isPending', false],
+            [RefundStatus::Refunded->value, 'isProcessing', false],
+            [RefundStatus::Refunded->value, 'isQueued', false],
+            [RefundStatus::Refunded->value, 'isTransferred', true],
+            [RefundStatus::Refunded->value, 'isFailed', false],
 
-            [RefundStatus::FAILED, 'isPending', false],
-            [RefundStatus::FAILED, 'isProcessing', false],
-            [RefundStatus::FAILED, 'isQueued', false],
-            [RefundStatus::FAILED, 'isTransferred', false],
-            [RefundStatus::FAILED, 'isFailed', true],
+            [RefundStatus::Failed->value, 'isPending', false],
+            [RefundStatus::Failed->value, 'isProcessing', false],
+            [RefundStatus::Failed->value, 'isQueued', false],
+            [RefundStatus::Failed->value, 'isTransferred', false],
+            [RefundStatus::Failed->value, 'isFailed', true],
         ];
     }
 
-    public function dpTestRefundCanBeCanceled()
+    public static function dpTestRefundCanBeCanceled()
     {
         return [
-            [RefundStatus::PENDING, true],
-            [RefundStatus::PROCESSING, false],
-            [RefundStatus::QUEUED, true],
-            [RefundStatus::REFUNDED, false],
-            [RefundStatus::FAILED, false],
-            [RefundStatus::CANCELED, false],
+            [RefundStatus::Pending->value, true],
+            [RefundStatus::Processing->value, false],
+            [RefundStatus::Queued->value, true],
+            [RefundStatus::Refunded->value, false],
+            [RefundStatus::Failed->value, false],
+            [RefundStatus::Canceled->value, false],
         ];
     }
 }

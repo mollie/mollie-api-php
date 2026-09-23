@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/permissions-api/get-permission
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Permission>
  */
 class GetPermissionRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -16,13 +20,11 @@ class GetPermissionRequest extends ResourceHydratableRequest implements Supports
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Permission::class;
+    protected ?string $hydratableResource = Permission::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     public function resolveResourcePath(): string

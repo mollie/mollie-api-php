@@ -1,36 +1,43 @@
 name: "Update Changelog"
 
 on:
+  # `published` fires for stable releases AND pre-releases, including
+  # pre-releases published from a draft. `prereleased` does not fire in the
+  # draft case, and `released` never fires for pre-releases at all.
   release:
-    types: [released]
+    types: [published]
 
 jobs:
   update:
-    # This changelog tracks the v3 line only. For `release` events GitHub runs
-    # the workflow from the default branch, so a release published from any
-    # other line reaches this job too — publishing v4.0.0-beta.2 filed a v4
-    # heading here and re-attributed the v3 notes under it. The `types` filter
-    # is not a guard: that release was a pre-release and `released` fired
-    # anyway. Gate on the immutable tag instead, not on `release.name`, which
-    # a maintainer can edit.
-    if: startsWith(github.event.release.tag_name, 'v3.')
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Check for an existing release entry
+        id: changelog_entry
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if grep -Fq "## [$RELEASE_TAG](" CHANGELOG.md; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Update Changelog
+        if: steps.changelog_entry.outputs.exists != 'true'
         uses: stefanzweifel/changelog-updater-action@v1
         with:
-          latest-version: ${{ github.event.release.name }}
-          release-notes: ${{ github.event.release.body }}
+          latest-version: ${{ github.event.release.tag_name }}
 
       - name: Commit updated CHANGELOG
+        if: steps.changelog_entry.outputs.exists != 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: main
+          branch: ${{ github.event.repository.default_branch }}
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md

@@ -1,21 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Data;
 
 use Mollie\Api\Contracts\Resolvable;
 
-class RefundRoute implements Resolvable
+readonly class RefundRoute implements Resolvable
 {
-    public Money $amount;
-
-    public string $organizationId;
-
     public function __construct(
-        Money $amount,
-        string $organizationId
+        public Money $amount,
+        public string $organizationId,
     ) {
-        $this->amount = $amount;
-        $this->organizationId = $organizationId;
     }
 
     public function toArray(): array

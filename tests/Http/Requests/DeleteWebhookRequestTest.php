@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\DeleteWebhookRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DeleteWebhookRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_delete_webhook()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class DeleteWebhookRequestTest extends TestCase
         $this->assertEquals(204, $response->status());
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $webhookId = 'hook_rHhoN1uzcp';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,12 @@ use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
 use Mollie\Api\Resources\Chargeback;
 use Mollie\Api\Resources\ChargebackCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentChargebacksRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_chargebacks()
     {
         $client = new MockMollieClient([
@@ -35,7 +38,7 @@ class GetPaginatedPaymentChargebacksRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_chargebacks()
     {
         $client = new MockMollieClient([
@@ -59,7 +62,7 @@ class GetPaginatedPaymentChargebacksRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $paymentId = 'tr_WDqYK6vllg';

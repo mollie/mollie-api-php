@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Resources\Method;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetMethodRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_payment_method()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetMethodRequestTest extends TestCase
         $this->assertInstanceOf(Method::class, $method);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $methodId = 'ideal';

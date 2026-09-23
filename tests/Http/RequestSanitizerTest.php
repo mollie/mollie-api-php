@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http;
 
 use GuzzleHttp\Psr7\Request;
@@ -11,13 +13,14 @@ use Mollie\Api\Http\RequestSanitizer;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Repositories\JsonPayloadRepository;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RequestSanitizerTest extends TestCase
 {
     use HasDefaultFactories;
 
-    /** @test */
+    #[Test]
     public function it_removes_sensitive_headers_from_request(): void
     {
         $factories = $this->factories();
@@ -63,7 +66,7 @@ class RequestSanitizerTest extends TestCase
         $this->assertEquals(['application/json'], $sanitizedRequest->getHeader('Accept'));
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_payload_from_pending_request(): void
     {
         $factories = $this->factories();
@@ -93,7 +96,7 @@ class RequestSanitizerTest extends TestCase
         $this->assertTrue($sanitizedPayload->isEmpty());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_same_exception_instance(): void
     {
         $factories = $this->factories();
@@ -114,7 +117,7 @@ class RequestSanitizerTest extends TestCase
         $this->assertSame($exception, $sanitizedException);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_case_insensitive_header_names(): void
     {
         $factories = $this->factories();
@@ -144,7 +147,7 @@ class RequestSanitizerTest extends TestCase
         $this->assertFalse($sanitizedRequest->hasHeader('x-mollie-client-info'));
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_request_without_sensitive_headers(): void
     {
         $factories = $this->factories();

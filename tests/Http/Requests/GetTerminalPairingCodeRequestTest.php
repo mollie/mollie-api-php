@@ -6,11 +6,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetTerminalPairingCodeRequest;
 use Mollie\Api\Resources\TerminalPairingCode;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetTerminalPairingCodeRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_terminal_pairing_code()
     {
         $client = new MockMollieClient([
@@ -26,7 +27,7 @@ class GetTerminalPairingCodeRequestTest extends TestCase
         $this->assertInstanceOf(TerminalPairingCode::class, $pairingCode);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G');
@@ -37,7 +38,7 @@ class GetTerminalPairingCodeRequestTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_includes_qr_code_when_requested()
     {
         $request = new GetTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G', true);
@@ -45,7 +46,7 @@ class GetTerminalPairingCodeRequestTest extends TestCase
         $this->assertEquals('details.qrCode', $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_qr_code_details_when_requested()
     {
         $client = new MockMollieClient([
@@ -61,7 +62,7 @@ class GetTerminalPairingCodeRequestTest extends TestCase
         $this->assertNotEmpty($pairingCode->details->qrCode->src);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_include_qr_code_by_default()
     {
         $request = new GetTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -9,6 +11,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/profiles-api/update-profile
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Profile>
  */
 class UpdateProfileRequest extends ResourceHydratableRequest implements HasPayload
 {
@@ -19,46 +23,19 @@ class UpdateProfileRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Profile::class;
-
-    private string $id;
-
-    private ?string $name;
-
-    private ?string $website;
-
-    private ?string $email;
-
-    private ?string $phone;
-
-    private ?string $description;
-
-    private ?array $countriesOfActivity;
-
-    private ?string $businessCategory;
-
-    private ?string $mode;
+    protected ?string $hydratableResource = Profile::class;
 
     public function __construct(
-        string $id,
-        ?string $name = null,
-        ?string $website = null,
-        ?string $email = null,
-        ?string $phone = null,
-        ?string $description = null,
-        ?array $countriesOfActivity = null,
-        ?string $businessCategory = null,
-        ?string $mode = null
+        private string $id,
+        private ?string $name = null,
+        private ?string $website = null,
+        private ?string $email = null,
+        private ?string $phone = null,
+        private ?string $description = null,
+        private ?array $countriesOfActivity = null,
+        private ?string $businessCategory = null,
+        private ?string $mode = null,
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->website = $website;
-        $this->email = $email;
-        $this->phone = $phone;
-        $this->description = $description;
-        $this->countriesOfActivity = $countriesOfActivity;
-        $this->businessCategory = $businessCategory;
-        $this->mode = $mode;
     }
 
     protected function defaultPayload(): array

@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
+use DateTimeImmutable;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
-use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
+use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
@@ -14,6 +18,9 @@ use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Resources\ResourceHydrator;
+use Mollie\Api\Types\PaymentStatus;
+use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ResourceHydratorTest extends TestCase
@@ -29,7 +36,7 @@ class ResourceHydratorTest extends TestCase
         $this->client = $this->createMock(MollieApiClient::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_from_api_result()
     {
         $apiResult = [
@@ -52,10 +59,44 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('tr_44aKxzEbr8', $resource->id);
         $this->assertEquals('test', $resource->mode);
         $this->assertEquals('2018-03-13T14:02:29+00:00', $resource->createdAt);
-        $this->assertEquals(['value' => '20.00', 'currency' => 'EUR'], $resource->amount);
+        $this->assertInstanceOf(\Mollie\Api\Http\Data\Money::class, $resource->amount);
+        $this->assertSame('20.00', $resource->amount->value);
+        $this->assertSame('EUR', $resource->amount->currency);
     }
 
-    /** @test */
+    #[Test]
+    public function hydrate_with_webhook_origin_casts_typed_properties()
+    {
+        $client = new MockMollieClient;
+        $origin = new WebhookSnapshotOrigin(
+            $client,
+            'event_123',
+            'sig_123',
+            new DateTimeImmutable('2026-05-21T12:00:00+00:00')
+        );
+
+        $resource = new Payment($client);
+
+        $this->hydrator->hydrate($resource, [
+            'resource' => 'payment',
+            'id' => 'tr_webhook',
+            'mode' => 'test',
+            'status' => 'paid',
+            'amount' => [
+                'value' => '20.00',
+                'currency' => 'EUR',
+            ],
+        ], $origin);
+
+        $this->assertInstanceOf(Money::class, $resource->amount);
+        $this->assertSame('20.00', $resource->amount->value);
+        $this->assertSame('EUR', $resource->amount->currency);
+        $this->assertSame(PaymentStatus::Paid, $resource->status);
+        $this->assertSame($origin, $resource->getOrigin());
+        $this->assertNull($resource->getResponse());
+    }
+
+    #[Test]
     public function it_hydrates_embedded_collections()
     {
         $apiResult = [
@@ -83,7 +124,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertInstanceOf(RefundCollection::class, $resource->_embedded->refunds);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_embedded_resources()
     {
         $apiResult = [
@@ -106,7 +147,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertInstanceOf(Onboarding::class, $resource->_embedded->onboarding);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_a_collection()
     {
         $collection = new PaymentCollection($this->client);
@@ -124,7 +165,7 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('payment-1', $result[0]->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_hydrates_a_simple_resource()
     {
         $data = ['id' => 'test_123', 'name' => 'Test Resource'];
@@ -137,10 +178,12 @@ class ResourceHydratorTest extends TestCase
         $this->assertEquals('Test Resource', $resource->name);
     }
 
-    /** @test */
-    public function it_throws_exception_for_unmapped_embedded_resources()
+    #[Test]
+    public function it_hydrates_unmapped_embedded_resources_as_any_resource()
     {
         $resource = new class($this->client) extends BaseResource implements EmbeddedResourcesContract {
+            public ?object $_embedded = null;
+
             public function getEmbeddedResourcesMap(): array
             {
                 return [];
@@ -155,7 +198,9 @@ class ResourceHydratorTest extends TestCase
 
         $response = $this->createMock(Response::class);
 
-        $this->expectException(EmbeddedResourcesNotParseableException::class);
         $this->hydrator->hydrate($resource, $data, $response);
+
+        $this->assertInstanceOf(AnyResource::class, $resource->_embedded->unknown);
+        $this->assertSame('test', $resource->_embedded->unknown->toArray()['id']);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Exceptions;
 
 use Mollie\Api\Http\PendingRequest;
@@ -14,17 +16,14 @@ use Throwable;
  */
 class NetworkRequestException extends MollieException implements NetworkExceptionInterface
 {
-    protected PendingRequest $pendingRequest;
-
-    protected string $plainMessage;
+    public readonly string $plainMessage;
 
     public function __construct(
-        PendingRequest $pendingRequest,
+        public readonly PendingRequest $pendingRequest,
         ?Throwable $previous = null,
         ?string $message = null,
         int $code = ResponseStatusCode::HTTP_GATEWAY_TIMEOUT
     ) {
-        $this->pendingRequest = $pendingRequest;
         $this->plainMessage = $message ?? 'The request failed due to network issues.';
 
         parent::__construct($this->plainMessage, $code, $previous);

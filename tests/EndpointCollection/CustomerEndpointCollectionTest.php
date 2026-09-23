@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -12,11 +14,12 @@ use Mollie\Api\Http\Requests\GetPaginatedCustomerRequest;
 use Mollie\Api\Http\Requests\UpdateCustomerRequest;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\CustomerCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CustomerEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -32,7 +35,7 @@ class CustomerEndpointCollectionTest extends TestCase
         $this->assertCustomer($customer);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -45,7 +48,7 @@ class CustomerEndpointCollectionTest extends TestCase
         $this->assertCustomer($customer);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -61,7 +64,7 @@ class CustomerEndpointCollectionTest extends TestCase
         $this->assertCustomer($customer);
     }
 
-    /** @test */
+    #[Test]
     public function delete()
     {
         $client = new MockMollieClient([
@@ -70,11 +73,10 @@ class CustomerEndpointCollectionTest extends TestCase
 
         $client->customers->delete('cst_kEn1PlbGa');
 
-        // Test passes if no exception is thrown
-        $this->assertTrue(true);
+        $client->assertSent(DeleteCustomerRequest::class);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -92,7 +94,7 @@ class CustomerEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

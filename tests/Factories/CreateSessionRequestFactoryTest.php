@@ -4,11 +4,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateSessionRequestFactory;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateSessionRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_session_request_object_with_full_data()
     {
         $request = CreateSessionRequestFactory::new()
@@ -63,7 +64,7 @@ class CreateSessionRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateSessionRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_session_request_object_with_minimal_data()
     {
         $request = CreateSessionRequestFactory::new()

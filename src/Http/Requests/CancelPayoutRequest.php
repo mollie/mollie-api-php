@@ -6,6 +6,9 @@ use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Payout;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payout>
+ */
 class CancelPayoutRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
@@ -16,7 +19,7 @@ class CancelPayoutRequest extends ResourceHydratableRequest implements SupportsT
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Payout::class;
+    protected ?string $hydratableResource = Payout::class;
 
     private string $id;
 

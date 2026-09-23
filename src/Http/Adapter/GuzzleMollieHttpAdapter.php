@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;

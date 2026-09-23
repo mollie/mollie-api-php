@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\EndpointCollection;
 
 use Mollie\Api\Exceptions\RequestException;
@@ -43,7 +45,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
 
         /** @var PaymentCollection */
         return $this->send(
-            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $from, $limit, $query->sort))
+            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $query->from, $query->limit, $query->sort))
                 ->test($testmode)
         );
     }
@@ -92,7 +94,7 @@ class PaymentLinkPaymentEndpointCollection extends EndpointCollection
         ])->create();
 
         return $this->send(
-            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $from, $limit, $query->sort))
+            (new GetPaginatedPaymentLinkPaymentsRequest($paymentLinkId, $query->from, $query->limit, $query->sort))
                 ->useIterator()
                 ->setIterationDirection($iterateBackwards)
                 ->test($testmode)

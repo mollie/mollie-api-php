@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\MoneyFactory;
 use Mollie\Api\Http\Data\Money;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MoneyFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_money_object()
     {
         $money = MoneyFactory::new([
@@ -21,7 +24,7 @@ class MoneyFactoryTest extends TestCase
         $this->assertEquals('10.00', $money->value);
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_for_invalid_data()
     {
         $this->expectException(\InvalidArgumentException::class);

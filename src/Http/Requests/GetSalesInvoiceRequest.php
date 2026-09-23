@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/get-sales-invoice
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\SalesInvoice>
  */
 class GetSalesInvoiceRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -19,13 +23,11 @@ class GetSalesInvoiceRequest extends ResourceHydratableRequest implements Suppor
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = SalesInvoice::class;
+    protected ?string $hydratableResource = SalesInvoice::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -1,7 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Types\MandateStatus;
+use Mollie\Api\Utils\Utility;
+
+/**
+ * @extends CursorCollection<\Mollie\Api\Resources\Mandate>
+ */
 class MandateCollection extends CursorCollection
 {
     /**
@@ -14,11 +22,8 @@ class MandateCollection extends CursorCollection
      */
     public static string $resource = Mandate::class;
 
-    /**
-     * @param  string  $status
-     */
-    public function whereStatus($status): self
+    public function whereStatus(MandateStatus|string $status): self
     {
-        return $this->filter(fn (Mandate $mandate) => $mandate->status === $status);
+        return $this->filter(fn (Mandate $mandate) => Utility::equals($mandate->status, $status));
     }
 }

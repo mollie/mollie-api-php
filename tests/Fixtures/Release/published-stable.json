@@ -1,0 +1,12 @@
+{
+  "action": "published",
+  "release": {
+    "tag_name": "v3.13.3",
+    "name": "August maintenance release",
+    "prerelease": false,
+    "published_at": "2026-08-25T11:30:00Z"
+  },
+  "repository": {
+    "default_branch": "main"
+  }
+}

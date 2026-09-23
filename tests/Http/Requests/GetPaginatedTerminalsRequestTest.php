@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Requests\GetPaginatedTerminalsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Terminal;
 use Mollie\Api\Resources\TerminalCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedTerminalsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_terminals()
     {
         $client = new MockMollieClient([
@@ -34,7 +37,7 @@ class GetPaginatedTerminalsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_terminals()
     {
         $client = new MockMollieClient([
@@ -58,7 +61,7 @@ class GetPaginatedTerminalsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedTerminalsRequest;

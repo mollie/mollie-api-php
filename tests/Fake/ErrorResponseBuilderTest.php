@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Tests\Fake;
 
 use Mollie\Api\Fake\ErrorResponseBuilder;
 use Mollie\Api\Fake\MockResponse;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ErrorResponseBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function can_create_a_response_without_field()
     {
         $response = (new ErrorResponseBuilder(404, 'Not Found', 'No payment exists with token tr_xxxxxxxxxxx.'))->create();
@@ -23,7 +26,7 @@ class ErrorResponseBuilderTest extends TestCase
         $this->assertArrayNotHasKey('field', $data);
     }
 
-    /** @test */
+    #[Test]
     public function can_create_a_response_with_field()
     {
         $response = (new ErrorResponseBuilder(404, 'Not Found', 'No payment exists with token tr_xxxxxxxxxxx.', 'field'))->create();
@@ -38,19 +41,23 @@ class ErrorResponseBuilderTest extends TestCase
         $this->assertEquals('field', $data['field']);
     }
 
-    /** @test */
-    public function can_handle_special_characters_in_detail()
+    #[Test]
+    public function caller_values_round_trip_through_structural_json()
     {
-        $detail = 'Non-existent parameter "recurringType" for this API call. Did you mean: "sequenceType"?';
-        $response = (new ErrorResponseBuilder(422, 'Unprocessable Entity', $detail))->create();
+        $characters = 'quote " slash \\ CR'."\r".'LF'."\n".'TAB'."\t"
+            .' control '.chr(1).' Unicode ü {{ RESOURCE_ID }}';
+        $title = 'Title '.$characters;
+        $detail = 'Detail '.$characters;
+        $field = 'Field '.$characters;
+        $response = (new ErrorResponseBuilder(422, $title, $detail, $field))->create();
 
         $this->assertInstanceOf(MockResponse::class, $response);
         $this->assertEquals(422, $response->createPsrResponse()->getStatusCode());
 
         $data = $response->json();
         $this->assertEquals(422, $data['status']);
-        $this->assertEquals('Unprocessable Entity', $data['title']);
-        $this->assertEquals($detail, $data['detail']);
-        $this->assertArrayNotHasKey('field', $data);
+        $this->assertSame($title, $data['title']);
+        $this->assertSame($detail, $data['detail']);
+        $this->assertSame($field, $data['field']);
     }
 }

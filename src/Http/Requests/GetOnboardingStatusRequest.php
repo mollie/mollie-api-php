@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\Onboarding;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Onboarding>
+ */
 class GetOnboardingStatusRequest extends ResourceHydratableRequest
 {
     protected static string $method = Method::GET;
 
-    protected $hydratableResource = Onboarding::class;
+    protected ?string $hydratableResource = Onboarding::class;
 
     public function resolveResourcePath(): string
     {

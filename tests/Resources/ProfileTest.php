@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Profile;
 use Mollie\Api\Types\ProfileStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProfileTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,9 +17,10 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestProfileStatusses
      */
-    public function test_profile_statusses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestProfileStatusses')]
+    #[Test]
+    public function profile_statusses($status, $function, $expected_boolean)
     {
         $profile = new Profile(
             $this->createMock(MollieApiClient::class),
@@ -25,20 +30,20 @@ class ProfileTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_boolean, $profile->{$function}());
     }
 
-    public function dpTestProfileStatusses()
+    public static function dpTestProfileStatusses()
     {
         return [
-            [ProfileStatus::BLOCKED, 'isBlocked', true],
-            [ProfileStatus::BLOCKED, 'isVerified', false],
-            [ProfileStatus::BLOCKED, 'isUnverified', false],
+            [ProfileStatus::Blocked->value, 'isBlocked', true],
+            [ProfileStatus::Blocked->value, 'isVerified', false],
+            [ProfileStatus::Blocked->value, 'isUnverified', false],
 
-            [ProfileStatus::VERIFIED, 'isBlocked', false],
-            [ProfileStatus::VERIFIED, 'isVerified', true],
-            [ProfileStatus::VERIFIED, 'isUnverified', false],
+            [ProfileStatus::Verified->value, 'isBlocked', false],
+            [ProfileStatus::Verified->value, 'isVerified', true],
+            [ProfileStatus::Verified->value, 'isUnverified', false],
 
-            [ProfileStatus::UNVERIFIED, 'isBlocked', false],
-            [ProfileStatus::UNVERIFIED, 'isVerified', false],
-            [ProfileStatus::UNVERIFIED, 'isUnverified', true],
+            [ProfileStatus::Unverified->value, 'isBlocked', false],
+            [ProfileStatus::Unverified->value, 'isVerified', false],
+            [ProfileStatus::Unverified->value, 'isUnverified', true],
         ];
     }
 }

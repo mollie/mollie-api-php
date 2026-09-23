@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\OrderLineCollectionFactory;
 use Mollie\Api\Http\Data\DataCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class OrderLineCollectionFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_order_line_collection()
     {
         $collection = OrderLineCollectionFactory::new([
@@ -46,7 +49,7 @@ class OrderLineCollectionFactoryTest extends TestCase
         $this->assertCount(2, $collection);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_empty_collection_for_empty_input()
     {
         $collection = OrderLineCollectionFactory::new([])->create();

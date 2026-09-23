@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\GetPaginatedPaymentCapturesRequestFactory;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentCapturesRequest;
 use Mollie\Api\Types\PaymentIncludesQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
 {
     private const PAYMENT_ID = 'tr_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_captures_request_object_with_full_data()
     {
         $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)
@@ -26,7 +29,7 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_supports_legacy_include_payments_query_key()
     {
         $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)
@@ -39,7 +42,7 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
         $this->assertEquals(PaymentIncludesQuery::PAYMENT, $request->query()->get('include'));
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_captures_request_object_with_minimal_data()
     {
         $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)
@@ -48,7 +51,7 @@ class GetPaginatedPaymentCapturesRequestFactoryTest extends TestCase
         $this->assertInstanceOf(GetPaginatedPaymentCapturesRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_paginated_payment_captures_request_object_with_partial_data()
     {
         $request = GetPaginatedPaymentCapturesRequestFactory::new(self::PAYMENT_ID)

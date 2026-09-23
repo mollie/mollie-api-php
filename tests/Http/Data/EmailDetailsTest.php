@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Mollie\Api\Http\Data\EmailDetails;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class EmailDetailsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_be_created_from_array()
     {
         $object = EmailDetails::fromArray($data = [

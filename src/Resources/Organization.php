@@ -1,73 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
+
+use Mollie\Api\Http\Data\Address;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
  */
 class Organization extends BaseResource
 {
-    /**
-     * Resource id prefix. Used to validate resource id's.
-     */
-    /**
-     * Id of the payment method.
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
+
+    public string $name;
+
+    public string $email;
 
     /**
-     * The name of the organization.
-     *
-     * @var string
+     * Required and non-null per the OpenAPI contract (the shared `locale-response`
+     * schema lists `null`, but the organization property intersects it with `type: string`).
      */
-    public $name;
+    public string $locale;
 
     /**
-     * The email address of the organization.
-     *
-     * @var string
+     * Optional in the API response.
      */
-    public $email;
+    public ?Address $address = null;
 
-    /**
-     * The preferred locale of the merchant which has been set in Mollie Dashboard.
-     *
-     * @var string
-     */
-    public $locale;
+    public ?string $registrationNumber = null;
 
-    /**
-     * The address of the organization.
-     *
-     * @var \stdClass
-     */
-    public $address;
+    public ?string $vatNumber = null;
 
-    /**
-     * The registration number of the organization at the (local) chamber of
-     * commerce.
-     *
-     * @var string
-     */
-    public $registrationNumber;
-
-    /**
-     * The VAT number of the organization, if based in the European Union. The VAT
-     * number has been checked with the VIES by Mollie.
-     *
-     * @var string
-     */
-    public $vatNumber;
-
-    /**
-     * The organization’s VAT regulation, if based in the European Union. Either "shifted"
-     * (VAT is shifted) or dutch (Dutch VAT rate).
-     *
-     * @var string|null
-     */
-    public $vatRegulation;
+    public ?string $vatRegulation = null;
 
     /**
      * @var \stdClass

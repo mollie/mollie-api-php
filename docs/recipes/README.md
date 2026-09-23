@@ -14,6 +14,7 @@ The recipes are organized by resource type:
 - `refunds/` - Refund operations
 - `connect-balance-transfers/` - Connect balance transfer operations
 - `webhooks/` - Webhook management and events
+- `money/` - `Money` value object recipes (custom factories via Macroable)
 
 Each recipe includes:
 - Complete code example

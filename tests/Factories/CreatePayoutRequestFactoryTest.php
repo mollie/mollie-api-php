@@ -4,11 +4,12 @@ namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreatePayoutRequestFactory;
 use Mollie\Api\Http\Requests\CreatePayoutRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePayoutRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_create_payout_request_object()
     {
         $factory = CreatePayoutRequestFactory::new()

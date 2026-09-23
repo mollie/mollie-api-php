@@ -21,11 +21,14 @@ try {
     echo "- Entity ID: {$webhookEvent->entityId}\n";
     echo "- Created: {$webhookEvent->createdAt}\n";
 
-    // Check if event has embedded entity data
-    if ($webhookEvent->hasEntity()) {
-        $entity = $webhookEvent->getEntity();
+    // getEntity() returns ?stdClass — null when the event carries no snapshot
+    $entity = $webhookEvent->getEntity();
+
+    if ($entity !== null) {
         echo "- Entity Data Available: Yes\n";
-        echo "- Entity Type: " . get_class($entity) . "\n";
+        // The embedded entity is a raw stdClass, so get_class() would always
+        // report "stdClass". Read its own `resource` field instead.
+        echo "- Entity Type: {$entity->resource}\n";
     } else {
         echo "- Entity Data Available: No\n";
     }
@@ -60,9 +63,9 @@ try {
 $webhookEvent->resource;     // "event"
 $webhookEvent->id;           // "whev_abc123"
 $webhookEvent->type;         // "payment-link.paid"
-$webhookEvent->entityId;     // "tr_abc123" (the payment link ID)
+$webhookEvent->entityId;     // "pl_4Y0eZitmBnQ5jsBYZIBw" (the payment link ID)
 $webhookEvent->createdAt;    // "2023-12-25T10:30:54+00:00"
-$webhookEvent->_embedded;    // Object containing embedded entity data
+$webhookEvent->_embedded;    // stdClass holding the embedded entity, or null
 $webhookEvent->_links;       // Object containing relevant URLs
 ```
 
@@ -71,20 +74,24 @@ $webhookEvent->_links;       // Object containing relevant URLs
 The webhook event contains the full payload of the triggered event in the `_embedded` property:
 
 ```php
-// Check if entity data is available
-if ($webhookEvent->hasEntity()) {
-    // Get the embedded entity
-    $entity = $webhookEvent->getEntity();
+// Get the embedded entity — null when the event carries no snapshot
+$entity = $webhookEvent->getEntity();
 
-    // For payment-link.paid events, this would be the payment link data
+if ($entity !== null) {
+    // For payment-link.paid events this is the raw payment link payload. It is
+    // a plain stdClass: no typed resource, no isPaid() helper, and no `status`
+    // field — payment links do not have one. `amount` is absent on an
+    // open-amount link, so read it defensively.
+    $amount = $entity->amount ?? null;
+
     echo "Payment Link ID: {$entity->id}\n";
-    echo "Payment Link Status: {$entity->status}\n";
-    echo "Amount: {$entity->amount->value} {$entity->amount->currency}\n";
+    echo 'Amount: '.($amount === null ? 'open amount' : "{$amount->value} {$amount->currency}")."\n";
+    echo 'Paid: '.(! empty($entity->paidAt) ? 'yes' : 'no')."\n";
 }
 
 // Direct access to _embedded structure
 $embedded = $webhookEvent->_embedded;
-if (!empty($embedded->entity)) {
+if (! empty($embedded->entity)) {
     $entity = $embedded->entity;
     echo "Entity ID: {$entity->id}\n";
 }
@@ -100,11 +107,11 @@ if ($webhookEvent->hasEntity()) {
     echo "Entity data is embedded in this event\n";
 }
 
-// Get the entity data
+// Get the entity data — getEntity() returns ?stdClass, so guard for null
 $entity = $webhookEvent->getEntity();
-if ($entity) {
+if ($entity !== null) {
     echo "Entity ID: {$entity->id}\n";
-    echo "Entity Status: {$entity->status}\n";
+    echo "Entity Resource: {$entity->resource}\n";
 }
 ```
 
@@ -117,11 +124,24 @@ Currently, only payment link events are supported:
 // payment-link.paid
 if ($webhookEvent->type === 'payment-link.paid') {
     $paymentLink = $webhookEvent->getEntity();
+
+    if ($paymentLink === null) {
+        throw new \RuntimeException('Payment-link event has no embedded entity.');
+    }
+
+    $amount = $paymentLink->amount ?? null;
+
     echo "Payment Link: {$paymentLink->id}\n";
-    echo "Amount: {$paymentLink->amount->value} {$paymentLink->amount->currency}\n";
-    echo "Status: {$paymentLink->status}\n";
+    echo 'Amount: '.($amount === null ? 'open amount' : "{$amount->value} {$amount->currency}")."\n";
+    echo 'Paid: '.(! empty($paymentLink->paidAt) ? 'yes' : 'no')."\n";
 }
 ```
+
+The embedded entity is the raw JSON payload as `stdClass`, not a `PaymentLink`
+resource: there is no `isPaid()` helper, `amount` is a plain object rather than
+a `Money`, and there is no `status` field. For a fully typed `PaymentLink` —
+with `isPaid()` and a typed `Money` amount — process the delivery through
+`WebhookEventMapper` and call `asResource()`; see [Webhooks](../../webhooks.md).
 
 ## Additional Notes
 
@@ -135,6 +155,8 @@ if ($webhookEvent->type === 'payment-link.paid') {
   - The embedded entity contains the complete state of the object when the event occurred
   - This is useful for getting the full context without making additional API calls
   - Entity data may be null for some event types
+  - Payment links have no `status` field; derive the state from `paidAt`, `expiresAt` and `archived`
+  - `amount` is absent on an open-amount payment link
 
 - **Event Identification**:
   - Use the `id` property to uniquely identify webhook events
@@ -148,7 +170,7 @@ if ($webhookEvent->type === 'payment-link.paid') {
 
 - **Processing Events**:
   - Always check if entity data is available using `hasEntity()`
-  - Use `getEntity()` to safely access embedded entity data
+  - `getEntity()` returns `null` when no entity is embedded, so guard the result
   - The entity data reflects the state at the time the event was created
 
 - **Security**:

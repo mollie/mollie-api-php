@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fake;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -8,13 +10,14 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class MockMollieHttpAdapterTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_returns_mocked_response_for_expected_request()
     {
         $adapter = new MockMollieHttpAdapter([
@@ -29,7 +32,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $this->assertEquals('{"test":"data"}', $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_retain_requests()
     {
         $adapter = new MockMollieHttpAdapter([
@@ -46,7 +49,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $this->assertEquals('{"test":"data"}', $response2->body());
     }
 
-    /** @test */
+    #[Test]
     public function can_handle_callback_for_expected_response()
     {
         $adapter = new MockMollieHttpAdapter([
@@ -63,7 +66,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $this->assertEquals('{"test":"data"}', $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_for_unexpected_request()
     {
         $this->expectException(RuntimeException::class);
@@ -75,7 +78,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $adapter->sendRequest($pendingRequest);
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_sequence_mock_responses()
     {
         $adapter = new MockMollieHttpAdapter([
@@ -97,7 +100,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $this->assertEquals('{"second":"response"}', $response2->body());
     }
 
-    /** @test */
+    #[Test]
     public function it_records_requests_and_can_assert_on_them()
     {
         $adapter = new MockMollieHttpAdapter([
@@ -120,7 +123,7 @@ class MockMollieHttpAdapterTest extends TestCase
         $adapter->assertSentCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_recorded_requests()
     {
         $adapter = new MockMollieHttpAdapter([

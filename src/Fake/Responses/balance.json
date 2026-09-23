@@ -9,6 +9,10 @@
     "value": "0.00",
     "currency": "EUR"
   },
+  "pendingAmount": {
+    "value": "0.00",
+    "currency": "EUR"
+  },
   "incomingAmount": {
     "value": "0.00",
     "currency": "EUR"

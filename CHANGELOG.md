@@ -5,9 +5,24 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.14.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0...HEAD)
 
-## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v3.14.0) - 2026-09-07
+## [v4.0.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v4.0.0) - 2026-09-23
+
+The first stable v4 release requires PHP 8.2 or newer. See [UPGRADING.md](UPGRADING.md) for the v3 migration guide and the beta entries below for detailed changes.
+
+### Added
+
+- `PaymentMethod::Wero` brings the v3.14.0 payment method addition to v4. The enum remains SDK vocabulary, not an allow-list; unknown methods still arrive as strings.
+
+### Included from the v4 betas
+
+- String-backed enums, typed resources, readonly value objects, and inferred `MollieApiClient::send()` return types.
+- `Money::of()` builders, exponential retries with `Retry-After` handling, improved validation errors, and typed fake responses.
+- Profile webhook events, webhook snapshot hydration, and the v3 endpoint additions through v3.13.2.
+- Request serialization preserves `0`, `"0"`, and `0.0`; the latest v3 fix is already present in v4. See the beta.2 notes for related request factory behavior.
+
+## [v3.14.0](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v3.14.0) - 2026-09-07
 
 ### What's Changed
 
@@ -25,7 +40,65 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.14.0
 
-## [v4.0.0-beta.3](https://github.com/mollie/mollie-api-php/compare/v3.13.2...v4.0.0-beta.3) - 2026-08-26
+## [v4.0.0-beta.3](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.2...v4.0.0-beta.3) - 2026-08-26
+
+### Added
+
+- `PaymentStatusReason` value object (`code`, `message`); `Payment::$statusReason` is now `?PaymentStatusReason` instead of an untyped `stdClass`. `->code`/`->message` reads and `json_encode()` keep working; update `instanceof stdClass` checks, any mutation (the object is readonly), and array-only consumers by calling `toArray()`.
+- `PaymentMethod` cases `Billink`, `Bizum`, `Mobilepay`, `Vipps`, and `Voucher`. Existing cases are unchanged; the enum documents known SDK vocabulary, not an allow-list.
+- `CapabilityStatus::Unrequested` and `Capability::isUnrequested()`.
+- `Balance::$pendingAmount` (`?Money`), the amount field the Balance API returns.
+- `ResourceHydratableRequest::hydrateInto()` and `::wrapInto()`. Both carry `@phpstan-self-out` and `@psalm-this-out` annotations that PHPStan honors so `send()` infers the re-targeted class or wrapper. `setHydratableResource()` is unchanged but cannot narrow the type.
+
+### Changed
+
+- **`PaymentMethodStatus` and `TerminalPairingCodeStatus` are string-backed enums.** Their `SCREAMING_SNAKE` constants are gone, the same migration the other value sets took in beta.1. `PaymentMethodStatus::NOT_REQUESTED` has no case: `Method::$status` is `null` for a method that was never requested. `TerminalPairingCode::$status` is typed `TerminalPairingCodeStatus|string`.
+- `Method::$status` no longer has a `null` default. The API marks the field required (nullable), so an omitted field now stays uninitialized instead of reading as "not requested"; an explicit `null` still means the method was never requested.
+
+### Fixed
+
+- **Nullable enum unions now hydrate to enum cases.** `Enum|string|null` properties resolved as `mixed` and kept the raw API string. Affected: `Payment::$method`, `Payment::$sequenceType`, `Refund::$status`, `Mandate::$status`, `Settlement::$status`, `Profile::$status`, `CurrentProfile::$status`, `Invoice::$status`, `Subscription::$status`, and, after its enum migration, `Method::$status`. Code written against beta.2 that compares these to raw strings must compare with the case or `->value`, or use `Utility::equals()`, which accepts the case or raw value on either side. `MandateCollection::whereStatus()` accepts a `MandateStatus` case or raw string. Unknown values still arrive as strings; `null` is unchanged. `Profile::$categoryCode` (`int|string|null`) keeps the delivered scalar type.
+- `Organization::$address`, `$registrationNumber`, and `$vatNumber` are nullable with a `null` default, matching the API contract. Beta.2 threw `TypeError` on `null` and `Error` on an omitted field. `Organization::$locale` stays a required, non-null `string`.
+- `Capability::$statusReason` accepts `null`; `Capability::$organizationId` is nullable with a `null` default because the field is not part of the Capability response.
+- `Balance` no longer fails on a conformant response: `$incomingAmount` and `$outgoingAmount` (both deprecated because they are not part of the Balance response), `$transferFrequency`, and `$transferThreshold` are nullable with a `null` default.
+- Fields the API contract marks nullable or optional no longer throw `TypeError` on `null` or `Error` when omitted: `Terminal::$brand`, `$model`, `$serialNumber` (`?string`); `Terminal::$timezone`, `$locale` (`?string = null`); `Capture::$amount` (`?Money`); `PaymentLink::$profileId` (`?string`); `Webhook::$profileId` (`?string`); `Partner::$partnerType` (`?string`); `Partner::$partnerContractUpdateAvailable` (`?bool = null`); `BalanceTransaction::$deductions` (`?Money = null`); `BalanceTransaction::$mode` (`?string = null`); `Route::$releaseDate` (`?string = null`); `ConnectBalanceTransfer::$category` (`?string = null`); `SalesInvoice::$paymentTerm`, `$currency`, `$webhookUrl` (`?string = null`); and `SalesInvoice::$lines` (`?array = null`). Other `SalesInvoice` fields are unchanged pending further contract review.
+- UPGRADING.md no longer prints a Types class count and now documents enum reflection, rebuilding readonly value objects, uninitialized typed properties, wrapped-request inference, and caller-side `strict_types` behavior.
+
+### For contributors
+
+- A test asserts every file under `src/Types/` is a backed enum except the query helpers and `Types\Method`.
+- A PHPStan fixture under `tests/` asserts the inferred `send()` types on every analysis run.
+
+## [v4.0.0-beta.2](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.1...v4.0.0-beta.2) - 2026-08-25
+
+### Added
+
+- `RateLimit` value object and `Response::rateLimit()` accessor for `RateLimit` and `RateLimit-Policy` response headers.
+- `middleware()->onResolved()`, a post-hydration middleware phase for transforms that need the hydrated resource or collection rather than the raw response.
+- `Mollie\Api\Utils\Utility::isTrue()`, the shared boolean coercion used for API-facing scalar values such as `testmode` arriving from a query string or payload.
+
+### Changed
+
+- `ExponentialRetryStrategy` skips 429 retries when `Retry-After` exceeds `maxDelayMs` and adds bounded, additive jitter when honoring the header.
+- `ExponentialRetryStrategy` applies the `maxDelayMs` cap before exponential full jitter, avoiding a probability spike at the cap.
+- **`onResponse()` callbacks now always receive the raw `Response`**, regardless of priority. Move transforms that expect a hydrated resource or collection to `onResolved()`. See [UPGRADING.md](UPGRADING.md) section 3.7.
+- **Custom endpoint maps are declared with a class constant.** Subclasses that mutated the protected static `$endpoints` property must override the protected `ENDPOINTS` constant instead. See [UPGRADING.md](UPGRADING.md) section 3.6.
+- The one-shot idempotency key is now transferred to the request while it is assembled and cleared from the connector immediately, so a failed or exhausted retry can no longer leak it into a later request. Retries reuse the key already on the assembled request.
+- Test mode is resolved once per request, with API-key precedence, so the value observed on the request cannot drift from the value sent to Mollie.
+- Balance transaction listing propagates one effective test mode across every list, page and iterator route.
+- Request factories resolve values by key presence rather than truthiness, so explicitly supplied falsy values such as `0`, `"0"` and `0.0` are no longer dropped.
+- `ResourceRegistry` keeps its class and type indexes consistent, and paginated query factories build their query from one authoritative input map.
+
+### Removed
+
+- `Mollie\Api\Http\Middleware\ResetIdempotencyKey`. It cleared the connector key from the response phase, which never runs when a request throws. Clearing now happens during request assembly, so no replacement is needed. `setIdempotencyKey()` and `resetIdempotencyKey()` are unchanged.
+
+### For contributors
+
+- Formatting moved from PHP-CS-Fixer to [Laravel Pint](https://laravel.com/docs/pint). Run `composer format` to apply and `composer check:format` to verify. The rule set is unchanged, so no reformatting is required on in-flight branches.
+- The code style workflow reports violations instead of committing fixes back to the branch, and CI validation reads the repository's real PHPStan and PHPUnit configuration.
+- `bin/release` publishes only from an already-merged remote state and honors the operator's tag signing configuration.
+- The changelog workflow derives its identity from the release event and triggers on `published`, so pre-releases are no longer skipped.
 
 ## [v3.13.2](https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2) - 2026-08-24
 
@@ -39,6 +112,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @winklemad made their first contribution in https://github.com/mollie/mollie-api-php/pull/907
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.13.1...v3.13.2
+
+## [v4.0.0-beta.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v4.0.0-beta.1) - 2026-08-12
+
+PHP 8.2+ modernization. See [UPGRADING.md](UPGRADING.md) for the full guide.
+
+### Breaking changes
+
+- **PHP 8.2+ required.** PHP 7.4, 8.0, 8.1 dropped. CI matrix is 8.2, 8.3, 8.4.
+- **Type constants → string-backed enums.** The API value-set classes under `src/Types/` are now `enum ... : string` with `PascalCase` cases (`PaymentStatus::Paid`). `PaymentMethodStatus` and `TerminalPairingCodeStatus` followed after v4.0.0-beta.2; query helpers and `Types\Method` stay classes. Resource `$status`-style properties are typed `EnumName|string`. The `Mollie\Api\Traits\GetAllConstants` trait is removed with this migration — call `cases()` on the enum instead; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw values.
+- **Resource properties typed.** Fields previously typed `\stdClass` are now concrete value objects. Property names are unchanged — `$payment->amount->value` and `->currency` still work.
+- **Value objects are `readonly class`.** `Money`, `Address`, `OrderLine` etc. cannot be subclassed by non-readonly children. Prefer the new `Macroable` extension point.
+- **Constructor signatures via promotion.** Named arguments unchanged; positional callers may need to reorder.
+- **Typed signatures throughout.** Coercion of your arguments depends on `strict_types` in *your* files, not the SDK's; see UPGRADING.md section 3.3.
+- **`Macroable` on `Money`** — undefined methods now throw `BadMethodCallException` instead of PHP's default fatal error.
+- **PHPUnit + Paratest → Pest v3** in `require-dev` (consumer impact only if running SDK tests).
+
+### Added
+
+- Generic `@template` return type on `MollieApiClient::send()` — return type inferred from the request class. Resolves [#875](https://github.com/mollie/mollie-api-php/issues/875).
+- `Money::of(string $currency)` fluent builder with `minorUnits(int $amount)` and `fromString(string $value)`. Resolves [#876](https://github.com/mollie/mollie-api-php/issues/876).
+- `ExponentialRetryStrategy` with optional jitter and HTTP 429 (`Retry-After`) support.
+- Typed `MockResponse` factories: `payment(...)`, `customer(...)`, `subscription(...)`, `mandate(...)`, `refund(...)`, `chargeback(...)`, `method(...)`, `paymentLink(...)`, `invoice(...)`, `capture(...)`.
+- `Macroable` trait for `Money` (and other value objects) for custom factories without subclassing.
+- `ValidationException` exposes per-field errors; `TooManyRequestsException` exposes `retryAfterSeconds`; `Response` exposes header access.
+- 4 profile webhook event classes (`ProfileCreated`, `ProfileVerified`, `ProfileBlocked`, `ProfileDeleted`) for constants-to-class parity.
+
+### Changed
+
+- `ResourceHydrator` rewritten reflection-based so it can populate the new typed resource properties (value objects, enums, nested collections). Origin routing (HTTP vs. webhook snapshot) behaves exactly as in v3.13.
+- Constructor promotion applied across Request and Exception classes.
+
+### Removed
+
+- PHP 7.4 / 8.0 / 8.1 support.
+- Paratest dev dependency (Pest has `--parallel` built in).
+- `Mollie\Api\Traits\GetAllConstants` trait — superseded by the enum migration. Use the enum's native `cases()`; `BusinessCategory`, `ConnectBalanceTransferCategory`, and `SubscriptionStatus` keep a static `all()` returning the raw string values.
+
+### Fixed
+
+- Exception messages no longer include invalid authentication tokens or request body contents, while structured exception accessors remain available.
+- `docs/webhooks.md` previously stated that `$event->entity()` returns null for simple payloads. It actually throws. Updated to correctly describe reading the nullable `$event->entity` property or fetching the resource via `$event->entityId`.
 
 ## [v3.13.1](https://github.com/mollie/mollie-api-php/compare/v3.13.0...v3.13.1) - 2026-06-08
 
@@ -390,21 +504,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * @Sjustein made their first contribution in https://github.com/mollie/mollie-api-php/pull/802
 
 **Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.5...v3.0.6
-
-## [v1.0.0-test](https://github.com/mollie/mollie-api-php/compare/v3.0.5...v1.0.0-test) - 2025-06-02
-
-### What's Changed
-
-* Amend capturable recipe by @fjbender in https://github.com/mollie/mollie-api-php/pull/796
-* fix: exchange wrong request name by @Naoray in https://github.com/mollie/mollie-api-php/pull/797
-* Removes nullability from delete() method, as it cannot return null by @Sjustein in https://github.com/mollie/mollie-api-php/pull/802
-* fix: use payload instead of query params for testmode by @Naoray in https://github.com/mollie/mollie-api-php/pull/803
-
-### New Contributors
-
-* @Sjustein made their first contribution in https://github.com/mollie/mollie-api-php/pull/802
-
-**Full Changelog**: https://github.com/mollie/mollie-api-php/compare/v3.0.5...v1.0.0-test
 
 ## [v3.0.5](https://github.com/mollie/mollie-api-php/compare/v3.0.4...v3.0.5) - 2025-04-27
 

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
 use Mollie\Api\Resources\InvoiceCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
+/**
+ * @extends PaginatedRequest<\Mollie\Api\Resources\InvoiceCollection>
+ */
 class GetPaginatedInvoiceRequest extends PaginatedRequest implements IsIteratable
 {
     use IsIteratableRequest;
@@ -13,7 +18,7 @@ class GetPaginatedInvoiceRequest extends PaginatedRequest implements IsIteratabl
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = InvoiceCollection::class;
+    protected ?string $hydratableResource = InvoiceCollection::class;
 
     public function __construct(
         ?string $from = null,

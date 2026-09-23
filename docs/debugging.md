@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Mollie API client provides powerful debugging capabilities to help you inspect and troubleshoot API requests and responses. The debugging functionality is implemented through middleware and automatically sanitizes sensitive data to prevent accidental exposure of credentials.
+The Mollie API client provides debugging callbacks to help you inspect and troubleshoot API requests and responses. The built-in Symfony VarDumper debugger prints request and response details for local development. Exception handling sanitizes sensitive request data before it is attached to thrown exceptions, but default debug output itself is not a production-safe logging surface.
 
 ## Basic Usage
 
@@ -14,6 +14,8 @@ To enable both request and response debugging:
 $mollie = new \Mollie\Api\MollieApiClient();
 $mollie->debug(); // Enables both request and response debugging
 ```
+
+The default debugger requires `symfony/var-dumper`. If that package is not installed, calling the default debugger throws an actionable runtime exception. Pass custom callbacks to `debugRequest()` or `debugResponse()` if you want to avoid that optional dependency.
 
 ### Enable on Request
 
@@ -64,10 +66,7 @@ $mollie->debugResponse(function($response, $psrResponse) {
 
 ### Automatic Sanitization
 
-When debugging is enabled, the client automatically:
-- Removes sensitive headers (Authorization, User-Agent, etc.)
-- Sanitizes request data to prevent credential exposure
-- Handles exceptions safely by removing sensitive data
+When an exception is thrown while debugging is enabled, the client sanitizes the request data attached to the exception. The default request/response debug callbacks are for local inspection and may print headers and request bodies. Treat their output as sensitive.
 
 ### Die After Debug
 
@@ -80,8 +79,8 @@ $mollie->debug(die: true); // Will stop execution after debugging output
 ## Best Practices
 
 1. **Development Only**: Never enable debugging in production environments
-2. **Custom Debuggers**: When implementing custom debuggers, ensure they handle sensitive data appropriately
-3. **Exception Handling**: Debug mode works with exceptions, helping you troubleshoot API errors safely
+2. **Custom Debuggers**: When implementing custom debuggers, redact credentials and personal data before writing to logs
+3. **Exception Handling**: Debug mode works with exceptions, and exception request data is sanitized before being exposed
 
 ## Example Usage
 

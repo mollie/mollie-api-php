@@ -1,19 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\IsIteratable;
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\BalanceTransactionCollection;
 use Mollie\Api\Traits\IsIteratableRequest;
 
-class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable
+/**
+ * @extends PaginatedRequest<BalanceTransactionCollection>
+ */
+class GetPaginatedBalanceTransactionRequest extends PaginatedRequest implements IsIteratable, SupportsTestmodeInQuery
 {
     use IsIteratableRequest;
 
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = BalanceTransactionCollection::class;
+    protected ?string $hydratableResource = BalanceTransactionCollection::class;
 
     private string $balanceId;
 

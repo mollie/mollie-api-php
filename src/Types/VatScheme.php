@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Types;
 
-class VatScheme
+enum VatScheme: string
 {
-    const STANDARD = 'standard';
-
-    const ONE_STOP_SHOP = 'one-stop-shop';
+    case Standard = 'standard';
+    case OneStopShop = 'one-stop-shop';
 }

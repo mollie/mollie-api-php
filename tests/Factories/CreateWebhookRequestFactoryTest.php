@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateWebhookRequestFactory;
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
 use Mollie\Api\Webhooks\WebhookEventType;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateWebhookRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_webhook_request_object_with_full_data()
     {
         $request = CreateWebhookRequestFactory::new()
@@ -25,7 +28,7 @@ class CreateWebhookRequestFactoryTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_webhook_request_object_with_minimal_data()
     {
         $request = CreateWebhookRequestFactory::new()

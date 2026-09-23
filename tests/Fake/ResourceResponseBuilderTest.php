@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fake;
 
 use Mollie\Api\Exceptions\LogicException;
@@ -11,12 +13,13 @@ use Mollie\Api\Resources\RefundCollection;
 use Mollie\Api\Types\PaymentStatus;
 use Mollie\Api\Types\RefundStatus;
 use Mollie\Api\Utils\Arr;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 class ResourceResponseBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_a_resource_response()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -26,7 +29,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->with([
                 'resource' => 'payment',
                 'id' => 'tr_foobarfoobar',
-                'status' => PaymentStatus::PAID,
+                'status' => PaymentStatus::Paid->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -38,7 +41,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals([
             'resource' => 'payment',
             'id' => 'tr_foobarfoobar',
-            'status' => PaymentStatus::PAID,
+            'status' => PaymentStatus::Paid->value,
             'amount' => [
                 'currency' => 'EUR',
                 'value' => '14.52',
@@ -46,7 +49,7 @@ class ResourceResponseBuilderTest extends TestCase
         ], Arr::except($response->json(), ['_links']));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_a_resource_response_with_embedded_resources()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -56,7 +59,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->with([
                 'resource' => 'payment',
                 'id' => 'tr_foobarfoobar',
-                'status' => PaymentStatus::PAID,
+                'status' => PaymentStatus::Paid->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -69,7 +72,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->add([
                 'resource' => 'refund',
                 'id' => 're_cFiJjuLhSw',
-                'status' => RefundStatus::REFUNDED,
+                'status' => RefundStatus::Refunded->value,
                 'amount' => [
                     'currency' => 'EUR',
                     'value' => '14.52',
@@ -82,7 +85,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals([
             'resource' => 'payment',
             'id' => 'tr_foobarfoobar',
-            'status' => PaymentStatus::PAID,
+            'status' => PaymentStatus::Paid->value,
             'amount' => [
                 'currency' => 'EUR',
                 'value' => '14.52',
@@ -95,7 +98,7 @@ class ResourceResponseBuilderTest extends TestCase
                     [
                         'resource' => 'refund',
                         'id' => 're_cFiJjuLhSw',
-                        'status' => RefundStatus::REFUNDED,
+                        'status' => RefundStatus::Refunded->value,
                         'amount' => [
                             'currency' => 'EUR',
                             'value' => '14.52',
@@ -107,7 +110,7 @@ class ResourceResponseBuilderTest extends TestCase
         ], Arr::except($response->json(), ['_links']));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_multiple_embedded_resources()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -123,12 +126,12 @@ class ResourceResponseBuilderTest extends TestCase
                 [
                     'resource' => 'refund',
                     'id' => 're_1',
-                    'status' => RefundStatus::REFUNDED,
+                    'status' => RefundStatus::Refunded->value,
                 ],
                 [
                     'resource' => 'refund',
                     'id' => 're_2',
-                    'status' => RefundStatus::PENDING,
+                    'status' => RefundStatus::Pending->value,
                 ],
             ])
             ->create();
@@ -139,7 +142,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals('re_2', $embedded[1]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_embed_multiple_collections()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -154,7 +157,7 @@ class ResourceResponseBuilderTest extends TestCase
             ->add([
                 'resource' => 'refund',
                 'id' => 're_1',
-                'status' => RefundStatus::REFUNDED,
+                'status' => RefundStatus::Refunded->value,
             ])
             ->embed(ChargebackCollection::class)
             ->add([
@@ -180,7 +183,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals('chb_1', $embedded['chargebacks'][0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_switch_between_embedded_collections()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -220,7 +223,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertEquals('chb_1', $embedded['chargebacks'][0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_omits_embedded_key_when_no_collections_are_embedded()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -236,7 +239,7 @@ class ResourceResponseBuilderTest extends TestCase
         $this->assertArrayNotHasKey('_embedded', $response->json());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_when_resource_class_is_invalid()
     {
         $this->expectException(LogicException::class);
@@ -245,7 +248,7 @@ class ResourceResponseBuilderTest extends TestCase
         new ResourceResponseBuilder(stdClass::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_when_calling_undefined_methods()
     {
         $builder = new ResourceResponseBuilder(Payment::class);
@@ -257,7 +260,7 @@ class ResourceResponseBuilderTest extends TestCase
         $builder->undefinedMethod();
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_when_adding_items_without_embedding_first()
     {
         $builder = new ResourceResponseBuilder(Payment::class);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Webhooks;
 
 use DateTimeImmutable;
@@ -7,9 +9,11 @@ use Mollie\Api\Exceptions\MissingAuthenticationException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Adapter\CurlMollieHttpAdapter;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Requests\GetPaginatedPaymentChargebacksRequest;
+use Mollie\Api\Http\Requests\GetPaginatedPaymentRefundsRequest;
 use Mollie\Api\Http\Requests\GetPaginatedSubscriptionPaymentsRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\AnyResource;
@@ -20,11 +24,13 @@ use Mollie\Api\Resources\Profile;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Webhooks\WebhookEntity;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEntityTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function creates_webhook_entity_from_array()
     {
         $entity = WebhookEntity::create([
@@ -40,7 +46,7 @@ class WebhookEntityTest extends TestCase
         $this->assertTrue($entity->isInTestmode());
     }
 
-    /** @test */
+    #[Test]
     public function creates_webhook_entity_from_object()
     {
         $entityData = (object) [
@@ -58,7 +64,7 @@ class WebhookEntityTest extends TestCase
         $this->assertFalse($entity->isInTestmode());
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_hydrates_locally_from_snapshot_without_http_call()
     {
         $client = new MockMollieClient;
@@ -79,11 +85,11 @@ class WebhookEntityTest extends TestCase
         $this->assertInstanceOf(PaymentLink::class, $resource);
         $this->assertEquals('pl_4Y0eZitmBnQ5jsBYZIBw', $resource->id);
         $this->assertEquals('Test payment link', $resource->description);
-        $this->assertEquals((object) ['currency' => 'EUR', 'value' => '10.00'], $resource->amount);
+        $this->assertEquals(new Money('EUR', '10.00'), $resource->amount);
         $client->assertSentCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_hydrates_sub_resources_without_top_level_endpoint()
     {
         // BalanceTransaction has no top-level GET endpoint — only listed under
@@ -108,14 +114,11 @@ class WebhookEntityTest extends TestCase
         $this->assertInstanceOf(BalanceTransaction::class, $resource);
         $this->assertEquals('baltr_QM24QwzUWR4ev4Xfgyt29d', $resource->id);
         $this->assertEquals('payment', $resource->type);
-        $this->assertEquals(
-            (object) ['currency' => 'EUR', 'value' => '100.00'],
-            $resource->resultAmount
-        );
+        $this->assertEquals(new Money('EUR', '100.00'), $resource->resultAmount);
         $client->assertSentCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_exposes_webhook_snapshot_origin_when_supplied()
     {
         $client = new MockMollieClient;
@@ -147,7 +150,7 @@ class WebhookEntityTest extends TestCase
         $client->assertSentCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_builds_fallback_origin_when_none_supplied()
     {
         $client = new MockMollieClient;
@@ -168,7 +171,7 @@ class WebhookEntityTest extends TestCase
         $client->assertSentCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function payment_refunds_follows_links_href_when_present_on_webhook_origin()
     {
         $client = new MockMollieClient([
@@ -200,7 +203,31 @@ class WebhookEntityTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
+    public function testmode_propagates_through_followup_calls()
+    {
+        $client = new MockMollieClient([
+            GetPaginatedPaymentRefundsRequest::class => MockResponse::ok('empty-list', 'refunds'),
+        ], true);
+
+        $entity = WebhookEntity::create([
+            'id' => 'tr_testmode_refunds',
+            'resource' => 'payment',
+            'mode' => 'test',
+        ]);
+
+        /** @var Payment $payment */
+        $payment = $entity->asResource($client);
+        $payment->refunds();
+
+        $client->assertSent(function (PendingRequest $pendingRequest) {
+            $this->assertSame('testmode=true', $pendingRequest->getUri()->getQuery());
+
+            return true;
+        });
+    }
+
+    #[Test]
     public function payment_chargebacks_fallback_keeps_testmode_on_webhook_origin()
     {
         $client = new MockMollieClient([
@@ -224,7 +251,7 @@ class WebhookEntityTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function subscription_payments_fallback_keeps_testmode_on_webhook_origin()
     {
         $client = new MockMollieClient([
@@ -249,10 +276,8 @@ class WebhookEntityTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     * @dataProvider profileFallbackMethodProvider
-     */
+    #[DataProvider('profileFallbackMethodProvider')]
+    #[Test]
     public function profile_fallback_requests_keep_testmode_on_webhook_origin(
         string $method,
         string $collectionKey
@@ -278,7 +303,7 @@ class WebhookEntityTest extends TestCase
         });
     }
 
-    public function profileFallbackMethodProvider(): array
+    public static function profileFallbackMethodProvider(): array
     {
         return [
             'chargebacks' => ['chargebacks', 'chargebacks'],
@@ -288,7 +313,7 @@ class WebhookEntityTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_works_without_authenticator_on_connector()
     {
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
@@ -304,7 +329,7 @@ class WebhookEntityTest extends TestCase
         $this->assertInstanceOf(PaymentLink::class, $resource);
     }
 
-    /** @test */
+    #[Test]
     public function as_resource_returns_any_resource_with_accessible_custom_fields()
     {
         $client = new MockMollieClient;
@@ -327,7 +352,7 @@ class WebhookEntityTest extends TestCase
         $this->assertSame(['key' => 'value'], (array) $resource->nested);
     }
 
-    /** @test */
+    #[Test]
     public function follow_up_calls_on_webhook_origin_require_authenticator()
     {
         $client = new MollieApiClient(new CurlMollieHttpAdapter);
@@ -348,7 +373,7 @@ class WebhookEntityTest extends TestCase
         $payment->refunds();
     }
 
-    /** @test */
+    #[Test]
     public function get_data_returns_all_data_when_no_key_provided()
     {
         $entityData = [
@@ -366,7 +391,7 @@ class WebhookEntityTest extends TestCase
         $this->assertEquals($entityData, $entity->getData());
     }
 
-    /** @test */
+    #[Test]
     public function get_data_returns_specific_value_when_key_provided()
     {
         $entity = WebhookEntity::create([
@@ -382,7 +407,7 @@ class WebhookEntityTest extends TestCase
         $this->assertEquals('paid', $entity->getData('status'));
     }
 
-    /** @test */
+    #[Test]
     public function get_data_supports_dot_notation()
     {
         $entity = WebhookEntity::create([
@@ -398,7 +423,7 @@ class WebhookEntityTest extends TestCase
         $this->assertEquals('10.00', $entity->getData('amount.value'));
     }
 
-    /** @test */
+    #[Test]
     public function get_resource_type_returns_resource_type()
     {
         $entity = WebhookEntity::create([
@@ -409,7 +434,7 @@ class WebhookEntityTest extends TestCase
         $this->assertEquals('payment-link', $entity->getResourceType());
     }
 
-    /** @test */
+    #[Test]
     public function get_id_returns_id()
     {
         $entity = WebhookEntity::create([
@@ -420,7 +445,7 @@ class WebhookEntityTest extends TestCase
         $this->assertEquals('pl_4Y0eZitmBnQ5jsBYZIBw', $entity->getId());
     }
 
-    /** @test */
+    #[Test]
     public function is_in_testmode_returns_true_when_mode_is_test()
     {
         $entity = WebhookEntity::create([
@@ -432,7 +457,7 @@ class WebhookEntityTest extends TestCase
         $this->assertTrue($entity->isInTestmode());
     }
 
-    /** @test */
+    #[Test]
     public function is_in_testmode_returns_false_when_mode_is_live()
     {
         $entity = WebhookEntity::create([
@@ -444,7 +469,7 @@ class WebhookEntityTest extends TestCase
         $this->assertFalse($entity->isInTestmode());
     }
 
-    /** @test */
+    #[Test]
     public function is_in_testmode_returns_false_when_mode_is_not_set()
     {
         $entity = WebhookEntity::create([

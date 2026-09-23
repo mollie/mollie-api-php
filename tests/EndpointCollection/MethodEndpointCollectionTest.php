@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,13 @@ use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
 use Mollie\Api\Http\Requests\GetMethodRequest;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use Mollie\Api\Types\PaymentMethodStatus;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class MethodEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -26,7 +30,7 @@ class MethodEndpointCollectionTest extends TestCase
         $this->assertMethod($method);
     }
 
-    /** @test */
+    #[Test]
     public function all()
     {
         $client = new MockMollieClient([
@@ -48,7 +52,7 @@ class MethodEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function all_enabled()
     {
         $client = new MockMollieClient([
@@ -71,7 +75,7 @@ class MethodEndpointCollectionTest extends TestCase
         $this->assertEquals('0.01', $method->minimumAmount->value);
         $this->assertEquals('EUR', $method->minimumAmount->currency);
         $this->assertEquals('50000.00', $method->maximumAmount->value);
-        $this->assertEquals('activated', $method->status);
+        $this->assertSame(PaymentMethodStatus::Activated, $method->status);
         $this->assertNotEmpty($method->image);
     }
 }

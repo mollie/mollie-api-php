@@ -6,16 +6,30 @@ How to list settlements using the Mollie API.
 
 ```php
 use Mollie\Api\Http\Requests\GetPaginatedSettlementsRequest;
+use Mollie\Api\Types\SettlementStatus;
 
 try {
     // List all settlements
     $response = $mollie->send(new GetPaginatedSettlementsRequest);
 
     foreach ($response as $settlement) {
+        $status = $settlement->status instanceof SettlementStatus
+            ? $settlement->status->value
+            : ($settlement->status ?? 'not available');
+
         echo "Settlement {$settlement->reference}:\n";
-        echo "- Created: {$settlement->createdAt}\n";
-        echo "- Status: {$settlement->status}\n";
-        echo "- Amount: {$settlement->amount->currency} {$settlement->amount->value}\n\n";
+        echo "- Created: " . ($settlement->createdAt ?? 'not available') . "\n";
+        echo "- Status: {$status}\n";
+
+        if ($settlement->amount !== null) {
+            echo "- Amount: {$settlement->amount->currency} {$settlement->amount->value}\n";
+        }
+
+        echo "\n";
+
+        if ($settlement->periods === null) {
+            continue;
+        }
 
         // Show settlement periods
         foreach ($settlement->periods as $year => $months) {
@@ -27,7 +41,9 @@ try {
                     echo "Revenue: {$revenue->description}\n";
                     echo "- Count: {$revenue->count}\n";
                     echo "- Net: {$revenue->amountNet->currency} {$revenue->amountNet->value}\n";
-                    echo "- VAT: {$revenue->amountVat->currency} {$revenue->amountVat->value}\n";
+                    if (($vat = $revenue->amountVat ?? null) !== null) {
+                        echo "- VAT: {$vat->currency} {$vat->value}\n";
+                    }
                     echo "- Gross: {$revenue->amountGross->currency} {$revenue->amountGross->value}\n\n";
                 }
 
@@ -36,7 +52,9 @@ try {
                     echo "Cost: {$cost->description}\n";
                     echo "- Count: {$cost->count}\n";
                     echo "- Net: {$cost->amountNet->currency} {$cost->amountNet->value}\n";
-                    echo "- VAT: {$cost->amountVat->currency} {$cost->amountVat->value}\n";
+                    if (($vat = $cost->amountVat ?? null) !== null) {
+                        echo "- VAT: {$vat->currency} {$vat->value}\n";
+                    }
                     echo "- Gross: {$cost->amountGross->currency} {$cost->amountGross->value}\n\n";
                 }
             }
@@ -52,11 +70,11 @@ try {
 ```php
 $settlement->id;          // "stl_abc123"
 $settlement->reference;   // "1234567.1804.03"
-$settlement->createdAt;   // "2024-02-24T12:13:14+00:00"
-$settlement->settledAt;   // "2024-02-24T12:13:14+00:00"
-$settlement->status;      // "open", "pending", "paidout", "failed"
-$settlement->amount;      // Object containing amount and currency
-$settlement->periods;     // Object containing settlement periods
+$settlement->createdAt;   // Creation date, or null when omitted
+$settlement->settledAt;   // Settlement date, or null while unsettled
+$settlement->status;      // SettlementStatus case, unknown raw string, or null
+$settlement->amount;      // Money object, or null when omitted
+$settlement->periods;     // Settlement periods object, or null when omitted
 ```
 
 ## Additional Notes

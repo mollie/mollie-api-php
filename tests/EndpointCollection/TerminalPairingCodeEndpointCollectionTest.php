@@ -11,11 +11,12 @@ use Mollie\Api\Http\Requests\RequestTerminalPairingCodeRequest;
 use Mollie\Api\Http\Requests\RevokeTerminalPairingCodeRequest;
 use Mollie\Api\Resources\TerminalPairingCode;
 use Mollie\Api\Resources\TerminalPairingCodeCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class TerminalPairingCodeEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function request()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class TerminalPairingCodeEndpointCollectionTest extends TestCase
         $this->assertPairingCode($pairingCode);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -41,7 +42,7 @@ class TerminalPairingCodeEndpointCollectionTest extends TestCase
         $this->assertPairingCode($pairingCode);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -60,7 +61,7 @@ class TerminalPairingCodeEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([
@@ -73,7 +74,7 @@ class TerminalPairingCodeEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function revoke()
     {
         $client = new MockMollieClient([

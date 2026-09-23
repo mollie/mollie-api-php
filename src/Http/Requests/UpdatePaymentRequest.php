@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\HasPayload;
@@ -10,6 +12,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payments-api/update-payment
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payment>
  */
 class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
@@ -20,55 +24,23 @@ class UpdatePaymentRequest extends ResourceHydratableRequest implements HasPaylo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Payment::class;
-
-    private string $id;
-
-    private ?string $description;
-
-    private ?string $redirectUrl;
-
-    private ?string $cancelUrl;
-
-    private ?string $webhookUrl;
-
-    private ?array $metadata;
+    protected ?string $hydratableResource = Payment::class;
 
     private ?string $paymentMethod;
 
-    private ?string $locale;
-
-    private ?string $restrictPaymentMethodsToCountry;
-
-    /**
-     * Method specific data.
-     *
-     * s. https://docs.mollie.com/reference/extra-payment-parameters#bank-transfer
-     */
-    private array $additional = [];
-
     public function __construct(
-        string $id,
-        ?string $description = null,
-        ?string $redirectUrl = null,
-        ?string $cancelUrl = null,
-        ?string $webhookUrl = null,
-        ?array $metadata = null,
+        private string $id,
+        private ?string $description = null,
+        private ?string $redirectUrl = null,
+        private ?string $cancelUrl = null,
+        private ?string $webhookUrl = null,
+        private ?array $metadata = null,
         ?string $method = null,
-        ?string $locale = null,
-        ?string $restrictPaymentMethodsToCountry = null,
-        array $additional = []
+        private ?string $locale = null,
+        private ?string $restrictPaymentMethodsToCountry = null,
+        private array $additional = [],
     ) {
-        $this->id = $id;
-        $this->description = $description;
-        $this->redirectUrl = $redirectUrl;
-        $this->cancelUrl = $cancelUrl;
-        $this->webhookUrl = $webhookUrl;
-        $this->metadata = $metadata;
         $this->paymentMethod = $method;
-        $this->locale = $locale;
-        $this->restrictPaymentMethodsToCountry = $restrictPaymentMethodsToCountry;
-        $this->additional = $additional;
     }
 
     protected function defaultPayload(): array

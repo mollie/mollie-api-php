@@ -14,7 +14,7 @@ class GetPaginatedPayoutsRequest extends SortablePaginatedRequest implements IsI
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = PayoutCollection::class;
+    protected ?string $hydratableResource = PayoutCollection::class;
 
     public function __construct(
         ?string $from = null,

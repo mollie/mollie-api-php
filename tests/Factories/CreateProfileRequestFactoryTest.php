@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateProfileRequestFactory;
 use Mollie\Api\Http\Requests\CreateProfileRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateProfileRequestFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create_returns_profile_request_object_with_full_data()
     {
         $request = CreateProfileRequestFactory::new()
@@ -26,7 +29,7 @@ class CreateProfileRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateProfileRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_profile_request_object_with_minimal_data()
     {
         $request = CreateProfileRequestFactory::new()
@@ -41,7 +44,7 @@ class CreateProfileRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateProfileRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_profile_request_object_with_partial_data()
     {
         $request = CreateProfileRequestFactory::new()

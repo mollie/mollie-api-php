@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Requests\GetPaginatedCustomerPaymentsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedCustomerPaymentsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_customer_payments()
     {
         $client = new MockMollieClient([
@@ -38,7 +41,7 @@ class GetPaginatedCustomerPaymentsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_customer_payments()
     {
         $client = new MockMollieClient([
@@ -60,7 +63,7 @@ class GetPaginatedCustomerPaymentsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

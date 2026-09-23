@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\PendingRequest;
 
 use Mollie\Api\Contracts\PayloadRepository;
@@ -15,10 +17,11 @@ class HandleTestmode
     {
         $connector = $pendingRequest->getConnector();
         $authenticator = $connector->getAuthenticator();
+        $testmode = $pendingRequest->getTestmode();
 
         if ($authenticator instanceof ApiKeyAuthenticator) {
             $this->removeTestmode($pendingRequest);
-        } elseif ($connector->getTestmode() || $pendingRequest->getRequest()->getTestmode()) {
+        } elseif ($testmode) {
             $this->applyTestmode($pendingRequest);
         }
 

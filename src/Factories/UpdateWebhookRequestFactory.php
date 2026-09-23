@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Requests\UpdateWebhookRequest;

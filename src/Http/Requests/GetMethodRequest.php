@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -9,35 +11,22 @@ use Mollie\Api\Types\MethodQuery;
 
 /**
  * @see https://docs.mollie.com/reference/v2/methods-api/get-method
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Method>
  */
 class GetMethodRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = HttpMethod::GET;
 
-    protected $hydratableResource = Method::class;
-
-    private string $methodId;
-
-    private ?string $locale;
-
-    private ?string $currency;
-
-    private ?string $profileId;
-
-    private ?bool $includeIssuers;
+    protected ?string $hydratableResource = Method::class;
 
     public function __construct(
-        string $methodId,
-        ?string $locale = null,
-        ?string $currency = null,
-        ?string $profileId = null,
-        ?bool $includeIssuers = null
+        private string $methodId,
+        private ?string $locale = null,
+        private ?string $currency = null,
+        private ?string $profileId = null,
+        private ?bool $includeIssuers = null,
     ) {
-        $this->methodId = $methodId;
-        $this->locale = $locale;
-        $this->currency = $currency;
-        $this->profileId = $profileId;
-        $this->includeIssuers = $includeIssuers;
     }
 
     protected function defaultQuery(): array

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -9,6 +11,8 @@ use Mollie\Api\Types\PaymentIncludesQuery;
 
 /**
  * @see https://docs.mollie.com/reference/get-chargeback
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Chargeback>
  */
 class GetPaymentChargebackRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -20,19 +24,13 @@ class GetPaymentChargebackRequest extends ResourceHydratableRequest implements S
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Chargeback::class;
+    protected ?string $hydratableResource = Chargeback::class;
 
-    private string $paymentId;
-
-    private string $chargebackId;
-
-    private bool $includePayment;
-
-    public function __construct(string $paymentId, string $chargebackId, bool $includePayment = false)
-    {
-        $this->paymentId = $paymentId;
-        $this->chargebackId = $chargebackId;
-        $this->includePayment = $includePayment;
+    public function __construct(
+        private string $paymentId,
+        private string $chargebackId,
+        private bool $includePayment = false,
+    ) {
     }
 
     protected function defaultQuery(): array

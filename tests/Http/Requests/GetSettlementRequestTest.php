@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetSettlementRequest;
 use Mollie\Api\Resources\Settlement;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetSettlementRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_settlement()
     {
         $client = new MockMollieClient([
@@ -26,7 +29,7 @@ class GetSettlementRequestTest extends TestCase
         $this->assertInstanceOf(Settlement::class, $settlement);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetSettlementRequest('stl_jDk30akdN');

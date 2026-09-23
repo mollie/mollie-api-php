@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Middleware;
 
 use Mollie\Api\Contracts\ResponseMiddleware;

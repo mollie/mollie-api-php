@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http;
 
 use Mollie\Api\Exceptions\RequestException;
@@ -40,9 +42,6 @@ class RequestSanitizer
 
         // Update the PSR request in the response using reflection since it's protected
         $reflectionResponse = new ReflectionProperty($response, 'psrRequest');
-        if (\PHP_VERSION_ID < 80100) {
-            $reflectionResponse->setAccessible(true);
-        }
         $reflectionResponse->setValue($response, $request);
 
         return $exception;

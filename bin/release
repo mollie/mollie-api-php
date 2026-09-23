@@ -1,158 +1,285 @@
 #!/bin/bash
 
+set -u -o pipefail
+
+TAG_PUSH_ATTEMPTED=0
+
+die() {
+    echo "❌ Error: $*" >&2
+
+    if [ "$TAG_PUSH_ATTEMPTED" -eq 1 ]; then
+        echo "   The tag may now exist remotely. Rerun this command to use the supported tag-only recovery path; no overwrite or cleanup was attempted." >&2
+    else
+        echo "   No further publication was attempted." >&2
+    fi
+
+    exit 1
+}
+
+if [ "$#" -ne 1 ] || [ -z "$1" ]; then
+    echo "❌ Error: Version number is required" >&2
+    echo "Usage: ./bin/release <version>" >&2
+    echo "Example: ./bin/release 1.0.0" >&2
+    exit 1
+fi
+
 VERSION=$1
-
-# Check if version is provided
-if [ -z "$VERSION" ]; then
-    echo "❌ Error: Version number is required"
-    echo "Usage: ./bin/release <version>"
-    echo "Example: ./bin/release 1.0.0"
-    exit 1
-fi
-
-# Check if gh CLI is installed
-if ! command -v gh &> /dev/null; then
-    echo "❌ Error: GitHub CLI (gh) is not installed"
-    echo "Please install it from: https://cli.github.com/"
-    exit 1
-fi
-
-# Check if we're in a git repository
-if ! git rev-parse --git-dir > /dev/null 2>&1; then
-    echo "❌ Error: Not in a git repository"
-    exit 1
-fi
-
-# Check if there are uncommitted changes
-if ! git diff-index --quiet HEAD --; then
-    echo "❌ Error: There are uncommitted changes. Please commit or stash them first."
-    exit 1
-fi
-
-# Get default branch from GitHub with better error handling
-echo "🔍 Getting default branch from GitHub..."
-DEFAULT_BRANCH_JSON=$(gh repo view --json defaultBranchRef 2>/dev/null)
-if [ $? -ne 0 ]; then
-    echo "❌ Error: Failed to get repository information from GitHub"
-    echo "   Please check your GitHub CLI authentication and repository access"
-    exit 1
-fi
-
-DEFAULT_BRANCH=$(echo "$DEFAULT_BRANCH_JSON" | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
-if [ -z "$DEFAULT_BRANCH" ]; then
-    echo "⚠️  Warning: Could not determine default branch, using 'main'"
-    DEFAULT_BRANCH="main"
-fi
-
-echo "📌 Local HEAD: $(git rev-parse HEAD)"
-echo "📌 GitHub default branch: $DEFAULT_BRANCH"
-
-# Fetch latest changes from remote
-echo "🔄 Fetching latest changes from remote..."
-git fetch origin
-
-# Check if local branch is up-to-date with remote
-LOCAL_HEAD=$(git rev-parse HEAD)
-REMOTE_HEAD=$(git rev-parse origin/$DEFAULT_BRANCH 2>/dev/null)
-
-if [ -z "$REMOTE_HEAD" ]; then
-    echo "❌ Error: Could not find remote branch origin/$DEFAULT_BRANCH"
-    exit 1
-fi
-
-if [ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]; then
-    echo "❌ Error: Local branch is not up-to-date with remote"
-    echo "   Local HEAD:  $LOCAL_HEAD"
-    echo "   Remote HEAD: $REMOTE_HEAD"
-    echo "   Please pull the latest changes: git pull origin $DEFAULT_BRANCH"
-    exit 1
-fi
-
-echo "✅ Local repository is up-to-date with remote"
-
-# Define the path to MollieApiClient.php
+TAG="v$VERSION"
+TAG_REF="refs/tags/$TAG"
 MOLLIE_CLIENT_FILE="src/MollieApiClient.php"
 
-# Check if MollieApiClient.php exists
-if [ ! -f "$MOLLIE_CLIENT_FILE" ]; then
-    echo "❌ Error: MollieApiClient.php not found at $MOLLIE_CLIENT_FILE"
-    exit 1
-fi
+command -v git >/dev/null 2>&1 || die "git is not installed or is not available on PATH."
+command -v gh >/dev/null 2>&1 || die "GitHub CLI (gh) is not installed or is not available on PATH."
 
-# Check if tag already exists
-if git tag -l | grep -q "^v$VERSION$"; then
-    echo "❌ Error: Tag v$VERSION already exists"
-    exit 1
-fi
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "Run this command from the Mollie API PHP Git worktree."
+[ -f "$MOLLIE_CLIENT_FILE" ] || die "MollieApiClient.php was not found at $MOLLIE_CLIENT_FILE."
+git check-ref-format "$TAG_REF" >/dev/null 2>&1 || die "Version '$VERSION' does not form a valid tag ref."
 
-echo "🔄 Updating CLIENT_VERSION to $VERSION in MollieApiClient.php..."
+repo_details=$(gh repo view --json nameWithOwner,defaultBranchRef --jq '[.nameWithOwner, .defaultBranchRef.name] | @tsv') || die "The exact GitHub repository/default-branch lookup failed. Check authentication and repository access."
 
-# Update the CLIENT_VERSION constant in MollieApiClient.php
-if sed -i.bak "s/public const CLIENT_VERSION = '[^']*'/public const CLIENT_VERSION = '$VERSION'/g" "$MOLLIE_CLIENT_FILE"; then
-    echo "✅ CLIENT_VERSION updated successfully"
-    # Remove backup file created by sed
-    rm "${MOLLIE_CLIENT_FILE}.bak"
-else
-    echo "❌ Error: Failed to update CLIENT_VERSION"
-    exit 1
-fi
+case "$repo_details" in
+    *$'\n'*) die "The GitHub repository/default-branch lookup returned multiple rows." ;;
+esac
 
-# Check if the version was actually updated
-if grep -q "CLIENT_VERSION = '$VERSION'" "$MOLLIE_CLIENT_FILE"; then
-    echo "✅ Version update verified"
-else
-    echo "❌ Error: Version update verification failed"
-    exit 1
-fi
+IFS=$'\t' read -r REPOSITORY DEFAULT_BRANCH extra <<< "$repo_details"
+[ -n "${REPOSITORY:-}" ] && [ -n "${DEFAULT_BRANCH:-}" ] && [ -z "${extra:-}" ] || die "The GitHub repository/default-branch lookup returned malformed data."
 
-# Commit the version update
-echo "📝 Committing version update..."
-git add "$MOLLIE_CLIENT_FILE"
-git commit -m "Update CLIENT_VERSION to $VERSION"
+OWNER=${REPOSITORY%%/*}
+REPOSITORY_NAME=${REPOSITORY#*/}
+[ -n "$OWNER" ] && [ -n "$REPOSITORY_NAME" ] && [ "$OWNER" != "$REPOSITORY" ] && [[ "$REPOSITORY_NAME" != */* ]] || die "The GitHub repository identity '$REPOSITORY' is malformed."
+git check-ref-format --branch "$DEFAULT_BRANCH" >/dev/null 2>&1 || die "The GitHub default branch '$DEFAULT_BRANCH' is not a valid branch name."
 
-echo "🏷️  Creating tag v$VERSION..."
+is_oid() {
+    [[ "$1" =~ ^[0-9a-fA-F]{40}$ || "$1" =~ ^[0-9a-fA-F]{64}$ ]]
+}
 
-# Create tag and push
-git tag -a "v$VERSION" -m "Release $VERSION"
-git push origin "v$VERSION"
+read_client_version() {
+    local line
+    local pattern
+    local -a matches=()
 
-echo "⏱️  Waiting for GitHub to recognize the new tag..."
-sleep 3
+    pattern="^[[:space:]]+public const CLIENT_VERSION = '([^']*)';[[:space:]]*$"
 
-# Verify tag exists on GitHub
-echo "🔍 Verifying tag exists on GitHub..."
-TAG_CHECK=$(gh release list --repo mollie/mollie-api-php 2>/dev/null | grep "v$VERSION" || echo "")
-if [ -n "$TAG_CHECK" ]; then
-    echo "❌ Error: Release v$VERSION already exists on GitHub"
-    exit 1
-fi
+    while IFS= read -r line || [ -n "$line" ]; do
+        if [[ "$line" =~ $pattern ]]; then
+            matches+=("${BASH_REMATCH[1]}")
+        fi
+    done < "$MOLLIE_CLIENT_FILE" || die "CLIENT_VERSION could not be read from $MOLLIE_CLIENT_FILE."
 
-# Double-check that we can see the tag
-GH_TAG_CHECK=$(gh api repos/mollie/mollie-api-php/git/refs/tags/v$VERSION 2>/dev/null || echo "not_found")
-if [ "$GH_TAG_CHECK" = "not_found" ]; then
-    echo "⚠️  Warning: Tag not immediately visible on GitHub, waiting longer..."
-    sleep 5
-fi
+    [ "${#matches[@]}" -eq 1 ] || die "Expected exactly one syntactically exact CLIENT_VERSION declaration; found ${#matches[@]}."
+    CLIENT_VERSION=${matches[0]}
+}
 
-echo "🚀 Creating GitHub release..."
+assert_base_state() {
+    local branch
+    local status_output
+    local current_head
+    local remote_head
 
-# Generate release from current HEAD with better error handling
-RELEASE_OUTPUT=$(gh release create "v$VERSION" \
-  --target "$(git rev-parse HEAD)" \
-  --latest \
-  --generate-notes 2>&1)
+    branch=$(git symbolic-ref --quiet --short HEAD) || die "HEAD is detached; the symbolic default branch '$DEFAULT_BRANCH' must be checked out."
+    [ "$branch" = "$DEFAULT_BRANCH" ] || die "Checked-out branch '$branch' is not the GitHub default branch '$DEFAULT_BRANCH'."
 
-if [ $? -eq 0 ]; then
-    echo "✅ Release v$VERSION created successfully!"
-    echo "$RELEASE_OUTPUT"
-else
-    echo "❌ Error: Failed to create GitHub release"
-    echo "$RELEASE_OUTPUT"
-    echo ""
-    echo "🔍 Troubleshooting tips:"
-    echo "   1. Check if you have write permissions to the repository"
-    echo "   2. Verify your GitHub CLI authentication: gh auth status"
-    echo "   3. Try creating the release manually on GitHub.com"
-    echo "   4. Check if the tag was created successfully: git tag -l | grep v$VERSION"
-    exit 1
-fi
+    status_output=$(git status --porcelain=v1 --untracked-files=all) || die "The complete worktree status check failed."
+    [ -z "$status_output" ] || die "The worktree is not completely clean, including untracked files."
+
+    git fetch --no-tags origin "refs/heads/$DEFAULT_BRANCH:refs/remotes/origin/$DEFAULT_BRANCH" || die "Fetching the exact default branch from origin failed."
+
+    current_head=$(git rev-parse --verify 'HEAD^{commit}') || die "HEAD could not be resolved to a commit."
+    remote_head=$(git rev-parse --verify "refs/remotes/origin/$DEFAULT_BRANCH^{commit}") || die "origin/$DEFAULT_BRANCH could not be resolved to a commit."
+    if ! is_oid "$current_head" || ! is_oid "$remote_head"; then
+        die "A local or remote commit ID was malformed."
+    fi
+    [ "$current_head" = "$remote_head" ] || die "HEAD does not equal the fetched origin/$DEFAULT_BRANCH commit."
+
+    if [ -n "${SNAPSHOT_HEAD:-}" ]; then
+        [ "$current_head" = "$SNAPSHOT_HEAD" ] || die "HEAD changed after release validation began."
+    fi
+
+    read_client_version
+    [ "$CLIENT_VERSION" = "$VERSION" ] || die "CLIENT_VERSION '$CLIENT_VERSION' does not exactly match requested version '$VERSION'."
+
+    ASSERTED_HEAD=$current_head
+}
+
+classify_remote_tag() {
+    local output
+    local oid
+    local ref
+    local extra
+    local base_count=0
+    local peeled_count=0
+    local base_oid=''
+    local peeled_oid=''
+
+    output=$(git ls-remote --tags origin "$TAG_REF" "$TAG_REF^{}") || die "The exact remote tag query failed."
+
+    while IFS=$'\t' read -r oid ref extra; do
+        [ -n "$oid" ] || continue
+        is_oid "$oid" && [ -n "$ref" ] && [ -z "${extra:-}" ] || die "The exact remote tag query returned malformed data."
+
+        if [ "$ref" = "$TAG_REF" ]; then
+            base_count=$((base_count + 1))
+            base_oid=$oid
+        elif [ "$ref" = "$TAG_REF^{}" ]; then
+            peeled_count=$((peeled_count + 1))
+            peeled_oid=$oid
+        else
+            die "The exact remote tag query returned an unexpected ref."
+        fi
+    done <<< "$output"
+
+    if [ "$base_count" -eq 0 ] && [ "$peeled_count" -eq 0 ]; then
+        REMOTE_TAG_STATE=absent
+    elif [ "$base_count" -eq 1 ] && [ "$peeled_count" -eq 0 ]; then
+        REMOTE_TAG_STATE=lightweight
+    elif [ "$base_count" -eq 1 ] && [ "$peeled_count" -eq 1 ]; then
+        [ -n "$base_oid" ] || die "The remote annotated tag object ID was empty."
+        if [ "$peeled_oid" = "$SNAPSHOT_HEAD" ]; then
+            REMOTE_TAG_STATE=annotated
+        else
+            REMOTE_TAG_STATE=mismatch
+        fi
+    else
+        die "The exact remote tag query returned a peeled-only, duplicate, or contradictory state."
+    fi
+}
+
+classify_release() {
+    local output
+    local graphql_query
+
+    graphql_query="query(\$owner:String!,\$name:String!,\$tag:String!){repository(owner:\$owner,name:\$name){release(tagName:\$tag){tagName}}}"
+    output=$(gh api graphql \
+        -f "query=$graphql_query" \
+        -f "owner=$OWNER" \
+        -f "name=$REPOSITORY_NAME" \
+        -f "tag=$TAG" \
+        --jq 'if (.data | type) != "object" then "invalid" elif (.data.repository | type) != "object" then "invalid" elif (.data.repository | has("release") | not) then "invalid" elif .data.repository.release == null then "absent" elif (.data.repository.release | type) != "object" then "invalid" elif (.data.repository.release.tagName | type) == "string" then "present\t" + .data.repository.release.tagName else "invalid" end') || die "The exact GitHub release query failed."
+
+    case "$output" in
+        absent)
+            RELEASE_STATE=absent
+            ;;
+        $'present\t'*)
+            [ "${output#*$'\t'}" = "$TAG" ] || die "The GitHub release query returned a contradictory tag name."
+            RELEASE_STATE=present
+            ;;
+        *)
+            die "The GitHub release query returned malformed data."
+            ;;
+    esac
+}
+
+classify_remote_state() {
+    classify_remote_tag
+    classify_release
+}
+
+require_valid_or_absent_state() {
+    case "$REMOTE_TAG_STATE:$RELEASE_STATE" in
+        annotated:present|annotated:absent|absent:absent) ;;
+        lightweight:*) die "Remote tag '$TAG' is lightweight; annotated tags are required." ;;
+        mismatch:*) die "Remote tag '$TAG' does not peel to the validated HEAD." ;;
+        absent:present) die "GitHub release '$TAG' exists without a valid matching annotated tag." ;;
+        *) die "Remote tag/release state is contradictory." ;;
+    esac
+}
+
+classify_local_tag() {
+    local ref_type
+    local peeled
+
+    if git show-ref --verify --quiet "$TAG_REF"; then
+        ref_type=$(git cat-file -t "$TAG_REF") || die "Local tag '$TAG' could not be inspected."
+        [ "$ref_type" = tag ] || die "Local tag '$TAG' is lightweight; refusing to replace it."
+        peeled=$(git rev-parse --verify "$TAG_REF^{}") || die "Local tag '$TAG' could not be peeled."
+        is_oid "$peeled" || die "Local tag '$TAG' peeled to a malformed object ID."
+        [ "$peeled" = "$SNAPSHOT_HEAD" ] || die "Local tag '$TAG' does not peel to the validated HEAD; refusing to replace it."
+        LOCAL_TAG_STATE=annotated
+    else
+        local show_ref_status=$?
+        [ "$show_ref_status" -eq 1 ] || die "Local tag '$TAG' could not be queried."
+        LOCAL_TAG_STATE=absent
+    fi
+}
+
+publish_release() {
+    assert_base_state
+    classify_remote_state
+    require_valid_or_absent_state
+
+    if [ "$REMOTE_TAG_STATE" = annotated ] && [ "$RELEASE_STATE" = present ]; then
+        echo "✅ Release $TAG already exists with the valid annotated tag at $SNAPSHOT_HEAD."
+        return 0
+    fi
+
+    [ "$REMOTE_TAG_STATE" = annotated ] && [ "$RELEASE_STATE" = absent ] || die "Release publication requires the valid annotated remote tag and no existing release."
+
+    if ! gh release create "$TAG" --verify-tag --target "$SNAPSHOT_HEAD" --latest --generate-notes; then
+        die "GitHub release creation failed."
+    fi
+
+    classify_remote_state
+    [ "$REMOTE_TAG_STATE" = annotated ] && [ "$RELEASE_STATE" = present ] || die "Post-publication verification did not find the valid final tag/release state."
+    echo "✅ Release $TAG created successfully at $SNAPSHOT_HEAD."
+}
+
+SNAPSHOT_HEAD=''
+ASSERTED_HEAD=''
+CLIENT_VERSION=''
+assert_base_state
+SNAPSHOT_HEAD=$ASSERTED_HEAD
+
+echo "📌 Repository: $REPOSITORY"
+echo "📌 Default branch and HEAD: $DEFAULT_BRANCH at $SNAPSHOT_HEAD"
+
+classify_remote_state
+require_valid_or_absent_state
+
+case "$REMOTE_TAG_STATE:$RELEASE_STATE" in
+    annotated:present)
+        echo "✅ Release $TAG already exists with the valid annotated tag at $SNAPSHOT_HEAD."
+        exit 0
+        ;;
+    annotated:absent)
+        publish_release
+        exit 0
+        ;;
+    absent:absent)
+        classify_local_tag
+        assert_base_state
+        classify_remote_state
+        require_valid_or_absent_state
+
+        if [ "$REMOTE_TAG_STATE" = annotated ]; then
+            publish_release
+            exit 0
+        fi
+
+        [ "$REMOTE_TAG_STATE" = absent ] && [ "$RELEASE_STATE" = absent ] || die "Remote state changed before local tag preparation."
+
+        if [ "$LOCAL_TAG_STATE" = absent ]; then
+            git tag --annotate "$TAG" "$SNAPSHOT_HEAD" --message "Release $VERSION" || die "Creating the local annotated tag failed."
+        fi
+        classify_local_tag
+
+        assert_base_state
+        classify_remote_state
+        require_valid_or_absent_state
+
+        if [ "$REMOTE_TAG_STATE" = absent ] && [ "$RELEASE_STATE" = absent ]; then
+            TAG_PUSH_ATTEMPTED=1
+            git push --atomic origin "$TAG_REF:$TAG_REF" || die "The explicit non-force tag-only push failed."
+        elif [ "$REMOTE_TAG_STATE" != annotated ] || [ "$RELEASE_STATE" != absent ]; then
+            die "Remote state changed before the tag push."
+        fi
+
+        classify_remote_state
+        [ "$REMOTE_TAG_STATE" = annotated ] && [ "$RELEASE_STATE" = absent ] || die "The pushed tag did not verify as an annotated tag at the validated HEAD."
+
+        publish_release
+        exit 0
+        ;;
+esac
+
+die "Unhandled remote tag/release state."

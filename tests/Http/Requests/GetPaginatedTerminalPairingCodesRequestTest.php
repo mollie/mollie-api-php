@@ -6,11 +6,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedTerminalPairingCodesRequest;
 use Mollie\Api\Resources\TerminalPairingCodeCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_list_terminal_pairing_codes()
     {
         $client = new MockMollieClient([
@@ -26,7 +27,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
         $this->assertInstanceOf(TerminalPairingCodeCollection::class, $pairingCodes);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetPaginatedTerminalPairingCodesRequest();
@@ -34,7 +35,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
         $this->assertEquals('terminals/pairing-codes', $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_passes_profile_id_filter()
     {
         $request = new GetPaginatedTerminalPairingCodesRequest(null, null, null, 'pfl_jA9bC4DkFj3G');
@@ -42,7 +43,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
         $this->assertEquals('pfl_jA9bC4DkFj3G', $request->query()->get('profileId'));
     }
 
-    /** @test */
+    #[Test]
     public function it_passes_pagination_params()
     {
         $request = new GetPaginatedTerminalPairingCodesRequest(
@@ -54,7 +55,7 @@ class GetPaginatedTerminalPairingCodesRequestTest extends TestCase
         $this->assertEquals(10, $request->query()->get('limit'));
     }
 
-    /** @test */
+    #[Test]
     public function it_passes_sort_param()
     {
         $request = new GetPaginatedTerminalPairingCodesRequest(null, null, 'desc');

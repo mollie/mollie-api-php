@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -9,6 +11,8 @@ use Mollie\Api\Types\PaymentIncludesQuery;
 
 /**
  * @see https://docs.mollie.com/reference/v2/refunds-api/get-refund
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Refund>
  */
 class GetPaymentRefundRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -20,19 +24,13 @@ class GetPaymentRefundRequest extends ResourceHydratableRequest implements Suppo
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Refund::class;
+    protected ?string $hydratableResource = Refund::class;
 
-    private string $paymentId;
-
-    private string $refundId;
-
-    private bool $includePayment;
-
-    public function __construct(string $paymentId, string $refundId, bool $includePayment = false)
-    {
-        $this->paymentId = $paymentId;
-        $this->refundId = $refundId;
-        $this->includePayment = $includePayment;
+    public function __construct(
+        private string $paymentId,
+        private string $refundId,
+        private bool $includePayment = false,
+    ) {
     }
 
     protected function defaultQuery(): array

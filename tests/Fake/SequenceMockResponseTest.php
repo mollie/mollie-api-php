@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Fake;
 
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Fake\SequenceMockResponse;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class SequenceMockResponseTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_regognizes_when_no_responses_are_left()
     {
         $sequence = new SequenceMockResponse();
@@ -16,7 +19,7 @@ class SequenceMockResponseTest extends TestCase
         $this->assertTrue($sequence->isEmpty());
     }
 
-    /** @test */
+    #[Test]
     public function it_forgets_about_the_last_response_returned()
     {
         $sequence = new SequenceMockResponse(

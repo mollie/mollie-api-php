@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/payment-links-api/get-payment-link
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\PaymentLink>
  */
 class GetPaymentLinkRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -19,13 +23,11 @@ class GetPaymentLinkRequest extends ResourceHydratableRequest implements Support
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = PaymentLink::class;
+    protected ?string $hydratableResource = PaymentLink::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     /**

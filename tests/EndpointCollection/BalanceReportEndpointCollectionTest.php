@@ -9,6 +9,7 @@ use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetBalanceReportRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceReport;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
@@ -18,7 +19,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    /** @test */
+    #[Test]
     public function get_for_id()
     {
         $client = new MockMollieClient([
@@ -35,7 +36,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
         $this->assertBalanceReport($report, 'bal_gVMhHKqSSRYJyPsuoPNFH');
     }
 
-    /** @test */
+    #[Test]
     public function get_for_balance()
     {
         $client = new MockMollieClient([
@@ -55,7 +56,7 @@ class BalanceReportEndpointCollectionTest extends TestCase
         $this->assertBalanceReport($report, 'bal_gVMhHKqSSRYJyPsuoPNFH');
     }
 
-    /** @test */
+    #[Test]
     public function get_for_primary()
     {
         $client = new MockMollieClient([

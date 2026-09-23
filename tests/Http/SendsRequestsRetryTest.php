@@ -1,21 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http;
 
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Exceptions\NetworkRequestException;
 use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\LinearRetryStrategy;
+use Mollie\Api\Http\Middleware\ApplyIdempotencyKey;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Tests\Fixtures\Requests\DynamicDeleteRequest;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
 class SendsRequestsRetryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function retries_retryable_network_errors_and_succeeds(): void
     {
         $attemptsToFail = 2; // will succeed on attempt 3
@@ -60,21 +65,26 @@ class SendsRequestsRetryTest extends TestCase
         $client->setAccessToken('access_test_token');
         $response = $client->send(new DynamicGetRequest('/'));
 
+        // Empty body short-circuits hydration — the response wrapper is returned directly.
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(200, $response->status());
         $this->assertSame($attemptsToFail + 1, $adapter->attempts);
     }
 
-    /** @test */
-    public function throws_after_exhausting_retries(): void
+    #[Test]
+    public function preserves_idempotency_key_across_retries_and_clears_it_after_exhaustion(): void
     {
         $adapter = new class implements HttpAdapterContract {
             use HasDefaultFactories;
 
             public int $attempts = 0;
 
+            public array $idempotencyKeys = [];
+
             public function sendRequest(PendingRequest $pendingRequest): Response
             {
                 $this->attempts++;
+                $this->idempotencyKeys[] = $pendingRequest->headers()->get(ApplyIdempotencyKey::IDEMPOTENCY_KEY_HEADER);
 
                 throw new RetryableNetworkRequestException($pendingRequest, 'temporary');
             }
@@ -89,17 +99,25 @@ class SendsRequestsRetryTest extends TestCase
         $client->setRetryStrategy(new LinearRetryStrategy(2, 0));
 
         $client->setAccessToken('access_test_token');
-        $this->expectException(RetryableNetworkRequestException::class);
+        $client->setIdempotencyKey('idempotentFooBar');
 
         try {
-            $client->send(new DynamicGetRequest('/'));
-        } finally {
-            // attempts = initial try + 2 retries
-            $this->assertSame(3, $adapter->attempts);
+            $client->send(new DynamicDeleteRequest('/'));
+            $this->fail('Expected retries to be exhausted.');
+        } catch (RetryableNetworkRequestException) {
+            $this->assertNull($client->getIdempotencyKey());
         }
+
+        // attempts = initial try + 2 retries
+        $this->assertSame(3, $adapter->attempts);
+        $this->assertSame([
+            'idempotentFooBar',
+            'idempotentFooBar',
+            'idempotentFooBar',
+        ], $adapter->idempotencyKeys);
     }
 
-    /** @test */
+    #[Test]
     public function does_not_retry_on_non_retryable_exception(): void
     {
         $adapter = new class implements HttpAdapterContract {

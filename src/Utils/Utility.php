@@ -1,12 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Utils;
 
+use BackedEnum;
 use ReflectionClass;
 use ReflectionProperty;
 
 class Utility
 {
+    /**
+     * Coerce API-facing scalar inputs to boolean, treating null-on-failure as false.
+     */
+    public static function isTrue(mixed $value): bool
+    {
+        if (! is_scalar($value)) {
+            return false;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
+    }
+
+    /**
+     * Compare an API value with an expected value. Either side may be a backed enum
+     * case or the raw backing value; two cases only match when they are the same case.
+     */
+    public static function equals($value, BackedEnum|string $expected): bool
+    {
+        if ($value instanceof BackedEnum && $expected instanceof BackedEnum) {
+            return $value === $expected;
+        }
+
+        $value = $value instanceof BackedEnum ? $value->value : $value;
+        $expectedValue = $expected instanceof BackedEnum ? $expected->value : $expected;
+
+        return $value === $expectedValue;
+    }
+
     /**
      * Get the class basename from an object or class string.
      *

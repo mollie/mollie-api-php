@@ -11,6 +11,7 @@ use Mollie\Api\Http\Requests\GetBalanceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceRequest;
 use Mollie\Api\Resources\Balance;
 use Mollie\Api\Resources\BalanceCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Traits\AmountObjectTestHelpers;
 use Tests\Fixtures\Traits\LinkObjectTestHelpers;
@@ -20,7 +21,7 @@ class BalanceEndpointCollectionTest extends TestCase
     use AmountObjectTestHelpers;
     use LinkObjectTestHelpers;
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -36,7 +37,7 @@ class BalanceEndpointCollectionTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function primary()
     {
         $client = new MockMollieClient([
@@ -52,7 +53,7 @@ class BalanceEndpointCollectionTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -94,7 +95,7 @@ class BalanceEndpointCollectionTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function iterate()
     {
         $client = new MockMollieClient([
@@ -121,11 +122,15 @@ class BalanceEndpointCollectionTest extends TestCase
         $this->assertNotEmpty($balance->mode);
         $this->assertNotEmpty($balance->createdAt);
         $this->assertNotEmpty($balance->currency);
-        $this->assertNotNull($balance->availableAmount);
-        $this->assertNotNull($balance->incomingAmount);
-        $this->assertNotNull($balance->outgoingAmount);
+        $this->assertNotEmpty($balance->availableAmount->currency);
+        $this->assertNotEmpty($balance->availableAmount->value);
+        $this->assertNotEmpty($balance->incomingAmount->currency);
+        $this->assertNotEmpty($balance->incomingAmount->value);
+        $this->assertNotEmpty($balance->outgoingAmount->currency);
+        $this->assertNotEmpty($balance->outgoingAmount->value);
         $this->assertNotEmpty($balance->transferFrequency);
-        $this->assertNotNull($balance->transferThreshold);
+        $this->assertNotEmpty($balance->transferThreshold->currency);
+        $this->assertNotEmpty($balance->transferThreshold->value);
         $this->assertNotEmpty($balance->transferReference);
         $this->assertNotNull($balance->transferDestination);
         $this->assertNotNull($balance->_links->self);

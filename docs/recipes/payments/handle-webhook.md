@@ -69,7 +69,7 @@ try {
 
 ```php
 $payment->id;                // "tr_7UhSN1zuXS"
-$payment->status;           // "paid"
+$payment->status;           // PaymentStatus::Paid
 $payment->amount->currency; // "EUR"
 $payment->amount->value;    // "10.00"
 $payment->description;      // "Order #1234"
@@ -95,4 +95,3 @@ $payment->paidAt;          // "2024-02-24T12:15:00+00:00"
   - Status changes (paid, failed, expired, etc.)
   - Refunds (full and partial)
   - Chargebacks
-

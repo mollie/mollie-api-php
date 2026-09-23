@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,13 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Payment;
+use Mollie\Api\Types\PaymentMethod;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreatePaymentRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_payment()
     {
         $client = new MockMollieClient([
@@ -34,7 +38,7 @@ class CreatePaymentRequestTest extends TestCase
         $this->assertInstanceOf(Payment::class, $payment);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_google_pay_payment_with_payment_token()
     {
         $client = MollieApiClient::fake([
@@ -42,7 +46,7 @@ class CreatePaymentRequestTest extends TestCase
         ]);
 
         $client->payments->create([
-            'method' => 'creditcard',
+            'method' => PaymentMethod::Creditcard,
             'googlePayPaymentToken' => '<stub_jwt>',
             'amount' => [
                 'currency' => 'EUR',
@@ -62,7 +66,7 @@ class CreatePaymentRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreatePaymentRequest(

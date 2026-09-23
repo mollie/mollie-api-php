@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
@@ -13,7 +15,7 @@ class GetEnabledMethodsRequestFactory extends RequestFactory
         $includeIssuers = $this->queryIncludes('include', MethodQuery::INCLUDE_ISSUERS);
 
         return new GetEnabledMethodsRequest(
-            $this->query('sequenceType', SequenceType::ONEOFF),
+            $this->query('sequenceType', SequenceType::Oneoff->value),
             $this->query('resource', MethodQuery::RESOURCE_PAYMENTS),
             $this->query('locale'),
             $this->transformFromQuery('amount', fn ($item) => MoneyFactory::new($item)->create()),

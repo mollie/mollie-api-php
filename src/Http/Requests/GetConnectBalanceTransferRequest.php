@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\ConnectBalanceTransfer>
+ */
 class GetConnectBalanceTransferRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     /**
@@ -16,13 +21,11 @@ class GetConnectBalanceTransferRequest extends ResourceHydratableRequest impleme
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = ConnectBalanceTransfer::class;
+    protected ?string $hydratableResource = ConnectBalanceTransfer::class;
 
-    private string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
+    public function __construct(
+        private string $id,
+    ) {
     }
 
     /**

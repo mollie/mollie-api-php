@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Factories;
 
 use Mollie\Api\Contracts\Arrayable;
@@ -48,8 +50,8 @@ abstract class Factory
         }
 
         foreach ($keys as $key) {
-            if ($value = Arr::get($data, $key, $default)) {
-                return $value;
+            if (Arr::has($data, $key)) {
+                return Arr::get($data, $key);
             }
         }
 

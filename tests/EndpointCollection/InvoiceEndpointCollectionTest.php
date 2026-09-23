@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,13 @@ use Mollie\Api\Http\Requests\GetInvoiceRequest;
 use Mollie\Api\Http\Requests\GetPaginatedInvoiceRequest;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Resources\InvoiceCollection;
+use Mollie\Api\Types\InvoiceStatus;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -26,7 +30,7 @@ class InvoiceEndpointCollectionTest extends TestCase
         $this->assertInvoice($invoice);
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -43,7 +47,7 @@ class InvoiceEndpointCollectionTest extends TestCase
         $this->assertInvoice($invoices[0]);
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([
@@ -63,7 +67,7 @@ class InvoiceEndpointCollectionTest extends TestCase
         $this->assertEquals('invoice', $invoice->resource);
         $this->assertEquals('2023.10000', $invoice->reference);
         $this->assertEquals('NL001234567B01', $invoice->vatNumber);
-        $this->assertEquals('open', $invoice->status);
+        $this->assertSame(InvoiceStatus::Open, $invoice->status);
         $this->assertEquals('45.00', $invoice->netAmount->value);
         $this->assertEquals('EUR', $invoice->netAmount->currency);
         $this->assertEquals('9.45', $invoice->vatAmount->value);

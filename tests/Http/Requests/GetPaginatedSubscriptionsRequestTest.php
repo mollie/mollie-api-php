@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Requests\GetPaginatedSubscriptionsRequest;
 use Mollie\Api\Resources\LazyCollection;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Resources\SubscriptionCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedSubscriptionsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_subscriptions()
     {
         $client = new MockMollieClient([
@@ -36,7 +39,7 @@ class GetPaginatedSubscriptionsRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_subscriptions()
     {
         $client = new MockMollieClient([
@@ -60,7 +63,7 @@ class GetPaginatedSubscriptionsRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';

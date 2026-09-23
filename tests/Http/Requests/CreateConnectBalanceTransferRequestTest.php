@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -9,11 +11,12 @@ use Mollie\Api\Http\Data\TransferParty;
 use Mollie\Api\Http\Requests\CreateConnectBalanceTransferRequest;
 use Mollie\Api\Resources\ConnectBalanceTransfer;
 use Mollie\Api\Types\ConnectBalanceTransferCategory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateConnectBalanceTransferRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_connect_balance_transfer()
     {
         $client = new MockMollieClient([
@@ -31,7 +34,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
                 'org_87654321',
                 'Payment to Organization B'
             ),
-            ConnectBalanceTransferCategory::MANUAL_CORRECTION,
+            ConnectBalanceTransferCategory::ManualCorrection->value,
             [
                 'order_id' => '12345',
                 'description' => 'Manual correction for order',
@@ -45,7 +48,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
         $this->assertInstanceOf(ConnectBalanceTransfer::class, $balanceTransfer);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new CreateConnectBalanceTransferRequest(
@@ -59,7 +62,7 @@ class CreateConnectBalanceTransferRequestTest extends TestCase
                 'org_87654321',
                 'Payment to Organization B'
             ),
-            ConnectBalanceTransferCategory::PURCHASE
+            ConnectBalanceTransferCategory::Purchase->value
         );
 
         $this->assertEquals('connect/balance-transfers', $request->resolveResourcePath());

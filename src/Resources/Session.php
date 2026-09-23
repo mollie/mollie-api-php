@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\Http\Data\Address;
+use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Traits\HasMode;
 use Mollie\Api\Types\SessionStatus;
+use Mollie\Api\Utils\Utility;
 
 /**
  * @property \Mollie\Api\MollieApiClient $connector
@@ -12,131 +17,69 @@ class Session extends BaseResource
 {
     use HasMode;
 
-    /**
-     * The session's unique identifier,
-     *
-     * @example sess_dfsklg13jO
-     *
-     * @var string
-     */
-    public $id;
+    public string $id;
+
+    public SessionStatus|string $status;
+
+    public string $clientAccessToken;
+
+    public string $redirectUrl;
+
+    public ?string $cancelUrl = null;
+
+    public Money $amount;
+
+    public string $description;
+
+    public ?Address $shippingAddress = null;
+
+    public ?Address $billingAddress = null;
+
+    public ?string $customerId = null;
+
+    public ?string $sequenceType = null;
 
     /**
-     * Status of the session.
-     *
-     * @var string
-     */
-    public $status;
-
-    /**
-     * Client access token for the session.
-     *
-     * @var string
-     */
-    public $clientAccessToken;
-
-    /**
-     * The URL the buyer will be redirected to in case the
-     * payment preparation process requires a 3rd party redirect.
-     *
-     * @var string
-     */
-    public $redirectUrl;
-
-    /**
-     * The URL the buyer will be redirected to if they
-     * cancel their payment during a 3rd party redirect..
-     *
-     * @var string
-     */
-    public $cancelUrl;
-
-    /**
-     * The amount you intend to charge containing the value and currency.
-     *
-     * Note - this is not necessarily the final amount of the
-     * payment.You will specify the final amount upon Order creation
-     *
-     * @var \stdClass
-     */
-    public $amount;
-
-    /**
-     * Description of the payment intent.
-     *
-     * @var string
-     */
-    public $description;
-
-    /**
-     * The person and the address the payment is shipped to.
-     *
-     * @var \stdClass|null
-     */
-    public $shippingAddress;
-
-    /**
-     * The person and the address the payment is billed to.
-     *
-     * @var \stdClass|null
-     */
-    public $billingAddress;
-
-    /**
-     * ID of the customer the session is created for.
-     *
-     * @var string|null
-     */
-    public $customerId;
-
-    /**
-     * Sequence type for recurring payments.
-     *
-     * @var string|null
-     */
-    public $sequenceType;
-
-    /**
-     * Metadata associated with the session.
-     *
      * @var object|array|null
      */
-    public $metadata;
+    public $metadata = null;
 
     /**
-     * Payment settings for the session.
-     *
      * @var \stdClass|null
      */
-    public $payment;
+    public $payment = null;
 
     /**
-     * Order lines for the session.
-     *
      * @var array|object[]|null
      */
-    public $lines;
+    public ?array $lines = null;
 
     /**
-     * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
-     *
      * @var \stdClass
      */
     public $_links;
 
-    public function isOpen()
+    public function isOpen(): bool
     {
-        return $this->status === SessionStatus::OPEN;
+        return Utility::equals($this->status, SessionStatus::Open);
     }
 
-    public function isExpired()
+    public function isExpired(): bool
     {
-        return $this->status === SessionStatus::EXPIRED;
+        return Utility::equals($this->status, SessionStatus::Expired);
     }
 
-    public function isCompleted()
+    public function isCompleted(): bool
     {
-        return $this->status === SessionStatus::COMPLETED;
+        return Utility::equals($this->status, SessionStatus::Completed);
     }
 
+    public function getRedirectUrl(): ?string
+    {
+        if (empty($this->_links->redirect)) {
+            return null;
+        }
+
+        return $this->_links->redirect->href;
+    }
 }

@@ -1,16 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetPaginatedBalanceTransactionRequest;
 use Mollie\Api\Resources\BalanceTransactionCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedBalanceTransactionRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
+    public function it_supports_testmode_in_the_query()
+    {
+        $request = new GetPaginatedBalanceTransactionRequest('bal_gVMhHKqSSRYJyPsuoPNFH');
+
+        $this->assertInstanceOf(SupportsTestmodeInQuery::class, $request);
+    }
+
+    #[Test]
     public function it_can_get_paginated_balance_transactions()
     {
         $client = new MockMollieClient([
@@ -27,7 +39,7 @@ class GetPaginatedBalanceTransactionRequestTest extends TestCase
         $this->assertInstanceOf(BalanceTransactionCollection::class, $balanceTransactions);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $balanceId = 'bal_gVMhHKqSSRYJyPsuoPNFH';

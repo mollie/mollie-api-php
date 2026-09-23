@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -10,11 +12,12 @@ use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Http\Requests\UpdatePaymentLinkRequest;
 use Mollie\Api\Resources\PaymentLink;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class UpdatePaymentLinkRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_update_payment_link()
     {
         $client = new MockMollieClient([
@@ -30,7 +33,7 @@ class UpdatePaymentLinkRequestTest extends TestCase
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new UpdatePaymentLinkRequest('pl_4Y0eZitmBnQ5jsBYZIBw', 'Updated payment link');
@@ -38,7 +41,7 @@ class UpdatePaymentLinkRequestTest extends TestCase
         $this->assertEquals('payment-links/pl_4Y0eZitmBnQ5jsBYZIBw', $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_payment_link_with_klarna_fields()
     {
         $client = new MockMollieClient([

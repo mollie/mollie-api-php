@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
+use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Requests\GetEnabledMethodsRequest;
+use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Method;
 use Mollie\Api\Resources\MethodCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetEnabledMethodsRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_enabled_methods()
     {
         $client = new MockMollieClient([
@@ -27,7 +32,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertInstanceOf(MethodCollection::class, $methods);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new GetEnabledMethodsRequest;
@@ -35,7 +40,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertEquals('methods', $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_out_methods_with_null_status_when_flag_is_true()
     {
         $client = new MockMollieClient([
@@ -67,7 +72,7 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertNotContains('voucher', $methodIds);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_filter_out_methods_with_null_status_when_flag_is_false()
     {
         $client = new MockMollieClient([
@@ -95,6 +100,27 @@ class GetEnabledMethodsRequestTest extends TestCase
         $this->assertContains('ideal', $methodIds);
         $this->assertContains('creditcard', $methodIds);
         $this->assertContains('voucher', $methodIds);
+    }
+
+    #[Test]
+    public function its_low_priority_filter_runs_after_low_priority_raw_middleware(): void
+    {
+        $client = new MockMollieClient([
+            GetEnabledMethodsRequest::class => MockResponse::list(MethodCollection::class)
+                ->addMany($this->getMethodListResponse())
+                ->create(),
+        ]);
+        $rawResponse = null;
+
+        $client->middleware()->onResponse(function (Response $response) use (&$rawResponse): void {
+            $rawResponse = $response;
+        }, MiddlewarePriority::LOW);
+
+        $methods = $client->send(new GetEnabledMethodsRequest);
+
+        $this->assertInstanceOf(Response::class, $rawResponse);
+        $this->assertInstanceOf(MethodCollection::class, $methods);
+        $this->assertCount(2, $methods);
     }
 
     /**

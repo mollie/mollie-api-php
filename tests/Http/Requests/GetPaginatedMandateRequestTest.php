@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Http\Requests;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -11,11 +13,12 @@ use Mollie\Api\Http\Requests\GetPaginatedMandateRequest;
 use Mollie\Api\Resources\Mandate;
 use Mollie\Api\Resources\MandateCollection;
 use Mollie\Api\Types\MandateQuery;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class GetPaginatedMandateRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_paginated_mandates()
     {
         $client = new MockMollieClient([
@@ -37,7 +40,7 @@ class GetPaginatedMandateRequestTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_can_iterate_over_mandates()
     {
         $client = new MockMollieClient([
@@ -61,7 +64,7 @@ class GetPaginatedMandateRequestTest extends TestCase
         $client->assertSentCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $customerId = 'cst_kEn1PlbGa';
@@ -70,7 +73,7 @@ class GetPaginatedMandateRequestTest extends TestCase
         $this->assertEquals("customers/{$customerId}/mandates", $request->resolveResourcePath());
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_include_scopes_in_query_by_default()
     {
         $client = new MockMollieClient([
@@ -86,7 +89,7 @@ class GetPaginatedMandateRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_scopes_as_array_in_query()
     {
         $client = new MockMollieClient([

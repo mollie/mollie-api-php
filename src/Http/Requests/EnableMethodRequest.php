@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Resources\Method;
@@ -7,6 +9,8 @@ use Mollie\Api\Types\Method as HttpMethod;
 
 /**
  * @see https://docs.mollie.com/reference/enable-method
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Method>
  */
 class EnableMethodRequest extends ResourceHydratableRequest
 {
@@ -18,16 +22,12 @@ class EnableMethodRequest extends ResourceHydratableRequest
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Method::class;
+    protected ?string $hydratableResource = Method::class;
 
-    private string $profileId;
-
-    private string $methodId;
-
-    public function __construct(string $profileId, string $methodId)
-    {
-        $this->profileId = $profileId;
-        $this->methodId = $methodId;
+    public function __construct(
+        private string $profileId,
+        private string $methodId,
+    ) {
     }
 
     public function resolveResourcePath(): string

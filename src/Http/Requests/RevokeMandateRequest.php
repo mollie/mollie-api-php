@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInPayload;
@@ -19,14 +21,10 @@ class RevokeMandateRequest extends Request implements SupportsTestmodeInPayload
      */
     protected static string $method = Method::DELETE;
 
-    private string $customerId;
-
-    private string $mandateId;
-
-    public function __construct(string $customerId, string $mandateId)
-    {
-        $this->customerId = $customerId;
-        $this->mandateId = $mandateId;
+    public function __construct(
+        private string $customerId,
+        private string $mandateId,
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Utils;
 
 use Closure;
@@ -7,7 +9,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\VarDumper\VarDumper;
+use RuntimeException;
 
 class Debugger
 {
@@ -19,17 +21,24 @@ class Debugger
     public static $dieHandler = null;
 
     /**
+     * @var bool|null
+     */
+    private static ?bool $symfonyVarDumperExists = null;
+
+    /**
      * Debug a request with Symfony Var Dumper
      */
     public static function symfonyRequestDebugger(PendingRequest $pendingRequest, RequestInterface $psrRequest): void
     {
+        self::ensureSymfonyVarDumperIsAvailable();
+
         $headers = [];
 
         foreach ($psrRequest->getHeaders() as $headerName => $value) {
             $headers[$headerName] = implode(';', $value);
         }
 
-        VarDumper::dump([
+        \Symfony\Component\VarDumper\VarDumper::dump([
             'request' => get_class($pendingRequest->getRequest()),
             'method' => $psrRequest->getMethod(),
             'uri' => (string) $psrRequest->getUri(),
@@ -43,17 +52,32 @@ class Debugger
      */
     public static function symfonyResponseDebugger(Response $response, ResponseInterface $psrResponse): void
     {
+        self::ensureSymfonyVarDumperIsAvailable();
+
         $headers = [];
 
         foreach ($psrResponse->getHeaders() as $headerName => $value) {
             $headers[$headerName] = implode(';', $value);
         }
 
-        VarDumper::dump([
+        \Symfony\Component\VarDumper\VarDumper::dump([
             'status' => $response->status(),
             'headers' => $headers,
             'body' => json_decode((string) $psrResponse->getBody(), true),
         ]);
+    }
+
+    private static function ensureSymfonyVarDumperIsAvailable(): void
+    {
+        self::$symfonyVarDumperExists ??= class_exists(\Symfony\Component\VarDumper\VarDumper::class);
+
+        if (self::$symfonyVarDumperExists) {
+            return;
+        }
+
+        throw new RuntimeException(
+            'Debugging with the default Symfony debugger requires symfony/var-dumper. Install symfony/var-dumper with Composer or pass a custom debug callback.'
+        );
     }
 
     /**

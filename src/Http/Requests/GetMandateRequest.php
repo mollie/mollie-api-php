@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -8,6 +10,8 @@ use Mollie\Api\Types\Method;
 
 /**
  * @see https://docs.mollie.com/reference/v2/mandates-api/get-mandate
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Mandate>
  */
 class GetMandateRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -19,16 +23,12 @@ class GetMandateRequest extends ResourceHydratableRequest implements SupportsTes
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Mandate::class;
+    protected ?string $hydratableResource = Mandate::class;
 
-    private string $customerId;
-
-    private string $mandateId;
-
-    public function __construct(string $customerId, string $mandateId)
-    {
-        $this->customerId = $customerId;
-        $this->mandateId = $mandateId;
+    public function __construct(
+        private string $customerId,
+        private string $mandateId,
+    ) {
     }
 
     public function resolveResourcePath(): string

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use Mollie\Api\Contracts\SupportsTestmodeInQuery;
@@ -10,6 +12,8 @@ use Mollie\Api\Utils\Arr;
 
 /**
  * @see https://docs.mollie.com/reference/v2/captures-api/get-capture
+ *
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Capture>
  */
 class GetPaymentCaptureRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
@@ -21,19 +25,13 @@ class GetPaymentCaptureRequest extends ResourceHydratableRequest implements Supp
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Capture::class;
+    protected ?string $hydratableResource = Capture::class;
 
-    private string $paymentId;
-
-    private string $captureId;
-
-    private bool $embedPayment;
-
-    public function __construct(string $paymentId, string $captureId, bool $embedPayment = false)
-    {
-        $this->paymentId = $paymentId;
-        $this->captureId = $captureId;
-        $this->embedPayment = $embedPayment;
+    public function __construct(
+        private string $paymentId,
+        private string $captureId,
+        private bool $embedPayment = false,
+    ) {
     }
 
     protected function defaultQuery(): array

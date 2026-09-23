@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Adapter;
 
 use Composer\CaBundle\CaBundle;
@@ -15,6 +17,13 @@ class CurlFactory
     private $handle;
 
     private PendingRequest $pendingRequest;
+
+    /**
+     * @var array<int, mixed>
+     */
+    // Read by CurlFactoryTest through reflection.
+    // @phpstan-ignore property.onlyWritten
+    private array $options = [];
 
     private function __construct($handle, PendingRequest $pendingRequest)
     {
@@ -40,6 +49,7 @@ class CurlFactory
         $this->setOption(CURLOPT_CONNECTTIMEOUT, self::DEFAULT_CONNECT_TIMEOUT);
         $this->setOption(CURLOPT_TIMEOUT, self::DEFAULT_TIMEOUT);
         $this->setOption(CURLOPT_SSL_VERIFYPEER, true);
+        $this->setOption(CURLOPT_SSL_VERIFYHOST, 2);
         $this->setOption(CURLOPT_CAINFO, CaBundle::getBundledCaBundlePath());
 
         return $this;
@@ -102,6 +112,8 @@ class CurlFactory
                 sprintf('Failed to set CURL option %d', $option)
             );
         }
+
+        $this->options[$option] = $value;
     }
 
     private function parseHeaders(array $headers): array

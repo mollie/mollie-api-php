@@ -1,22 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\EmbeddedResourcesContract;
 use Mollie\Api\Contracts\ResourceOrigin;
-use Mollie\Api\Exceptions\EmbeddedResourcesNotParseableException;
 
 class ResourceHydrator
 {
+    public function __construct(private ?ResourcePropertyTypeResolver $propertyTypes = null)
+    {
+    }
+
     /**
      * Hydrate raw resource data into a typed resource.
      *
+     * @param  BaseResource  $resource
      * @param  object|array  $data
+     * @param  ResourceOrigin  $origin
      */
     public function hydrate(BaseResource $resource, $data, ResourceOrigin $origin): BaseResource
     {
-        // Convert object to array for consistent handling
         if (is_object($data)) {
             $data = (array) $data;
         }
@@ -24,10 +30,29 @@ class ResourceHydrator
         if ($resource instanceof AnyResource) {
             $resource->fill($data);
         } else {
+            $typeMap = $this->propertyTypes()->typesFor($resource);
+
             foreach ($data as $property => $value) {
-                $resource->{$property} = $this->holdsEmbeddedResources($resource, $property, $value)
-                    ? $this->parseEmbeddedResources($resource->getConnector(), $resource, $value, $origin)
-                    : $value;
+                $property = (string) $property;
+
+                if ($this->holdsEmbeddedResources($resource, $property, $value)) {
+                    $resource->{$property} = $this->parseEmbeddedResources(
+                        $resource->getConnector(),
+                        $resource,
+                        $value,
+                        $origin
+                    );
+
+                    continue;
+                }
+
+                if (isset($typeMap[$property])) {
+                    $resource->{$property} = $this->propertyTypes()->cast($typeMap[$property], $value);
+
+                    continue;
+                }
+
+                $resource->{$property} = $value;
             }
         }
 
@@ -39,7 +64,9 @@ class ResourceHydrator
     /**
      * Hydrate a collection with data.
      *
+     * @param  ResourceCollection  $collection
      * @param  array|object  $items
+     * @param  ResourceOrigin  $origin
      * @param  object|null  $_links
      */
     public function hydrateCollection(
@@ -48,7 +75,6 @@ class ResourceHydrator
         ResourceOrigin $origin,
         $_links = null
     ): ResourceCollection {
-        // Convert object to array for consistent handling
         if (is_object($items)) {
             $items = (array) $items;
         }
@@ -71,6 +97,11 @@ class ResourceHydrator
             ->setOrigin($origin);
     }
 
+    private function propertyTypes(): ResourcePropertyTypeResolver
+    {
+        return $this->propertyTypes ??= new ResourcePropertyTypeResolver;
+    }
+
     private function holdsEmbeddedResources(object $resource, string $key, $value): bool
     {
         return $key === '_embedded'
@@ -90,9 +121,13 @@ class ResourceHydrator
             $collectionOrResourceClass = $resource->getEmbeddedResourcesMap()[$resourceKey] ?? null;
 
             if (is_null($collectionOrResourceClass)) {
-                throw new EmbeddedResourcesNotParseableException(
-                    'Resource '.get_class($resource)." does not have a mapping for embedded resource {$resourceKey}"
+                $result->{$resourceKey} = $this->hydrate(
+                    ResourceFactory::create($connector, AnyResource::class),
+                    $resourceData,
+                    $origin
                 );
+
+                continue;
             }
 
             $result->{$resourceKey} = is_subclass_of($collectionOrResourceClass, BaseResource::class)

@@ -9,6 +9,9 @@ use Mollie\Api\Resources\Payout;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Payout>
+ */
 class CreatePayoutRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
@@ -21,7 +24,7 @@ class CreatePayoutRequest extends ResourceHydratableRequest implements HasPayloa
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Payout::class;
+    protected ?string $hydratableResource = Payout::class;
 
     private string $balanceId;
 

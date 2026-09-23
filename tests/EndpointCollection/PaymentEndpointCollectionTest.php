@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\EndpointCollection;
 
 use Mollie\Api\Fake\MockMollieClient;
@@ -17,11 +19,12 @@ use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\PaymentCollection;
 use Mollie\Api\Resources\Refund;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PaymentEndpointCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function create()
     {
         $client = new MockMollieClient([
@@ -39,7 +42,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertPayment($payment);
     }
 
-    /** @test */
+    #[Test]
     public function get()
     {
         $client = new MockMollieClient([
@@ -52,7 +55,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertPayment($payment);
     }
 
-    /** @test */
+    #[Test]
     public function update()
     {
         $client = new MockMollieClient([
@@ -68,7 +71,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertPayment($payment);
     }
 
-    /** @test */
+    #[Test]
     public function cancel()
     {
         $client = new MockMollieClient([
@@ -82,7 +85,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertInstanceOf(Payment::class, $payment);
     }
 
-    /** @test */
+    #[Test]
     public function refund()
     {
         $client = new MockMollieClient([
@@ -105,7 +108,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertEquals('EUR', $refund->amount->currency);
     }
 
-    /** @test */
+    #[Test]
     public function release_authorization()
     {
         $client = new MockMollieClient([
@@ -120,7 +123,7 @@ class PaymentEndpointCollectionTest extends TestCase
         $this->assertTrue($response->successful());
     }
 
-    /** @test */
+    #[Test]
     public function page()
     {
         $client = new MockMollieClient([
@@ -139,7 +142,7 @@ class PaymentEndpointCollectionTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function iterator()
     {
         $client = new MockMollieClient([

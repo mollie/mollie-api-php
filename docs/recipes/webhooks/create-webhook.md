@@ -6,7 +6,8 @@ How to create webhooks to receive notifications about events using the Mollie AP
 
 ```php
 use Mollie\Api\Http\Requests\CreateWebhookRequest;
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Types\WebhookStatus;
+use Mollie\Api\Webhooks\WebhookEventType;
 
 try {
     // Create a webhook using the direct request (new style)
@@ -18,11 +19,15 @@ try {
         )
     );
 
+    $status = $webhook->status instanceof WebhookStatus
+        ? $webhook->status->value
+        : $webhook->status;
+
     echo "Webhook created: {$webhook->id}\n";
     echo "URL: {$webhook->url}\n";
     echo "Name: {$webhook->name}\n";
-    echo "Event Types: {$webhook->eventTypes}\n";
-    echo "Status: {$webhook->status}\n";
+    echo "Event Types: " . implode(', ', $webhook->eventTypes) . "\n";
+    echo "Status: {$status}\n";
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
@@ -31,7 +36,7 @@ try {
 ## Using Endpoint Collections (Legacy Style)
 
 ```php
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 
 try {
     // Create a webhook using endpoint collections
@@ -53,28 +58,28 @@ try {
 $webhook->resource;    // "webhook"
 $webhook->id;          // "wh_4KgGJJSZpH"
 $webhook->url;         // "https://example.com/webhook"
-$webhook->profileId;   // "pfl_v9hTwCvYqw"
+$webhook->profileId;   // Profile ID, or null when no profile applies
 $webhook->createdAt;   // "2023-12-25T10:30:54+00:00"
 $webhook->name;        // "Payment notifications"
-$webhook->eventTypes;  // "payment-link.paid"
-$webhook->status;      // "enabled"
+$webhook->eventTypes;  // Array of subscribed event type strings
+$webhook->status;      // WebhookStatus case, or an unknown raw string
 $webhook->_links;      // Object containing webhook links
 ```
 
 ## Available Event Types
 
-This endpoint is under active development. Keep an eye on the Mollie documentation to see what events are being supported.
-Currently, only one event type is supported:
+Use the `WebhookEventType` constants for the event types supported by your integration. Check the Mollie documentation for the latest availability.
 
 ```php
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 
-// Currently supported event type
 WebhookEventType::PAYMENT_LINK_PAID;  // "payment-link.paid"
+WebhookEventType::SALES_INVOICE_PAID; // "sales-invoice.paid"
+WebhookEventType::PROFILE_VERIFIED;   // "profile.verified"
 
 // Get all available event types
 $allEventTypes = WebhookEventType::getAll();
-// Returns: ["payment-link.paid"]
+// Returns their raw string values
 ```
 
 ## Additional Notes

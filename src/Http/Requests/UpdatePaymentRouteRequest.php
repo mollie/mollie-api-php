@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Http\Requests;
 
 use DateTimeInterface;
@@ -10,6 +12,9 @@ use Mollie\Api\Resources\Route;
 use Mollie\Api\Traits\HasJsonPayload;
 use Mollie\Api\Types\Method;
 
+/**
+ * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Route>
+ */
 class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements HasPayload, SupportsTestmodeInPayload
 {
     use HasJsonPayload;
@@ -22,27 +27,16 @@ class UpdatePaymentRouteRequest extends ResourceHydratableRequest implements Has
     /**
      * The resource class the request should be casted to.
      */
-    protected $hydratableResource = Route::class;
-
-    private string $paymentId;
-
-    private string $routeId;
-
-    /**
-     * This attribute is intentionally not typed because of legacy support.
-     *
-     * @var DateTimeInterface|Date
-     */
-    private $releaseDate;
+    protected ?string $hydratableResource = Route::class;
 
     /**
      * @param  DateTimeInterface|Date  $releaseDate
      */
-    public function __construct(string $paymentId, string $routeId, $releaseDate)
-    {
-        $this->paymentId = $paymentId;
-        $this->routeId = $routeId;
-        $this->releaseDate = $releaseDate;
+    public function __construct(
+        private string $paymentId,
+        private string $routeId,
+        private $releaseDate,
+    ) {
     }
 
     protected function defaultPayload(): array

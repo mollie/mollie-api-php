@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Utils;
 
+use BackedEnum;
 use DateTimeInterface;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Contracts\HasPayload;
@@ -69,6 +72,10 @@ class DataTransformer
 
                 if ($value instanceof Stringable) {
                     return (string) $value;
+                }
+
+                if ($value instanceof BackedEnum) {
+                    return $value->value;
                 }
 
                 /**

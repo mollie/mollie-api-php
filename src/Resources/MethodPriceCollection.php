@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Resources;
 
+/**
+ * @extends ResourceCollection<\Mollie\Api\Resources\MethodPrice>
+ */
 class MethodPriceCollection extends ResourceCollection
 {
     /**

@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Resources\WebhookEvent;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class WebhookEventTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function has_entity_returns_true_when_embedded_entity_exists()
     {
         $client = new MockMollieClient([]);
@@ -25,7 +28,7 @@ class WebhookEventTest extends TestCase
         $this->assertTrue($webhookEvent->hasEntity());
     }
 
-    /** @test */
+    #[Test]
     public function has_entity_returns_false_when_embedded_entity_is_null()
     {
         $client = new MockMollieClient([]);
@@ -38,7 +41,7 @@ class WebhookEventTest extends TestCase
         $this->assertFalse($webhookEvent->hasEntity());
     }
 
-    /** @test */
+    #[Test]
     public function has_entity_returns_false_when_embedded_is_null()
     {
         $client = new MockMollieClient([]);
@@ -49,7 +52,7 @@ class WebhookEventTest extends TestCase
         $this->assertFalse($webhookEvent->hasEntity());
     }
 
-    /** @test */
+    #[Test]
     public function get_entity_returns_entity_when_embedded_entity_exists()
     {
         $client = new MockMollieClient([]);
@@ -68,7 +71,7 @@ class WebhookEventTest extends TestCase
         $this->assertSame($entity, $webhookEvent->getEntity());
     }
 
-    /** @test */
+    #[Test]
     public function get_entity_returns_null_when_embedded_entity_is_null()
     {
         $client = new MockMollieClient([]);
@@ -81,7 +84,7 @@ class WebhookEventTest extends TestCase
         $this->assertNull($webhookEvent->getEntity());
     }
 
-    /** @test */
+    #[Test]
     public function get_entity_returns_null_when_embedded_is_null()
     {
         $client = new MockMollieClient([]);
@@ -92,7 +95,7 @@ class WebhookEventTest extends TestCase
         $this->assertNull($webhookEvent->getEntity());
     }
 
-    /** @test */
+    #[Test]
     public function webhook_event_has_correct_properties()
     {
         $client = new MockMollieClient([]);

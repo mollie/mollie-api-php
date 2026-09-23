@@ -3,6 +3,8 @@ parameters:
     paths:
         - src
         - tests
+    parallel:
+        maximumNumberOfProcesses: 1
     treatPhpDocTypesAsCertain: false
 includes:
     - phpstan-baseline.neon

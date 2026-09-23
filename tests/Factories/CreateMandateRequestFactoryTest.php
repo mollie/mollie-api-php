@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Factories;
 
 use Mollie\Api\Factories\CreateMandateRequestFactory;
 use Mollie\Api\Http\Requests\CreateMandateRequest;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class CreateMandateRequestFactoryTest extends TestCase
 {
     private const CUSTOMER_ID = 'cst_12345';
 
-    /** @test */
+    #[Test]
     public function create_returns_mandate_request_object_with_full_data()
     {
         $request = CreateMandateRequestFactory::new(self::CUSTOMER_ID)
@@ -29,7 +32,7 @@ class CreateMandateRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateMandateRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_mandate_request_object_with_minimal_data()
     {
         $request = CreateMandateRequestFactory::new(self::CUSTOMER_ID)
@@ -42,7 +45,7 @@ class CreateMandateRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateMandateRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_returns_mandate_request_object_with_partial_data()
     {
         $request = CreateMandateRequestFactory::new(self::CUSTOMER_ID)
@@ -57,7 +60,7 @@ class CreateMandateRequestFactoryTest extends TestCase
         $this->assertInstanceOf(CreateMandateRequest::class, $request);
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_required_fields_are_missing()
     {
         $this->expectException(\Mollie\Api\Exceptions\LogicException::class);
@@ -67,7 +70,7 @@ class CreateMandateRequestFactoryTest extends TestCase
             ->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_method_is_missing()
     {
         $this->expectException(\Mollie\Api\Exceptions\LogicException::class);
@@ -80,7 +83,7 @@ class CreateMandateRequestFactoryTest extends TestCase
             ->create();
     }
 
-    /** @test */
+    #[Test]
     public function create_throws_exception_when_consumer_name_is_missing()
     {
         $this->expectException(\Mollie\Api\Exceptions\LogicException::class);

@@ -6,11 +6,12 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\RevokeTerminalPairingCodeRequest;
 use Mollie\Api\Resources\TerminalPairingCode;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class RevokeTerminalPairingCodeRequestTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_revoke_terminal_pairing_code()
     {
         $client = new MockMollieClient([
@@ -28,7 +29,7 @@ class RevokeTerminalPairingCodeRequestTest extends TestCase
         $this->assertNotEmpty($pairingCode->revokedAt);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_correct_resource_path()
     {
         $request = new RevokeTerminalPairingCodeRequest('termpc_R7gX5Ea9bC4DkFj3G');

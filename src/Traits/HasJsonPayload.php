@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mollie\Api\Traits;
 
 use Mollie\Api\Repositories\JsonPayloadRepository;

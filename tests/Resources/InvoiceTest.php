@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Resources;
 
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Resources\Invoice;
 use Mollie\Api\Types\InvoiceStatus;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvoiceTest extends TestCase
@@ -14,9 +18,10 @@ class InvoiceTest extends TestCase
      * @param  string  $function
      * @param  bool  $expected_boolean
      *
-     * @dataProvider dpTestInvoiceStatuses
      */
-    public function test_invoice_statuses($status, $function, $expected_boolean)
+    #[DataProvider('dpTestInvoiceStatuses')]
+    #[Test]
+    public function invoice_statuses($status, $function, $expected_boolean)
     {
         $invoice = new Invoice(
             $this->createMock(MollieApiClient::class),
@@ -26,20 +31,20 @@ class InvoiceTest extends TestCase
         $this->assertEquals($expected_boolean, $invoice->{$function}());
     }
 
-    public function dpTestInvoiceStatuses()
+    public static function dpTestInvoiceStatuses()
     {
         return [
-            [InvoiceStatus::PAID, 'isPaid', true],
-            [InvoiceStatus::PAID, 'isOpen', false],
-            [InvoiceStatus::PAID, 'isOverdue', false],
+            [InvoiceStatus::Paid->value, 'isPaid', true],
+            [InvoiceStatus::Paid->value, 'isOpen', false],
+            [InvoiceStatus::Paid->value, 'isOverdue', false],
 
-            [InvoiceStatus::OPEN, 'isPaid', false],
-            [InvoiceStatus::OPEN, 'isOpen', true],
-            [InvoiceStatus::OPEN, 'isOverdue', false],
+            [InvoiceStatus::Open->value, 'isPaid', false],
+            [InvoiceStatus::Open->value, 'isOpen', true],
+            [InvoiceStatus::Open->value, 'isOverdue', false],
 
-            [InvoiceStatus::OVERDUE, 'isPaid', false],
-            [InvoiceStatus::OVERDUE, 'isOpen', false],
-            [InvoiceStatus::OVERDUE, 'isOverdue', true],
+            [InvoiceStatus::Overdue->value, 'isPaid', false],
+            [InvoiceStatus::Overdue->value, 'isOpen', false],
+            [InvoiceStatus::Overdue->value, 'isOverdue', true],
         ];
     }
 }
