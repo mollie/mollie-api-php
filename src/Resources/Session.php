@@ -47,7 +47,9 @@ class Session extends BaseResource
      * The URL the buyer will be redirected to if they
      * cancel their payment during a 3rd party redirect..
      *
-     * @var string
+     * @deprecated Not part of the Checkout Sessions API response.
+     *
+     * @var string|null
      */
     public $cancelUrl;
 
@@ -116,6 +118,46 @@ class Session extends BaseResource
      * @var array|object[]|null
      */
     public $lines;
+
+    /**
+     * Customer details Mollie collects during checkout (private beta).
+     * Any of "email", "billing-address", "shipping-address".
+     *
+     * @var array<string>|null
+     */
+    public $requiredCustomerDetails;
+
+    /**
+     * The identifier referring to the profile this session belongs to.
+     *
+     * @example pfl_QkEhN94Ba
+     *
+     * @var string
+     */
+    public $profileId;
+
+    /**
+     * UTC datetime the session was created in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     *
+     * @var string
+     */
+    public $createdAt;
+
+    /**
+     * UTC datetime the session expired in ISO-8601 format.
+     *
+     * @var string|null
+     */
+    public $expiredAt;
+
+    /**
+     * UTC datetime the session was completed in ISO-8601 format.
+     *
+     * @var string|null
+     */
+    public $completedAt;
 
     /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.

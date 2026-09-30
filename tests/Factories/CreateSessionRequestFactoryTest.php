@@ -56,11 +56,13 @@ class CreateSessionRequestFactoryTest extends TestCase
                     'webhookUrl' => 'https://example.com/webhook',
                 ],
                 'profileId' => 'pfl_12345',
+                'requiredCustomerDetails' => ['email', 'billing-address'],
                 'testmode' => true,
             ])
             ->create();
 
         $this->assertInstanceOf(CreateSessionRequest::class, $request);
+        $this->assertSame(['email', 'billing-address'], $request->payload()->get('requiredCustomerDetails'));
     }
 
     /** @test */

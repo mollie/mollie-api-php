@@ -47,6 +47,15 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
 
     private ?string $profileId;
 
+    /**
+     * @var array<string>|null
+     */
+    private ?array $requiredCustomerDetails;
+
+    /**
+     * @param  string|null  $cancelUrl  Deprecated: not part of the Checkout Sessions API; kept for backwards compatibility.
+     * @param  array<string>|null  $requiredCustomerDetails  Any of "email", "billing-address", "shipping-address" (private beta).
+     */
     public function __construct(
         Money $amount,
         string $description,
@@ -59,7 +68,8 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
         ?string $sequenceType = null,
         ?array $metadata = null,
         ?string $paymentWebhook = null,
-        ?string $profileId = null
+        ?string $profileId = null,
+        ?array $requiredCustomerDetails = null
     ) {
         $this->amount = $amount;
         $this->description = $description;
@@ -73,6 +83,7 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
         $this->metadata = $metadata;
         $this->paymentWebhook = $paymentWebhook;
         $this->profileId = $profileId;
+        $this->requiredCustomerDetails = $requiredCustomerDetails;
     }
 
     protected function defaultPayload(): array
@@ -89,6 +100,7 @@ class CreateSessionRequest extends ResourceHydratableRequest implements HasPaylo
             'sequenceType' => $this->sequenceType,
             'metadata' => $this->metadata,
             'profileId' => $this->profileId,
+            'requiredCustomerDetails' => $this->requiredCustomerDetails,
             'payment' => $this->paymentWebhook !== null ? [
                 'webhookUrl' => $this->paymentWebhook,
             ] : null,
