@@ -167,7 +167,7 @@ class ResourceRegistry
             Profile::class => 'profiles',
             Refund::class => 'refunds',
             Route::class => 'routes',
-            SalesInvoice::class => 'sales-invoices',
+            SalesInvoice::class => 'invoices',
             Session::class => 'sessions',
             Settlement::class => 'settlements',
             Subscription::class => 'subscriptions',
