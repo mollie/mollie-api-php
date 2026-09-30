@@ -31,12 +31,12 @@ class PendingRequestTest extends TestCase
         $request = new DynamicGetRequest('/v2/payments/tr_123');
         $pendingRequest = new PendingRequest($this->client, $request);
 
-        $this->assertStringEndsWith('/v2/payments/tr_123', $pendingRequest->url());
+        $this->assertStringEndsWith('/v2/payments/tr_123', $pendingRequest->getUrl());
 
         $request = new DynamicGetRequest('https://example.com/v2/payments/tr_123');
         $pendingRequest = new PendingRequest($this->client, $request);
 
-        $this->assertEquals('https://example.com/v2/payments/tr_123', $pendingRequest->url());
+        $this->assertEquals('https://example.com/v2/payments/tr_123', $pendingRequest->getUrl());
     }
 
     #[Test]
@@ -45,7 +45,7 @@ class PendingRequestTest extends TestCase
         $request = new DynamicPostRequest('/v2/payments');
         $pendingRequest = new PendingRequest($this->client, $request);
 
-        $this->assertEquals('POST', $pendingRequest->method());
+        $this->assertEquals('POST', $pendingRequest->getMethod());
     }
 
     #[Test]
@@ -57,7 +57,7 @@ class PendingRequestTest extends TestCase
 
         $pendingRequest->setPayload($payload);
 
-        $this->assertSame($payload, $pendingRequest->payload());
+        $this->assertSame($payload, $pendingRequest->getPayload());
     }
 
     #[Test]
@@ -220,7 +220,7 @@ class PendingRequestTest extends TestCase
 
         $this->assertTrue($pendingRequest->getTestmode());
 
-        $payload = $pendingRequest->payload();
+        $payload = $pendingRequest->getPayload();
         $this->assertNotNull($payload);
         $this->assertFalse($payload->has('testmode'));
     }

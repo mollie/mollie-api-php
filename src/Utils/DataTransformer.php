@@ -38,7 +38,7 @@ class DataTransformer
         $this->setBackwardsFixFlag($pendingRequest);
 
         /** @var PayloadRepository $payload */
-        $payload = $pendingRequest->payload();
+        $payload = $pendingRequest->getPayload();
 
         if ($payload->isNotEmpty()) {
             $transformedPayload = $this->resolve($payload->all());
