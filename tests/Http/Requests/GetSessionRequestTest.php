@@ -24,6 +24,11 @@ class GetSessionRequestTest extends TestCase
 
         $this->assertTrue($session->getResponse()->successful());
         $this->assertInstanceOf(Session::class, $session);
+        $this->assertSame(['email', 'billing-address'], $session->requiredCustomerDetails);
+        $this->assertSame('pfl_QkEhN94Ba', $session->profileId);
+        $this->assertSame('2026-09-30T12:00:00+00:00', $session->createdAt);
+        $this->assertNull($session->expiredAt);
+        $this->assertNull($session->completedAt);
     }
 
     /** @test */
