@@ -20,6 +20,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.2, 8.3, 8.4, 8.5, 8.6]
+        stability: [prefer-lowest, prefer-stable]
 
     name: PHP - ${{ matrix.php }}
     steps:
@@ -40,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer update --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --${{ matrix.stability }} --no-interaction --no-progress
 
       - name: List Installed Dependencies
         run: composer show -D
