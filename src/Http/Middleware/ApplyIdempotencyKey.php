@@ -43,6 +43,6 @@ class ApplyIdempotencyKey implements RequestMiddleware
 
     private function isMutatingRequest(PendingRequest $pendingRequest): bool
     {
-        return in_array($pendingRequest->method(), [Method::POST, Method::PATCH, Method::DELETE]);
+        return in_array($pendingRequest->getMethod(), [Method::POST, Method::PATCH, Method::DELETE]);
     }
 }

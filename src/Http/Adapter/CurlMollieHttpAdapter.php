@@ -38,7 +38,7 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         try {
             $curl = CurlFactory::new((string) $request->getUri(), $pendingRequest)
                 ->withHeaders($pendingRequest->headers()->all())
-                ->withMethod($pendingRequest->method(), (string) $request->getBody())
+                ->withMethod($pendingRequest->getMethod(), (string) $request->getBody())
                 ->create();
 
             $response = curl_exec($curl);

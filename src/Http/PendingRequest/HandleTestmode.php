@@ -40,7 +40,7 @@ class HandleTestmode
             $pendingRequest->query()->add('testmode', true);
         } elseif ($request instanceof SupportsTestmodeInPayload) {
             /** @var PayloadRepository $payload */
-            $payload = $pendingRequest->payload();
+            $payload = $pendingRequest->getPayload();
 
             $payload->add('testmode', true);
         }
@@ -56,7 +56,7 @@ class HandleTestmode
             return;
         }
 
-        $payload = $pendingRequest->payload();
+        $payload = $pendingRequest->getPayload();
 
         if ($payload === null) {
             return;
