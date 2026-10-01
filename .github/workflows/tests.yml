@@ -22,7 +22,7 @@ jobs:
         php: [8.2, 8.3, 8.4]
         stability: [prefer-lowest, prefer-stable]
 
-    name: PHP - ${{ matrix.php }}
+    name: PHP - ${{ matrix.php }} (${{ matrix.stability }})
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
