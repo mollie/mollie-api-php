@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Data;
 
+use Brick\Money\Money as BrickMoney;
+use Money\Formatter\DecimalMoneyFormatter;
+use Money\Money as MoneyPHP;
 use Mollie\Api\Contracts\Arrayable;
 use Mollie\Api\Http\Data\Concerns\Macroable;
 use Mollie\Api\Traits\ComposableFromArray;
 use Mollie\Api\Traits\HasCurrencyConvenienceMethods;
+use Money\Currencies\ISOCurrencies;
 
 readonly class Money implements Arrayable
 {
@@ -50,6 +54,23 @@ readonly class Money implements Arrayable
         return new self(
             currency: strtoupper($currency),
             value: $negative ? '-'.$value : $value,
+        );
+    }
+
+    public static function fromBrickMoney(BrickMoney $money): self
+    {
+        return new self(
+            currency: $money->getCurrency()->getCurrencyCode(),
+            value: (string) $money->getAmount(),
+        );
+    }
+
+    public static function fromMoneyPHP(MoneyPHP $money): self
+    {
+        $formatter = new DecimalMoneyFormatter(new ISOCurrencies());
+        return new self(
+            currency: $money->getCurrency()->getCode(),
+            value: $formatter->format($money),
         );
     }
 

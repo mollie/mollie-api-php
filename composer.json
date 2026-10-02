@@ -59,14 +59,18 @@
     "symfony/var-dumper": "^5.4|^6.4|^7.2|^8.0"
   },
   "require-dev": {
+    "brick/money": "^0.15",
     "guzzlehttp/guzzle": "^7.6",
     "laravel/pint": "1.30.4",
+    "moneyphp/money": "^4.9",
     "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^11.5"
   },
   "suggest": {
-    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
+    "brick/money": "For handling money and currencies.",
+    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information.",
+    "moneyphp/money": "For handling money and currencies."
   },
   "config": {
     "sort-packages": true,

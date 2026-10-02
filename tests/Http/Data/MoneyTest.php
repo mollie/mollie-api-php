@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Http\Data;
 
+use Brick\Money\Money as BrickMoney;
+use Money\Money as MoneyPHP;
 use Mollie\Api\Http\Data\Money;
+use Money\Currency;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -76,6 +79,46 @@ class MoneyTest extends TestCase
 
         $this->assertEquals($expectedCurrency, $money->currency);
         $this->assertEquals($expectedValue, $money->value);
+    }
+
+    #[DataProvider('brickMoneyProvider')]
+    #[Test]
+    public function it_can_be_created_from_brick_money(BrickMoney $brickMoney, string $expectedCurrency, string $expectedValue): void
+    {
+        $money = Money::fromBrickMoney($brickMoney);
+
+        $this->assertEquals($expectedCurrency, $money->currency);
+        $this->assertEquals($expectedValue, $money->value);
+    }
+
+    public static function brickMoneyProvider(): array
+    {
+        return [
+            'EUR' => [BrickMoney::ofMinor(1000, 'EUR'), 'EUR', '10.00'],
+            'EUR large amount' => [BrickMoney::ofMinor(123456789, 'EUR'), 'EUR', '1234567.89'],
+            'USD' => [BrickMoney::ofMinor(2550, 'USD'), 'USD', '25.50'],
+            'GBP' => [BrickMoney::ofMinor(9999, 'GBP'), 'GBP', '99.99'],
+        ];
+    }
+
+    #[DataProvider('moneyPHPProvider')]
+    #[Test]
+    public function it_can_be_created_from_money_php(MoneyPHP $moneyPHP, string $expectedCurrency, string $expectedValue): void
+    {
+        $money = Money::fromMoneyPHP($moneyPHP);
+
+        $this->assertEquals($expectedCurrency, $money->currency);
+        $this->assertEquals($expectedValue, $money->value);
+    }
+
+    public static function moneyPHPProvider(): array
+    {
+        return [
+            'EUR' => [new MoneyPHP(1000, new Currency('EUR')), 'EUR', '10.00'],
+            'EUR large amount' => [new MoneyPHP(123456789, new Currency('EUR')), 'EUR', '1234567.89'],
+            'USD' => [new MoneyPHP(2550, new Currency('USD')), 'USD', '25.50'],
+            'GBP' => [new MoneyPHP(9999, new Currency('GBP')), 'GBP', '99.99'],
+        ];
     }
 
     public static function convenienceMethodProvider(): array
