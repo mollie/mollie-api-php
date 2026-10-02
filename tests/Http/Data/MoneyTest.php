@@ -95,6 +95,7 @@ class MoneyTest extends TestCase
     {
         return [
             'EUR' => [BrickMoney::ofMinor(1000, 'EUR'), 'EUR', '10.00'],
+            'EUR large amount' => [BrickMoney::ofMinor(123456789, 'EUR'), 'EUR', '1234567.89'],
             'USD' => [BrickMoney::ofMinor(2550, 'USD'), 'USD', '25.50'],
             'GBP' => [BrickMoney::ofMinor(9999, 'GBP'), 'GBP', '99.99'],
         ];
@@ -114,6 +115,7 @@ class MoneyTest extends TestCase
     {
         return [
             'EUR' => [new MoneyPHP(1000, new Currency('EUR')), 'EUR', '10.00'],
+            'EUR large amount' => [new MoneyPHP(123456789, new Currency('EUR')), 'EUR', '1234567.89'],
             'USD' => [new MoneyPHP(2550, new Currency('USD')), 'USD', '25.50'],
             'GBP' => [new MoneyPHP(9999, new Currency('GBP')), 'GBP', '99.99'],
         ];
