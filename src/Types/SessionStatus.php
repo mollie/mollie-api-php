@@ -5,7 +5,14 @@ namespace Mollie\Api\Types;
 class SessionStatus
 {
     /**
+     * The session is open and can still be completed.
+     */
+    public const STATUS_OPEN = "open";
+
+    /**
      * The session has just been created.
+     *
+     * @deprecated Use STATUS_OPEN for Checkout Sessions.
      */
     public const STATUS_CREATED = "created";
 
@@ -20,7 +27,14 @@ class SessionStatus
     public const STATUS_COMPLETED = "completed";
 
     /**
+     * The session expired before it was completed.
+     */
+    public const STATUS_EXPIRED = "expired";
+
+    /**
      * The session has failed.
+     *
+     * @deprecated Use STATUS_EXPIRED for Checkout Sessions.
      */
     public const STATUS_FAILED = "failed";
 }

@@ -24,9 +24,26 @@ class Session extends BaseResource
     public $status;
 
     /**
+     * The mode used to create this session.
+     *
+     * @var string
+     */
+    public $mode;
+
+    /**
+     * Client access token for rendering the checkout in your frontend.
+     *
+     * @var string
+     */
+    public $clientAccessToken;
+
+    /**
      * UTC datetime indicating the time at which the Session failed in ISO-8601 format.
      *
      * @example "2013-12-25T10:30:54+00:00"
+     *
+     * @deprecated Not part of the Checkout Sessions API response.
+     *
      * @var string|null
      */
     public $failedAt;
@@ -34,12 +51,16 @@ class Session extends BaseResource
     /**
      * Unique identifier to record the Userʼs authentication with a method
      *
+     * @deprecated Not part of the Checkout Sessions API response.
+     *
      * @var string
      */
     public $authenticationId;
 
     /**
      * Indicates the next action to take in the payment preparation flow.
+     *
+     * @deprecated Not part of the Checkout Sessions API response.
      *
      * @var string
      */
@@ -57,7 +78,9 @@ class Session extends BaseResource
      * The URL the buyer will be redirected to if they
      * cancel their payment during a 3rd party redirect..
      *
-     * @var string
+     * @deprecated Not part of the Checkout Sessions API response.
+     *
+     * @var string|null
      */
     public $cancelUrl;
 
@@ -81,12 +104,16 @@ class Session extends BaseResource
     /**
      * Payment method currently selected by the shopper.
      *
+     * @deprecated Not part of the Checkout Sessions API response.
+     *
      * @var string
      */
     public $method;
 
     /**
      * All additional information relating to the selected method.
+     *
+     * @deprecated Not part of the Checkout Sessions API response.
      *
      * @var \stdClass
      */
@@ -110,10 +137,89 @@ class Session extends BaseResource
     public $billingAddress;
 
     /**
+     * ID of the customer the session is created for.
+     *
+     * @var string|null
+     */
+    public $customerId;
+
+    /**
+     * Sequence type for recurring payments.
+     *
+     * @var string|null
+     */
+    public $sequenceType;
+
+    /**
+     * Metadata associated with the session.
+     *
+     * @var object|array|null
+     */
+    public $metadata;
+
+    /**
+     * Payment settings for the session.
+     *
+     * @var \stdClass|null
+     */
+    public $payment;
+
+    /**
+     * Order lines for the session.
+     *
+     * @var array|object[]|null
+     */
+    public $lines;
+
+    /**
+     * Customer details Mollie collects during checkout.
+     *
+     * @var array<string>|null
+     */
+    public $requiredCustomerDetails;
+
+    /**
+     * The identifier referring to the profile this session belongs to.
+     *
+     * @example pfl_QkEhN94Ba
+     *
+     * @var string|null
+     */
+    public $profileId;
+
+    /**
+     * UTC datetime the session was created in ISO-8601 format.
+     *
+     * @example "2013-12-25T10:30:54+00:00"
+     *
+     * @var string|null
+     */
+    public $createdAt;
+
+    /**
+     * UTC datetime the session expired in ISO-8601 format.
+     *
+     * @var string|null
+     */
+    public $expiredAt;
+
+    /**
+     * UTC datetime the session was completed in ISO-8601 format.
+     *
+     * @var string|null
+     */
+    public $completedAt;
+
+    /**
      * An object with several URL objects relevant to the customer. Every URL object will contain an href and a type field.
      * @var \stdClass
      */
     public $_links;
+
+    public function isOpen()
+    {
+        return $this->status === SessionStatus::STATUS_OPEN;
+    }
 
     public function isCreated()
     {
@@ -128,6 +234,11 @@ class Session extends BaseResource
     public function isCompleted()
     {
         return $this->status === SessionStatus::STATUS_COMPLETED;
+    }
+
+    public function isExpired()
+    {
+        return $this->status === SessionStatus::STATUS_EXPIRED;
     }
 
     public function hasFailed()
@@ -165,6 +276,8 @@ class Session extends BaseResource
     }
 
     /**
+     * @deprecated The Checkout Sessions API only returns a self link. Use the clientAccessToken with Mollie's client-side components instead.
+     *
      * @return string|null
      */
     public function getRedirectUrl()

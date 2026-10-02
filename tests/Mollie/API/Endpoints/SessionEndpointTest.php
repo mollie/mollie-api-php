@@ -23,19 +23,33 @@ class SessionEndpointTest extends BaseEndpointTest
                 "/v2/sessions",
                 [],
                 '{
-                    "paymentData": {
-                        "amount": {
-                            "value": "10.00",
-                            "currency": "EUR"
-                        },
-                        "description": "Order #12345"
+                    "amount": {
+                        "value": "10.00",
+                        "currency": "EUR"
                     },
-                    "method": "paypal",
-                    "methodDetails": {
-                        "checkoutFlow": "express"
-                    },
-                    "returnUrl": "https://example.org/redirect",
-                    "cancelUrl": "https://example.org/cancel"
+                    "description": "Order #12345",
+                    "redirectUrl": "https://example.org/redirect",
+                    "lines": [
+                        {
+                            "description": "Product A",
+                            "quantity": 1,
+                            "unitPrice": {
+                                "currency": "EUR",
+                                "value": "10.00"
+                            },
+                            "totalAmount": {
+                                "currency": "EUR",
+                                "value": "10.00"
+                            }
+                        }
+                    ],
+                    "requiredCustomerDetails": [
+                        "email",
+                        "billing-address"
+                    ],
+                    "payment": {
+                        "webhookUrl": "https://example.org/webhook"
+                    }
                 }'
             ),
             new Response(
@@ -46,19 +60,33 @@ class SessionEndpointTest extends BaseEndpointTest
         );
 
         $session = $this->apiClient->sessions->create([
-            "paymentData" => [
-                "amount" => [
-                    "value" => "10.00",
-                    "currency" => "EUR",
+            "amount" => [
+                "value" => "10.00",
+                "currency" => "EUR",
+            ],
+            "description" => "Order #12345",
+            "redirectUrl" => "https://example.org/redirect",
+            "lines" => [
+                [
+                    "description" => "Product A",
+                    "quantity" => 1,
+                    "unitPrice" => [
+                        "currency" => "EUR",
+                        "value" => "10.00",
+                    ],
+                    "totalAmount" => [
+                        "currency" => "EUR",
+                        "value" => "10.00",
+                    ],
                 ],
-                "description" => "Order #12345",
             ],
-            "method" => "paypal",
-            "methodDetails" => [
-                "checkoutFlow" => "express",
+            "requiredCustomerDetails" => [
+                "email",
+                "billing-address",
             ],
-            "returnUrl" => "https://example.org/redirect",
-            "cancelUrl" => "https://example.org/cancel",
+            "payment" => [
+                "webhookUrl" => "https://example.org/webhook",
+            ],
         ]);
 
         $this->assertSession($session, 'sess_pbjz8x');
@@ -194,12 +222,12 @@ class SessionEndpointTest extends BaseEndpointTest
                 [],
                 $this->getSessionResponseFixture(
                     'sess_pbjz1x',
-                    SessionStatus::STATUS_FAILED
+                    SessionStatus::STATUS_EXPIRED
                 )
             )
         );
         $session = $this->apiClient->sessions->cancel('sess_pbjz1x');
-        $this->assertSession($session, 'sess_pbjz1x', SessionStatus::STATUS_FAILED);
+        $this->assertSession($session, 'sess_pbjz1x', SessionStatus::STATUS_EXPIRED);
     }
 
     /** @test */
@@ -241,7 +269,7 @@ class SessionEndpointTest extends BaseEndpointTest
                 [],
                 $this->getSessionResponseFixture(
                     "sess_pbjz8x",
-                    SessionStatus::STATUS_CREATED
+                    SessionStatus::STATUS_OPEN
                 )
             )
         );
@@ -264,63 +292,102 @@ class SessionEndpointTest extends BaseEndpointTest
         $session->billingAddress->phone = "+31208202070";
         $session = $session->update();
 
-        $this->assertSession($session, "sess_pbjz8x", SessionStatus::STATUS_CREATED);
+        $this->assertSession($session, "sess_pbjz8x", SessionStatus::STATUS_OPEN);
     }
 
-    protected function assertSession($session, $session_id, $sessionStatus = SessionStatus::STATUS_CREATED)
+    protected function assertSession($session, $session_id, $sessionStatus = SessionStatus::STATUS_OPEN)
     {
         $this->assertInstanceOf(Session::class, $session);
         $this->assertEquals('session', $session->resource);
         $this->assertEquals($session_id, $session->id);
-        $this->assertEquals('paypal', $session->method);
 
         $this->assertAmountObject('10.00', 'EUR', $session->amount);
 
         $this->assertEquals($sessionStatus, $session->status);
+        $this->assertEquals($sessionStatus === SessionStatus::STATUS_OPEN, $session->isOpen());
+        $this->assertEquals($sessionStatus === SessionStatus::STATUS_EXPIRED, $session->isExpired());
+        $this->assertEquals($sessionStatus === SessionStatus::STATUS_COMPLETED, $session->isCompleted());
 
-        $this->assertEquals("https://example.org/redirect", $session->getRedirectUrl());
-        /**
-         * @todo check how the links will be returned
-         */
-        // $this->assertEquals("https://example.org/cancel", $session->cancelUrl);
+        $this->assertEquals("dddiweodh23973yo23d2h...", $session->clientAccessToken);
+        $this->assertEquals("Order #12345", $session->description);
+        $this->assertEquals("https://example.org/redirect", $session->redirectUrl);
+        $this->assertEquals(["email", "billing-address"], $session->requiredCustomerDetails);
+        $this->assertEquals("pfl_QkEhN94Ba", $session->profileId);
+        $this->assertEquals("2026-09-30T12:00:00+00:00", $session->createdAt);
+        $this->assertEquals(
+            $sessionStatus === SessionStatus::STATUS_EXPIRED ? "2026-09-30T12:30:00+00:00" : null,
+            $session->expiredAt
+        );
+        $this->assertEquals(
+            $sessionStatus === SessionStatus::STATUS_COMPLETED ? "2026-09-30T12:30:00+00:00" : null,
+            $session->completedAt
+        );
+        $this->assertNull($session->getRedirectUrl());
 
         $links = (object)[
             'self' => $this->createLinkObject(
                 'https://api.mollie.com/v2/sessions/' . $session_id,
                 'application/hal+json'
             ),
-            'redirect' => $this->createLinkObject(
-                'https://example.org/redirect',
-                'application/hal+json'
-            ),
         ];
         $this->assertEquals($links, $session->_links);
     }
 
-    protected function getSessionResponseFixture($session_id, $sessionStatus = SessionStatus::STATUS_CREATED)
+    protected function getSessionResponseFixture($session_id, $sessionStatus = SessionStatus::STATUS_OPEN)
     {
         return str_replace(
             [
                 "<<session_id>>",
                 "<<session_status>>",
+                "<<expired_at>>",
+                "<<completed_at>>",
             ],
             [
                 $session_id,
                 $sessionStatus,
+                $sessionStatus === SessionStatus::STATUS_EXPIRED ? '"2026-09-30T12:30:00+00:00"' : 'null',
+                $sessionStatus === SessionStatus::STATUS_COMPLETED ? '"2026-09-30T12:30:00+00:00"' : 'null',
             ],
             '{
                 "resource": "session",
                 "id": "<<session_id>>",
                 "status": "<<session_status>>",
+                "mode": "live",
+                "clientAccessToken": "dddiweodh23973yo23d2h...",
                 "amount": {
-                    "value": 10.00,
-                    "currency": "EUR"
+                    "currency": "EUR",
+                    "value": "10.00"
                 },
                 "description": "Order #12345",
-                "method": "paypal",
-                "methodDetails": {
-                    "checkoutFlow":"express"
+                "redirectUrl": "https://example.org/redirect",
+                "metadata": {
+                    "orderId": "12345"
                 },
+                "payment": {
+                    "webhookUrl": "https://example.org/webhook"
+                },
+                "requiredCustomerDetails": [
+                    "email",
+                    "billing-address"
+                ],
+                "profileId": "pfl_QkEhN94Ba",
+                "createdAt": "2026-09-30T12:00:00+00:00",
+                "expiredAt": <<expired_at>>,
+                "completedAt": <<completed_at>>,
+                "lines": [
+                    {
+                        "description": "Product A",
+                        "quantity": 1,
+                        "unitPrice": {
+                            "currency": "EUR",
+                            "value": "10.00"
+                        },
+                        "totalAmount": {
+                            "currency": "EUR",
+                            "value": "10.00"
+                        }
+                    }
+                ],
                 "billingAddress": {
                     "organizationName": "Organization Name LTD.",
                     "streetAndNumber": "Keizersgracht 313",
@@ -344,14 +411,9 @@ class SessionEndpointTest extends BaseEndpointTest
                     "familyName": "Skywalker",
                     "email": "luke@skywalker.com"
                 },
-                "nextAction": "redirect",
                 "_links": {
                     "self": {
                         "href": "https://api.mollie.com/v2/sessions/<<session_id>>",
-                        "type": "application/hal+json"
-                    },
-                    "redirect": {
-                        "href": "https://example.org/redirect",
                         "type": "application/hal+json"
                     }
                 }
