@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
 use Mollie\Api\EndpointCollection\TerminalPairingCodeEndpointCollection;
@@ -81,7 +82,7 @@ class MollieApiClientTest extends TestCase
     #[Test]
     public function can_be_serialized_and_unserialized()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createMock(GuzzleClientInterface::class));
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $client->setApiEndpoint('https://mymollieproxy.local');
