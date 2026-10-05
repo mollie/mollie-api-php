@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\EndpointCollection\PaymentEndpointCollection;
@@ -80,9 +79,10 @@ class MollieApiClientTest extends TestCase
     }
 
     #[Test]
-    public function can_be_serialized_and_unserialized()
+    public function sdk_state_round_trips_with_an_interface_transport_double()
     {
-        $client = new MollieApiClient($this->createMock(GuzzleClientInterface::class));
+        // This isolates SDK state; it does not serialize a real Guzzle transport.
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $client->setApiEndpoint('https://mymollieproxy.local');
@@ -145,7 +145,7 @@ PHP;
     #[Test]
     public function unknown_endpoint_throws_the_same_exception()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Undefined endpoint: unknown');
@@ -156,7 +156,7 @@ PHP;
     #[Test]
     public function subclass_can_override_the_endpoint_map()
     {
-        $client = new class($this->createMock(Client::class)) extends MollieApiClient {
+        $client = new class($this->createStub(GuzzleClientInterface::class)) extends MollieApiClient {
             protected const ENDPOINTS = [
                 ...parent::ENDPOINTS,
                 'customPayments' => PaymentEndpointCollection::class,
@@ -170,7 +170,7 @@ PHP;
     #[Test]
     public function set_token_uses_access_token_authenticator_for_access_tokens()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('access_xxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -180,7 +180,7 @@ PHP;
     #[Test]
     public function set_token_uses_api_key_authenticator_for_test_keys()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -190,7 +190,7 @@ PHP;
     #[Test]
     public function set_token_uses_api_key_authenticator_for_live_keys()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -200,7 +200,7 @@ PHP;
     #[Test]
     public function set_token_throws_for_invalid_tokens()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $this->expectException(InvalidAuthenticationException::class);
 

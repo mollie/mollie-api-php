@@ -79,17 +79,20 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
             // PSR-18 NetworkExceptionInterface indicates network errors, which are retryable
             throw new RetryableNetworkRequestException(
                 $pendingRequest,
-                'Network error: '.$e->getMessage()
+                'Network error: '.$e->getMessage(),
+                $e,
             );
         } catch (RequestExceptionInterface $e) {
-            if (method_exists($e, 'getResponse') && $response = $e->getResponse()) {
-                return $this->createResponse($response, $request, $pendingRequest, $e);
+            // An optional response accessor does not imply a completed transfer.
+            if (! is_a($e, 'GuzzleHttp\\Exception\\ResponseTransferException') && method_exists($e, 'getResponse')) {
+                $response = $e->getResponse();
+
+                if ($response instanceof ResponseInterface && ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300)) {
+                    return $this->createResponse($response, $request, $pendingRequest, $e);
+                }
             }
 
-            throw new RetryableNetworkRequestException(
-                $pendingRequest,
-                'Network error: '.$e->getMessage()
-            );
+            throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
         }
     }
 
