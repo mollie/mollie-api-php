@@ -31,6 +31,19 @@ enum PaymentMethod: string
     case Eps = 'eps';
     case Giftcard = 'giftcard';
     case Giropay = 'giropay';
+    /**
+     * Wallet identifier for the Methods API's `includeWallets` parameter.
+     * This value is not a valid `method` for Create payment.
+     *
+     * For hosted checkout, use {@see PaymentMethod::Creditcard}. Google Pay
+     * appears automatically when enabled on the profile and supported by the
+     * customer's device and browser. For direct integration, also pass the
+     * `googlePayPaymentToken` field on the create payment request.
+     *
+     * @link https://docs.mollie.com/docs/google-pay
+     * @link https://docs.mollie.com/docs/direct-integration-of-google-pay
+     * @link https://docs.mollie.com/reference/list-methods
+     */
     case Googlepay = 'googlepay';
     case Swish = 'swish';
     case In3 = 'in3';
