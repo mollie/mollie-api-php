@@ -28,26 +28,41 @@ try {
      * See: https://docs.mollie.com/reference/v2/sessions-api/create-session
      */
     $session = $mollie->sessions->create([
-        "paymentData" => [
-            "amount" => [
-                "value" => "10.00",
-                "currency" => "EUR",
+        "amount" => [
+            "value" => "10.00",
+            "currency" => "EUR",
+        ],
+        "description" => "Order #12345",
+        "redirectUrl" => "{$protocol}://{$hostname}{$path}/return.php?order_id={$sessionId}",
+        "lines" => [
+            [
+                "description" => "Product A",
+                "quantity" => 1,
+                "unitPrice" => [
+                    "value" => "10.00",
+                    "currency" => "EUR",
+                ],
+                "totalAmount" => [
+                    "value" => "10.00",
+                    "currency" => "EUR",
+                ],
             ],
-            "description" => "Order #12345",
         ],
-        "method" => "paypal",
-        "methodDetails" => [
-            "checkoutFlow" => "express",
+        "requiredCustomerDetails" => [
+            "email",
+            "billing-address",
         ],
-        "returnUrl" => "{$protocol}://{$hostname}{$path}/shippingSelection.php?order_id={$sessionId}",
-        "cancelUrl" => "{$protocol}://{$hostname}{$path}/cancel.php?order_id={$sessionId}",
+        "payment" => [
+            "webhookUrl" => "{$protocol}://{$hostname}{$path}/webhook.php",
+        ],
     ]);
 
     /*
-     * Send the customer off to complete the payment.
-     * This request should always be a GET, thus we enforce 303 http response code
+     * Use this token with Mollie's client-side components to render the checkout in your frontend.
      */
-    header("Location: " . $session->getRedirectUrl(), true, 303);
+    $clientAccessToken = $session->clientAccessToken;
+
+    echo "Client access token: " . htmlspecialchars($clientAccessToken);
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
