@@ -10,6 +10,7 @@ use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\MollieApiClient;
 use Mollie\Api\Traits\HasDefaultFactories;
+use Nyholm\Psr7\Request as PsrRequest;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixtures\Requests\DynamicGetRequest;
 
@@ -183,7 +184,7 @@ class ExponentialRetryStrategyTest extends TestCase
 
         return new Response(
             $trait->build(),
-            $this->createMock(\Psr\Http\Message\RequestInterface::class),
+            new PsrRequest('GET', 'https://example.invalid'),
             $pendingRequest
         );
     }
