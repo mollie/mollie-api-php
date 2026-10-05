@@ -23,7 +23,7 @@ trait ManagesPsrRequests
         $factories = $this->factoryCollection;
 
         $request = $factories->requestFactory->createRequest(
-            $this->getMethod(),
+            $this->method(),
             $this->getUri(),
         );
 
@@ -31,7 +31,7 @@ trait ManagesPsrRequests
             $request = $request->withHeader($headerName, $headerValue);
         }
 
-        $payload = $this->getPayload();
+        $payload = $this->payload();
         if ($payload instanceof PayloadRepository) {
             $request = $request->withBody($payload->toStream($factories->streamFactory));
         }
@@ -44,7 +44,7 @@ trait ManagesPsrRequests
         $uri = $this
             ->factoryCollection
             ->uriFactory
-            ->createUri($this->getUrl());
+            ->createUri($this->url());
 
         $existingQuery = Url::parseQuery($uri->getQuery());
 

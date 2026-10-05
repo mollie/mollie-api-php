@@ -4,7 +4,9 @@ namespace Tests\Resources;
 
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\ResourceOrigin;
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\PendingRequest;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Resources\Payment;
 use PHPUnit\Framework\Attributes\Test;
@@ -54,7 +56,7 @@ class ResourceOriginTest extends TestCase
     public function get_pending_request_returns_non_null_for_http_origin(): void
     {
         $connector = $this->createMock(Connector::class);
-        $pendingRequest = $this->createMock(PendingRequest::class);
+        $pendingRequest = new PendingRequest(new MockMollieClient, new DynamicGetRequest('payments'));
         $response = $this->createMock(Response::class);
         $response->method('getPendingRequest')->willReturn($pendingRequest);
 

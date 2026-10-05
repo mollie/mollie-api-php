@@ -89,7 +89,7 @@ class RequestSanitizerTest extends TestCase
 
         // Assert payload is cleared (should be a new empty JsonPayloadRepository)
         $sanitizedPendingRequest = $sanitizedException->getPendingRequest();
-        $sanitizedPayload = $sanitizedPendingRequest->getPayload();
+        $sanitizedPayload = $sanitizedPendingRequest->payload();
 
         $this->assertNotNull($sanitizedPayload);
         $this->assertInstanceOf(JsonPayloadRepository::class, $sanitizedPayload);

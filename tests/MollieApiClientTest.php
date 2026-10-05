@@ -616,7 +616,7 @@ PHP;
             DummyPostRequest::class => function (PendingRequest $pendingRequest) {
                 $this->assertEquals([
                     'filled' => 'bar',
-                ], $pendingRequest->getPayload()->all());
+                ], $pendingRequest->payload()->all());
 
                 return MockResponse::noContent();
             },

@@ -46,11 +46,11 @@ class DataTransformerTest extends TestCase
     public function it_transforms_payload_data(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->getPayload()->add('dateTime', '2024-01-01T11:00:00+00:00');
-        $pendingRequest->getPayload()->add('empty', '');
-        $pendingRequest->getPayload()->add('null', null);
-        $pendingRequest->getPayload()->add('valid', 'data');
-        $pendingRequest->getPayload()->add('address', new Address(
+        $pendingRequest->payload()->add('dateTime', '2024-01-01T11:00:00+00:00');
+        $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('null', null);
+        $pendingRequest->payload()->add('valid', 'data');
+        $pendingRequest->payload()->add('address', new Address(
             null,
             'John',
             'Doe',
@@ -67,10 +67,10 @@ class DataTransformerTest extends TestCase
 
         $result = $this->transformer->transform($pendingRequest);
 
-        $this->assertEquals('2024-01-01T11:00:00+00:00', (string) $result->getPayload()->get('dateTime'));
-        $this->assertFalse($result->getPayload()->has('empty'));
-        $this->assertFalse($result->getPayload()->has('null'));
-        $this->assertEquals('data', $result->getPayload()->get('valid'));
+        $this->assertEquals('2024-01-01T11:00:00+00:00', (string) $result->payload()->get('dateTime'));
+        $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('null'));
+        $this->assertEquals('data', $result->payload()->get('valid'));
         $this->assertEqualsCanonicalizing([
             'givenName' => 'John',
             'familyName' => 'Doe',
@@ -78,14 +78,14 @@ class DataTransformerTest extends TestCase
             'postalCode' => '0',
             'city' => 'Anytown',
             'country' => 'BE',
-        ], $result->getPayload()->get('address'));
+        ], $result->payload()->get('address'));
     }
 
     #[Test]
     public function it_resolves_complex_data_structures(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->getPayload()->add('routes', new DataCollection([
+        $pendingRequest->payload()->add('routes', new DataCollection([
             new PaymentRoute(
                 new Money('EUR', '10.00'),
                 'org_1234567890',
@@ -102,18 +102,18 @@ class DataTransformerTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $result->getPayload()->get('routes'));
+        $this->assertEquals($expected, $result->payload()->get('routes'));
     }
 
     #[Test]
     public function it_transforms_stringable_and_resolvable_objects(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->getPayload()->add('resolvable', new Foo('value', new Bar('nested')));
+        $pendingRequest->payload()->add('resolvable', new Foo('value', new Bar('nested')));
 
         $result = $this->transformer->transform($pendingRequest);
 
-        $this->assertEquals(['foo' => 'value', 'bar' => 'nested'], $result->getPayload()->get('resolvable'));
+        $this->assertEquals(['foo' => 'value', 'bar' => 'nested'], $result->payload()->get('resolvable'));
     }
 
     #[Test]
@@ -137,21 +137,21 @@ class DataTransformerTest extends TestCase
     public function it_preserves_zero_values_in_payload(): void
     {
         $pendingRequest = $this->createPostRequest();
-        $pendingRequest->getPayload()->add('description', '0');
-        $pendingRequest->getPayload()->add('intZero', 0);
-        $pendingRequest->getPayload()->add('floatZero', 0.0);
-        $pendingRequest->getPayload()->add('empty', '');
-        $pendingRequest->getPayload()->add('emptyArray', []);
-        $pendingRequest->getPayload()->add('null', null);
+        $pendingRequest->payload()->add('description', '0');
+        $pendingRequest->payload()->add('intZero', 0);
+        $pendingRequest->payload()->add('floatZero', 0.0);
+        $pendingRequest->payload()->add('empty', '');
+        $pendingRequest->payload()->add('emptyArray', []);
+        $pendingRequest->payload()->add('null', null);
 
         $result = $this->transformer->transform($pendingRequest);
 
-        $this->assertSame('0', $result->getPayload()->get('description'));
-        $this->assertSame(0, $result->getPayload()->get('intZero'));
-        $this->assertSame(0.0, $result->getPayload()->get('floatZero'));
-        $this->assertFalse($result->getPayload()->has('empty'));
-        $this->assertFalse($result->getPayload()->has('emptyArray'));
-        $this->assertFalse($result->getPayload()->has('null'));
+        $this->assertSame('0', $result->payload()->get('description'));
+        $this->assertSame(0, $result->payload()->get('intZero'));
+        $this->assertSame(0.0, $result->payload()->get('floatZero'));
+        $this->assertFalse($result->payload()->has('empty'));
+        $this->assertFalse($result->payload()->has('emptyArray'));
+        $this->assertFalse($result->payload()->has('null'));
     }
 
     #[Test]

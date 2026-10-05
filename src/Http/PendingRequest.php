@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http;
 
-use Deprecated;
 use Mollie\Api\Contracts\Connector;
 use Mollie\Api\Contracts\PayloadRepository;
 use Mollie\Api\Exceptions\MollieException;
@@ -101,11 +100,6 @@ class PendingRequest
             || Utility::isTrue($this->payload?->get('testmode'));
     }
 
-    public function getPayload(): ?PayloadRepository
-    {
-        return $this->payload;
-    }
-
     public function setPayload(PayloadRepository $bodyRepository): self
     {
         $this->payload = $bodyRepository;
@@ -113,12 +107,17 @@ class PendingRequest
         return $this;
     }
 
-    public function getUrl(): string
+    public function payload(): ?PayloadRepository
+    {
+        return $this->payload;
+    }
+
+    public function url(): string
     {
         return $this->url;
     }
 
-    public function getMethod(): string
+    public function method(): string
     {
         return $this->method;
     }
@@ -157,23 +156,5 @@ class PendingRequest
         $callable($this);
 
         return $this;
-    }
-
-    #[Deprecated('Use getPayload instead.')]
-    public function payload(): ?PayloadRepository
-    {
-        return $this->getPayload();
-    }
-
-    #[Deprecated('Use getUrl instead.')]
-    public function url(): string
-    {
-        return $this->getUrl();
-    }
-
-    #[Deprecated('Use getMethod instead.')]
-    public function method(): string
-    {
-        return $this->getMethod();
     }
 }
