@@ -10,13 +10,20 @@
   },
   "description": "Order #12345",
   "redirectUrl": "https://example.com/redirect",
-  "cancelUrl": "https://example.com/cancel",
   "metadata": {
     "orderId": "12345"
   },
   "payment": {
     "webhookUrl": "https://webshop.example.org/payments/webhook"
   },
+  "requiredCustomerDetails": [
+    "email",
+    "billing-address"
+  ],
+  "profileId": "pfl_QkEhN94Ba",
+  "createdAt": "2026-09-30T12:00:00+00:00",
+  "expiredAt": null,
+  "completedAt": null,
   "lines": [
     {
       "description": "Product A",

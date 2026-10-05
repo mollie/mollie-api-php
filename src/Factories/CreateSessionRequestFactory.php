@@ -26,7 +26,8 @@ class CreateSessionRequestFactory extends RequestFactory
             $this->payload('sequenceType'),
             $this->payload('metadata'),
             $this->payload('webhookUrl', null, 'payment.'),
-            $this->payload('profileId')
+            $this->payload('profileId'),
+            $this->payload('requiredCustomerDetails')
         );
     }
 }

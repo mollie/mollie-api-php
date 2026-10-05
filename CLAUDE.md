@@ -99,6 +99,6 @@ Test fixtures live in `tests/Fixtures/`. Documentation and code examples are in 
 
 ## CI
 
-- **Tests**: Pest v3 across PHP 8.2, 8.3, 8.4
+- **Tests**: Pest v3 across PHP 8.2 - 8.6
 - **Static analysis**: PHPStan level 5 (with baseline)
 - **Code style**: Laravel Pint
