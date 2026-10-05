@@ -81,8 +81,18 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
                 $e,
             );
         } catch (RequestExceptionInterface $e) {
-            // An optional response accessor does not imply a completed transfer.
-            if (! is_a($e, 'GuzzleHttp\\Exception\\ResponseTransferException') && method_exists($e, 'getResponse')) {
+            // Only Guzzle's status-error hierarchy represents a completed HTTP
+            // error. Other request/response exceptions can carry partial bodies.
+            $hasTransferFailure = method_exists($e, 'getHandlerContext')
+                && is_callable([$e, 'getHandlerContext'])
+                && is_a($e, 'GuzzleHttp\\Exception\\RequestException')
+                && ! empty($e->getHandlerContext()['errno']);
+            $completedGuzzleResponse = is_a($e, 'GuzzleHttp\\Exception\\BadResponseException')
+                && $e->getPrevious() === null
+                && ! $hasTransferFailure;
+
+            if ((! is_a($e, 'GuzzleHttp\\Exception\\RequestException') || $completedGuzzleResponse)
+                && method_exists($e, 'getResponse') && is_callable([$e, 'getResponse'])) {
                 $response = $e->getResponse();
 
                 if ($response instanceof ResponseInterface && ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300)) {

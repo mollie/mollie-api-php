@@ -88,9 +88,18 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
         } catch (TooManyRedirectsException $e) {
             throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
         } catch (RequestExceptionInterface $e) {
-            // Guzzle 8 separates failed transfers from HTTP status errors. Its
-            // base RequestException no longer exposes getResponse().
-            if (! is_a($e, 'GuzzleHttp\\Exception\\ResponseTransferException') && method_exists($e, 'getResponse')) {
+            // Only Guzzle's status-error hierarchy represents a completed HTTP
+            // error. Other request/response exceptions can carry partial bodies.
+            $hasTransferFailure = method_exists($e, 'getHandlerContext')
+                && is_callable([$e, 'getHandlerContext'])
+                && is_a($e, 'GuzzleHttp\\Exception\\RequestException')
+                && ! empty($e->getHandlerContext()['errno']);
+            $completedGuzzleResponse = is_a($e, 'GuzzleHttp\\Exception\\BadResponseException')
+                && $e->getPrevious() === null
+                && ! $hasTransferFailure;
+
+            if ((! is_a($e, 'GuzzleHttp\\Exception\\RequestException') || $completedGuzzleResponse)
+                && method_exists($e, 'getResponse') && is_callable([$e, 'getResponse'])) {
                 $response = $e->getResponse();
 
                 if ($response instanceof ResponseInterface && ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300)) {
