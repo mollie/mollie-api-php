@@ -19,12 +19,14 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.4, 8.0, 8.1, 8.2, 8.3, 8.4]
+        php: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
+        stability: [prefer-lowest, prefer-stable]
+        guzzle: ["^7.6", "^8.0"]
 
-    name: PHP - ${{ matrix.php }}
+    name: PHP - ${{ matrix.php }} (Guzzle ${{ matrix.guzzle }}, ${{ matrix.stability }})
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -40,10 +42,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer update --prefer-dist --no-interaction --no-progress
+          composer require --dev "guzzlehttp/guzzle:${{ matrix.guzzle }}" --no-update --no-interaction
+          composer update --prefer-dist --${{ matrix.stability }} --no-interaction --no-progress
 
       - name: List Installed Dependencies
-        run: composer show -D
+        run: |
+          php --version
+          composer show -D
 
       - name: Execute tests
         run: vendor/bin/paratest --verbose
+
+      - name: Analyze both Guzzle majors
+        if: matrix.php == '8.4' && matrix.stability == 'prefer-stable'
+        run: vendor/bin/phpstan --no-progress

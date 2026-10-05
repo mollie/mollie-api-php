@@ -117,3 +117,5 @@ Copyright (c) 2013-2018, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
+
+For background workers, see [background jobs and queues](docs/queues.md).

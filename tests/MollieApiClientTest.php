@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface as GuzzleClientInterface;
 use Mollie\Api\Contracts\HasPayload;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\InvalidAuthenticationException;
@@ -73,9 +73,10 @@ class MollieApiClientTest extends TestCase
     }
 
     /** @test */
-    public function can_be_serialized_and_unserialized()
+    public function sdk_state_round_trips_with_an_interface_transport_double()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        // This isolates SDK state; it does not serialize a real Guzzle transport.
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $client->setApiEndpoint('https://mymollieproxy.local');
@@ -100,7 +101,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function set_token_uses_access_token_authenticator_for_access_tokens()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('access_xxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -110,7 +111,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function set_token_uses_api_key_authenticator_for_test_keys()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -120,7 +121,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function set_token_uses_api_key_authenticator_for_live_keys()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $client->setToken('live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
@@ -130,7 +131,7 @@ class MollieApiClientTest extends TestCase
     /** @test */
     public function set_token_throws_for_invalid_tokens()
     {
-        $client = new MollieApiClient($this->createMock(Client::class));
+        $client = new MollieApiClient($this->createStub(GuzzleClientInterface::class));
 
         $this->expectException(InvalidAuthenticationException::class);
 
