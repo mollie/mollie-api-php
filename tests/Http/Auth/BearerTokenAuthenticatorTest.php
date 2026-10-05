@@ -2,9 +2,10 @@
 
 namespace Tests\Http\Auth;
 
+use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\Auth\BearerTokenAuthenticator;
 use Mollie\Api\Http\PendingRequest;
-use Mollie\Api\Repositories\ArrayStore;
+use Mollie\Api\Http\Requests\DynamicGetRequest;
 use PHPUnit\Framework\TestCase;
 
 class BearerTokenAuthenticatorTest extends TestCase
@@ -17,19 +18,11 @@ class BearerTokenAuthenticatorTest extends TestCase
         $token = 'test_token';
         $authenticator = new BearerTokenAuthenticator($token);
 
-        $headers = $this->createMock(ArrayStore::class);
-        $headers
-            ->expects($this->once())
-            ->method('add')
-            ->with('Authorization', "Bearer {$token}");
-
-        $pendingRequest = $this->createMock(PendingRequest::class);
-        $pendingRequest
-            ->expects($this->once())
-            ->method('headers')
-            ->willReturn($headers);
+        $pendingRequest = new PendingRequest(new MockMollieClient, new DynamicGetRequest('payments'));
 
         $authenticator->authenticate($pendingRequest);
+
+        $this->assertSame("Bearer {$token}", $pendingRequest->headers()->get('Authorization'));
     }
 
     /**
@@ -41,18 +34,10 @@ class BearerTokenAuthenticatorTest extends TestCase
         $trimmedToken = 'test_token_with_spaces';
         $authenticator = new BearerTokenAuthenticator($token);
 
-        $headers = $this->createMock(ArrayStore::class);
-        $headers
-            ->expects($this->once())
-            ->method('add')
-            ->with('Authorization', "Bearer {$trimmedToken}");
-
-        $pendingRequest = $this->createMock(PendingRequest::class);
-        $pendingRequest
-            ->expects($this->once())
-            ->method('headers')
-            ->willReturn($headers);
+        $pendingRequest = new PendingRequest(new MockMollieClient, new DynamicGetRequest('payments'));
 
         $authenticator->authenticate($pendingRequest);
+
+        $this->assertSame("Bearer {$trimmedToken}", $pendingRequest->headers()->get('Authorization'));
     }
 }
