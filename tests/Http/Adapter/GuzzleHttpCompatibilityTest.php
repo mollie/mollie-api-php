@@ -423,7 +423,6 @@ class GuzzleHttpCompatibilityTest extends TestCase
 
         $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $client->getHttpClient());
         $property = new ReflectionProperty(GuzzleMollieHttpAdapter::class, 'httpClient');
-        $property->setAccessible(true);
         $this->assertSame($guzzle, $property->getValue($client->getHttpClient()));
         $this->assertInstanceOf(Payment::class, $client->send(new GetPaymentRequest('tr_offline')));
         $this->assertSame(0, $handler->count());
@@ -479,7 +478,6 @@ class GuzzleHttpCompatibilityTest extends TestCase
         $adapter = $client->getHttpClient();
         $this->assertInstanceOf(GuzzleMollieHttpAdapter::class, $adapter);
         $property = new ReflectionProperty(GuzzleMollieHttpAdapter::class, 'httpClient');
-        $property->setAccessible(true);
         $guzzle = $property->getValue($adapter);
 
         $this->assertInstanceOf(Client::class, $guzzle);
