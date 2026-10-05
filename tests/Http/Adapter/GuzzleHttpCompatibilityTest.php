@@ -135,6 +135,51 @@ class GuzzleHttpCompatibilityTest extends TestCase
         }
     }
 
+    public function testInaccessibleResponseAccessorsPreserveTheOriginalFailure(): void
+    {
+        $failures = [
+            new class extends RuntimeException implements RequestExceptionInterface {
+                public function getRequest(): RequestInterface
+                {
+                    return new PsrRequest('GET', 'https://example.invalid');
+                }
+
+                public function response(): PsrResponse
+                {
+                    return $this->getResponse();
+                }
+
+                private function getResponse(): PsrResponse
+                {
+                    return new PsrResponse(422);
+                }
+            },
+            new class extends RuntimeException implements RequestExceptionInterface {
+                public function getRequest(): RequestInterface
+                {
+                    return new PsrRequest('GET', 'https://example.invalid');
+                }
+
+                public function response(): PsrResponse
+                {
+                    return $this->getResponse();
+                }
+
+                protected function getResponse(): PsrResponse
+                {
+                    return new PsrResponse(422);
+                }
+            },
+        ];
+
+        foreach ($failures as $failure) {
+            $this->assertSame(422, $failure->response()->getStatusCode());
+            foreach ([false, true] as $psr18) {
+                $this->assertPermanentFailure($failure, $psr18);
+            }
+        }
+    }
+
     public function testNetworkFailuresRetryWithTheSameBodyAndIdempotencyKey(): void
     {
         foreach ($this->networkExceptionClasses() as $exceptionClass) {
@@ -236,32 +281,128 @@ class GuzzleHttpCompatibilityTest extends TestCase
 
     public function testFailedPartialResponsesNeverHydrateOrRetryEvenWithAnErrorStatus(): void
     {
-        $transferClass = 'GuzzleHttp\\Exception\\ResponseTransferException';
-        $responses = [$this->payment(), new PsrResponse(200, [], '{"resource":"payment"')];
-        if (class_exists($transferClass)) {
-            $responses[] = $this->error(422);
-            $responses[] = $this->error(429);
-        }
+        foreach ([$this->payment(), $this->error(422), $this->error(429)] as $response) {
+            // Mirror upstream handler failures, rather than the HTTP-error factory:
+            // Guzzle 7 CurlFactory/on_headers use RequestException; Guzzle 8
+            // sink/on_headers/framing failures use ResponseException subclasses.
+            $responseClass = 'GuzzleHttp\\Exception\\ResponseException';
+            $transferClass = 'GuzzleHttp\\Exception\\ResponseTransferException';
+            if (class_exists($responseClass) && class_exists($transferClass)) {
+                $failures = [
+                    new $responseClass('Unable to write to stream', $this->request(), $response),
+                    new $responseClass('An error was encountered during the on_headers event', $this->request(), $response, new RuntimeException('Header callback failed')),
+                    new $responseClass('Framing failure', $this->request(), $response, new \OverflowException('Invalid content length')),
+                    new $transferClass('Body copy failed', $this->request(), $response, new RuntimeException('Unable to read stream')),
+                ];
+            } else {
+                // The base RequestException constructor changed in Guzzle 8.
+                $requestClass = new \ReflectionClass(GuzzleRequestException::class);
+                $failures = [
+                    $requestClass->newInstance('cURL error 18: partial file', $this->request(), $response, null, ['errno' => 18]),
+                    $requestClass->newInstance('cURL error 23: write error', $this->request(), $response, null, ['errno' => 23]),
+                    $requestClass->newInstance('An error was encountered during the on_headers event', $this->request(), $response, new RuntimeException('Header callback failed')),
+                    $requestClass->newInstance('Body copy failed', $this->request(), $response, new RuntimeException('Unable to write to stream')),
+                ];
+            }
 
-        foreach ($responses as $response) {
+            foreach ($failures as $failure) {
+                foreach ([false, true] as $psr18) {
+                    $this->assertPermanentFailure($failure, $psr18);
+                }
+            }
+        }
+    }
+
+    public function testPublicOptionalResponseAccessorStillMapsCompletedHttpErrors(): void
+    {
+        foreach ([false, true] as $psr18) {
+            $failure = new class($this->error(422, 'amount')) extends RuntimeException implements RequestExceptionInterface {
+                private PsrResponse $response;
+
+                public function __construct(PsrResponse $response)
+                {
+                    parent::__construct('Completed HTTP error');
+                    $this->response = $response;
+                }
+
+                public function getRequest(): RequestInterface
+                {
+                    return new PsrRequest('GET', 'https://example.invalid');
+                }
+
+                public function getResponse(): PsrResponse
+                {
+                    return $this->response;
+                }
+            };
+            $history = [];
+            [$client, $handler] = $this->client([$failure, $this->payment()], $history, $psr18);
+
+            try {
+                $client->send(new GetPaymentRequest('tr_offline'));
+                $this->fail('Expected validation failure.');
+            } catch (ValidationException $e) {
+                $this->assertSame(422, $e->getStatusCode());
+                $this->assertSame('amount', $e->getField());
+                $this->assertSame($failure, $e->getResponse()->getSenderException());
+            }
+
+            $this->assertSame(1, $handler->count());
+            $this->assertCount(1, $history);
+        }
+    }
+
+    public function testHttpStatusErrorsWithTransferFailureSignalsRemainPermanent(): void
+    {
+        foreach ([$this->error(422), $this->error(429)] as $response) {
+            $failures = [GuzzleRequestException::create($this->request(), $response, new RuntimeException('Body copy failed'))];
+            if (! class_exists('GuzzleHttp\\Exception\\ResponseException')) {
+                $statusClass = new \ReflectionClass('GuzzleHttp\\Exception\\ClientException');
+                $failures[] = $statusClass->newInstance('cURL error 18: partial file', $this->request(), $response, null, ['errno' => 18]);
+            }
+
+            foreach ($failures as $failure) {
+                foreach ([false, true] as $psr18) {
+                    $this->assertPermanentFailure($failure, $psr18);
+                }
+            }
+        }
+    }
+
+    public function testCompletedGuzzleHttpErrorsKeepValidationAndRateLimitPolicies(): void
+    {
+        foreach ([$this->error(422, 'amount'), $this->error(429)] as $response) {
             foreach ([false, true] as $psr18) {
-                $failure = class_exists($transferClass)
-                    ? new $transferClass('Offline incomplete transfer', $this->request(), $response)
-                    : GuzzleRequestException::create($this->request(), $response);
+                // This is the same factory called by http_errors after fulfillment.
+                $failure = GuzzleRequestException::create($this->request(), $response);
                 $history = [];
                 [$client, $handler] = $this->client([$failure, $this->payment()], $history, $psr18);
-                $client->setRetryStrategy(new ExponentialRetryStrategy(1, 0, 2.0, 0, false));
 
                 try {
                     $client->send(new GetPaymentRequest('tr_offline'));
-                    $this->fail('A failed transfer must not become a payment or API response.');
-                } catch (NetworkRequestException $e) {
-                    $this->assertNotInstanceOf(RetryableNetworkRequestException::class, $e);
-                    $this->assertSame($failure, $e->getPrevious());
+                    $this->fail('Expected completed HTTP error.');
+                } catch (ApiException $e) {
+                    $this->assertSame($response->getStatusCode(), $e->getStatusCode());
+                    $this->assertSame($failure, $e->getResponse()->getSenderException());
+                    if ($response->getStatusCode() === 422) {
+                        $this->assertInstanceOf(ValidationException::class, $e);
+                        $this->assertSame('amount', $e->getField());
+                    } else {
+                        $this->assertInstanceOf(TooManyRequestsException::class, $e);
+                    }
                 }
 
                 $this->assertSame(1, $handler->count());
                 $this->assertCount(1, $history);
+
+                if ($response->getStatusCode() === 429) {
+                    $history = [];
+                    [$client, $handler] = $this->client([$failure, $this->payment()], $history, $psr18);
+                    $client->setRetryStrategy(new ExponentialRetryStrategy(1, 0, 2.0, 0, false));
+                    $this->assertInstanceOf(Payment::class, $client->send(new GetPaymentRequest('tr_offline')));
+                    $this->assertSame(0, $handler->count());
+                    $this->assertCount(2, $history);
+                }
             }
         }
     }
@@ -347,6 +488,34 @@ class GuzzleHttpCompatibilityTest extends TestCase
         $this->assertSame(CaBundle::getBundledCaBundlePath(), $guzzle->getConfig('verify'));
         $this->assertFalse($guzzle->getConfig('http_errors'));
         $this->assertInstanceOf(HandlerStack::class, $guzzle->getConfig('handler'));
+    }
+
+    private function assertPermanentFailure(RequestExceptionInterface $failure, bool $psr18): void
+    {
+        $history = [];
+        [$client, $handler] = $this->client([$failure, $this->payment()], $history, $psr18);
+        $client->setRetryStrategy(new ExponentialRetryStrategy(1, 0, 2.0, 0, false));
+        $fatalCount = 0;
+        $responseCount = 0;
+        $client->middleware()->onResponse(function () use (&$responseCount) {
+            $responseCount++;
+        });
+        $client->middleware()->onFatal(function () use (&$fatalCount) {
+            $fatalCount++;
+        });
+
+        try {
+            $client->send(new GetPaymentRequest('tr_offline'));
+            $this->fail('A failed request must not become a payment or API response.');
+        } catch (NetworkRequestException $e) {
+            $this->assertNotInstanceOf(RetryableNetworkRequestException::class, $e);
+            $this->assertSame($failure, $e->getPrevious());
+        }
+
+        $this->assertSame(1, $handler->count());
+        $this->assertCount(1, $history);
+        $this->assertSame(1, $fatalCount);
+        $this->assertSame(0, $responseCount);
     }
 
     private function client(array $queue, &$history, bool $psr18 = false, array $config = []): array
