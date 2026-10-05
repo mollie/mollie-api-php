@@ -79,17 +79,30 @@ final class PSR18MollieHttpAdapter implements HttpAdapterContract
             // PSR-18 NetworkExceptionInterface indicates network errors, which are retryable
             throw new RetryableNetworkRequestException(
                 $pendingRequest,
-                'Network error: '.$e->getMessage()
+                'Network error: '.$e->getMessage(),
+                $e,
             );
         } catch (RequestExceptionInterface $e) {
-            if (method_exists($e, 'getResponse') && $response = $e->getResponse()) {
-                return $this->createResponse($response, $request, $pendingRequest, $e);
+            // Only Guzzle's status-error hierarchy represents a completed HTTP
+            // error. Other request/response exceptions can carry partial bodies.
+            $hasTransferFailure = method_exists($e, 'getHandlerContext')
+                && is_callable([$e, 'getHandlerContext'])
+                && is_a($e, 'GuzzleHttp\\Exception\\RequestException')
+                && ! empty($e->getHandlerContext()['errno']);
+            $completedGuzzleResponse = is_a($e, 'GuzzleHttp\\Exception\\BadResponseException')
+                && $e->getPrevious() === null
+                && ! $hasTransferFailure;
+
+            if ((! is_a($e, 'GuzzleHttp\\Exception\\RequestException') || $completedGuzzleResponse)
+                && method_exists($e, 'getResponse') && is_callable([$e, 'getResponse'])) {
+                $response = $e->getResponse();
+
+                if ($response instanceof ResponseInterface && ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300)) {
+                    return $this->createResponse($response, $request, $pendingRequest, $e);
+                }
             }
 
-            throw new RetryableNetworkRequestException(
-                $pendingRequest,
-                'Network error: '.$e->getMessage()
-            );
+            throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
         }
     }
 

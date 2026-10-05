@@ -14,6 +14,14 @@ The Mollie PHP client automatically retries requests that fail with retryable ne
 
 If all retries are exhausted, the last `Mollie\Api\Exceptions\RetryableNetworkRequestException` is thrown. Fatal middleware hooks, if configured, run once after retries are exhausted.
 
+## Guzzle request and transfer failures
+
+Guzzle 7 and 8 network exceptions implementing `NetworkExceptionInterface`, including connection failures and timeouts, use the existing retry strategy. Retries retain the request body and idempotency key.
+
+A response-less request exception is not necessarily a network error. Malformed request failures now raise a non-retryable `NetworkRequestException` instead of being retried automatically. Failed partial response transfers also raise this exception, even if their attached response has status 200 or contains valid JSON. The original transport exception is available through `getPrevious()`.
+
+Completed HTTP responses still use the normal API exception mapping: 422 retains its validation field, and 429 retries only under a strategy that permits rate-limit retries.
+
 ## Changing the defaults
 
 To change the retry behavior, provide your own strategy instance to the client:

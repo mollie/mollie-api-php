@@ -7,8 +7,6 @@ namespace Mollie\Api\Http\Adapter;
 use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\HttpFactory;
@@ -19,6 +17,8 @@ use Mollie\Api\Exceptions\RetryableNetworkRequestException;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Response;
 use Mollie\Api\Utils\Factories;
+use Psr\Http\Client\NetworkExceptionInterface;
+use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -85,16 +85,33 @@ final class GuzzleMollieHttpAdapter implements HttpAdapterContract
             $response = $this->httpClient->send($request);
 
             return $this->createResponse($response, $request, $pendingRequest);
-        } catch (ConnectException $e) {
-            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
+        } catch (NetworkExceptionInterface $e) {
+            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage(), $e);
         } catch (TooManyRedirectsException $e) {
             throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
-        } catch (RequestException $e) {
-            if ($response = $e->getResponse()) {
-                return $this->createResponse($response, $request, $pendingRequest, $e);
+        } catch (RequestExceptionInterface $e) {
+            // Only Guzzle's status-error hierarchy represents a completed HTTP
+            // error. Other request/response exceptions can carry partial bodies.
+            $hasTransferFailure = method_exists($e, 'getHandlerContext')
+                && is_callable([$e, 'getHandlerContext'])
+                && is_a($e, 'GuzzleHttp\\Exception\\RequestException')
+                && ! empty($e->getHandlerContext()['errno']);
+            $completedGuzzleResponse = is_a($e, 'GuzzleHttp\\Exception\\BadResponseException')
+                && $e->getPrevious() === null
+                && ! $hasTransferFailure;
+
+            if ((! is_a($e, 'GuzzleHttp\\Exception\\RequestException') || $completedGuzzleResponse)
+                && method_exists($e, 'getResponse') && is_callable([$e, 'getResponse'])) {
+                $response = $e->getResponse();
+
+                if ($response instanceof ResponseInterface && ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300)) {
+                    return $this->createResponse($response, $request, $pendingRequest, $e);
+                }
             }
 
-            throw new RetryableNetworkRequestException($pendingRequest, $e->getMessage());
+            // A malformed request or failed partial response is not a complete
+            // HTTP response, nor a network failure eligible for automatic retry.
+            throw new NetworkRequestException($pendingRequest, $e, $e->getMessage());
         }
     }
 
