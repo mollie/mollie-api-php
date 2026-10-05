@@ -66,4 +66,23 @@ class CreateSessionRequestTest extends TestCase
         );
         $this->assertEquals('sessions', $request->resolveResourcePath());
     }
+
+    #[Test]
+    public function it_sends_required_customer_details()
+    {
+        $request = new CreateSessionRequest(
+            new Money('EUR', '10.00'),
+            'My product',
+            'https://example.com/redirect',
+            new DataCollection([
+                new OrderLine('Product A', 1, new Money('EUR', '10.00'), new Money('EUR', '10.00')),
+            ]),
+            requiredCustomerDetails: ['email', 'shipping-address'],
+        );
+
+        $this->assertSame(
+            ['email', 'shipping-address'],
+            $request->payload()->get('requiredCustomerDetails')
+        );
+    }
 }

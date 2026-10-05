@@ -8,6 +8,8 @@ How to add your own factory methods to `Money` without subclassing.
 
 This is how loyalty points, internal credits, or domain-specific shortcuts can live next to the SDK without inheritance.
 
+For adapters from MoneyPHP or Brick Money, see [Using money libraries with macros](money-libraries.md).
+
 ## The Code
 
 ```php

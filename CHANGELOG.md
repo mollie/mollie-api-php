@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.0.0...HEAD)
 
+### Fixed
+
+- Clarify Google Pay usage on `PaymentMethod::Googlepay`: Create payment rejects `googlepay` as a `method` with HTTP 422. Use `PaymentMethod::Creditcard` for hosted checkout and direct integration; direct integration also requires `googlePayPaymentToken`. The `googlepay` wallet identifier remains available for the Methods API's `includeWallets` parameter. See [#930](https://github.com/mollie/mollie-api-php/issues/930).
+
 ## [v4.0.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0-beta.3...v4.0.0) - 2026-09-23
 
 The first stable v4 release requires PHP 8.2 or newer. See [UPGRADING.md](UPGRADING.md) for the v3 migration guide and the beta entries below for detailed changes.
