@@ -5,6 +5,7 @@ This directory contains recipes for common use cases with the Mollie API PHP cli
 ## Structure
 
 The recipes are organized by resource type:
+
 - `payments/` - Payment-related operations (create, update, refund, etc.)
 - `customers/` - Customer management
 - `mandates/` - Mandate operations
@@ -14,9 +15,12 @@ The recipes are organized by resource type:
 - `refunds/` - Refund operations
 - `connect-balance-transfers/` - Connect balance transfer operations
 - `webhooks/` - Webhook management and events
-- `money/` - `Money` value object recipes (custom factories via Macroable)
+- `money/` - `Money` value object recipes:
+  - [Custom factories via Macroable](money/custom-factory.md)
+  - [MoneyPHP and Brick Money adapters](money/money-libraries.md)
 
 Each recipe includes:
+
 - Complete code example
 - Example response fields
 - Additional notes and considerations
