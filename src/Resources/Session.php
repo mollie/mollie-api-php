@@ -25,6 +25,9 @@ class Session extends BaseResource
 
     public string $redirectUrl;
 
+    /**
+     * @deprecated Not part of the Checkout Sessions API response.
+     */
     public ?string $cancelUrl = null;
 
     public Money $amount;
@@ -55,6 +58,21 @@ class Session extends BaseResource
     public ?array $lines = null;
 
     /**
+     * Customer details Mollie collects during checkout (private beta).
+     *
+     * @var array<string>|null
+     */
+    public ?array $requiredCustomerDetails = null;
+
+    public ?string $profileId = null;
+
+    public ?string $createdAt = null;
+
+    public ?string $expiredAt = null;
+
+    public ?string $completedAt = null;
+
+    /**
      * @var \stdClass
      */
     public $_links;
@@ -74,6 +92,10 @@ class Session extends BaseResource
         return Utility::equals($this->status, SessionStatus::Completed);
     }
 
+    /**
+     * @deprecated The Checkout Sessions API only returns a `self` link, so this always returns null.
+     *             Use the clientAccessToken with Mollie's client-side components instead.
+     */
     public function getRedirectUrl(): ?string
     {
         if (empty($this->_links->redirect)) {

@@ -1,8 +1,10 @@
-# Manage Sessions
+# Manage Checkout Sessions
 
-How to create and manage sessions using the Mollie API.
+How to create and retrieve Checkout Sessions using the Mollie API.
 
-## Create a Session
+> Checkout Sessions are in private beta at Mollie. The API specification may still change.
+
+## Create a Checkout Session
 
 ```php
 use Mollie\Api\Http\Data\DataCollection;
@@ -11,12 +13,12 @@ use Mollie\Api\Http\Data\OrderLine;
 use Mollie\Api\Http\Requests\CreateSessionRequest;
 
 try {
-    // Create a new session. The request takes typed arguments, not an array.
+    // The request takes typed arguments, not an array.
     $session = $mollie->send(
         new CreateSessionRequest(
             amount: Money::euro('10.00'),
             description: 'Order #12345',
-            redirectUrl: 'https://example.com/shipping',
+            redirectUrl: 'https://example.com/order/12345',
             lines: DataCollection::collect([
                 new OrderLine(
                     description: 'Bicycle tire',
@@ -25,39 +27,49 @@ try {
                     totalAmount: Money::euro('10.00')
                 ),
             ]),
-            cancelUrl: 'https://example.com/cancel',
-            paymentWebhook: 'https://example.com/webhook'
+            paymentWebhook: 'https://example.com/webhook',
+            requiredCustomerDetails: ['email', 'shipping-address'],
         )
     );
 
-    // getRedirectUrl() reads $_links->redirect and returns null when the API
-    // did not send that link, so check before redirecting.
-    $redirectUrl = $session->getRedirectUrl();
-
-    if ($redirectUrl === null) {
-        throw new \RuntimeException("Session {$session->id} has no redirect link.");
-    }
-
-    header('Location: ' . $redirectUrl, true, 303);
+    // Hand the client access token to Mollie's client-side components
+    // to render the checkout in your frontend.
+    $clientAccessToken = $session->clientAccessToken;
 } catch (\Mollie\Api\Exceptions\ApiException $e) {
     echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 ```
 
+## Retrieve a Checkout Session
+
+```php
+use Mollie\Api\Http\Requests\GetSessionRequest;
+
+$session = $mollie->send(new GetSessionRequest('sess_CQBQJqxubaq4w6oresxMJ'));
+```
+
 ## The Response
 
 ```php
-$session->id;                // "ses_abc123"
-$session->status;            // SessionStatus case or raw string
-$session->amount;            // Mollie\Api\Http\Data\Money
-$session->description;       // "Order #12345"
-$session->redirectUrl;       // "https://example.com/shipping"
-$session->cancelUrl;         // "https://example.com/cancel" (or null)
-$session->clientAccessToken; // token for the client-side checkout
-$session->lines;             // array of order lines (or null)
-$session->metadata;          // your own data (or null)
-$session->payment;           // \stdClass with payment settings, e.g. webhookUrl (or null)
-$session->_links;            // \stdClass with HAL links, e.g. redirect
+$session->id;                      // "sess_CQBQJqxubaq4w6oresxMJ"
+$session->mode;                    // "live" or "test"
+$session->status;                  // SessionStatus case or raw string
+$session->clientAccessToken;       // token for the client-side checkout
+$session->amount;                  // Mollie\Api\Http\Data\Money
+$session->description;             // "Order #12345"
+$session->redirectUrl;             // "https://example.com/order/12345"
+$session->lines;                   // array of line items (or null)
+$session->requiredCustomerDetails; // ["email", "shipping-address"] (or null)
+$session->billingAddress;          // Mollie\Api\Http\Data\Address (or null)
+$session->shippingAddress;         // Mollie\Api\Http\Data\Address (or null)
+$session->customerId;              // "cst_5B8cwPMGnU" (or null)
+$session->sequenceType;            // "oneoff" or "first" (or null)
+$session->metadata;                // your own data (or null)
+$session->payment;                 // \stdClass with payment settings, e.g. webhookUrl (or null)
+$session->profileId;               // "pfl_5B8cwPMGnU"
+$session->createdAt;               // "2026-09-30T12:00:00+00:00"
+$session->expiredAt;               // set once the session expired (or null)
+$session->completedAt;             // set once the session completed (or null)
 ```
 
 `status` is a `SessionStatus` case (`Open`, `Expired`, `Completed`) when the SDK
@@ -80,8 +92,8 @@ echo "Session status: {$status}\n";
 
 ## Additional Notes
 
-- Sessions are used for payment methods that require additional steps
 - `amount`, `description`, `redirectUrl` and `lines` are required; `lines` takes a `DataCollection` of `OrderLine` objects
 - Pass `paymentWebhook` to receive status updates; the SDK nests it as `payment.webhookUrl`
-- `getRedirectUrl()` is nullable, so guard it before issuing a redirect
+- `requiredCustomerDetails` accepts `email`, `billing-address` and `shipping-address`; Mollie returns the collected details on `billingAddress` and `shippingAddress`
+- `cancelUrl` and `getRedirectUrl()` are deprecated: the Checkout Sessions API accepts no cancel URL and only returns a `self` link
 - Use `isOpen()`, `isExpired()` and `isCompleted()` to branch on the session status
