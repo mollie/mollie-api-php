@@ -7,7 +7,7 @@ class SalesInvoiceCollection extends CursorCollection
     /**
      * The name of the collection resource in Mollie's API.
      */
-    public static string $collectionName = 'sales_invoices';
+    public static string $collectionName = 'invoices';
 
     /**
      * Resource class name.

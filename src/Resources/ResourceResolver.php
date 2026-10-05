@@ -68,9 +68,10 @@ class ResourceResolver
 
         $kebabCollectionKey = Config::resourceRegistry()->pluralOf($targetCollectionClass::getResourceClass());
 
-        $data = isset($result->_embedded->{$kebabCollectionKey})
-            ? $result->_embedded->{$kebabCollectionKey}
-            : $result->_embedded->{Str::snake($kebabCollectionKey)};
+        // Keep registry names and their legacy aliases ahead of collection response metadata.
+        $data = $result->_embedded->{$kebabCollectionKey}
+            ?? $result->_embedded->{Str::snake($kebabCollectionKey)}
+            ?? $result->_embedded->{$targetCollectionClass::$collectionName};
 
         return $this->hydrator->hydrateCollection(
             $collection,
