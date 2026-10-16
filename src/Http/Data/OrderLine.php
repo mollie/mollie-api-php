@@ -22,6 +22,8 @@ readonly class OrderLine implements Resolvable
         public ?string $sku = null,
         public ?string $imageUrl = null,
         public ?string $productUrl = null,
+        public ?string $category = null,
+        public ?DataCollection $categories = null,
     ) {
     }
 
@@ -41,6 +43,8 @@ readonly class OrderLine implements Resolvable
             'sku' => $this->sku,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
+            'category' => $this->category,
+            'categories' => $this->categories,
         ];
     }
 }

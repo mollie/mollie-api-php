@@ -43,6 +43,10 @@ class OrderLineFactoryTest extends TestCase
             'sku' => 'PROD-123',
             'imageUrl' => 'https://example.com/image.jpg',
             'productUrl' => 'https://example.com/product',
+            'category' => 'gift',
+            'categories' => [
+                'gift',
+            ],
         ])->create();
 
         $this->assertInstanceOf(OrderLine::class, $orderLine);
