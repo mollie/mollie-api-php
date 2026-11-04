@@ -38,6 +38,9 @@ class CreatePaymentRequestFactoryTest extends TestCase
                             'currency' => 'EUR',
                             'value' => '100.00',
                         ],
+                        'categories' => [
+                            'gift',
+                        ],
                     ],
                 ],
                 'billingAddress' => [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Factories;
 
+use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\OrderLine;
 
 class OrderLineFactory extends Factory
@@ -24,6 +25,8 @@ class OrderLineFactory extends Factory
             $this->get('sku'),
             $this->get('imageUrl'),
             $this->get('productUrl'),
+            $this->get('category'),
+            $this->transformIfNotNull('categories', fn (array $item) => new DataCollection($item)),
         );
     }
 }

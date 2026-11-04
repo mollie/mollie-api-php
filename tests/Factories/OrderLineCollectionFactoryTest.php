@@ -28,6 +28,10 @@ class OrderLineCollectionFactoryTest extends TestCase
                     'value' => '20.00',
                 ],
                 'type' => 'physical',
+                'category' => 'gift',
+                'categories' => [
+                    'gift',
+                ],
             ],
             [
                 'description' => 'Second Product',
@@ -42,6 +46,10 @@ class OrderLineCollectionFactoryTest extends TestCase
                     'value' => '15.00',
                 ],
                 'type' => 'digital',
+                'category' => 'gift',
+                'categories' => [
+                    'gift',
+                ],
             ],
         ])->create();
 

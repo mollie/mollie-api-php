@@ -95,4 +95,57 @@ class CreatePaymentLinkRequestTest extends TestCase
         $this->assertTrue($paymentLink->getResponse()->successful());
         $this->assertInstanceOf(PaymentLink::class, $paymentLink);
     }
+
+    #[Test]
+    public function it_can_create_payment_link_with_voucher_fields()
+    {
+        $client = new MockMollieClient([
+            CreatePaymentLinkRequest::class => MockResponse::created('payment-link'),
+        ]);
+
+        $lines = new DataCollection([
+            new OrderLine(
+                'Bicycle tire',
+                2,
+                new Money('EUR', '12.48'),
+                new Money('EUR', '24.95'),
+                null,
+                null,
+                null,
+                null,
+                '21.00',
+                new Money('EUR', '4.34'),
+                null,
+                null,
+                null,
+                null,
+                new DataCollection([
+                    'gift',
+                ]),
+            ),
+        ]);
+
+        $request = new CreatePaymentLinkRequest(
+            'Voucher order',
+            null,
+            'https://example.com/redirect',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $lines,
+            null,
+            null,
+            new Money('EUR', '10.00')
+        );
+
+        /** @var PaymentLink */
+        $paymentLink = $client->send($request);
+
+        $this->assertTrue($paymentLink->getResponse()->successful());
+        $this->assertInstanceOf(PaymentLink::class, $paymentLink);
+    }
 }
