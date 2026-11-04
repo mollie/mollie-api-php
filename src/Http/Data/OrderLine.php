@@ -32,6 +32,10 @@ class OrderLine implements Resolvable
 
     public ?string $productUrl;
 
+    public ?string $category;
+
+    public ?DataCollection $categories;
+
     public function __construct(
         string $description,
         int $quantity,
@@ -45,7 +49,9 @@ class OrderLine implements Resolvable
         ?Money $vatAmount = null,
         ?string $sku = null,
         ?string $imageUrl = null,
-        ?string $productUrl = null
+        ?string $productUrl = null,
+        ?string $category = null,
+        ?DataCollection $categories = null
     ) {
         $this->description = $description;
         $this->quantity = $quantity;
@@ -60,6 +66,8 @@ class OrderLine implements Resolvable
         $this->sku = $sku;
         $this->imageUrl = $imageUrl;
         $this->productUrl = $productUrl;
+        $this->category = $category;
+        $this->categories = $categories;
     }
 
     public function toArray(): array
@@ -78,6 +86,8 @@ class OrderLine implements Resolvable
             'sku' => $this->sku,
             'imageUrl' => $this->imageUrl,
             'productUrl' => $this->productUrl,
+            'category' => $this->category,
+            'categories' => $this->categories,
         ];
     }
 }

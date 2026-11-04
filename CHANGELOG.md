@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Preserve voucher `category` and `categories` fields on `OrderLine`, including factory mapping and outgoing JSON for payments and payment links. Backport of [#947](https://github.com/mollie/mollie-api-php/pull/947), compatible with PHP 7.4.
 - Correct Google Pay guidance on `PaymentMethod::GOOGLEPAY`: Create payment rejects `googlepay` as a `method` with HTTP 422. Use `PaymentMethod::CREDITCARD` for hosted checkout and direct integration; direct integration also requires `googlePayPaymentToken`. The `googlepay` wallet identifier remains available for the Methods API's `includeWallets` parameter. See [#930](https://github.com/mollie/mollie-api-php/issues/930).
 
 ## [v3.15.0](https://github.com/mollie/mollie-api-php/compare/v3.14.0...v3.15.0) - 2026-09-23

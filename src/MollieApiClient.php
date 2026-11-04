@@ -132,7 +132,7 @@ class MollieApiClient implements Connector
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = '3.15.0';
+    public const CLIENT_VERSION = '3.16.0';
 
     /**
      * Endpoint of the remote API.

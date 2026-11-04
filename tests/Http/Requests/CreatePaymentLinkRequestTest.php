@@ -8,7 +8,9 @@ use Mollie\Api\Http\Data\Address;
 use Mollie\Api\Http\Data\DataCollection;
 use Mollie\Api\Http\Data\Money;
 use Mollie\Api\Http\Data\OrderLine;
+use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\CreatePaymentLinkRequest;
+use Mollie\Api\Http\Requests\CreatePaymentRequest;
 use Mollie\Api\Resources\PaymentLink;
 use PHPUnit\Framework\TestCase;
 
@@ -42,6 +44,57 @@ class CreatePaymentLinkRequestTest extends TestCase
         );
 
         $this->assertEquals('payment-links', $request->resolveResourcePath());
+    }
+
+    /**
+     * @test
+     * @dataProvider voucherFields
+     */
+    public function it_preserves_voucher_fields_in_payment_and_payment_link_requests(array $fields, array $expectedFields)
+    {
+        $line = [
+            'description' => 'Voucher item',
+            'quantity' => 2,
+            'unitPrice' => ['currency' => 'EUR', 'value' => '5.00'],
+            'totalAmount' => ['currency' => 'EUR', 'value' => '10.00'],
+        ];
+
+        foreach ([
+            'payments' => [CreatePaymentRequest::class, 'payment'],
+            'paymentLinks' => [CreatePaymentLinkRequest::class, 'payment-link'],
+        ] as $endpoint => [$requestClass, $resource]) {
+            $client = new MockMollieClient([
+                $requestClass => MockResponse::created($resource),
+            ]);
+
+            $client->{$endpoint}->create([
+                'description' => 'Voucher checkout',
+                'amount' => ['currency' => 'EUR', 'value' => '10.00'],
+                'lines' => [$line + $fields],
+            ]);
+
+            $client->assertSent(function (PendingRequest $pendingRequest) use ($line, $expectedFields) {
+                $payload = json_decode((string) $pendingRequest->createPsrRequest()->getBody(), true);
+
+                $this->assertSame([$line + $expectedFields], $payload['lines']);
+
+                return true;
+            });
+        }
+    }
+
+    public static function voucherFields(): array
+    {
+        return [
+            'singular category' => [['category' => 'meal'], ['category' => 'meal']],
+            'multiple categories' => [['categories' => ['gift', 'eco']], ['categories' => ['gift', 'eco']]],
+            'both fields' => [
+                ['category' => 'meal', 'categories' => ['gift', 'eco']],
+                ['category' => 'meal', 'categories' => ['gift', 'eco']],
+            ],
+            'omitted fields' => [[], []],
+            'null fields' => [['category' => null, 'categories' => null], []],
+        ];
     }
 
     /** @test */
