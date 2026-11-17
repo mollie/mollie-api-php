@@ -7,3 +7,4 @@ composer.phar
 php-scoper.phar
 php-scoper.phar.pubkey
 .phpunit.result.cache
+/.amp/portals/*

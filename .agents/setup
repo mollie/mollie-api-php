@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Prepares an Amp orb to run this SDK's tests, PHPStan, and Pint.
+# Idempotent: a warm orb skips apt and only re-checks Composer dependencies.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+step() { printf '\n==> %s\n' "$*"; }
+timed() {
+  local start=$SECONDS
+  "$@"
+  printf '    (%ss)\n' "$((SECONDS - start))"
+}
+
+# Debian's PHP 8.4 is in the CI matrix and is the version CI runs PHPStan on.
+packages=(php-cli php-curl php-mbstring php-xml php-zip unzip composer)
+missing=()
+for pkg in "${packages[@]}"; do
+  dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q 'install ok installed' || missing+=("$pkg")
+done
+
+if ((${#missing[@]})); then
+  step "Installing ${missing[*]}"
+  timed sudo apt-get update -qq
+  timed sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends "${missing[@]}"
+else
+  step "PHP and Composer already installed"
+fi
+php --version | head -1
+
+# composer.json declares a path repository at ../mollie-api-php, which Composer
+# requires to exist. CI and most local clones are named mollie-api-php, so it
+# points at the checkout itself; orbs clone into workspace/repo instead.
+path_repo="$(cd .. && pwd)/mollie-api-php"
+if [[ ! -e "$path_repo" ]]; then
+  step "Linking $path_repo to this checkout for composer.json's path repository"
+  ln -s "$PWD" "$path_repo"
+fi
+
+# composer.lock is gitignored, so resolve from composer.json like CI does.
+# On a warm orb this only re-checks versions and reuses Composer's cache.
+step "Installing Composer dependencies"
+timed composer update --prefer-dist --no-interaction --no-progress
+
+step "Done"
