@@ -1,0 +1,17 @@
+{
+  "resource": "business-account",
+  "id": "{{ RESOURCE_ID }}",
+  "status": "active",
+  "mode": "live",
+  "createdAt": "2025-01-01T12:00:00+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

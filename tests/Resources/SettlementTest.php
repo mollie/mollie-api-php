@@ -47,6 +47,14 @@ class SettlementTest extends \PHPUnit\Framework\TestCase
             [SettlementStatus::FAILED, 'isOpen', false],
             [SettlementStatus::FAILED, 'isPaidout', false],
             [SettlementStatus::FAILED, 'isFailed', true],
+
+            [SettlementStatus::PROCESSING, 'isProcessing', true],
+            [SettlementStatus::PROCESSING, 'isProcessingAtBank', false],
+            [SettlementStatus::PROCESSING, 'isPending', false],
+
+            [SettlementStatus::PROCESSING_AT_BANK, 'isProcessingAtBank', true],
+            [SettlementStatus::PROCESSING_AT_BANK, 'isProcessing', false],
+            [SettlementStatus::PROCESSING_AT_BANK, 'isPaidout', false],
         ];
     }
 }

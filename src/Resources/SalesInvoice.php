@@ -97,6 +97,13 @@ class SalesInvoice extends BaseResource
     public $isEInvoice;
 
     /**
+     * The e-invoice submission status (`issuing`, `issued` or `failed`), when the invoice is an e-invoice.
+     *
+     * @var string|null
+     */
+    public $eInvoiceStatus;
+
+    /**
      * @var object
      */
     public $amountDue;
@@ -169,5 +176,75 @@ class SalesInvoice extends BaseResource
     public function isPaid()
     {
         return $this->status === SalesInvoiceStatus::PAID;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `issuing`.
+     *
+     * @return bool
+     */
+    public function isIssuing()
+    {
+        return $this->status === SalesInvoiceStatus::ISSUING;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `pending-payment`.
+     *
+     * @return bool
+     */
+    public function isPendingPayment()
+    {
+        return $this->status === SalesInvoiceStatus::PENDING_PAYMENT;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `overdue`.
+     *
+     * @return bool
+     */
+    public function isOverdue()
+    {
+        return $this->status === SalesInvoiceStatus::OVERDUE;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `payment-reversed`.
+     *
+     * @return bool
+     */
+    public function isPaymentReversed()
+    {
+        return $this->status === SalesInvoiceStatus::PAYMENT_REVERSED;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `cancelled`.
+     *
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return $this->status === SalesInvoiceStatus::CANCELLED;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `expired`.
+     *
+     * @return bool
+     */
+    public function isExpired()
+    {
+        return $this->status === SalesInvoiceStatus::EXPIRED;
+    }
+
+    /**
+     * Returns whether the sales invoice status is `failed`.
+     *
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return $this->status === SalesInvoiceStatus::FAILED;
     }
 }
