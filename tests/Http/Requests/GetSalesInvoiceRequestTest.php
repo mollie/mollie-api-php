@@ -8,6 +8,7 @@ use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\GetSalesInvoiceRequest;
 use Mollie\Api\Resources\SalesInvoice;
+use Mollie\Api\Types\SalesInvoiceEInvoiceStatus;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -49,6 +50,6 @@ class GetSalesInvoiceRequestTest extends TestCase
         $this->assertSame(SalesInvoiceStatus::PaymentReversed, $salesInvoice->status);
         $this->assertTrue($salesInvoice->isPaymentReversed());
         $this->assertFalse($salesInvoice->isPaid());
-        $this->assertSame('failed', $salesInvoice->eInvoiceStatus);
+        $this->assertSame(SalesInvoiceEInvoiceStatus::Failed, $salesInvoice->eInvoiceStatus);
     }
 }

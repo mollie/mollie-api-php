@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mollie\Api\Resources;
 
 use Mollie\Api\Http\Data\Money;
+use Mollie\Api\Types\SalesInvoiceEInvoiceStatus;
 use Mollie\Api\Types\SalesInvoiceStatus;
 use Mollie\Api\Utils\Utility;
 
@@ -59,9 +60,9 @@ class SalesInvoice extends BaseResource
     public bool $isEInvoice;
 
     /**
-     * The e-invoice submission status (`issuing`, `issued` or `failed`), when the invoice is an e-invoice.
+     * The e-invoice submission status, when the invoice is an e-invoice.
      */
-    public ?string $eInvoiceStatus = null;
+    public SalesInvoiceEInvoiceStatus|string|null $eInvoiceStatus = null;
 
     public Money $amountDue;
 
