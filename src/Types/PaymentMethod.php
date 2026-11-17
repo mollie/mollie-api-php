@@ -45,9 +45,19 @@ class PaymentMethod
     public const BILLIE = 'billie';
 
     /**
+     * @link https://www.mollie.com/en/payments/billink
+     */
+    public const BILLINK = 'billink';
+
+    /**
      * @deprecated 2019-05-01
      */
     public const BITCOIN = 'bitcoin';
+
+    /**
+     * @link https://www.mollie.com/en/payments/bizum
+     */
+    public const BIZUM = 'bizum';
 
     /**
      * @link https://www.mollie.com/en/payments/blik
@@ -148,6 +158,11 @@ class PaymentMethod
     public const MBWAY = 'mbway';
 
     /**
+     * @link https://www.mollie.com/en/payments/mobilepay
+     */
+    public const MOBILEPAY = 'mobilepay';
+
+    /**
      * @link https://www.mollie.com/en/payments/multibanco
      */
     public const MULTIBANCO = 'multibanco';
@@ -217,6 +232,16 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/twint
      */
     public const TWINT = 'twint';
+
+    /**
+     * @link https://www.mollie.com/en/payments/vipps
+     */
+    public const VIPPS = 'vipps';
+
+    /**
+     * @link https://www.mollie.com/en/payments/vouchers
+     */
+    public const VOUCHER = 'voucher';
 
     /**
      * @link https://www.mollie.com/en/payments/wero
