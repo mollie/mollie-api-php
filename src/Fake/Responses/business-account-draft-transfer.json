@@ -2,7 +2,12 @@
   "resource": "business-account-draft-transfer",
   "id": "{{ RESOURCE_ID }}",
   "mode": "live",
-  "debtorIban": "NL55MLLE0123456789",
+  "debtor": {
+    "fullName": "Mollie B.V.",
+    "account": {
+      "iban": "NL55MLLE0123456789"
+    }
+  },
   "creditor": {
     "fullName": "Jan Jansen",
     "account": {
@@ -14,16 +19,17 @@
     "value": "100.00"
   },
   "description": "Invoice 12345",
+  "scheduledExecutionDate": "2025-03-01",
   "status": "pending-review",
+  "statusReason": null,
   "createdAt": "2025-01-01T12:00:00+00:00",
+  "approvedAt": null,
+  "declinedAt": null,
+  "deletedAt": null,
   "_links": {
     "self": {
-      "href": "...",
+      "href": "https://api.mollie.com/v2/business-accounts/draft-transfers/{{ RESOURCE_ID }}",
       "type": "application/hal+json"
-    },
-    "documentation": {
-      "href": "...",
-      "type": "text/html"
     }
   }
 }
