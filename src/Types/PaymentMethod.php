@@ -239,7 +239,7 @@ class PaymentMethod
     public const VIPPS = 'vipps';
 
     /**
-     * @link https://www.mollie.com/en/payments/vouchers
+     * @link https://www.mollie.com/en/payments/meal-eco-gift-vouchers
      */
     public const VOUCHER = 'voucher';
 
