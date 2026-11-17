@@ -63,12 +63,12 @@ use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoicePaid;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferExpired;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchCompleted;
-use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchFailed;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatched;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchFailed;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnCompleted;
-use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnFailed;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnFailed;
 
 class WebhookEventMapper
 {
