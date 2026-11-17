@@ -65,6 +65,16 @@ class Settlement extends BaseResource
         return Utility::equals($this->status, SettlementStatus::Pending);
     }
 
+    public function isProcessing(): bool
+    {
+        return Utility::equals($this->status, SettlementStatus::Processing);
+    }
+
+    public function isProcessingAtBank(): bool
+    {
+        return Utility::equals($this->status, SettlementStatus::ProcessingAtBank);
+    }
+
     public function isPaidout(): bool
     {
         return Utility::equals($this->status, SettlementStatus::Paidout);

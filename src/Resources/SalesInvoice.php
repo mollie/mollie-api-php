@@ -58,6 +58,11 @@ class SalesInvoice extends BaseResource
 
     public bool $isEInvoice;
 
+    /**
+     * The e-invoice submission status (`issuing`, `issued` or `failed`), when the invoice is an e-invoice.
+     */
+    public ?string $eInvoiceStatus = null;
+
     public Money $amountDue;
 
     public Money $subtotalAmount;
@@ -92,5 +97,40 @@ class SalesInvoice extends BaseResource
     public function isPaid(): bool
     {
         return Utility::equals($this->status, SalesInvoiceStatus::Paid);
+    }
+
+    public function isIssuing(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::Issuing);
+    }
+
+    public function isPendingPayment(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::PendingPayment);
+    }
+
+    public function isOverdue(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::Overdue);
+    }
+
+    public function isPaymentReversed(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::PaymentReversed);
+    }
+
+    public function isCancelled(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::Cancelled);
+    }
+
+    public function isExpired(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::Expired);
+    }
+
+    public function isFailed(): bool
+    {
+        return Utility::equals($this->status, SalesInvoiceStatus::Failed);
     }
 }
