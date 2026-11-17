@@ -145,7 +145,7 @@ class WebhookEventMapperTest extends TestCase
     }
 
     #[Test]
-    public function every_documented_event_type_resolves_to_its_event_class(): void
+    public function every_registered_event_type_resolves_to_its_event_class(): void
     {
         foreach (WebhookEventType::getAll() as $type) {
             if ($type === WebhookEventType::ALL) {
