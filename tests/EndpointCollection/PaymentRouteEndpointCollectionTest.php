@@ -5,6 +5,7 @@ namespace Tests\EndpointCollection;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Fake\MockResponse;
 use Mollie\Api\Http\Requests\CreateDelayedPaymentRouteRequest;
+use Mollie\Api\Http\Requests\GetPaymentRouteRequest;
 use Mollie\Api\Http\Requests\ListPaymentRoutesRequest;
 use Mollie\Api\Http\Requests\UpdatePaymentRouteRequest;
 use Mollie\Api\Resources\Route;
@@ -70,6 +71,21 @@ class PaymentRouteEndpointCollectionTest extends TestCase
             $this->assertInstanceOf(Route::class, $route);
             $this->assertEquals('route', $route->resource);
         }
+    }
+
+    /** @test */
+    public function get_for_id()
+    {
+        $client = new MockMollieClient([
+            GetPaymentRouteRequest::class => MockResponse::ok('route'),
+        ]);
+
+        /** @var Route $route */
+        $route = $client->paymentRoutes->getForId('tr_7UhSN1zuXS', 'rt_abc123');
+
+        $this->assertInstanceOf(Route::class, $route);
+        $this->assertEquals('route', $route->resource);
+        $this->assertNotEmpty($route->id);
     }
 
     /** @test */

@@ -5,6 +5,7 @@ namespace Mollie\Api\EndpointCollection;
 use Mollie\Api\Exceptions\RequestException;
 use Mollie\Api\Factories\CreateDelayedPaymentRouteRequestFactory;
 use Mollie\Api\Factories\UpdatePaymentRouteRequestFactory;
+use Mollie\Api\Http\Requests\GetPaymentRouteRequest;
 use Mollie\Api\Http\Requests\ListPaymentRoutesRequest;
 use Mollie\Api\Resources\Payment;
 use Mollie\Api\Resources\Route;
@@ -63,6 +64,27 @@ class PaymentRouteEndpointCollection extends EndpointCollection
 
         /** @var RouteCollection */
         return $this->send($request->test($testmode));
+    }
+
+    /**
+     * Retrieve a single route for a payment.
+     *
+     * @throws RequestException
+     */
+    public function getFor(Payment $payment, string $routeId): Route
+    {
+        return $this->getForId($payment->id, $routeId);
+    }
+
+    /**
+     * Retrieve a single route for a payment using payment ID.
+     *
+     * @throws RequestException
+     */
+    public function getForId(string $paymentId, string $routeId): Route
+    {
+        /** @var Route */
+        return $this->send(new GetPaymentRouteRequest($paymentId, $routeId));
     }
 
     /**
