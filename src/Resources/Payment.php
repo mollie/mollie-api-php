@@ -44,6 +44,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * The amount that has been settled containing the value and currency
      *
      * @var \stdClass|null
+     * @deprecated Mollie removes `settlementAmount` from this resource on 2027-01-01. Use the Settlements API or balance transactions instead.
      */
     public $settlementAmount;
 
