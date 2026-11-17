@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Mollie\Api\Http\Requests;
 
+use Mollie\Api\Contracts\SupportsTestmodeInQuery;
 use Mollie\Api\Resources\Route;
 use Mollie\Api\Types\Method;
 
 /**
  * @extends ResourceHydratableRequest<\Mollie\Api\Resources\Route>
  */
-class GetPaymentRouteRequest extends ResourceHydratableRequest
+class GetPaymentRouteRequest extends ResourceHydratableRequest implements SupportsTestmodeInQuery
 {
     protected static string $method = Method::GET;
 

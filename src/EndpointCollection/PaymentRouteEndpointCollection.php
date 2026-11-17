@@ -73,9 +73,9 @@ class PaymentRouteEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function getFor(Payment $payment, string $routeId): Route
+    public function getFor(Payment $payment, string $routeId, bool $testmode = false): Route
     {
-        return $this->getForId($payment->id, $routeId);
+        return $this->getForId($payment->id, $routeId, $testmode);
     }
 
     /**
@@ -83,10 +83,12 @@ class PaymentRouteEndpointCollection extends EndpointCollection
      *
      * @throws RequestException
      */
-    public function getForId(string $paymentId, string $routeId): Route
+    public function getForId(string $paymentId, string $routeId, bool $testmode = false): Route
     {
+        $request = new GetPaymentRouteRequest($paymentId, $routeId);
+
         /** @var Route */
-        return $this->send(new GetPaymentRouteRequest($paymentId, $routeId));
+        return $this->send($request->test($testmode));
     }
 
     /**
