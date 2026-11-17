@@ -1,0 +1,29 @@
+{
+  "resource": "business-account-draft-transfer",
+  "id": "{{ RESOURCE_ID }}",
+  "mode": "live",
+  "debtorIban": "NL55MLLE0123456789",
+  "creditor": {
+    "fullName": "Jan Jansen",
+    "account": {
+      "iban": "NL02ABNA0123456789"
+    }
+  },
+  "amount": {
+    "currency": "EUR",
+    "value": "100.00"
+  },
+  "description": "Invoice 12345",
+  "status": "pending-review",
+  "createdAt": "2025-01-01T12:00:00+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}

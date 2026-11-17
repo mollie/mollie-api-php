@@ -82,6 +82,70 @@ class WebhookEventType
     public const PROFILE_DELETED = 'profile.deleted';
 
     /**
+     * Payment events
+     */
+    public const PAYMENT_PAID = 'payment.paid';
+    public const PAYMENT_AUTHORIZED = 'payment.authorized';
+    public const PAYMENT_FAILED = 'payment.failed';
+    public const PAYMENT_CANCELED = 'payment.canceled';
+    public const PAYMENT_EXPIRED = 'payment.expired';
+    public const PAYMENT_PENDING = 'payment.pending';
+
+    /**
+     * Refund events
+     */
+    public const REFUND_QUEUED = 'refund.queued';
+    public const REFUND_PENDING = 'refund.pending';
+    public const REFUND_PROCESSING = 'refund.processing';
+    public const REFUND_REFUNDED = 'refund.refunded';
+    public const REFUND_FAILED = 'refund.failed';
+    public const REFUND_CANCELED = 'refund.canceled';
+
+    /**
+     * Chargeback events
+     */
+    public const CHARGEBACK_RECEIVED = 'chargeback.received';
+    public const CHARGEBACK_REVERSED = 'chargeback.reversed';
+
+    /**
+     * Capture events
+     */
+    public const CAPTURE_SUCCEEDED = 'capture.succeeded';
+    public const CAPTURE_FAILED = 'capture.failed';
+
+    /**
+     * Sales invoice e-invoice events
+     */
+    public const SALES_INVOICE_E_INVOICE_ISSUED = 'sales-invoice.e-invoice-issued';
+    public const SALES_INVOICE_E_INVOICE_FAILED = 'sales-invoice.e-invoice-failed';
+
+    /**
+     * Business account draft transfer events
+     */
+    public const BUSINESS_ACCOUNT_DRAFT_TRANSFER_CREATED = 'business-account-draft-transfer.created';
+    public const BUSINESS_ACCOUNT_DRAFT_TRANSFER_APPROVED = 'business-account-draft-transfer.approved';
+    public const BUSINESS_ACCOUNT_DRAFT_TRANSFER_DECLINED = 'business-account-draft-transfer.declined';
+
+    /**
+     * Business account events
+     */
+    public const BUSINESS_ACCOUNT_CREATED = 'business-account.created';
+
+    /**
+     * Unmatched credit transfer action events
+     */
+    public const UNMATCHED_CREDIT_TRANSFER_MATCH_COMPLETED = 'unmatched-credit-transfer.match.completed';
+    public const UNMATCHED_CREDIT_TRANSFER_MATCH_FAILED = 'unmatched-credit-transfer.match.failed';
+    public const UNMATCHED_CREDIT_TRANSFER_RETURN_COMPLETED = 'unmatched-credit-transfer.return.completed';
+    public const UNMATCHED_CREDIT_TRANSFER_RETURN_FAILED = 'unmatched-credit-transfer.return.failed';
+
+    /**
+     * Report events
+     */
+    public const REPORT_COMPLETED = 'report.completed';
+    public const REPORT_FAILED = 'report.failed';
+
+    /**
      * Wildcard for all events
      */
     public const ALL = '*';
@@ -128,6 +192,34 @@ class WebhookEventType
             self::PROFILE_VERIFIED,
             self::PROFILE_BLOCKED,
             self::PROFILE_DELETED,
+            self::PAYMENT_PAID,
+            self::PAYMENT_AUTHORIZED,
+            self::PAYMENT_FAILED,
+            self::PAYMENT_CANCELED,
+            self::PAYMENT_EXPIRED,
+            self::PAYMENT_PENDING,
+            self::REFUND_QUEUED,
+            self::REFUND_PENDING,
+            self::REFUND_PROCESSING,
+            self::REFUND_REFUNDED,
+            self::REFUND_FAILED,
+            self::REFUND_CANCELED,
+            self::CHARGEBACK_RECEIVED,
+            self::CHARGEBACK_REVERSED,
+            self::CAPTURE_SUCCEEDED,
+            self::CAPTURE_FAILED,
+            self::SALES_INVOICE_E_INVOICE_ISSUED,
+            self::SALES_INVOICE_E_INVOICE_FAILED,
+            self::BUSINESS_ACCOUNT_DRAFT_TRANSFER_CREATED,
+            self::BUSINESS_ACCOUNT_DRAFT_TRANSFER_APPROVED,
+            self::BUSINESS_ACCOUNT_DRAFT_TRANSFER_DECLINED,
+            self::BUSINESS_ACCOUNT_CREATED,
+            self::UNMATCHED_CREDIT_TRANSFER_MATCH_COMPLETED,
+            self::UNMATCHED_CREDIT_TRANSFER_MATCH_FAILED,
+            self::UNMATCHED_CREDIT_TRANSFER_RETURN_COMPLETED,
+            self::UNMATCHED_CREDIT_TRANSFER_RETURN_FAILED,
+            self::REPORT_COMPLETED,
+            self::REPORT_FAILED,
             self::ALL,
         ];
     }

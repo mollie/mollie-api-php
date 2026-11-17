@@ -6,9 +6,14 @@ namespace Tests\Webhooks;
 
 use Mollie\Api\Fake\MockEvent;
 use Mollie\Api\Fake\MockMollieClient;
+use Mollie\Api\Http\Data\DateTime;
 use Mollie\Api\Resources\PaymentLink;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\BaseEvent;
+use Mollie\Api\Webhooks\Events\BusinessAccountCreated;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferApproved;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferCreated;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferDeclined;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferBlocked;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferFailed;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferInitiated;
@@ -16,6 +21,10 @@ use Mollie\Api\Webhooks\Events\BusinessAccountTransferPendingReview;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferProcessed;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferRequested;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferReturned;
+use Mollie\Api\Webhooks\Events\CaptureFailed;
+use Mollie\Api\Webhooks\Events\CaptureSucceeded;
+use Mollie\Api\Webhooks\Events\ChargebackReceived;
+use Mollie\Api\Webhooks\Events\ChargebackReversed;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferFailed;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferSucceeded;
 use Mollie\Api\Webhooks\Events\DisputeCreated;
@@ -24,21 +33,42 @@ use Mollie\Api\Webhooks\Events\DisputeUpdated;
 use Mollie\Api\Webhooks\Events\FileAccepted;
 use Mollie\Api\Webhooks\Events\FileFailed;
 use Mollie\Api\Webhooks\Events\FileRejected;
+use Mollie\Api\Webhooks\Events\PaymentAuthorized;
+use Mollie\Api\Webhooks\Events\PaymentCanceled;
+use Mollie\Api\Webhooks\Events\PaymentExpired;
+use Mollie\Api\Webhooks\Events\PaymentFailed;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\PaymentPaid;
+use Mollie\Api\Webhooks\Events\PaymentPending;
 use Mollie\Api\Webhooks\Events\PayoutCanceled;
 use Mollie\Api\Webhooks\Events\PayoutCompleted;
 use Mollie\Api\Webhooks\Events\PayoutFailed;
 use Mollie\Api\Webhooks\Events\PayoutInitiated;
 use Mollie\Api\Webhooks\Events\PayoutProcessingAtBank;
+use Mollie\Api\Webhooks\Events\RefundCanceled;
+use Mollie\Api\Webhooks\Events\RefundFailed;
+use Mollie\Api\Webhooks\Events\RefundPending;
+use Mollie\Api\Webhooks\Events\RefundProcessing;
+use Mollie\Api\Webhooks\Events\RefundQueued;
+use Mollie\Api\Webhooks\Events\RefundRefunded;
+use Mollie\Api\Webhooks\Events\ReportCompleted;
+use Mollie\Api\Webhooks\Events\ReportFailed;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
+use Mollie\Api\Webhooks\Events\SalesInvoiceEInvoiceFailed;
+use Mollie\Api\Webhooks\Events\SalesInvoiceEInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoicePaid;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferExpired;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchCompleted;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatched;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchFailed;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnCompleted;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnFailed;
 use Mollie\Api\Webhooks\WebhookEventMapper;
+use Mollie\Api\Webhooks\WebhookEventType;
 use Mollie\Api\Webhooks\WebhookSnapshotOrigin;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -112,6 +142,20 @@ class WebhookEventMapperTest extends TestCase
 
         $this->assertInstanceOf($expectedClass, $event);
         $this->assertEquals($fullEventPayload['id'], $event->id);
+    }
+
+    #[Test]
+    public function every_documented_event_type_resolves_to_its_event_class(): void
+    {
+        foreach (WebhookEventType::getAll() as $type) {
+            if ($type === WebhookEventType::ALL) {
+                continue;
+            }
+
+            $event = $this->mapper->resolveEvent('event_test', $type, 'entity_test', new DateTime('2026-01-01T00:00:00+00:00'), (object) []);
+
+            $this->assertSame($type, $event::type());
+        }
     }
 
     public static function valid_event_provider(): array
@@ -206,6 +250,90 @@ class WebhookEventMapperTest extends TestCase
             ],
             'unmatched-credit-transfer.expired' => [
                 UnmatchedCreditTransferExpired::class,
+            ],
+            'payment.paid' => [
+                PaymentPaid::class,
+            ],
+            'payment.authorized' => [
+                PaymentAuthorized::class,
+            ],
+            'payment.failed' => [
+                PaymentFailed::class,
+            ],
+            'payment.canceled' => [
+                PaymentCanceled::class,
+            ],
+            'payment.expired' => [
+                PaymentExpired::class,
+            ],
+            'payment.pending' => [
+                PaymentPending::class,
+            ],
+            'refund.queued' => [
+                RefundQueued::class,
+            ],
+            'refund.pending' => [
+                RefundPending::class,
+            ],
+            'refund.processing' => [
+                RefundProcessing::class,
+            ],
+            'refund.refunded' => [
+                RefundRefunded::class,
+            ],
+            'refund.failed' => [
+                RefundFailed::class,
+            ],
+            'refund.canceled' => [
+                RefundCanceled::class,
+            ],
+            'chargeback.received' => [
+                ChargebackReceived::class,
+            ],
+            'chargeback.reversed' => [
+                ChargebackReversed::class,
+            ],
+            'capture.succeeded' => [
+                CaptureSucceeded::class,
+            ],
+            'capture.failed' => [
+                CaptureFailed::class,
+            ],
+            'sales-invoice.e-invoice-issued' => [
+                SalesInvoiceEInvoiceIssued::class,
+            ],
+            'sales-invoice.e-invoice-failed' => [
+                SalesInvoiceEInvoiceFailed::class,
+            ],
+            'business-account-draft-transfer.created' => [
+                BusinessAccountDraftTransferCreated::class,
+            ],
+            'business-account-draft-transfer.approved' => [
+                BusinessAccountDraftTransferApproved::class,
+            ],
+            'business-account-draft-transfer.declined' => [
+                BusinessAccountDraftTransferDeclined::class,
+            ],
+            'business-account.created' => [
+                BusinessAccountCreated::class,
+            ],
+            'unmatched-credit-transfer.match.completed' => [
+                UnmatchedCreditTransferMatchCompleted::class,
+            ],
+            'unmatched-credit-transfer.match.failed' => [
+                UnmatchedCreditTransferMatchFailed::class,
+            ],
+            'unmatched-credit-transfer.return.completed' => [
+                UnmatchedCreditTransferReturnCompleted::class,
+            ],
+            'unmatched-credit-transfer.return.failed' => [
+                UnmatchedCreditTransferReturnFailed::class,
+            ],
+            'report.completed' => [
+                ReportCompleted::class,
+            ],
+            'report.failed' => [
+                ReportFailed::class,
             ],
         ];
     }
