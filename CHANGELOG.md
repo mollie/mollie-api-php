@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 
-- `settlementAmount` on `Payment`, `Refund`, `Chargeback` and `Capture`. Mollie removes it on 2027-01-01.
+- `settlementAmount` on `Payment`, `Refund`, `Chargeback` and `Capture`, and `Payment::getSettlementAmount()`. Mollie removes the field on 2027-01-01.
 
 ## [v3.16.0](https://github.com/mollie/mollie-api-php/compare/v3.15.0...v3.16.0) - 2026-11-04
 
