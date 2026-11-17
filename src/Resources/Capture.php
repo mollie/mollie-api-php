@@ -38,6 +38,8 @@ class Capture extends BaseResource
 
     /**
      * Amount object containing the settlement value and currency.
+     *
+     * @deprecated Mollie removes `settlementAmount` from this resource on 2027-01-01. Use the Settlements API or balance transactions instead.
      */
     public ?Money $settlementAmount = null;
 

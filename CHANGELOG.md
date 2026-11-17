@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.1.0...HEAD)
 
+### Added
+
+- `PaymentRouteEndpointCollection::getFor()` / `getForId()` and `GetPaymentRouteRequest` for `GET /payments/{paymentId}/routes/{routeId}`.
+- Webhook event classes and `WebhookEventType` constants for payment, refund, chargeback, capture, sales invoice e-invoice, business account, business account draft transfer, unmatched credit transfer action, and report events.
+- `SettlementStatus::Processing` and `SettlementStatus::ProcessingAtBank`, with `Settlement::isProcessing()` and `isProcessingAtBank()`.
+- The response-only sales invoice statuses (`issuing`, `pending-payment`, `overdue`, `payment-reversed`, `cancelled`, `expired`, `failed`) with matching `SalesInvoice::is*()` helpers, and `SalesInvoice::$eInvoiceStatus` typed as the new `SalesInvoiceEInvoiceStatus` enum.
+
+### Changed
+
+- **`SalesInvoice::$status` and `Settlement::$status` hydrate more values to enum cases.** Sales invoice statuses such as `overdue`, `payment-reversed` and `cancelled`, and the settlement statuses `processing` and `processing-at-bank`, used to arrive as raw strings because the enums had no matching case. They now hydrate to `SalesInvoiceStatus` / `SettlementStatus` cases, so a strict comparison such as `$invoice->status === 'overdue'` no longer matches. Compare against the enum case, or use `Utility::equals()` or the `is*()` helpers, which work with both.
+
+### Deprecated
+
+- `settlementAmount` on `Payment`, `Refund`, `Chargeback` and `Capture`, and `Payment::getSettlementAmount()`. Mollie removes the field on 2027-01-01.
+
 ## [v4.1.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0...v4.1.0) - 2026-11-04
 
 ### Fixed

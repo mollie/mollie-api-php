@@ -10,6 +10,10 @@ use Mollie\Api\Utils\Arr;
 use Mollie\Api\Utils\Utility;
 use Mollie\Api\Webhooks\Events\BalanceTransactionCreated;
 use Mollie\Api\Webhooks\Events\BaseEvent;
+use Mollie\Api\Webhooks\Events\BusinessAccountCreated;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferApproved;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferCreated;
+use Mollie\Api\Webhooks\Events\BusinessAccountDraftTransferDeclined;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferBlocked;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferFailed;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferInitiated;
@@ -17,6 +21,10 @@ use Mollie\Api\Webhooks\Events\BusinessAccountTransferPendingReview;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferProcessed;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferRequested;
 use Mollie\Api\Webhooks\Events\BusinessAccountTransferReturned;
+use Mollie\Api\Webhooks\Events\CaptureFailed;
+use Mollie\Api\Webhooks\Events\CaptureSucceeded;
+use Mollie\Api\Webhooks\Events\ChargebackReceived;
+use Mollie\Api\Webhooks\Events\ChargebackReversed;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferFailed;
 use Mollie\Api\Webhooks\Events\ConnectBalanceTransferSucceeded;
 use Mollie\Api\Webhooks\Events\DisputeCreated;
@@ -25,7 +33,13 @@ use Mollie\Api\Webhooks\Events\DisputeUpdated;
 use Mollie\Api\Webhooks\Events\FileAccepted;
 use Mollie\Api\Webhooks\Events\FileFailed;
 use Mollie\Api\Webhooks\Events\FileRejected;
+use Mollie\Api\Webhooks\Events\PaymentAuthorized;
+use Mollie\Api\Webhooks\Events\PaymentCanceled;
+use Mollie\Api\Webhooks\Events\PaymentExpired;
+use Mollie\Api\Webhooks\Events\PaymentFailed;
 use Mollie\Api\Webhooks\Events\PaymentLinkPaid;
+use Mollie\Api\Webhooks\Events\PaymentPaid;
+use Mollie\Api\Webhooks\Events\PaymentPending;
 use Mollie\Api\Webhooks\Events\PayoutCanceled;
 use Mollie\Api\Webhooks\Events\PayoutCompleted;
 use Mollie\Api\Webhooks\Events\PayoutFailed;
@@ -35,14 +49,28 @@ use Mollie\Api\Webhooks\Events\ProfileBlocked;
 use Mollie\Api\Webhooks\Events\ProfileCreated;
 use Mollie\Api\Webhooks\Events\ProfileDeleted;
 use Mollie\Api\Webhooks\Events\ProfileVerified;
+use Mollie\Api\Webhooks\Events\RefundCanceled;
+use Mollie\Api\Webhooks\Events\RefundFailed;
+use Mollie\Api\Webhooks\Events\RefundPending;
+use Mollie\Api\Webhooks\Events\RefundProcessing;
+use Mollie\Api\Webhooks\Events\RefundQueued;
+use Mollie\Api\Webhooks\Events\RefundRefunded;
+use Mollie\Api\Webhooks\Events\ReportCompleted;
+use Mollie\Api\Webhooks\Events\ReportFailed;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCanceled;
 use Mollie\Api\Webhooks\Events\SalesInvoiceCreated;
+use Mollie\Api\Webhooks\Events\SalesInvoiceEInvoiceFailed;
+use Mollie\Api\Webhooks\Events\SalesInvoiceEInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoiceIssued;
 use Mollie\Api\Webhooks\Events\SalesInvoicePaid;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferExpired;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchCompleted;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatched;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferMatchFailed;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReceived;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnCompleted;
 use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturned;
+use Mollie\Api\Webhooks\Events\UnmatchedCreditTransferReturnFailed;
 
 class WebhookEventMapper
 {
@@ -163,6 +191,34 @@ class WebhookEventMapper
             ProfileVerified::type() => ProfileVerified::class,
             ProfileBlocked::type() => ProfileBlocked::class,
             ProfileDeleted::type() => ProfileDeleted::class,
+            PaymentPaid::type() => PaymentPaid::class,
+            PaymentAuthorized::type() => PaymentAuthorized::class,
+            PaymentFailed::type() => PaymentFailed::class,
+            PaymentCanceled::type() => PaymentCanceled::class,
+            PaymentExpired::type() => PaymentExpired::class,
+            PaymentPending::type() => PaymentPending::class,
+            RefundQueued::type() => RefundQueued::class,
+            RefundPending::type() => RefundPending::class,
+            RefundProcessing::type() => RefundProcessing::class,
+            RefundRefunded::type() => RefundRefunded::class,
+            RefundFailed::type() => RefundFailed::class,
+            RefundCanceled::type() => RefundCanceled::class,
+            ChargebackReceived::type() => ChargebackReceived::class,
+            ChargebackReversed::type() => ChargebackReversed::class,
+            CaptureSucceeded::type() => CaptureSucceeded::class,
+            CaptureFailed::type() => CaptureFailed::class,
+            SalesInvoiceEInvoiceIssued::type() => SalesInvoiceEInvoiceIssued::class,
+            SalesInvoiceEInvoiceFailed::type() => SalesInvoiceEInvoiceFailed::class,
+            BusinessAccountDraftTransferCreated::type() => BusinessAccountDraftTransferCreated::class,
+            BusinessAccountDraftTransferApproved::type() => BusinessAccountDraftTransferApproved::class,
+            BusinessAccountDraftTransferDeclined::type() => BusinessAccountDraftTransferDeclined::class,
+            BusinessAccountCreated::type() => BusinessAccountCreated::class,
+            UnmatchedCreditTransferMatchCompleted::type() => UnmatchedCreditTransferMatchCompleted::class,
+            UnmatchedCreditTransferMatchFailed::type() => UnmatchedCreditTransferMatchFailed::class,
+            UnmatchedCreditTransferReturnCompleted::type() => UnmatchedCreditTransferReturnCompleted::class,
+            UnmatchedCreditTransferReturnFailed::type() => UnmatchedCreditTransferReturnFailed::class,
+            ReportCompleted::type() => ReportCompleted::class,
+            ReportFailed::type() => ReportFailed::class,
         ], $map);
     }
 
