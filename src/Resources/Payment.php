@@ -454,6 +454,9 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
         return 0.0;
     }
 
+    /**
+     * @deprecated Mollie removes `settlementAmount` from this resource on 2027-01-01. Use the Settlements API or balance transactions instead.
+     */
     public function getSettlementAmount(): float
     {
         if ($this->settlementAmount) {
