@@ -145,6 +145,7 @@ class Subscription extends BaseResource
      * are already present to avoid one request per subscription in loops.
      *
      * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function payments(): PaymentCollection
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mollie\Api;
 
 use Mollie\Api\Contracts\Connector;
+use Mollie\Api\Contracts\DefinesTrustedOrigins;
 use Mollie\Api\Contracts\HttpAdapterContract;
 use Mollie\Api\Contracts\IdempotencyKeyGeneratorContract;
 use Mollie\Api\Contracts\MollieHttpAdapterPickerContract;
@@ -118,7 +119,7 @@ use Mollie\Api\Utils\Url;
  * @property WebhookEventEndpointCollection $webhookEvents
  * @property HttpAdapterContract $httpClient
  */
-class MollieApiClient implements Connector
+class MollieApiClient implements Connector, DefinesTrustedOrigins
 {
     use HandlesAuthentication;
     use HandlesDebugging;
@@ -187,6 +188,18 @@ class MollieApiClient implements Connector
     public function resolveBaseUrl(): string
     {
         return Url::join($this->apiEndpoint, self::API_VERSION);
+    }
+
+    /**
+     * The configured API endpoint and Mollie's own API origin. Links returned
+     * through a proxy or custom endpoint keep pointing at Mollie, so both stay
+     * trusted.
+     *
+     * @return string[]
+     */
+    public function trustedOrigins(): array
+    {
+        return array_values(array_unique([$this->resolveBaseUrl(), self::API_ENDPOINT]));
     }
 
     public static function fake(array $expectedResponses = [], bool $retainRequests = false): MockMollieClient

@@ -13,6 +13,7 @@ use Mollie\Api\Http\Middleware\ConvertResponseToException;
 use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
+use Mollie\Api\Http\PendingRequest\GuardAgainstUntrustedOrigin;
 use Mollie\Api\Http\PendingRequest\HandleTestmode;
 use Mollie\Api\Http\PendingRequest\MergeBody;
 use Mollie\Api\Http\PendingRequest\MergeRequestProperties;
@@ -55,6 +56,8 @@ class PendingRequest
         $this->url = Url::join($connector->resolveBaseUrl(), $request->resolveResourcePath());
 
         $this
+            // Must run before AuthenticateRequest attaches credentials.
+            ->tap(new GuardAgainstUntrustedOrigin)
             ->tap(new SetUserAgent)
             ->tap(new MergeRequestProperties)
             ->tap(new MergeBody)

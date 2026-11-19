@@ -303,6 +303,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * are already present to avoid one request per payment in loops.
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function refunds(): RefundCollection
     {
@@ -351,6 +352,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function captures(): CaptureCollection
     {
@@ -378,6 +380,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
 
     /**
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function chargebacks(): ChargebackCollection
     {
