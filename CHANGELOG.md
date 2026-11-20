@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Refuse requests to untrusted origins before attaching API keys or OAuth tokens. This protects link-following resource methods and pagination, including resources hydrated from unverified webhook snapshots. The configured API endpoint and `https://api.mollie.com` remain trusted.
+- Strip URL fragments before passing URLs to the cURL adapter.
+
 Starting with v3, all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),

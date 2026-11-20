@@ -596,6 +596,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Retrieves all refunds associated with this payment
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function refunds(): RefundCollection
     {
@@ -638,6 +639,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Retrieves all captures associated with this payment
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function captures(): CaptureCollection
     {
@@ -669,6 +671,7 @@ class Payment extends BaseResource implements EmbeddedResourcesContract
      * Retrieves all chargebacks associated with this payment
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function chargebacks(): ChargebackCollection
     {
