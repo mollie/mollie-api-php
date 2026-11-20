@@ -195,6 +195,7 @@ class Subscription extends BaseResource
      * Get subscription payments
      *
      * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function payments(): PaymentCollection
     {

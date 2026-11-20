@@ -34,7 +34,8 @@ final class CurlMollieHttpAdapter implements HttpAdapterContract
         $request = $pendingRequest->createPsrRequest();
 
         try {
-            $curl = CurlFactory::new($request->getUri(), $pendingRequest)
+            // Fragments are not sent on the wire; do not pass them to libcurl.
+            $curl = CurlFactory::new((string) $request->getUri()->withFragment(''), $pendingRequest)
                 ->withHeaders($pendingRequest->headers()->all())
                 ->withMethod($pendingRequest->method(), $request->getBody())
                 ->create();

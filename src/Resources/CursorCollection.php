@@ -14,6 +14,7 @@ abstract class CursorCollection extends ResourceCollection
      * @return null|CursorCollection|Response
      *
      * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function next()
     {
@@ -30,6 +31,7 @@ abstract class CursorCollection extends ResourceCollection
      * @return null|CursorCollection|Response
      *
      * @throws \Mollie\Api\Exceptions\ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function previous()
     {
