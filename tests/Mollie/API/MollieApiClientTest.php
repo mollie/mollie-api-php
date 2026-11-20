@@ -193,7 +193,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient = new MollieApiClient($fakeAdapter);
         $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '', '');
+        $mollieClient->performHttpCallToFullUrl('GET', 'https://api.mollie.com/v2/payments', '');
 
         $usedHeaders = $fakeAdapter->getUsedHeaders();
 
@@ -225,7 +225,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient = new MollieApiClient($fakeAdapter);
         $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
+        $mollieClient->performHttpCallToFullUrl('GET', 'https://api.mollie.com/v2/payments');
 
         $this->assertEquals(false, isset($fakeAdapter->getUsedHeaders()['Content-Type']));
     }
@@ -240,7 +240,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
 
         // ... Not setting an idempotency key here
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
+        $mollieClient->performHttpCallToFullUrl('GET', 'https://api.mollie.com/v2/payments');
 
         $this->assertFalse(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
     }
@@ -261,7 +261,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $mollieClient->setIdempotencyKey('idempotentFooBar');
 
-        $mollieClient->performHttpCallToFullUrl('GET', '');
+        $mollieClient->performHttpCallToFullUrl('GET', 'https://api.mollie.com/v2/payments');
 
         $this->assertFalse(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
     }
@@ -276,7 +276,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient->setIdempotencyKey('idempotentFooBar');
         $this->assertEquals('idempotentFooBar', $mollieClient->getIdempotencyKey());
 
-        $mollieClient->performHttpCallToFullUrl('POST', '');
+        $mollieClient->performHttpCallToFullUrl('POST', 'https://api.mollie.com/v2/payments');
 
         $this->assertNull($mollieClient->getIdempotencyKey());
     }
@@ -292,7 +292,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $this->assertNull($mollieClient->getIdempotencyKey());
 
-        $mollieClient->performHttpCallToFullUrl('POST', '');
+        $mollieClient->performHttpCallToFullUrl('POST', 'https://api.mollie.com/v2/payments');
 
         $this->assertEquals('fake-idempotency-key', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);
         $this->assertNull($mollieClient->getIdempotencyKey());
@@ -314,7 +314,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $mollieClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
         $mollieClient->setIdempotencyKey('idempotentFooBar');
 
-        $mollieClient->performHttpCallToFullUrl($httpMethod, '');
+        $mollieClient->performHttpCallToFullUrl($httpMethod, 'https://api.mollie.com/v2/payments');
 
         $this->assertTrue(isset($fakeAdapter->getUsedHeaders()['Idempotency-Key']));
         $this->assertEquals('idempotentFooBar', $fakeAdapter->getUsedHeaders()['Idempotency-Key']);

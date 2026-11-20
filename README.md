@@ -408,3 +408,11 @@ Copyright (c) 2013-2018, Mollie B.V.
 
 ## Support ##
 Contact: [www.mollie.com](https://www.mollie.com) — info@mollie.com — +31 20 820 20 70
+
+## Request URL safety
+
+The client only sends authenticated requests to the configured API origin and to
+`https://api.mollie.com`. Full URLs on other origins, including links in resource
+data or pagination, raise `Mollie\Api\Exceptions\UntrustedUrlException` before
+credentials are attached or the HTTP adapter is called. Scheme, host, port and
+user info must match a trusted endpoint. URL fragments are removed before sending.

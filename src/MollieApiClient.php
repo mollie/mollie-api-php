@@ -719,6 +719,12 @@ class MollieApiClient
      */
     public function performHttpCallToFullUrl($httpMethod, $url, $httpBody = null)
     {
+        \Mollie\Api\Utils\TrustedUrl::assertTrusted($url, [$this->apiEndpoint, self::API_ENDPOINT]);
+
+        // Fragments are not sent on the wire. Remove them before any adapter
+        // sees the URL, including libcurl versions with fragment parsing bugs.
+        $url = explode('#', $url, 2)[0];
+
         if (empty($this->apiKey)) {
             throw new ApiException("You have not set an API key or OAuth access token. Please use setApiKey() to set the API key.");
         }

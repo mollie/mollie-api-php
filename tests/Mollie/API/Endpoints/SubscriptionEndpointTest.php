@@ -392,11 +392,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
                     "webhookUrl": "https://example.org/webhook",
                     "_links": {
                         "self": {
-                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
                             "type": "application/hal+json"
                         },
                         "customer": {
-                            "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                            "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j",
                             "type": "application/hal+json"
                         },
                         "documentation": {
@@ -511,11 +511,11 @@ class SubscriptionEndpointTest extends BaseEndpointTest
             "webhookUrl": "https://example.org/webhook",
             "_links": {
                 "self": {
-                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
+                    "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j/subscriptions/sub_DRjwaT5qHx",
                     "type": "application/hal+json"
                 },
                 "customer": {
-                    "href": "http://api.mollie.test/v2/customers/cst_VhjQebNW5j",
+                    "href": "https://api.mollie.com/v2/customers/cst_VhjQebNW5j",
                     "type": "application/hal+json"
                 },
                 "documentation": {

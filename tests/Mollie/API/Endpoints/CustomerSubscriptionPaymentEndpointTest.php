@@ -100,7 +100,7 @@ class CustomerSubscriptionPaymentEndpointTest extends BaseEndpointTest
         $subscription = new Subscription($this->apiClient);
         $subscription->_links = $this->createNamedLinkObject(
             'payments',
-            '/v2/customers/cst_8wmqcHMN4U/subscriptions/sub_8JfGzs6v3K/payments?testmode=true',
+            'https://api.mollie.com/v2/customers/cst_8wmqcHMN4U/subscriptions/sub_8JfGzs6v3K/payments?testmode=true',
             'application/hal+json'
         );
 
