@@ -151,6 +151,13 @@ configured on the client. A webhook handler running without an API key
 is limited to reading the signed snapshot itself — there is no path
 that lets the SDK reach Mollie without credentials.
 
+The SDK only sends requests to the configured API origin and to Mollie's
+own `https://api.mollie.com`. A link that points anywhere else raises an
+`UntrustedUrlException` before credentials are attached or a request is
+sent. This is a safety net, not a replacement for signature verification:
+an unverified payload can still carry forged data, so always verify the
+signature before you act on it.
+
 ### Reading from the snapshot vs. fetching fresh data
 
 A complete handler usually combines both. The signed snapshot is enough
@@ -219,8 +226,8 @@ if ($amount === null) {
 }
 
 // 2. Fetch path: fires HTTP, needs the API key configured above.
-//    $paymentLink->payments() follows the link from the snapshot when
-//    present, otherwise routes through $mollie->paymentLinkPayments.
+//    $paymentLink->payments() routes through $mollie->paymentLinkPayments
+//    using the payment link id.
 foreach ($paymentLink->payments() as $payment) {
     reconcilePaymentLine($paymentLink->id, $payment);
 }

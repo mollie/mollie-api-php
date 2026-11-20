@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Http;
 
+use Mollie\Api\Exceptions\UntrustedUrlException;
 use Mollie\Api\Fake\MockMollieClient;
 use Mollie\Api\Http\PendingRequest;
 use Mollie\Api\Http\Requests\DynamicGetRequest;
@@ -33,10 +34,18 @@ class PendingRequestTest extends TestCase
 
         $this->assertStringEndsWith('/v2/payments/tr_123', $pendingRequest->url());
 
-        $request = new DynamicGetRequest('https://example.com/v2/payments/tr_123');
+        $request = new DynamicGetRequest('https://api.mollie.com/v2/payments/tr_123');
         $pendingRequest = new PendingRequest($this->client, $request);
 
-        $this->assertEquals('https://example.com/v2/payments/tr_123', $pendingRequest->url());
+        $this->assertEquals('https://api.mollie.com/v2/payments/tr_123', $pendingRequest->url());
+    }
+
+    #[Test]
+    public function refuses_absolute_url_for_a_foreign_origin()
+    {
+        $this->expectException(UntrustedUrlException::class);
+
+        new PendingRequest($this->client, new DynamicGetRequest('https://example.com/v2/payments/tr_123'));
     }
 
     #[Test]

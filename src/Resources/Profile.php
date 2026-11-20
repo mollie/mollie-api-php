@@ -96,6 +96,7 @@ class Profile extends BaseResource
      * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function chargebacks(): ChargebackCollection
     {
@@ -114,6 +115,7 @@ class Profile extends BaseResource
      * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function methods(): MethodCollection
     {
@@ -154,6 +156,7 @@ class Profile extends BaseResource
      * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function payments(): PaymentCollection
     {
@@ -172,6 +175,7 @@ class Profile extends BaseResource
      * loops unless that extra request per item is intentional.
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function refunds(): RefundCollection
     {
