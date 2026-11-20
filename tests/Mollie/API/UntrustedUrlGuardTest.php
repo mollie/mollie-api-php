@@ -28,7 +28,9 @@ class UntrustedUrlGuardTest extends TestCase
 
     public static function untrustedUrls(): array
     {
-        return array_map(function ($url) { return [$url]; }, [
+        return array_map(function ($url) {
+            return [$url];
+        }, [
             'https://attacker.example/v2/payments',
             'http://api.mollie.com/v2/payments',
             'https://api.mollie.com:8443/v2/payments',
@@ -52,10 +54,12 @@ class UntrustedUrlGuardTest extends TestCase
     {
         $adapter = $this->createMock(MollieHttpAdapterInterface::class);
         $adapter->expects($this->once())->method('send')->with(
-            'GET', $expected,
+            'GET',
+            $expected,
             $this->callback(function ($headers) {
                 return $headers['Authorization'] === 'Bearer test_foobarfoobarfoobarfoobarfoobar';
-            }), null
+            }),
+            null
         );
         $client = new MollieApiClient($adapter);
         $client->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
@@ -136,6 +140,7 @@ class UntrustedUrlGuardTest extends TestCase
         $client = new MollieApiClient($adapter);
         $client->setApiEndpoint('https://user:secret@proxy.example');
         $client->setAccessToken('access_secret');
+
         try {
             $client->performHttpCallToFullUrl('GET', 'https://proxy.example/v2/payments');
             $this->fail('Expected UntrustedUrlException.');
