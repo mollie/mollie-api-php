@@ -133,7 +133,7 @@ class MollieApiClient implements Connector, DefinesTrustedOrigins
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = '3.16.0';
+    public const CLIENT_VERSION = '3.16.1';
 
     /**
      * Endpoint of the remote API.

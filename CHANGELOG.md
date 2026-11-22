@@ -1,16 +1,20 @@
 # Changelog
 
-## Unreleased
-
-- Refuse requests to untrusted origins before attaching API keys or OAuth tokens. This protects link-following resource methods and pagination, including resources hydrated from unverified webhook snapshots. The configured API endpoint and `https://api.mollie.com` remain trusted.
-- Strip URL fragments before passing URLs to the cURL adapter.
-
 Starting with v3, all notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.16.0...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v3.16.1...HEAD)
+
+## [v3.16.1](https://github.com/mollie/mollie-api-php/compare/v3.16.0...v3.16.1) - 2026-11-22
+
+### Security
+
+- Restrict authenticated requests to trusted origins before attaching API keys or OAuth tokens. `MollieApiClient` trusts the configured API endpoint and `https://api.mollie.com`. Untrusted links throw `UntrustedUrlException`. This protects resource links and pagination, including resources hydrated from webhook snapshots. See [#955](https://github.com/mollie/mollie-api-php/pull/955).
+- Match the URL scheme, host, effective port, and user info against the trusted origin. Strip URL fragments before passing URLs to cURL.
+- Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
+- Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
 
 ## [v3.16.0](https://github.com/mollie/mollie-api-php/compare/v3.15.0...v3.16.0) - 2026-11-04
 
