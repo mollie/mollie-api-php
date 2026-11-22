@@ -13,6 +13,7 @@ use Mollie\Api\Http\Middleware\Hydrate;
 use Mollie\Api\Http\Middleware\MiddlewarePriority;
 use Mollie\Api\Http\Middleware\ResetIdempotencyKey;
 use Mollie\Api\Http\PendingRequest\AuthenticateRequest;
+use Mollie\Api\Http\PendingRequest\GuardAgainstUntrustedOrigin;
 use Mollie\Api\Http\PendingRequest\HandleTestmode;
 use Mollie\Api\Http\PendingRequest\MergeBody;
 use Mollie\Api\Http\PendingRequest\MergeRequestProperties;
@@ -55,6 +56,7 @@ class PendingRequest
             ->tap(new SetUserAgent)
             ->tap(new MergeRequestProperties)
             ->tap(new MergeBody)
+            ->tap(new GuardAgainstUntrustedOrigin)
             ->tap(new AuthenticateRequest)
             ->tap(new HandleTestmode);
 

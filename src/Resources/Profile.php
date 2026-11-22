@@ -120,6 +120,7 @@ class Profile extends BaseResource
      * Retrieves all chargebacks associated with this profile
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function chargebacks(): ChargebackCollection
     {
@@ -135,6 +136,7 @@ class Profile extends BaseResource
      * Retrieves all methods activated on this profile
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function methods(): MethodCollection
     {
@@ -172,6 +174,7 @@ class Profile extends BaseResource
      * Retrieves all payments associated with this profile
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function payments(): PaymentCollection
     {
@@ -187,6 +190,7 @@ class Profile extends BaseResource
      * Retrieves all refunds associated with this profile
      *
      * @throws ApiException
+     * @throws \Mollie\Api\Exceptions\UntrustedUrlException
      */
     public function refunds(): RefundCollection
     {
