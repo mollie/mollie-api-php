@@ -48,6 +48,16 @@ class DebuggerTest extends TestCase
         });
     }
 
+    #[Test]
+    public function symfony_var_dumper_is_not_a_runtime_dependency()
+    {
+        $composer = json_decode((string) file_get_contents(__DIR__.'/../../composer.json'), true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertArrayNotHasKey('symfony/var-dumper', $composer['require']);
+        $this->assertArrayHasKey('symfony/var-dumper', $composer['require-dev']);
+        $this->assertArrayHasKey('symfony/var-dumper', $composer['suggest']);
+    }
+
     private function withMissingSymfonyVarDumper(callable $callback): void
     {
         $availability = new ReflectionProperty(Debugger::class, 'symfonyVarDumperExists');
