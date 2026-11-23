@@ -5,22 +5,11 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.1.2...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.2.0...HEAD)
 
-## [v4.1.2](https://github.com/mollie/mollie-api-php/compare/v4.1.1...v4.1.2) - 2026-11-23
+## [v4.2.0](https://github.com/mollie/mollie-api-php/compare/v4.1.2...v4.2.0) - 2026-11-23
 
-### Changed
-
-- `symfony/var-dumper` moved from `require` to `require-dev` and `suggest`, so production installs no longer pull it in. Install `symfony/var-dumper` explicitly if you use the default `debugRequest()` or `debugResponse()` callbacks. See [#957](https://github.com/mollie/mollie-api-php/pull/957).
-
-## [v4.1.1](https://github.com/mollie/mollie-api-php/compare/v4.1.0...v4.1.1) - 2026-11-22
-
-### Security
-
-- Restrict authenticated requests to trusted origins before attaching API keys or OAuth tokens. `MollieApiClient` trusts the configured API endpoint and `https://api.mollie.com`. Untrusted links throw `UntrustedUrlException`. This protects resource links and pagination, including resources hydrated from webhook snapshots. See [#956](https://github.com/mollie/mollie-api-php/pull/956).
-- Match the URL scheme, host, effective port, and user info against the trusted origin. Strip URL fragments before passing URLs to cURL.
-- Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
-- Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
+Covers the Mollie API additions in [#950](https://github.com/mollie/mollie-api-php/pull/950).
 
 ### Added
 
@@ -36,6 +25,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 
 - `settlementAmount` on `Payment`, `Refund`, `Chargeback` and `Capture`, and `Payment::getSettlementAmount()`. Mollie removes the field on 2027-01-01.
+
+## [v4.1.2](https://github.com/mollie/mollie-api-php/compare/v4.1.1...v4.1.2) - 2026-11-23
+
+### Changed
+
+- `symfony/var-dumper` moved from `require` to `require-dev` and `suggest`, so production installs no longer pull it in. Install `symfony/var-dumper` explicitly if you use the default `debugRequest()` or `debugResponse()` callbacks. See [#957](https://github.com/mollie/mollie-api-php/pull/957).
+
+## [v4.1.1](https://github.com/mollie/mollie-api-php/compare/v4.1.0...v4.1.1) - 2026-11-22
+
+### Security
+
+- Restrict authenticated requests to trusted origins before attaching API keys or OAuth tokens. `MollieApiClient` trusts the configured API endpoint and `https://api.mollie.com`. Untrusted links throw `UntrustedUrlException`. This protects resource links and pagination, including resources hydrated from webhook snapshots. See [#956](https://github.com/mollie/mollie-api-php/pull/956).
+- Match the URL scheme, host, effective port, and user info against the trusted origin. Strip URL fragments before passing URLs to cURL.
+- Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
+- Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
 
 ## [v4.1.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0...v4.1.0) - 2026-11-04
 
