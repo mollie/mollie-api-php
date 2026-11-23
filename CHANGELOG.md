@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
 - Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
 
+### Changed
+
+- `symfony/var-dumper` moved from `require` to `require-dev` and `suggest`, so production installs no longer pull it in. Only the default `debugRequest()` and `debugResponse()` callbacks use it, and they already throw an actionable exception when it is missing. Install `symfony/var-dumper` yourself if you rely on those defaults. See [#953](https://github.com/mollie/mollie-api-php/issues/953).
+
 ## [v4.1.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0...v4.1.0) - 2026-11-04
 
 ### Fixed

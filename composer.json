@@ -55,18 +55,19 @@
     "nyholm/psr7": "^1.8",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.1",
-    "psr/http-message": "^1.1|^2.0",
-    "symfony/var-dumper": "^5.4|^6.4|^7.2|^8.0"
+    "psr/http-message": "^1.1|^2.0"
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^7.6|^8.0",
     "laravel/pint": "1.30.4",
     "pestphp/pest": "^3.0",
     "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^11.5"
+    "phpunit/phpunit": "^11.5",
+    "symfony/var-dumper": "^5.4|^6.4|^7.2|^8.0"
   },
   "suggest": {
-    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information."
+    "mollie/oauth2-mollie-php": "Use OAuth to authenticate with the Mollie API. This is needed for some endpoints. Visit https://docs.mollie.com/ for more information.",
+    "symfony/var-dumper": "Required for the default debugRequest() and debugResponse() callbacks."
   },
   "config": {
     "sort-packages": true,
