@@ -8,6 +8,8 @@ enum SettlementStatus: string
 {
     case Open = 'open';
     case Pending = 'pending';
+    case Processing = 'processing';
+    case ProcessingAtBank = 'processing-at-bank';
     case Paidout = 'paidout';
     case Failed = 'failed';
 }

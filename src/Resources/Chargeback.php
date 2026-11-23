@@ -32,6 +32,8 @@ class Chargeback extends BaseResource
 
     /**
      * The settlement amount.
+     *
+     * @deprecated Mollie removes `settlementAmount` from this resource on 2027-01-01. Use the Settlements API or balance transactions instead.
      */
     public ?Money $settlementAmount = null;
 

@@ -1,0 +1,21 @@
+{
+  "resource": "report",
+  "id": "{{ RESOURCE_ID }}",
+  "reportType": "transaction-margin",
+  "fromDate": "2026-08-01",
+  "untilDate": "2026-08-31",
+  "status": "completed",
+  "statusReason": null,
+  "createdAt": "2026-09-01T09:00:00+00:00",
+  "completedAt": "2026-09-01T09:01:12+00:00",
+  "_links": {
+    "self": {
+      "href": "...",
+      "type": "application/hal+json"
+    },
+    "documentation": {
+      "href": "...",
+      "type": "text/html"
+    }
+  }
+}
