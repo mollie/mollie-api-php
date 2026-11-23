@@ -680,12 +680,11 @@ use Mollie\Api\Webhooks\WebhookEventType;
 // Create a webhook
 $webhook = $mollie->webhooks->create([
     'url' => 'https://example.com/webhook',
-    'description' => 'Payment notifications',
-    'events' => [
+    'name' => 'Payment notifications',
+    'eventTypes' => [
         WebhookEventType::PAYMENT_LINK_PAID,
         WebhookEventType::PROFILE_VERIFIED
-    ],
-    'secret' => 'my-secret-key-123'
+    ]
 ]);
 
 // Get a webhook
@@ -694,11 +693,8 @@ $webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
 // Update a webhook
 $webhook = $mollie->webhooks->update('wh_4KgGJJSZpH', [
     'url' => 'https://updated-example.com/webhook',
-    'description' => 'Updated description'
+    'name' => 'Updated payment notifications'
 ]);
-
-// Delete a webhook
-$mollie->webhooks->delete('wh_4KgGJJSZpH');
 
 // Test a webhook
 $mollie->webhooks->test('wh_4KgGJJSZpH');
@@ -706,11 +702,17 @@ $mollie->webhooks->test('wh_4KgGJJSZpH');
 // List webhooks
 $webhooks = $mollie->webhooks->page();
 
-// Using convenience methods on webhook resource
+// Delete a webhook
+$mollie->webhooks->delete('wh_4KgGJJSZpH');
+```
+
+You can also update, test, or delete a webhook through its resource:
+
+```php
 $webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
-$webhook->update(['description' => 'New description']);
-$webhook->delete();
+$webhook->update(['name' => 'New webhook name']);
 $webhook->test();
+$webhook->delete();
 ```
 
 ### Webhook Events
