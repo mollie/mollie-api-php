@@ -28,7 +28,7 @@ To change the retry behavior, provide your own strategy instance to the client:
 
 ```php
 use Mollie\Api\MollieApiClient;
-use Mollie\Api\Http\Retry\LinearRetryStrategy;
+use Mollie\Api\Http\LinearRetryStrategy;
 
 $client = new MollieApiClient();
 

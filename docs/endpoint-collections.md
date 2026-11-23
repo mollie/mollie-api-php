@@ -42,7 +42,6 @@ You can use dedicated `Data` objects to add partial type safety to your paramete
 
 ```php
 use Mollie\Api\Http\Data\Money;
-use Mollie\Api\Http\Data\CreatePaymentPayload;
 
 $payment = $mollie->payments->create([
     'description' => 'My first API payment',
@@ -444,7 +443,7 @@ $mollie->profileMethods->disable(
 
 ```php
 // Create a refund for a payment
-$refund = $mollie->refunds->createForPayment($paymentId, [
+$refund = $mollie->paymentRefunds->createForId($paymentId, [
     'amount' => [
         'currency' => 'EUR',
         'value' => '15.00'
@@ -592,7 +591,7 @@ foreach ($mollie->settlementPayments->iteratorFor($settlement) as $payment) {
 
 ```php
 // Create a subscription
-$subscription = $mollie->subscriptions->createForCustomer('customerId', [
+$subscription = $mollie->subscriptions->createForId('customerId', [
     'amount' => [
         'currency' => 'EUR',
         'value' => '25.00'
@@ -602,7 +601,7 @@ $subscription = $mollie->subscriptions->createForCustomer('customerId', [
 ]);
 
 // List subscriptions
-$subscriptions = $mollie->subscriptions->pageForCustomer('customerId');
+$subscriptions = $mollie->subscriptions->pageForId('customerId');
 ```
 
 ## Terminals
@@ -676,17 +675,16 @@ $session = $mollie->wallets->requestApplePayPaymentSession([
 ### Webhook Management
 
 ```php
-use Mollie\Api\Types\WebhookEventType;
+use Mollie\Api\Webhooks\WebhookEventType;
 
 // Create a webhook
 $webhook = $mollie->webhooks->create([
     'url' => 'https://example.com/webhook',
-    'description' => 'Payment notifications',
-    'events' => [
+    'name' => 'Payment notifications',
+    'eventTypes' => [
         WebhookEventType::PAYMENT_LINK_PAID,
         WebhookEventType::PROFILE_VERIFIED
-    ],
-    'secret' => 'my-secret-key-123'
+    ]
 ]);
 
 // Get a webhook
@@ -695,11 +693,8 @@ $webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
 // Update a webhook
 $webhook = $mollie->webhooks->update('wh_4KgGJJSZpH', [
     'url' => 'https://updated-example.com/webhook',
-    'description' => 'Updated description'
+    'name' => 'Updated payment notifications'
 ]);
-
-// Delete a webhook
-$mollie->webhooks->delete('wh_4KgGJJSZpH');
 
 // Test a webhook
 $mollie->webhooks->test('wh_4KgGJJSZpH');
@@ -707,11 +702,17 @@ $mollie->webhooks->test('wh_4KgGJJSZpH');
 // List webhooks
 $webhooks = $mollie->webhooks->page();
 
-// Using convenience methods on webhook resource
+// Delete a webhook
+$mollie->webhooks->delete('wh_4KgGJJSZpH');
+```
+
+You can also update, test, or delete a webhook through its resource:
+
+```php
 $webhook = $mollie->webhooks->get('wh_4KgGJJSZpH');
-$webhook->update(['description' => 'New description']);
-$webhook->delete();
+$webhook->update(['name' => 'New webhook name']);
 $webhook->test();
+$webhook->delete();
 ```
 
 ### Webhook Events
@@ -720,13 +721,12 @@ $webhook->test();
 // Get a webhook event
 $webhookEvent = $mollie->webhookEvents->get('whev_abc123');
 
-// Check event status using helper methods
-if ($webhookEvent->wasDelivered()) {
-    echo "Webhook was successfully delivered\n";
-} elseif ($webhookEvent->failed()) {
-    echo "Webhook delivery failed: {$webhookEvent->error}\n";
-} elseif ($webhookEvent->hasRetryPending()) {
-    echo "Retry pending at: {$webhookEvent->nextRetryAt}\n";
+echo $webhookEvent->type;     // e.g. "payment-link.paid"
+echo $webhookEvent->entityId; // ID of the object the event is about
+
+// The full object, if it was embedded in the response
+if ($webhookEvent->hasEntity()) {
+    $entity = $webhookEvent->getEntity();
 }
 ```
 
