@@ -92,6 +92,22 @@ class Settlement extends BaseResource
     }
 
     /**
+     * Is this settlement being processed?
+     */
+    public function isProcessing(): bool
+    {
+        return $this->status === SettlementStatus::PROCESSING;
+    }
+
+    /**
+     * Is this settlement being processed at the bank?
+     */
+    public function isProcessingAtBank(): bool
+    {
+        return $this->status === SettlementStatus::PROCESSING_AT_BANK;
+    }
+
+    /**
      * Is this settlement paid out?
      */
     public function isPaidout(): bool

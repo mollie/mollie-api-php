@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
 - Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
 
+### Added
+
+- `PaymentRouteEndpointCollection::getFor()` / `getForId()` and `GetPaymentRouteRequest` for `GET /payments/{paymentId}/routes/{routeId}`.
+- Webhook event classes and `WebhookEventType` constants for payment, refund, chargeback, capture, sales invoice e-invoice, business account, business account draft transfer, unmatched credit transfer action, and report events, plus event classes for the existing profile event constants.
+- `SettlementStatus::PROCESSING` and `SettlementStatus::PROCESSING_AT_BANK`, with `Settlement::isProcessing()` and `isProcessingAtBank()`.
+- The response-only sales invoice statuses (`issuing`, `pending-payment`, `overdue`, `payment-reversed`, `cancelled`, `expired`, `failed`) with matching `SalesInvoice::is*()` helpers, and `SalesInvoice::$eInvoiceStatus`.
+- `PaymentMethod::BILLINK`, `BIZUM`, `MOBILEPAY`, `VIPPS` and `VOUCHER`, matching the v4 enum.
+
+### Deprecated
+
+- `settlementAmount` on `Payment`, `Refund`, `Chargeback` and `Capture`, and `Payment::getSettlementAmount()`. Mollie removes the field on 2027-01-01.
+
 ## [v3.16.0](https://github.com/mollie/mollie-api-php/compare/v3.15.0...v3.16.0) - 2026-11-04
 
 ### Fixed

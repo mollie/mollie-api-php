@@ -11,7 +11,7 @@ $payment = $mollie->payments->create([
     //...
 ]);
 ```
-_After creation, the `settlementAmount` will contain the EUR amount that will be settled on your account._
+_After creation, the `settlementAmount` will contain the EUR amount that will be settled on your account. `settlementAmount` and `Payment::getSettlementAmount()` are deprecated: Mollie removes the field on 2027-01-01, so use the Settlements API or balance transactions for settlement data instead._
 
 ##### Create fully integrated iDEAL payments #####
 To fully integrate iDEAL payments on your website, follow these additional steps:

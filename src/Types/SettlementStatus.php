@@ -15,6 +15,16 @@ class SettlementStatus
     public const PENDING = 'pending';
 
     /**
+     * The settlement is being processed.
+     */
+    public const PROCESSING = 'processing';
+
+    /**
+     * The settlement has been sent to the bank and is being processed.
+     */
+    public const PROCESSING_AT_BANK = 'processing-at-bank';
+
+    /**
      * The settlement has been paid out.
      */
     public const PAIDOUT = 'paidout';
