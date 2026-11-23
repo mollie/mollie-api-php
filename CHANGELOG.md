@@ -5,7 +5,13 @@ Starting with v3, all notable changes to this project will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.1.1...HEAD)
+## [Unreleased](https://github.com/mollie/mollie-api-php/compare/v4.1.2...HEAD)
+
+## [v4.1.2](https://github.com/mollie/mollie-api-php/compare/v4.1.1...v4.1.2) - 2026-11-23
+
+### Changed
+
+- `symfony/var-dumper` moved from `require` to `require-dev` and `suggest`, so production installs no longer pull it in. Install `symfony/var-dumper` explicitly if you use the default `debugRequest()` or `debugResponse()` callbacks. See [#957](https://github.com/mollie/mollie-api-php/pull/957).
 
 ## [v4.1.1](https://github.com/mollie/mollie-api-php/compare/v4.1.0...v4.1.1) - 2026-11-22
 
@@ -15,10 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Match the URL scheme, host, effective port, and user info against the trusted origin. Strip URL fragments before passing URLs to cURL.
 - Configure custom API hosts explicitly. Custom `Connector` implementations can implement `Mollie\Api\Contracts\DefinesTrustedOrigins` to declare trusted origins. Without that contract, only the origin of `resolveBaseUrl()` is trusted. Tests and fakes must use trusted URLs too.
 - Webhook signature verification remains required. This guard is defense in depth, not a replacement for verifying webhook payloads.
-
-### Changed
-
-- `symfony/var-dumper` moved from `require` to `require-dev` and `suggest`, so production installs no longer pull it in. Only the default `debugRequest()` and `debugResponse()` callbacks use it, and they already throw an actionable exception when it is missing. Install `symfony/var-dumper` yourself if you rely on those defaults. See [#953](https://github.com/mollie/mollie-api-php/issues/953).
 
 ## [v4.1.0](https://github.com/mollie/mollie-api-php/compare/v4.0.0...v4.1.0) - 2026-11-04
 
